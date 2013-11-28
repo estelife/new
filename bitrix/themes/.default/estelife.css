@@ -1,0 +1,671 @@
+/*Menu icon*/
+#form_menu_icon {background-image:url(icons/form/mnu_form.gif);}
+.adm-estelife .adm-main-menu-item-icon {
+	background: url('icons/estelife/estelife_main_menu.png') center 8px no-repeat;
+}
+.adm-estelife:hover .adm-main-menu-item-icon, .adm-estelife.adm-main-menu-item-active .adm-main-menu-item-icon {
+	background-position: center -44px;
+}
+.cl {
+	clear:both;
+}
+.hidden {
+	display: none;
+}
+
+.price{
+	margin-top:10px !important;
+}
+.estelife-services ul,.estelife-services .forms div {
+	list-style-type: none;
+	padding:0;
+	margin:0;
+	float:left;
+}
+.estelife-services ul.selected {
+	background: #E1E5D1;
+	padding: 10px;
+	border-radius: 5px;
+	box-shadow: 1px 1px 1px #fff;
+	padding-top:0;
+}
+.estelife-services ul.selected li {
+	float: left;
+	padding: 2px 24px 2px 8px;
+	background: #8DB300;
+	margin: 0 5px;
+	color: #fff;
+	border-radius: 4px;
+	position: relative;
+	box-shadow: 1px 1px 1px #fff;
+	margin-top: 10px;
+	line-height: 25px;
+}
+.estelife-services ul.selected a {
+	position: absolute;
+	color: rgb(255, 255, 255);
+	right: 6px;
+	top: 3px;
+	font-weight: bold;
+	text-decoration: none;
+	font-size: 16px;
+}
+.estelife-services ul.selected span {
+	float:left;
+}
+.estelife-services .lists {
+	float:left;
+	margin-top:20px;
+	width:100%;
+}
+.estelife-services .lists ul, .estelife-services .forms div, .estelife-services .one-list {
+	width: 194px;
+	padding-right: 20px;
+	margin-right: 43px;
+	border-right: 1px solid #DBDBDB;
+}
+.estelife-services .lists ul.service_concreate {
+	width: 551px;
+	margin-right: 0;
+	padding-right: 0;
+	border-right: none;
+}
+.estelife-services .one-list {
+	border:none;
+	margin:0;
+	padding:0;
+	width:100%;
+}
+.estelife-services .lists li, .estelife-services .one-list {
+	margin-bottom:1px;
+}
+.estelife-services .lists ul a, .estelife-services .one-list a {
+	display: block;
+	text-decoration: none;
+	color: black;
+	height: 28px;
+	line-height: 29px;
+	padding: 2px 6px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.estelife-services .lists ul a:hover {
+	color:rgb(99, 99, 99);
+}
+.estelife-services .lists ul a.active, .estelife-services .one-list a:hover, .estelife-services .one-list a.active {
+	background: #D3D3D3;
+	border-radius: 5px;
+}
+.estelife-services .lists ul input, .adm-workarea .estelife-services .selected input {
+	float: right;
+	width: 50px;
+	background: none;
+	border: 1px solid #747474;
+	color: #fff;
+	box-shadow: inset 1px 1px 0 #fff;
+	margin-left: 10px;
+}
+.estelife-services .lists ul.service_concreate a.active, .estelife-services .one-list a.active {
+	background: #8DB300;
+	color: #fff;
+}
+.estelife-services .forms {
+	width: 100%;
+	float: left;
+	margin-top: 20px;
+}
+.estelife-services .forms div {
+	border:none;
+}
+.estelife-services .one-list a {
+	float:left;
+}
+.estelife-services .one-list a.view {
+	display: inline;
+	color: #838383;
+	float: left;
+	background:none;
+}
+.estelife-services .forms input, .estelife-services .forms label {
+	display: block !important;
+	margin-bottom:10px !important;
+}
+.estelife-services .forms input.adm-btn-save {
+	height:29px !important;
+	padding: 7px 13px 5px!important;
+	width:180px;
+}
+.estelife-more {
+	margin-left:20px;
+}
+.estelife-services .one-list li {
+	width:600px;
+}
+.estelife-services .one-list input {
+	display: none;
+}
+.estelife-buttons {
+	margin-top:30px;
+	float:left;
+	width:100%;
+}
+.estelife-busy-hours table {
+	border-collapse: collapse;
+	border-spacing: 1px;
+}
+.estelife-busy-hours td {
+	width:51px;
+	height:41px;
+	background:#fff;
+	border:1px solid #DBDBDB;
+	cursor:pointer;
+}
+.estelife-busy-hours td:hover, .estelife-busy-hours td.hover {
+	background: #c0ed00;
+}
+.estelife-busy-hours td.active {
+	background:#8DB300 !important;
+}
+.estelife-busy-hours th {
+	cursor:s-resize;
+}
+.estelife-busy-hours th.all {
+	cursor:se-resize;
+}
+.estelife-busy-hours td.h {
+	border:none;
+	background:none;
+	font-weight: bold;
+	width:31px;
+	cursor:e-resize;
+}
+.estelife-busy-hours sup {
+	font-weight: normal;
+	margin-left: 3px;
+	font-size: 9px;
+}
+.estelife-busy-hours input, .estelife-busy-hours label {
+	display: none !important;
+}
+.ui-helper-hidden-accessible {
+	display:none;
+}
+.ui-autocomplete {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	background: #fff;
+	border-radius: 5px;
+	box-shadow: 0 0 6px #000;
+	position: absolute;
+	z-index:100;
+}
+.ui-autocomplete a {
+	display: block;
+	padding: 10px;
+	color: black;
+	cursor:pointer;
+}
+.ui-autocomplete a:hover {
+	text-decoration: none;
+}
+.ui-autocomplete a.ui-state-focus {
+	background: #86AD00;
+	color: #fff;
+	border-radius: 5px;
+}
+.gmap {
+	width:500px;
+	height:400px;
+	display:none;
+	margin-top:10px;
+}
+#dropBox {
+	width: 500px;
+	border-radius: 5px;
+	background: #FFF5E5;
+	visibility: visible !important;
+	box-shadow: inset 1px 1px 1px #E2BB96;
+	margin-top: 20px;
+	text-align: center;
+	padding: 100px 0;
+}
+.estelife-photos .item {
+	width: 100%;
+	margin-top: 20px;
+	float: left;
+}
+
+.estelife-photos .item div.image, .estelife-photos .item div.desc {
+	float:left;
+}
+.estelife-photos .item div.desc {
+	margin-left:20px;
+}
+.estelife-photos .item div.desc label {
+	display:block;
+	margin-bottom:4px;
+	padding-bottom:4px;
+	border-bottom: 1px solid #c6c6c6;
+}
+
+.estelife-pill-photos .item {
+	margin-top: 20px;
+	margin-left: 20px;
+	float: left;
+}
+
+.estelife-pill-photos .item  .image {
+	height: 300px;
+}
+
+.estelife-pill-photos .item div.image, .estelife-photos .item div.desc {
+
+}
+.estelife-pill-photos.item div.desc {
+	margin-left:20px;
+}
+.estelife-pill-photos .item div.desc label {
+	display:block;
+	margin-bottom:4px;
+	padding-bottom:4px;
+	border-bottom: 1px solid #c6c6c6;
+}
+
+.adm-workarea a.adm-btn.estelife-delete, .adm-workarea .adm-btn.estelife-delete:active {
+	padding: 5px 12px !important;
+}
+.adm-workarea .adm-btn-delete.adm-btn.estelife-delete:before {
+	margin: 0;
+	margin-top: 2px;
+	margin-left: 2px;
+}
+.estelife-use input, .estelife-use .use {
+	float:left;
+}
+.estelife-use .use {
+	margin:5px 0 0 10px;
+}
+.estelife-use .use span {
+	display: none;
+}
+.estelife-cell input, .estelife-cell a {
+	float:left;
+}
+.estelife-sep {
+	margin-top:2px;
+	border-top: 1px dashed #c6c6c6;
+	position: relative;
+}
+.estelife-sep span {
+	position: absolute;
+	top: -9px;
+	background: #F5F9F9;
+	padding: 0 10px 0 0;
+	color: #c6c6c6;
+}
+
+#ui-datepicker-div {
+	background: #fff;
+	border-radius: 3px;
+	box-shadow: 1px 1px 1px #c6c6c6;
+	padding:10px;
+}
+.ui-datepicker-calendar {
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+.ui-datepicker-calendar td {
+	width:25px;
+	text-align: center;
+	padding:0;
+}
+.ui-datepicker-calendar td a {
+	display: block;
+	text-decoration: none;
+	width:100%;
+	height:100%;
+	color:#000;
+	padding: 6px 0;
+}
+.ui-datepicker-calendar td a:hover {
+	background:#86AD00;
+	color:#fff;
+}
+.ui-datepicker-calendar th {
+	color:#c6c6c6;
+}
+.ui-datepicker-title {
+	text-align: center;
+	position: absolute;
+	top: 11px;
+	left: 50%;
+	margin-left: -42px;
+}
+.ui-datepicker-next, .ui-datepicker-prev {
+	color: #D1D1D1;
+	cursor:pointer;
+}
+.ui-datepicker-next:hover, .ui-datepicker-prev:hover {
+	color:#86AD00;
+}
+.ui-datepicker-next {
+	float:right;
+}
+.ui-datepicker-header {
+	margin-bottom:10px;
+}
+
+.calendar_l {
+	position: relative;
+	overflow: hidden;
+	height: 272px;
+	width: 830px;
+	float: right;
+	border-left: 1px solid #C7C7C7;
+	padding-left: 20px;
+	box-shadow: -1px 0px 0px #fff;
+}
+.calendar_l #ui-datepicker-div {
+	background:none;
+	box-shadow: none;
+}
+.calendar_l .ui-datepicker-title {
+	position: static;
+	margin:0
+}
+.calendar_l_in {
+	height:272px;
+}
+.calendar_l .line {
+	position:absolute;
+	width:100%;
+	left:0px;
+	top:68px;
+	background:#EDEDED;
+	height:1px;
+}
+.calendar_l .ar {
+	display: block;
+	height:113px;
+	padding-top:160px;
+	width:113px;
+	float:left;
+	position:relative;
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 12px;
+	color:#333;
+	text-decoration: none;
+}
+.calendar_l .ar span {
+	color:#9e9e9e;
+}
+.calendar_l .ar.l {
+	padding-left:15px;
+}
+.calendar_l .ar.r {
+	float:right;
+	padding-right:15px;
+	text-align: right;
+}
+.calendar_l .ar i {
+	position:absolute;
+	display:block;
+	width:8px;
+	height:12px;
+	background:url('icons/estelife/calendar_arrows.png') -17px 0 no-repeat;
+	top:162px;
+}
+.calendar_l .ar.l i {
+	left:0px;
+}
+.calendar_l .ar.r i {
+	right:0px;
+	background-position: 0 0;
+}
+.calendar_l .cal {
+	float:left;
+	width:274px;
+}
+.calendar_l .cal.l {
+	margin-right:21px;
+}
+.calendar_l .ui-datepicker-header a {
+	display:none;
+}
+.calendar_l .ui-datepicker-header .ui-datepicker-title {
+	text-transform: uppercase;
+	text-align: center;
+	margin:15px 0;
+	font-weight: bold;
+	font-size: 12px;
+	color:#333;
+	text-decoration: none;
+}
+.calendar_l .ui-datepicker-header .ui-datepicker-title .ui-datepicker-year {
+	color:#9e9e9e;
+}
+.calendar_l table {
+	border-spacing:0;
+	border-collapse:collapse;
+	border: 2px white solid;
+}
+.calendar_l th {
+	color:#9e9e9e;
+	font-size:10px;
+	text-transform: uppercase;
+	padding-bottom:8px;
+	text-align:center;
+	height: 13px;
+}
+.calendar_l th.ui-datepicker-week-end {
+	color:#cccc99;
+}
+.calendar_l table td {
+	border:#ededed 1px solid;
+	padding:0;
+	width:37px;
+	height:40px;
+	border-top:none;
+}
+.calendar_l table thead {
+	border-bottom: #ededed 1px solid;
+}
+.calendar_l table td a, .calendar_l table td span {
+	padding:0;
+	display:block;
+	color:#333;
+	text-decoration: none;
+	font-weight: bold;
+	width:100%;
+	text-align:center;
+	height:28px;
+	padding-top:12px;
+	font-size:14px;
+}
+.calendar_l table td a.ui-state-active {
+	border: 3px #93BD00 solid;
+	width:31px;
+	height:25px;
+	padding-top:9px;
+}
+.calendar_l table td span, .calendar_l table.ui-state-disabled td a{
+	color:#ccc;
+}
+.event-dates {
+	float:left;
+}
+.event-dates ul, .estelife-checklist {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+.event-dates ul li {
+	height: 28px;
+	padding: 5px;
+}
+.event-dates ul li:hover, .estelife-checklist label:hover, .estelife-checklist label.active{
+	background: #D4F7CE;
+	border-radius: 5px;
+}
+.adm-workarea  .event-dates ul input {
+	background: none;
+	box-shadow: 1px 1px 0 #fff;
+	border-color: #c6c6c6;
+}
+
+.estelife-checklist {
+	float:left;
+}
+.estelife-checklist label, .estelife-checklist li {
+	padding:5px;
+	cursor:pointer;
+}
+.estelife-checklist li {
+	margin-bottom:1px;
+}
+.estelife-checklist label.active {
+	background:#93BD00;
+	color:#fff;
+}
+.estelife-checklist .adm-designed-checkbox-label {
+	padding:0;
+	margin-right:5px;
+}
+.estelife-prepod {
+	width: 200px;
+	border-radius: 5px;
+	background: #fff;
+	box-shadow: 1px 1px 0 #B9B9B9;
+	margin-bottom: 20px;
+	padding: 10px;
+	float: left;
+	margin-right: 10px;
+	position: relative;
+}
+.estelife-prepod .spec {
+	color:#8F8F8F;
+}
+.adm-workarea .estelife-prepod a {
+	position: absolute;
+	right: 15px;
+	top: 13px;
+}
+#bx-admin-prefix .adm-detail-content-item-block .estelife-prepod-table {
+	border-bottom: 1px solid #E6E6E6;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+#bx-admin-prefix .adm-detail-content-item-block .estelife-prepod-table-first {
+	border:none;
+	padding:0;
+	margin:0;
+}
+
+.gallery-item-template {
+	display:none;
+}
+.gallery-add {
+	border:1px solid #c6c6c6;
+	border-radius: 3px;
+	box-shadow: 1px 1px 0 #fff;
+	padding:5px;
+	width:260px;
+}
+.gallery-add span {
+	display: block;
+	margin-bottom:10px;
+	text-transform: uppercase;
+}
+.adm-workarea  .gallery-add input {
+	width:200px;
+	background:none !important;
+}
+.gallery-item h2 {
+	text-transform: uppercase;
+	font-weight: normal;
+	font-size: 16px;
+	margin: 1px 0 0 0;
+}
+.adm-workarea  .gallery-item {
+	position: relative;
+	border: 1px solid #c6c6c6;
+	margin-top: 10px;
+	border-radius: 5px;
+	padding: 10px;
+	box-shadow: 1px 1px 0 #fff;
+}
+.adm-workarea .gallery-item a {
+	position: absolute;
+	top: 4px;
+	right: 10px;
+}
+.gallery-item-photos {
+	height: 150px;
+	background: #ECE5D7;
+	margin-top: 19px;
+	box-shadow: 1px 1px 1px #c6c6c6;
+	position: relative;
+}
+.gallery-item-photos.hover {
+	background:#F1CE88;
+}
+.gallery-item-photos.drop {
+	background:#fff;
+}
+.gallery-item-photos span.drop-message {
+	position: absolute;
+	z-index: 0;
+	left: 50%;
+	margin-left: -131px;
+	top: 50%;
+	margin-top: -10px;
+	color:#c6c6c6;
+}
+.gallery-item-photos.hover span.drop-message {
+	color:#666;
+}
+.gallery-item-photos .drop-table {
+	position: relative;
+	z-index:1;
+	height:100%;
+}
+.gallery-item-photos .drop-item {
+	height: 128px;
+	padding: 5px;
+	background: #fff;
+	border-radius: 5px;
+	box-shadow: 1px 1px 0 #c6c6c6;
+	position: relative;
+}
+.gallery-item-photos .drop-image, .gallery-item-photos img {
+	height:110px;
+}
+.gallery-item-photos .drop-name {
+	padding: 4px 2px 0 2px;
+	font-size: 10px;
+	color: #666;
+	overflow: hidden;
+	width: 128px;
+	height: 12px;
+}
+.gallery-item-photos a.photo-delete {
+	top: 8px;
+	right: 6px;
+}
+.drop-progress {
+	width:0;
+	display: none;
+	height:100%;
+	position:absolute;
+	top:0;
+	left:0;
+	background:#c6c6c6;
+	opacity: 0.5;
+	border-radius: 5px;
+}
+.drop-progress.error {
+	background-color: rgb(235, 138, 138);
+}

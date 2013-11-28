@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Yvoire";
+$arDirProperties = array(
+
+);
+?>

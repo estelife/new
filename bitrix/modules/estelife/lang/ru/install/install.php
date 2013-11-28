@@ -1,0 +1,27 @@
+<?
+$MESS ['ESTELIFE_MODULE_NAME'] = "Estelife";
+$MESS ['ESTELIFE_MODULE_DESCRIPTION'] = "Модуль реализует более гибкую и производительную работу с базой данных.";
+$MESS ['ESTELIFE_INSTALL_TITLE'] = "Установка модуля \"Estelife\"";
+$MESS ['ESTELIFE_UNINSTALL_TITLE'] = "Деинсталляция модуля \"Estelife\"";
+$MESS ['ESTELIFE_NO'] = "нет";
+$MESS ['ESTELIFE_ATTENTION'] = "Внимание! Модуль будет деинсталлирован.";
+$MESS ['ESTELIFE_YOU_CAN_SAVE_TABLES'] = "Вы можете сохранить данные в таблицах базы данных, если установите флажок &quot;Сохранить таблицы&quot;";
+$MESS ['ESTELIFE_SAVE_TABLES'] = "Сохранить таблицы";
+$MESS ['ESTELIFE_DELETE'] = "Деинсталлировать";
+$MESS ['ESTELIFE_DELETE_COMLETE'] = "Деинсталляция модуля завершена.";
+$MESS ['ESTELIFE_BACK'] = "Вернуться";
+$MESS ['ESTELIFE_ERRORS'] = "Ошибки:";
+$MESS ['ESTELIFE_INSTALL'] = "Установить";
+$MESS ['ESTELIFE_COMPLETE'] = "Установка модуля завершена.";
+$MESS ['ESTELIFE_WRONG_MAIN_VERSION'] = "Для установки модуля вам необходимо обновить ядро до версии #VER#";
+$MESS ['ESTELIFE_DENIED'] = "доступ закрыт";
+$MESS ['ESTELIFE_OPENED'] = "доступ открыт";
+$MESS ['ESTELIFE_FULL'] = "полный доступ";
+$MESS ['ESTELIFE_URL_PUBLIC'] = "Каталог для демонстрационных файлов:";
+$MESS ['ESTELIFE_DEMO_DIR'] = "Работу демонстрационных файлов вы можете посмотреть по нижеследующим ссылкам:";
+$MESS ['ESTELIFE_RESET'] = "Сбросить";
+$MESS ['ESTELIFE_SITE'] = "Сайт";
+$MESS ['ESTELIFE_LINK'] = "Ссылка";
+$MESS ['COPY_PUBLIC_FILES'] = "Скопировать публичные файлы";
+$MESS ['COPY_FOLDER'] = "Папка, в которую будут скопированы файлы (относительно корня сайта):";
+$MESS ['INSTALL_PUBLIC_REW'] = "Переписывать существующие файлы";

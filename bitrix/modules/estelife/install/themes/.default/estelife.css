@@ -1,0 +1,185 @@
+/*Menu icon*/
+#form_menu_icon {background-image:url(icons/form/mnu_form.gif);}
+.adm-estelife .adm-main-menu-item-icon {
+	background: url('icons/estelife/estelife_main_menu.png') center 8px no-repeat;
+}
+.adm-estelife:hover .adm-main-menu-item-icon, .adm-estelife.adm-main-menu-item-active .adm-main-menu-item-icon {
+	background-position: center -44px;
+}
+.cl {
+	clear:both;
+}
+.hidden {
+	display: none;
+}
+.estelife-services ul,.estelife-services .forms div {
+	list-style-type: none;
+	padding:0;
+	margin:0;
+	float:left;
+}
+.estelife-services ul.selected {
+	background: #E1E5D1;
+	padding: 10px;
+	border-radius: 5px;
+	box-shadow: 1px 1px 1px #fff;
+	padding-top:0;
+}
+.estelife-services ul.selected li {
+	float: left;
+	padding: 5px 24px 5px 8px;
+	background: #8DB300;
+	margin: 0 5px;
+	color: #fff;
+	border-radius: 4px;
+	position: relative;
+	box-shadow: 1px 1px 1px #fff;
+	margin-top:10px;
+}
+.estelife-services ul.selected a {
+	position: absolute;
+	color: rgb(255, 255, 255);
+	right: 6px;
+	top: 3px;
+	font-weight: bold;
+	text-decoration: none;
+	font-size: 16px;
+}
+.estelife-services .lists {
+	float:left;
+	margin-top:20px;
+}
+.estelife-services .lists ul, .estelife-services .forms div {
+	width: 314px;
+	padding-right: 20px;
+	margin-right: 43px;
+	border-right: 1px solid #DBDBDB;
+}
+.estelife-services.one-list .lists ul {
+	border:none;
+	margin:0;
+	padding:0;
+	width:100%;
+}
+.estelife-services .lists ul a {
+	display: block;
+	text-decoration: none;
+	color: black;
+	padding: 6px;
+}
+.estelife-services .lists ul a:hover {
+	color:rgb(99, 99, 99);
+}
+.estelife-services .lists ul a.active, .estelife-services.one-list .lists ul a:hover {
+	background: #D3D3D3;
+	border-radius: 5px;
+}
+.estelife-services .lists ul.service_concreate a.active {
+	background: #8DB300;
+	color: #fff;
+}
+.estelife-services .forms {
+	width: 100%;
+	float: left;
+	margin-top: 20px;
+}
+.estelife-services .forms div {
+	border:none;
+}
+.estelife-services .forms input, .estelife-services .forms label {
+	display: block !important;
+	margin-bottom:10px !important;
+}
+.estelife-services .forms input.adm-btn-save {
+	height:29px !important;
+	padding: 7px 13px 5px!important;
+	width:180px;
+}
+.estelife-more {
+	margin-left:20px;
+}
+.estelife-services.one-list ul li {
+	list-style-type: decimal;
+	padding-left: 21px !important;
+	width:600px;
+}
+.estelife-services.one-list ul input {
+	float:left;
+	margin-top:7px;
+	margin-right:7px;
+}
+.estelife-buttons {
+	margin-top:30px;
+	float:left;
+	width:100%;
+}
+.estelife-busy-hours table {
+	border-collapse: collapse;
+	border-spacing: 1px;
+}
+.estelife-busy-hours td {
+	width:51px;
+	height:41px;
+	background:#fff;
+	border:1px solid #DBDBDB;
+	cursor:pointer;
+}
+.estelife-busy-hours td:hover, .estelife-busy-hours td.hover {
+	background: #c0ed00;
+}
+.estelife-busy-hours td.active {
+	background:#8DB300 !important;
+}
+.estelife-busy-hours th {
+	cursor:s-resize;
+}
+.estelife-busy-hours th.all {
+	cursor:se-resize;
+}
+.estelife-busy-hours td.h {
+	border:none;
+	background:none;
+	font-weight: bold;
+	width:31px;
+	cursor:e-resize;
+}
+.estelife-busy-hours sup {
+	font-weight: normal;
+	margin-left: 3px;
+	font-size: 9px;
+}
+.estelife-busy-hours input, .estelife-busy-hours label {
+	display: none !important;
+}
+.ui-helper-hidden-accessible {
+	display:none;
+}
+.ui-autocomplete {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	background: #fff;
+	border-radius: 5px;
+	box-shadow: 0 0 6px #000;
+	position: absolute;
+}
+.ui-autocomplete a {
+	display: block;
+	padding: 10px;
+	color: black;
+	cursor:pointer;
+}
+.ui-autocomplete a:hover {
+	text-decoration: none;
+}
+.ui-autocomplete a.ui-state-focus {
+	background: #86AD00;
+	color: #fff;
+	border-radius: 5px;
+}
+#map {
+	width:500px;
+	height:400px;
+	display:none;
+	margin-top:10px;
+}
