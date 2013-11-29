@@ -1,8 +1,6 @@
 <?php if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
 <ul class="menu">
 	<li><a href='/'>Главная</a>
-		<ul class='submenu'>
-		</ul>
 	</li>
 	<li><a href='#'>Точка зрения</a>
 		<ul class='submenu'>

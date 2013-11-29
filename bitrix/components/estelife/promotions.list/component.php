@@ -29,6 +29,15 @@ if(isset($arParams['CITY_CODE']) && !empty($arParams['CITY_CODE'])){
 	while($res = $obCity->Fetch()) {
 		$arResult['city'] = $res;
 	}
+}elseif(isset($_COOKIE['estelife_city'])){
+	//Получаем имя города по его ID
+	$arSelect = Array("ID", "NAME");
+	$arFilter = Array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "ID" => $_COOKIE['estelife_city']);
+	$obCity = CIBlockElement::GetList(Array("NAME"=>"ASC"), $arFilter, false, false, $arSelect);
+
+	while($res = $obCity->Fetch()) {
+		$arResult['city'] = $res;
+	}
 }
 
 //Получение списка акций
@@ -87,10 +96,18 @@ $arDescription=array();
 if(!empty($arCount)){
 	$arActions= $obResult->all();
 	foreach ($arActions as $val){
+		$val['img'] = CFile::GetFileArray($val["logo_id"]);
+		$val['new_price'] = intval($val['new_price']);
+		$val['old_price'] = intval($val['old_price']);
 		$val['time'] = ceil(($val['end_date']-$arNow)/(60*60*24));
 		$val['day'] = \core\types\VString::spellAmount($val['time'], 'день,дня,дней');
 		$val['link'] = '/promotions/'.\core\types\VString::translit($val['name']).'-'.$val['id'].'/';
 		$arResult['akzii'][]=$val;
+	}
+	if (!empty($arResult['city']['ID'])){
+		$arResult['link'] = '/promotions/?city='.$arResult['city']['ID'];
+	}else{
+		$arResult['link'] = '/promotions/';
 	}
 	unset($arActions);
 }else{

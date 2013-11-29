@@ -389,5 +389,5 @@ var Estelife=function(s){
 	};
 };
 var EL=new Estelife({
-	'path':'/bitrix/templates/web20/js'
+	'path':'/bitrix/templates/estelife/js'
 });

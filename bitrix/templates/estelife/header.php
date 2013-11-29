@@ -41,13 +41,14 @@
 <div class="wrap">
 	<div class="panel">
 		<div class="panel_in">
-			<div class="cols col1">
-				Ваш город:
-				<a href="#" class="arrow gray bottom">
-					<span>Санкт-Петербург</span>
-					<i></i>
-				</a>
-			</div>
+			<?php
+			$APPLICATION->IncludeComponent(
+				"estelife:user.geo",
+				"",
+				array(),
+				false
+			);
+			?>
 			<div class="cols col2 social">
 				<span>Мы в соцсетях:</span>
 				<a href="http://vk.com/estelife_ru" class="vk">ВКонтакте</a>
@@ -59,7 +60,7 @@
 			<a href="#" class="cols">Войти</a>
 		</div>
 	</div>
-	<div class="cities">
+	<div class="cities none">
 		<div class="content">
 			<div class="cities-in">
 				<div class="cols col1">
@@ -95,7 +96,7 @@
 		</div>
 	</div>
 	<div class="head">
-		<a href="#" class="logo">
+		<a href="/" class="logo">
 			Портал<br /> эстетической медицины
 		</a>
 		<? $APPLICATION->IncludeComponent("bitrix:search.form", "flat", Array(

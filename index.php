@@ -6,75 +6,73 @@ $APPLICATION->SetPageProperty("keywords", "косметология, пласт�
 $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационный портал о косметологии и пластической хирургии");
 ?>
 <div class="content">
-	<div class="general-news">
-		<div class="title">
-			<h1>Контурная пластика</h1>
-			<h2>Точка зрения</h2>
-		</div>
-		<div class="cols col1">
-			<div class="img">
-				<a href="#">
-					<img src="images/content/big_post.png" alt="" title="" />
-				</a>
-				<div><h3>Филлеры - молодильные яблочки XXI века</h3></div>
-				<span>1</span>
-			</div>
-			<a href="#" class="text">Филлер (от англ. filler — «наполнитель») – это гелевые препараты для инъекций, которые используются в процедуре контурной пластики...</a>
-			<ul class="stat">
-				<li class="comments"><i></i>9</li>
-				<li class="likes"><i></i>41</li>
-				<li class="unlikes"><i></i>2</li>
-			</ul>
-		</div>
-		<div class="cols col2">
-			<div class="img">
-				<a href="#">
-					<img src="images/content/post1.png" alt="" title="" />
-				</a>
-				<div><p>Какое-то описание</p></div>
-				<span>2</span>
-			</div>
-			<div class="img">
-				<a href="#">
-					<img src="images/content/post2.png" alt="" title="" />
-				</a>
-				<div><p>Какое-то описание</p></div>
-				<span>3</span>
-			</div>
-			<div class="img">
-				<a href="#">
-					<img src="images/content/post3.png" alt="" title="" />
-				</a>
-				<div><p>Какое-то описание</p></div>
-				<span>4</span>
-			</div>
-			<div class="img">
-				<a href="#">
-					<img src="images/content/post4.png" alt="" title="" />
-				</a>
-				<div><p>Какое-то описание</p></div>
-				<span>5</span>
-			</div>
-			<div class="img">
-				<a href="#">
-					<img src="images/content/post5.png" alt="" title="" />
-				</a>
-				<div><p>Какое-то описание</p></div>
-				<span>6</span>
-			</div>
-			<div class="subscribe">
-				<h3>Хотите всегда быть в курсе?</h3>
-				<a href="#" class="submit">Подпишитесь</a>
-			</div>
-		</div>
-	</div>
+	<?$APPLICATION->IncludeComponent(
+		"bitrix:news.list",
+		"kp",
+		Array(
+			"DISPLAY_DATE" => "Y",
+			"DISPLAY_NAME" => "Y",
+			"DISPLAY_PICTURE" => "Y",
+			"DISPLAY_PREVIEW_TEXT" => "Y",
+			"AJAX_MODE" => "N",
+			"IBLOCK_TYPE" => "news",
+			"IBLOCK_ID" => "14",
+			"NEWS_COUNT" => "6",
+			"SORT_BY1" => "ACTIVE_FROM",
+			"SORT_ORDER1" => "DESC",
+			"SORT_BY2" => "SORT",
+			"SORT_ORDER2" => "ASC",
+			"FILTER_NAME" => "",
+			"FIELD_CODE" => array("ID", "CODE", "NAME", "TAGS", "SORT", "PREVIEW_TEXT", "PREVIEW_PICTURE", "IBLOCK_TYPE_ID", "IBLOCK_ID", "IBLOCK_CODE", "IBLOCK_NAME", "IBLOCK_EXTERNAL_ID", "DATE_CREATE"),
+			"PROPERTY_CODE" => array("FORUM_MESSAGE_CNT"),
+			"CHECK_DATES" => "Y",
+			"DETAIL_URL" => "/articles/#ELEMENT_CODE#/",
+			"PREVIEW_TRUNCATE_LEN" => "0",
+			"ACTIVE_DATE_FORMAT" => "j F Y",
+			"SET_TITLE" => "N",
+			"SET_STATUS_404" => "N",
+			"INCLUDE_IBLOCK_INTO_CHAIN" => "Y",
+			"ADD_SECTIONS_CHAIN" => "Y",
+			"HIDE_LINK_WHEN_NO_DETAIL" => "N",
+			"PARENT_SECTION" => 209,
+			"PARENT_SECTION_CODE" => '',
+			"INCLUDE_SUBSECTIONS" => "N",
+			"CACHE_TYPE" => "A",
+			"CACHE_TIME" => "3600",
+			"CACHE_FILTER" => "N",
+			"CACHE_GROUPS" => "Y",
+			"DISPLAY_TOP_PAGER" => "N",
+			"DISPLAY_BOTTOM_PAGER" => "N",
+			"PAGER_TITLE" => "Новости",
+			"PAGER_SHOW_ALWAYS" => "N",
+			"PAGER_TEMPLATE" => "",
+			"PAGER_DESC_NUMBERING" => "N",
+			"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
+			"PAGER_SHOW_ALL" => "N",
+			"AJAX_OPTION_JUMP" => "N",
+			"AJAX_OPTION_STYLE" => "Y",
+			"AJAX_OPTION_HISTORY" => "N"
+		)
+	);
+	?>
+
 <div class="adv adv-out right">
-	<div class="adv">
-		<span>Баннер</span>
-	</div>
+	<?$APPLICATION->IncludeComponent("bitrix:advertising.banner","",Array(
+			"TYPE" => "main_right",
+			"CACHE_TYPE" => "A",
+			"NOINDEX" => "N",
+			"CACHE_TIME" => "3600"
+		)
+	);?>
 </div>
 <div class="adv top">
-	<span>Баннер</span>
+	<?$APPLICATION->IncludeComponent("bitrix:advertising.banner","",Array(
+			"TYPE" => "main_center_1",
+			"CACHE_TYPE" => "A",
+			"NOINDEX" => "N",
+			"CACHE_TIME" => "3600"
+		)
+	);?>
 </div>
 <div class="experts">
 	<h2>Экспертное мнение</h2>
@@ -95,153 +93,34 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 		<li><a href="#"><i></i></a></li>
 	</ul>
 </div>
-<div class="promotions announces">
-	<div class="title">
-		<h2>Акции клиник</h2>
-		<a href="#">Больше акций</a>
-		<a href="#" class="arrow black bottom">Санкт-Петербург<i></i></a>
-		<div class="cities">
-			<div class="content">
-				<div class="cities-in">
-					<div class="cols col1">
-						<h4>Выберите город</h4>
-						<ul>
-							<li><a href="">Москва</a></li>
-							<li class="active"><a href="#">Санкт-Петербург</a></li>
-						</ul>
-					</div>
-					<div class="cols col2">
-						<h4>Скоро с нами:</h4>
-						<ul>
-							<li>Новосибирск</li>
-							<li>Екатеринбург</li>
-							<li>Нижний Новгород</li>
-							<li>Казань</li>
-							<li>Самара</li>
-							<li>Омск</li>
-							<li>Челябинск</li>
-						</ul>
-						<ul>
-							<li>Ростов-на-Дону</li>
-							<li>Уфа</li>
-							<li>Волгоград</li>
-							<li>Красноярск</li>
-							<li>Пермь</li>
-							<li>Воронеж</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="items">
-		<div class="item">
-			<span class="perc">60%</span>
-			<a href="#">
-				<img src="images/content/article1.png" alt="" title="" />
-			</a>
-			<h3>Липосакция</h3>
-			<div class="cols prices">
-				<b>100 000 <i></i></b>
-				<s>240 000 <i></i></s>
-			</div>
-			<div class="cols time">
-				248 дней
-				<i></i>
-			</div>
-		</div>
-		<div class="item">
-			<span class="perc">50%</span>
-			<a href="#">
-				<img src="images/content/article2.png" alt="" title="" />
-			</a>
-			<h3>Увеличение груди</h3>
-			<div class="cols prices">
-				<b>150 000 <i></i></b>
-				<s>300 000 <i></i></s>
-			</div>
-			<div class="cols time">
-				48 дней
-				<i></i>
-			</div>
-		</div>
-		<div class="item">
-			<span class="perc">25%</span>
-			<a href="#">
-				<img src="images/content/article3.png" alt="" title="" />
-			</a>
-			<h3>ЭЛОС Эпиляция</h3>
-			<div class="cols prices">
-				<b>2 250 <i></i></b>
-				<s>30 000 <i></i></s>
-			</div>
-			<div class="cols time">
-				47 дней
-				<i></i>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="articles">
-	<div class="title">
-		<h2>Советы о красоте</h2>
-		<a href="#">Больше советов о красоте лица</a>
-	</div>
-	<ul class="menu">
-		<li><a href="#"><span>Красивое лицо</span></a></li>
-		<li class="active"><a href="#"><span>Идеальное тело</span></a></li>
-		<li><a href="#"><span>Прекрасные ножки</span></a></li>
-		<li><a href="#"><span>Изящные ручки</span></a></li>
-	</ul>
-	<div class="items">
-		<div class="item">
-			<img src="images/content/article5.png" alt="" title="" />
-			<h3>Жирный блеск на лице? Выход есть!</h3>
-			<p>Жирный блеск на лице досаждает многим женщинам. Предлагаем вам 5 эффективных способов избавления...</p>
-			<ul class="stat">
-				<li class="date">14.11.2013</li>
-				<li class="comments">9<i></i></li>
-				<li class="likes">41<i></i></li>
-				<li class="unlikes">2<i></i></li>
-			</ul>
-		</div>
-		<div class="item">
-			<img src="images/content/article6.png" alt="" title="" />
-			<h3>Лучшие средства для сужения пор</h3>
-			<p>Все мы мечтаем о нежной и чистой коже лица. Только с помощью правильного ухода можно  ...</p>
-			<ul class="stat">
-				<li class="date">14.11.2013</li>
-				<li class="comments">9<i></i></li>
-				<li class="likes">41<i></i></li>
-				<li class="unlikes">2<i></i></li>
-			</ul>
-		</div>
-		<div class="item">
-			<img src="images/content/article7.png" alt="" title="" />
-			<h3>Безупречный цвет лица</h3>
-			<p>Похоже, настало время ВВ-крему, любимчику многих современных женщин, потесниться. Для поклонниц средств «всё в одном» выпущена ...</p>
-			<ul class="stat">
-				<li class="date">14.11.2013</li>
-				<li class="comments">9<i></i></li>
-				<li class="likes">41<i></i></li>
-				<li class="unlikes">2<i></i></li>
-			</ul>
-		</div>
-		<div class="item">
-			<img src="images/content/article8.png" alt="" title="" />
-			<h3>Димпл-эктомия: поцелуй ангела</h3>
-			<p>Поклонники «ямочек» на щеках! Теперь вы можете стать счастливым обладателем этой пикантной ...</p>
-			<ul class="stat">
-				<li class="date">14.11.2013</li>
-				<li class="comments">9<i></i></li>
-				<li class="likes">41<i></i></li>
-				<li class="unlikes">2<i></i></li>
-			</ul>
-		</div>
-	</div>
-</div>
+<?php
+	$APPLICATION->IncludeComponent(
+		"estelife:promotions.list",
+		"index",
+		array(
+			"COUNT" => 3
+		),
+		false
+	);
+?>
+<?$APPLICATION->IncludeComponent(
+	"estelife:articles.list",
+	"",
+	array(
+		"IBLOCK_ID"=>14,
+		"SECTIONS_ID"=> array(194,195,196,197),
+		"SECTIONS_NAME"=> array("Красивое лицо", "Идеальное тело", "Прекрасные ножки", "Изящные ручки"),
+		"NEWS_COUNT" => 4
+	)
+)?>
 <div class="adv bottom">
-	<span>Баннер</span>
+	<?$APPLICATION->IncludeComponent("bitrix:advertising.banner","",Array(
+			"TYPE" => "main_center_2",
+			"CACHE_TYPE" => "A",
+			"NOINDEX" => "N",
+			"CACHE_TIME" => "3600"
+		)
+	);?>
 </div>
 </div>
 <div class="media">

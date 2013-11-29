@@ -37,7 +37,7 @@ $(document).ready(function() {
 		$(".menu li:first").addClass("active");
 	}
 	
-	$(".menu>li").hover(
+	$(".head .menu>li").hover(
 		function() {
 			var ob = this;
 			clearTimeout(timerID);
@@ -60,8 +60,6 @@ $(document).ready(function() {
 			);
 		}
 	);
-	
-
 
 	$(".half-video .video img").click(function() {
 		var r = $(this).attr("rel");
@@ -75,6 +73,30 @@ $(document).ready(function() {
 });
 
 var showDetail;
+
+$(function home(){
+	//Смена города в шапке
+	$('.change_city').click(function(){
+		EL.loadModule('templates',function(){
+			var detail_generator=new EL.templates({
+				'path':'/api/estelife_ajax.php',
+				'template':'cities',
+				'params':{
+					'action':'get_template'
+				}
+			});
+
+
+
+			detail_generator.ready(function(){
+			
+			});
+
+
+		});
+
+	});
+});
 
 $(function(){
 	var detail=$('.el-ditem'),

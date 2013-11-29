@@ -1,18 +1,6 @@
 <?
 $arUrlRewrite = array(
 	array(
-		"CONDITION" => "#^/communication/blog/#",
-		"RULE" => "",
-		"ID" => "bitrix:blog",
-		"PATH" => "/communication/blog/index.php",
-	),
-	array(
-		"CONDITION" => "#^/content/articles/#",
-		"RULE" => "",
-		"ID" => "bitrix:news",
-		"PATH" => "/content/articles/index.php",
-	),
-	array(
 		"CONDITION" => "#^/apparatuses-makers/#",
 		"RULE" => "",
 		"ID" => "estelife:apparatuses_makers",
@@ -43,12 +31,6 @@ $arUrlRewrite = array(
 		"PATH" => "/preparations-makers/index.php",
 	),
 	array(
-		"CONDITION" => "#^/content/faq/#",
-		"RULE" => "",
-		"ID" => "bitrix:support.faq",
-		"PATH" => "/content/faq/index.php",
-	),
-	array(
 		"CONDITION" => "#^/apparatuses/#",
 		"RULE" => "",
 		"ID" => "estelife:apparatuses",
@@ -64,7 +46,7 @@ $arUrlRewrite = array(
 		"CONDITION" => "#^/articles/#",
 		"RULE" => "",
 		"ID" => "bitrix:news",
-		"PATH" => "/content/artcls/index.php",
+		"PATH" => "/content/articles/index.php",
 	),
 	array(
 		"CONDITION" => "#^/podcast/#",
@@ -85,12 +67,6 @@ $arUrlRewrite = array(
 		"PATH" => "/promotions/index.php",
 	),
 	array(
-		"CONDITION" => "#^/doctors/#",
-		"RULE" => "",
-		"ID" => "",
-		"PATH" => "/content/base/index.php",
-	),
-	array(
 		"CONDITION" => "#^/events/#",
 		"RULE" => "",
 		"ID" => "estelife:events",
@@ -101,12 +77,6 @@ $arUrlRewrite = array(
 		"RULE" => "",
 		"ID" => "estelife:clinics",
 		"PATH" => "/clinic/index.php",
-	),
-	array(
-		"CONDITION" => "#^/forum/#",
-		"RULE" => "",
-		"ID" => "bitrix:forum",
-		"PATH" => "/communication/forum/index.php",
 	),
 	array(
 		"CONDITION" => "#^/video/#",
@@ -125,12 +95,6 @@ $arUrlRewrite = array(
 		"RULE" => "",
 		"ID" => "estelife:preparations",
 		"PATH" => "/preparations/index.php",
-	),
-	array(
-		"CONDITION" => "#^/stati/#",
-		"RULE" => "",
-		"ID" => "bitrix:news",
-		"PATH" => "/content/stati/index.php",
 	),
 	array(
 		"CONDITION" => "#^/yvoire/#",

@@ -71,7 +71,7 @@ $componentPage = $engine->guessComponentPath(
 	$arUrlTemplates,
 	$arVariables
 );
-
+CModule::IncludeModule('estelife');
 $sCode=htmlspecialchars($arVariables['CURRENT_CODE'],ENT_QUOTES,'utf-8');
 $obQuery=\core\database\VDatabase::driver(\core\database\mysql\VDriver::MYSQL)->createQuery();
 

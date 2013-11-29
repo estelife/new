@@ -24,6 +24,7 @@ $arCities = $obQuery->select()->all();
 
 if (!empty($arCities)){
 	$arCity = reset($arCities);
+	$arResult['city'] = $arCity;
 	setcookie('estelife_city', $arCity['ID'], time() + 12*60*60*24*30, '/');
 }
 
