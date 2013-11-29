@@ -22,6 +22,7 @@ class VQueryBuilder extends db\VQueryBuilder {
 	 * @var VFilter
 	 */
 	protected $obHaving;
+	protected $arUnions;
 
 	public function __construct(db\VQuery $obQuery){
 		parent::__construct($obQuery);
@@ -50,6 +51,25 @@ class VQueryBuilder extends db\VQueryBuilder {
 	}
 
 	/**
+	 * Объединяет несколько запросов
+	 * @return void
+	 */
+	public function union(){
+		$obCurrent=clone $this;
+
+		if(!empty($this->arUnions)){
+			$obFirst=reset($this->arUnions);
+			$obCurrent->arFields=$obFirst->arFields;
+			$obCurrent->arFrom=$obFirst->arFrom;
+		}
+
+		$this->obFilter=null;
+		$this->obHaving=null;
+		$obCurrent->arUnions=array();
+		$this->arUnions[]=$obCurrent;
+	}
+
+	/**
 	 * Методы ниже генерируют массив с соответствующими частями запроса,
 	 * при этом наличие тех или иных частей зависит от предварительных действий клиента
 	 * @throws \core\database\exceptions\VQueryBuildException
@@ -59,86 +79,101 @@ class VQueryBuilder extends db\VQueryBuilder {
 		if(empty($this->arFrom))
 			throw new VQueryBuildException('undefined table');
 
-		$sFields='*';
+		$sSelect='';
 
-		if(!empty($this->arFields)){
+		if(!empty($this->arUnions)){
+			/**
+			 * @var VQueryBuilder $obBuilder
+			 * @var string[] $arSelects
+			 */
+			$arSelects=array();
+
+			foreach($this->arUnions as $obBuilder)
+				$arSelects[]=$obBuilder->buildSelect();
+
+			$sSelect=implode(' UNION ',$arSelects);
+		}else{
+			$sFields='*';
+
+			if(!empty($this->arFields)){
+				$arTemp=array();
+
+				foreach($this->arFields as $arField){
+					if(is_object($arField['field']) && $arField['field'] instanceof VFunction){
+						$arField['field']=$arField['field']->make();
+					}else if(is_object($arField['field']) && $arField['field'] instanceof VQueryBuilder){
+						$arField['field']=$arField['field']->buildSelect();
+					}else if(!preg_match('#\.(\*)$#',$arField['field'],$arMatches)
+						&& !$this->obSpecialQuery->checkField(
+							$this->obQuery->getRegisteredTables(),
+							$arField['field']))
+						continue;
+
+					$arTemp[]=$arField['field'].(!empty($arField['alias']) ?
+							' AS '.$arField['alias'] : '');
+				}
+
+				$sFields=implode(',', $arTemp);
+			}
+
 			$arTemp=array();
 
-			foreach($this->arFields as $arField){
-				if(is_object($arField['field']) && $arField['field'] instanceof VFunction){
-					$arField['field']=$arField['field']->make();
-				}else if(is_object($arField['field']) && $arField['field'] instanceof VQueryBuilder){
-					$arField['field']=$arField['field']->buildSelect();
-				}else if(!preg_match('#\.(\*)$#',$arField['field'],$arMatches)
-					&& !$this->obSpecialQuery->checkField(
+			foreach($this->arFrom as $arFrom)
+				$arTemp[]='`'.$arFrom['table'].'`'.
+					(!empty($arFrom['alias']) ? ' '.$arFrom['alias'] : '');
+
+			$sSelect='SELECT '.$sFields.' FROM '.implode(', ',$arTemp);
+
+			if($this->obJoin)
+				$sSelect.=' '.$this->obJoin->make();
+
+			if($this->obFilter &&
+				$sFilter=$this->obFilter->make()){
+				$sSelect.=' WHERE '.$sFilter;
+			}
+
+			if(!empty($this->arGroup)){
+				$arTemp=array();
+
+				foreach($this->arGroup as $sField){
+					if(!$this->obSpecialQuery->checkField(
 						$this->obQuery->getRegisteredTables(),
-						$arField['field']))
-					continue;
+						$sField
+					))
+						continue;
 
-				$arTemp[]=$arField['field'].(!empty($arField['alias']) ?
-						' AS '.$arField['alias'] : '');
+					$arTemp[]=$sField;
+				}
+
+				$sSelect.=' GROUP BY '.implode(', ',$arTemp);
 			}
 
-			$sFields=implode(',', $arTemp);
-		}
+			if($this->obHaving)
+				$sSelect.=' HAVING '.$this->obHaving->make();
 
-		$arTemp=array();
+			if(!empty($this->arSort) ){
+				$arTemp=array();
 
-		foreach($this->arFrom as $arFrom)
-			$arTemp[]='`'.$arFrom['table'].'`'.
-				(!empty($arFrom['alias']) ? ' '.$arFrom['alias'] : '');
+				foreach($this->arSort as $arSort){
+					if(is_object($arSort['field']) &&
+						$arSort['field'] instanceof VFunction)
+						$arSort['field']=$arSort['field']->make();
+					else if(!$this->obSpecialQuery->checkField(
+						$this->obQuery->getRegisteredTables(),
+						$arSort['field']
+					))
+						continue;
 
-		$sSelect='SELECT '.$sFields.' FROM '.implode(', ',$arTemp);
+					$arTemp[]=$arSort['field'].' '.$arSort['order'];
+				}
 
-		if($this->obJoin)
-			$sSelect.=' '.$this->obJoin->make();
-
-		if($this->obFilter &&
-			$sFilter=$this->obFilter->make()){
-			$sSelect.=' WHERE '.$sFilter;
-		}
-
-		if(!empty($this->arGroup)){
-			$arTemp=array();
-
-			foreach($this->arGroup as $sField){
-				if(!$this->obSpecialQuery->checkField(
-					$this->obQuery->getRegisteredTables(),
-					$sField
-				))
-					continue;
-
-				$arTemp[]=$sField;
+				if(!empty($arTemp))
+					$sSelect.=' ORDER BY '.implode(', ',$arTemp);
 			}
 
-			$sSelect.=' GROUP BY '.implode(', ',$arTemp);
+			if(!empty($this->arSlice))
+				$sSelect.=' LIMIT '.$this->arSlice['from'].', '.$this->arSlice['count'];
 		}
-
-		if($this->obHaving)
-			$sSelect.=' HAVING '.$this->obHaving->make();
-
-		if(!empty($this->arSort) ){
-			$arTemp=array();
-
-			foreach($this->arSort as $arSort){
-				if(is_object($arSort['field']) &&
-					$arSort['field'] instanceof VFunction)
-					$arSort['field']=$arSort['field']->make();
-				else if(!$this->obSpecialQuery->checkField(
-					$this->obQuery->getRegisteredTables(),
-					$arSort['field']
-				))
-					continue;
-
-				$arTemp[]=$arSort['field'].' '.$arSort['order'];
-			}
-
-			if(!empty($arTemp))
-				$sSelect.=' ORDER BY '.implode(', ',$arTemp);
-		}
-
-		if(!empty($this->arSlice))
-			$sSelect.=' LIMIT '.$this->arSlice['from'].', '.$this->arSlice['count'];
 
 		return $sSelect;
 	}

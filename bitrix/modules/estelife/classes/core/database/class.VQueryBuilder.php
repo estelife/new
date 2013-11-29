@@ -178,6 +178,15 @@ abstract class VQueryBuilder {
 	}
 
 	/**
+	 * Объединение нескольких запрсоов
+	 * @throws exceptions\VQueryException
+	 * @return void
+	 */
+	public function union(){
+		throw new VQueryException('union is no support for this driver');
+	}
+
+	/**
 	 * Формирует часть запроса, отвечающуюу за генерацию фильтра запроса
 	 * @return VFilter
 	 */
