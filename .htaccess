@@ -1,0 +1,76 @@
+Options -Indexes 
+ErrorDocument 404 /404.php
+
+<IfModule mod_php5.c>
+  php_flag session.use_trans_sid off
+  php_value display_errors 1
+  php_value mbstring.func_overload 2
+  php_value mbstring.internal_encoding UTF-8
+
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  Options +FollowSymLinks
+	Options -MultiViews
+	RewriteEngine On
+
+	RewriteCond %{HTTP_HOST} ^www\.estelife\.ru$
+	RewriteRule ^(.*)$ http://estelife.ru/$1 [L,R=301]
+
+	RewriteCond %{REQUEST_URI} ^\/stati(.*)$
+	RewriteRule ^\/?stati(\/[^\/]+)?\/([^\/]+)\/$ http://%{HTTP_HOST}/articles/$2/ [R=301,L]
+
+	RewriteCond %{REQUEST_URI} ^/(clinic|actions)/(spb|msk)/$
+	RewriteRule ^\/?(clinic|actions)\/(spb|msk)\/$ http://%{HTTP_HOST}/$1/ [R=301,L]
+
+	RewriteCond %{REQUEST_URI} ^/(clinic|actions)/(spb|msk)/(.*)$
+	RewriteRule ^\/?(clinic|actions)\/(msk|spb)\/(.*)$ http://%{HTTP_HOST}/$1/$3 [R=301,L]
+
+	RewriteCond %{REQUEST_URI} ^/actions/(.*)$
+    	RewriteRule ^\/?actions\/(.*)$ http://%{HTTP_HOST}/promotions/$1 [R=301,L]
+
+	RewriteCond %{REQUEST_URI} ^/pills/(.*)$
+	RewriteRule ^\/?pills\/(.*)$ http://%{HTTP_HOST}/preparations/$1 [R=301,L]
+
+	RewriteCond %{REQUEST_URI} ^/apparatus/(.*)$
+	RewriteRule ^\/?apparatus\/(.*)$ http://%{HTTP_HOST}/apparatuses/$1 [R=301,L]
+
+	RewriteCond %{REQUEST_URI} ^/maker-apparatus/(.*)$
+	RewriteRule ^\/?maker-apparatus\/(.*)$ http://%{HTTP_HOST}/apparatuses-makers/$1 [R=301,L]
+
+	RewriteCond %{REQUEST_URI} ^/maker-pills/(.*)$
+	RewriteRule ^\/?maker-pills\/(.*)$ http://%{HTTP_HOST}/preparations-makers/$1 [R=301,L]
+
+	RewriteCond %{REQUEST_URI} ^/organizatory/(.*)$
+	RewriteRule ^\/?organizatory\/(.*)$ http://%{HTTP_HOST}/sponsors/$1 [R=301,L]
+
+	RewriteCond %{REQUEST_URI} ^/uchebnie-centry/(.*)$
+	RewriteRule ^\/?uchebnie-centry\/(.*)$ http://%{HTTP_HOST}/training-centers/$1 [R=301,L]
+	
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-l
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_URI} ^(.*/[^/\.]+)$
+	RewriteRule ^(.*)$ http://%{HTTP_HOST}/$1/ [R=301,L]
+	
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-l
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME} !/bitrix/urlrewrite.php$
+	RewriteRule ^(.*)$ /bitrix/urlrewrite.php [L]
+	RewriteRule .* - [E=REMOTE_USER:%{HTTP:Authorization}]
+</IfModule>
+
+<IfModule mod_dir.c>
+  DirectoryIndex index.php index.html
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive on
+  ExpiresByType image/jpeg "access plus 3 day"
+  ExpiresByType image/gif "access plus 3 day"
+  ExpiresByType image/png "access plus 3 day"
+  ExpiresByType text/css "access plus 3 day"
+  ExpiresByType application/javascript "access plus 3 day"  
+</IfModule>
+
