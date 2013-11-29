@@ -6,7 +6,7 @@ namespace core\database;
  * @since 03.10.13
  * @author Dmitriy Konev <dnkonev@yandex.ru>
  */
-class VListQueries implements \Iterator {
+class VListQueries implements \Countable,\Iterator {
 	protected $obDriver;
 	private $arQueries;
 	private $nCurrent;
@@ -30,6 +30,7 @@ class VListQueries implements \Iterator {
 
 	public function next(){
 		++$this->nCurrent;
+		return $this;
 	}
 
 	public function key(){
@@ -42,5 +43,10 @@ class VListQueries implements \Iterator {
 
 	public function rewind(){
 		$this->nCurrent=0;
+		return $this;
+	}
+
+	public function count(){
+		return count($this->arQueries);
 	}
 }
