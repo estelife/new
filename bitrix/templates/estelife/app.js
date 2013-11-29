@@ -1,4 +1,4 @@
-jQuery(document).ready(function() {
+$(document).ready(function() {
 
 	var timerID = 0,
 		timer2ID = 0;
@@ -17,61 +17,34 @@ jQuery(document).ready(function() {
 		}
 	});
 
-	jQuery(".nav").each(function() {
-		var r = jQuery(this).attr("rel");
-		jQuery(".tab-group[rel='"+r+"'] .panel").addClass("hidden");
-		jQuery(".tab-group[rel='"+r+"'] .panel:first").removeClass("hidden");
-		jQuery(this).find("li:first").addClass("active");
-		
-		jQuery(this).find("li a").click(function(e) {
-			e.preventDefault();
-			var rr = jQuery(this).attr("rel");
-			var rm = jQuery(this).parent().parent().find("li.active a").attr("rel");
-			var r  = jQuery(this).parent().parent().attr("rel");
-			jQuery(this).parent().parent().find("li.active").removeClass("active");
-			jQuery(this).parent().addClass("active");
-			jQuery(".tab-group[rel='"+r+"'] .panel[rel='"+rm+"']").addClass("hidden");
-			jQuery(".tab-group[rel='"+r+"'] .panel[rel='"+rr+"']").removeClass("hidden");
-			return false;
-		});
-	});
 	
-	jQuery("#news .panel").each(function() {
-		jQuery(this).find(".part:last").addClass("last");
-	});
+	$(".menu>li:last").addClass("last");
+	$(".menu>li.active1").addClass("active");
 	
-	jQuery("#main-menu>li").each(function() {
-		jQuery(this).width(jQuery(this).children().innerWidth());
-	});
-	
-	jQuery("#main-menu>li:last").addClass("last");
-	jQuery("#main-menu>li.active1").addClass("active");
-	
-	jQuery("#main-menu a").each(function() {
-		var href = jQuery(this).attr("href"),
+	$(".menu a").each(function() {
+		var href = $(this).attr("href"),
 			path_name = document.location.pathname.split('/'),
 			reg=new RegExp('^.*'+path_name[1]+'.*$'),
 			matches=href.match(reg);
 
-		if (matches && !jQuery("#main-menu>li.active").length) {
-			jQuery(this).closest("#main-menu>li").addClass("active").addClass('main');
+		if (matches && !$(".menu>li.active").length) {
+			$(this).closest(".menu>li").addClass("active").addClass('main');
 			return;
 		}
 	});
 
-
-	if (!jQuery("#main-menu>li.active").length) {
-		jQuery("#main-menu>li:first").addClass("active");
+	if (!$(".menu li.active").length) {
+		$(".menu li:first").addClass("active");
 	}
 	
-	jQuery("#main-menu>li").hover(
+	$(".menu>li").hover(
 		function() {
 			var ob = this;
 			clearTimeout(timerID);
 			clearTimeout(timer2ID);
 			timer2ID = setTimeout(function(){
-					jQuery("#main-menu>li").removeClass("active");
-					jQuery(ob).addClass("active");
+					$(".menu>li").removeClass("active");
+					$(ob).addClass("active");
 				},
 				150
 			);
@@ -80,34 +53,25 @@ jQuery(document).ready(function() {
 		},
 		function() {
 			timerID = setTimeout(function(){
-				jQuery("#main-menu>li").removeClass("active");
-				jQuery("#main-menu>li.main").addClass('active');
+				$(".menu>li").removeClass("active");
+				$(".menu>li.main").addClass('active');
 			},
 			450
 			);
 		}
 	);
 	
-	jQuery(".nav li:first").addClass("active");
-	
-	jQuery("#main-menu li.active .submenu").hover(
-		function() {
-			jQuery(this).parent().addClass("hover");
-		},
-		function() {
-			jQuery(this).parent().removeClass("hover");
-		}
-	);
-	
-	jQuery(".half-video .video img").click(function() {
-		var r = jQuery(this).attr("rel");
+
+
+	$(".half-video .video img").click(function() {
+		var r = $(this).attr("rel");
 		var frame = "<iframe width='481' height='274' src='"+r+"' frameborder='0' allowfullscreen></iframe>";
-		jQuery(".half-video .frame").html(frame);
-		jQuery(".half-video .video").removeClass("active");
-		jQuery(this).parent().addClass("active");
+		$(".half-video .frame").html(frame);
+		$(".half-video .video").removeClass("active");
+		$(this).parent().addClass("active");
 	});
 	
-	jQuery(".half-video .video:first img").click();
+	$(".half-video .video:first img").click();
 });
 
 var showDetail;
@@ -172,7 +136,7 @@ $(function(){
 
 			// Вешаем Ajax на пункты меню для страниц, которые его поддерживают
 			(function(){
-				bd.on('click','#main-menu a',function(){
+				bd.on('click','.menu a',function(){
 					var lnk=$(this),
 						href=lnk.attr('href');
 
@@ -421,7 +385,7 @@ $(function(){
 					var sl,action,
 						type=as.type();
 
-					activateMenuLink($('#main-menu a[href=\''+url.current()+'\']'));
+					activateMenuLink($('.menu a[href=\''+url.current()+'\']'));
 					getFilterForm(as.name(),url.getQuery());
 
 					if(type=='list' && (action=as.listAction())){
@@ -498,7 +462,7 @@ $(function(){
 							bl.hide().after(result);
 							bl=bl.next();
 
-							if('jScrollPane' in jQuery.fn){
+							if('jScrollPane' in $.fn){
 								bl.find('[data-scroll=true]').each(function(){
 									$(this).jScrollPane({
 										hideFocus:true,
@@ -641,7 +605,7 @@ function activateMenuLink(lnk,title){
 	if(lnk.length<=0)
 		return;
 
-	var prnt=lnk.parents('#main-menu:first'),
+	var prnt=lnk.parents('.menu:first'),
 		sub=(lnk.parents('.submenu:first').length>0),
 		setTitle=!title;
 
