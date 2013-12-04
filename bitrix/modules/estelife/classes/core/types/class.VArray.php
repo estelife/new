@@ -8,17 +8,25 @@ namespace core\types;
  * @file class.VArray.php
  * @version 0.1
  */
-class VArray {
-	private $arData;
+class VArray implements \Countable,\Iterator,\ArrayAccess {
 	private $arKeys;
 	private $arValues;
+	private $nIterator;
 
 	/**
 	 * Инициализует экземпляр для работы с конкретным массивом
 	 * @param array $arData
 	 */
 	public function __construct(array $arData=array()){
-		$this->arData=$arData;
+		if(!empty($arData)){
+			$this->arKeys=array_keys($arData);
+			$this->arValues=array_values($arData);
+		}else{
+			$this->arKeys=array();
+			$this->arValues=array();
+		}
+
+		$this->nIterator=0;
 	}
 
 	/**
@@ -27,7 +35,12 @@ class VArray {
 	 * @param $mValue
 	 */
 	public function set($sKey,$mValue){
-		$this->arData[$sKey]=$mValue;
+		if(($nKey=$this->is($sKey))>-1){
+			$this->arValues[$nKey]=$mValue;
+		}else{
+			$this->arKeys[]=$sKey;
+			$this->arValues[]=$mValue;
+		}
 	}
 
 	/**
@@ -35,7 +48,8 @@ class VArray {
 	 * @param $mValue
 	 */
 	public function put($mValue){
-		$this->arData[]=$mValue;
+		$this->arValues[]=$mValue;
+		$this->arKeys[]=count($this->arValues)-1;
 	}
 
 	/**
@@ -46,7 +60,9 @@ class VArray {
 	 * @return mixed
 	 */
 	public static function get(array $arData,$sKey,$mDefault=false){
-		return (isset($arData[$sKey])) ? $arData[$sKey] : $mDefault;
+		return (isset($arData[$sKey])) ?
+			$arData[$sKey] :
+			$mDefault;
 	}
 
 	/**
@@ -56,7 +72,9 @@ class VArray {
 	 * @return mixed
 	 */
 	public function one($sKey,$mDefault=false){
-		return ($this->is($sKey)) ? $this->arData[$sKey] : $mDefault;
+		return (($sKey=$this->is($sKey))>-1) ?
+			$this->arValues[$sKey] :
+			$mDefault;
 	}
 
 	/**
@@ -64,7 +82,10 @@ class VArray {
 	 * @return array
 	 */
 	public function all(){
-		return $this->arData;
+		$arTemp=array();
+		foreach($this->arKeys as $nKey=>$sKey)
+			$arTemp[$sKey]=$this->arValues[$nKey];
+		return $arTemp;
 	}
 
 	/**
@@ -73,7 +94,7 @@ class VArray {
 	 * @return bool
 	 */
 	public function is($sKey){
-		return isset($this->arData[$sKey]);
+		return (($sKey=array_search($sKey,$this->arKeys))!==false) ? $sKey : -1;
 	}
 
 	/**
@@ -81,8 +102,6 @@ class VArray {
 	 * @return array
 	 */
 	public function keys(){
-		if(!$this->arKeys)
-			$this->arKeys=array_keys($this->arData);
 		return $this->arKeys;
 	}
 
@@ -91,8 +110,6 @@ class VArray {
 	 * @return array
 	 */
 	public function values(){
-		if(!$this->arValues)
-			$this->arValues=array_values($this->arData);
 		return $this->arValues;
 	}
 
@@ -104,9 +121,6 @@ class VArray {
 		if(!empty($arData)){
 			foreach($arData as $sKey=>$mValue)
 				$this->set($sKey,$mValue);
-
-			$this->arValues=null;
-			$this->arKeys=null;
 		}
 	}
 
@@ -117,7 +131,7 @@ class VArray {
 	 */
 	public function blank($sKey=false){
 		return (is_string($sKey)) ?
-			empty($this->arData[$sKey]) :
+			($this->is($sKey)>-1) :
 			empty($this->arData);
 	}
 
@@ -127,10 +141,14 @@ class VArray {
 	 * @return bool
 	 */
 	public function del($sKey){
-		if($this->is($sKey)){
-			unset($this->arData[$sKey]);
+		if(($sKey=$this->is($sKey))>-1){
+			unset(
+				$this->arData[$sKey],
+				$this->arValues[$sKey]
+			);
 			return true;
 		}
+
 		return false;
 	}
 
@@ -141,7 +159,7 @@ class VArray {
 	 * @return bool
 	 */
 	public function check($sKey,$mValue){
-		return ($this->is($sKey) && $this->one($sKey,'')==$mValue);
+		return ($this->is($sKey)>-1 && $this->one($sKey,'')==$mValue);
 	}
 
 	/**
@@ -158,5 +176,45 @@ class VArray {
 	 */
 	public function size(){
 		return sizeof($this->arData);
+	}
+
+	public function current(){
+		return $this->arValues[$this->nIterator];
+	}
+
+	public function next(){
+		$this->nIterator++;
+	}
+
+	public function key(){
+		return $this->nIterator;
+	}
+
+	public function valid(){
+		return isset($this->arKeys[$this->nIterator]);
+	}
+
+	public function rewind(){
+		$this->nIterator=0;
+	}
+
+	public function offsetExists($sKey){
+		return !$this->blank($sKey);
+	}
+
+	public function offsetGet($sKey){
+		return $this->one($sKey);
+	}
+
+	public function offsetSet($sKey, $mValue){
+		$this->set($sKey,$mValue);
+	}
+
+	public function offsetUnset($sKey){
+		$this->del($sKey);
+	}
+
+	public function count(){
+		return $this->size();
 	}
 }

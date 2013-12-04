@@ -20,6 +20,12 @@ interface VQuery {
 	public function select();
 
 	/**
+	 * Метод генерит количество данных, которые должны попать в выборку.
+	 * @return int
+	 */
+	public function count();
+
+	/**
 	 * Метод реализует вставку данных
 	 * @return mixed
 	 */

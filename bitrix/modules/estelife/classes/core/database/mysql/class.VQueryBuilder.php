@@ -298,6 +298,51 @@ class VQueryBuilder extends db\VQueryBuilder {
 	}
 
 	/**
+	 * Генерирует запрос на получение кол-ва строк, которые должны попасть в выборку,
+	 * согласно указанному запросу
+	 * @throws \core\database\exceptions\VQueryBuildException
+	 * @return string
+	 */
+	public function buildCount(){
+		if(empty($this->arFrom))
+			throw new VQueryBuildException('undefined table');
+
+		$arTemp=array();
+
+		foreach($this->arFrom as $arFrom)
+			$arTemp[]='`'.$arFrom['table'].'`'.
+				(!empty($arFrom['alias']) ? ' '.$arFrom['alias'] : '');
+
+		$sSelect='SELECT COUNT(*) as count FROM '.implode(', ',$arTemp);
+
+		if($this->obJoin)
+			$sSelect.=' '.$this->obJoin->make();
+
+		if($this->obFilter &&
+			$sFilter=$this->obFilter->make()){
+			$sSelect.=' WHERE '.$sFilter;
+		}
+
+		if(!empty($this->arGroup)){
+			$arTemp=array();
+
+			foreach($this->arGroup as $sField){
+				if(!$this->obSpecialQuery->checkField(
+					$this->obQuery->getRegisteredTables(),
+					$sField
+				))
+					continue;
+
+				$arTemp[]=$sField;
+			}
+
+			$sSelect.=' GROUP BY '.implode(', ',$arTemp);
+		}
+
+		return $sSelect;
+	}
+
+	/**
 	 * Делегирует запросы объекту для работы с функциями
 	 * @param string $sFunction
 	 * @param array $arParams

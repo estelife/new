@@ -67,6 +67,7 @@ $obQuery->builder()
 $obFilter = $obQuery->builder()->filter();
 $obFilter->_eq('ec.active', 1);
 $obFilter->_eq('ec.clinic_id', 0);
+
 if(!empty($arResult['city'])){
 	$obFilter->_eq('ec.city_id', $arResult['city']['ID']);
 }else if(!$obGet->blank('city')){
