@@ -1,5 +1,6 @@
 <?php
 use core\database\exceptions\VCollectionException;
+use core\database\VDatabase;
 use core\types\VArray;
 use reference\services\VSpecs;
 use core\exceptions as ex;
@@ -21,12 +22,15 @@ $ID = isset($_REQUEST['ID']) ?
 	intval($_REQUEST['ID']) : 0;
 
 $obRecord=null;
-$obColl=new VSpecs();
+$obColl= VDatabase::driver();
 
 if(!empty($ID)){
 	try{
-		$obRecord=$obColl->record($ID);
-		$arResult['spec']=$obRecord;
+		$obQuery = $obColl->createQuery();
+		$obQuery->builder()->from('estelife_specializations')
+			->filter()
+			->_eq('id', $ID);
+		$arResult['spec'] = $obQuery->select()->assoc();
 	}catch(VCollectionException $e){}
 }
 
@@ -40,17 +44,26 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		$obError->raise();
 
-		if(!$obRecord)
-			$obRecord=$obColl->create();
+		$obQuery = $obColl->createQuery();
+		$obQuery->builder()->from('estelife_specializations')
+			->value('name', trim(strip_tags($obPost->one('name'))));
 
-		$obRecord['name']=trim(strip_tags($obPost->one('name')));
-		$obColl->write($obRecord);
+		if (!empty($ID)){
+			$obQuery->builder()->filter()
+				->_eq('id',$ID);
+			$obQuery->update();
+			$idMethod = $ID;
+		}else{
+			$idMethod = $obQuery->insert()->insertId();
+			$ID =$idMethod;
 
-		if(!empty($obRecord['id'])){
+		}
+
+		if(!empty($idMethod)){
 			if(!$obPost->blank('save'))
 				LocalRedirect('/bitrix/admin/estelife_specialization_list.php?lang='.LANGUAGE_ID);
 			else
-				LocalRedirect('/bitrix/admin/estelife_specialization_edit.php?lang='.LANGUAGE_ID.'&ID='.$obRecord['id']);
+				LocalRedirect('/bitrix/admin/estelife_specialization_edit.php?lang='.LANGUAGE_ID.'&ID='.$idMethod);
 		}
 	}catch(ex\VFormException $e){
 		$arResult['error']=array(

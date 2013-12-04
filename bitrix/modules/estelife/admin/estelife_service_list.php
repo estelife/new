@@ -1,5 +1,6 @@
 <?php
 use core\database\mysql\VFilter;
+use core\database\VDatabase;
 use reference\services\VServices;
 use reference\services\VSpecs;
 
@@ -41,25 +42,29 @@ $headers = array(
 $lAdmin->AddHeaders($headers);
 
 //==== Здесь надо зафигачить генерацию списка ========
-$obSpecs=new VSpecs();
-$obSpecs->createQuery()->builder()->sort('name','asc');
-$arSpecs=$obSpecs->lineList();
-$obColl=new VServices();
+$obColl= VDatabase::driver();
+
+$obSpecs=$obColl->createQuery();
+$obSpecs->builder()->from('estelife_specializations')->sort('name','asc');
+$arSpecs=$obSpecs->select()->all();
 
 if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 	foreach($arID as $ID){
 		if(($ID = IntVal($ID))>0 && $_REQUEST['action']=='delete'){
 			try{
-				$obRecord=$obColl->record($ID);
-				$obColl->delete($obRecord);
+				$obQuery = $obColl->createQuery();
+				$obQuery->builder()->from('estelife_services')->filter()
+					->_eq('id', $ID);
+				$obQuery->delete();
 			}catch(\core\database\exceptions\VCollectionException $e){}
 		}
 	}
 }
 
-$obFilter=$obColl->createQuery()->builder()
-	->sort($by,$order)
-	->filter();
+$obQuery=$obColl->createQuery();
+$obQuery->builder()->from('estelife_services')
+	->sort($by,$order);
+$obFilter=$obQuery->builder()->filter();
 
 if(!empty($find_id))
 	$obFilter->_like('id',$find_id,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
@@ -76,14 +81,14 @@ foreach($arSpecs as $obRecord){
 	$arTemp[$obRecord['id']]=$obRecord['name'];
 }
 
-$obSpecs=$obColl->lineList();
+$obSpecs=$obQuery->select()->all();
 $arResult=array();
 
 foreach($obSpecs as $obRecord){
-	$arResult[]=$obRecord->toArray();
+	$arResult[]=$obRecord;
 
 	$f_ID=$obRecord['id'];
-	$row =& $lAdmin->AddRow($f_ID, $obRecord->toArray());
+	$row =& $lAdmin->AddRow($f_ID, $obRecord);
 
 	$row->AddViewField("ID",$obRecord['id']);
 	$row->AddViewField("NAME",$obRecord['name']);

@@ -1,5 +1,6 @@
 <?php
 use core\database\mysql\VFilter;
+use core\database\VDatabase;
 
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_before.php");
 
@@ -80,21 +81,23 @@ $obQuery->builder()
 	->field('name');
 $arFilterData['specs']=$obQuery->select()->all();
 
-$obColl=new \clinics\VClinics();
+$obClinics= VDatabase::driver();
 
 //==== Здесь надо зафигачить генерацию списка ========
 if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 	foreach($arID as $ID){
 		if(($ID = IntVal($ID))>0 && $_REQUEST['action']=='delete'){
 			try{
-				$obRecord=$obColl->record($ID);
-				$obColl->delete($obRecord);
+				$obQuery = $obClinics->createQuery();
+				$obQuery->builder()->from('estelife_clinics')->filter()
+					->_eq('id', $ID);
+				$obQuery->delete();
 			}catch(\core\database\exceptions\VCollectionException $e){}
 		}
 	}
 }
 
-$obQuery=$obColl->createQuery();
+$obQuery=$obClinics->createQuery();
 $obQuery->builder()->from('estelife_clinics','ec');
 $obJoin=$obQuery->builder()->join();
 $obJoin->_left()

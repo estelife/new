@@ -63,6 +63,9 @@ class VQueryBuilder extends db\VQueryBuilder {
 			$obCurrent->arFrom=$obFirst->arFrom;
 		}
 
+		if($this->obJoin)
+			$obCurrent->obJoin=clone $this->obJoin;
+
 		$this->obFilter=null;
 		$this->obHaving=null;
 		$obCurrent->arUnions=array();
@@ -91,7 +94,7 @@ class VQueryBuilder extends db\VQueryBuilder {
 			foreach($this->arUnions as $obBuilder)
 				$arSelects[]=$obBuilder->buildSelect();
 
-			$sSelect=implode(' UNION ',$arSelects);
+			$sSelect='('.implode(') UNION (',$arSelects).')';
 		}else{
 			$sFields='*';
 

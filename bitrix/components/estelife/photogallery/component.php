@@ -1,62 +1,50 @@
 <?php
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
-if (isset($arParams['IBLOCK_ID']) && intval($arParams['IBLOCK_ID'])>0){
-	$arIblockId = $arParams['IBLOCK_ID'];
-}else{
-	$arIblockId = 4;
+CModule::IncludeModule("iblock");
+
+if ($arParams['ONLY_VIDEO'] == "Y"){
+	//Получение видео
+	$arFilter = array('IBLOCK_ID'=>33, 'GLOBAL_ACTIVE'=>'Y');
+	$arSelect = array('ID', 'NAME', 'PREVIEW_PICTURE', 'CODE');
+	$db_list = CIBlockElement::GetList(Array("created"=>"desc"), $arFilter, false, array('nPageSize'=>6), $arSelect);
+
+	while ($res = $db_list->Fetch()){
+		$res['IS_VIDEO'] = 'Y';
+		$res['LINK'] = '/video/'.$res['CODE'].'/';
+		$img = CFile::GetFileArray($res['PREVIEW_PICTURE']);
+		$res['IMG'] = $img['SRC'];
+		$arVideos[] =  $res;
+	}
+
+	$arResult = $arVideos;
 }
+$arCountPhotos = abs(intval($arParams['COUNT']) - count($arVideos));
 
-if (isset($arParams['DEPTH_LEVEL']) && intval($arParams['DEPTH_LEVEL'])>0){
-	$arDepthLevel = $arParams['DEPTH_LEVEL'];
-}else{
-	$arDepthLevel = 1;
-}
+if ($arParams['ONLY_PHOTO'] == "Y"){
+	//Получение фотогалерей
+	$arFilter = array('IBLOCK_ID'=>4, 'GLOBAL_ACTIVE'=>'Y',  "DEPTH_LEVEL"=>1);
+	$arSelect = array('ID', 'NAME', 'PICTURE', 'CODE');
+	$db_list = CIBlockSection::GetList(Array("created"=>"desc"), $arFilter, true, $arSelect, array('nPageSize'=>$arCountPhotos));
 
-$arFilter = Array('IBLOCK_ID'=>$arIblockId, 'GLOBAL_ACTIVE'=>'Y',  "DEPTH_LEVEL"=>$arDepthLevel);
-$db_list = CIBlockSection::GetList(Array("sort"=>"asc"), $arFilter, true);
-$db_list->NavStart(0);
+	while ($res = $db_list->Fetch()){
+		$res['LINK'] = '/photo/'.$res['ID'].'/';
+		$img = CFile::GetFileArray($res['PICTURE']);
+		$res['IMG'] = $img['SRC'];
+		$arPhotos[] =  $res;
+	}
+	$arResult = $arPhotos;
 
-$small = array(3,4,5,6);
 
-$count = 1;
-$str = 1;
-while($ar_result = $db_list->GetNext())
-{
-	$x=($str%2 == 0);
-
-	if (empty($ar_result['PICTURE'])) {
-		$res = CIBlockElement::GetList(
-			Array("SORT"=>"DESC","NAME" => "ASC"),
-			Array("IBLOCK_ID"=>$arIblockId, "GLOBAL_ACTIVE"=>"Y", "SECTION_ID"=>$ar_result['ID']),
-			false,
-			Array("nPageSize" => 1),
-			Array()
-		);
-
-		$d = array();
-		while($ar = $res->GetNextElement())
-		{
-			$ar_props = $ar->GetProperties();
-			$photo = CFile::GetFileArray($ar_props['REAL_PICTURE']['VALUE']);
+	if (!empty($arVideos)){
+		$i = 1;
+		foreach ($arVideos as $val){
+			array_splice($arPhotos, 3*$i, 0, array($val));
+			$i++;
 		}
-	} else {
-		$photo = CFile::GetFileArray($ar_result['PICTURE']);
+
+		$arResult = $arPhotos;
 	}
-
-
-	$arResult['photo'][] = array(
-		'SRC' => $photo['SRC'],
-		'NAME'=>$ar_result['NAME'],
-		'SMALL'=>intval($x),
-		'URL' => $ar_result['SECTION_PAGE_URL'],
-	);
-
-	if(($count%($x?4:2))==0){
-		$str++;
-		$count=0;
-	}
-
-	$count++;
 }
+
 $this->IncludeComponentTemplate($componentPage);

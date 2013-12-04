@@ -19,5 +19,10 @@ $arResult['cities']['passive'] = array(
 	'Воронеж'
 );
 
+$arCity = \geo\VGeo::getInstance()->getGeo();
+if (!empty($arCity)){
+	$arResult['city'] = $arCity['ID'];
+}
+
 
 $this->IncludeComponentTemplate();

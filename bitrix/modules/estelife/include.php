@@ -70,6 +70,7 @@ CModule::AddAutoloadClasses(
 		
 		// geo
 		'geo\Geo' => "classes/geo/geo.php",
+		'geo\VGeo' => "classes/geo/class.VGeo.php",
 
 		// bitrix
 		'core\bx\VDatabaseAdapter' => "classes/core/bx/class.VDatabaseAdapter.php",

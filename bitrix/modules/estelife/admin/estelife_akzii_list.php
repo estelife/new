@@ -1,5 +1,6 @@
 <?php
 use core\database\mysql\VFilter;
+use core\database\VDatabase;
 
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_before.php");
 
@@ -41,20 +42,21 @@ $headers = array(
 $lAdmin->AddHeaders($headers);
 
 //==== Здесь надо зафигачить генерацию списка ========
-$obColl=new \akzii\VAkzii();
+$obAkzii= VDatabase::driver();
 
 if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 	foreach($arID as $ID){
 		if(($ID = IntVal($ID))>0 && $_REQUEST['action']=='delete'){
 			try{
-				$obRecord=$obColl->record($ID);
-				$obColl->delete($obRecord);
+				$obQuery->builder()->from('estelife_akzii')->filter()
+					->_eq('id', $ID);
+				$obQuery->delete();
 			}catch(\core\database\exceptions\VCollectionException $e){}
 		}
 	}
 }
 
-$obQuery=$obColl->createQuery();
+$obQuery=$obAkzii->createQuery();
 $obQuery->builder()->from('estelife_akzii','ea');
 $obJoin=$obQuery->builder()->join();
 $obJoin->_left()

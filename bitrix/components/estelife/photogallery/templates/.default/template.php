@@ -1,11 +1,25 @@
 <? if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
-<?php if (!empty($arResult['photo'])):?>
-	<?php foreach ($arResult['photo'] as $val):?>
-		<div class="gallery <?php if($val['SMALL'] == 1):?> small <?php endif?>">
-			<a href='<?=$val['URL']?>'>
-				<img src='<?=$val['SRC']?>' class='photo' />
-				<span class='overlay'><i></i><span><?php if($val['SMALL'] == 0):?><?=$val['NAME']?><?php endif?></span></span>
-			</a>
+<?php if (!empty($arResult)):?>
+	<div class="media">
+		<div class="content">
+			<div class="title">
+				<h2>Медиа</h2>
+				<!--<a href="/photo/">Смотреть больше</a>-->
+			</div>
+			<ul class="menu">
+				<li class="first"><a href="#" class="get_photos_and_videos" rel="ALL">x</a></li>
+				<li><a href="#" class="get_only_photos" rel="ONLY_PHOTO">Только фото</a></li>
+				<li><a href="#" class="get_only_videos" rel="ONLY_VIDEO">Только видео</a></li>
+			</ul>
+			<div class="items">
+				<?php foreach ($arResult as $key=>$val):?>
+					<div class="item <?php if ($val['IS_VIDEO']== 'Y'):?>video<?php endif?> <?php if (($key+1)%6 ==0):?>last<?php endif?>">
+						<?php if ($val['IS_VIDEO']== 'Y'):?><span></span><?php endif?>
+						<a href="<?=$val['LINK']?>"><img src="<?=$val['IMG']?>" alt="<?=$val['NAME']?>" title="<?=$val['NAME']?>" width="146px" height="100px" /></a>
+						<div class="border"></div>
+					</div>
+				<?php endforeach?>
+			</div>
 		</div>
-	<?php endforeach?>
+	</div>
 <?php endif?>
