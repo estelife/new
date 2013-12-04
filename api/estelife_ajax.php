@@ -348,6 +348,41 @@ try{
 			);
 			$arResult=false;
 			break;
+		case 'get_cities':
+			$_GET=array_merge($_GET,$arData);
+			$APPLICATION->IncludeComponent(
+				"estelife:user.cities",
+				"ajax",
+				array(),
+				false
+			);
+			$arResult=false;
+			break;
+		case 'set_city':
+			$_GET=array_merge($_GET,$arData);
+			$APPLICATION->IncludeComponent(
+				"estelife:user.geo",
+				"ajax",
+				array("SET"=>$_GET['city']),
+				false
+			);
+			$arResult=false;
+			break;
+		case 'get_media':
+			$_GET=array_merge($_GET,$arData);
+
+			$APPLICATION->IncludeComponent(
+				"estelife:photogallery",
+				"ajax",
+				array(
+					"COUNT" => 18,
+					"ONLY_VIDEO"=>$_GET['params']['video'],
+					"ONLY_PHOTO"=>$_GET['params']['photo'],
+				),
+				false
+			);
+			$arResult=false;
+			break;
 		case 'get_city':
 			$arResult['list']=array();
 			$nCountry=intval(VArray::get($arData,'country',0));

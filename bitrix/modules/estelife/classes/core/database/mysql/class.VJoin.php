@@ -204,4 +204,20 @@ class VJoin implements db\VJoin {
 		$this->obFilter=null;
 		return $sResult;
 	}
+
+	/**
+	 * Клонирует вложенные объекты
+	 */
+	public function __clone(){
+		if($this->arJoin){
+			$arTemp=array();
+
+			foreach($this->arJoin as $sType=>$arJoin){
+				foreach($arJoin as $obJoin)
+					$arTemp[$sType][]=clone $obJoin;
+			}
+
+			$this->arJoin=$arTemp;
+		}
+	}
 }

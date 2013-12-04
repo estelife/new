@@ -11,11 +11,11 @@
 	<?$APPLICATION->ShowCSS();?>
 	<?$APPLICATION->ShowHeadStrings()?>
 	<?$APPLICATION->ShowHeadScripts()?>
+	<script type='text/javascript' src='/bitrix/templates/estelife/js/estelife.js'></script>
 	<script type='text/javascript' src='/bitrix/templates/estelife/app.js?v=<?=filemtime($_SERVER['DOCUMENT_ROOT']."/bitrix/templates/estelife/app.js")?>'></script>
 	<script type='text/javascript' src='/bitrix/templates/estelife/js/jquery.mousewheel.js'></script>
 	<script type='text/javascript' src='/bitrix/templates/estelife/js/mwheelIntent.js'></script>
 	<script type='text/javascript' src='/bitrix/templates/estelife/js/jquery.jscrollpane.js'></script>
-	<script type='text/javascript' src='/bitrix/templates/estelife/js/estelife.js'></script>
 	<script type='text/javascript' src='/bitrix/templates/estelife/js/jquery-ui-1.10.3.custom.min.js'></script>
 	<script type='text/javascript' src='/bitrix/templates/estelife/js/jquery-ui.rus.js'></script>
 	<script type="text/javascript" src="/bitrix/js/estelife/vMapStyle.js"></script>
@@ -60,41 +60,7 @@
 			<a href="#" class="cols">Войти</a>
 		</div>
 	</div>
-	<div class="cities none">
-		<div class="content">
-			<div class="cities-in">
-				<div class="cols col1">
-					<h4>Выберите город</h4>
-					<ul>
-						<li><a href="">Москва</a></li>
-						<li class="active"><a href="#">Санкт-Петербург</a></li>
-					</ul>
-				</div>
-				<div class="cols col2">
-					<h4>Скоро с нами:</h4>
-					<ul>
-						<li>Новосибирск</li>
-						<li>Екатеринбург</li>
-						<li>Нижний Новгород</li>
-						<li>Казань</li>
-						<li>Самара</li>
-					</ul>
-					<ul>
-						<li>Омск</li>
-						<li>Челябинск</li>
-						<li>Ростов-на-Дону</li>
-						<li>Уфа</li>
-						<li>Волгоград</li>
-					</ul>
-					<ul>
-						<li>Красноярск</li>
-						<li>Пермь</li>
-						<li>Воронеж</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
+	<div class="cities main_cities"></div>
 	<div class="head">
 		<a href="/" class="logo">
 			Портал<br /> эстетической медицины

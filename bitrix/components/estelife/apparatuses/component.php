@@ -2,7 +2,7 @@
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 $arDefaultUrlTemplates404 = array(
-	
+
 	"detail" => "#APP_NAME#/",
 	"list" => "",
 );

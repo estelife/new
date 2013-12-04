@@ -6,7 +6,7 @@ use core\database\VDatabase;
 use core\types\VArray;
 use core\types\VString;
 
-class VCompanies extends VCollection {
+class VCompanies {
 
 	protected $obCompanies;
 

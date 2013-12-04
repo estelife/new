@@ -524,7 +524,7 @@ Estelife.prototype.templateAggregator=function(h){
 			if($.inArray(matches[0],bad)>-1)
 				break;
 
-			temp.replace(matches[0],'');
+			temp=temp.replace(matches[0],'');
 
 			if(tm=matches[0].match(/\$([\w\d\._]+)(=(\$?[^\!\s]+)|\+\+|\-\-)/)){
 				left=$.trim(tm[1]);
@@ -537,7 +537,7 @@ Estelife.prototype.templateAggregator=function(h){
 
 					registry.local[left]=parseInt(registry.local[left]);
 
-					if(!isNaN(registry.local[left]))
+					if(isNaN(registry.local[left]))
 						registry.local[left]=0;
 
 					if(incr=='++')

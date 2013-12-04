@@ -20,10 +20,8 @@ define("HELP_FILE","estelife_list.php");
 $ID = isset($_REQUEST['ID']) ?
 	intval($_REQUEST['ID']) : 0;
 
-$obClinics=new \clinics\VClinics();
-$obAkzii=new \akzii\VAkzii();
-$obClinicAkzii=new \clinics\VAkzii();
 $obPrices=VDatabase::driver();
+$obAkzii=VDatabase::driver();
 
 //получение списка типов услуг
 $obQuery = $obPrices->createQuery();
@@ -43,7 +41,7 @@ foreach ($obQuery->select()->all() as $val){
 
 
 if(!empty($ID)){
-	$obQuery=$obAkzii->createQuery();
+	$obQuery=$obPrices->createQuery();
 	$obQuery->builder()->from('estelife_akzii','ea');
 	$obQuery->builder()
 		->field('ea.*');
@@ -52,7 +50,7 @@ if(!empty($ID)){
 	$arResult['ak']=$obResult->assoc();
 
 	//Получение клиник
-	$obQuery=$obAkzii->createQuery();
+	$obQuery=$obPrices->createQuery();
 	$obQuery->builder()->from('estelife_clinic_akzii','eca');
 	$obJoin=$obQuery->builder()->join();
 	$obJoin->_left()
@@ -72,7 +70,7 @@ if(!empty($ID)){
 	if(!empty($arResult['ak']['end_date']))
 		$arResult['ak']['end_date']=date('d.m.Y H:i:s',$arResult['ak']['end_date']);
 
-	$obQuery=$obAkzii->photos()->createQuery();
+	$obQuery=$obPrices->createQuery();
 	$obQuery->builder()->from('estelife_akzii_photos');
 	$obQuery->builder()->filter()->_eq('akzii_id',$arResult['ak']['id']);
 	$obResult=$obQuery->select();
@@ -117,20 +115,18 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		$obError->raise();
 
-		$obRecord=(empty($ID)) ?
-			$obAkzii->create() :
-			$obAkzii->record($ID);
-
-		$obRecord['name']=trim(strip_tags($obPost->one('name')));
-		$obRecord['active']=$obPost->one('active');
-		$obRecord['preview_text']=htmlentities($obPost->one('preview_text'),ENT_QUOTES,'utf-8');
-		$obRecord['detail_text']=htmlentities($obPost->one('detail_text'),ENT_QUOTES,'utf-8');
-		$obRecord['base_old_price']=$obPost->one('base_old_price');
-		$obRecord['base_new_price']=$obPost->one('base_new_price');
-		$obRecord['base_sale']=$obPost->one('base_sale');
-		$obRecord['start_date']=strtotime($obPost->one('start_date'));
-		$obRecord['end_date']=strtotime($obPost->one('end_date'));
-		$obRecord['service_concreate_id']=intval($obPost->one('service_concreate_id'));
+		$obQueryAkzii = $obAkzii->createQuery();
+		$obQueryAkzii->builder()->from('estelife_akzii')
+			->value('name', trim(strip_tags($obPost->one('name'))))
+			->value('active', $obPost->one('active'))
+			->value('preview_text', htmlentities($obPost->one('preview_text'),ENT_QUOTES,'utf-8'))
+			->value('detail_text', htmlentities($obPost->one('detail_text'),ENT_QUOTES,'utf-8'))
+			->value('base_old_price', $obPost->one('base_old_price'))
+			->value('base_new_price', $obPost->one('base_new_price'))
+			->value('base_sale', $obPost->one('base_sale'))
+			->value('start_date', strtotime($obPost->one('start_date')))
+			->value('end_date', strtotime($obPost->one('end_date')))
+			->value('service_concreate_id', intval($obPost->one('service_concreate_id')));
 
 		//получение вида услуг и специализации
 		$obQuery = $obPrices->createQuery();
@@ -138,8 +134,11 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		$obQuery->builder()->filter()
 			->_eq('service_concreate_id', intval($obPost->one('service_concreate_id')));
 		$arSpecialization = $obQuery->select()->assoc();
-		$obRecord['service_id']=$arSpecialization['service_id'];
-		$obRecord['specialization_id']=$arSpecialization['specialization_id'];
+
+		$obQueryAkzii->builder()
+			->value('service_id', $arSpecialization['service_id'])
+			->value('specialization_id',$arSpecialization['specialization_id']);
+
 
 		if(!empty($_FILES['small_photo'])){
 			$arImage=$_FILES['small_photo'];
@@ -149,7 +148,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 			if(strlen($arImage["name"])>0 || strlen($arImage["del"])>0){
 				$nImageId=CFile::SaveFile($arImage,"estelife");
-				$obRecord["small_photo"]=intval($nImageId);
+				$obQueryAkzii->builder()
+					->value('small_photo', intval($nImageId));
 			}
 		}
 
@@ -161,16 +161,26 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 			if(strlen($arImage["name"])>0 || strlen($arImage["del"])>0){
 				$nImageId=CFile::SaveFile($arImage, "estelife");
-				$obRecord["big_photo"]=intval($nImageId);
+				$obQueryAkzii->builder()
+					->value('big_photo', intval($nImageId));
 			}
 		}
 
-		$obAkzii->write($obRecord);
 
-		$obQuery=$obClinicAkzii->createQuery();
+		if (!empty($ID)){
+			$obQueryAkzii->builder()->filter()
+				->_eq('id',$ID);
+			$obQueryAkzii->update();
+			$idAkzii = $ID;
+		}else{
+			$idAkzii = $obQueryAkzii->insert()->insertId();
+		}
+
+
+		$obQuery=$obPrices->createQuery();
 		$obQuery->builder()->from('estelife_clinic_akzii');
 		$obQuery->builder()->filter()
-			->_eq('akzii_id',$obRecord['id']);
+			->_eq('akzii_id',$idAkzii);
 		$obQuery->delete();
 
 		foreach ($obPost->one('clinic_id') as $val){
@@ -178,10 +188,11 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			if (empty($val))
 				continue;
 
-			$obLink=$obClinicAkzii->create();
-			$obLink['clinic_id']=$val;
-			$obLink['akzii_id']=$obRecord['id'];
-			$obClinicAkzii->write($obLink);
+			$obQuery=$obPrices->createQuery();
+			$obQuery->builder()->from('estelife_clinic_akzii')
+				->value('clinic_id', $val)
+				->value('akzii_id', $idAkzii);
+			$idAkziiClinic = $obQuery->insert()->insertId();
 		}
 
 
@@ -189,9 +200,19 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		foreach($arPost as $sKey=>$mValue){
 			if(preg_match('#^photo_descriptions_([0-9]+)$#i',$sKey,$arMatches)){
 				try{
-					$obPhoto=$obAkzii->photos()->record($arMatches[1]);
-					$obPhoto['description']=htmlentities($mValue,ENT_QUOTES,'utf-8');
-					$obAkzii->photos()->write($obPhoto);
+					$obQuery=$obPrices->createQuery();
+					$obQuery->builder()->from('estelife_akzii_photos')
+						->filter()
+						->_eq('id', $arMatches[1]);
+					$arPhoto = $obQuery->select()->assoc();
+
+					$obQuery=$obPrices->createQuery();
+					$obQuery->builder()->from('estelife_akzii_photos')
+						->value('description', htmlentities($mValue,ENT_QUOTES,'utf-8'));
+					$obQuery->builder()->filter()
+						->_eq('id',$arPhoto['id']);
+					$obQuery->update();
+
 				}catch(\core\database\exceptions\VCollectionException $e){}
 			}
 		}
@@ -200,9 +221,18 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			$arDeleted=$obPost->one('photo_deleted');
 			foreach($arDeleted as $nDelete){
 				try{
-					$obPhoto=$obAkzii->photos()->record($nDelete);
+					$obQuery=$obPrices->createQuery();
+					$obQuery->builder()->from('estelife_akzii_photos')
+						->filter()
+						->_eq('id',$nDelete);
+					$arPhoto = $obQuery->select()->assoc();
 					CFile::Delete($obPhoto['original']);
-					$obAkzii->photos()->delete($obPhoto);
+
+					$obQuery=$obPrices->createQuery();
+					$obQuery->builder()->from('estelife_akzii_photos');
+					$obQuery->builder()->filter()
+						->_eq('id',$arPhoto['id']);
+					$obQuery->delete();
 				}catch(\core\database\exceptions\VCollectionException $e){}
 			}
 		}
@@ -227,10 +257,11 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 				if(empty($nImageId))
 					continue;
 
-				$obPhoto=$obAkzii->photos()->create();
-				$obPhoto['original']=$nImageId;
-				$obPhoto['akzii_id']=$obRecord['id'];
-				$obAkzii->photos()->write($obPhoto);
+				$obQuery=$obPrices->createQuery();
+				$obQuery->builder()->from('estelife_akzii_photos')
+					->value('original', $nImageId)
+					->value('akzii_id', $idAkzii);
+				$idAkziiClinic = $obQuery->insert();
 			}
 		}
 
@@ -238,7 +269,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		$obQuery=$obPrices->createQuery();
 		$obQuery->builder()->from('estelife_akzii_prices');
 		$obQuery->builder()->filter()
-			->_eq('akzii_id',$obRecord['id']);
+			->_eq('akzii_id',$idAkzii);
 		$obQuery->delete();
 
 
@@ -254,7 +285,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 						->value('old_price', $val)
 						->value('new_price', $arNewPrice[$key])
 						->value('procedure', $arSale[$key])
-						->value('akzii_id', $obRecord['id']);
+						->value('akzii_id', $idAkzii);
 					$obQuery->insert();
 				}
 			}
@@ -262,11 +293,11 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 
 
-		if(!empty($obRecord['id'])){
+		if(!empty($idAkzii)){
 			if(!$obPost->blank('save'))
 				LocalRedirect('/bitrix/admin/estelife_akzii_list.php?lang='.LANGUAGE_ID);
 			else
-				LocalRedirect('/bitrix/admin/estelife_akzii_edit.php?lang='.LANGUAGE_ID.'&ID='.$obRecord['id']);
+				LocalRedirect('/bitrix/admin/estelife_akzii_edit.php?lang='.LANGUAGE_ID.'&ID='.$idAkzii);
 		}
 	}catch(ex\VFormException $e){
 		$arResult['error']=array(

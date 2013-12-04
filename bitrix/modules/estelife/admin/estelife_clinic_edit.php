@@ -27,7 +27,8 @@ $obSpecializations=new rs\VSpecs();
 $obMethods=new rs\VMethods();
 $obServices=new rs\VServices();
 $obCServices=new rs\VCServices();
-$obClinics=new cl\VClinics();
+$obClinics= \core\database\VDatabase::driver();
+
 $obElements=new CIBlockElement();
 
 if(!empty($ID) || !empty($CLINIC_ID)){
@@ -74,7 +75,7 @@ if(!empty($ID) || !empty($CLINIC_ID)){
 	$arResult['clinic']=$obResult->assoc();
 
 
-	$obQuery=$obClinics->services()->createQuery();
+	$obQuery=$obClinics->createQuery();
 	$obQuery->builder()->from('estelife_clinic_services','ecs');
 	$obJoin=$obQuery->builder()->join();
 	$obJoin->_left()
@@ -100,7 +101,7 @@ if(!empty($ID) || !empty($CLINIC_ID)){
 	$obResult=$obQuery->select();
 	$arResult['clinic']['services']=$obResult->all();
 
-	$obQuery=$obClinics->contacts()->createQuery();
+	$obQuery=$obClinics->createQuery();
 	$obQuery->builder()->from('estelife_clinic_contacts');
 	$obQuery->builder()->filter()->_eq('clinic_id',$arResult['clinic']['id']);
 	$obResult=$obQuery->select();
@@ -115,7 +116,7 @@ if(!empty($ID) || !empty($CLINIC_ID)){
 			$arResult['clinic']['phones'][]=$arContact['value'];
 	}
 
-	$obQuery=$obClinics->hours()->createQuery();
+	$obQuery=$obClinics->createQuery();
 	$obQuery->builder()->from('estelife_busy_hours');
 	$obQuery->builder()->filter()->_eq('clinic_id',$arResult['clinic']['id']);
 	$obResult=$obQuery->select();
@@ -134,7 +135,7 @@ if(!empty($ID) || !empty($CLINIC_ID)){
 
 	$arResult['clinic']['busy_hours']=$arTemp;
 
-	$obQuery=$obClinics->photos()->createQuery();
+	$obQuery=$obClinics->createQuery();
 	$obQuery->builder()->from('estelife_clinic_photos');
 	$obQuery->builder()->filter()->_eq('clinic_id',$arResult['clinic']['id']);
 	$obResult=$obQuery->select();
@@ -147,6 +148,8 @@ if(!empty($ID) || !empty($CLINIC_ID)){
 	$obJoin->_left()
 		->_from('eca','akzii_id')
 		->_to('estelife_akzii','id','ea');
+	$obQuery->builder()->filter()
+		->_eq('eca.clinic_id', $arResult['clinic']['id']);
 	$obQuery->builder()
 		->field('ea.id','id')
 		->field('ea.name','name');
@@ -274,22 +277,20 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		$obError->raise();
 
-		$obRecord=(empty($ID)) ?
-			$obClinics->create() :
-			$obClinics->record($ID);
-
-		$obRecord['name']=trim(htmlentities($obPost->one('name'),ENT_QUOTES,'utf-8'));
-		$obRecord['detail_text']=htmlentities($obPost->one('detail_text'),ENT_QUOTES,'utf-8');
-		$obRecord['preview_text']=htmlentities($obPost->one('preview_text'),ENT_QUOTES,'utf-8');
-		$obRecord['dop_text']=htmlentities($obPost->one('dop_text'),ENT_QUOTES,'utf-8');
-		$obRecord['active']=$obPost->one('active');
-		$obRecord['recomended']=$obPost->one('recomended');
-		$obRecord['city_id']=intval($obPost->one('city_id'));
-		$obRecord['metro_id']=intval($obPost->one('metro_id'));
-		$obRecord['address']=htmlentities($obPost->one('address'),ENT_QUOTES,'utf-8');
-		$obRecord['latitude']=doubleval($obPost->one('latitude'));
-		$obRecord['longitude']=doubleval($obPost->one('longitude'));
-		$obRecord['clinic_id']=intval($obPost->one('clinic_id',0));
+		$obQueryClinic = $obClinics->createQuery();
+		$obQueryClinic->builder()->from('estelife_clinics')
+			->value('name', trim(htmlentities($obPost->one('name'),ENT_QUOTES,'utf-8')))
+			->value('detail_text', htmlentities($obPost->one('detail_text'),ENT_QUOTES,'utf-8'))
+			->value('preview_text', htmlentities($obPost->one('preview_text'),ENT_QUOTES,'utf-8'))
+			->value('dop_text', htmlentities($obPost->one('dop_text'),ENT_QUOTES,'utf-8'))
+			->value('active', $obPost->one('active'))
+			->value('recomended', $obPost->one('recomended'))
+			->value('city_id', intval($obPost->one('city_id')))
+			->value('metro_id', intval($obPost->one('metro_id')))
+			->value('address', htmlentities($obPost->one('address'),ENT_QUOTES,'utf-8'))
+			->value('latitude', doubleval($obPost->one('latitude')))
+			->value('longitude', doubleval($obPost->one('longitude')))
+			->value('clinic_id', intval($obPost->one('clinic_id',0)));
 
 		if(!empty($_FILES['logo'])){
 			$arImage=$_FILES['logo'];
@@ -299,39 +300,60 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 			if(strlen($arImage["name"])>0 || strlen($arImage["del"])>0){
 				$nImageId=CFile::SaveFile($arImage, "estelife");
-				$obRecord["logo_id"]=intval($nImageId);
+				$obQueryClinic->builder()
+					->value('logo_id', intval($nImageId));
 			}
 		}
 
-		$obRecord=$obClinics->write($obRecord);
 
-		setcookie('el_sel_city',$obRecord['city_id'],time()+86400,'/');
+		if (!empty($ID)){
+			$obQueryClinic->builder()->filter()
+				->_eq('id',$ID);
+			$obQueryClinic->update();
+			$idClinic = $ID;
+		}else{
+			$idClinic = $obQueryClinic->insert()->insertId();
+			$ID =$idClinic;
+
+		}
+
+
+		setcookie('el_sel_city',$obPost->one('city_id'),time()+86400,'/');
 
 		if(!empty($obRecord['metro_id'])){
-			setcookie('el_sel_metro',$obRecord['metro_id'],time()+86400,'/');
+			setcookie('el_sel_metro',$obPost->one('metro_id'),time()+86400,'/');
 		}else{
 			setcookie('el_sel_metro',0,time()-86400,'/');
 		}
 
 		if(!empty($ID)){
-			$obClinics->services()->createQuery()->builder()->filter()->_eq('clinic_id',$obRecord['id']);
-			$obClinics->services()->clear();
-			$obClinics->contacts()->createQuery()->builder()->filter()->_eq('clinic_id',$obRecord['id']);
-			$obClinics->contacts()->clear();
-			$obClinics->hours()->createQuery()->builder()->filter()->_eq('clinic_id',$obRecord['id']);
-			$obClinics->hours()->clear();
+			$obQuery = $obClinics->createQuery();
+			$obQuery->builder()->from('estelife_clinic_services');
+			$obQuery->builder()->filter()->_eq('clinic_id',$idClinic);
+			$obQuery->delete();
+
+			$obQuery = $obClinics->createQuery();
+			$obQuery->builder()->from('estelife_clinic_contacts');
+			$obQuery->builder()->filter()->_eq('clinic_id',$idClinic);
+			$obQuery->delete();
+
+			$obQuery = $obClinics->createQuery();
+			$obQuery->builder()->from('estelife_busy_hours');
+			$obQuery->builder()->filter()->_eq('clinic_id',$idClinic);
+			$obQuery->delete();
+
 			$obQuery=$obClinics->createQuery();
 			$obQuery->builder()
 				->from('estelife_clinic_pays')
 				->filter()
-				->_eq('clinic_id',$obRecord['id']);
+				->_eq('clinic_id',$idClinic);
 			$obQuery->delete();
 		}
 
 		// Пишем ссылки на услуги
 		if(!$obPost->blank('services')){
 			$arServices=$obPost->one('services');
-			$obQuery=$obCServices->createQuery();
+			$obQuery=$obClinics->createQuery();
 			$obQuery->builder()
 				->from('estelife_service_concreate')
 				->filter()->_in('id',$arServices);
@@ -340,33 +362,38 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			$arPrices=$obPost->one('service_price',array());
 
 			foreach($arServices as $arService){
-				$obLink=$obClinics->services()->create();
-				$obLink['specialization_id']=$arService['specialization_id'];
-				$obLink['service_id']=$arService['service_id'];
-				$obLink['service_concreate_id']=$arService['id'];
-				$obLink['clinic_id']=$obRecord['id'];
+				$obQuery=$obClinics->createQuery();
+				$obQuery->builder()->from('estelife_clinic_services')
+					->value('specialization_id', $arService['specialization_id'])
+					->value('service_id', $arService['service_id'])
+					->value('service_concreate_id', $arService['id'])
+					->value('clinic_id', $idClinic);
 
 				if(!empty($arPrices[$arService['id']]))
-					$obLink['price_from']=$arPrices[$arService['id']];
+					$obQuery->builder()->value('price_from', $arPrices[$arService['id']]);
 
-				$obClinics->services()->write($obLink);
+				$idServiceClinic = $obQuery->insert();
+
 			}
 		}
 
 		if(!$obPost->blank('site')){
-			$obSite=$obClinics->contacts()->create();
-			$obSite['type']='web';
-			$obSite['value']=$obPost->one('site');
-			$obSite['clinic_id']=$obRecord['id'];
-			$obClinics->contacts()->write($obSite);
+			$obQuery=$obClinics->createQuery();
+			$obQuery->builder()->from('estelife_clinic_contacts')
+				->value('type', 'web')
+				->value('value', $obPost->one('site'))
+				->value('clinic_id', $idClinic);
+			$idWebClinic = $obQuery->insert();
 		}
 
 		if(!$obPost->blank('email')){
-			$obEmail=$obClinics->contacts()->create();
-			$obEmail['type']='email';
-			$obEmail['value']=$obPost->one('email');
-			$obEmail['clinic_id']=$obRecord['id'];
-			$obClinics->contacts()->write($obEmail);
+			$obQuery=$obClinics->createQuery();
+			$obQuery->builder()->from('estelife_clinic_contacts')
+				->value('type', 'email')
+				->value('value', $obPost->one('email'))
+				->value('clinic_id', $idClinic);
+			$idEmailClinic = $obQuery->insert();
+
 		}
 
 		if(!$obPost->blank('phones')){
@@ -380,26 +407,27 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 				if(strlen($sPhone)<11)
 					continue;
 
-				$obPhone=$obClinics->contacts()->create();
-				$obPhone['type']='phone';
-				$obPhone['value']=$sPhone;
-				$obPhone['clinic_id']=$obRecord['id'];
-				$obClinics->contacts()->write($obPhone);
+				$obQuery=$obClinics->createQuery();
+				$obQuery->builder()->from('estelife_clinic_contacts')
+					->value('type', 'phone')
+					->value('value', $sPhone)
+					->value('clinic_id', $idClinic);
+				$idPhoneClinic = $obQuery->insert();
 			}
 		}
 
 		if(!$obPost->blank('busy_hours')){
-			$obHours=$obClinics->hours();
 			$arHours=$obPost->one('busy_hours');
 			$arDefaultDays=range(1,7);
 
 			foreach($arHours as $nDay=>$arHour){
-				$obHour=$obHours->create();
-				$obHour['day']=$nDay;
-				$obHour['from']=min($arHour)-1;
-				$obHour['to']=max($arHour);
-				$obHour['clinic_id']=$obRecord['id'];
-				$obHours->write($obHour);
+				$obQuery=$obClinics->createQuery();
+				$obQuery->builder()->from('estelife_busy_hours')
+					->value('day', $nDay)
+					->value('from', min($arHour)-1)
+					->value('to',max($arHour))
+					->value('clinic_id', $idClinic);
+				$idHourClinic = $obQuery->insert();
 
 				if($nKey=array_search($nDay,$arDefaultDays))
 					unset($arDefaultDays[$nKey]);
@@ -407,13 +435,15 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 			if(!empty($arDefaultDays)){
 				foreach($arDefaultDays as $nDay){
-					$obHour=$obHours->create();
-					$obHour['day']=$nDay;
-					$obHour['from']=0;
-					$obHour['to']=24;
-					$obHour['day_off']=1;
-					$obHour['clinic_id']=$obRecord['id'];
-					$obHours->write($obHour);
+
+					$obQuery=$obClinics->createQuery();
+					$obQuery->builder()->from('estelife_busy_hours')
+						->value('day', $nDay)
+						->value('from', 0)
+						->value('to', 24)
+						->value('day_off', 1)
+						->value('clinic_id', $idClinic);
+					$idHourClinic = $obQuery->insert();
 				}
 			}
 		}
@@ -422,9 +452,20 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		foreach($arPost as $sKey=>$mValue){
 			if(preg_match('#^photo_descriptions_([0-9]+)$#i',$sKey,$arMatches)){
 				try{
-					$obPhoto=$obClinics->photos()->record($arMatches[1]);
-					$obPhoto['description']=htmlentities($mValue,ENT_QUOTES,'utf-8');
-					$obClinics->photos()->write($obPhoto);
+
+					$obQuery=$obClinics->createQuery();
+					$obQuery->builder()->from('estelife_clinic_photos')
+						->filter()
+						->_eq('id', $arMatches[1]);
+					$arPhoto = $obQuery->select()->assoc();
+
+					$obQuery=$obClinics->createQuery();
+					$obQuery->builder()->from('estelife_clinic_photos')
+						->value('description', htmlentities($mValue,ENT_QUOTES,'utf-8'));
+					$obQuery->builder()->filter()
+						->_eq('id',$arPhoto['id']);
+					$obQuery->update();
+
 				}catch(\core\database\exceptions\VCollectionException $e){}
 			}
 		}
@@ -433,9 +474,19 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			$arDeleted=$obPost->one('photo_deleted');
 			foreach($arDeleted as $nDelete){
 				try{
-					$obPhoto=$obClinics->photos()->record($nDelete);
+					$obQuery=$obClinics->createQuery();
+					$obQuery->builder()->from('estelife_clinic_photos')
+						->filter()
+						->_eq('id',$nDelete);
+					$arPhoto = $obQuery->select()->assoc();
 					CFile::Delete($obPhoto['original']);
-					$obClinics->photos()->delete($obPhoto);
+
+					$obQuery=$obClinics->createQuery();
+					$obQuery->builder()->from('estelife_clinic_photos');
+					$obQuery->builder()->filter()
+						->_eq('id',$arPhoto['id']);
+					$obQuery->delete();
+
 				}catch(\core\database\exceptions\VCollectionException $e){}
 			}
 		}
@@ -460,10 +511,13 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 				if(empty($nImageId))
 					continue;
 
-				$obPhoto=$obClinics->photos()->create();
-				$obPhoto['original']=$nImageId;
-				$obPhoto['clinic_id']=$obRecord['id'];
-				$obClinics->photos()->write($obPhoto);
+
+				$obQuery=$obClinics->createQuery();
+				$obQuery->builder()->from('estelife_clinic_photos')
+					->value('original', $nImageId)
+					->value('clinic_id', $idClinic);
+				$idgalleryClinic = $obQuery->insert();
+
 			}
 		}
 
@@ -477,7 +531,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 				$obQuery->builder()
 					->from('estelife_clinic_pays')
 					->value('name',$sPay)
-					->value('clinic_id',$obRecord['id']);
+					->value('clinic_id',$idClinic);
 				$obQuery->insert();
 			}
 		}
@@ -504,11 +558,12 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			$obQuery->delete();
 		}
 
-		if(!empty($obRecord['id'])){
-			if(!empty($obRecord['clinic_id'])){
-				setcookie('el_sel_clinic',$obRecord['clinic_id'],time()+86400,'/');
+
+		if(!empty($idClinic)){
+			if(!empty($idClinic)){
+				setcookie('el_sel_clinic',$idClinic,time()+86400,'/');
 			}else{
-				setcookie('el_sel_clinic',$obRecord['id'],time()+86400,'/');
+				setcookie('el_sel_clinic',$idClinic,time()+86400,'/');
 			}
 
 			if(!$obPost->blank('save')){
@@ -517,7 +572,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 				else
 					LocalRedirect('/bitrix/admin/estelife_clinic_edit.php?lang='.LANGUAGE_ID.'&ID='.$REDIRECT_TO_CLINIC.'#tab10');
 			}else
-				LocalRedirect('/bitrix/admin/estelife_clinic_edit.php?lang='.LANGUAGE_ID.'&ID='.$obRecord['id']);
+				LocalRedirect('/bitrix/admin/estelife_clinic_edit.php?lang='.LANGUAGE_ID.'&ID='.$idClinic);
 		}
 	}catch(ex\VFormException $e){
 		$arResult['error']=array(
@@ -537,44 +592,54 @@ $arResult['reference']=array(
 	'sel_spec'=>0,
 	'sel_service'=>0
 );
-$arResult['reference']['specs']=$obSpecializations->lineList();
+$obQuery = $obClinics->createQuery();
+$obQuery->builder()->from('estelife_specializations');
+
+$arResult['reference']['specs']=$obQuery->select()->all();
 
 if(isset($_COOKIE['el_sel_spec'])){
-	$obServices->createQuery()->builder()
+	$obQuery = $obClinics->createQuery();
+	$obQuery->builder()->from('estelife_services')
 		->filter()
 		->_eq('specialization_id',$_COOKIE['el_sel_spec']);
-	$arResult['reference']['services']=$obServices->lineList();
+	$arResult['reference']['services']=$obQuery->select()->all();
 	$arResult['reference']['sel_spec']=$_COOKIE['el_sel_spec'];
 
-	$obMethodsFilter=$obMethods->createQuery()->builder()
+
+	$obQuery = $obClinics->createQuery();
+	$obQuery->builder()->from('estelife_methods')
 		->filter()
 		->_eq('specialization_id',$_COOKIE['el_sel_spec']);
 	$obCServicesFilter=null;
 
 	if(isset($_COOKIE['el_sel_serv'])){
-		$obCServicesFilter=$obCServices->createQuery()->builder()
+
+		$obServicesFilter = $obClinics->createQuery();
+		$obServicesFilter->builder()->from('estelife_services')
 			->filter()
 			->_eq('service_id',$_COOKIE['el_sel_serv'])
 			->_eq('specialization_id',$_COOKIE['el_sel_spec']);
 
-		$obMethodsFilter->_eq('service_id',$_COOKIE['el_sel_serv']);
+		$obQuery->builder()->filter()
+			->_eq('service_id',$_COOKIE['el_sel_serv']);
 	}
 
 	if(isset($_COOKIE['el_sel_method'])){
-		$obCServicesFilter=(!$obCServicesFilter) ?
-			$obCServicesFilter=$obCServices->createQuery()->builder()->filter() :
-			$obCServicesFilter;
+		$obServicesFilter=(!$obServicesFilter) ?
+			$obServicesFilter=$obClinics->createQuery() :
+			$obServicesFilter;
 
-		$obCServicesFilter->_eq('method_id',$_COOKIE['el_sel_method']);
+		$obServicesFilter->builder()->from('estelife_services')->filter()
+			->_eq('method_id',$_COOKIE['el_sel_method']);
 		$arResult['reference']['sel_method']=$_COOKIE['el_sel_method'];
 	}
 
 	if($obCServicesFilter){
-		$arResult['reference']['cservices']=$obCServices->lineList();
+		$arResult['reference']['cservices']=$obServicesFilter->select()->all();
 		$arResult['reference']['sel_service']=$_COOKIE['el_sel_serv'];
 	}
 
-	$arMethods=$obMethods->lineList();
+	$arMethods=$obQuery->select()->all();
 
 	if(!empty($arMethods))
 		$arResult['reference']['methods']=$arMethods;

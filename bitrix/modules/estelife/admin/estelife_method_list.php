@@ -1,5 +1,6 @@
 <?php
 use core\database\mysql\VFilter;
+use core\database\VDatabase;
 use reference\services\VSpecs;
 
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_before.php");
@@ -52,19 +53,24 @@ $headers = array(
 );
 $lAdmin->AddHeaders($headers);
 
-$obSpecs=new VSpecs();
-$obSpecs->createQuery()->builder()->sort('name','asc');
-$arSpecs=$obSpecs->lineList();
 
-$obColl=new \reference\services\VMethods();
+
+$obColl= VDatabase::driver();
+
+$obSpecs=$obColl->createQuery();
+$obSpecs->builder()->from('estelife_specializations')->sort('name','asc');
+$arSpecs=$obSpecs->select()->all();
 
 //==== Здесь надо зафигачить генерацию списка =======
 if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 	foreach($arID as $ID){
 		if(($ID = IntVal($ID))>0 && $_REQUEST['action']=='delete'){
 			try{
-				$obRecord=$obColl->record($ID);
-				$obColl->delete($obRecord);
+
+				$obQuery = $obColl->createQuery();
+				$obQuery->builder()->from('estelife_methods')->filter()
+					->_eq('id', $ID);
+				$obQuery->delete();
 			}catch(\core\database\exceptions\VCollectionException $e){}
 		}
 	}

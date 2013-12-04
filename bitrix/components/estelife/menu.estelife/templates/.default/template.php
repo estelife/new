@@ -1,7 +1,5 @@
 <?php if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
 <ul class="menu">
-	<li><a href='/'>Главная</a>
-	</li>
 	<li><a href='#'>Точка зрения</a>
 		<ul class='submenu'>
 			<li><a href='/podcast/oshibki-v-ukhode/'>Ошибки в уходе</a></li>
@@ -51,11 +49,5 @@
 		</ul>
 	</li>
 	<li class="last"><a href='/yvoire/' >Yvoire</a>
-		<ul class='submenu'>
-			<li><a href='/yvoire/about/' title="О компании">О компании</a></li>
-			<li><a href='/yvoire/products/' title="Продукция">Продукция</a></li>
-			<li><a href='/yvoire/opinions/' title="Мнение экспертов">Мнение экспертов</a></li>
-			<li><a href='/yvoire/events/' title="События">События</a></li>
-		</ul>
 	</li>
 </ul>
