@@ -30,6 +30,22 @@ class VQuery implements db\VQuery {
 		return new VResult($this);
 	}
 
+	public function count(){
+		$sSelect=$this->builder()->buildCount();
+
+		if(!($this->obDriver->connect()->query($sSelect)))
+			throw new db\exceptions\VQueryException(
+				$this->obDriver->connect()->error,
+				$this->obDriver->connect()->errno
+			);
+
+		$obResult=new VResult($this);
+		$arResult=$obResult->assoc();
+
+		return (!empty($arResult['count'])) ?
+			intval($arResult['count']) : 0;
+	}
+
 	public function insert(){
 		$sInsert=$this->builder()->buildInsert();
 		$this->obBuilder=null;

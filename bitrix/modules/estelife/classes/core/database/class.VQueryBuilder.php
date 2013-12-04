@@ -220,6 +220,13 @@ abstract class VQueryBuilder {
 	abstract public function buildDelete();
 
 	/**
+	 * Генерирует запрос на получение кол-ва строк, которые должны попасть в выборку,
+	 * согласно указанному запросу
+	 * @return mixed
+	 */
+	abstract public function buildCount();
+
+	/**
 	 * Делегирует запросы объекту для работы с функциями
 	 * @param string $sFn
 	 * @param array $arParams
