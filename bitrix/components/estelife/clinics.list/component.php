@@ -92,7 +92,7 @@ $obResult = $obQuery->select();
 
 $obResult = $obResult->bxResult();
 $obResult->NavStart($arPageCount);
-$arResult['clinics'] = array();
+$arResult['clinics']=array();
 
 $i=0;
 while($arData=$obResult->Fetch()){

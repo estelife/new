@@ -45,26 +45,6 @@ CModule::AddAutoloadClasses(
 		'core\exceptions\VException' => "classes/core/exceptions/class.VException.php",
 		'core\exceptions\VFormException' => "classes/core/exceptions/class.VFormException.php",
 
-		// reference
-		'reference\services\VSpecs' => "classes/reference/services/class.VSpecs.php",
-		'reference\services\VServices' => "classes/reference/services/class.VServices.php",
-		'reference\services\VCServices' => "classes/reference/services/class.VCServices.php",
-		'reference\services\VMethods' => "classes/reference/services/class.VMethods.php",
-		'reference\VContacts' => "classes/reference/class.VContacts.php",
-
-		// akzii
-		'akzii\VAkzii' => "classes/akzii/class.VAkzii.php",
-		'akzii\VPhotos' => "classes/akzii/class.VPhotos.php",
-
-		// clinics
-		'clinics\VClinics' => "classes/clinics/class.VClinics.php",
-		'clinics\VBusyHours' => "classes/clinics/class.VBusyHours.php",
-		'clinics\VContacts' => "classes/clinics/class.VContacts.php",
-		'clinics\VGallery' => "classes/clinics/class.VGallery.php",
-		'clinics\VServices' => "classes/clinics/class.VServices.php",
-		'clinics\VAkzii' => "classes/clinics/class.VAkzii.php",
-		'clinics\VPhotos' => "classes/clinics/class.VPhotos.php",
-
 		// companies
 		'companies\VCompanies' => "classes/companies/class.VCompanies.php",
 		
@@ -79,6 +59,11 @@ CModule::AddAutoloadClasses(
 		'core\types\VArray' => "classes/core/types/class.VArray.php",
 		'core\types\VString' => "classes/core/types/class.VString.php",
 		'core\types\VDate' => "classes/core/types/class.VDate.php",
-		'core\http\VHttp' => "classes/core/http/class.VHttp.php"
+		'core\http\VHttp' => "classes/core/http/class.VHttp.php",
+
+		// orm
+		'orm\items\VItem' => "classes/orm/items/class.VItem.php",
+		'orm\items\VClinic' => 'classes/orm/items/class.VClinic.php',
+		'orm\VEntities' => 'classes/orm/class.VEntities.php'
 	)
 );

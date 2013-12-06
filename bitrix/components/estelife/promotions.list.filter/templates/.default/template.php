@@ -15,7 +15,7 @@
 
 		<span class="block"></span>
 	</div>
-	<div class="field disabled">
+	<div class="field<?=(empty($arResult['metro']) ? ' disabled' : '')?>">
 		<label for="metros">Станция метро</label>
 		<select name="metro">
 			<option value="">--</option>
@@ -39,7 +39,7 @@
 		</select>
 		<span class="block"></span>
 	</div>
-	<div class="field">
+	<div class="field<?=(empty($arResult['service']) ? ' disabled' : '')?>">
 		<label for="service">Вид услуги</label>
 		<select name="service" data-rules="get_concreate:select[name=concreate];get_method:select[name=method]">
 			<option value=''>--</option>
@@ -51,7 +51,7 @@
 		</select>
 		<span class="block"></span>
 	</div>
-	<div class="field">
+	<div class="field<?=(empty($arResult['methods']) ? ' disabled' : '')?>">
 		<label for="method">Методика</label>
 		<select name="method" data-rules="get_concreate:select[name=concreate]">
 			<option value=''>--</option>
@@ -62,7 +62,7 @@
 			<?php endif?>
 		</select><span class="block"></span>
 	</div>
-	<div class="field">
+	<div class="field<?=(empty($arResult['concreate']) ? ' disabled' : '')?>">
 		<label for="concreate">Тип услуги</label>
 		<select name="concreate">
 			<option value=''>--</option>

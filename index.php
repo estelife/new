@@ -1,4 +1,4 @@
-<?
+ <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("EsteLife.RU - информационный портал о косметологии и пластической хирургии");
 $APPLICATION->SetPageProperty("description", "EsteLife.RU - информационный портал о косметологии и пластической хирургии");

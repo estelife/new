@@ -63,7 +63,7 @@ if (!empty($arResult['company']['type_detail_text'])){
 }
 unset($arResult['company']['type_detail_text']);
 
-$arResult['company']['detail_text'] = nl2br(htmlspecialchars_decode($arResult['company']['detail_text'], ENT_NOQUOTES));
+$arResult['company']['detail_text'] = htmlspecialchars_decode($arResult['company']['detail_text'], ENT_NOQUOTES);
 
 
 //Получение контактов для компании

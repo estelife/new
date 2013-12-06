@@ -10,7 +10,7 @@
 		<?php if (!empty($arResult['training'])):?>
 			<?php foreach ($arResult['training'] as $arTraining):?>
 				<div class="news-item clinic-list el-item"><div class='item-wrap'>
-						<h2 class="clinic-title"><a href="<?=$arTraining["link"]?>" class="el-get-detail"><?=$arTraining["full_name"]?></a></h2>
+						<h2 class="clinic-title"><a href="<?=$arTraining["link"]?>" class="el-get-detail"><?=$arTraining["short_name"]?></a></h2>
 						<div class='news-picture'>
 							<div>
 								<a href="<?=$arTraining["link"]?>" class="el-get-detail">

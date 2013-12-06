@@ -1,5 +1,5 @@
 <div class="news-item clinic-list el-item"><div class='item-wrap'>
-		<h2 class='clinic-title'><a href="<!--$link!-->" class="el-get-detail"><!--$full_name!--></a></h2>
+		<h2 class='clinic-title'><a href="<!--$link!-->" class="el-get-detail"><!--$short_name!--></a></h2>
 		<div class='news-picture'>
 			<div>
 				<a href="<!--$link!-->" class="el-get-detail">

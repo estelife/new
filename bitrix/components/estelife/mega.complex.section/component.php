@@ -6,6 +6,7 @@ $arDirectories = array(
 	"PT" => "podcast",
 	"AR" => "articles",
 	"PR" => "promotions",
+	'CL' => 'clinics'
 );
 
 $arDefaultUrlTemplates404 = array(
@@ -33,7 +34,6 @@ $componentPage = CComponentEngine::ParseComponentPath(
 	$arUrlTemplates,
 	$arVariables
 );
-
 
 //разбираем $arVariables
 CModule::IncludeModule('estelife');
