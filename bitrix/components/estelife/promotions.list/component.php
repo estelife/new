@@ -40,6 +40,7 @@ if(isset($arParams['CITY_CODE']) && !empty($arParams['CITY_CODE'])){
 	}
 }
 
+
 //Получение списка акций
 $obQuery = $obClinics->createQuery();
 $obQuery->builder()->from('estelife_akzii', 'ea');
