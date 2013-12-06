@@ -131,8 +131,8 @@ class VArray implements \Countable,\Iterator,\ArrayAccess {
 	 */
 	public function blank($sKey=false){
 		return (is_string($sKey)) ?
-			($this->is($sKey)>-1) :
-			empty($this->arData);
+			($this->is($sKey)==-1) :
+			empty($this->arKeys);
 	}
 
 	/**
@@ -143,7 +143,7 @@ class VArray implements \Countable,\Iterator,\ArrayAccess {
 	public function del($sKey){
 		if(($sKey=$this->is($sKey))>-1){
 			unset(
-				$this->arData[$sKey],
+				$this->arKeys[$sKey],
 				$this->arValues[$sKey]
 			);
 			return true;
