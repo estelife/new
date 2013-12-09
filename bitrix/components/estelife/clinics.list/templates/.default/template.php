@@ -1,5 +1,5 @@
 <?php if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
-<div class="clinics inner">
+<div class="inner">
 	<ul class="crumb">
 		<li><a href="/">Главная</a></li>
 		<li><b>Клиники</b></li>
@@ -10,7 +10,7 @@
 	<div class="items">
 		<?php if (!empty($arResult['clinics'])):?>
 			<?php foreach ($arResult['clinics'] as $arClinic):?>
-			<div class="item">
+			<div class="item clinic">
 				<h2><a href="<?=$arClinic["link"]?>" class="el-get-detail"><?=$arClinic["name"]?></a></h2>
 				<div class="item-in">
 					<p>Косметология, пластическая хирургия</p>
@@ -21,7 +21,7 @@
 							<img src="/img/icon/unlogo.png" />
 						<?endif?>
 					</a>
-					<div class="cols col2">
+					<div class="cols col1">
 						<span><?=$arClinic["address"]?></span>
 						<span><?=$arClinic['phone']?></span>
 						<a href="#"><a target='_blank' href="<?=$arClinic["web"]?>"><?=$arClinic["web_short"]?></a></a>

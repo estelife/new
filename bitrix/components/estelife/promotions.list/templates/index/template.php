@@ -41,7 +41,7 @@
 		</div>
 		<div class="items">
 			<?php foreach ($arResult['akzii'] as $arValue):?>
-				<div class="item">
+				<div class="item promotion">
 					<span class="perc"><?=$arValue["sale"]?>%</span>
 					<a href="<?=$arValue['link']?>">
 						<img src="<?=$arValue['img']['SRC']?>" width="227px" height="158px" alt="<?=$arValue['name']?>" title="<?=$arValue['name']?>" />
