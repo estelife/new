@@ -5,9 +5,9 @@
 		<li><a href="/promotions/">Акции</a></li>
 		<li><b><?=$arResult['action']['preview_text']?></b></li>
 	</ul>
-	<div class="item detail">
+	<div class="item promotion detail">
 		<h1><?=$arResult['action']['preview_text']?></h1>
-		<div class="promotion">
+		<div class="current">
 			<span class="perc"><?=$arResult['action']['base_sale']?>%</span>
 			<div class="cols prices">
 				<b><?=$arResult['action']['new_price']?> <i></i></b>

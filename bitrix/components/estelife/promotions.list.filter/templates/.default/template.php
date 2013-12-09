@@ -9,8 +9,8 @@
 		<label for="cities">Город</label>
 		<select name="city" data-rules="get_metro:select[name=metro]">
 			<option value="">--</option>
-			<option value="359"<?if($arResult['filter']['city'] === "359") echo " selected";?>><?=GetMessage("ESTELIFE_CLINIC_MOSCOW")?></option>
-			<option value="358"<?if($arResult['filter']['city'] === "358") echo " selected";?>><?=GetMessage("ESTELIFE_CLINIC_SPB")?></option>
+			<option value="359"<?if($arResult['filter']['city'] === "359") echo " selected";?>>Москва</option>
+			<option value="358"<?if($arResult['filter']['city'] === "358") echo " selected";?>>Санкт-Петербург</option>
 		</select>
 
 		<span class="block"></span>

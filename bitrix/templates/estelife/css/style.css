@@ -38,12 +38,12 @@ body {
 }
 .cols, .social span, .promotions, ul.stat li, .social a, .logo, .head form input.text, .head .menu, .head .menu li,
 .general-news .title h1, .general-news .title h2, .general-news, .general-news .col2 .img, .general-news .subscribe, .adv,
-.experts ul li, .promotions .item, .articles, .articles .menu li,.item.detail .menu li, .articles .item, .media .item, .media .menu li, .footer .menu li,
-.crumb, .crumb li, .nav, .nav li, .inner, .item.detail .gallery{
+.experts ul li, .item.promotion, .articles, .articles .menu li,.item.detail .menu li, .articles .item, .media .item, .media .menu li, .footer .menu li,
+.crumb, .crumb li, .nav, .nav li, .inner, .item.detail .gallery, .similars {
 	float:left;
 	display: block;
 }
-.experts, .panel a.cols, .head form, .head li.last, .general-news .col2, .adv.right, .promotions .time, .filter,
+.experts, .panel a.cols, .head form, .head li.last, .general-news .col2, .adv.right, .promotion .time, .filter,
 .clinics img, .item.clinic img {
 	float:right;
 }
@@ -53,8 +53,8 @@ body {
 	margin:0 auto;
 	box-shadow: 0 0 10px #aaa;
 }
-.social a, .arrow i, ul.stat i, .promotions .time i, .promotions .prices i, td.prices i, .media .item span, .media .menu .first a,
-.promotion .time i, .promotion .prices i, .item.detail .clinic .col1 a, .select .arrow, .item.clinic p i, .gallery .arrow i {
+.social a, .arrow i, ul.stat i, .promotion .time i, .promotion .prices i, .media .item span, .media .menu .first a,
+.promotion .time i, .promotion .prices i, .item.detail .clinic .col1 a, .select .arrow, .item.clinic p i, .gallery .arrow i, td.prices i {
 	background-image:url('../images/complex.png');
 	background-repeat: no-repeat;
 }
@@ -434,6 +434,7 @@ ul.stat {
 	width:190px;
 	height:360px;
 	margin-top:20px;
+	clear:right;
 }
 .adv.top {
 	width:727px;
@@ -510,7 +511,7 @@ ul.stat .unlikes i {
 .experts .user i {
 	font-size:12px;
 }
-.experts h3, .item.detail .clinic h3, .item h3 {
+.experts h3, .item.detail .clinic h3, .item h3, .item h3 a {
 	font-size:18px;
 }
 .experts h3 {
@@ -572,23 +573,23 @@ ul.stat .unlikes i {
 	border-bottom:1px solid #D1D1D1;
 	position: relative;
 }
-.promotions.inner, .promotions.more, .item.detail .promotions {
+.item.detail .promotions {
 	height:auto;
 	border:none;
 }
 .item.detail .promotions {
 	margin:0;
 }
-.promotions.more {
+.similars {
 	margin-top:70px;
 }
-.promotions .item, .promotion {
+.item.promotion, .item.promotion .current {
 	position: relative;
 	border:1px solid #D1D1D1;
 	padding-bottom:15px;
 	cursor: pointer;
 }
-.promotions .item:hover, .clinics .item:hover {
+.item.promotion:hover, item.clinic:hover {
 	border-color:#e50364;
 }
 .item .perc, .promotion .perc {
@@ -604,32 +605,31 @@ ul.stat .unlikes i {
 	top:0;
 	left:22px;
 }
-.promotions .item.last, .promotions .item:last-child {
+.item.promotion.last, .item.promotion:last-child {
 	margin-right: 0;
 }
-.promotions h3 {
+.item.promotion h3 {
 	margin:25px 0 25px 20px !important;
 	width:185px;
 	height: 40px;
 }
-.promotions a {
+.item.promotion a {
 	display: block;
 }
-.promotions img {
+.item.promotion img {
 	float:none !important;
 	border-top:none;
 	border-left:none;
 	border-right:none;
 }
-.promotions .prices, .promotion .prices {
+.item.promotion .prices {
 	width: 100px;
 	margin-left: 20px;
 }
-.promotions .prices b, .promotions .prices s, .promotions .time,
-.promotion .prices b, .promotion .prices s, .promotion .time, td.prices span {
+.item.promotion .prices b, .item.promotion .prices s, .item.promotion .time, td.prices span {
 	position: relative;
 }
-.promotions .prices b, .promotion .prices b {
+.item.promotion .prices b {
 	color:#e50364;
 	font-size:18px;
 	margin-bottom:10px;
@@ -638,20 +638,19 @@ ul.stat .unlikes i {
 	display: block;
 	float:left;
 }
-.promotions .prices i, .promotions .time i,
-.promotion .prices i, .promotion .time i, td.prices i {
+.item.promotion .prices i, .item.promotion .time i, td.prices i{
 	display: block;
 	top:0;
 	right:0;
 	position: absolute;
 }
-.promotions .prices b i, .promotion .prices b i {
+.item.promotion .prices b i {
 	background-position: -89px -54px;
 	width:9px;
 	height:13px;
 	top:1px;
 }
-.promotions .prices s, .promotion .prices s, td.prices span {
+.item.promotion .prices s, td.prices span {
 	padding-right: 12px;
 	clear: both;
 	float:left;
@@ -659,20 +658,20 @@ ul.stat .unlikes i {
 	line-height: 13px;
 }
 td.prices span {
-	padding-right: 15px;
+	padding-right:15px;
 }
-.promotions .prices s i, .promotion .prices s i, td.prices i {
+.item.promotion .prices s i, td.prices i {
 	background-position: -106px -56px;
 	width:10px;
 	height:9px;
 	top:2px;
 }
-.promotions .time, .promotion .time {
+.item.promotion .time {
 	margin-right: 20px;
 	padding-left: 20px;
 	font-size: 12px;
 }
-.promotions .time i, .promotion .time i {
+.item.promotion .time i {
 	width:16px;
 	height:16px;
 	right:auto;
@@ -680,11 +679,15 @@ td.prices span {
 	top:1px;
 	background-position: -324px -34px;
 }
-.promotion {
+.item.promotion .current {
 	height:77px;
 	padding:0;
+	margin:35px 0 20px 0;
 }
-.promotion .perc {
+.item.promotion .current .time {
+	float:left;
+}
+.item.promotion .current .perc {
 	padding: 0;
 	width: 65px;
 	left: 0;
@@ -693,14 +696,14 @@ td.prices span {
 	font-size: 24px;
 	line-height: 41px;
 }
-.promotion .prices, .promotion .time {
+.item.promotion .current .prices, .promotion .time {
 	margin-top:13px;
 }
-.promotion .prices {
+.item.promotion .current .prices {
 	margin-left:82px;
 	width:165px;
 }
-.promotion .time span {
+.item.promotion .current .time span {
 	display: block;
 	position: relative;
 	left: -20px;
@@ -844,9 +847,6 @@ td.prices span {
 	height:39px;
 	line-height: 37px;
 }
-.item.detail {
-	width:725px;
-}
 .item.detail .menu {
 	float:left;
 	margin:40px 0;
@@ -904,7 +904,6 @@ td.prices span {
 .inner {
 	width:730px;
 	margin-top:0;
-	min-height: 1275px;
 }
 .inner .title {
 	margin:0 0 40px 0;
@@ -1083,13 +1082,31 @@ td.prices span {
 .item.detail .article-img, .item.detail .gallery {
 	margin:0 0 40px 0;
 }
+.item.detail .article-img-in, .item.detail .gallery-in, .item.detail .gallery-in .item, .item.detail .gallery-in .img {
+	height:460px;
+}
 .item.detail .article-img-in, .item.detail .gallery-in {
 	background:#dddddd;
 	text-align:center;
+	width:725px;
+}
+.item.detail .gallery-in .item {
+	position: absolute;
+	top:0;
+	margin: 0;
+	padding:0;
+	text-align:center;
+}
+.item.detail .gallery-in .item .desc {
+	display: none;
+}
+.item.detail .gallery-in .img {
 	display: table-cell;
 	vertical-align: middle;
-	width:725px;
-	height:460px;
+	border:none;
+}
+.item.detail .gallery-in img {
+	float:none;
 }
 .item.detail .article-img img {
 	max-width:725px;
@@ -1136,12 +1153,12 @@ td.prices span {
 .item.detail .gallery .arrow.right i {
 	background-position: -296px -54px;
 }
-.item.detail .gallery-in {
-	padding:0 60px;
+.item.detail .gallery-in .item, .item.detail .gallery-in,
+.item.detail .gallery-in .img {
 	width:605px;
 }
-.item.detail .gallery-in img {
-	max-width: 100%;
+.item.detail .gallery-in {
+	padding:0 60px;
 }
 .item.detail q {
 	padding:20px;
@@ -1181,7 +1198,7 @@ td.prices span {
 .item.detail .promotion {
 	margin:30px 0 20px 0;
 }
-.item.detail .more, .item.detail .announce a {
+.item.detail .more {
 	color:#E50364;
 }
 .item.detail .clinic {
@@ -1189,7 +1206,9 @@ td.prices span {
 	margin:60px 0 40px 0;
 }
 .item.detail .clinic h3 {
-	margin:0;
+	margin:0 !important;
+	height: auto;
+	width:100%;
 }
 .item.detail .clinic .col1 {
 	width:85px;
@@ -1335,45 +1354,45 @@ td.prices span {
 	width: 90px;
 	margin: 20px auto 0 auto;
 }
-.clinics h2 a {
+.item.clinic h2 a {
 	font-size:24px;
 	text-decoration: none;
 }
-.clinics h2 {
+.item.clinic h2 {
 	margin:0 0 10px 0;
 	text-transform: none;
 	font-weight: bold;
 }
-.clinics .item {
+.item.clinic {
 	border:1px solid #d1d1d1;
 	width:685px;
 	padding:20px 20px 30px 20px;
 }
-.clinics .item-in {
+.item.clinic .item-in {
 	width:100%;
 	overflow: hidden;
 }
-.clinics p {
+.item.clinic .col1 p {
 	margin: 10px 0 15px 0;
 	width:100%;
 	line-height: 13px;
 }
-.clinics .col2, .clinics p {
-	width:450px;
+.item.clinic .col1, .item.clinic .col1 p {
+	width:445px;
 }
-.clinics .col2 {
+.item.clinic .col1 {
 	border-left: 3px solid #e60365;
 	padding-left:15px;
 	margin-top:25px;
 	height:100%;
 }
-.clinics .col2 span, .clinics .col2 a, .item.clinic .col1 span, .item.clinic .col1 a {
+.item.clinic .col1 span, .item.clinic .col1 a {
 	display: block;
 	margin-bottom:15px;
 	font-size: 14px;
 	line-height: 14px;
 }
-.clinics .col2 a, .item.clinic .col1 a, .item.detail .tab-c a {
+.item.clinic .col1 a, .item.detail .tab-c a {
 	color:#e60365;
 	text-decoration: none;
 	margin-bottom:0;
@@ -1381,12 +1400,13 @@ td.prices span {
 .item.clinic h1 {
 	margin-bottom:20px;
 }
-.item.clinic .col1 p {
+.item.detail.clinic .col1 p {
 	margin:13px 0 20px 0;
 	padding-left:28px;
 	position: relative;
+	line-height: 20px;
 }
-.item.clinic .col1 p i {
+.item.detail.clinic .col1 p i {
 	display: block;
 	width:19px;
 	height:19px;
@@ -1395,15 +1415,18 @@ td.prices span {
 	top:1px;
 	left:0;
 }
-.item.clinic .col1 {
-	width:477px;
+.item.detail.clinic .col1 {
+	width:465px;
+	border:none;
 	border-bottom:1px solid #cac8c8;
 	padding-bottom:15px;
+	margin:0;
+	padding-left:0;
 }
-.item.clinic .col1 span {
+.item.detail.clinic .col1 span {
 	margin-bottom:4px;
 }
-.item.clinic h2 {
+.item.detail.clinic h2 {
 	font-size: 24px;
 	text-transform: uppercase;
 	margin: 0;
@@ -1413,9 +1436,8 @@ td.prices span {
 	margin:30px 0 20px 0;
 	font-size:18px;
 }
-.clinics .item img, .item.clinic img {
+.item.detail.clinic img {
 	background:#fff;
-	padding:5px;
 }
 .item.detail table {
 	border-collapse: collapse;
@@ -1438,6 +1460,11 @@ td.prices span {
 }
 .item.detail .tab-c li {
 	margin-bottom: 25px;
+}
+.item.detail {
+	width:725px;
+	border:none;
+	padding:0;
 }
 .footer {
 	clear: both;

@@ -4,7 +4,7 @@ $APPLICATION->SetPageProperty("title", $arResult['SEO']['title']);
 $APPLICATION->SetPageProperty("description", $arResult['SEO']['description']);
 $APPLICATION->SetPageProperty("keywords", $arResult['SEO']['keywords']);
 ?>
-<div class="promotions inner">
+<div class="inner">
 	<ul class="crumb">
 		<li><a href="#">Главная</a></li>
 		<li><b>Акции</b></li>
@@ -15,7 +15,7 @@ $APPLICATION->SetPageProperty("keywords", $arResult['SEO']['keywords']);
 	<div class="items">
 		<?php if (!empty($arResult['akzii'])):?>
 			<?php foreach ($arResult['akzii'] as $arValue):?>
-				<div class="item">
+				<div class="item promotion">
 					<span class="perc"><?=$arValue["sale"]?>%</span>
 					<a href="<?=$arValue['link']?>">
 						<img src="<?=$arValue['logo']?>" alt="<?=$arValue["name"]?>" title="<?=$arValue["name"]?>" width="227px" height="159px">
