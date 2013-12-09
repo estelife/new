@@ -53,7 +53,7 @@ body {
 	margin:0 auto;
 	box-shadow: 0 0 10px #aaa;
 }
-.social a, .arrow i, ul.stat i, .promotions .time i, .promotions .prices i, .media .item span, .media .menu .first a,
+.social a, .arrow i, ul.stat i, .promotions .time i, .promotions .prices i, td.prices i, .media .item span, .media .menu .first a,
 .promotion .time i, .promotion .prices i, .item.detail .clinic .col1 a, .select .arrow, .item.clinic p i, .gallery .arrow i {
 	background-image:url('../images/complex.png');
 	background-repeat: no-repeat;
@@ -575,7 +575,6 @@ ul.stat .unlikes i {
 .promotions.inner, .promotions.more, .item.detail .promotions {
 	height:auto;
 	border:none;
-	min-height: 1275px;
 }
 .item.detail .promotions {
 	margin:0;
@@ -589,7 +588,7 @@ ul.stat .unlikes i {
 	padding-bottom:15px;
 	cursor: pointer;
 }
-.promotions .item:hover {
+.promotions .item:hover, .clinics .item:hover {
 	border-color:#e50364;
 }
 .item .perc, .promotion .perc {
@@ -627,7 +626,7 @@ ul.stat .unlikes i {
 	margin-left: 20px;
 }
 .promotions .prices b, .promotions .prices s, .promotions .time,
-.promotion .prices b, .promotion .prices s, .promotion .time {
+.promotion .prices b, .promotion .prices s, .promotion .time, td.prices span {
 	position: relative;
 }
 .promotions .prices b, .promotion .prices b {
@@ -640,7 +639,7 @@ ul.stat .unlikes i {
 	float:left;
 }
 .promotions .prices i, .promotions .time i,
-.promotion .prices i, .promotion .time i{
+.promotion .prices i, .promotion .time i, td.prices i {
 	display: block;
 	top:0;
 	right:0;
@@ -652,14 +651,17 @@ ul.stat .unlikes i {
 	height:13px;
 	top:1px;
 }
-.promotions .prices s, .promotion .prices s {
+.promotions .prices s, .promotion .prices s, td.prices span {
 	padding-right: 12px;
 	clear: both;
 	float:left;
 	display: block;
 	line-height: 13px;
 }
-.promotions .prices s i, .promotion .prices s i {
+td.prices span {
+	padding-right: 15px;
+}
+.promotions .prices s i, .promotion .prices s i, td.prices i {
 	background-position: -106px -56px;
 	width:10px;
 	height:9px;
@@ -902,6 +904,7 @@ ul.stat .unlikes i {
 .inner {
 	width:730px;
 	margin-top:0;
+	min-height: 1275px;
 }
 .inner .title {
 	margin:0 0 40px 0;
@@ -1137,6 +1140,9 @@ ul.stat .unlikes i {
 	padding:0 60px;
 	width:605px;
 }
+.item.detail .gallery-in img {
+	max-width: 100%;
+}
 .item.detail q {
 	padding:20px;
 	background:#dddddd;
@@ -1175,7 +1181,7 @@ ul.stat .unlikes i {
 .item.detail .promotion {
 	margin:30px 0 20px 0;
 }
-.item.detail .more {
+.item.detail .more, .item.detail .announce a {
 	color:#E50364;
 }
 .item.detail .clinic {
@@ -1329,10 +1335,14 @@ ul.stat .unlikes i {
 	width: 90px;
 	margin: 20px auto 0 auto;
 }
-.clinics h3 {
+.clinics h2 a {
 	font-size:24px;
+	text-decoration: none;
+}
+.clinics h2 {
 	margin:0 0 10px 0;
 	text-transform: none;
+	font-weight: bold;
 }
 .clinics .item {
 	border:1px solid #d1d1d1;
@@ -1403,13 +1413,24 @@ ul.stat .unlikes i {
 	margin:30px 0 20px 0;
 	font-size:18px;
 }
+.clinics .item img, .item.clinic img {
+	background:#fff;
+	padding:5px;
+}
 .item.detail table {
 	border-collapse: collapse;
 	width:555px;
+	margin-bottom: 30px;
 }
 .item.detail table td {
 	border:1px solid #d1d1d1;
 	padding:7px 20px;
+}
+.item.detail table td.prices {
+	width:100px;
+}
+.item.detail .tabs {
+	float:left;
 }
 .item.detail .tab-c b, .item.detail .tab-c span, .item.detail .tab-c a {
 	display: block;

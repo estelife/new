@@ -118,7 +118,7 @@ while($arData=$obResult->Fetch()){
 	$i++;
 }
 
-$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/web20/system/pagenav.php');
+$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 
 $APPLICATION->SetPageProperty("title", "Estelife - Клиники");
 $APPLICATION->SetPageProperty("description", implode(", ", $arDescription));

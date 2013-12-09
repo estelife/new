@@ -7,14 +7,8 @@ CModule::IncludeModule("iblock");
 CModule::IncludeModule("estelife");
 
 $obClinics = VDatabase::driver();
-
-if (isset($arParams['CLINIC_NAME']) && strlen($arParams['CLINIC_NAME'])>0){
-	if(preg_match('#([\d]+)$#',$arParams['CLINIC_NAME'],$arMatches)){
-		$arClinicID = intval($arMatches[1]);
-	}
-}else{
-	$arClinicID = 0;
-}
+$nClinicID =  (isset($arParams['ID'])) ?
+	intval($arParams['ID']) : 0;
 
 //Получаем данные по клинике
 $obQuery = $obClinics->createQuery();
@@ -44,7 +38,7 @@ $obQuery->builder()
 	->field('eccp.value', 'phone')
 	->field('eccw.value', 'web');
 $obQuery->builder()->filter()
-	->_eq('ec.id', $arClinicID);
+	->_eq('ec.id', $nClinicID);
 $arResult['clinic'] = $obQuery->select()->assoc();
 
 $arResult['clinic']['contacts'][] = array(
@@ -60,7 +54,7 @@ $arResult['clinic']['contacts'][] = array(
 $obQuery = $obClinics->createQuery();
 $obQuery->builder()->from('estelife_clinic_pays');
 $obQuery->builder()->filter()
-	->_eq('clinic_id', $arClinicID);
+	->_eq('clinic_id', $nClinicID);
 $arResult['clinic']['pays'] = $obQuery->select()->all();
 
 //получаем услуги
@@ -85,7 +79,7 @@ $obQuery->builder()
 	->field('econ.id','con_id')
 	->field('ecs.price_from');
 $obQuery->builder()->filter()
-	->_eq('ecs.clinic_id', $arClinicID);
+	->_eq('ecs.clinic_id', $nClinicID);
 $arServices = $obQuery->select()->all();
 
 foreach ($arServices as $val){
@@ -97,6 +91,7 @@ foreach ($arServices as $val){
 }
 
 foreach ($arServices as $val){
+	$val['price_from']=number_format($val['price_from'],0,'.',' ');
 	$arResult['clinic']['con'][$val['con_id']] = $val;
 }
 
@@ -104,7 +99,7 @@ foreach ($arServices as $val){
 $obQuery = $obClinics->createQuery();
 $obQuery->builder()->from('estelife_clinic_photos');
 $obQuery->builder()->filter()
-	->_eq('clinic_id', $arClinicID);
+	->_eq('clinic_id', $nClinicID);
 $arResult['clinic']['gallery'] = $obQuery->select()->all();
 
 if(!empty($arResult['clinic']['gallery'])){
@@ -130,7 +125,7 @@ $obQuery->builder()
 	->field('ea.base_sale','sale')
 	->field('ea.big_photo','logo_id');
 $obQuery->builder()->filter()
-	->_eq('ecs.clinic_id', $arClinicID);
+	->_eq('ecs.clinic_id', $nClinicID);
 $arActions = $obQuery->select()->all();
 
 $arNow = time();
@@ -138,6 +133,8 @@ foreach ($arActions as $val){
 	$val['time'] = ceil(($val['end_date']-$arNow)/(60*60*24));
 	$val['day'] = \core\types\VString::spellAmount($val['time'], 'день,дня,дней');
 	$val['link'] = '/promotions/'.\core\types\VString::translit($val['name']).'-'.$val['id'].'/';
+	$val['new_price']=number_format($arResult['action']['new_price'],0,'.',' ');
+	$val['old_price']=number_format($arResult['action']['old_price'],0,'.',' ');
 
 	if(!empty($val['logo_id'])){
 		$file=CFile::ResizeImageGet($val["logo_id"], array('width'=>303, 'height'=>143), BX_RESIZE_IMAGE_EXACT, true);
@@ -174,7 +171,7 @@ $obQuery->builder()
 	->field('eccp.value', 'phone')
 	->field('eccw.value', 'web');
 $obQuery->builder()->filter()
-	->_eq('ec.clinic_id', $arClinicID);
+	->_eq('ec.clinic_id', $nClinicID);
 $arResult['filial'] = $obQuery->select()->all();
 
 foreach ($arResult['filial'] as $val){

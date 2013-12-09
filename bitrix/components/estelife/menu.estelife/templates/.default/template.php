@@ -16,10 +16,10 @@
 			<li><a href='/articles/raznoe/'>Разное</a></li>
 		</ul>
 	</li>
-	<li><a href='/clinic/' title="Клиники">Клиники</a>
+	<li><a href='/clinics/' title="Клиники">Клиники</a>
 		<ul class='submenu'>
-			<li><a href='/clinic/?city=358' title="Клиники Санкт-Петербурга">Санкт-Петербург</a></li>
-			<li><a href='/clinic/?city=359' title="Клиники Москвы">Москва</a></li>
+			<li><a href='/clinics/?city=358' title="Клиники Санкт-Петербурга">Санкт-Петербург</a></li>
+			<li><a href='/clinics/?city=359' title="Клиники Москвы">Москва</a></li>
 		</ul>
 	</li>
 	<li><a href='/promotions/' title="Акции">Акции</a>

@@ -7,14 +7,8 @@ CModule::IncludeModule("iblock");
 CModule::IncludeModule("estelife");
 
 $obActions = VDatabase::driver();
-
-if (isset($arParams['ACTION_NAME']) && strlen($arParams['ACTION_NAME'])>0){
-	if(preg_match('#([\d]+)$#',$arParams['ACTION_NAME'],$arMatches)){
-		$arActionID = intval($arMatches[1]);
-	}
-}else{
-	$arActionID = 0;
-}
+$nActionID= (isset($arParams['ID']))?
+	intval($arParams['ID']) : 0;
 
 //Получаем данные по акции
 $obQuery = $obActions->createQuery();
@@ -22,7 +16,7 @@ $obQuery->builder()->from('estelife_akzii', 'ea');
 $obQuery->builder()
 	->field('ea.*');
 $obQuery->builder()->filter()
-	->_eq('ea.id', $arActionID);
+	->_eq('ea.id', $nActionID);
 $arResult['action'] = $obQuery->select()->assoc();
 
 //получение клиник
@@ -56,12 +50,14 @@ $obQuery->builder()
 	->field('ec.id', 'clinic_id')
 	->field('ec.address', 'clinic_address')
 	->field('eccp.value', 'phone')
-	->field('eccw.value', 'web');
-$obQuery->builder()->filter()
-	->_eq('eca.akzii_id', $arActionID);
-$obQuery->builder()->group('eca.clinic_id');
-$arClinics = $obQuery->select()->all();
+	->field('eccw.value', 'web')
+	->group('eca.clinic_id')
+	->filter()
+	->_eq('eca.akzii_id', $nActionID);
+
+$arClinics=$obQuery->select()->all();
 $arResult['action']['clinics'] = array();
+
 if (!empty($arClinics)){
 	foreach ($arClinics as $val){
 		$val['link'] = '/clinic/'.$val['clinic_name'].'-'.$val['clinic_id'].'/';
@@ -73,32 +69,45 @@ if (!empty($arClinics)){
 //Получение условий акции
 $obQuery = $obActions->createQuery();
 $obQuery->builder()->from('estelife_akzii_prices');
-$obQuery->builder()->filter()
-	->_eq('akzii_id', $arActionID);
-$arResult['action']['prices'] = $obQuery->select()->all();
+$obQuery->builder()
+	->filter()
+	->_eq('akzii_id', $nActionID);
+$arResult['action']['prices']=$obQuery->select()->all();
 
 //Получение галереи
-$obQuery = $obActions->createQuery();
-$obQuery->builder()->from('estelife_akzii_photos');
-$obQuery->builder()->filter()
-	->_eq('akzii_id', $arActionID);
+$obQuery=$obActions->createQuery();
+$obQuery->builder()
+	->from('estelife_akzii_photos')
+	->filter()
+	->_eq('akzii_id', $nActionID);
+
 $arResult['action']['photos'] = $obQuery->select()->all();
 $arResult['action']['photos_count']=0;
+$arResult['action']['photo_desc']='';
 
 if(!empty($arResult['action']['photos'])){
-	foreach($arResult['action']['photos'] as &$arPhoto)
-		$arPhoto=CFile::ShowImage($arPhoto['original'],624);
+	foreach($arResult['action']['photos'] as $nKey=>&$arPhoto){
+		$arPhoto['original']=CFile::ShowImage($arPhoto['original'],624);
+		$arPhoto['description']=(!empty($arPhoto['description'])) ?
+			html_entity_decode($arPhoto['description'],ENT_QUOTES,'utf-8') : '';
+
+		if($nKey==0)
+			$arResult['action']['photo_desc']=$arPhoto['description'];
+	}
 
 	$arResult['action']['photos_count']=count($arResult['action']['photos']);
 }
 
 $arResult['action']['detail_text']=html_entity_decode($arResult['action']['detail_text'], ENT_QUOTES, 'UTF-8');
-$arResult['action']['start_date']=\core\types\VDate::date($arResult['action']['start_date'], 'j F');
-$arResult['action']['end_date']=\core\types\VDate::date($arResult['action']['end_date'], 'j F');
+$arResult['action']['new_price']=number_format($arResult['action']['base_new_price'],0,'.',' ');
+$arResult['action']['old_price']=number_format($arResult['action']['base_old_price'],0,'.',' ');
 
-$arResult['action']['seo_description'] = mb_substr(strip_tags($arResult['action']['preview_text']), 0, 140, 'utf-8');
-$APPLICATION->SetPageProperty("title", "Estelife - ".mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['action']['name'])),'utf-8'));
-$APPLICATION->SetPageProperty("description", $arResult['action']['seo_description']);
+$arResult['action']['day_count']=ceil(($arResult['action']['end_date']-time())/86400);
+$arResult['action']['day_count']=$arResult['action']['day_count'].' '.\core\types\VString::spellAmount($arResult['action']['day_count'],'день,дня,дней');
+$arResult['action']['end_date']=date('d.m.Y', $arResult['action']['end_date']);
+
+$APPLICATION->SetPageProperty("title", mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['action']['name'])),'utf-8'));
+$APPLICATION->SetPageProperty("description", mb_substr(strip_tags($arResult['action']['preview_text']), 0, 140, 'utf-8'));
 $APPLICATION->SetPageProperty("keywords", "Estelife, Акции, Клиники, ".$arResult['action']['name']);
 
 $this->IncludeComponentTemplate();

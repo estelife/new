@@ -136,7 +136,7 @@ if(!empty($arCount)){
 		$i++;
 	}
 
-	$arResult['nav']=$obResult->GetNavPrint('', true,'akzii','/bitrix/templates/web20/system/pagenav.php');
+	$arResult['nav']=$obResult->GetNavPrint('', true,'akzii','/bitrix/templates/estelife/system/pagenav.php');
 }
 
 $arDescription=implode(", ", $arDescription);
