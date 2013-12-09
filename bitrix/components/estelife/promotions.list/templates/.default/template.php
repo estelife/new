@@ -34,7 +34,6 @@ $APPLICATION->SetPageProperty("keywords", $arResult['SEO']['keywords']);
 		<?php endif?>
 	</div>
 	<div class="not-found<?=(!empty($arResult['akzii']) ? ' none' : '')?>"><?=GetMessage("ESTELIFE_ACTION_NOT_FOUND")?></div>
-
 	<?php if (!empty($arResult['nav'])):?>
 		<?=$arResult['nav']?>
 	<?php endif?>

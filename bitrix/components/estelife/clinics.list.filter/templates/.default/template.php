@@ -1,6 +1,6 @@
 <?php if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
 
-<form name="promotions" class="filter" method="get" action="/promotions/" >
+<form name="promotions" class="filter" method="get" action="/clinics/" >
 	<div class="title">
 		<h4>Поиск клиники</h4>
 		<!--		<span>Найдено 6 акций</span>-->
@@ -74,5 +74,5 @@
 		</select><span class="block"></span>
 	</div>
 	<input type="submit" value="Найти клинику" class="submit">
-	<a href="#" class="clear">Сбросить фильтр</a>
+	<a href="/clinics/" class="clear">Сбросить фильтр</a>
 </form>

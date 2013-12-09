@@ -74,5 +74,5 @@
 		</select><span class="block"></span>
 	</div>
 	<input type="submit" value="Найти акции" class="submit">
-	<a href="#" class="clear">Сбросить фильтр</a>
+	<a href="/promotions/" class="clear">Сбросить фильтр</a>
 </form>

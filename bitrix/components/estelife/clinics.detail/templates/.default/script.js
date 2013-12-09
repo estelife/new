@@ -6,8 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 $(function(){
-	EL.loadModule('bayan',function(){
-		EL.bayan($('.gallery'));
+	EL.loadModule('slider',function(){
+		EL.slider($('.gallery .gallery-in .item'));
 	});
 []
 });

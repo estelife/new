@@ -13,13 +13,19 @@
 			<div class="item clinic">
 				<h2><a href="<?=$arClinic["link"]?>" class="el-get-detail"><?=$arClinic["name"]?></a></h2>
 				<div class="item-in">
-					<p>Косметология, пластическая хирургия</p>
+					<?php if (!empty($arClinic['pays'])):?>
+					<p><?=$arClinic['pays']?></p>
+					<?php endif?>
 					<a href="<?=$arClinic["link"]?>" class="el-get-detail">
-						<?php if(!empty($arClinic["logo"])): ?>
-							<?=$arClinic["logo"]?>
-						<?php else: ?>
-							<img src="/img/icon/unlogo.png" />
-						<?endif?>
+						<div class="img">
+							<div class="img-in">
+								<?php if(!empty($arClinic["logo"])): ?>
+									<?=$arClinic["logo"]?>
+								<?php else: ?>
+									<img src="/img/icon/unlogo.png" />
+								<?endif?>
+							</div>
+						</div>
 					</a>
 					<div class="cols col1">
 						<span><?=$arClinic["address"]?></span>
@@ -31,6 +37,7 @@
 			<?php endforeach; ?>
 		<?php endif; ?>
 	</div>
+	<div class="not-found<?=(!empty($arResult['clinics']) ? ' none' : '')?>">Клиники не найдены ...</div>
 	<?php if (!empty($arResult['nav'])):?>
 		<?=$arResult['nav']?>
 	<?php endif; ?>

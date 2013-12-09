@@ -55,9 +55,11 @@ $obQuery->builder()
 	->field('ep.logo_id','logo_id')
 	->field('ep.preview_text', 'preview_text')
 	->field('ec.name','company_name')
+	->field('ec.id','company_id')
 	->field('ec.translit','company_translit')
 	->field('ec.id','company_id')
 	->field('ect.name','type_company_name')
+	->field('ect.id','type_company_id')
 	->field('ect.translit','type_company_translit')
 	->field('ect.id','type_company_id');
 
@@ -86,7 +88,7 @@ $arResult['pills'] = array();
 $arDescription=array();
 
 while($arData=$obResult->Fetch()){
-	$arData['link'] = '/preparations/'.$arData['translit'].'/';
+	$arData['link'] = '/PS'.$arData['id'].'/';
 	$arData['preview_text'] = \core\types\VString::truncate(htmlspecialchars_decode($arData['preview_text'],ENT_NOQUOTES), 250, '...');
 
 	if(!empty($arData['logo_id'])){
@@ -107,7 +109,13 @@ while($arData=$obResult->Fetch()){
 	}
 	unset($arData['type_company_name']);
 	unset($arData['type_company_translit']);
-	$arData['company_link'] = '/preparations-makers/'.$arData['company_translit'].'/';
+
+	if (!empty($arData['type_company_id'])){
+		$arData['company_id'] = $arData['type_company_id'];
+	}
+	unset($arData['type_company_id']);
+
+	$arData['company_link'] = '/PM'.$arData['company_id'].'/';
 
 	$arResult['pills'][]=$arData;
 	$arDescription[]=mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arData['name'])),'utf-8');
@@ -118,5 +126,5 @@ $APPLICATION->SetPageProperty("title", 'Estelife - Препараты');
 $APPLICATION->SetPageProperty("description", $arDescription);
 $APPLICATION->SetPageProperty("keywords", "Estelife, препараты, ".$arDescription);
 
-$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/web20/system/pagenav.php');
+$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 $this->IncludeComponentTemplate();

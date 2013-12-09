@@ -55,9 +55,11 @@ $obQuery->builder()
 	->field('ap.logo_id','logo_id')
 	->field('ap.preview_text', 'preview_text')
 	->field('ec.name','company_name')
+	->field('ec.id','company_id')
 	->field('ec.translit','company_translit')
 	->field('ec.id','company_id')
 	->field('ect.name','type_company_name')
+	->field('ect.id','type_company_id')
 	->field('ect.translit','type_company_translit')
 	->field('ect.id','type_company_id');
 
@@ -86,7 +88,7 @@ $arResult['apps'] = array();
 
 $i = 0;
 while($arData=$obResult->Fetch()){
-	$arData['link'] = '/apparatuses/'.$arData['translit'].'/';
+	$arData['link'] = '/AP'.$arData['id'].'/';
 	$arData['preview_text'] = \core\types\VString::truncate(nl2br(htmlspecialchars_decode($arData['preview_text'],ENT_NOQUOTES)), 250, '...');
 
 	if(!empty($arData['logo_id'])){
@@ -107,7 +109,13 @@ while($arData=$obResult->Fetch()){
 	}
 	unset($arData['type_company_name']);
 	unset($arData['type_company_translit']);
-	$arData['company_link'] = '/apparatuses-makers/'.$arData['company_translit'].'/';
+
+	if (!empty($arData['type_company_id'])){
+		$arData['company_id'] = $arData['type_company_id'];
+	}
+	unset($arData['type_company_id']);
+
+	$arData['company_link'] = '/AM'.$arData['company_id'].'/';
 
 	$arResult['apps'][]=$arData;
 
@@ -121,5 +129,5 @@ $APPLICATION->SetPageProperty("title", "Estelife - Аппараты");
 $APPLICATION->SetPageProperty("description", implode(", ", $arDescription));
 $APPLICATION->SetPageProperty("keywords", "Estelife, Аппараты, ". implode(" ,", $arDescription));
 
-$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/web20/system/pagenav.php');
+$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 $this->IncludeComponentTemplate();

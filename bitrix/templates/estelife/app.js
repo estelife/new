@@ -88,7 +88,6 @@ $(function home(){
 			else
 				prnt.removeClass('none').addClass('cities_open');
 		}else{
-
 			EL.loadModule('templates',function(){
 				var detail_generator=new EL.templates({
 					'path':'/api/estelife_ajax.php',

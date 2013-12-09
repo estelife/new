@@ -2,23 +2,23 @@
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="/">Главная</a></li>
-		<li><b>Препараты</b></li>
+		<li><b>Производители препаратов</b></li>
 	</ul>
 	<div class="title">
-		<h2>Препараты</h2>
+		<h2>Производители</h2>
 		<ul class="menu">
-			<li><a href="/preparations/" class="active">Препараты</a></li>
-			<li><a href="/apparatuses/">Аппараты</a></li>
+			<li><a href="/preparations-makers/" class="active">Препараты</a></li>
+			<li><a href="/apparatuses-makers/">Аппараты</a></li>
 		</ul>
 	</div>
 	<div class="items">
 		<?php if (!empty($arResult['pills'])):?>
 			<?php foreach ($arResult['pills'] as $arPill):?>
-				<div class="item product">
+				<div class="item producer">
 					<div class="img">
 						<div class="img-in">
 							<?php if(!empty($arPill["logo_id"])): ?>
-								<?=$arPill["logo"]?>
+								<?=$arPill["img"]?>
 							<?php else: ?>
 								<img src="/img/icon/unlogo.png" />
 							<?endif?>
@@ -27,16 +27,18 @@
 					<div class="cols">
 						<h2><a href="<?=$arPill["link"]?>"><?=$arPill["name"]?></a></h2>
 						<ul>
-							<li class="country c<?=$arPill["country_id"]?>"><?=$arPill["country_name"]?></li>
-							<li>Производитель: <a href="<?=$arPill["company_link"]?>"><?=$arPill["company_name"]?></a></li>
+							<li class="country c<?=$arApp["country_id"]?>"><?=$arPill["country_name"]?></li>
+							<?php if (!empty($arPill["web"])):?>
+								<li><a href="<?=$arPill["web"]?>"><?=$arPill["short_web"]?></a></li>
+							<?php endif?>
 						</ul>
 						<p><?=$arPill['preview_text']?></p>
 					</div>
 				</div>
 			<?php endforeach?>
-		<?php endif?>
+		<?php endif;?>
 	</div>
-	<div class="not-found<?=(!empty($arResult['pills']) ? ' none' : '')?>">Препараты не найдены ...</div>
+	<div class="not-found<?=(!empty($arResult['pills']) ? ' none' : '')?>">Производители не найдены ...</div>
 	<?php if (!empty($arResult['nav'])):?>
 		<?=$arResult['nav']?>
 	<?php endif; ?>

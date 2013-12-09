@@ -6,7 +6,11 @@ $arDirectories = array(
 	"PT" => "podcast",
 	"AR" => "articles",
 	"PR" => "promotions",
-	'CL' => 'clinics'
+	"CL" => "clinics",
+	"AM" => "apparatuses-makers",
+	"PM" => "preparations-makers",
+	"AP" => "apparatuses",
+	"PS" => "preparations",
 );
 
 $arDefaultUrlTemplates404 = array(

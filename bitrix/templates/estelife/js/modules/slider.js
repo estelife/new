@@ -26,7 +26,7 @@ Estelife.prototype.slider=function(list){
 			}
 
 		});
-		$('.big-photo').css({
+		$('.gallery-in .item').css({
 			'height': min,
 			'overflow': 'hidden'
 		});
@@ -71,7 +71,10 @@ Estelife.prototype.slider=function(list){
 					}
 
 				);
+				$('.gallery-desc').html((item.next().find('.desc').html()));
 		}
+
+		return false;
 
 	}
 
@@ -116,12 +119,16 @@ Estelife.prototype.slider=function(list){
 				}
 
 			);
+
+			$('.gallery-desc').html((item.prev().find('.desc').html()));
+
 		}
 
+		return false;
 
 	}
 
-	$('.photo_slider .arrow.left').click(arrow_click_l);
-	$('.photo_slider .arrow.right').click(arrow_click_r);
+	$('.gallery .arrow.left').click(arrow_click_l);
+	$('.gallery .arrow.right').click(arrow_click_r);
 	init();
 };

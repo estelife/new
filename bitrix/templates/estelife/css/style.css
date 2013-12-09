@@ -39,16 +39,19 @@ body {
 .cols, .social span, .promotions, ul.stat li, .social a, .logo, .head form input.text, .head .menu, .head .menu li,
 .general-news .title h1, .general-news .title h2, .general-news, .general-news .col2 .img, .general-news .subscribe, .adv,
 .experts ul li, .item.promotion, .articles, .articles .menu li,.item.detail .menu li, .articles .item, .media .item, .media .menu li, .footer .menu li,
-.crumb, .crumb li, .nav, .nav li, .inner, .item.detail .gallery, .similars {
+.crumb, .crumb li, .nav, .nav li, .inner, .item.detail .gallery, .similars, .item.producer .img, .item.product .img, .items .item.producer li,
+.inner .title .menu li {
 	float:left;
 	display: block;
 }
 .experts, .panel a.cols, .head form, .head li.last, .general-news .col2, .adv.right, .promotion .time, .filter,
-.clinics img, .item.clinic img {
+.clinics img, .item.clinic .img {
 	float:right;
 }
-.wrap {
+.wrap,.gallery-desc {
 	background:#f0f0f0;
+}
+.wrap {
 	max-width: 1280px;
 	margin:0 auto;
 	box-shadow: 0 0 10px #aaa;
@@ -112,10 +115,6 @@ body {
 	border-color:#e60364;
 	background-position: -71px -56px;
 }
-.arrow:hover {
-	color:#e60364 !important;
-	border-color:#e60364;
-}
 .panel .arrow i {
 	top:1px;
 }
@@ -156,13 +155,13 @@ body {
 	background-position:-203px -34px;
 }
 .panel .social a.ok {
-	 background-position:-89px -34px;
+	background-position:-89px -34px;
 }
 .panel .social a.ok:hover {
 	background-position:-111px -34px;
 }
 .panel .social a.lj {
-	 background-position:-44px -34px;
+	background-position:-44px -34px;
 }
 .panel .social a.lj:hover {
 	background-position:-68px -34px;
@@ -197,8 +196,8 @@ input.text, .select, .select a {
 	text-decoration: none;
 }
 input.text {
-	padding: 3px 0;
-	width: 100%;
+	padding: 3px 12px;
+	min-width: 164px;
 }
 .submit {
 	background:none;
@@ -230,7 +229,8 @@ input.text {
 	font-size:14px;
 	font-weight:bold;
 }
-.head .menu, .head .submenu, ul.menu, ul.stat, .cities ul, .crumb, .nav, .item.detail .tab-c ul {
+.head .menu, .head .submenu, ul.menu, ul.stat, .cities ul, .crumb, .nav, .item.detail .tab-c ul,
+.items .item.producer ul, .items .item.product ul {
 	list-style-type: none;
 	padding:0;
 	margin:0;
@@ -306,6 +306,7 @@ img, .img {
 }
 .img img {
 	border:none;
+	max-width: 100%;
 }
 .img a {
 	display: block;
@@ -589,7 +590,8 @@ ul.stat .unlikes i {
 	padding-bottom:15px;
 	cursor: pointer;
 }
-.item.promotion:hover, item.clinic:hover {
+.item.promotion:hover, item.clinic:hover,
+.item.product:hover, items.producer:hover {
 	border-color:#e50364;
 }
 .item .perc, .promotion .perc {
@@ -773,7 +775,7 @@ td.prices span {
 }
 .promotions .cities-in {
 	padding-left:20px;
-	height:240px;
+	height:250px;
 }
 .promotions .cities {
 	background:#dddddd;
@@ -790,7 +792,8 @@ td.prices span {
 .promotions .cities .col1 {
 	width:220px;
 }
-.promotions .cities h4, .promotions .cities a {
+.promotions .cities h4, .promotions .cities a,
+.inner .title .menu a {
 	color:#2c2c2c;
 }
 .articles {
@@ -815,15 +818,18 @@ td.prices span {
 	margin-right: 20px;
 }
 .articles .menu span, .media .menu a,
-.item.detail .menu span, .item.detail .menu a{
+.item.detail .menu span, .item.detail .menu a,
+.inner .title .menu a {
 	border-bottom:1px dotted #2C2C2C;
 	text-decoration: none;
 }
-.articles .menu a, .item.detail .menu a {
-	display: block;
+.articles .menu a, .item.detail .menu a, .inner .title .menu a {
 	text-decoration: none;
 	text-transform: uppercase;
 	font-size: 16px;
+}
+.articles .menu a, .item.detail .menu a {
+	display: block;
 	font-weight: bold;
 	width:100%;
 	text-align: center;
@@ -831,7 +837,8 @@ td.prices span {
 	border-bottom: none;
 }
 .articles .menu a:hover span, .articles .menu li.active span,
-.item.detail .menu a:hover span, .item.detail .menu li.active span {
+.item.detail .menu a:hover span, .item.detail .menu li.active span,
+.inner .title .menu a:hover, .inner .title .menu a.active, .arrow:hover {
 	color:#e50364;
 	border-color:#e50364;
 }
@@ -902,7 +909,7 @@ td.prices span {
 	border-color:#e50364;
 }
 .inner {
-	width:730px;
+	width:727px;
 	margin-top:0;
 }
 .inner .title {
@@ -1086,9 +1093,11 @@ td.prices span {
 	height:460px;
 }
 .item.detail .article-img-in, .item.detail .gallery-in {
-	background:#dddddd;
 	text-align:center;
 	width:725px;
+}
+.item.detail .gallery, .item.detail .gallery-in .item, .item.detail .article-img-in {
+	background:#dddddd;
 }
 .item.detail .gallery-in .item {
 	position: absolute;
@@ -1100,12 +1109,12 @@ td.prices span {
 .item.detail .gallery-in .item .desc {
 	display: none;
 }
-.item.detail .gallery-in .img {
+.item.detail .gallery-in .img, .item.detail .article-img-in {
 	display: table-cell;
 	vertical-align: middle;
 	border:none;
 }
-.item.detail .gallery-in img {
+.item.detail .gallery-in img, .item.detail .gallery-in .img {
 	float:none;
 }
 .item.detail .article-img img {
@@ -1122,6 +1131,7 @@ td.prices span {
 }
 .item.detail .gallery {
 	position: relative;
+	width:100%;
 }
 .item.detail .gallery .arrow, .item.detail .gallery .arrow i {
 	display: block;
@@ -1158,7 +1168,9 @@ td.prices span {
 	width:605px;
 }
 .item.detail .gallery-in {
-	padding:0 60px;
+	margin-left:60px;
+	overflow: hidden;
+	position: relative;
 }
 .item.detail q {
 	padding:20px;
@@ -1194,9 +1206,6 @@ td.prices span {
 }
 .item.detail .announce, .item.detail .clinic, .item.detail .clinic a {
 	font-size:15px;
-}
-.item.detail .promotion {
-	margin:30px 0 20px 0;
 }
 .item.detail .more {
 	color:#E50364;
@@ -1313,7 +1322,7 @@ td.prices span {
 	font-style: normal;
 }
 .select .items a:hover {
-	background:#e50364;
+	background-color:#e50364;
 	color:#fff;
 }
 .select .arrow {
@@ -1354,19 +1363,24 @@ td.prices span {
 	width: 90px;
 	margin: 20px auto 0 auto;
 }
-.item.clinic h2 a {
+.item.clinic h2 a, .item.producer h2 a, .item.product h2 a {
 	font-size:24px;
 	text-decoration: none;
 }
-.item.clinic h2 {
+.item.clinic h2, .item.producer h2, .item.product h2 {
 	margin:0 0 10px 0;
 	text-transform: none;
 	font-weight: bold;
 }
-.item.clinic {
+.item.clinic, .item.producer, .item.product {
 	border:1px solid #d1d1d1;
 	width:685px;
 	padding:20px 20px 30px 20px;
+}
+.item.producer, .item.product {
+	padding-bottom:20px;
+	height: auto;
+	overflow: hidden;
 }
 .item.clinic .item-in {
 	width:100%;
@@ -1400,11 +1414,26 @@ td.prices span {
 .item.clinic h1 {
 	margin-bottom:20px;
 }
+.item.clinic .img-in, .item.producer .img-in, .item.product .img-in {
+	display: table-cell;
+	vertical-align: middle;
+	float: none;
+	position: static;
+	background:#fff;
+	width:210px;
+	height:100px;
+	text-align: center;
+}
+.item.detail.clinic .img-in {
+	width:226px;
+	height:117px;
+}
 .item.detail.clinic .col1 p {
 	margin:13px 0 20px 0;
 	padding-left:28px;
 	position: relative;
 	line-height: 20px;
+	height:20px;
 }
 .item.detail.clinic .col1 p i {
 	display: block;
@@ -1416,12 +1445,13 @@ td.prices span {
 	left:0;
 }
 .item.detail.clinic .col1 {
-	width:465px;
+	width:477px;
 	border:none;
 	border-bottom:1px solid #cac8c8;
 	padding-bottom:15px;
 	margin:0;
 	padding-left:0;
+	height:103px;
 }
 .item.detail.clinic .col1 span {
 	margin-bottom:4px;
@@ -1435,6 +1465,54 @@ td.prices span {
 .item.clinic h3 {
 	margin:30px 0 20px 0;
 	font-size:18px;
+}
+.item.producer .img-in {
+	width:124px;
+	height:117px;
+}
+.item.product .img-in {
+	width:200px;
+	height:200px;
+}
+.items .item.producer ul, .items .item.product ul {
+	float:left;
+	width: 100%;
+	margin:5px 0 30px 0;
+}
+.item.producer .cols, .item.product .cols {
+	float:right;
+	width:538px;
+}
+.item.product .cols {
+	width:463px;
+}
+.items .item.producer p, .items .item.product p {
+	margin:0;
+	clear: both;
+}
+.items .item.producer ul a, .items .item.product ul a {
+	color:#e60365;
+	text-decoration: none;
+}
+li.country, span.country, .country .select .has-value {
+	display: block;
+	padding-left:25px;
+	background-position: 0 center;
+	background-repeat: no-repeat;
+}
+li.country, span.country {
+	height:20px;
+	margin-right: 20px;
+}
+.country .select .items .has-value {
+	background-position: 14px center;
+	padding-left: 39px;
+}
+.country.c1, .country .v1 {
+	background-image:url('../images/content/c1.png');
+}
+.item.product .country {
+	margin-bottom: 10px;
 }
 .item.detail.clinic img {
 	background:#fff;
@@ -1465,6 +1543,9 @@ td.prices span {
 	width:725px;
 	border:none;
 	padding:0;
+}
+.inner .title .menu {
+	float:right;
 }
 .footer {
 	clear: both;

@@ -2,23 +2,23 @@
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="/">Главная</a></li>
-		<li><b>Аппараты</b></li>
+		<li><b>Производители аппаратов</b></li>
 	</ul>
 	<div class="title">
-		<h2>Аппараты</h2>
+		<h2>Производители</h2>
 		<ul class="menu">
-			<li><a href="/preparations/" >Препараты</a></li>
-			<li><a href="/apparatuses/" class="active">Аппараты</a></li>
+			<li><a href="/preparations-makers/" >Препараты</a></li>
+			<li><a href="/apparatuses-makers/" class="active">Аппараты</a></li>
 		</ul>
 	</div>
 	<div class="items">
-		<?php if (!empty($arResult['apps'])):?>
-			<?php foreach ($arResult['apps'] as $arApp):?>
-				<div class="item product">
+		<?php if (!empty($arResult['apparatus'])):?>
+			<?php foreach ($arResult['apparatus'] as $arApp):?>
+				<div class="item producer">
 					<div class="img">
 						<div class="img-in">
 							<?php if(!empty($arApp["logo_id"])): ?>
-								<?=$arApp["logo"]?>
+								<?=$arApp["img"]?>
 							<?php else: ?>
 								<img src="/img/icon/unlogo.png" />
 							<?endif?>
@@ -28,15 +28,17 @@
 						<h2><a href="<?=$arApp["link"]?>"><?=$arApp["name"]?></a></h2>
 						<ul>
 							<li class="country c<?=$arApp["country_id"]?>"><?=$arApp["country_name"]?></li>
-							<li>Производитель: <a href="<?=$arApp["company_link"]?>"><?=$arApp["company_name"]?></a></li>
+							<?php if (!empty($arApp["web"])):?>
+								<li><a href="<?=$arApp["web"]?>"><?=$arApp["short_web"]?></a></li>
+							<?php endif?>
 						</ul>
 						<p><?=$arApp['preview_text']?></p>
 					</div>
 				</div>
 			<?php endforeach?>
-		<?php endif?>
+		<?php endif;?>
 	</div>
-	<div class="not-found<?=(!empty($arResult['apps']) ? ' none' : '')?>">Аппараты не найдены ...</div>
+	<div class="not-found<?=(!empty($arResult['apparatus']) ? ' none' : '')?>">Производители не найдены ...</div>
 	<?php if (!empty($arResult['nav'])):?>
 		<?=$arResult['nav']?>
 	<?php endif; ?>

@@ -7,11 +7,20 @@
 		</ul>
 		<div class="item detail clinic">
 			<h1><?=$arResult['clinic']['name']?></h1>
-			<?=$arResult['clinic']['logo']?>
+			<div class="img">
+				<div class="img-in">
+					<?=$arResult['clinic']['logo']?>
+				</div>
+			</div>
+
 			<div class="cols col1">
+
 				<?php if (!empty($arResult['clinic']['specializations'])):?>
-					<p><?=$arResult['clinic']['specializations']?><i></i></p>
+					<p>
+						<?=$arResult['clinic']['specializations']?><i></i>
+					</p>
 				<?php endif?>
+
 				<?php if (!empty($arResult['clinic']['main_contact'])):?>
 					<span>г. <?=$arResult['clinic']['main_contact']['city']?>, <?=$arResult['clinic']['main_contact']['address']?></span>
 					<span><?=$arResult['clinic']['main_contact']['phone']?></span>
@@ -31,13 +40,18 @@
 					<div class="gallery">
 						<div class="gallery-in">
 							<?php foreach ($arResult['clinic']['gallery'] as $val):?>
-								<img src="<?=$val['original']?>" alt="<?=$val['description']?>" title="<?=$val['description']?>" />
+								<div class="item">
+									<div class="img">
+										<img src="<?=$val['original']?>" alt="<?=$val['description']?>" title="<?=$val['description']?>" />
+									</div>
+									<div class="desc">
+										<?=$val['description']?>
+									</div>
+								</div>
 							<?php endforeach?>
 						</div>
 						<div class="gallery-desc">
-							<?php foreach ($arResult['clinic']['gallery'] as $val):?>
-								<?=$val['description']?>
-							<?php endforeach?>
+							<?=$val['description']?>
 						</div>
 						<a href="#" class="arrow left">Назад<i></i></a>
 						<a href="#" class="arrow right">Вперед<i></i></a>
@@ -70,7 +84,7 @@
 					<div class="items">
 						<?php if (!empty($arResult['clinic']['akzii'])):?>
 							<?php foreach ($arResult['clinic']['akzii'] as $arValue):?>
-								<div class="item">
+								<div class="item promotion">
 									<span class="perc"><?=$arValue['sale']?>%</span>
 									<a href="<?=$arValue['link']?>">
 										<img src="<?=$arValue['logo']?>" alt="<?=$arValue["name"]?>" title="<?=$arValue["name"]?>" width="227px" height="159px">

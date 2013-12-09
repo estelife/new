@@ -130,9 +130,12 @@ class VArray implements \Countable,\Iterator,\ArrayAccess {
 	 * @return bool
 	 */
 	public function blank($sKey=false){
-		return (is_string($sKey)) ?
-			($this->is($sKey)==-1) :
-			empty($this->arKeys);
+		if(is_string($sKey)){
+			$sValue=$this->one($sKey);
+			return empty($sValue);
+		}else{
+			return empty($this->arKeys);
+		}
 	}
 
 	/**

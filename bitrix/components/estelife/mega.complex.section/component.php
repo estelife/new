@@ -6,7 +6,11 @@ $arDirectories = array(
 	"PT" => "podcast",
 	"AR" => "articles",
 	"PR" => "promotions",
-	'CL' => 'clinics'
+	"CL" => "clinics",
+	"AM" => "apparatuses-makers",
+	"PM" => "preparations-makers",
+	"AP" => "apparatuses",
+	"PS" => "preparations",
 );
 
 $arDefaultUrlTemplates404 = array(
@@ -39,7 +43,6 @@ $componentPage = CComponentEngine::ParseComponentPath(
 CModule::IncludeModule('estelife');
 $sCode=htmlspecialchars($arVariables['CURRENT_CODE'],ENT_QUOTES,'utf-8');
 $sDopCode=htmlspecialchars($arVariables['DOP_CODE'],ENT_QUOTES,'utf-8');
-
 
 if (empty($sCode) || !in_array($sCode, $arDirectories))
 {

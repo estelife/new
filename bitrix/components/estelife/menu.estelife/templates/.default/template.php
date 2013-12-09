@@ -42,9 +42,9 @@
 	</li>
 	<li><a href='#'>Справочник</a>
 		<ul class='submenu'>
-			<li><a href='/preparations-makers/' title="Производители препаратов">Производители препаратов</a></li>
+			<li><a href='/preparations-makers/' title="Производители">Производители препаратов</a></li>
+			<li ><a href='/apparatuses-makers/' title="Производители">Производители аппаратов</a></li>
 			<li><a href='/preparations/' title="Препараты">Препараты</a></li>
-			<li><a href='/apparatuses-makers/' title="Производители аппаратов">Производители аппаратов</a></li>
 			<li><a href='/apparatuses/' title="Аппараты">Аппараты</a></li>
 		</ul>
 	</li>

@@ -96,6 +96,7 @@ $arResult['clinics']=array();
 
 $i=0;
 while($arData=$obResult->Fetch()){
+	$arClinics[]=$arData['id'];
 	$arData['name']=trim($arData['name']);
 	$arData['link'] = '/CL'.$arData['id'].'/';
 
@@ -110,12 +111,31 @@ while($arData=$obResult->Fetch()){
 	if(!empty($arData['web']))
 		$arData['web_short']=\core\types\VString::checkUrl($arData['web']);
 
-	$arResult['clinics'][]=$arData;
+	$arResult['clinics'][$arData['id']]=$arData;
 
 	if ($i<=5){
 		$arDescription[]= mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arData['name'])),'utf-8');
 	}
 	$i++;
+}
+
+
+if (!empty($arClinics)){
+	$obQuery = $obClinics->createQuery();
+	$obQuery->builder()->from('estelife_clinic_pays');
+	$obQuery->builder()->filter()
+		->_in('clinic_id', $arClinics);
+	$arClinicsPays= $obQuery->select()->all();
+}
+
+$arPays = array();
+if (!empty($arClinicsPays)){
+	foreach ($arClinicsPays as $val){
+		$arPays[$val['clinic_id']][] = $val['name'];
+	}
+	foreach ($arPays as $key=>$val){
+		$arResult['clinics'][$key]['pays'] =  mb_strtolower(implode(', ', $val), 'utf-8');
+	}
 }
 
 $arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
