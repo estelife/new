@@ -102,7 +102,7 @@ if(!empty($arCount)){
 		$val['old_price'] = intval($val['old_price']);
 		$val['time'] = ceil(($val['end_date']-$arNow)/(60*60*24));
 		$val['day'] = \core\types\VString::spellAmount($val['time'], 'день,дня,дней');
-		$val['link'] = '/promotions/'.\core\types\VString::translit($val['name']).'-'.$val['id'].'/';
+		$val['link'] = '/PR'.$val['id'].'/';
 		$arResult['akzii'][]=$val;
 	}
 	if (!empty($arResult['city']['ID'])){
@@ -119,7 +119,7 @@ if(!empty($arCount)){
 	while($arData=$obResult->Fetch()){
 		$arData['time']=ceil(($arData['end_date']-$arNow)/(60*60*24));
 		$arData['day']=\core\types\VString::spellAmount($arData['time'], 'день,дня,дней');
-		$arData['link'] = '/promotions/'.\core\types\VString::translit($arData['name']).'-'.$arData['id'].'/';
+		$arData['link'] = '/PR'.$arData['id'].'/';
 
 		if(!empty($arData['logo_id'])){
 			$file=CFile::ResizeImageGet($arData["logo_id"], array('width'=>303, 'height'=>143), BX_RESIZE_IMAGE_EXACT, true);

@@ -7,13 +7,7 @@
  */
 $(function(){
 	EL.loadModule('bayan',function(){
-		EL.bayan($('.el-gallery .image'));
-	});
-	EL.loadModule('colorbox',function(){
-		EL.colorbox();
-	});
-	EL.loadModule('miniSlider',function(){
-		EL.miniSlider($('.el-scroll .slider_content .el-scroll-in'), '.el-scroll .left', '.el-scroll .right');
+		EL.bayan($('.gallery'));
 	});
 []
 });

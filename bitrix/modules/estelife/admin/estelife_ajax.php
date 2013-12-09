@@ -31,17 +31,18 @@ try{
 		case 'clinic':
 			if(!empty($arData['term'])){
 				$sName=trim(strip_tags($arData['term']));
-				$obClinics=new \clinics\VClinics();
+				$obClinics=VDatabase::driver();
 				$obQuery=$obClinics->createQuery();
+				$obQuery->builder()->from('estelife_clinics');
 				$obQuery->builder()->filter()
 					->_like('name',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 
-				$obRecords=$obClinics->lineList();
+				$obRecords=$obQuery->select()->all();
 				$arResult['list']=array();
 
 				if(count($obRecords)>0){
 					foreach($obRecords as $obRecord){
-						$arRecord=$obRecord->toArray();
+						$arRecord=$obRecord;
 						if ($arRecord['clinic_id'] == 0){
 							$arRecord['name']=html_entity_decode($arRecord['name'],ENT_QUOTES,'utf-8');
 						}else{

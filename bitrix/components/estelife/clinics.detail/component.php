@@ -41,7 +41,9 @@ $obQuery->builder()->filter()
 	->_eq('ec.id', $nClinicID);
 $arResult['clinic'] = $obQuery->select()->assoc();
 
-$arResult['clinic']['contacts'][] = array(
+
+
+$arResult['clinic']['main_contact'] = array(
 	'city' => $arResult['clinic']['city'],
 	'address' => $arResult['clinic']['address'],
 	'metro' => $arResult['clinic']['metro'],
@@ -55,7 +57,25 @@ $obQuery = $obClinics->createQuery();
 $obQuery->builder()->from('estelife_clinic_pays');
 $obQuery->builder()->filter()
 	->_eq('clinic_id', $nClinicID);
-$arResult['clinic']['pays'] = $obQuery->select()->all();
+$obQuery->builder()->field('name');
+$arPays = $obQuery->select()->all();
+
+if (!empty($arPays)){
+	foreach ($arPays as $val){
+		$arResult['clinic']['pays'][] = $val['name'];
+	}
+}
+
+$arResult['clinic']['contacts'][$arResult['clinic']['id']] = array(
+	'city' => $arResult['clinic']['city'],
+	'address' => $arResult['clinic']['address'],
+	'metro' => $arResult['clinic']['metro'],
+	'phone' => \core\types\VString::formatPhone($arResult['clinic']['phone']),
+	'web_short' => \core\types\VString::checkUrl($arResult['clinic']['web']),
+	'web'=> $arResult['clinic']['web'],
+	'pays'=> mb_strtolower(implode(', ', $arResult['clinic']['pays']), 'utf-8'),
+	'name'=> $arResult['clinic']['name'],
+);
 
 //получаем услуги
 $obQuery = $obClinics->createQuery();
@@ -95,6 +115,11 @@ foreach ($arServices as $val){
 	$arResult['clinic']['con'][$val['con_id']] = $val;
 }
 
+foreach ($arResult['clinic']['specialization'] as $val){
+	$arResult['clinic']['specializations'][] = $val['s_name'];
+}
+$arResult['clinic']['specializations'] = implode(', ', $arResult['clinic']['specializations']);
+
 //Получаем галерею
 $obQuery = $obClinics->createQuery();
 $obQuery->builder()->from('estelife_clinic_photos');
@@ -102,10 +127,11 @@ $obQuery->builder()->filter()
 	->_eq('clinic_id', $nClinicID);
 $arResult['clinic']['gallery'] = $obQuery->select()->all();
 
+
 if(!empty($arResult['clinic']['gallery'])){
 	foreach($arResult['clinic']['gallery'] as &$arGallery){
 		$file=CFile::GetFileArray($arGallery['original']);
-		$arGallery['original']=$file['src'];
+		$arGallery['original']=$file['SRC'];
 	}
 }
 
@@ -128,21 +154,24 @@ $obQuery->builder()->filter()
 	->_eq('ecs.clinic_id', $nClinicID);
 $arActions = $obQuery->select()->all();
 
+
+
 $arNow = time();
 foreach ($arActions as $val){
 	$val['time'] = ceil(($val['end_date']-$arNow)/(60*60*24));
 	$val['day'] = \core\types\VString::spellAmount($val['time'], 'день,дня,дней');
-	$val['link'] = '/promotions/'.\core\types\VString::translit($val['name']).'-'.$val['id'].'/';
-	$val['new_price']=number_format($arResult['action']['new_price'],0,'.',' ');
-	$val['old_price']=number_format($arResult['action']['old_price'],0,'.',' ');
+	$val['link'] = '/PR'.$val['id'].'/';
+	$val['new_price']=number_format($val['new_price'],0,'.',' ');
+	$val['old_price']=number_format($val['old_price'],0,'.',' ');
 
 	if(!empty($val['logo_id'])){
-		$file=CFile::ResizeImageGet($val["logo_id"], array('width'=>303, 'height'=>143), BX_RESIZE_IMAGE_EXACT, true);
-		$val['logo']=$file['src'];
+		$file=CFile::GetFileArray($val["logo_id"]);
+		$val['logo']=$file['SRC'];
 	}
 
 	$arResult['clinic']['akzii'][]=$val;
 }
+
 
 //Получаем филиалы
 $obQuery = $obClinics->createQuery();
@@ -169,12 +198,15 @@ $obQuery->builder()
 	->field('ct.NAME', 'city')
 	->field('mt.NAME', 'metro')
 	->field('eccp.value', 'phone')
-	->field('eccw.value', 'web');
+	->field('eccw.value', 'web')
+	->field('ec.id', 'id')
+	->field('ec.name', 'name');
 $obQuery->builder()->filter()
 	->_eq('ec.clinic_id', $nClinicID);
 $arResult['filial'] = $obQuery->select()->all();
 
 foreach ($arResult['filial'] as $val){
+	$arFilials[] = $val['id'];
 	if(!empty($val['phone']))
 		$val['phone']=\core\types\VString::formatPhone($val['phone']);
 
@@ -182,10 +214,28 @@ foreach ($arResult['filial'] as $val){
 		$val['web_short']=\core\types\VString::checkUrl($val['web']);
 	}
 
-	$arResult['clinic']['contacts'][] = $val;
+	$arResult['clinic']['contacts'][$val['id']] = $val;
 }
 
-$arResult['clinic']['contacts_count']=count($arResult['clinic']['contacts']);
+
+if (!empty($arFilials)){
+	$obQuery = $obClinics->createQuery();
+	$obQuery->builder()->from('estelife_clinic_pays');
+	$obQuery->builder()->filter()
+		->_in('clinic_id', $arFilials);
+	$arFilialsPays= $obQuery->select()->all();
+}
+
+$arPays = array();
+if (!empty($arFilialsPays)){
+	foreach ($arFilialsPays as $val){
+		$arPays[$val['clinic_id']][] = $val['name'];
+	}
+	foreach ($arPays as $key=>$val){
+		$arResult['clinic']['contacts'][$key]['pays'] =  mb_strtolower(implode(', ', $val), 'utf-8');
+	}
+}
+
 
 if(!empty($arResult['clinic']['logo_id']))
 	$arResult['clinic']['logo']=CFile::ShowImage($arResult['clinic']['logo_id'],200,85);
@@ -193,11 +243,8 @@ if(!empty($arResult['clinic']['logo_id']))
 $arResult['clinic']['detail_text']=htmlspecialchars_decode($arResult['clinic']['detail_text'],ENT_NOQUOTES);
 $arResult['clinic']['seo_description'] = mb_substr(strip_tags($arResult['clinic']['preview_text']), 0, 140, 'utf-8');
 
-$arResult['clinic']['count'] = count($arResult['clinic']['contacts']);
 
-
-
-$APPLICATION->SetPageProperty("title", "Estelife - ".mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['clinic']['name'])),'utf-8'));
+$APPLICATION->SetPageProperty("title", mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['clinic']['name'])),'utf-8'));
 $APPLICATION->SetPageProperty("description", $arResult['clinic']['seo_description']);
 $APPLICATION->SetPageProperty("keywords", "Estelife, Акции, Клиники, ".$arResult['clinic']['name']);
 

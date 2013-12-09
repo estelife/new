@@ -23,10 +23,7 @@ define("HELP_FILE","estelife_list.php");
 $ID=isset($_REQUEST['ID']) ?
 	intval($_REQUEST['ID']) : 0;
 
-$obSpecializations=new rs\VSpecs();
-$obMethods=new rs\VMethods();
-$obServices=new rs\VServices();
-$obCServices=new rs\VCServices();
+
 $obClinics= \core\database\VDatabase::driver();
 
 $obElements=new CIBlockElement();

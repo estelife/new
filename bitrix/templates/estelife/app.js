@@ -159,7 +159,7 @@ $(function home(){
 	});
 
 	//открытие ссылки
-	$('.item, .col2').click(function(){
+	$('.col2').click(function(){
 		document.location.href = $(this).find('a').attr('href');
 	});
 
@@ -216,6 +216,20 @@ $(function home(){
 
 		return false;
 	});
+
+	//Переключение между табами
+	$('.menu_tab ul li').click(function(){
+		var col = $('.menu_tab ul li'),
+		index = col.index($(this));
+
+		col.removeClass('active');
+		$(this).addClass('active');
+
+		$('.tabs').addClass('none');
+		$('.tabs').eq(index).removeClass('none');
+
+		return false;
+	})
 
 
 });

@@ -1,7 +1,4 @@
-<?php
-if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)
-	die();
-?>
+<? if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 <div class="inner">
 		<ul class="crumb">
 			<li><a href="/">Главная</a></li>
@@ -12,30 +9,40 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)
 			<h1><?=$arResult['clinic']['name']?></h1>
 			<?=$arResult['clinic']['logo']?>
 			<div class="cols col1">
-				<p>Косметология, пластическая хирургия<i></i></p>
-				<span>г. Москва, ул.Гарибальди, д.3</span>
-				<span>+7 (499) 783-29-61</span>
-				<a href="#">www.granta-spb.ru</a>
+				<?php if (!empty($arResult['clinic']['specializations'])):?>
+					<p><?=$arResult['clinic']['specializations']?><i></i></p>
+				<?php endif?>
+				<?php if (!empty($arResult['clinic']['main_contact'])):?>
+					<span>г. <?=$arResult['clinic']['main_contact']['city']?>, <?=$arResult['clinic']['main_contact']['address']?></span>
+					<span><?=$arResult['clinic']['main_contact']['phone']?></span>
+					<a href="<?=$arResult['clinic']['main_contact']['web']?>"><?=$arResult['clinic']['main_contact']['web_short']?></a>
+				<?php endif?>
 			</div>
-			<div class="menu">
+			<div class="menu menu_tab">
 				<ul>
-					<li class="active"><a href="#"><span>О клинике</span></a></li>
-					<li><a href="#"><span>Услуги и цены</span></a></li>
-					<li><a href="#"><span>Акции</span></a></li>
-					<li><a href="#"><span>Контакты</span></a></li>
+					<li class="active t1"><a href="#"><span>О клинике</span></a></li>
+					<li class="t3"><a href="#"><span>Услуги и цены</span></a></li>
+					<li class="t2"><a href="#"><span>Акции</span></a></li>
+					<li class="t4"><a href="#"><span>Контакты</span></a></li>
 				</ul>
 			</div>
-			<div class="tabs tab1 none">
-				<div class="gallery">
-					<div class="gallery-in">
-						<img src="images/content/gallery1.png" alt="" title="" />
+			<div class="tabs tab1">
+				<?php if (!empty($arResult['clinic']['gallery'])):?>
+					<div class="gallery">
+						<div class="gallery-in">
+							<?php foreach ($arResult['clinic']['gallery'] as $val):?>
+								<img src="<?=$val['original']?>" alt="<?=$val['description']?>" title="<?=$val['description']?>" />
+							<?php endforeach?>
+						</div>
+						<div class="gallery-desc">
+							<?php foreach ($arResult['clinic']['gallery'] as $val):?>
+								<?=$val['description']?>
+							<?php endforeach?>
+						</div>
+						<a href="#" class="arrow left">Назад<i></i></a>
+						<a href="#" class="arrow right">Вперед<i></i></a>
 					</div>
-					<div class="gallery-desc">
-						Одно слово - Валера
-					</div>
-					<a href="#" class="arrow left">Назад<i></i></a>
-					<a href="#" class="arrow right">Вперед<i></i></a>
-				</div>
+				<?php endif?>
 				<p><?=$arResult['clinic']['detail_text']?></p>
 			</div>
 			<div class="tabs tab2 none">
@@ -58,13 +65,13 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)
 					<?php endforeach?>
 				<?php endforeach?>
 			</div>
-			<div class="tabs tab3">
+			<div class="tabs tab3 none">
 				<div class="promotions">
 					<div class="items">
 						<?php if (!empty($arResult['clinic']['akzii'])):?>
 							<?php foreach ($arResult['clinic']['akzii'] as $arValue):?>
 								<div class="item">
-									<span class="perc"><?=$arValue['base_sale']?>%</span>
+									<span class="perc"><?=$arValue['sale']?>%</span>
 									<a href="<?=$arValue['link']?>">
 										<img src="<?=$arValue['logo']?>" alt="<?=$arValue["name"]?>" title="<?=$arValue["name"]?>" width="227px" height="159px">
 									</a>
@@ -85,32 +92,43 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)
 					</div>
 				</div>
 			</div>
-			<div class="tabs tab-c none">
-				<ul>
-					<li>
-						<b>Адрес</b>
-						<span>м. Лиговский проспект, ул. Черняховского, д. 53</span>
-					</li>
-					<li>
-						<b>Телефон</b>
-						<span>+7 (812) 777-03-60</span>
-					</li>
-					<li>
-						<b>Режим работы</b>
-						<span>с 9:00 до 21:00 <i>без выходных</i></span>
-					</li>
-					<li>
-						<b>Сайт клиники</b>
-						<a href="#">www.gruzdevclinic.ru</a>
-					</li>
-					<li>
-						<b>Принимают к оплате</b>
-						<span>наличные, банковские карты, кредит</span>
-					</li>
-				</ul>
-				<div class="map">
+			<div class="tabs tab-c tab4 none">
+				<?php if (!empty($arResult['clinic']['contacts'])):?>
+					<?php foreach ($arResult['clinic']['contacts'] as $val):?>
+						<h3><?=$val['name']?></h3>
+						<ul>
+							<li>
+								<b>Адрес</b>
+								<span>м. <?=$val['metro']?>, <?=$val['address']?></span>
+							</li>
+							<?php if (!empty($val['phone'])):?>
+								<li>
+									<b>Телефон</b>
+									<span><?=$val['phone']?></span>
+								</li>
+							<?php endif?>
+							<!--<li>-->
+							<!--<b>Режим работы</b>-->
+							<!--<span>с 9:00 до 21:00 <i>без выходных</i></span>-->
+							<!--</li>-->
+							<?php if (!empty($val['web'])):?>
+								<li>
+									<b>Сайт клиники</b>
+									<a href="<?=$val['web']?>"><?=$val['web_short']?></a>
+								</li>
+							<?php endif?>
+							<?php if (!empty($val['pays'])):?>
+								<li>
+									<b>Принимают к оплате</b>
+									<span><?=$val['pays']?></span>
+								</li>
+							<?php endif?>
+						</ul>
+						<div class="map">
 
-				</div>
+						</div>
+					<?php endforeach?>
+				<?php endif?>
 			</div>
 		</div>
 </div>

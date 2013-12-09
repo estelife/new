@@ -97,7 +97,7 @@ $arResult['clinics']=array();
 $i=0;
 while($arData=$obResult->Fetch()){
 	$arData['name']=trim($arData['name']);
-	$arData['link'] = '/clinic/'.\core\types\VString::translit($arData['name']).'-'.$arData['id'].'/';
+	$arData['link'] = '/CL'.$arData['id'].'/';
 
 	if(!empty($arData['logo_id'])){
 		$file=CFile::ShowImage($arData["logo_id"], 110, 90,'alt="'.$arData['name'].'"');
