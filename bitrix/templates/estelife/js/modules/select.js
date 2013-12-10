@@ -76,7 +76,7 @@ Estelife.prototype.select=function(jselect,need_filter){
 					if(list.is(':hidden')){
 						openOptions();
 					}else if(!$(this).hasClass('value')){
-						closeOptions()
+						closeOptions();
 						endFilter(true)
 					}
 
@@ -138,8 +138,11 @@ Estelife.prototype.select=function(jselect,need_filter){
 				s=opt.html();
 
 			if(!need_filter){
-				value.html(s);
-				value.attr('data-value',opt.attr('data-value'))
+				value.attr({
+					'data-value':opt.attr('data-value'),
+					'class':opt.attr('class')||''
+				})
+					.html(s)
 			}else
 				value.val(s);
 
@@ -220,7 +223,8 @@ Estelife.prototype.select=function(jselect,need_filter){
 				lastGroup='',
 				height=0,
 				curGroup,optPrnt,item,link,
-				prnt=list.find('.jspPane');
+				prnt=list.find('.jspPane'),
+				optionValue;
 
 			if(prnt.length<=0)
 				prnt=list;
@@ -232,7 +236,14 @@ Estelife.prototype.select=function(jselect,need_filter){
 			}
 
 			if(!need_filter){
-				value.attr('data-value',currentOption.attr('value'));
+				optionValue=currentOption.attr('value');
+				value.attr({
+					'data-value':optionValue
+				});
+
+				if(optionValue!='' && optionValue!=0)
+					value.addClass('has-value v'+optionValue);
+
 				value.html(parseOptHtml(currentOption.html()));
 			}else
 				value.val(parseOptHtml(currentOption.html()));
@@ -249,8 +260,17 @@ Estelife.prototype.select=function(jselect,need_filter){
 					}
 				}
 
-				item=$('<em></em>').addClass('item'),
-				link=$('<a></a>').attr({'data-value':currentOption.attr('value'),'href':'javascript:void(0)'}).html(parseOptHtml(currentOption.html()));
+				optionValue=currentOption.attr('value');
+				item=$('<em></em>').addClass('item');
+				link=$('<a></a>')
+					.attr({
+						'data-value':optionValue,
+						'href':'javascript:void(0)'
+					})
+					.html(parseOptHtml(currentOption.html()));
+
+				if(optionValue!='' && optionValue!=0)
+					link.addClass('has-value v'+optionValue);
 
 				if(index==i)
 					item.addClass('active');

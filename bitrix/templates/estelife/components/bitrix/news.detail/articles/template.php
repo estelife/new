@@ -8,9 +8,9 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 <div class="content">
 	<div class="inner">
 		<ul class="crumb">
-			<li><a href="#">Главная</a></li>
+			<li><a href="/">Главная</a></li>
 			<li><a href="#">Интересные материалы</a></li>
-			<li><b>Женщины, красивые как куклы</b></li>
+			<li><b><?=$arResult["NAME"]?></b></li>
 		</ul>
 		<div class="item detail">
 			<h1><?=$arResult["NAME"]?></h1>

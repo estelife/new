@@ -10,11 +10,8 @@ $obCompanies = VDatabase::driver();
 $sCompanyName=null;
 $nCompanyId=null;
 
-if (isset($arParams['PILL_NAME']) && strlen($arParams['PILL_NAME'])>0){
-	$sCompanyName = strip_tags($arParams['PILL_NAME']);
-}elseif (isset($arParams['PILL_ID']) && strlen($arParams['PILL_ID'])>0){
-	$nCompanyId=intval($arParams['PILL_ID']);
-}
+$nCompanyId= (isset($arParams['ID']))?
+	intval($arParams['ID']) : 0;
 
 //Получаем данные по клинике
 $obQuery = $obCompanies->createQuery();
@@ -60,12 +57,7 @@ $obQuery->builder()
 
 $obFilter=$obQuery->builder()->filter();
 
-if(!is_null($sCompanyName)){
-	$obFilter->_or()
-		->_eq('ec.translit', $sCompanyName);
-	$obFilter->_or()
-		->_eq('ect.translit', $sCompanyName);
-}else if(!is_null($nCompanyId)){
+if(!is_null($nCompanyId)){
 	$obFilter->_eq('ec.id',$nCompanyId);
 }else{
 	$obFilter->_eq('ec.id',0);
@@ -113,7 +105,8 @@ $arProductions = $obQuery->select()->all();
 
 foreach ($arProductions as $val){
 	$val['img'] = CFile::ShowImage($val['logo_id'],150, 140, 'alt='.$val['name']);
-	$val['link'] = '/preparations/'.$val['translit'].'/';
+	$val['preview_text'] = \core\types\VString::truncate($val['preview_text'], 100, '...');
+	$val['link'] = '/PS'.$val['id'].'/';
 	$arResult['production'][] = $val;
 }
 

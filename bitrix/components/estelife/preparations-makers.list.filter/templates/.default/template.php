@@ -9,7 +9,7 @@
 		<input name="name" type="text" value="<?=$_GET['name']?>" class="text"/>
 	<span class="block"></span>
 	</div>
-	<div class="field">
+	<div class="field country">
 		<label for="country">Страна</label>
 		<select name="country" >
 			<option value="">--</option>

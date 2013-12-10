@@ -60,7 +60,7 @@
 			<a href="#" class="cols">Войти</a>
 		</div>
 	</div>
-	<div class="cities main_cities"></div>
+	<div class="cities main_cities none"></div>
 	<div class="head">
 		<a href="/" class="logo">
 			Портал<br /> эстетической медицины
