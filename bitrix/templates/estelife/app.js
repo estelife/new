@@ -76,68 +76,22 @@ var showDetail;
 
 $(function home(){
 
-	//Вывод списка городов
-	$('.change_city').click(function(){
-		var col = $('.change_city'),
-			index = col.index($(this)),
-			prnt = $('.main_cities');
+	//Вывод списка городов в шапке
+	$('.change_main_city').click(function(){
+		Cities.load(
+			Cities.createAdapter('main')
+		);
 
-		if (prnt.html() != ''){
-			if (prnt.hasClass('cities_open'))
-				prnt.addClass('none').removeClass('cities_open');
-			else
-				prnt.removeClass('none').addClass('cities_open');
-		}else{
-			EL.loadModule('templates',function(){
-				var detail_generator=new EL.templates({
-					'path':'/api/estelife_ajax.php',
-					'template':'cities',
-					'params':{
-						'action':'get_template'
-					}
-				});
-
-				$.get('/api/estelife_ajax.php',{
-					'action':'get_cities'
-				},function(r){
-					if(r.active && r.passive){
-						detail_generator.ready(function(){
-							var html = detail_generator.make(r);
-							if (html.length>0){
-								if (index == 0){
-									prnt.html(html).addClass('cities_open');
-								}else{
-
-								}
-							}
-						});
-					}else{
-						alert('Ошибка получения городов')
-					}
-				},'json');
-			});
-		}
+		return false;
 	});
 
-	//Смена города
-	$('body').on('click', '.main_cities .col1 a', function(){
-		var th = $(this);
+	//Вывод списка городов для акций
+	$('.change_promotions_city').click(function(){
+		Cities.load(
+			Cities.createAdapter('promotions')
+		);
 
-
-		$.get('/api/estelife_ajax.php',{
-			'action':'set_city',
-			'city': th.attr('class')
-		},function(r){
-			if(r.city){
-				$('.main_cities .col1 li').removeClass('active');
-				th.parent().addClass('active');
-				$('.panel .change_city span').html(r.city.NAME);
-				$('.panel .change_city span').attr('class', 'city_'+r.city.ID);
-				$('.main_cities').addClass('none').removeClass('cities_open');
-			}else{
-				alert('Ошибка получения городов')
-			}
-		},'json');
+		return false;
 	});
 
 	//Переключение между вкладками
@@ -232,6 +186,198 @@ $(function home(){
 
 
 });
+
+var Cities=(function(){
+	var html,
+		adapters={
+			'main':mainGeoAdapter,
+			'promotions':promotionsGeoAdapter
+		},
+		listeners=[];
+
+	function fireEvent(event,data){
+		if(listeners.length>0){
+			var key,event='on'+event.substr(0,1).toUpperCase()+event.substr(1);
+
+			for(key in listeners){
+				if(event in listeners[key])
+					listeners[key][event](data);
+			}
+		}
+	}
+
+	return {
+		load:function(adapter){
+			if (!html){
+				//Загружаем список и преобразуем шаблон
+				EL.loadModule('templates',function(){
+					var detail_generator=new EL.templates({
+						'path':'/api/estelife_ajax.php',
+						'template':'cities',
+						'params':{
+							'action':'get_template'
+						}
+					});
+
+					$.get('/api/estelife_ajax.php',{
+						'action':'get_cities'
+					},function(r){
+						if(r.active && r.passive){
+							detail_generator.ready(function(){
+								var h = detail_generator.make(r);
+								if (h.length>0){
+									html = h;
+
+									if(typeof adapter=='object' && 'transform' in adapter)
+										adapter.transform(h);
+								}else{
+									console.log('Ошибка получения html')
+								}
+							});
+						}else{
+							console.log('Ошибка получения городов')
+						}
+					},'json');
+				});
+			}else{
+				var h=html;
+
+				if(typeof adapter=='object' && 'transform' in adapter)
+					adapter.transform(h);
+			}
+
+		},
+
+		createAdapter:function(nameAdapter){
+			if(!(nameAdapter in adapters))
+				throw 'adapter unsupported';
+
+			return new adapters[nameAdapter]();
+		},
+
+		setCity:function(city){
+			$.get('/api/estelife_ajax.php',{
+				'action':'set_city',
+				'city': city
+			},function(r){
+				if(r.city){
+					fireEvent('cityChange',r.city);
+				}else{
+					alert('Ошибка получения городов')
+				}
+			},'json');
+		},
+
+		getPromotions: function(city){
+			//Загружаем список и преобразуем шаблон
+			EL.loadModule('templates',function(){
+				var detail_generator=new EL.templates({
+					'path':'/api/estelife_ajax.php',
+					'template':'promotions_index',
+					'params':{
+						'action':'get_template'
+					}
+				});
+
+				$.get('/api/estelife_ajax.php',{
+					'action':'get_promotions_index',
+					'city':city
+				},function(r){
+					if(r.complete){
+						detail_generator.ready(function(){
+							var h = detail_generator.make(r.complete);
+							if (h.length>0){
+								$('.promotions.announces .items').html(h);
+								$('.more_promotions').attr('href','/promotions/?city='+city);
+							}else{
+								console.log('Ошибка получения html')
+							}
+						});
+					}else{
+						console.log('Ошибка получения городов')
+					}
+				},'json');
+			});
+		},
+
+		addEventListener:function(listener){
+			if(listeners.inArray(listener)==-1)
+				listeners.push(listener);
+		},
+
+		removeEventListener:function(listener){
+			var key=listeners.inArray(listener);
+
+			if(key>-1)
+				listeners.remove(key);
+		}
+	}
+})();
+
+function mainGeoAdapter(){
+
+	this.transform = function(html){
+		var prnt = $('.main_cities');
+		html=$(html);
+
+		if (prnt.html().length<=0)
+			prnt.append(html);
+
+		if (prnt.hasClass('cities_open'))
+			prnt.addClass('none').removeClass('cities_open');
+		else
+			prnt.removeClass('none').addClass('cities_open');
+
+		html.find('a').click(function(){
+			var target=$(this);
+			Cities.setCity(target.attr('class'));
+		});
+	}
+}
+
+function promotionsGeoAdapter(){
+
+	this.transform = function(html){
+		var prnt = $('.promotions_city');
+		html=$(html);
+
+		if (prnt.html().length<=0)
+			prnt.append(html);
+
+		if (prnt.hasClass('cities_open'))
+			prnt.addClass('none').removeClass('cities_open');
+		else
+			prnt.removeClass('none').addClass('cities_open');
+
+		html.find('a').click(function(){
+			var target=$(this),
+				id = target.attr('class');
+
+			$('li',prnt).removeClass('active');
+			$('a.'+id, prnt).parent().addClass('active');
+
+			$('.change_promotions_city span').html(target.html()).attr('class', 'city_'+id);
+			$('.cities').addClass('none').removeClass('cities_open');
+
+			Cities.getPromotions(id);
+
+			return false;
+		});
+	}
+}
+
+Cities.addEventListener({
+	onCityChange:function(city){
+		$('.cities li').removeClass('active');
+		$('.cities a.'+city.ID).parent().addClass('active');
+
+		$('.change_city span').html(city.NAME).attr('class', 'city_'+city.ID);
+		$('.cities').addClass('none').removeClass('cities_open');
+
+		Cities.getPromotions(city.ID);
+	}
+});
+
 
 $(function(){
 	var detail=$('.el-ditem'),

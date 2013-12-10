@@ -5,7 +5,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)
 <div class="content">
 	<?php
 	$APPLICATION->IncludeComponent(
-		"estelife:promotions.detail",
+		"estelife:apparatuses.detail",
 		"",
 		array(
 			"PREFIX"=>$arResult['PREFIX'],
@@ -16,7 +16,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)
 	?>
 	<?php
 	$APPLICATION->IncludeComponent(
-		"estelife:promotions.list.filter",
+		"estelife:apparatuses-makers.list.filter",
 		"",
 		array(),
 		false

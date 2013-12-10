@@ -6,7 +6,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	<div class="articles inner">
 		<ul class="crumb">
 			<li><a href="/">Главная</a></li>
-			<li><a href="#">Интересные материалы</a></li>
+			<li><a href="#"><?=$arResult['LAST_SECTION']['NAME']?></a></li>
 		</ul>
 		<?php if (!empty($arResult["ITEMS"])):?>
 			<div class="title">
@@ -14,7 +14,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			</div>
 			<div class="items">
 				<? foreach($arResult["ITEMS"] as $arItem):?>
-				<div class="item">
+				<div class="item article">
 					<?$img = CFile::GetFileArray($arItem['PROPERTIES']['LISTIMG']['VALUE']);?>
 					<img src="<?=$img['SRC']?>" alt="<?=$arItem['NAME']?>" title="<?=$arItem['NAME']?>" width="229px" height="160px" />
 					<h3><a href="<?=$arItem["DETAIL_PAGE_URL"]?>"><?=$arItem['NAME']?></a></h3>

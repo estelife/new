@@ -1,6 +1,7 @@
 <?php
 use core\database\VDatabase;
 use core\types\VArray;
+use geo\VGeo;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 CModule::IncludeModule("iblock");
@@ -19,8 +20,16 @@ if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 	$arPageCount = $arParams['PAGE_COUNT'];
 else
 	$arPageCount = 10;
+if (isset($arParams['CITY_ID']) && $arParams['CITY_ID']>0){
+	//Получаем имя города по его ID
+	$arSelect = Array("ID", "NAME");
+	$arFilter = Array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "ID" => $arParams['CITY_ID']);
+	$obCity = CIBlockElement::GetList(Array("NAME"=>"ASC"), $arFilter, false, false, $arSelect);
 
-if(isset($arParams['CITY_CODE']) && !empty($arParams['CITY_CODE'])){
+	while($res = $obCity->Fetch()) {
+		$arResult['city'] = $res;
+	}
+}else if(isset($arParams['CITY_CODE']) && !empty($arParams['CITY_CODE'])){
 	//Получаем ID города по его коду
 	$arSelect = Array("ID", "NAME");
 	$arFilter = Array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "CODE" => $arParams['CITY_CODE']);
@@ -31,13 +40,7 @@ if(isset($arParams['CITY_CODE']) && !empty($arParams['CITY_CODE'])){
 	}
 }elseif(isset($_COOKIE['estelife_city'])){
 	//Получаем имя города по его ID
-	$arSelect = Array("ID", "NAME");
-	$arFilter = Array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "ID" => $_COOKIE['estelife_city']);
-	$obCity = CIBlockElement::GetList(Array("NAME"=>"ASC"), $arFilter, false, false, $arSelect);
-
-	while($res = $obCity->Fetch()) {
-		$arResult['city'] = $res;
-	}
+	$arResult['city'] = VGeo::getInstance()->getGeo();
 }
 
 
@@ -72,7 +75,7 @@ $obFilter->_eq('ea.active', 1);
 $obQuery->builder()->sort('ea.end_date', 'desc');
 
 if (!empty($arResult['city'])){
-	$obFilter->_eq('eca.city_id', $arResult['city']['ID']);
+	$obFilter->_eq('ec.city_id', $arResult['city']['ID']);
 }else{
 	if(!$obGet->blank('city'))
 		$obFilter->_eq('ec.city_id', intval($obGet->one('city')));
@@ -98,6 +101,7 @@ if(!empty($arCount)){
 	$arActions= $obResult->all();
 	foreach ($arActions as $val){
 		$val['img'] = CFile::GetFileArray($val["logo_id"]);
+		$val['src'] = $val['img']['SRC'];
 		$val['new_price'] = intval($val['new_price']);
 		$val['old_price'] = intval($val['old_price']);
 		$val['time'] = ceil(($val['end_date']-$arNow)/(60*60*24));

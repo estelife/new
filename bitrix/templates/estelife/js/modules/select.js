@@ -139,9 +139,9 @@ Estelife.prototype.select=function(jselect,need_filter){
 
 			if(!need_filter){
 				value.attr({
-						'data-value':opt.attr('data-value'),
-						'class':opt.attr('class')||''
-					})
+					'data-value':opt.attr('data-value'),
+					'class':opt.attr('class')||''
+				})
 					.html(s)
 			}else
 				value.val(s);
@@ -238,8 +238,8 @@ Estelife.prototype.select=function(jselect,need_filter){
 			if(!need_filter){
 				optionValue=currentOption.attr('value');
 				value.attr({
-						'data-value':optionValue
-					});
+					'data-value':optionValue
+				});
 
 				if(optionValue!='' && optionValue!=0)
 					value.addClass('has-value v'+optionValue);

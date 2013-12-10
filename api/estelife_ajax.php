@@ -358,6 +358,19 @@ try{
 			);
 			$arResult=false;
 			break;
+		case 'get_promotions_index':
+			$_GET=array_merge($_GET,$arData);
+			$APPLICATION->IncludeComponent(
+				"estelife:promotions.list",
+				"ajax",
+				array(
+					"COUNT" => 3,
+					"CITY_ID" =>intval($_GET['city'])
+				),
+				false
+			);
+			$arResult=false;
+			break;
 		case 'set_city':
 			$_GET=array_merge($_GET,$arData);
 			$APPLICATION->IncludeComponent(

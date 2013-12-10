@@ -22,6 +22,21 @@ var Estelife=function(s){
 			return this.push.apply(this, rest);
 		};
 
+		// Find in Array - By Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+		Array.prototype.inArray=function(needle,haystack,strict) {
+			var key,found = -1;
+			strict = !!strict;
+
+			for (key in haystack) {
+				if ((strict && haystack[key] === needle) || (!strict && haystack[key] == needle)) {
+					found=key;
+					break;
+				}
+			}
+
+			return found;
+		}
+
 		String.prototype.addslashes=function(){
 			return (this+'').replace(/([^\w\d\s])/ig,'\\$1');
 		}

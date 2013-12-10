@@ -27,7 +27,7 @@
 					<div class="cols">
 						<h2><a href="<?=$arPill["link"]?>"><?=$arPill["name"]?></a></h2>
 						<ul>
-							<li class="country c<?=$arApp["country_id"]?>"><?=$arPill["country_name"]?></li>
+							<li class="country c<?=$arPill["country_id"]?>"><?=$arPill["country_name"]?></li>
 							<?php if (!empty($arPill["web"])):?>
 								<li><a href="<?=$arPill["web"]?>"><?=$arPill["short_web"]?></a></li>
 							<?php endif?>
