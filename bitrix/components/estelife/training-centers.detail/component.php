@@ -172,6 +172,91 @@ $arResult['company']['contacts']['phone'] = implode(', ', $arResult['company']['
 $arResult['company']['contacts']['fax'] = implode(', ', $arResult['company']['fax']);
 $arResult['company']['contacts']['email'] = implode(', ', $arResult['company']['email']);
 
+
+//получение мероприятий компании
+$obQuery = $obCompanies->createQuery();
+$obQuery->builder()->from('estelife_events', 'ee');
+$obJoin=$obQuery->builder()->join();
+$obJoin->_left()
+	->_from('ee', 'id')
+	->_to('estelife_event_types', 'event_id', 'eet');
+$obJoin->_left()
+	->_from('ee', 'id')
+	->_to('estelife_company_events', 'event_id', 'ece')
+	->_cond()->_eq('ece.is_owner', 1);
+$obJoin->_left()
+	->_from('ee','id')
+	->_to('estelife_calendar','event_id','ecal');
+
+$obQuery->builder()
+	->field('ee.id','id')
+	->field('ee.short_name','name')
+	->field('ee.preview_text', 'preview_text');
+$obFilter=$obQuery->builder()->filter()
+	->_eq('eet.type', 3)
+	->_eq('ece.company_id', $arResult['company']['id']);
+
+$nDateFrom=\core\types\VDate::dateToTime(date('d.m.Y', time()).' 00:00');
+$obFilter->_gte('ecal.date',$nDateFrom);
+$obQuery->builder()->sort('ecal.date','asc');
+$obQuery->builder()->group('ee.id');
+$obQuery->builder()->slice(0,10);
+$arEvents = $obQuery->select()->all();
+
+foreach ($arEvents as $val){
+	$val['link'] = '/tr'.$val['id'].'/';
+	$arResult['events'][$val['id']] = $val;
+	$arIds[] = $val['id'];
+}
+
+if (!empty($arIds)){
+	//Получение календаря
+	$obQuery=$obCompanies->createQuery();
+	$obFilter=$obQuery->builder()
+		->from('estelife_calendar')
+		->sort('date','asc')
+		->filter()
+		->_in('event_id', $arIds)
+		->_gte('date',$nDateFrom);
+
+	$arCalendar=$obQuery->select()->all();
+
+
+	foreach ($arCalendar as $val)
+		$arResult['events'][$val['event_id']]['calendar'][]=$val['date'];
+
+
+	foreach($arResult['events'] as $nKey=>&$arTraining){
+		if (!empty($arTraining['calendar'])){
+			$arTraining['calendar']=\core\types\VDate::createDiapasons($arTraining['calendar'],function(&$nFrom,&$nTo){
+				if($nTo==0){
+					$nFrom=\core\types\VDate::date($nFrom, 'j F');
+				}else{
+					$arFrom=explode('.',date('n',$nFrom));
+					$arTo=explode('.',date('n',$nTo));
+					$sPattern='j F';
+
+					if($arFrom[1]==$arTo[1])
+						$sPattern=($arFrom[0]==$arTo[0]) ? 'j' : 'j F';
+
+					$nFrom=\core\types\VDate::date($nFrom,$sPattern);
+					$nTo=\core\types\VDate::date($nTo,'j F');
+				}
+			});
+			$arTraining['first_period'] = current($arTraining['calendar']);
+			$arD = preg_match("/^[0-9]+/", $arTraining['first_period']['from'], $mathes);
+			$arTraining['first_date'] =  $mathes[0]. ' <i>';
+
+			if (preg_match("/[а-я]+/u" ,$arTraining['first_period']['from'], $mathes)){
+				$arTraining['first_date'] .= mb_substr($mathes[0], 0, 3, 'utf-8').'</i>';
+			}else{
+				$arM = preg_match("/[а-я]+/u", $arTraining['first_period']['to'], $mathes);
+				$arTraining['first_date'] .= mb_substr($mathes[0], 0, 3, 'utf-8').'</i>';
+			}
+		}
+	}
+
+}
 $APPLICATION->SetPageProperty("title", 'Estelife - '.$arResult['company']['name']);
 $APPLICATION->SetPageProperty("description", mb_substr(trim(strip_tags($arResult['company']['preview_text'])),0,140,'utf-8'));
 $APPLICATION->SetPageProperty("keywords", "Estelife, учебный центр, ".mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['company']['name'])),'utf-8'));

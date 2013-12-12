@@ -25,7 +25,7 @@ if (isset($arParams['CITY_CODE']) && !empty($arParams['CITY_CODE'])){
 	}
 }
 
-//Получение списка клиник
+//Получение списка обучений
 $obQuery = $obClinics->createQuery();
 $obQuery->builder()->from('estelife_events', 'ee');
 $obJoin=$obQuery->builder()->join();
