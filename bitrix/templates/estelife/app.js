@@ -893,6 +893,7 @@ function initFilter(context){
 		current.find('input').datepicker({
 			numberOfMonths: 1,
 			dateFormat: 'dd.mm.y',
+			isRTL:(!from),
 			onClose: function( selectedDate ) {
 				other.find('input').datepicker(
 					"option",

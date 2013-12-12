@@ -1319,7 +1319,7 @@ td.prices span {
 	float:right;
 }
 .filter .date input {
-	width:73px;
+	width:74px;
 	min-width: 0;
 	padding:3px 7px;
 }
@@ -1330,7 +1330,7 @@ td.prices span {
 	background-position: 0 -69px;
 	position: absolute;
 	top:6px;
-	right:6px;
+	right:5px;
 	cursor: pointer;
 }
 .field .block {
