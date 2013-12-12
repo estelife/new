@@ -2,15 +2,17 @@
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 $arDirectories = array(
-	"NS" => "novosti",
-	"PT" => "podcast",
-	"AR" => "articles",
-	"PR" => "promotions",
-	"CL" => "clinics",
-	"AM" => "apparatuses-makers",
-	"PM" => "preparations-makers",
-	"AP" => "apparatuses",
-	"PS" => "preparations",
+	"ns" => "novosti",
+	"pt" => "podcast",
+	"ar" => "articles",
+	"pr" => "promotions",
+	"cl" => "clinics",
+	"am" => "apparatuses-makers",
+	"pm" => "preparations-makers",
+	"ap" => "apparatuses",
+	"ps" => "preparations",
+	"tc" => "training-centers",
+	"tr" => "trainings",
 );
 
 $arDefaultUrlTemplates404 = array(

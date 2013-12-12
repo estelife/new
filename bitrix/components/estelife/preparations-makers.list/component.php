@@ -94,7 +94,7 @@ while($arData=$obResult->Fetch()){
 		$arData['name'] = $arData['type_name'];
 	}
 	
-	$arData['link'] = '/PM'.$arData['id'].'/';
+	$arData['link'] = '/pm'.$arData['id'].'/';
 
 	if (!empty($arData['type_logo_id'])){
 		$arData["logo_id"] = $arData["type_logo_id"];

@@ -6,22 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 $(function(){
-	EL.loadModule('bayan',function(){
-		EL.bayan($('.el-gallery .image'));
+	EL.loadModule('slider',function(){
+		EL.slider($('.gallery .gallery-in .item'));
 	});
-	EL.loadModule('colorbox',function(){
-		EL.colorbox();
-	});
-
-	if('jScrollPane' in jQuery.fn){
-		$('.production').jScrollPane({
-			hideFocus:true,
-			verticalDragMaxHeight:100,
-			verticalDragMinHeight:50,
-			autoReinitialise:true,
-			autoReinitialiseDelay:200,
-			verticalGutter:0,
-			mouseWheelSpeed:30
-		});
-	}
 });

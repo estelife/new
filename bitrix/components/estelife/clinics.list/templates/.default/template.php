@@ -10,7 +10,7 @@
 	<div class="items">
 		<?php if (!empty($arResult['clinics'])):?>
 			<?php foreach ($arResult['clinics'] as $arClinic):?>
-			<div class="item clinic">
+			<div class="item company">
 				<h2><a href="<?=$arClinic["link"]?>" class="el-get-detail"><?=$arClinic["name"]?></a></h2>
 				<div class="item-in">
 					<?php if (!empty($arClinic['pays'])):?>

@@ -2,15 +2,17 @@
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 $arDirectories = array(
-	"NS" => "novosti",
-	"PT" => "podcast",
-	"AR" => "articles",
-	"PR" => "promotions",
-	"CL" => "clinics",
-	"AM" => "apparatuses-makers",
-	"PM" => "preparations-makers",
-	"AP" => "apparatuses",
-	"PS" => "preparations",
+	"ns" => "novosti",
+	"pt" => "podcast",
+	"ar" => "articles",
+	"pr" => "promotions",
+	"cl" => "clinics",
+	"am" => "apparatuses-makers",
+	"pm" => "preparations-makers",
+	"ap" => "apparatuses",
+	"ps" => "preparations",
+	"tc" => "training-centers",
+	"tr" => "trainings",
 );
 
 $arDefaultUrlTemplates404 = array(
@@ -40,7 +42,7 @@ $componentPage = CComponentEngine::ParseComponentPath(
 //разбираем $arVariables
 CModule::IncludeModule('estelife');
 $sCode=htmlspecialchars($arVariables['CURRENT_CODE'],ENT_QUOTES,'utf-8');
-$arLink = preg_match('/^([A-Z]{2})([0-9]+)$/', $sCode, $mathces);
+$arLink = preg_match('/^([a-z]{2})([0-9]+)$/', $sCode, $mathces);
 
 
 if (!$arLink || empty($arDirectories[$mathces[1]]))
@@ -60,6 +62,7 @@ if (!$arLink || empty($arDirectories[$mathces[1]]))
 }else{
 	$componentPage = $arDirectories[$mathces[1]];
 }
+
 
 CComponentEngine::InitComponentVariables($componentPage, $arComponentVariables, $arVariableAliases, $arVariables);
 

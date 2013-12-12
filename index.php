@@ -26,7 +26,7 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 			"FIELD_CODE" => array("ID", "CODE", "NAME", "TAGS", "SORT", "PREVIEW_TEXT", "PREVIEW_PICTURE", "IBLOCK_TYPE_ID", "IBLOCK_ID", "IBLOCK_CODE", "IBLOCK_NAME", "IBLOCK_EXTERNAL_ID", "DATE_CREATE"),
 			"PROPERTY_CODE" => array("FORUM_MESSAGE_CNT"),
 			"CHECK_DATES" => "Y",
-			"DETAIL_URL" => "/AR#ELEMENT_ID#/",
+			"DETAIL_URL" => "/ar#ELEMENT_ID#/",
 			"PREVIEW_TRUNCATE_LEN" => "0",
 			"ACTIVE_DATE_FORMAT" => "j F Y",
 			"SET_TITLE" => "N",
@@ -74,25 +74,21 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 			)
 		);?>
 	</div>
-	<div class="experts">
-		<h2>Экспертное мнение</h2>
-		<div class="item">
-			<div class="user">
-				<img src="images/content/expert.png" alt="" title="" />
-				<b>Саромыцкая Алена Николаевна</b>
-				<i>Врач дерматолог косметолог</i>
-			</div>
-			<div class="quote">
-				<h3>Как не утонуть в море советов</h3>
-				<p>В мире красоты распространено великое множество «полезных» советов. Попробуем разобраться, какие из них соответствуют действительности, а какие – нет.</p>
-			</div>
-		</div>
-		<ul class="menu">
-			<li><a href="#"><i></i></a></li>
-			<li class="active"><a href="#"><i></i></a></li>
-			<li><a href="#"><i></i></a></li>
-		</ul>
-	</div>
+	<?$APPLICATION->IncludeComponent(
+		"estelife:expert.list",
+		"",
+		array(
+			"IBLOCK_ID"=>35,
+			"NEWS_COUNT" => 3,
+			"MAIN_URL" => "",
+			"TITLE"=>"Экспертное мнение",
+			"MORE_TITLE"=>"",
+			"IMG" => 176,
+			"AUTOR"=> 174,
+			"PROFESSION" => 175,
+			"PREFIX" => ""
+		)
+	)?>
 	<?php
 		$APPLICATION->IncludeComponent(
 			"estelife:promotions.list",
@@ -116,7 +112,7 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 			"TITLE"=>"Советы о красоте",
 			"MORE_TITLE"=>"Больше советов о красоте",
 			"IMG_FIELD" => 151,
-			"PREFIX" => "AR"
+			"PREFIX" => "ar"
 		)
 	)?>
 	<div class="adv bottom">
@@ -155,7 +151,7 @@ $APPLICATION->IncludeComponent(
 			"TITLE"=>"Новости сферы",
 			"MORE_TITLE"=>"Архив новостей",
 			"IMG_FIELD" =>145,
-			"PREFIX" => "NS"
+			"PREFIX" => "ns"
 		)
 	)?>
 </div>

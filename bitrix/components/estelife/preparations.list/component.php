@@ -88,7 +88,7 @@ $arResult['pills'] = array();
 $arDescription=array();
 
 while($arData=$obResult->Fetch()){
-	$arData['link'] = '/PS'.$arData['id'].'/';
+	$arData['link'] = '/ps'.$arData['id'].'/';
 	$arData['preview_text'] = \core\types\VString::truncate(htmlspecialchars_decode($arData['preview_text'],ENT_NOQUOTES), 250, '...');
 
 	if(!empty($arData['logo_id'])){
@@ -115,7 +115,7 @@ while($arData=$obResult->Fetch()){
 	}
 	unset($arData['type_company_id']);
 
-	$arData['company_link'] = '/PM'.$arData['company_id'].'/';
+	$arData['company_link'] = '/pm'.$arData['company_id'].'/';
 
 	$arResult['pills'][]=$arData;
 	$arDescription[]=mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arData['name'])),'utf-8');

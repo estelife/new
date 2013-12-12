@@ -43,12 +43,12 @@ body {
 .general-news .title h1, .general-news .title h2, .general-news, .general-news .col2 .img, .general-news .subscribe, .adv,
 .experts ul li, .item.promotion, .articles, .articles .menu li,.item.detail .menu li, .item.article, .media .item, .media .menu li, .footer .menu li,
 .crumb, .crumb li, .nav, .nav li, .inner, .item.detail .gallery, .similars, .item.producer .img, .item.product .img, .items .item.producer li,
-.inner .title .menu li, .inner .products .item.product {
+.inner .title .menu li, .inner .products .item.product, .item.training .img, .item.detail .user img {
 	float:left;
 	display: block;
 }
 .experts, .panel a.cols, .head form, .head li.last, .general-news .col2, .adv.right, .promotion .time, .filter,
-.clinics img, .item.clinic .img {
+.clinics img, .item.company .img {
 	float:right;
 }
 .wrap,.gallery-desc {
@@ -60,7 +60,8 @@ body {
 	box-shadow: 0 0 10px #aaa;
 }
 .social a, .arrow i, ul.stat i, .promotion .time i, .promotion .prices i, .media .item span, .media .menu .first a,
-.promotion .time i, .promotion .prices i, .item.detail .clinic .col1 a, .select .arrow, .item.clinic p i, .gallery .arrow i, td.prices i {
+.promotion .time i, .promotion .prices i, .item.detail .clinic .col1 a, .select .arrow, .item.company p i, .gallery .arrow i, td.prices i,
+.filter .date i{
 	background-image:url('../images/complex.png');
 	background-repeat: no-repeat;
 }
@@ -177,6 +178,18 @@ ul li:last-child, ul li.last-child {
 }
 .panel .social a.lj:hover {
 	background-position:-68px -34px;
+}
+.panel .social a.gp {
+	background-position:-354px -67px;
+}
+.panel .social a.gp:hover {
+	background-position:-331px -67px;
+}
+.panel .social a.yt {
+	background-position:-376px -67px;
+}
+.panel .social a.yt:hover {
+	background-position:-398px -67px;
 }
 .head {
 	height:160px;
@@ -526,7 +539,7 @@ ul.stat .unlikes i {
 	font-size:12px;
 }
 .experts h3, .item.detail .clinic h3, .item h3, .item h3 a,
-.inner .products .item.product h2, .item.detailt .product h2 a  {
+.inner .products .item.product h2, .inner .products .item.product h2 a, .item.detailt .product h2 a  {
 	font-size:18px;
 }
 .experts h3 {
@@ -604,11 +617,11 @@ ul.stat .unlikes i {
 	padding-bottom:15px;
 	cursor: pointer;
 }
-.item.promotion:hover, .item.clinic:hover,
-.item.product:hover, .item.producer:hover{
+.item.promotion:hover, .item.company:hover,
+.item.product:hover, .item.producer:hover, .item.training:hover {
 	border-color:#e50364;
 }
-.item .perc, .promotion .perc {
+.item .perc, .promotion .perc, .item.training .date {
 	width:40px;
 	padding:23px 0 5px 0;
 	background:#e50364;
@@ -642,7 +655,8 @@ ul.stat .unlikes i {
 	width: 100px;
 	margin-left: 20px;
 }
-.item.promotion .prices b, .item.promotion .prices s, .item.promotion .time, td.prices span {
+.item.promotion .prices b, .item.promotion .prices s, .item.promotion .time, td.prices span,
+.item.training .current {
 	position: relative;
 }
 .item.promotion .prices b {
@@ -703,7 +717,7 @@ td.prices span {
 .item.promotion .current .time {
 	float:left;
 }
-.item.promotion .current .perc {
+.item.promotion .current .perc, .item.training .date {
 	padding: 0;
 	width: 65px;
 	left: 0;
@@ -724,7 +738,7 @@ td.prices span {
 	position: relative;
 	left: -20px;
 }
-.title {
+.title, .inner .similars .title {
 	width:100%;
 	height:22px;
 	margin-bottom:20px;
@@ -998,7 +1012,7 @@ td.prices span {
 	background:#dfdfdf;
 	padding:20px 0;
 }
-.media .content {
+.media .content, .item.training {
 	position: relative;
 }
 .media .title {
@@ -1123,7 +1137,7 @@ td.prices span {
 	display: none;
 }
 .item.detail .gallery-in .img, .item.detail .article-img-in, .inner .products .item.product .img,
-.item.clinic .img-in, .item.producer .img-in, .item.product .img-in{
+.item.company .img-in, .item.producer .img-in, .item.product .img-in, .item.training .img-in {
 	display: table-cell;
 	vertical-align: middle;
 }
@@ -1210,7 +1224,7 @@ td.prices span {
 .item.detail .info img {
 	border:none;
 }
-.item.detail .info .social .cols {
+.item.detail .info .social .cols, .item.training .img {
 	margin-right:20px;
 }
 .item.detail .info .author {
@@ -1292,6 +1306,32 @@ td.prices span {
 }
 .filter .select, .filter .input.text {
 	height:26px;
+}
+.filter .date {
+	overflow: hidden;
+}
+.filter .date div {
+	float:left;
+	width:90px;
+	position: relative;
+}
+.filter .date div.to {
+	float:right;
+}
+.filter .date input {
+	width:73px;
+	min-width: 0;
+	padding:3px 7px;
+}
+.filter .date i {
+	display: block;
+	width:16px;
+	height:16px;
+	background-position: 0 -69px;
+	position: absolute;
+	top:6px;
+	right:6px;
+	cursor: pointer;
 }
 .field .block {
 	background:#e8e8e8;
@@ -1379,58 +1419,60 @@ td.prices span {
 	width: 90px;
 	margin: 20px auto 0 auto;
 }
-.item.clinic h2 a, .item.producer h2 a, .item.product h2 a {
+.item.company h2 a, .item.producer h2 a, .item.product h2 a, .item.training h2 a {
 	font-size:24px;
 	text-decoration: none;
 }
-.item.clinic h2, .item.producer h2, .item.product h2 {
+.item.company h2, .item.producer h2, .item.product h2, .item.training h2 {
 	margin:0 0 10px 0;
 	text-transform: none;
 	font-weight: bold;
 }
-.item.clinic, .item.producer, .item.product {
+.item.company, .item.producer, .item.product, .item.training {
 	border:1px solid #d1d1d1;
 	width:685px;
 	padding:20px 20px 30px 20px;
 }
-.item.producer, .item.product {
+.item.producer, .item.product, .item.training {
 	padding-bottom:20px;
 	height: auto;
 	overflow: hidden;
 }
-.item.clinic .item-in {
+.item.company .item-in {
 	width:100%;
 	overflow: hidden;
 }
-.item.clinic .col1 p {
+.item.company .col1 p {
 	margin: 10px 0 15px 0;
 	width:100%;
 	line-height: 13px;
 }
-.item.clinic .col1, .item.clinic .col1 p {
+.item.company .col1, .item.company .col1 p {
 	width:445px;
 }
-.item.clinic .col1 {
+.item.company .col1 {
 	border-left: 3px solid #e60365;
 	padding-left:15px;
 	margin-top:25px;
 	height:100%;
 }
-.item.clinic .col1 span, .item.clinic .col1 a {
+.item.company .col1 span, .item.company .col1 a,
+.item.detail.center .col1 span {
 	display: block;
 	margin-bottom:15px;
 	font-size: 14px;
 	line-height: 14px;
 }
-.item.clinic .col1 a, .item.detail .tab-c a {
+.item.company .col1 a, .item.detail .tab-c a {
 	color:#e60365;
 	text-decoration: none;
 	margin-bottom:0;
 }
-.item.clinic h1, .item.producer h1, .item.product h1 {
+.item.company h1, .item.producer h1, .item.product h1,
+.item.training h1 {
 	margin-bottom:30px;
 }
-.item.clinic .img-in, .item.producer .img-in, .item.product .img-in {
+.item.company .img-in, .item.producer .img-in, .item.product .img-in, .item.training .img-in {
 	float: none;
 	position: static;
 	background:#fff;
@@ -1438,18 +1480,18 @@ td.prices span {
 	height:100px;
 	text-align: center;
 }
-.item.detail.clinic .img-in, .item.detail.producer .img-in {
+.item.detail.company .img-in, .item.detail.producer .img-in, .item.detail .company .img-in {
 	width:226px;
 	height:117px;
 }
-.item.detail.clinic .col1 p {
+.item.detail.company .col1 p {
 	margin:13px 0 20px 0;
 	padding-left:28px;
 	position: relative;
 	line-height: 20px;
 	height:20px;
 }
-.item.detail.clinic .col1 p i {
+.item.detail.company .col1 p i {
 	display: block;
 	width:19px;
 	height:19px;
@@ -1458,7 +1500,7 @@ td.prices span {
 	top:1px;
 	left:0;
 }
-.item.detail.clinic .col1 {
+.item.detail.company .col1 {
 	width:477px;
 	border:none;
 	border-bottom:1px solid #cac8c8;
@@ -1467,16 +1509,23 @@ td.prices span {
 	padding-left:0;
 	height:103px;
 }
-.item.detail.clinic .col1 span {
+.item.detail.center .col1 {
+	height:88px;
+	margin-top:15px;
+}
+.item.detail.company .col1 span {
 	margin-bottom:4px;
 }
-.item.detail.clinic h2 {
+.item.detail.center .col1 span{
+	margin-bottom:15px;
+}
+.item.detail.company .tab-s h2 {
 	font-size: 24px;
 	text-transform: uppercase;
 	margin: 0;
 	font-weight: normal;
 }
-.item.clinic h3 {
+.item.company h3 {
 	margin:30px 0 20px 0;
 	font-size:18px;
 }
@@ -1505,7 +1554,8 @@ td.prices span {
 	clear: both;
 }
 .items .item.producer ul a, .items .item.product ul a,
-.item.producer .current a, .item.product .current a {
+.item.producer .current a, .item.product .current a,
+.items .item.training a.link, .item.detail .user a, .item.detail .company a.link {
 	color:#e60365;
 	text-decoration: none;
 }
@@ -1514,6 +1564,7 @@ li.country, span.country, .country .select .has-value {
 	padding-left:25px;
 	background-position: 0 center;
 	background-repeat: no-repeat;
+	margin-bottom: 0;
 }
 li.country, span.country {
 	height:20px;
@@ -1529,10 +1580,10 @@ li.country, span.country {
 .country.c2, .country .v2 {
 	background-image:url('../images/content/c2.png');
 }
-.item.product .country {
+.item.product .country, .item.detail.producer .country {
 	margin-bottom: 10px;
 }
-.item.detail.clinic img {
+.item.detail.company img {
 	background:#fff;
 }
 .item.detail table {
@@ -1554,7 +1605,7 @@ li.country, span.country {
 	display: block;
 	font-size:14px;
 }
-.item.detail .tab-c li {
+.item.detail .tab-c li, .items .item.training p {
 	margin-bottom: 25px;
 }
 .item.detail {
@@ -1571,11 +1622,15 @@ li.country, span.country {
 	float: right;
 }
 .item.detail.producer h3,
-.item.detail.product h3 {
+.item.detail.product h3, .item.detail.training h3 {
 	margin:65px 0 35px 0;
 }
 .inner .products .item.product {
 	padding:0 0 20px 0;
+	height:324px;
+}
+.inner .products.similars .item.product {
+	height:293px;
 }
 .inner .products .item.product .img-in {
 	background:#fff;
@@ -1594,6 +1649,25 @@ li.country, span.country {
 .inner .products .item.product ul a,
 .inner .products.similars .item.product ul {
 	display: block;
+}
+.item.training .date {
+	width:84px;
+}
+.item.training .date i {
+	font-style: normal;
+	font-size: 14px;
+	font-weight: normal;
+}
+.item.training .current .date {
+	top:0;
+}
+.item.training .current {
+	padding-left: 100px;
+	line-height: 49px;
+	height: 43px;
+}
+.item.training h2 {
+	margin:2px 0 36px 80px;
 }
 .item.detail.product .img-in {
 	width:227px;
@@ -1629,6 +1703,45 @@ li.country, span.country {
 .item.detail .properties .gallery-in .img {
 	vertical-align: bottom;
 	height: 420px;
+}
+.item.detail .user {
+	width:100%;
+	position: relative;
+	height: 160px;
+}
+.item.detail .user img {
+	margin:0 20px 20px 0;
+}
+.item.detail .user h4, .item.detail .user h4 a, .item.detail .company h4, .item.detail .company h4 a {
+	font-size:15px;
+	margin:0 0 30px 0;
+	text-decoration: none;
+}
+.item.detail .user a {
+	position: absolute;
+	bottom:0;
+	left:250px;
+}
+.item.detail .company {
+	border:none;
+	padding:0;
+	width: 100%;
+}
+.item.detail .company .img {
+	float:left;
+	margin-right: 0;
+}
+.item.detail .company .cols {
+	width:226px;
+}
+.item.detail .company div {
+	margin-bottom: 20px;
+}
+.map {
+	background:#d1d1d1;
+	float:right;
+	width:477px;
+	height:300px;
 }
 .footer {
 	clear: both;
@@ -1682,6 +1795,18 @@ li.country, span.country {
 }
 .footer .social a.lj:hover {
 	background-position: -310px 0;
+}
+.footer .social a.gp {
+	background-position: -344px 0;
+}
+.footer .social a.gp:hover {
+	background-position: -378px 0;
+}
+.footer .social a.yt {
+	background-position: -344px -34px;
+}
+.footer .social a.yt:hover {
+	background-position: -378px -34px;
 }
 .footer .copy {
 	float:left;

@@ -25,9 +25,6 @@ define("HELP_FILE","estelife_list.php");
 $ID=isset($_REQUEST['ID']) ?
 	intval($_REQUEST['ID']) : 0;
 
-$obSpecializations=new rs\VSpecs();
-$obServices=new rs\VServices();
-$obCServices=new rs\VCServices();
 $obCompanies= VDatabase::driver();
 $obElements=new CIBlockElement();
 $obCompaniesColl=new VCompanies();

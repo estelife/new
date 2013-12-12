@@ -65,7 +65,7 @@ if (!$obGet->blank('spec') && !$obGet->blank('service')){
 $arResult['filter']=array(
 	'city'=>intval($obGet->one('city',0)),
 	'direction'=>intval($obGet->one('direction',0)),
-	'date_from'=>$obGet->one('date_from',mb_strtolower(\core\types\VDate::date(),'utf-8')),
+	'date_from'=>$obGet->one('date_from', date('d.m.y',time())),
 	'date_to'=>$obGet->one('date_to','')
 );
 

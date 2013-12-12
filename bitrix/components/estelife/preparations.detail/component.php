@@ -11,11 +11,8 @@ $obPills = VDatabase::driver();
 $sCompanyName=null;
 $nCompanyId=null;
 
-if (isset($arParams['PILL_NAME']) && strlen($arParams['PILL_NAME'])>0){
-	$sCompanyName = strip_tags($arParams['PILL_NAME']);
-}elseif (isset($arParams['PILL_ID']) && strlen($arParams['PILL_ID'])>0){
-	$nCompanyId=intval($arParams['PILL_ID']);
-}
+$nCompanyId =  (isset($arParams['ID'])) ?
+	intval($arParams['ID']) : 0;
 
 //Получаем данные по препарату
 $obQuery = $obPills->createQuery();
@@ -54,17 +51,17 @@ $obQuery->builder()
 	->field('ep.*')
 	->field('pt.NAME','type_name')
 	->field('ec.name','company_name')
+	->field('ec.id','company_id')
 	->field('ec.translit','company_translit')
 	->field('ec.id','company_id')
 	->field('ect.name','type_company_name')
+	->field('ect.id','type_company_id')
 	->field('ect.translit','type_company_translit')
 	->field('ect.id','type_company_id');
 
 $obFilter=$obQuery->builder()->filter();
 
-if(!is_null($sCompanyName)){
-	$obFilter->_eq('ep.translit', $sCompanyName);
-}else if(!is_null($nCompanyId)){
+if(!is_null($nCompanyId)){
 	$obFilter->_eq('ep.id',$nCompanyId);
 }else{
 	$obFilter->_eq('ep.id',0);
@@ -92,7 +89,12 @@ if (!empty($arResult['pill']['type_company_translit'])){
 }
 unset($arResult['pill']['type_company_translit']);
 
-$arResult['pill']['company_link'] = '/preparations-makers/'.$arResult['pill']['company_translit'].'/';
+if (!empty($arResult['pill']['type_company_id'])){
+	$arResult['pill']['company_id'] = $arResult['pill']['type_company_id'];
+}
+unset($arResult['pill']['type_company_id']);
+
+$arResult['pill']['company_link'] = '/pm'.$arResult['pill']['company_id'].'/';
 
 $arResult['pill']['img'] = CFile::ShowImage($arResult['pill']['logo_id'],200, 85, 'alt='.$arResult['pill']['name']);
 
@@ -155,11 +157,11 @@ $arProductions = $obQuery->select()->all();
 
 foreach ($arProductions as $val){
 	$val['img'] = CFile::ShowImage($val['logo_id'],150, 140, 'alt='.$val['name']);
-	$val['link'] = '/preparations/'.$val['translit'].'/';
+	$val['link'] = '/ps'.$val['id'].'/';
 	$arResult['pill']['production'][] = $val;
 }
 
-$APPLICATION->SetPageProperty("title", 'Estelife - '.$arResult['pill']['name']);
+$APPLICATION->SetPageProperty("title", $arResult['pill']['name']);
 $APPLICATION->SetPageProperty("description", mb_substr(trim(strip_tags($arResult['pill']['preview_text'])),0,140,'utf-8'));
 $APPLICATION->SetPageProperty("keywords", "Estelife, учебный центр, ".mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['pill']['name'])),'utf-8'));
 $this->IncludeComponentTemplate();

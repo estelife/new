@@ -34,7 +34,7 @@
 			<li><a href='/events/' title="Календарь событий">Календарь событий</a></li>
 		</ul>
 	</li>
-	<li><a href='#'>Обучения</a>
+	<li><a href='#'>Обучение</a>
 		<ul class='submenu'>
 			<li><a href='/training-centers/' title="Учебые центры">Учебные центры</a></li>
 			<li><a href='/trainings/' title="Расписание обучений">Расписание обучений</a></li>

@@ -88,7 +88,7 @@ $arResult['apps'] = array();
 
 $i = 0;
 while($arData=$obResult->Fetch()){
-	$arData['link'] = '/AP'.$arData['id'].'/';
+	$arData['link'] = '/ap'.$arData['id'].'/';
 	$arData['preview_text'] = \core\types\VString::truncate(nl2br(htmlspecialchars_decode($arData['preview_text'],ENT_NOQUOTES)), 250, '...');
 
 	if(!empty($arData['logo_id'])){
@@ -115,7 +115,7 @@ while($arData=$obResult->Fetch()){
 	}
 	unset($arData['type_company_id']);
 
-	$arData['company_link'] = '/AM'.$arData['company_id'].'/';
+	$arData['company_link'] = '/am'.$arData['company_id'].'/';
 
 	$arResult['apps'][]=$arData;
 

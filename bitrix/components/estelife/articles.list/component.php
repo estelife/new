@@ -35,7 +35,7 @@ try{
 	$obQuery->builder()
 		->field('ie.ID', 'ID')
 		->field('ie.NAME', 'NAME')
-		->field('ie.NAME', 'PREVIEW_TEXT')
+		->field('ie.PREVIEW_TEXT', 'PREVIEW_TEXT')
 		->field('ie.ACTIVE_FROM', 'ACTIVE_FROM')
 		->field('ie.CODE', 'CODE')
 		->field('ie.IBLOCK_SECTION_ID', 'SECTION_ID')
@@ -43,6 +43,7 @@ try{
 		->field('ic.CODE', 'SECTION_CODE')
 		->field('iep.VALUE', 'VALUE');
 	$obQuery->builder()->slice(0,4);
+	$obQuery->builder()->sort('ie.ACTIVE_FROM', 'DESC');
 	foreach ($arParams['SECTIONS_ID'] as $val){
 		$obQuery->builder()->filter()
 			->_eq('ie.IBLOCK_ID', $arParams['IBLOCK_ID'])
@@ -55,6 +56,7 @@ try{
 			$val['DETAIL_URL'] = '/'.$arParams['PREFIX'].$val['ID'].'/';
 			$val['SECTION_URL'] = '/'.$arParams['MAIN_URL'].'/'.$val['SECTION_CODE'].'/';
 			$val['IMG'] = CFile::GetFileArray($val['VALUE']);
+			$val['PREVIEW_TEXT'] = \core\types\VString::truncate($val['PREVIEW_TEXT'], 80, '...');
 			$val['ACTIVE_FROM'] = date('d.m.Y',strtotime($val['ACTIVE_FROM']));
 			$arResult['iblock'][$val['SECTION_ID']]['articles'][] = $val;
 			$arResult['iblock'][$val['SECTION_ID']]['section'] = $val['SECTION_URL'];

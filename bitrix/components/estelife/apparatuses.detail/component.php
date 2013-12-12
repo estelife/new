@@ -11,11 +11,8 @@ $obApps = VDatabase::driver();
 $nCompanyId=null;
 $sCompanyName=null;
 
-if (isset($arParams['APP_NAME']) && strlen($arParams['APP_NAME'])>0){
-	$sCompanyName = strip_tags($arParams['APP_NAME']);
-}elseif (isset($arParams['APP_ID']) && strlen($arParams['APP_ID'])>0){
-	$nCompanyId = intval($arParams['APP_ID']);
-}
+$nCompanyId =  (isset($arParams['ID'])) ?
+	intval($arParams['ID']) : 0;
 
 //Получаем данные по аппарату
 $obQuery = $obApps->createQuery();
@@ -54,17 +51,17 @@ $obQuery->builder()
 	->field('ap.*')
 	->field('pt.NAME','type_name')
 	->field('ec.name','company_name')
+	->field('ec.id','company_id')
 	->field('ec.translit','company_translit')
 	->field('ec.id','company_id')
 	->field('ect.name','type_company_name')
+	->field('ect.id','type_company_id')
 	->field('ect.translit','type_company_translit')
 	->field('ect.id','type_company_id');
 
 $obFilter=$obQuery->builder()->filter();
 
-if(!is_null($sCompanyName)){
-	$obFilter->_eq('ap.translit', $sCompanyName);
-}else if(!is_null($nCompanyId)){
+if(!is_null($nCompanyId)){
 	$obFilter->_eq('ap.id', $nCompanyId);
 }else{
 	$obFilter->_eq('ap.id',0);
@@ -92,7 +89,12 @@ if (!empty($arResult['app']['type_company_translit'])){
 }
 unset($arResult['app']['type_company_translit']);
 
-$arResult['app']['company_link'] = '/apparatuses-makers/'.$arResult['app']['company_translit'].'/';
+if (!empty($arResult['pill']['type_company_id'])){
+	$arResult['pill']['company_id'] = $arResult['pill']['type_company_id'];
+}
+unset($arResult['pill']['type_company_id']);
+
+$arResult['app']['company_link'] = '/am/'.$arResult['app']['company_id'].'/';
 
 $arResult['app']['img'] = CFile::ShowImage($arResult['app']['logo_id'],200, 85, 'alt='.$arResult['app']['name']);
 

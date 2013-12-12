@@ -90,7 +90,7 @@ while($arData=$obResult->Fetch()){
 		$arData['name'] = $arData['type_name'];
 	}
 
-	$arData['link'] = '/AM'.$arData['id'].'/';
+	$arData['link'] = '/am'.$arData['id'].'/';
 
 	if (!empty($arData['type_logo_id'])){
 		$arData["logo_id"] = $arData["type_logo_id"];
@@ -122,7 +122,6 @@ while($arData=$obResult->Fetch()){
 	}
 	$i++;
 }
-
 
 $arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 

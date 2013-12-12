@@ -4,17 +4,19 @@ $(document).ready(function() {
 		timer2ID = 0;
 
 	//табы для раскрытия информации
-	$('body').on('click', '.el-tab div', function(){
+	$('body').on('click', '.el-tab h3', function(){
 		var prnt = $(this).parent(),
-			el = $('span',$(this));
+			el = $('a',$(this));
 
-		if (el.hasClass('open')){
-			el.removeClass('open').addClass('close');
-			prnt.find('p').slideUp('700').addClass('none');
-		}else if (el.hasClass('close')){
-			el.removeClass('close').addClass('open');
-			prnt.find('p').slideDown('700').removeClass('none');
+		if (el.hasClass('active')){
+			el.removeClass('active');
+			prnt.find('h3').slideUp('700').addClass('none');
+		}else{
+			el.addClass('active');
+			prnt.find('').slideDown('700').removeClass('none');
 		}
+
+		return false
 	});
 
 	
@@ -94,6 +96,19 @@ $(function home(){
 		return false;
 	});
 
+
+	//переключение между пунктами меню в эксперном мнении
+	$('.experts .menu li').click(function(){
+		var prnt = $(this).parent().parent();
+			col = $('.experts .menu li'),
+			index = col.index($(this));
+
+		col.removeClass('active').eq(index).addClass('active');
+		$('.item',prnt).addClass('none').eq(index).removeClass('none');
+
+		return false;
+	});
+
 	//Переключение между вкладками
 	$('.articles .menu li').click(function(){
 		var prnt = $(this).parents('.articles:first'),
@@ -109,11 +124,6 @@ $(function home(){
 		prnt.find('.title a').attr('href', section_url);
 
 		return false;
-	});
-
-	//открытие ссылки
-	$('.col2').click(function(){
-		document.location.href = $(this).find('a').attr('href');
 	});
 
 	//переключения в галереи
@@ -338,8 +348,31 @@ function mainGeoAdapter(){
 function promotionsGeoAdapter(){
 
 	this.transform = function(html){
-		var prnt = $('.promotions_city');
+		var prnt = $('.promotions_city'),
+			city = [],
+			i;
 		html=$(html);
+
+
+		html.find('.col2 ul li').each(function(){
+			city.push($(this).html());
+		});
+
+		var count = Math.round(city.length/2);
+
+
+		if (count>0 && city.length>0){
+			var h = '<h4>Скоро с нами:</h4><ul>';
+			for (i=0;i< city.length;i++) {
+				if (i == count){
+					h+='</ul><ul>';
+				}
+				h+='<li>'+city[i]+'</li>';
+			}
+			h+='</ul>';
+		}
+
+		html.find('.col2').html(h);
 
 		if (prnt.html().length<=0)
 			prnt.append(html);
@@ -859,6 +892,7 @@ function initFilter(context){
 
 		current.find('input').datepicker({
 			numberOfMonths: 1,
+			dateFormat: 'dd.mm.y',
 			onClose: function( selectedDate ) {
 				other.find('input').datepicker(
 					"option",

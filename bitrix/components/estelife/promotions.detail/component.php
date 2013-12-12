@@ -60,7 +60,7 @@ $arResult['action']['clinics'] = array();
 
 if (!empty($arClinics)){
 	foreach ($arClinics as $val){
-		$val['link'] = '/clinic/'.$val['clinic_name'].'-'.$val['clinic_id'].'/';
+		$val['link'] = '/cl'.$val['clinic_id'].'/';
 		$val['phone']=\core\types\VString::formatPhone($val['phone']);
 		$arResult['action']['clinics'][] = $val;
 	}
