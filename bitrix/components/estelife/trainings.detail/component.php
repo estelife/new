@@ -166,7 +166,7 @@ if (!empty($arContacts)){
 		}elseif($val['type'] == 'fax'){
 			$arFaxes[] = $val['value'];
 		}elseif($val['type'] == 'phone'){
-			$arPhones[] = VString::formatPhone($val['value']);
+			$arPhones[] = VString::formatPhone($val['value'], true);
 		}elseif($val['type'] == 'web'){
 			$arWebs[] = $val['value'];
 		}

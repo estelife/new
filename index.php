@@ -26,7 +26,7 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 			"FIELD_CODE" => array("ID", "CODE", "NAME", "TAGS", "SORT", "PREVIEW_TEXT", "PREVIEW_PICTURE", "IBLOCK_TYPE_ID", "IBLOCK_ID", "IBLOCK_CODE", "IBLOCK_NAME", "IBLOCK_EXTERNAL_ID", "DATE_CREATE"),
 			"PROPERTY_CODE" => array("FORUM_MESSAGE_CNT"),
 			"CHECK_DATES" => "Y",
-			"DETAIL_URL" => "/ar#ELEMENT_ID#/",
+			"DETAIL_URL" => "/pt#ELEMENT_ID#/",
 			"PREVIEW_TRUNCATE_LEN" => "0",
 			"ACTIVE_DATE_FORMAT" => "j F Y",
 			"SET_TITLE" => "N",

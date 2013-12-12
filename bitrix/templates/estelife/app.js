@@ -78,6 +78,15 @@ var showDetail;
 
 $(function home(){
 
+	//Переход на детальную страницу
+	$('.items .item').click(function(){
+		var link = $(this).find('a');
+		if (link.attr('href').length>0){
+			document.location.href = link.attr('href');
+		}
+
+	});
+
 	//Вывод списка городов в шапке
 	$('.change_main_city').click(function(){
 		Cities.load(
@@ -893,7 +902,6 @@ function initFilter(context){
 		current.find('input').datepicker({
 			numberOfMonths: 1,
 			dateFormat: 'dd.mm.y',
-			isRTL:(!from),
 			onClose: function( selectedDate ) {
 				other.find('input').datepicker(
 					"option",

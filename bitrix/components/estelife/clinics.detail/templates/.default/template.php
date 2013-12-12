@@ -5,7 +5,7 @@
 			<li><a href="/clinics/">Клиники</a></li>
 			<li><b><?=$arResult['clinic']['name']?></b></li>
 		</ul>
-		<div class="item detail clinic">
+		<div class="item detail company">
 			<h1><?=$arResult['clinic']['name']?></h1>
 			<div class="img">
 				<div class="img-in">

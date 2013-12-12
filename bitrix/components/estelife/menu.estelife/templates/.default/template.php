@@ -48,6 +48,6 @@
 			<li><a href='/apparatuses/' title="Аппараты">Аппараты</a></li>
 		</ul>
 	</li>
-	<li class="last"><a href='/yvoire/' >Yvoire</a>
+	<li class="last"><a href="#">Специалисту</a>
 	</li>
 </ul>
