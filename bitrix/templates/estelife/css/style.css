@@ -68,9 +68,6 @@ body {
 ul {
 	list-style-image: url('../images/icons/list.png');
 }
-ul li {
-	margin-bottom:30px;
-}
 ul li:last-child, ul li.last-child {
 	margin-bottom: 0;
 }
@@ -485,6 +482,7 @@ ul.stat li {
 ul.stat li.date {
 	padding-left:0;
 	margin-right: 20px;
+	font-style: italic;
 }
 ul.stat i {
 	display: block;
@@ -963,7 +961,7 @@ td.prices span {
 .crumb li {
 	padding-right:10px;
 	margin: 0 4px 0 0;
-	background:url('../images/icons/crumb.gif') right 2px no-repeat;
+	background:url('../images/icons/crumb.gif') right center no-repeat;
 }
 .crumb li.last, .crumb li:last-child {
 	background:none;
@@ -1015,7 +1013,8 @@ td.prices span {
 .media .content, .item.training {
 	position: relative;
 }
-.media .title {
+.media .title, .item.detail .announce,
+.item.detail ul.list li {
 	margin-bottom:30px;
 }
 .media .menu {
@@ -1121,7 +1120,7 @@ td.prices span {
 }
 .item.detail .article-img-in, .item.detail .gallery-in {
 	text-align:center;
-	width:725px;
+	width:727px;
 }
 .item.detail .gallery, .item.detail .gallery-in .item, .item.detail .article-img-in {
 	background:#dddddd;
@@ -1148,7 +1147,7 @@ td.prices span {
 	float:none;
 }
 .item.detail .article-img img {
-	max-width:725px;
+	max-width:727px;
 	max-height:460px;
 	border:none;
 }
