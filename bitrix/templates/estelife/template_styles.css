@@ -59,7 +59,6 @@
 	padding:0;
 	border: 1px solid #d1d1d1;
 	text-align: center;
-	position: relative;
 }
 .ui-datepicker-calendar td a, .ui-datepicker-calendar td span {
 	display: block;
@@ -71,11 +70,8 @@
 	background:#e50364;
 	color:#fff;
 }
-.ui-datepicker-calendar a.ui-state-active {
+.ui-datepicker-calendar .ui-datepicker-current-day {
 	border:2px solid #e50364;
-	position: absolute;
-	top:-2px;
-	left:-2px;
 }
 .ui-datepicker-calendar td span {
 	color:#c6c6c6;
