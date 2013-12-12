@@ -109,7 +109,7 @@ $arProductions = $obQuery->select()->all();
 foreach ($arProductions as $val){
 	$val['img'] = CFile::ShowImage($val['logo_id'],150, 150, 'alt='.$val['name']);
 	$val['preview_text'] = \core\types\VString::truncate($val['preview_text'], 100, '...');
-	$val['link'] = '/AS'.$val['id'].'/';
+	$val['link'] = '/as'.$val['id'].'/';
 	$arResult['production'][] = $val;
 }
 

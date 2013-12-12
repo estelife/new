@@ -29,7 +29,7 @@
 						<ul>
 							<li class="country c<?=$arPill["country_id"]?>"><?=$arPill["country_name"]?></li>
 							<?php if (!empty($arPill["web"])):?>
-								<li><a href="<?=$arPill["web"]?>"><?=$arPill["short_web"]?></a></li>
+								<li><a href="<?=$arPill["web"]?>"><?=$arPill["web_short"]?></a></li>
 							<?php endif?>
 						</ul>
 						<p><?=$arPill['preview_text']?></p>

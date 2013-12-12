@@ -100,12 +100,19 @@ class VString {
 
 	/**
 	 * @param $sPhone
+	 * @param $flag
 	 * @return string
 	 */
-	public static function formatPhone($sPhone){
-		return (self::isPhone($sPhone)) ?
-			preg_replace('#^\+?([0-9]{1})[\(]*([0-9]{3})[\)]*([0-9]{3})([0-9]{2})#','+7 ($2) $3-$4-',$sPhone) :
-			'';
+	public static function formatPhone($sPhone, $flag=false){
+		if ($flag == true){
+			return (self::isPhone($sPhone)) ?
+				preg_replace('#^\+?([0-9]{1})[\(\s]*([0-9]{3})[\)\s]*([0-9]{3})\-?([0-9]{2})\-?([0-9]{2})#','+7 ($2) <b>$3-$4-$5</b>',$sPhone) :
+				'';
+		}else{
+			return (self::isPhone($sPhone)) ?
+				preg_replace('#^\+?([0-9]{1})[\(\s]*([0-9]{3})[\)\s]*([0-9]{3})\-?([0-9]{2})\-?([0-9]{2})#','+7 ($2) $3-$4-$5',$sPhone) :
+				'';
+		}
 	}
 
 	/**

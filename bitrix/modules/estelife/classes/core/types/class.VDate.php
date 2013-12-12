@@ -40,6 +40,11 @@ class VDate {
 			$arRuMonths=array('января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря');
 
 			$sDate=str_replace($arEnMonths,$arRuMonths,$sDate);
+		}elseif($sLang=='small_ru'){
+			$arEnMonths=array('January','February','March','April', 'May', 'June','July','August','September','October','November','December');
+			$arRuMonths=array('янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек');
+
+			$sDate=str_replace($arEnMonths,$arRuMonths,$sDate);
 		}
 
 		return $sDate;

@@ -98,7 +98,7 @@ $i=0;
 while($arData=$obResult->Fetch()){
 	$arClinics[]=$arData['id'];
 	$arData['name']=trim($arData['name']);
-	$arData['link'] = '/CL'.$arData['id'].'/';
+	$arData['link'] = '/cl'.$arData['id'].'/';
 
 	if(!empty($arData['logo_id'])){
 		$file=CFile::ShowImage($arData["logo_id"], 110, 90,'alt="'.$arData['name'].'"');

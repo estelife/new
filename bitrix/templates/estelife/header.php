@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=1024" />
 	<?$APPLICATION->ShowMeta("robots")?>
 	<?$APPLICATION->ShowMeta("keywords")?>
 	<?$APPLICATION->ShowMeta("description")?>
@@ -53,9 +54,8 @@
 				<span>Мы в соцсетях:</span>
 				<a href="http://vk.com/estelife_ru" class="vk">ВКонтакте</a>
 				<a href="https://www.facebook.com/EsteLife.RU" class="fb">Facebook</a>
-				<a href="#" class="tw">Twitter</a>
-				<a href="#" class="lj">Live Journal</a>
-				<a href="#" class="ok">Одноклассники</a>
+				<a href="http://www.youtube.com/esteliferu" class="yt">Youtube</a>
+				<a href="https://plus.google.com/u/0/b/106608290098923557575/" class="gp">Google+</a>
 			</div>
 			<a href="#" class="cols">Войти</a>
 		</div>

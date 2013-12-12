@@ -133,10 +133,10 @@ $arDescription=array();
 while($arData=$obResult->Fetch()){
 	$arIds[] = $arData['id'];
 
-	$arData['link'] = '/trainings/'.$arData['translit'].'/';
+	$arData['link'] = '/tr'.$arData['id'].'/';
 
 	if(empty($arData["phone"]) && !empty($arData["company_phone"]))
-		$arData['phone']=$arData["company_phone"];
+		$arData['phone']=\core\types\VString::formatPhone($arData["company_phone"]);
 
 	if(empty($arData['web']) && !empty($arData['company_web']))
 		$arData['web']=$arData['company_web'];
@@ -150,13 +150,13 @@ while($arData=$obResult->Fetch()){
 	}
 
 	if(!empty($arData['logo_id'])){
-		$file = CFile::ShowImage($arData["logo_id"], 110, 90, 'alt="'.$arData['name'].'"');
+		$file = CFile::ShowImage($arData["logo_id"], 190, 100, 'alt="'.$arData['name'].'"');
 		$arData['logo']=$file;
 	}else{
 		$arData['logo']="<img src='/img/icon/unlogo.png' />";
 	}
 
-	$arData['preview_text'] = \core\types\VString::truncate(nl2br(htmlspecialchars_decode($arData['preview_text'],ENT_NOQUOTES)), 200, '...');
+	$arData['preview_text'] = \core\types\VString::truncate(nl2br(htmlspecialchars_decode($arData['preview_text'],ENT_NOQUOTES)), 80, '...');
 	$arData['phone']=\core\types\VString::formatPhone($arData["company_phone"]);
 	$arResult['training'][$arData['id']]=$arData;
 
@@ -184,26 +184,37 @@ if (!empty($arIds)){
 	foreach($arResult['training'] as $nKey=>&$arTraining){
 		$arTraining['calendar']=\core\types\VDate::createDiapasons($arTraining['calendar'],function(&$nFrom,&$nTo){
 			if($nTo==0){
-				$nFrom=\core\types\VDate::date($nFrom);
+				$nFrom=\core\types\VDate::date($nFrom, 'j F');
 			}else{
-				$arFrom=explode('.',date('n.Y',$nFrom));
-				$arTo=explode('.',date('n.Y',$nTo));
-				$sPattern='j F Y';
+				$arFrom=explode('.',date('n',$nFrom));
+				$arTo=explode('.',date('n',$nTo));
+				$sPattern='j F';
 
 				if($arFrom[1]==$arTo[1])
 					$sPattern=($arFrom[0]==$arTo[0]) ? 'j' : 'j F';
 
 				$nFrom=\core\types\VDate::date($nFrom,$sPattern);
-				$nTo=\core\types\VDate::date($nTo);
+				$nTo=\core\types\VDate::date($nTo,'j F');
 			}
 		});
+		$arTraining['first_period'] = current($arTraining['calendar']);
+		$arD = preg_match("/^[0-9]+/", $arTraining['first_period']['from'], $mathes);
+		$arTraining['first_date'] =  $mathes[0]. ' <i>';
+
+		if (preg_match("/[а-я]+/u" ,$arTraining['first_period']['from'], $mathes)){
+			$arTraining['first_date'] .= mb_substr($mathes[0], 0, 3, 'utf-8').'</i>';
+		}else{
+			$arM = preg_match("/[а-я]+/u", $arTraining['first_period']['to'], $mathes);
+			$arTraining['first_date'] .= mb_substr($mathes[0], 0, 3, 'utf-8').'</i>';
+		}
 	}
+
 }
 
 $arDescription=implode(', ',$arDescription);
-$APPLICATION->SetPageProperty("title", 'Estelife - Обучения');
+$APPLICATION->SetPageProperty("title", 'Расписание обучений');
 $APPLICATION->SetPageProperty("description", $arDescription);
-$APPLICATION->SetPageProperty("keywords", "Estelife, обучения, ".$arDescription);
+$APPLICATION->SetPageProperty("keywords", "Estelife, обучение, ".$arDescription);
 
-$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/web20/system/pagenav.php');
+$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 $this->IncludeComponentTemplate();

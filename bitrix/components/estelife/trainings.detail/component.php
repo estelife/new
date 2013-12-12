@@ -11,11 +11,8 @@ $obEvent = VDatabase::driver();
 $nEventId=null;
 $sEventName=null;
 
-if (isset($arParams['TRAIN_NAME']) && strlen($arParams['TRAIN_NAME'])>0){
-	$sEventName=strip_tags($arParams['TRAIN_NAME']);
-}elseif (isset($arParams['TRAIN_ID']) && strlen($arParams['TRAIN_ID'])>0){
-	$nEventId=intval($arParams['TRAIN_ID']);
-}
+$nEventId =  (isset($arParams['ID'])) ?
+	intval($arParams['ID']) : 0;
 
 //Получаем данные по мероприятию
 $obQuery = $obEvent->createQuery();
@@ -53,9 +50,7 @@ $obQuery->builder()
 
 $obFilter=$obQuery->builder()->filter();
 
-if(!is_null($sEventName))
-	$obFilter->_eq('ee.translit', $sEventName);
-else if(!is_null($nEventId))
+if(!is_null($nEventId))
 	$obFilter->_eq('ee.id', $nEventId);
 else
 	$obFilter->_eq('ee.id', 0);
@@ -80,10 +75,37 @@ $obQuery->builder()->filter()
 $arCalendar = $obQuery->select()->all();
 if (!empty($arCalendar)){
 	foreach ($arCalendar as $val){
-		$val['full_date'] = \core\types\VDate::date($val['date']);
-		$arResult['event']['calendar'][] = $val;
+//		$val['full_date'] = \core\types\VDate::date($val['date']);
+		$arResult['event']['calendar'][] = $val['date'];
 	}
 }
+
+
+	$arResult['event']['calendar']=\core\types\VDate::createDiapasons($arResult['event']['calendar'],function(&$nFrom,&$nTo){
+		if($nTo==0){
+			$nFrom=\core\types\VDate::date($nFrom, 'j F');
+		}else{
+			$arFrom=explode('.',date('n',$nFrom));
+			$arTo=explode('.',date('n',$nTo));
+			$sPattern='j F';
+
+			if($arFrom[1]==$arTo[1])
+				$sPattern=($arFrom[0]==$arTo[0]) ? 'j' : 'j F';
+
+			$nFrom=\core\types\VDate::date($nFrom,$sPattern);
+			$nTo=\core\types\VDate::date($nTo,'j F');
+		}
+	});
+	$arResult['event']['calendar']['first_period'] = current($arResult['event']['calendar']);
+	$arD = preg_match("/^[0-9]+/", $arResult['event']['calendar']['first_period']['from'], $mathes);
+	$arResult['event']['calendar']['first_date'] =  $mathes[0]. ' <i>';
+
+	if (preg_match("/[а-я]+/u" ,$arResult['event']['calendar']['first_period']['from'], $mathes)){
+		$arResult['event']['calendar']['first_date'] .= mb_substr($mathes[0], 0, 3, 'utf-8').'</i>';
+	}else{
+		$arM = preg_match("/[а-я]+/u", $arResult['event']['calendar']['first_period']['to'], $mathes);
+		$arResult['event']['calendar']['first_date'] .= mb_substr($mathes[0], 0, 3, 'utf-8').'</i>';
+	}
 
 //Получение организаторов
 $obQuery = $obEvent->createQuery();
@@ -121,7 +143,8 @@ if (!empty($arCompanies)){
 			if (!empty($val['city_name'])){
 				$val['city_name'] = 'г. '. $val['city_name'];
 			};
-			$val['full_address'] = $val['country_name'].' '.$val['city_name'].' '.$val['address'];
+			$val['full_address'] = $val['address'];
+			$val['link'] = '/tc'.$val['company_id'].'/';
 			$arResult['event']['main_org'] = $val;
 		}else{
 			$arResult['event']['org'][] = $val;
@@ -143,7 +166,7 @@ if (!empty($arContacts)){
 		}elseif($val['type'] == 'fax'){
 			$arFaxes[] = $val['value'];
 		}elseif($val['type'] == 'phone'){
-			$arPhones[] = $val['value'];
+			$arPhones[] = VString::formatPhone($val['value']);
 		}elseif($val['type'] == 'web'){
 			$arWebs[] = $val['value'];
 		}
@@ -151,13 +174,13 @@ if (!empty($arContacts)){
 }
 
 if (!empty($arEmails)){
-	$arResult['event']['contacts']['email'] = implode(', ', $arEmails);
+	$arResult['event']['contacts']['email'] = implode('<br />', $arEmails);
 }
 if (!empty($arFaxes)){
-	$arResult['event']['contacts']['fax'] = implode(', ', $arFaxes);
+	$arResult['event']['contacts']['fax'] = implode('<br />', $arFaxes);
 }
 if (!empty($arPhones)){
-	$arResult['event']['contacts']['phone'] = implode(', ', $arPhones);
+	$arResult['event']['contacts']['phone'] = implode('<br />', $arPhones);
 }
 
 if(!empty($arWebs[0])){
@@ -167,8 +190,9 @@ if(!empty($arWebs[0])){
 	$arResult['event']['contacts']['web_short']=$arResult['event']['web_short'];
 }
 
+
 $sFullName=mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['event']['full_name'])));
-$APPLICATION->SetPageProperty("title", 'Estelife - '.$arResult['event']['short_name']);
+$APPLICATION->SetPageProperty("title", $arResult['event']['short_name']);
 $APPLICATION->SetPageProperty("description", $sFullName,'utf-8');
 $APPLICATION->SetPageProperty("keywords", "Estelife, учебный центр, ".$sFullName);
 

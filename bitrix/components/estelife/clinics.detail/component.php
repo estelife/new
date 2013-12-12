@@ -160,7 +160,7 @@ $arNow = time();
 foreach ($arActions as $val){
 	$val['time'] = ceil(($val['end_date']-$arNow)/(60*60*24));
 	$val['day'] = \core\types\VString::spellAmount($val['time'], 'день,дня,дней');
-	$val['link'] = '/PR'.$val['id'].'/';
+	$val['link'] = '/pr'.$val['id'].'/';
 	$val['new_price']=number_format($val['new_price'],0,'.',' ');
 	$val['old_price']=number_format($val['old_price'],0,'.',' ');
 

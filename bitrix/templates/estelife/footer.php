@@ -8,11 +8,10 @@
 					<li><a href="#">Защита котента</a></li>
 				</ul>
 				<div class="cols col2 social">
-					<a href="#" class="vk">ВКонтакте</a>
-					<a href="#" class="fb">Facebook</a>
-					<a href="#" class="tw">Twitter</a>
-					<a href="#" class="lj">Live Journal</a>
-					<a href="#" class="ok">Одноклассники</a>
+					<a href="http://vk.com/estelife_ru" class="vk">ВКонтакте</a>
+					<a href="https://www.facebook.com/EsteLife.RU" class="fb">Facebook</a>
+					<a href="http://www.youtube.com/esteliferu" class="yt">Youtube</a>
+					<a href="https://plus.google.com/u/0/b/106608290098923557575/" class="gp">Google+</a>
 				</div>
 				<div class="copy">
 					2011-2012 &copy; ООО "Эстелайф". Estelife.ru. Портал эстетической медицины
