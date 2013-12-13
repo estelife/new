@@ -13,6 +13,8 @@ $arDirectories = array(
 	"ps" => "preparations",
 	"tc" => "training-centers",
 	"tr" => "trainings",
+	"ev" => "events",
+	"sp" => "sponsors",
 );
 
 $arDefaultUrlTemplates404 = array(
@@ -57,6 +59,7 @@ if (!$arLink || empty($arDirectories[$mathces[1]]))
 	if($folder404 != $APPLICATION->GetCurPage(true))
 	{
 		$componentPage='404';
+		$APPLICATION->SetTitle("404 Not Found");
 		CHTTP::SetStatus("404 Not Found");
 	}
 }else{

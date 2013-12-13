@@ -1,4 +1,5 @@
 <?php
+use core\database\mysql\VFilter;
 use core\database\VDatabase;
 use core\types\VArray;
 
@@ -65,6 +66,7 @@ $obQuery->builder()
 	->field('ecg.address','company_address')
 	->field('ct.NAME','city_name')
 	->field('cty.NAME','country_name')
+	->field('cty.ID','country_id')
 	->field('ee.web','web')
 	->field('ee.logo_id','logo_id')
 	->field('ec.name','company_name')
@@ -74,11 +76,15 @@ $obFilter=$obQuery->builder()->filter();
 $obFilter->_ne('eet.type', 3);
 
 if (!$obGet->blank('city')){
-	$obFilter->_eq('ee.city_id', intval($obGet->one('city')));
+	$obFilter->_eq('ecg.city_id', intval($obGet->one('city')));
 }
 if (!$obGet->blank('country')){
-	$obFilter->_eq('ee.country_id', $obGet->one('country'));
+	$obFilter->_eq('ecg.country_id', $obGet->one('country'));
 }
+if(!$obGet->blank('name')){
+	$obFilter->_like('ee.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+}
+
 if(!$obGet->blank('direction')){
 	$obFilter->_eq('eed.type', intval($obGet->one('direction')));
 }
@@ -86,14 +92,21 @@ if(!$obGet->blank('type')){
 	$obFilter->_eq('eet.type', intval($obGet->one('type')));
 }
 
-$nDateFrom=\core\types\VDate::dateToTime($obGet->one('date_from',date('d.m.Y')).' 00:00');
-$nDateTo=(!$obGet->blank('date_to')) ?
-	\core\types\VDate::dateToTime($obGet->one('date_to').' 23:59') :
-	false;
+$nDateFrom=preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$obGet->one('date_from'));
+$nDateFrom=\core\types\VDate::dateToTime($nDateFrom.' 00:00');
+
+if (!$obGet->blank('date_to')){
+	$nDateTo = preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$obGet->one('date_to'));
+	$nDateTo = \core\types\VDate::dateToTime($nDateTo. ' 23:59');
+}else{
+	$nDateTo = false;
+}
+
 $obFilter->_gte('ecal.date',$nDateFrom);
 
-if($nDateTo)
+if ($nDateTo){
 	$obFilter->_lte('ecal.date',$nDateTo);
+}
 
 $obQuery->builder()->sort('ecal.date', 'asc');
 $obQuery->builder()->group('ee.id');
@@ -110,7 +123,7 @@ $i=0;
 while($arData=$obResult->Fetch()){
 	$arIds[] = $arData['id'];
 
-	$arData['link'] = '/events/'.$arData['translit'].'/';
+	$arData['link'] = '/ev'.$arData['id'].'/';
 
 	if(!empty($arData['web']))
 		$arData['web_short']=\core\types\VString::checkUrl($arData['web']);
@@ -134,6 +147,53 @@ while($arData=$obResult->Fetch()){
 
 
 if (!empty($arIds)){
+	//Получение направлений
+	$obQuery = $obEvents->createQuery();
+	$obFilter=$obQuery->builder()
+		->from('estelife_event_directions')
+		->filter()
+		->_in('event_id', $arIds);
+	$arDirections = $obQuery->select()->all();
+
+	$arDirectionsName = array(
+		'1'=>'Пластическая хирургия',
+		'2'=>'Косметология',
+		'3'=>'Косметика',
+		'4'=>'Дерматология',
+	);
+
+	foreach ($arDirections as $key=>$val){
+		$val['name'] = strtolower($arDirectionsName[$val['type']]);
+		$arDirectionsString[$val['event_id']][] = strtolower($val['name']);
+	}
+
+	foreach ($arDirectionsString as $key=>$val){
+		$arResult['events'][$key]['directions']=implode(', ', $val);
+	}
+
+	//Получение формата
+	$obQuery = $obEvents->createQuery();
+	$obFilter=$obQuery->builder()
+		->from('estelife_event_types')
+		->filter()
+		->_in('event_id', $arIds);
+	$arTypes = $obQuery->select()->all();
+
+	$arTypesName = array(
+		'1'=>'Форум',
+		'2'=>'Выставка',
+		'4'=>'Тренинг',
+	);
+
+	foreach ($arTypes as $key=>$val){
+		$val['name'] = strtolower($arTypesName[$val['type']]);
+		$arTypesString[$val['event_id']][] = strtolower($val['name']);;
+	}
+
+	foreach ($arTypesString as $key=>$val){
+		$arResult['events'][$key]['types']=implode(', ', $val);
+	}
+
 	//Получение календаря
 	$obQuery = $obEvents->createQuery();
 	$obFilter=$obQuery->builder()
@@ -152,24 +212,43 @@ if (!empty($arIds)){
 
 	foreach($arResult['events'] as $nKey=>&$arEvent){
 		$arEvent['calendar']=\core\types\VDate::createDiapasons($arEvent['calendar'],function(&$nFrom,&$nTo){
-			if($nTo==0){
-				$nFrom=\core\types\VDate::date($nFrom);
-			}else{
-				$arFrom=explode('.',date('n.Y',$nFrom));
-				$arTo=explode('.',date('n.Y',$nTo));
-				$sPattern='j F Y';
+			$arNowTo = strtotime(date('d.m.Y', time()).' 00:00:00');
+			$arNowFrom =strtotime(date('d.m.Y', time()).' 23:59:59');
 
-				if($arFrom[1]==$arTo[1])
-					$sPattern=($arFrom[0]==$arTo[0]) ? 'j' : 'j F';
+			if (($arNowTo<=$nTo && $arNowFrom>=$nFrom) || ($arNowTo<=$nFrom) || ($arNowTo<=$nFrom && $arNowFrom>=$nFrom)){
+				if($nTo==0){
+					$nFrom=\core\types\VDate::date($nFrom, 'j F');
+				}else{
+					$arFrom=explode('.',date('n',$nFrom));
+					$arTo=explode('.',date('n',$nTo));
+					$sPattern='j F';
 
-				$nFrom=\core\types\VDate::date($nFrom,$sPattern);
-				$nTo=\core\types\VDate::date($nTo);
+					if($arFrom[1]==$arTo[1])
+						$sPattern=($arFrom[0]==$arTo[0]) ? 'j' : 'j F';
+
+					$nFrom=\core\types\VDate::date($nFrom,$sPattern);
+					$nTo=\core\types\VDate::date($nTo,'j F');
+				}
+				return false;
 			}
+
+			return true;
 		});
+		$arEvent['first_period'] = current($arEvent['calendar']);
+		$arD = preg_match("/^[0-9]+/", $arEvent['first_period']['from'], $mathes);
+		$arEvent['first_date'] =  $mathes[0]. ' <i>';
+
+		if (preg_match("/[а-я]+/u" ,$arEvent['first_period']['from'], $mathes)){
+			$arEvent['first_date'] .= mb_substr($mathes[0], 0, 3, 'utf-8').'</i>';
+		}else{
+			$arM = preg_match("/[а-я]+/u", $arEvent['first_period']['to'], $mathes);
+			$arEvent['first_date'] .= mb_substr($mathes[0], 0, 3, 'utf-8').'</i>';
+		}
 	}
 }
 
-$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/web20/system/pagenav.php');
+
+$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 
 $APPLICATION->SetPageProperty("title", "Календарь событий");
 $APPLICATION->SetPageProperty("description", implode(", ", $arDescription));

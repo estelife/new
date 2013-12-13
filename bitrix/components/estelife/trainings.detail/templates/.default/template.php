@@ -12,7 +12,7 @@
 				<?php if(!empty($arResult['event']['calendar']['first_period']['to'])):?>
 					-
 					<?=$arResult['event']['calendar']['first_period']['to']?>
-				<?php endif; ?></b>
+				<?php endif;?></b>
 			<?php if (!empty($arResult['event']['city_name'])):?>
 				Город: <b><?=$arResult['event']['city_name']?></b>
 			<?php endif?>

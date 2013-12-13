@@ -7,12 +7,26 @@ CModule::IncludeModule("iblock");
 CModule::IncludeModule("estelife");
 
 
-//Получение списка городов
-$arSelect = Array("ID", "NAME");
-$arFilter = Array("IBLOCK_ID"=>15, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
-$obCountries = CIBlockElement::GetList(Array("NAME"=>"ASC"), $arFilter, false, false, $arSelect);
-while($res = $obCountries->Fetch()) {
-	$arResult['countries'][] = $res;
-}
+//Получение списка стран
+$obCities = VDatabase::driver();
+$obQuery = $obCities->createQuery();
+$obQuery->builder()->from('estelife_apparatus','ep');
+$obJoin = $obQuery->builder()->join();
+
+$obJoin->_left()
+	->_from('ep', 'company_id')
+	->_to('estelife_company_geo', 'company_id', 'ecg');
+$obJoin->_left()
+	->_from('ecg','country_id')
+	->_to('iblock_element','ID','ct')
+	->_cond()->_eq('ct.IBLOCK_ID',15);
+$obQuery->builder()
+	->field('ct.ID','ID')
+	->field('ct.NAME','NAME');
+
+$obFilter=$obQuery->builder()->filter();
+$obQuery->builder()->group('ct.ID');
+$obQuery->builder()->sort('ct.NAME', 'asc');
+$arResult['countries'] = $obQuery->select()->all();
 
 $this->IncludeComponentTemplate();

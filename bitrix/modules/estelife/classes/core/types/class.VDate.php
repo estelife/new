@@ -40,11 +40,6 @@ class VDate {
 			$arRuMonths=array('января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря');
 
 			$sDate=str_replace($arEnMonths,$arRuMonths,$sDate);
-		}elseif($sLang=='small_ru'){
-			$arEnMonths=array('January','February','March','April', 'May', 'June','July','August','September','October','November','December');
-			$arRuMonths=array('янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек');
-
-			$sDate=str_replace($arEnMonths,$arRuMonths,$sDate);
 		}
 
 		return $sDate;
@@ -89,25 +84,79 @@ class VDate {
 
 		foreach($arDates as $nKey=>$nDate){
 			$nDate=strtotime(date('d.m.Y 00:00',$nDate));
+			$bNotNext=false;
 
 			if(isset($arDates[$nKey-1]))
 				$nLast=strtotime(date('d.m.Y 00:00',$arDates[$nKey-1]));
 
-			if($nLast==0 || $nDate>($nLast+86400) || $nCount==$nKey){
+			if($nLast==0 || ($bNotNext=($nDate>($nLast+86400))) || $nCount==$nKey){
 				if($nLast>0 || $nCount==$nKey){
-					if(($fCallback && is_callable($fCallback))){
-						$fCallback($nFrom,$nTo);
-					}
+					if($nLast>0 && !$bNotNext)
+						$nTo=$nDate;
+					else if($bNotNext && $nFrom==$nLast)
+						$nFrom=$nDate;
+
+					$result=true;
+
+					if(($fCallback && is_callable($fCallback)))
+						$result = $fCallback($nFrom,$nTo);
 
 					$arTemp[]=array(
 						'from'=>$nFrom,
-						'to'=>$nTo
+						'to'=>$nTo,
 					);
 					$nTo=0;
+
+					if($result === false){
+						break;
+					}
 				}
+
 				$nFrom=$nDate;
 			}else if($nDate>=$nLast && $nDate<=($nLast+86400)){
 				$nTo=$nDate;
+			}
+		}
+
+		$arDates=$arTemp;
+		return $arDates;
+	}
+
+	public static function createDiapasons2(array $arDates,$fCallback=null){
+		sort($arDates,SORT_NUMERIC);
+		$arTemp=array();
+		$nFrom=0;
+		$nPrev=0;
+		$nCount=count($arDates)-1;
+
+		foreach($arDates as $nKey=>$nDate){
+			$nDate=strtotime(date('d.m.Y 00:00',$nDate));
+
+			if(($nPrev>0 && $nDate>$nPrev+86400) || $nKey==$nCount){
+				$nFrom=($nFrom>0) ? $nFrom : $nDate;
+				$nTo=($nFrom!=$nPrev) ? $nDate : 0;
+
+				$result=true;
+
+				if(($fCallback && is_callable($fCallback)))
+					$result = $fCallback($nFrom,$nTo);
+
+				$arTemp[]=array(
+					'from'=>$nFrom,
+					'to'=>$nTo,
+				);
+
+				if(!$result)
+					break;
+
+				$nFrom=0;
+				$nTo=0;
+				$nPrev=0;
+			}else{
+				$nPrev=$nDate;
+
+				if($nFrom==0)
+					$nFrom=$nDate;
 			}
 		}
 

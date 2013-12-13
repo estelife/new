@@ -65,7 +65,7 @@ $obQuery->builder()
 	->field('ea.base_old_price','old_price')
 	->field('ea.base_new_price','new_price')
 	->field('ea.base_sale','sale')
-	->field('ea.big_photo','logo_id')
+	->field('ea.small_photo','logo_id')
 	->field('ct.CODE', 'city_code')
 	->field('ea.small_photo','s_logo_id');
 $obFilter=$obQuery->builder()->filter();
@@ -126,8 +126,8 @@ if(!empty($arCount)){
 		$arData['link'] = '/pr'.$arData['id'].'/';
 
 		if(!empty($arData['logo_id'])){
-			$file=CFile::ResizeImageGet($arData["logo_id"], array('width'=>303, 'height'=>143), BX_RESIZE_IMAGE_EXACT, true);
-			$arData['logo']=$file['src'];
+			$arData['img'] = CFile::GetFileArray($arData["logo_id"]);
+			$arData['src']=$arData['img']['SRC'];
 		}
 
 		settype($arData['old_price'],'int');

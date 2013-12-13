@@ -1,29 +1,41 @@
 <?php if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
 
-<div class="block-header red">
-	<span><?=GetMessage("ESTELIFE_CLINIC_FILTER")?></span>
-	<div class="clear"></div>
-</div>
-<div class="shadow"></div>
-<form method="get" action="/sponsors/" name="clinic_filter">
-	<table class='clinic-table'>
-		<tr>
-			<td valign="top">
-				<label><?=GetMessage("ESTELIFE_CLINIC_COUNTRY")?></label>
-				<select name="country">
-					<option value="">-- Не важно --</option>
-					<?php if (!empty($arResult['countries'])):?>
-						<?php foreach ($arResult['countries'] as $val):?>
-							<option value="<?=$val['ID']?>" <?if($_GET['country'] === $val['ID']) echo " selected";?>><?=$val['NAME']?></option>
-						<?php endforeach?>
-					<?php endif?>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td valign="bottom">
-				<input type="submit" class="button" name="filter" value="Отфильтровать" />
-			</td>
-		</tr>
-	</table>
+<form name="sponsors" class="filter" method="get" action="/sponsors/" >
+	<div class="title">
+		<h4>Поиск организатора</h4>
+		<!--		<span>Найдено 6 акций</span>-->
+	</div>
+	<div class="field">
+		<label for="name">Наименование</label>
+		<input name="name" type="text" value="<?=$_GET['name']?>" class="text"/>
+		<span class="block"></span>
+	</div>
+	<div class="field country">
+		<label for="country">Страна</label>
+		<select name="country" >
+			<option value="">--</option>
+			<?php if (!empty($arResult['countries'])):?>
+				<?php foreach ($arResult['countries'] as $val):?>
+					<option value="<?=$val['ID']?>" <?if($_GET['country'] === $val['ID']) echo " selected";?>><?=$val['NAME']?></option>
+				<?php endforeach?>
+			<?php endif?>
+		</select>
+		<span class="block"></span>
+	</div>
+	<div class="field <?=(empty($arResult['cities']) ? ' disabled' : '')?>">
+		<label for="city">Город</label>
+		<select name="city" >
+			<option value="">--</option>
+			<?php if (!empty($arResult['cities'])):?>
+				<?php foreach ($arResult['cities'] as $val):?>
+					<option value="<?=$val['ID']?>" <?if($_GET['city'] === $val['ID']) echo " selected";?>><?=$val['NAME']?></option>
+				<?php endforeach?>
+			<?php endif?>
+		</select>
+
+		<span class="block"></span>
+	</div>
+
+	<input type="submit" value="Найти организатора" class="submit">
+	<a href="/sponsors/" class="clear">Сбросить фильтр</a>
 </form>

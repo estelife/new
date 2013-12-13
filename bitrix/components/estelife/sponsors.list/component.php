@@ -1,4 +1,5 @@
 <?php
+use core\database\mysql\VFilter;
 use core\database\VDatabase;
 use core\types\VArray;
 
@@ -56,11 +57,23 @@ $obQuery->builder()
 	->field('ectg.address', 'type_address')
 	->field('ectc.value', 'type_web')
 	->field('ece.company_id','company_id')
-	->field('ect.id', 'type_company_id');
+	->field('ect.id', 'type_company_id')
+	->field('ecg.country_id', 'country_id')
+	->field('ectg.country_id', 'type_country_id');
 
 $obFilter = $obQuery->builder()->filter()
 	->_ne('eet.type', 3)
 	->_eq('ece.is_owner', 1);
+
+if (!$obGet->blank('city')){
+	$obFilter->_eq('ecg.city_id', intval($obGet->one('city')));
+}
+if (!$obGet->blank('country')){
+	$obFilter->_eq('ecg.country_id', $obGet->one('country'));
+}
+if(!$obGet->blank('name')){
+	$obFilter->_like('ec.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+}
 
 $obIf=$obQuery->builder()->_if();
 $obIf->when(
@@ -85,7 +98,7 @@ while($arData=$obResult->Fetch()){
 		$arData['name'] = $arData['type_name'];
 		$arData['company_id'] = $arData['type_company_id'];
 	}
-	$arData['link'] = '/sponsors/'.\core\types\VString::translit($arData['name']).'-'.$arData['company_id'].'/';
+	$arData['link'] = '/sp'.$arData['company_id'].'/';
 
 	if (!empty($arData['type_logo_id'])){
 		$arData["logo_id"] = $arData["type_logo_id"];
@@ -95,10 +108,17 @@ while($arData=$obResult->Fetch()){
 	if (!empty($arData['type_address'])){
 		$arData["address"] = $arData["type_address"];
 	}
+	unset($arData['type_address']);
 
 	if (!empty($arData['type_web'])){
 		$arData["web"] = $arData["type_web"];
 	}
+	unset($arData['type_web']);
+
+	if (!empty($arData['type_country_id'])){
+		$arData['country_id'] = $arData['type_country_id'];
+	}
+	unset($arData['type_country_id']);
 
 	$arData['short_web']=\core\types\VString::checkUrl($arData['web']);
 	$arResult['org'][]=$arData;
@@ -106,9 +126,9 @@ while($arData=$obResult->Fetch()){
 }
 
 $arDescription=implode(', ',$arDescription);
-$APPLICATION->SetPageProperty("title", 'Estelife - Организаторы');
+$APPLICATION->SetPageProperty("title", 'Организаторы');
 $APPLICATION->SetPageProperty("description", $arDescription);
 $APPLICATION->SetPageProperty("keywords", "Estelife, организаторы, ".$arDescription);
 
-$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/web20/system/pagenav.php');
+$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 $this->IncludeComponentTemplate();

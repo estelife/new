@@ -39,7 +39,8 @@ try{
 		->field('iepp.VALUE', 'PROFESSION')
 		->field('iepa.VALUE', 'AUTHOR');
 	$obQuery->builder()->filter()
-		->_eq('IBLOCK_ID', $arParams['IBLOCK_ID']);
+		->_eq('IBLOCK_ID', $arParams['IBLOCK_ID'])
+		->_eq('ACTIVE', 'Y');
 	$obQuery->builder()->slice(0, $arParams['NEWS_COUNT']);
 
 	$arElements = $obQuery->select()->all();

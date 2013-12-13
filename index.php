@@ -58,7 +58,7 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 
 	<div class="adv adv-out right">
 		<?$APPLICATION->IncludeComponent("bitrix:advertising.banner","",Array(
-				"TYPE" => "main_right",
+				"TYPE" => "main_right_1",
 				"CACHE_TYPE" => "A",
 				"NOINDEX" => "N",
 				"CACHE_TIME" => "3600"
@@ -79,7 +79,7 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 		"",
 		array(
 			"IBLOCK_ID"=>35,
-			"NEWS_COUNT" => 3,
+			"NEWS_COUNT" => 2,
 			"MAIN_URL" => "",
 			"TITLE"=>"Экспертное мнение",
 			"MORE_TITLE"=>"",
@@ -115,15 +115,15 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 			"PREFIX" => "ar"
 		)
 	)?>
-	<div class="adv bottom">
-		<?$APPLICATION->IncludeComponent("bitrix:advertising.banner","",Array(
-				"TYPE" => "main_center_2",
-				"CACHE_TYPE" => "A",
-				"NOINDEX" => "N",
-				"CACHE_TIME" => "3600"
-			)
-		);?>
-	</div>
+<!--	<div class="adv bottom">-->
+<!--		--><?//$APPLICATION->IncludeComponent("bitrix:advertising.banner","",Array(
+//				"TYPE" => "main_center_2",
+//				"CACHE_TYPE" => "A",
+//				"NOINDEX" => "N",
+//				"CACHE_TIME" => "3600"
+//			)
+//		);?>
+<!--	</div>-->
 </div>
 <?php
 $APPLICATION->IncludeComponent(

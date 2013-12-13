@@ -69,8 +69,8 @@ $obQuery->builder()
 	->from('estelife_calendar')
 	->sort('date','asc');
 $obQuery->builder()->filter()
-	->_eq('event_id', $arResult['event']['id'])
-	->_gte('date',strtotime(date('d.m.Y 00:00')));
+	->_eq('event_id', $arResult['event']['id']);
+//	->_gte('date',strtotime(date('d.m.Y 00:00')));
 
 $arCalendar = $obQuery->select()->all();
 if (!empty($arCalendar)){
@@ -81,7 +81,11 @@ if (!empty($arCalendar)){
 }
 
 
-	$arResult['event']['calendar']=\core\types\VDate::createDiapasons($arResult['event']['calendar'],function(&$nFrom,&$nTo){
+$arResult['event']['calendar']=\core\types\VDate::createDiapasons($arResult['event']['calendar'],function(&$nFrom,&$nTo){
+	$arNowTo = strtotime(date('d.m.Y', time()).' 00:00:00');
+	$arNowFrom =strtotime(date('d.m.Y', time()).' 23:59:59');
+
+	if (($arNowTo<=$nTo && $arNowFrom>=$nFrom) || ($arNowTo<=$nFrom) || ($arNowTo<=$nFrom && $arNowFrom>=$nFrom)){
 		if($nTo==0){
 			$nFrom=\core\types\VDate::date($nFrom, 'j F');
 		}else{
@@ -95,17 +99,22 @@ if (!empty($arCalendar)){
 			$nFrom=\core\types\VDate::date($nFrom,$sPattern);
 			$nTo=\core\types\VDate::date($nTo,'j F');
 		}
-	});
-	$arResult['event']['calendar']['first_period'] = current($arResult['event']['calendar']);
-	$arD = preg_match("/^[0-9]+/", $arResult['event']['calendar']['first_period']['from'], $mathes);
-	$arResult['event']['calendar']['first_date'] =  $mathes[0]. ' <i>';
-
-	if (preg_match("/[а-я]+/u" ,$arResult['event']['calendar']['first_period']['from'], $mathes)){
-		$arResult['event']['calendar']['first_date'] .= mb_substr($mathes[0], 0, 3, 'utf-8').'</i>';
-	}else{
-		$arM = preg_match("/[а-я]+/u", $arResult['event']['calendar']['first_period']['to'], $mathes);
-		$arResult['event']['calendar']['first_date'] .= mb_substr($mathes[0], 0, 3, 'utf-8').'</i>';
+		return false;
 	}
+
+	return true;
+});
+
+$arResult['event']['calendar']['first_period'] = reset($arResult['event']['calendar']);
+$arD = preg_match("/^[0-9]+/", $arResult['event']['calendar']['first_period']['from'], $mathes);
+$arResult['event']['calendar']['first_date'] =  $mathes[0]. ' <i>';
+
+if (preg_match("/[а-я]+/u" ,$arResult['event']['calendar']['first_period']['from'], $mathes)){
+	$arResult['event']['calendar']['first_date'] .= mb_substr($mathes[0], 0, 3, 'utf-8').'</i>';
+}else{
+	$arM = preg_match("/[а-я]+/u", $arResult['event']['calendar']['first_period']['to'], $mathes);
+	$arResult['event']['calendar']['first_date'] .= mb_substr($mathes[0], 0, 3, 'utf-8').'</i>';
+}
 
 //Получение организаторов
 $obQuery = $obEvent->createQuery();

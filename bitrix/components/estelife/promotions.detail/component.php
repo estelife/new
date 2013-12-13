@@ -12,12 +12,28 @@ $nActionID= (isset($arParams['ID']))?
 
 //Получаем данные по акции
 $obQuery = $obActions->createQuery();
-$obQuery->builder()->from('estelife_akzii', 'ea');
 $obQuery->builder()
-	->field('ea.*');
-$obQuery->builder()->filter()
+	->from('estelife_akzii', 'ea')
+	->field('ea.*')
+	->field('fl.SUBDIR','big_photo_dir')
+	->field('fl.FILE_NAME','big_photo_name')
+	->field('fl.DESCRIPTION','big_photo_description')
+	->filter()
 	->_eq('ea.id', $nActionID);
+$obQuery->builder()
+	->join()
+	->_left()
+	->_from('ea','big_photo')
+	->_to('file','ID','fl');
 $arResult['action'] = $obQuery->select()->assoc();
+
+if(!empty($arResult['action']['big_photo_name'])){
+	$arResult['action']['big_photo']=array(
+		'src'=>'/upload/'.$arResult['action']['big_photo_dir'].'/'.$arResult['action']['big_photo_name'],
+		'description'=>$arResult['action']['big_photo_description']
+	);
+	unset($arResult['action']['big_photo_dir'],$arResult['action']['big_photo_name'],$arResult['action']['big_photo_description']);
+}
 
 //получение клиник
 $obQuery = $obActions->createQuery();
@@ -75,6 +91,7 @@ $obQuery->builder()
 $arResult['action']['prices']=$obQuery->select()->all();
 
 //Получение галереи
+/*
 $obQuery=$obActions->createQuery();
 $obQuery->builder()
 	->from('estelife_akzii_photos')
@@ -96,7 +113,7 @@ if(!empty($arResult['action']['photos'])){
 	}
 
 	$arResult['action']['photos_count']=count($arResult['action']['photos']);
-}
+}*/
 
 $arResult['action']['detail_text']=html_entity_decode($arResult['action']['detail_text'], ENT_QUOTES, 'UTF-8');
 $arResult['action']['new_price']=number_format($arResult['action']['base_new_price'],0,'.',' ');

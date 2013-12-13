@@ -47,7 +47,8 @@ try{
 	foreach ($arParams['SECTIONS_ID'] as $val){
 		$obQuery->builder()->filter()
 			->_eq('ie.IBLOCK_ID', $arParams['IBLOCK_ID'])
-			->_eq('ie.IBLOCK_SECTION_ID', $val);
+			->_eq('ie.IBLOCK_SECTION_ID', $val)
+			->_eq('ie.ACTIVE', 'Y');
 		$obQuery->builder()->union();
 	}
 	$arElements = $obQuery->select()->all();

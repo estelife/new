@@ -122,7 +122,7 @@ while($arData=$obResult->Fetch()){
 }
 
 $arDescription=implode(', ',$arDescription);
-$APPLICATION->SetPageProperty("title", 'Estelife - Препараты');
+$APPLICATION->SetPageProperty("title", 'Препараты');
 $APPLICATION->SetPageProperty("description", $arDescription);
 $APPLICATION->SetPageProperty("keywords", "Estelife, препараты, ".$arDescription);
 
