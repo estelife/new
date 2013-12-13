@@ -472,7 +472,7 @@ ul.stat {
 .adv.bottom {
 	width:100%;
 	height:220px;
-	margin:80px 0;
+	margin:80px 0 0 0;
 }
 ul.stat li {
 	padding-left:20px;
@@ -526,6 +526,7 @@ ul.stat .unlikes i {
 	width: 146px;
 	margin-bottom: 25px;
 	line-height: 15px;
+	height:185px;
 }
 .item.detail .menu a, .experts .quote,
 .inner .products .item.product .cols {
@@ -540,19 +541,22 @@ ul.stat .unlikes i {
 .experts .user i {
 	font-size:12px;
 }
+.experts .quote {
+	height:165px;
+}
 .experts h3, .item.detail .clinic h3, .item h3, .item h3 a,
 .inner .products .item.product h2, .inner .products .item.product h2 a, .item.detailt .product h2 a  {
 	font-size:18px;
 }
 .experts h3 {
-	margin:0 0 30px 0;
+	margin:0 0 25px 0;
 }
 .experts p {
 	margin:0;
 }
 .experts ul {
 	height:22px;
-	margin:30px 0 20px 0;
+	margin:25px 0 0 0;
 	display: inline-block;
 	zoom:1;
 	*display:inline;
@@ -1013,6 +1017,7 @@ td.prices span {
 	width:100%;
 	background:#dfdfdf;
 	padding:20px 0;
+	margin-top:80px;
 }
 .media .content, .item.training {
 	position: relative;
@@ -1952,21 +1957,20 @@ form.search .submit {
 	float:right;
 	font-size:16px;
 }
-.win,.win-shadow {
+.win,.win-shadow, .win-gallery-in .item {
 	top:0;
 	left:0;
 	width:100%;
 	height:100%;
 	position: absolute;
 }
+.win, .win-shadow, .win-gallery .arrow, .win-gallery-head, .win-close {
+	background-color:#2b2b2b;
+	z-index:1;
+}
 .win {
 	overflow: auto;
 	z-index:10;
-	height:2000px;
-}
-.win-shadow, .win-gallery .arrow, .win-gallery-head, .win-close {
-	background-color:#2b2b2b;
-	z-index:1;
 }
 .win-wrap {
 	width:940px;
@@ -2005,7 +2009,7 @@ form.search .submit {
 	padding:20px;
 	background:#f0f0f0;
 	position: relative;
-	box-shadow: 0 6px 5px #000;
+	box-shadow: 0 2px 3px #000;
 }
 .win-gallery .arrow {
 	left:-59px;
@@ -2024,9 +2028,33 @@ form.search .submit {
 	width:100%;
 	margin-top:50px;
 }
+.win-gallery-items {
+	position: relative;
+}
+.win-gallery-in, .win-gallery-items, .win-gallery-in .item, .win-gallery-in .item-in {
+	width:770px;
+	height:540px;
+}
+.win-gallery-in .item-in {
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+}
+.win-gallery-in img {
+	border:none;
+	width:100%;
+	height: 100%;
+}
+.win-gallery-in .item {
+	background:#f0f0f0;
+}
 .win-gallery-previews li {
 	margin:0 20px 20px 0;
 	cursor:pointer;
+}
+.win-gallery-previews li, .win-gallery-previews img {
+	width:146px;
+	height:100px;
 }
 .win-gallery-previews li:hover, .win-gallery-previews li.active {
 	opacity: 0.3;

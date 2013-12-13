@@ -616,6 +616,29 @@ try{
 				$arResult['list']=array();
 			}
 			break;
+		case 'get_media_content':
+			$nId=(!empty($arData['id'])) ?
+				intval($arData['id']) : 0;
+			$bVideo=(!empty($arData['video']));
+
+			if(!$bVideo){
+				$APPLICATION->IncludeComponent(
+					"estelife:photogallery.photos",
+					"ajax",
+					array("ID"=>$nId),
+					false
+				);
+			}else{
+				$APPLICATION->IncludeComponent(
+					"estelife:photogallery.video",
+					"ajax",
+					array("ID"=>$nId),
+					false
+				);
+			}
+
+			$arResult=false;
+			break;
 		default:
 			throw new VException('unsupported action',21);
 	}
