@@ -13,9 +13,9 @@
 			</ul>
 			<div class="items">
 				<?php foreach ($arResult as $key=>$val):?>
-					<div class="item <?php if ($val['IS_VIDEO']== 'Y'):?>video<?php endif?> <?php if (($key+1)%6 ==0):?>last<?php endif?>">
+					<div class="item <?php if ($val['IS_VIDEO']== 'Y'):?>video<?php endif?> <?php if (($key+1)%6 ==0):?>last<?php endif?>" data-id="<?=$val['ID']?>">
 						<?php if ($val['IS_VIDEO']== 'Y'):?><span></span><?php endif?>
-						<a href="<?=$val['LINK']?>"><img src="<?=$val['IMG']?>" alt="<?=$val['NAME']?>" title="<?=$val['NAME']?>" width="146px" height="100px" /></a>
+						<img src="<?=$val['IMG']?>" alt="<?=$val['NAME']?>" title="<?=$val['NAME']?>" width="146px" height="100px" />
 						<div class="border"></div>
 					</div>
 				<?php endforeach?>

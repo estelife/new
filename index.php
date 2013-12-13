@@ -115,15 +115,6 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 			"PREFIX" => "ar"
 		)
 	)?>
-	<div class="adv bottom">
-		<?$APPLICATION->IncludeComponent("bitrix:advertising.banner","",Array(
-				"TYPE" => "main_center_2",
-				"CACHE_TYPE" => "A",
-				"NOINDEX" => "N",
-				"CACHE_TIME" => "3600"
-			)
-		);?>
-	</div>
 </div>
 <?php
 $APPLICATION->IncludeComponent(

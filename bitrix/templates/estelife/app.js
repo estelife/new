@@ -938,15 +938,15 @@ function initFilter(context){
 				(function(selector){
 					return function(r){
 						var child = $(selector),
-							prnt=child.parent().parent();
+							prnt=child.parent();
 
 						prnt.addClass('disabled');
 						child.find('option:not(:first)').remove();
 
 						if('list' in r && r.list.length>0){
-							for(var i= 0; i< r.list.length; i++){
+							for(var i= 0; i< r.list.length; i++)
 								child.append('<option value="'+ r.list[i].value+'">'+ r.list[i].label+'</option>');
-							}
+
 							prnt.removeClass('disabled');
 						}
 					};
@@ -1059,4 +1059,49 @@ $(function(){
 			city_id = EL.cookie._get('estelife_city');
 		}
 	)*/
+
+	EL.videoDirect.start();
+
+	$('.media .items').on('click','.item',function(e){
+		var link=$(this),
+			id=link.attr('data-id'),
+			video=link.hasClass('video');
+
+		if(!id)
+			return;
+
+		$.post('/api/estelife_ajax.php',{
+			'action':'get_media_content',
+			'id':id,
+			'video':(video) ? 1 : 0
+		},function(r){
+			if('images' in r){
+				var m=new EL.media({
+					'title': r.gallery.name,
+					'description': r.gallery.description
+				});
+
+				$.map(r.images,function(item){
+					m.setImage(new EL.mediaImage(
+						item.title,
+						item.small,
+						item.big
+					));
+				});
+
+				m.showImages();
+			}else if('video' in r){
+				var m=new EL.media();
+
+				m.setVideo(new EL.mediaVideo(
+					r.video.title,
+					r.video.description,
+					r.video.video_id
+				));
+				m.showVideo();
+			}
+		},'json');
+
+		e.preventDefault();
+	});
 });

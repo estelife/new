@@ -117,3 +117,29 @@
 	height: 25px;
 	border-bottom: 2px solid #5c5c5c;
 }
+.jspPane {
+	position: absolute;
+	left:0;
+}
+.jspContainer {
+	overflow:hidden;
+	position: relative;
+}
+.jspVerticalBar, .jspDrag {
+	position:absolute;
+	width:4px;
+	top:0;
+	right:0px;
+}
+.jspVerticalBar {
+	width:9px;
+}
+.jspDrag {
+	background:#bebebe;
+	border-radius:5px;
+	cursor: pointer;
+	right:4px;
+}
+.jspPane {
+	position:absolute;
+}
