@@ -74,11 +74,11 @@ $obFilter->_eq('ea.active', 1);
 
 $obQuery->builder()->sort('ea.end_date', 'desc');
 
-if (!empty($arResult['city'])){
+
+if(!$obGet->blank('city')){
+	$obFilter->_eq('ec.city_id', intval($obGet->one('city')));
+}elseif (!empty($arResult['city'])){
 	$obFilter->_eq('ec.city_id', $arResult['city']['ID']);
-}else{
-	if(!$obGet->blank('city'))
-		$obFilter->_eq('ec.city_id', intval($obGet->one('city')));
 }
 
 if(!$obGet->blank('metro'))

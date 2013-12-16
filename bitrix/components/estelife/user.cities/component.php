@@ -1,7 +1,7 @@
 <?php
 $arResult['cities']['active'] = array(
 	'359'=>'Москва',
-	'358'=>'Санкт-Петербург'
+	'358'=>'Санкт-Петербург',
 );
 $arResult['cities']['passive'] = array(
 	'Новосибирск',
@@ -16,7 +16,8 @@ $arResult['cities']['passive'] = array(
 	'Волгоград',
 	'Красноярск',
 	'Пермь',
-	'Воронеж'
+	'Воронеж',
+	'Тюмень'
 );
 
 $arCity = \geo\VGeo::getInstance()->getGeo();

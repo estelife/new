@@ -59,7 +59,7 @@
 				<a href="http://www.youtube.com/esteliferu" class="yt">Youtube</a>
 				<a href="https://plus.google.com/u/0/b/106608290098923557575/" class="gp">Google+</a>
 			</div>
-			<a href="#" class="cols">Войти</a>
+<!--			<a href="#" class="cols">Войти</a>-->
 		</div>
 	</div>
 	<div class="cities main_cities none"></div>

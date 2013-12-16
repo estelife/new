@@ -46,7 +46,7 @@
 						<span><?=$val['phone']?></span>
 					</div>
 					<div class="cols col3">
-						<a href="<?=$val['link']?>" class="more">Подробнее о клинике</a>
+						<a href="<?=$val['link']?>" class="more" target="_blank">Подробнее о клинике</a>
 					</div>
 				</div>
 			<?php endforeach?>
@@ -57,4 +57,30 @@
 			</div>
 		</div>
 	</div>
+	<?php if (!empty($arResult['action']['similar'])):?>
+		<div class="similars">
+			<div class="title">
+				<h2>Похожие акции</h2>
+			</div>
+			<div class="items">
+				<?php foreach ($arResult['action']['similar'] as $val):?>
+					<div class="item promotion">
+						<span class="perc"><?=$val["base_sale"]?>%</span>
+						<a href="<?=$val['link']?>">
+							<img src="<?=$val['src']?>" width="227px" height="158px" alt="<?=$val['name']?>" title="<?=$val['name']?>" />
+						</a>
+						<h3><?=$val['name']?></h3>
+						<div class="cols prices">
+							<b><?=$val['new_price']?> <i></i></b>
+							<s><?=$val['old_price']?> <i></i></s>
+						</div>
+						<div class="cols time">
+							<?=$val['time']?> <?=$val['day']?>
+							<i></i>
+						</div>
+					</div>
+				<?php endforeach?>
+			</div>
+		</div>
+	<?php endif?>
 </div>
