@@ -2072,6 +2072,10 @@ form.search .submit {
 	right:64px;
 	border:2px solid #fff;
 }
+.win-gallery-bottom-fix {
+	height:100px;
+	clear: both;
+}
 /*
 body {
 	-webkit-filter: blur(10px);
