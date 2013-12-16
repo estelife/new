@@ -5,7 +5,7 @@
 		<li><b>Клиники</b></li>
 	</ul>
 	<div class="title">
-		<h1>Клиники Санкт-Петербурга</h1>
+		<h1>Клиники <?if ($_GET['city']==359):?>Москвы<?elseif($_GET['city']==358):?>Санкт-Петербурга<?endif?></h1>
 	</div>
 	<div class="items">
 		<?php if (!empty($arResult['clinics'])):?>
@@ -13,8 +13,8 @@
 			<div class="item company">
 				<h2><?php if ($arClinic["recomended"] == 1):?><span class="checked"></span><?php endif?><a href="<?=$arClinic["link"]?>" class="el-get-detail"><?=$arClinic["name"]?></a></h2>
 				<div class="item-in">
-					<?php if (!empty($arClinic['pays'])):?>
-					<p><?=$arClinic['pays']?></p>
+					<?php if (!empty($arClinic['specialization'])):?>
+					<p><?=$arClinic['specialization']?></p>
 					<?php endif?>
 					<a href="<?=$arClinic["link"]?>" class="el-get-detail">
 						<div class="img">

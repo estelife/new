@@ -84,7 +84,6 @@ if (!empty($arCalendar)){
 	}
 }
 
-
 $arResult['event']['calendar']=\core\types\VDate::createDiapasons($arResult['event']['calendar'],function(&$nFrom,&$nTo){
 	$arNowTo = strtotime(date('d.m.Y', time()).' 00:00:00');
 	$arNowFrom =strtotime(date('d.m.Y', time()).' 23:59:59');
@@ -109,7 +108,7 @@ $arResult['event']['calendar']=\core\types\VDate::createDiapasons($arResult['eve
 	return true;
 });
 
-$arResult['event']['calendar']['first_period'] = reset($arResult['event']['calendar']);
+$arResult['event']['calendar']['first_period'] = end($arResult['event']['calendar']);
 $arD = preg_match("/^[0-9]+/", $arResult['event']['calendar']['first_period']['from'], $mathes);
 $arResult['event']['calendar']['first_date'] =  $mathes[0]. ' <i>';
 

@@ -91,7 +91,7 @@ $arResult['event']['calendar']=\core\types\VDate::createDiapasons($arResult['eve
 
 	return true;
 });
-$arResult['event']['calendar']['first_period'] = current($arResult['event']['calendar']);
+$arResult['event']['calendar']['first_period'] = end($arResult['event']['calendar']);
 $arD = preg_match("/^[0-9]+/", $arResult['event']['calendar']['first_period']['from'], $mathes);
 $arResult['event']['calendar']['first_date'] =  $mathes[0]. ' <i>';
 

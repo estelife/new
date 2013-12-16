@@ -15,16 +15,16 @@
 
 			<div class="cols col1">
 
-				<?php if (!empty($arResult['clinic']['specializations'])):?>
+				<?php if (!empty($arResult['clinic']['specialization'])):?>
 					<p>
-						<?=$arResult['clinic']['specializations']?><i></i>
+						<?=$arResult['clinic']['specialization']?><i></i>
 					</p>
 				<?php endif?>
 
 				<?php if (!empty($arResult['clinic']['main_contact'])):?>
 					<span>г. <?=$arResult['clinic']['main_contact']['city']?>, <?=$arResult['clinic']['main_contact']['address']?></span>
 					<span><?=$arResult['clinic']['main_contact']['phone']?></span>
-					<a href="<?=$arResult['clinic']['main_contact']['web']?>"><?=$arResult['clinic']['main_contact']['web_short']?></a>
+					<a href="<?=$arResult['clinic']['main_contact']['web']?>" target="_blank"><?=$arResult['clinic']['main_contact']['web_short']?></a>
 				<?php endif?>
 			</div>
 			<div class="menu menu_tab">
@@ -70,7 +70,7 @@
 										<?php if ($k == $vv['ser_id']):?>
 										<tr>
 											<td><?=$vv['con_name']?></td>
-											<td class="prices"><span><?=$vv['price_from']?><i></i></span></td>
+											<td class="prices"><span>от <?=$vv['price_from']?><i></i></span></td>
 										</tr>
 										<?php endif?>
 									<?php endforeach?>

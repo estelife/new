@@ -115,6 +115,30 @@ if(!empty($arResult['action']['photos'])){
 	$arResult['action']['photos_count']=count($arResult['action']['photos']);
 }*/
 
+$arNow = time();
+//Получение похожих акций
+$obQuery = $obActions->createQuery();
+$obQuery->builder()->from('estelife_akzii');
+$obQuery->builder()
+	->filter()
+	->_eq('service_concreate_id', $arResult['action']['service_concreate_id'])
+	->_eq('active', 1)
+	->_gte('end_date', time());
+$obQuery->builder()->slice(0,3);
+$arSimilar=$obQuery->select()->all();
+if (!empty($arSimilar)){
+	foreach ($arSimilar as $val){
+		$val['img'] = CFile::GetFileArray($val["small_photo"]);
+		$val['src'] = $val['img']['SRC'];
+		$val['new_price'] = intval($val['base_new_price']);
+		$val['old_price'] = intval($val['base_old_price']);
+		$val['time'] = ceil(($val['end_date']-$arNow)/(60*60*24));
+		$val['day'] = \core\types\VString::spellAmount($val['time'], 'день,дня,дней');
+		$val['link'] = '/pr'.$val['id'].'/';
+		$arResult['action']['similar'][] = $val;
+	}
+}
+
 $arResult['action']['detail_text']=html_entity_decode($arResult['action']['detail_text'], ENT_QUOTES, 'UTF-8');
 $arResult['action']['new_price']=number_format($arResult['action']['base_new_price'],0,'.',' ');
 $arResult['action']['old_price']=number_format($arResult['action']['base_old_price'],0,'.',' ');

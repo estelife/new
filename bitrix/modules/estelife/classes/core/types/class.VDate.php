@@ -83,6 +83,7 @@ class VDate {
 		$nCount=count($arDates)-1;
 
 		foreach($arDates as $nKey=>$nDate){
+
 			$nDate=strtotime(date('d.m.Y 00:00',$nDate));
 			$bNotNext=false;
 
@@ -117,7 +118,6 @@ class VDate {
 				$nTo=$nDate;
 			}
 		}
-
 		$arDates=$arTemp;
 		return $arDates;
 	}
