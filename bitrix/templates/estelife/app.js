@@ -88,6 +88,14 @@ $(function home(){
 			document.location.href=link;
 	});
 
+	$('.col2 .img').click(function(e){
+		var target= $(e.target),
+			link = $(this).find('a:first').attr('href');
+
+		if(target[0].tagName!='A' && link.length>0)
+			document.location.href=link;
+	});
+
 	//Вывод списка городов в шапке
 	$('.change_main_city').click(function(){
 		Cities.load(

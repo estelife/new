@@ -2,9 +2,10 @@
 <ul class="menu">
 	<li><a href="#" class="empty_link">Точка зрения</a>
 		<ul class="submenu">
+			<li><a href="/podcast/express-uhod/">Экспресс-уход</a></li>
+			<li><a href="/podcast/vnimanie-k-detalyam/">Внимание к деталям</a></li>
+			<li><a href="/podcast/gotovimsya-k-prazdniku/">Готовимся к празднику</a></li>
 			<li><a href="/podcast/oshibki-v-ukhode/">Ошибки в уходе</a></li>
-			<li><a href="/podcast/konturnaya-plastika/">Контурная пластика</a></li>
-			<li><a href="/podcast/problemnaya-kozha/">Проблемная кожа</a></li>
 		</ul>
 	</li>
 	<li><a href="#" class="empty_link">Косметология</a>

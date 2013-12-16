@@ -47,7 +47,7 @@
 			"arrFILTER_iblock_clinics" => array("all"),
 			"arrFILTER_iblock_learning" => "all",
 			"AJAX_OPTION_JUMP" => "N",
-			"AJAX_OPTION_STYLE" => "Y",
+			"AJAX_OPTION_STYLE" => "N",
 			"AJAX_OPTION_HISTORY" => "N",
 			"AJAX_OPTION_ADDITIONAL" => ""
 		)
