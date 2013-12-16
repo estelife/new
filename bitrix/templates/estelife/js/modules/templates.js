@@ -512,15 +512,13 @@ Estelife.prototype.templateAggregator=function(h){
 		}
 	};
 
-	function _assign(temp,global){
+	function _assign(content,global){
 		var matches,tm,left,right,incr,
+			temp=content,
 			bad=['foreach'],
-			exReg=new RegExp(
-				'(<\\!--[\\s]*\\$[\\w\\d\\._]+(=[^!\\s]+|\\+\\+|\\-\\-)[\\s]*\\!-->|'+bad.join('|')+')+',
-				'gi'
-			);
+			exReg=new RegExp('(<\\!--[\\s]*\\$[\\w\\d\\._]+(=[^!\\s]+|\\+\\+|\\-\\-)[\\s]*\\!-->|'+bad.join('|')+')+','gi');
 
-		while ((matches = exReg.exec(temp)) != null) {
+		while((matches = exReg.exec(content)) != null){
 			if($.inArray(matches[0],bad)>-1)
 				break;
 
@@ -533,7 +531,7 @@ Estelife.prototype.templateAggregator=function(h){
 
 				if(incr=='++' || incr=='--'){
 					if(!(left in registry.local))
-						registry.local[left]=0;
+						registry.local[left]=_value(left,0);
 
 					registry.local[left]=parseInt(registry.local[left]);
 
@@ -574,7 +572,7 @@ Estelife.prototype.templateAggregator=function(h){
 		return temp;
 	};
 
-	function _value(field){
+	function _value(field,def){
 		field=$.trim(field);
 		var data=$.extend({},registry.global,registry.local);
 
@@ -586,15 +584,15 @@ Estelife.prototype.templateAggregator=function(h){
 					data[field[i]] : false;
 
 				if(!data)
-					return false;
+					return def;
 				else if(i==x)
 					return data;
 			}
 		}else{
 			return (field in data) ?
-				data[field] : false;
+				data[field] : def;
 		}
 
-		return false;
+		return def;
 	}
 }

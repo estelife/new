@@ -51,7 +51,11 @@ $obQuery->builder()
 	->field('cty.NAME', 'city_name')
 	->field('ctytype.NAME', 'type_city_name')
 	->field('ecg.address')
-	->field('ectg.type_address')
+	->field('ecg.latitude','lat')
+	->field('ecg.longitude','lng')
+	->field('ectg.address','type_address')
+	->field('ectg.latitude','type_lat')
+	->field('ectg.longitude','type_lng')
 	->field('ect.name', 'type_name')
 	->field('ect.logo_id', 'type_logo_id')
 	->field('ect.detail_text', 'type_detail_text')
@@ -65,11 +69,16 @@ if (!empty($arResult['company']['type_name'])){
 }
 unset($arResult['company']['type_name']);
 
-if (!empty($arResult['company']['type_address'])){
+if (!empty($arResult['company']['type_address']))
 	$arResult['company']['address'] = $arResult['company']['type_address'];
-}
 
-unset($arResult['company']['type_address']);
+if(!empty($arResult['company']['type_lat']))
+	$arResult['company']['lat']=$arResult['company']['type_lat'];
+
+if(!empty($arResult['company']['type_lng']))
+	$arResult['company']['lng']=$arResult['company']['type_lng'];
+
+unset($arResult['company']['type_address'],$arResult['company']['type_lng'],$arResult['company']['type_lat']);
 
 if (!empty($arResult['company']['type_logo_id'])){
 	$arResult['company']['logo_id'] = $arResult['company']['type_logo_id'];
@@ -105,6 +114,7 @@ $obQuery = $obCompanies->createQuery();
 $obQuery->builder()->from('estelife_company_contacts');
 $obQuery->builder()->filter()
 	->_eq('company_id', $arCompanyID);
+
 $arContacts = $obQuery->select()->all();
 if (!empty($arContacts)){
 	foreach ($arContacts as $val){
@@ -165,12 +175,13 @@ if (!empty($arResult['company']['type_email'])){
 	unset($arResult['company']['type_email']);
 }
 
-
 $arResult['company']['contacts']['web'] = $arResult['company']['web'];
 $arResult['company']['contacts']['web_short'] = (!empty($arResult['company']['web_short'])) ? $arResult['company']['web_short'] : '';
 $arResult['company']['contacts']['phone'] = implode(', ', $arResult['company']['phone']);
 $arResult['company']['contacts']['fax'] = implode(', ', $arResult['company']['fax']);
 $arResult['company']['contacts']['email'] = implode(', ', $arResult['company']['email']);
+$arResult['company']['contacts']['lat'] = $arResult['company']['lat'];
+$arResult['company']['contacts']['lng'] = $arResult['company']['lng'];
 
 
 //получение мероприятий компании

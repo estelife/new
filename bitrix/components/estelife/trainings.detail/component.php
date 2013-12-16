@@ -41,8 +41,11 @@ $obQuery->builder()
 	->field('ct.ID','country_id')
 	->field('cty.NAME','city_name')
 	->field('ecg.address','address')
+	->field('ecg.latitude','lat')
+	->field('ecg.longitude','lng')
 	->field('ec.logo_id', 'logo_id')
 	->field('ec.id', 'company_id')
+	->field('ec.name','company_name')
 	->field('ee.id','id')
 	->field('ee.short_name','short_name')
 	->field('ee.full_name','full_name')
@@ -58,6 +61,7 @@ else
 $arResult['event'] = $obQuery->select()->assoc();
 $arResult['event']['img'] = CFile::ShowImage($arResult['event']['logo_id'],280, 110, 'alt='.$arResult['event']['name']);
 $arResult['event']['detail_text'] = htmlspecialchars_decode($arResult['event']['detail_text'],ENT_NOQUOTES);
+$arResult['event']['company_link']='/tc'.$arResult['event']['company_id'].'/';
 
 if(!empty($arResult['event']['web'])){
 	$arResult['event']['short_web']=VString::checkUrl($arResult['event']['web']);
@@ -114,7 +118,7 @@ if (preg_match("/[а-я]+/u" ,$arResult['event']['calendar']['first_period']['fr
 	$arM = preg_match("/[а-я]+/u", $arResult['event']['calendar']['first_period']['to'], $mathes);
 	$arResult['event']['calendar']['first_date'] .= mb_substr($mathes[0], 0, 3, 'utf-8').'</i>';
 }
-
+/*
 //Получение организаторов
 $obQuery = $obEvent->createQuery();
 $obQuery->builder()->from('estelife_company_events', 'ece');
@@ -158,7 +162,7 @@ if (!empty($arCompanies)){
 			$arResult['event']['org'][] = $val;
 		}
 	}
-}
+}*/
 
 //Получение контактных данных
 $obQuery = $obEvent->createQuery();
@@ -181,15 +185,15 @@ if (!empty($arContacts)){
 	}
 }
 
-if (!empty($arEmails)){
+if (!empty($arEmails))
 	$arResult['event']['contacts']['email'] = implode('<br />', $arEmails);
-}
-if (!empty($arFaxes)){
+if (!empty($arFaxes))
 	$arResult['event']['contacts']['fax'] = implode('<br />', $arFaxes);
-}
-if (!empty($arPhones)){
+if (!empty($arPhones))
 	$arResult['event']['contacts']['phone'] = implode('<br />', $arPhones);
-}
+
+$arResult['event']['contacts']['lat']=$arResult['event']['lat'];
+$arResult['event']['contacts']['lng']=$arResult['event']['lng'];
 
 if(!empty($arWebs[0])){
 	$arResult['event']['web'] = $arWebs[0];

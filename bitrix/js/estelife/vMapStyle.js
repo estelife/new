@@ -45,7 +45,7 @@ var VMapStyle=(function(){
 				{featureType:"poi",elementType: "all",stylers:[{visibility:"off"}]},
 				{featureType:"transit",elementType: "labels",stylers:[{visibility:"off"}]},
 				{featureType:"transit.station.bus",stylers:[{visibility:"on"}]},
-				{featureType: "water",stylers:[{ hue: "#0066ff"},{saturation: -70},{lightness: -5}]}
+				{featureType: "water",stylers:[{ hue: "#c1d1e2"},{saturation: 50},{lightness: -1}]}
 			]
 		}
 	}

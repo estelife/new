@@ -280,6 +280,9 @@ input.text {
 	line-height: 38px;
 	height:100%;
 }
+.head .menu li a.empty_link {
+	cursor:default;
+}
 .head .menu li.main a {
 	background:#f0f0f0;
 	border:2px #e50264 solid;
@@ -1012,6 +1015,11 @@ td.prices span {
 	color:#fff;
 	background:#e50264;
 }
+.nav span {
+	display: block;
+	height: 29px;
+	line-height: 32px;
+}
 .media {
 	float:left;
 	width:100%;
@@ -1065,6 +1073,9 @@ td.prices span {
 }
 .media .item.last {
 	margin-right: 0;
+}
+.media .item {
+	display: block;
 }
 .media .item img {
 	border:none;
@@ -1487,8 +1498,9 @@ td.prices span {
 	text-decoration: none;
 	margin-bottom:0;
 }
-.item.company .col1 a:hover, .item.detail .tab-c a:hover, p a:hover, .item.search a:hover {
-	text-decoration: underline;
+.item.company .col1 a:hover, .item.detail .tab-c a:hover, p a:hover, .item.search a:hover,
+.item.product ul a:hover, .item.training a.link:hover, .item.producer ul a:hover {
+	text-decoration: underline !important;
 }
 .item.company h1, .item.producer h1, .item.product h1,
 .item.training h1, .item.event h1 {
@@ -1823,6 +1835,10 @@ li.country, span.country {
 	float:right;
 	width:477px;
 	height:300px;
+	border: 1px solid #d1d1d1;
+}
+.map span {
+	display: none;
 }
 .checked {
 	display:block;
@@ -2074,7 +2090,7 @@ form.search .submit {
 }
 .win-gallery-bottom-fix {
 	height:100px;
-	clear: both;
+	clear: both ;
 }
 /*
 body {

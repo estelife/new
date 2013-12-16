@@ -81,6 +81,11 @@
 				<?php endif?>
 
 			</ul>
+
+			<div class="map">
+				<span class="lat"><?=$arResult['company']['contacts']['lat']?></span>
+				<span class="lng"><?=$arResult['company']['contacts']['lng']?></span>
+			</div>
 		</div>
 	</div>
 </div>

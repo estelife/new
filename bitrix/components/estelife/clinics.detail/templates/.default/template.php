@@ -139,7 +139,8 @@
 							<?php endif?>
 						</ul>
 						<div class="map">
-
+							<span class="lat"><?=$val['lat']?></span>
+							<span class="lng"><?=$val['lng']?></span>
 						</div>
 					<?php endforeach?>
 				<?php endif?>
