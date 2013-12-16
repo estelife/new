@@ -26,7 +26,7 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 			"FIELD_CODE" => array("ID", "CODE", "NAME", "TAGS", "SORT", "PREVIEW_TEXT", "PREVIEW_PICTURE", "IBLOCK_TYPE_ID", "IBLOCK_ID", "IBLOCK_CODE", "IBLOCK_NAME", "IBLOCK_EXTERNAL_ID", "DATE_CREATE"),
 			"PROPERTY_CODE" => array("FORUM_MESSAGE_CNT"),
 			"CHECK_DATES" => "Y",
-			"DETAIL_URL" => "/ar#ELEMENT_ID#/",
+			"DETAIL_URL" => "/pt#ELEMENT_ID#/",
 			"PREVIEW_TRUNCATE_LEN" => "0",
 			"ACTIVE_DATE_FORMAT" => "j F Y",
 			"SET_TITLE" => "N",
@@ -58,7 +58,7 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 
 	<div class="adv adv-out right">
 		<?$APPLICATION->IncludeComponent("bitrix:advertising.banner","",Array(
-				"TYPE" => "main_right",
+				"TYPE" => "main_right_1",
 				"CACHE_TYPE" => "A",
 				"NOINDEX" => "N",
 				"CACHE_TIME" => "3600"
@@ -79,7 +79,7 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 		"",
 		array(
 			"IBLOCK_ID"=>35,
-			"NEWS_COUNT" => 3,
+			"NEWS_COUNT" => 2,
 			"MAIN_URL" => "",
 			"TITLE"=>"Экспертное мнение",
 			"MORE_TITLE"=>"",
@@ -115,6 +115,15 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 			"PREFIX" => "ar"
 		)
 	)?>
+<!--	<div class="adv bottom">-->
+<!--		--><?//$APPLICATION->IncludeComponent("bitrix:advertising.banner","",Array(
+//				"TYPE" => "main_center_2",
+//				"CACHE_TYPE" => "A",
+//				"NOINDEX" => "N",
+//				"CACHE_TIME" => "3600"
+//			)
+//		);?>
+<!--	</div>-->
 </div>
 <?php
 $APPLICATION->IncludeComponent(

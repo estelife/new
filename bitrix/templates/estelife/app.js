@@ -5,15 +5,17 @@ $(document).ready(function() {
 
 	//табы для раскрытия информации
 	$('body').on('click', '.el-tab h3', function(){
+
 		var prnt = $(this).parent(),
 			el = $('a',$(this));
 
+
 		if (el.hasClass('active')){
 			el.removeClass('active');
-			prnt.find('h3').slideUp('700').addClass('none');
+			prnt.find('h3').next().slideUp('700').addClass('none');
 		}else{
 			el.addClass('active');
-			prnt.find('').slideDown('700').removeClass('none');
+			prnt.find('h3').next().slideDown('700').removeClass('none');
 		}
 
 		return false
@@ -77,6 +79,15 @@ $(document).ready(function() {
 var showDetail;
 
 $(function home(){
+
+	//Переход на детальную страницу
+	$('.items .item').click(function(){
+		var link = $(this).find('a');
+		if (link.attr('href').length>0){
+			document.location.href = link.attr('href');
+		}
+
+	});
 
 	//Вывод списка городов в шапке
 	$('.change_main_city').click(function(){

@@ -94,7 +94,7 @@ if (!empty($arResult['pill']['type_company_id'])){
 }
 unset($arResult['pill']['type_company_id']);
 
-$arResult['app']['company_link'] = '/am/'.$arResult['app']['company_id'].'/';
+$arResult['app']['company_link'] = '/am'.$arResult['app']['company_id'].'/';
 
 $arResult['app']['img'] = CFile::ShowImage($arResult['app']['logo_id'],200, 85, 'alt='.$arResult['app']['name']);
 
@@ -167,7 +167,7 @@ foreach ($arProductions as $val){
 
 $arResult['app']['seo_description'] = mb_substr(strip_tags($arResult['app']['preview_text']), 0, 140, 'utf-8');
 
-$APPLICATION->SetPageProperty("title", "Estelife - ".mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['app']['name'])),'utf-8'));
+$APPLICATION->SetPageProperty("title", mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['app']['name'])),'utf-8'));
 $APPLICATION->SetPageProperty("description", $arResult['app']['seo_description']);
 $APPLICATION->SetPageProperty("keywords", "Estelife, Аппараты, ".$arResult['app']['name']);
 

@@ -11,7 +11,7 @@
 		<?php if (!empty($arResult['clinics'])):?>
 			<?php foreach ($arResult['clinics'] as $arClinic):?>
 			<div class="item company">
-				<h2><a href="<?=$arClinic["link"]?>" class="el-get-detail"><?=$arClinic["name"]?></a></h2>
+				<h2><?php if ($arClinic["recomended"] == 1):?><span class="checked"></span><?php endif?><a href="<?=$arClinic["link"]?>" class="el-get-detail"><?=$arClinic["name"]?></a></h2>
 				<div class="item-in">
 					<?php if (!empty($arClinic['pays'])):?>
 					<p><?=$arClinic['pays']?></p>

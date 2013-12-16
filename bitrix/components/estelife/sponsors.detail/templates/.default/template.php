@@ -1,81 +1,54 @@
 <? if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
-<div class="el-ajax-detail">
-	<div class="block" rel="clinic">
-		<div class='block-header red'>
-			<span><?=$arResult['company']['name']?></span>
-		</div>
-		<div class='shadow'></div>
-		<div class="el-ditem el-ditem-h">
-			<div class="logo el-col">
+<div class="inner">
+	<ul class="crumb">
+		<li><a href="/">Главная</a></li>
+		<li><a href="/sponsors/">Организаторы</a></li>
+		<li><b><?=$arResult['company']['name']?></b></li>
+	</ul>
+	<div class="item detail company sponsor">
+		<h1><?=$arResult['company']['name']?></h1>
+		<div class="img">
+			<div class="img-in">
 				<?if (!empty($arResult['company']['img'])):?>
 					<?=$arResult['company']['img']?>
 				<?php endif?>
 			</div>
-			<div class="el-scroll">
-				<div class="el-scroll-in">
-				</div>
-			</div>
-			<h3>О компании</h3>
-			<p><?=$arResult['company']['detail_text']?></p>
-			<h3>Контактные данные</h3>
-			<div class="el-table">
-				<table>
-					<?php if (!empty($arResult['company']['address'])):?>
-						<tr>
-							<td class="t">Адрес:</td>
-							<td class="d">
-								<?=$arResult['company']['address']?>
-							</td>
-						</tr>
-					<?php endif?>
-					<?php if (!empty($arResult['company']['contacts']['phone'])):?>
-						<tr>
-							<td class="t">Телефон:</td>
-							<td class="d">
-								<?=$arResult['company']['contacts']['phone']?>
-							</td>
-						</tr>
-					<?php endif?>
-					<?php if (!empty($arResult['company']['contacts']['fax'])):?>
-						<tr>
-							<td class="t">Факс:</td>
-							<td class="d">
-								<?=$arResult['company']['contacts']['fax']?>
-							</td>
-						</tr>
-					<?php endif?>
-					<?php if (!empty($arResult['company']['contacts']['email'])):?>
-						<tr>
-							<td class="t">E-mail:</td>
-							<td class="d">
-								<?=$arResult['company']['contacts']['email']?>
-							</td>
-						</tr>
-					<?php endif?>
-					<?php if (!empty($arResult['company']['contacts']['web'])):?>
-						<tr>
-							<td class="t">Официальный сайт:</td>
-							<td class="d">
-								<a href="<?=$arResult['company']['contacts']['web']?>"><?=$arResult['company']['contacts']['web_short']?></a>
-							</td>
-						</tr>
-					<?php endif?>
-				</table>
-			</div>
 		</div>
+		<div class="cols col1">
+			<span class="country big k<?=$arResult['company']['country_id']?>"></span>
+			<?php if (!empty($arResult['company']['address'])):?>
+				<span><?=$arResult['company']['address']?></span>
+			<?php endif?>
+			<?php if (!empty($arResult['company']['contacts']['web'])):?>
+				<a href="<?=$arResult['company']['contacts']['web']?>"><?=$arResult['company']['contacts']['web_short']?></a>
+			<?php endif?>
+		</div>
+		<div class="cl"></div>
+		<p><?=$arResult['company']['detail_text']?></p>
+		<h3>Контактные данные</h3>
+		<?php if (!empty($arResult['company']['address'])):?>
+		<p>
+			<b>Адрес</b><br>
+			<?=$arResult['company']['address']?>
+		</p>
+		<?php endif?>
+		<?php if (!empty($arResult['company']['contacts']['phone'])):?>
+		<p>
+			<b>Телефон</b><br>
+			<?=$arResult['company']['contacts']['phone']?>
+		</p>
+		<?php endif?>
+		<?php if (!empty($arResult['company']['contacts']['fax'])):?>
+		<p>
+			<b>Факс</b><br>
+			<?=$arResult['company']['contacts']['fax']?>
+		</p>
+		<?php endif?>
+		<?php if (!empty($arResult['company']['contacts']['email'])):?>
+		<p>
+			<b>E-mail</b><br>
+			<?=$arResult['company']['contacts']['email']?>
+		</p>
+		<?php endif?>
 	</div>
 </div>
-<div class="block none" rel="news">
-	<div class="block-header blue">
-		<h1><?=GetMessage("ESTELIFE_ORG")?></h1>
-		<div class="clear"></div>
-	</div>
-	<div class="shadow"></div>
-	<div class="tab-group" rel="articles">
-		<div class="el-items"></div>
-		<div class="el-not-found none"><?=GetMessage("ESTELIFE_ORG_NOT_FOUND")?></div>
-		<div class="clear"></div>
-		<div class="pagination"></div>
-	</div>
-</div>
-

@@ -19,20 +19,16 @@
 				<span>до <?=$arResult['action']['end_date']?></span>
 			</div>
 		</div>
-		<?if (!empty($arResult['action']['photos'])):?>
-			<div class="gallery">
-				<div class="gallery-in">
-					<?php foreach ($arResult['action']['photos'] as $val):?>
-						<?=$val['original']?>
-					<?php endforeach?>
+		<?if (!empty($arResult['action']['big_photo'])):?>
+			<div class="article-img">
+				<div class="article-img-in">
+					<img src="<?=$arResult['action']['big_photo']['src']?>" alt="<?=(!empty($arResult['action']['big_photo']['description']) ? $arResult['action']['big_photo']['description'] : $arResult['action']['preview_text'])?>" title="" />
 				</div>
-				<div class="gallery-desc">
-					<?=$arResult['action']['photo_desc']?>
-				</div>
-				<?php if ($arResult['action']['photos_count']>1):?>
-					<a href="#" class="arrow left">Назад<i></i></a>
-					<a href="#" class="arrow right">Вперед<i></i></a>
-				<?php endif?>
+				<?php if(!empty($arResult['action']['big_photo']['description'])): ?>
+					<div class="article-img-desc">
+						<?=$arResult['action']['big_photo']['description']?>
+					</div>
+				<?php endif; ?>
 			</div>
 		<?endif?>
 		<div class="announce">

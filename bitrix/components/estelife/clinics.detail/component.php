@@ -151,7 +151,8 @@ $obQuery->builder()
 	->field('ea.base_sale','sale')
 	->field('ea.big_photo','logo_id');
 $obQuery->builder()->filter()
-	->_eq('ecs.clinic_id', $nClinicID);
+	->_eq('ecs.clinic_id', $nClinicID)
+	->_gte('ea.end_date', time());
 $arActions = $obQuery->select()->all();
 
 

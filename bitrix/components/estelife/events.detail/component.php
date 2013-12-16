@@ -11,11 +11,8 @@ $obEvent=VDatabase::driver();
 $sEventName=null;
 $nEventId=null;
 
-if(isset($arParams['EVENT_NAME']) && strlen($arParams['EVENT_NAME'])>0){
-	$sEventName=strip_tags($arParams['EVENT_NAME']);
-}elseif(isset($arParams['EVENT_ID']) && strlen($arParams['EVENT_ID'])>0){
-	$nEventId=intval($arParams['EVENT_ID']);
-}
+$nEventId =  (isset($arParams['ID'])) ?
+	intval($arParams['ID']) : 0;
 
 //Получаем данные по мероприятию
 $obQuery = $obEvent->createQuery();
@@ -36,9 +33,7 @@ $obQuery->builder()
 
 $obFilter = $obQuery->builder()->filter();
 
-if(!is_null($sEventName))
-	$obFilter->_eq('ee.translit', $sEventName);
-else if(!is_null($nEventId))
+if(!is_null($nEventId))
 	$obFilter->_eq('ee.id', $nEventId);
 else
 	$obFilter->_eq('ee.id', 0);
@@ -67,9 +62,90 @@ $obQuery->builder()->filter()
 $arCalendar = $obQuery->select()->all();
 if (!empty($arCalendar)){
 	foreach ($arCalendar as $val){
-		$val['full_date'] = \core\types\VDate::date($val['date']);
-		$arResult['event']['calendar'][] = $val;
+//		$val['full_date'] = \core\types\VDate::date($val['date']);
+		$arResult['event']['calendar'][] = $val['date'];
 	}
+}
+
+
+$arResult['event']['calendar']=\core\types\VDate::createDiapasons($arResult['event']['calendar'],function(&$nFrom,&$nTo){
+	$arNowTo = strtotime(date('d.m.Y', time()).' 00:00:00');
+	$arNowFrom =strtotime(date('d.m.Y', time()).' 23:59:59');
+
+	if (($arNowTo<=$nTo && $arNowFrom>=$nFrom) || ($arNowTo<=$nFrom) || ($arNowTo<=$nFrom && $arNowFrom>=$nFrom)){
+		if($nTo==0){
+			$nFrom=\core\types\VDate::date($nFrom, 'j F');
+		}else{
+			$arFrom=explode('.',date('n',$nFrom));
+			$arTo=explode('.',date('n',$nTo));
+			$sPattern='j F';
+
+			if($arFrom[1]==$arTo[1])
+				$sPattern=($arFrom[0]==$arTo[0]) ? 'j' : 'j F';
+
+			$nFrom=\core\types\VDate::date($nFrom,$sPattern);
+			$nTo=\core\types\VDate::date($nTo,'j F');
+		}
+		return false;
+	}
+
+	return true;
+});
+$arResult['event']['calendar']['first_period'] = current($arResult['event']['calendar']);
+$arD = preg_match("/^[0-9]+/", $arResult['event']['calendar']['first_period']['from'], $mathes);
+$arResult['event']['calendar']['first_date'] =  $mathes[0]. ' <i>';
+
+if (preg_match("/[а-я]+/u" ,$arResult['event']['calendar']['first_period']['from'], $mathes)){
+	$arResult['event']['calendar']['first_date'] .= mb_substr($mathes[0], 0, 3, 'utf-8').'</i>';
+}else{
+	$arM = preg_match("/[а-я]+/u", $arResult['event']['calendar']['first_period']['to'], $mathes);
+	$arResult['event']['calendar']['first_date'] .= mb_substr($mathes[0], 0, 3, 'utf-8').'</i>';
+}
+
+
+//Получение направлений
+$obQuery = $obEvent->createQuery();
+$obFilter=$obQuery->builder()
+	->from('estelife_event_directions')
+	->filter()
+	->_eq('event_id', $nEventId);
+$arDirections = $obQuery->select()->all();
+
+$arDirectionsName = array(
+	'1'=>'Пластическая хирургия',
+	'2'=>'Косметология',
+	'3'=>'Косметика',
+	'4'=>'Дерматология',
+);
+
+foreach ($arDirections as $key=>$val){
+	$val['name'] = $arDirectionsName[$val['type']];
+	$arResult['event']['directions'][] = $val['name'];
+}
+if (!empty($arResult['event']['directions'])){
+	$arResult['event']['directions'] = implode(', ', $arResult['event']['directions']);
+}
+
+//Получение формата
+$obQuery = $obEvent->createQuery();
+$obFilter=$obQuery->builder()
+	->from('estelife_event_types')
+	->filter()
+	->_eq('event_id', $nEventId);
+$arTypes = $obQuery->select()->all();
+
+$arTypesName = array(
+	'1'=>'Форум',
+	'2'=>'Выставка',
+	'4'=>'Тренинг',
+);
+
+foreach ($arTypes as $key=>$val){
+	$val['name'] = $arTypesName[$val['type']];
+	$arResult['event']['types'][] = $val['name'];
+}
+if (!empty($arResult['event']['types'])){
+	$arResult['event']['types'] = implode(', ', $arResult['event']['types']);
 }
 
 //Получение организаторов
@@ -154,7 +230,7 @@ if (!empty($arPhones)){
 	$arResult['event']['contacts']['phone'] = implode(', ', $arPhones);
 }
 
-$APPLICATION->SetPageProperty("title", "Estelife - ".trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['event']['short_name'])));
+$APPLICATION->SetPageProperty("title", trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['event']['short_name'])));
 $APPLICATION->SetPageProperty("description", trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['event']['full_name'])));
 $APPLICATION->SetPageProperty("keywords", "Estelife, События, Мероприятия, ".$arResult['event']['short_name']);
 

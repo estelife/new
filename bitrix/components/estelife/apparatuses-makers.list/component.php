@@ -126,7 +126,7 @@ while($arData=$obResult->Fetch()){
 $arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 
 
-$APPLICATION->SetPageProperty("title", "Estelife - Производители аппаратов");
+$APPLICATION->SetPageProperty("title", "Производители аппаратов");
 $APPLICATION->SetPageProperty("description", implode(", ", $arDescription));
 $APPLICATION->SetPageProperty("keywords", "Estelife, Производители аппаратов, ". implode(" ,", $arDescription));
 $this->IncludeComponentTemplate();

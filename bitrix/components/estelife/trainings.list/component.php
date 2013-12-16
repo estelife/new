@@ -74,6 +74,7 @@ $obJoin->_left()
 	->_to('estelife_calendar','event_id','ecal');
 
 $obQuery->builder()
+	//->slice(0,1)
 	->field('ee.id','id')
 	->field('ee.short_name','name')
 	->field('ee.full_name', 'full_name')
@@ -110,14 +111,21 @@ if (!empty($arResult['city'])){
 if(!$obGet->blank('direction'))
 	$obFilter->_eq('eed.type', intval($obGet->one('direction')));
 
-$nDateFrom=\core\types\VDate::dateToTime($obGet->one('date_from',date('d.m.Y')).' 00:00');
-$nDateTo=(!$obGet->blank('date_to')) ?
-	\core\types\VDate::dateToTime($obGet->one('date_to').' 23:59') :
-	false;
+$nDateFrom=preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$obGet->one('date_from'));
+$nDateFrom=\core\types\VDate::dateToTime($nDateFrom.' 00:00');
+
+if (!$obGet->blank('date_to')){
+	$nDateTo = preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$obGet->one('date_to'));
+	$nDateTo = \core\types\VDate::dateToTime($nDateTo. ' 23:59');
+}else{
+	$nDateTo = false;
+}
+
 $obFilter->_gte('ecal.date',$nDateFrom);
 
-if ($nDateTo)
+if ($nDateTo){
 	$obFilter->_lte('ecal.date',$nDateTo);
+}
 
 $obQuery->builder()->sort('ecal.date','asc');
 $obQuery->builder()->group('ee.id');
@@ -170,34 +178,47 @@ if (!empty($arIds)){
 		->from('estelife_calendar')
 		->sort('date','asc')
 		->filter()
-			->_in('event_id', $arIds)
-			->_gte('date',$nDateFrom);
+			->_in('event_id', $arIds);
+//			->_gte('date',$nDateFrom);
 
 	if($nDateTo)
 		$obFilter->_lte('date',$nDateTo);
 
 	$arCalendar=$obQuery->select()->all();
 
+
 	foreach ($arCalendar as $val)
 		$arResult['training'][$val['event_id']]['calendar'][]=$val['date'];
 
+
 	foreach($arResult['training'] as $nKey=>&$arTraining){
+
 		$arTraining['calendar']=\core\types\VDate::createDiapasons($arTraining['calendar'],function(&$nFrom,&$nTo){
-			if($nTo==0){
-				$nFrom=\core\types\VDate::date($nFrom, 'j F');
-			}else{
-				$arFrom=explode('.',date('n',$nFrom));
-				$arTo=explode('.',date('n',$nTo));
-				$sPattern='j F';
+			$arNowTo = strtotime(date('d.m.Y', time()).' 00:00:00');
+			$arNowFrom =strtotime(date('d.m.Y', time()).' 23:59:59');
 
-				if($arFrom[1]==$arTo[1])
-					$sPattern=($arFrom[0]==$arTo[0]) ? 'j' : 'j F';
+			if (($arNowTo<=$nTo && $arNowFrom>=$nFrom) || ($arNowTo<=$nFrom) || ($arNowTo<=$nFrom && $arNowFrom>=$nFrom)){
 
-				$nFrom=\core\types\VDate::date($nFrom,$sPattern);
-				$nTo=\core\types\VDate::date($nTo,'j F');
+				if($nTo==0){
+					$nFrom=\core\types\VDate::date($nFrom, 'j F');
+				}else{
+					$arFrom=explode('.',date('n',$nFrom));
+					$arTo=explode('.',date('n',$nTo));
+					$sPattern='j F';
+
+					if($arFrom[1]==$arTo[1])
+						$sPattern=($arFrom[0]==$arTo[0]) ? 'j' : 'j F';
+
+					$nFrom=\core\types\VDate::date($nFrom,$sPattern);
+					$nTo=\core\types\VDate::date($nTo,'j F');
+				}
+				return false;
 			}
+
+			return true;
 		});
-		$arTraining['first_period'] = current($arTraining['calendar']);
+
+		$arTraining['first_period'] = end($arTraining['calendar']);
 		$arD = preg_match("/^[0-9]+/", $arTraining['first_period']['from'], $mathes);
 		$arTraining['first_date'] =  $mathes[0]. ' <i>';
 

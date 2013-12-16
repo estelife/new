@@ -8,13 +8,8 @@ CModule::IncludeModule("estelife");
 
 $obCompanies = VDatabase::driver();
 
-if (isset($arParams['ORG_NAME']) && strlen($arParams['ORG_NAME'])>0){
-	if(preg_match('#([\d]+)$#',$arParams['ORG_NAME'],$arMatches)){
-		$arCompanyID = intval($arMatches[1]);
-	}
-}else{
-	$arCompanyID = 0;
-}
+$arCompanyID =  (isset($arParams['ID'])) ?
+	intval($arParams['ID']) : 0;
 
 //Получаем данные по организаторам
 $obQuery = $obCompanies->createQuery();
@@ -37,7 +32,9 @@ $obQuery->builder()
 	->field('ect.name', 'type_name')
 	->field('ect.logo_id', 'type_logo_id')
 	->field('ect.detail_text', 'type_detail_text')
-	->field('ect.id', 'type_id');
+	->field('ect.id', 'type_id')
+	->field('ecg.country_id', 'country_id')
+	->field('ectg.country_id', 'type_country_id');
 $obQuery->builder()->filter()
 	->_eq('ec.id', $arCompanyID);
 $arResult['company'] = $obQuery->select()->assoc();
@@ -49,6 +46,11 @@ unset($arResult['company']['type_name']);
 
 if (!empty($arResult['company']['type_address'])){
 	$arResult['company']['address'] = $arResult['company']['type_address'];
+}
+unset($arResult['company']['type_address']);
+
+if (!empty($arResult['company']['type_country_id'])){
+	$arResult['company']['country_id'] = $arResult['company']['type_country_id'];
 }
 unset($arResult['company']['type_address']);
 
@@ -98,9 +100,9 @@ if (!empty($arResult['company']['type_id'])){
 			if ($val['type'] == 'web'){
 				$arResult['company']['type_web'][] = $val['value'];
 			}elseif ($val['type'] == 'phone'){
-				$arResult['company']['type_phone'][] = $val['value'];
+				$arResult['company']['type_phone'][] = \core\types\VString::formatPhone($val['value'], true);
 			}elseif ($val['type'] == 'fax'){
-				$arResult['company']['type_fax'][] = $val['value'];
+				$arResult['company']['type_fax'][] = \core\types\VString::formatPhone($val['value'], true);
 			}elseif ($val['type'] == 'email'){
 				$arResult['company']['type_email'][] = $val['value'];
 			}
@@ -112,6 +114,7 @@ if (!empty($arResult['company']['type_web'])){
 	$arResult['company']['web'] = $arResult['company']['type_web'];
 	unset($arResult['company']['type_web']);
 }
+$arResult['company']['web'] = reset($arResult['company']['web']);
 $arResult['company']['web_short']=\core\types\VString::checkUrl($arResult['company']['web']);
 if (!empty($arResult['company']['type_phone'])){
 	$arResult['company']['phone'] = $arResult['company']['type_phone'];
@@ -125,12 +128,13 @@ if (!empty($arResult['company']['type_email'])){
 	$arResult['company']['email'] = $arResult['company']['type_email'];
 	unset($arResult['company']['type_email']);
 }
+$arResult['company']['contacts']['web_short'] = $arResult['company']['web_short'];
 $arResult['company']['contacts']['web'] = $arResult['company']['web'];
-$arResult['company']['contacts']['phone'] = implode(', ', $arResult['company']['phone']);
-$arResult['company']['contacts']['fax'] = implode(', ', $arResult['company']['fax']);
-$arResult['company']['contacts']['email'] = implode(', ', $arResult['company']['email']);
+$arResult['company']['contacts']['phone'] = implode('<br />', $arResult['company']['phone']);
+$arResult['company']['contacts']['fax'] = implode('<br />', $arResult['company']['fax']);
+$arResult['company']['contacts']['email'] = implode('<br />', $arResult['company']['email']);
 
-$APPLICATION->SetPageProperty("title", 'Estelife - '.$arResult['company']['name']);
+$APPLICATION->SetPageProperty("title", $arResult['company']['name']);
 $APPLICATION->SetPageProperty("description", mb_substr(trim(strip_tags($arResult['company']['preview_text'])),0,140,'utf-8'));
 $APPLICATION->SetPageProperty("keywords", "Estelife, организаторы, ".mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['company']['name'])),'utf-8'));
 
