@@ -210,10 +210,16 @@ if (!empty($arIds)){
 	foreach ($arCalendar as $val)
 		$arResult['events'][$val['event_id']]['calendar'][]=$val['date'];
 
+	if (!empty($nDateFrom)){
+		$sNow = $nDateFrom;
+	}else{
+		$sNow = time();
+	}
+
 	foreach($arResult['events'] as $nKey=>&$arEvent){
-		$arEvent['calendar']=\core\types\VDate::createDiapasons($arEvent['calendar'],function(&$nFrom,&$nTo){
-			$arNowTo = strtotime(date('d.m.Y', time()).' 00:00:00');
-			$arNowFrom =strtotime(date('d.m.Y', time()).' 23:59:59');
+		$arEvent['calendar']=\core\types\VDate::createDiapasons($arEvent['calendar'],function(&$nFrom,&$nTo,$sNow){
+			$arNowTo = strtotime(date('d.m.Y', $sNow).' 00:00:00');
+			$arNowFrom =strtotime(date('d.m.Y', $sNow).' 23:59:59');
 
 			if (($arNowTo<=$nTo && $arNowFrom>=$nFrom) || ($arNowTo<=$nFrom) || ($arNowTo<=$nFrom && $arNowFrom>=$nFrom)){
 				if($nTo==0){

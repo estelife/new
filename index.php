@@ -83,9 +83,9 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 			"MAIN_URL" => "",
 			"TITLE"=>"Экспертное мнение",
 			"MORE_TITLE"=>"",
-			"IMG" => 176,
-			"AUTOR"=> 174,
-			"PROFESSION" => 175,
+			"IMG" => 174,
+			"AUTOR"=> 172,
+			"PROFESSION" => 173,
 			"PREFIX" => ""
 		)
 	)?>

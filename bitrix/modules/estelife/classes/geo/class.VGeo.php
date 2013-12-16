@@ -36,7 +36,9 @@ final class VGeo{
 
 		if (empty($arParam)){
 			$geo = new Geo($this->option);
-			$arCity = $geo->get_value();
+			$arCity = $geo->get_value(false, false);
+
+			$this->city = $arCity['city'];
 
 			if (empty($this->city)){
 				$arCity['city'] = 'Москва';
