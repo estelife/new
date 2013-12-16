@@ -88,7 +88,8 @@ Estelife.prototype.media=function(s){
 				head,
 				big_item,
 				item_desc,
-				previews
+				previews,
+				'<div class="win-gallery-bottom-fix"></div>'
 			);
 
 			gallery={

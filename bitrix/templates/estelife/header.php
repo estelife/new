@@ -25,8 +25,8 @@
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAZfcZn-KLKm52_chZk22TGMdooeDvMYfI&sensor=false"></script>
 	<script type="text/javascript" src="https://www.youtube.com/player_api"></script>
 	
-	<link rel="icon" href="/favicon.ico" type="image/icon">
-	<link rel="shortcut icon" href="/favicon.ico" type="image/icon">
+	<link rel="icon" href="/favicon.png" type="image/icon">
+	<link rel="shortcut icon" href="/favicon.png" type="image/icon">
 	<link rel="stylesheet" type="text/css" href="/bitrix/templates/estelife/css/style.css" />
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
