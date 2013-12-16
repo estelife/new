@@ -1074,6 +1074,9 @@ td.prices span {
 .media .item.last {
 	margin-right: 0;
 }
+.media .item {
+	display: block;
+}
 .media .item img {
 	border:none;
 	position: relative;
@@ -1832,6 +1835,10 @@ li.country, span.country {
 	float:right;
 	width:477px;
 	height:300px;
+	border: 1px solid #d1d1d1;
+}
+.map span {
+	display: none;
 }
 .checked {
 	display:block;

@@ -79,14 +79,13 @@ $(document).ready(function() {
 var showDetail;
 
 $(function home(){
-
 	//Переход на детальную страницу
-	$('.items .item').click(function(){
-		var link = $(this).find('a');
-		if (link.attr('href').length>0){
-			document.location.href = link.attr('href');
-		}
+	$('.items .item').click(function(e){
+		var target= $(e.target),
+			link = $(this).find('a:first').attr('href');
 
+		if(target[0].tagName!='A' && link.length>0)
+			document.location.href=link;
 	});
 
 	//Вывод списка городов в шапке
@@ -94,7 +93,6 @@ $(function home(){
 		Cities.load(
 			Cities.createAdapter('main')
 		);
-
 		return false;
 	});
 
@@ -103,7 +101,6 @@ $(function home(){
 		Cities.load(
 			Cities.createAdapter('promotions')
 		);
-
 		return false;
 	});
 
@@ -138,10 +135,9 @@ $(function home(){
 	});
 
 	//переключения в галереи
-	$('body').on('click', '.get_only_photos, .get_only_videos, .get_photos_and_videos', function(){
-		var rel = $(this).attr('rel'),
-			video,
-			photo;
+	$('body').on('click', '.media .menu a', function(){
+		var lnk=$(this),
+			rel=lnk.attr('rel');
 
 		EL.loadModule('templates',function(){
 			var detail_generator=new EL.templates({
@@ -152,35 +148,21 @@ $(function home(){
 				}
 			});
 
-			if (rel=="ONLY_PHOTO"){
-				photo = "Y";
-				video = "N"
-			}else if (rel=="ONLY_VIDEO"){
-				photo = "N";
-				video = "Y"
-			}else{
-				photo = "Y";
-				video = "Y"
-			}
+			lnk.parents('.menu').find('.active').removeClass('active');
+			lnk.addClass('.active');
 
 			$.get('/api/estelife_ajax.php',{
 				'action':'get_media',
 				'params':{
-					'photo': photo,
-					'video': video
+					'photo': (rel=="ONLY_PHOTO" || rel=='ALL') ? 'Y' : 'N',
+					'video': (rel=="ONLY_VIDEO" || rel=='ALL') ? 'Y' : 'N'
 				}
 			},function(r){
 				if(r.result){
 					detail_generator.ready(function(){
 						var html = detail_generator.make(r);
-						if (html.length>0){
-							$('.media').html(html);
-							if (rel=="ONLY_PHOTO"){
-								$('.get_only_photos').addClass('active');
-							}else if (rel=="ONLY_VIDEO"){
-								$('.get_only_videos').addClass('active');
-							}
-						}
+						$('.media').find('.items')
+							.html(html);
 					});
 				}else{
 					alert('Ошибка получения фотогалереи');
@@ -1114,5 +1096,45 @@ $(function(){
 		},'json');
 
 		e.preventDefault();
+	});
+
+	var icons={
+		'default':'/bitrix/templates/estelife/images/icons/point.png'
+	};
+
+	$('.map').each(function(){
+		var origin=$(this),
+			jmap=origin.clone(),
+			map=new VMap(),
+			lat=$('span.lat',jmap).html(),
+			lng=$('span.lng',jmap).html();
+
+		if(!lat || !lng){
+			jmap.hide();
+			return;
+		}
+
+		jmap.css({
+			'visibility':'hidden',
+			'position':'absolute',
+			'left':'-100000px'
+		});
+		$('body').append(jmap);
+
+		map.markers().icons(icons);
+		map.create(jmap,lat,lng);
+		map.zoom(16);
+
+		map.markers().add(new map.marker(lat,lng));
+		map.markers().draw();
+
+		map.load(function(){
+			origin.replaceWith(jmap);
+			jmap.css({
+				'visibility':'visible',
+				'position':'static',
+				'left':0
+			});
+		});
 	});
 });

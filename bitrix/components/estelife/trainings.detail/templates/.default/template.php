@@ -30,7 +30,7 @@
 -->
 		<h3>Организатор</h3>
 		<div class="item company">
-			<h4><a href="<?=$arResult['event']['main_org']['link']?>"><?=$arResult['event']['main_org']['company_name']?></a></h4>
+			<h4><a href="<?=$arResult['event']['company_link']?>"><?=$arResult['event']['company_name']?></a></h4>
 			<div class="cols">
 				<div class="img">
 					<div class="img-in">
@@ -39,8 +39,8 @@
 						<?php endif?>
 					</div>
 				</div>
-				<?php if (!empty($arResult['event']['main_org']['full_address'])):?>
-					<div><?=$arResult['event']['main_org']['full_address']?></div>
+				<?php if (!empty($arResult['event']['address'])):?>
+					<div><?=$arResult['event']['address']?></div>
 				<?php endif?>
 				<div>
 					<?php if (!empty($arResult['event']['contacts']['phone'])):?>
@@ -59,7 +59,8 @@
 				<?php endif?>
 			</div>
 			<div class="map">
-
+				<span class="lat"><?=$arResult['event']['contacts']['lat']?></span>
+				<span class="lng"><?=$arResult['event']['contacts']['lng']?></span>
 			</div>
 		</div>
 	</div>

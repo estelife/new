@@ -51,6 +51,12 @@ function VMap(){
 		}
 	};
 
+	this.load=function(callback){
+		google.maps.event.addListenerOnce(prvt.map, 'idle', function(){
+			callback();
+		});
+	};
+
 	this.map=function(){
 		return prvt.map;
 	};

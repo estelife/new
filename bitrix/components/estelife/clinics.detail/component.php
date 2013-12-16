@@ -75,6 +75,8 @@ $arResult['clinic']['contacts'][$arResult['clinic']['id']] = array(
 	'web'=> $arResult['clinic']['web'],
 	'pays'=> mb_strtolower(implode(', ', $arResult['clinic']['pays']), 'utf-8'),
 	'name'=> $arResult['clinic']['name'],
+	'lat'=>$arResult['clinic']['latitude'],
+	'lng'=>$arResult['clinic']['longitude']
 );
 
 //получаем услуги
@@ -142,6 +144,7 @@ $obJoin=$obQuery->builder()->join();
 $obJoin->_left()
 	->_from('ecs','akzii_id')
 	->_to('estelife_akzii','id','ea');
+
 $obQuery->builder()
 	->field('ea.id','id')
 	->field('ea.name','name')
@@ -153,6 +156,7 @@ $obQuery->builder()
 $obQuery->builder()->filter()
 	->_eq('ecs.clinic_id', $nClinicID)
 	->_gte('ea.end_date', time());
+
 $arActions = $obQuery->select()->all();
 
 
@@ -196,14 +200,18 @@ $obJoin->_left()
 	->_cond()->_eq('eccw.type', 'web');
 $obQuery->builder()
 	->field('ec.address', 'address')
+	->field('ec.longitude', 'lng')
+	->field('ec.latitude', 'lat')
 	->field('ct.NAME', 'city')
 	->field('mt.NAME', 'metro')
 	->field('eccp.value', 'phone')
 	->field('eccw.value', 'web')
 	->field('ec.id', 'id')
 	->field('ec.name', 'name');
+
 $obQuery->builder()->filter()
 	->_eq('ec.clinic_id', $nClinicID);
+
 $arResult['filial'] = $obQuery->select()->all();
 
 foreach ($arResult['filial'] as $val){
@@ -228,10 +236,12 @@ if (!empty($arFilials)){
 }
 
 $arPays = array();
+
 if (!empty($arFilialsPays)){
 	foreach ($arFilialsPays as $val){
 		$arPays[$val['clinic_id']][] = $val['name'];
 	}
+
 	foreach ($arPays as $key=>$val){
 		$arResult['clinic']['contacts'][$key]['pays'] =  mb_strtolower(implode(', ', $val), 'utf-8');
 	}
