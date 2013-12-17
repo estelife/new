@@ -11,7 +11,5 @@ $arUrlRewrite = array(
 		"RULE" => "",
 		"ID" => "estelife:mega.complex.section",
 		"PATH" => "/system/list.php",
-	)
+	),
 );
-
-?>
