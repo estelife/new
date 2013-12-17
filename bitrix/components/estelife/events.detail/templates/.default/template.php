@@ -55,13 +55,13 @@
 		<?php endif?>
 		<p>
 			<?php if (!empty($arResult['event']['main_org']['web'])):?>
-				Сайт организатора: <a href="<?=$arResult['event']['main_org']['web']?>"><?=$arResult['event']['main_org']['short_web']?></a><br>
+				Сайт организатора: <a href="<?=$arResult['event']['main_org']['web']?>" target="_blank"><?=$arResult['event']['main_org']['short_web']?></a><br>
 			<?php endif?>
 			<?php if (!empty($arResult['event']['dop_web'])):?>
-				Сайт площадки проведения: <span><a href="<?=$arResult['event']['web']?>"><?=$arResult['event']['short_web']?></a><br>
+				Сайт площадки проведения: <span><a href="<?=$arResult['event']['dop_web']?>" target="_blank"><?=$arResult['event']['short_dop_web']?></a><br>
 			<?php endif?>
 			<?php if (!empty($arResult['event']['web'])):?>
-				Сайт события: <a href="<?=$arResult['event']['web']?>"><?=$arResult['event']['short_web']?></a>
+				Сайт события: <a href="<?=$arResult['event']['web']?>" target="_blank"><?=$arResult['event']['short_web']?></a>
 			<?php endif?>
 		</p>
 	</div>

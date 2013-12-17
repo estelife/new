@@ -9,7 +9,7 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 	<div class="inner">
 		<ul class="crumb">
 			<li><a href="/">Главная</a></li>
-			<li><a href="#">Интересные материалы</a></li>
+			<li><a href="<?=$arResult['LAST_SECTION']['SECTION_PAGE_URL']?>"><?=$arResult['LAST_SECTION']['NAME']?></a></li>
 			<li><b><?=$arResult["NAME"]?></b></li>
 		</ul>
 		<div class="item detail">

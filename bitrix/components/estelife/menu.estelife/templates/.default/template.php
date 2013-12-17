@@ -1,5 +1,5 @@
 <?php if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
-<ul class="menu">
+<ul class="menu main_menu">
 	<li><a href="#" class="empty_link">Точка зрения</a>
 		<ul class="submenu">
 			<li><a href="/podcast/express-uhod/">Экспресс-уход</a></li>

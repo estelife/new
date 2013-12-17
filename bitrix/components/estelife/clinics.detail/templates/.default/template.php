@@ -2,7 +2,7 @@
 <div class="inner">
 		<ul class="crumb">
 			<li><a href="/">Главная</a></li>
-			<li><a href="/clinics/">Клиники</a></li>
+			<li><a href="/clinics/">Клиники <?if ($arResult['clinic']['main_contact']['city_id']==359):?>Москвы<?elseif($arResult['clinic']['main_contact']['city_id']==358):?>Санкт-Петербурга<?endif?></a></li>
 			<li><b><?=$arResult['clinic']['name']?></b></li>
 		</ul>
 		<div class="item detail company">

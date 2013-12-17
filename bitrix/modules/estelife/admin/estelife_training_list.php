@@ -45,6 +45,7 @@ $arFilterData['countries']=$obQuery->select()->all();
 //====== TABLE HEADERS =========
 $headers = array(
 	array("id"=>"full_name", "content"=>GetMessage("ESTELIFE_F_FULL_NAME"), "sort"=>"full_name", "default"=>true),
+	array("id"=>"company_name", "content"=>GetMessage("ESTELIFE_F_COMPANY_NAME"), "sort"=>"company_name", "default"=>true),
 	array("id"=>"country", "content"=>GetMessage("ESTELIFE_F_COUNTRY"),"sort"=>"country_id","default"=>true),
 	array("id"=>"city", "content"=>GetMessage("ESTELIFE_F_CITY"),"sort"=>"city","default"=>true),
 	array("id"=>"id", "content"=>GetMessage("ESTELIFE_F_ID"), "sort"=>"id", "default"=>true)
@@ -74,12 +75,23 @@ $obJoin=$obQuery->builder()
 	->from('estelife_events','ee')
 	->join();
 $obJoin->_left()
-	->_from('ee','country_id')
+	->_from('ee', 'id')
+	->_to('estelife_company_events', 'event_id', 'ece')
+	->_cond()
+	->_eq('ece.is_owner', 1);
+$obJoin->_left()
+	->_from('ece', 'company_id')
+	->_to('estelife_companies', 'id', 'ec');
+$obJoin->_left()
+	->_from('ec', 'id')
+	->_to('estelife_company_geo', 'company_id', 'ecg');
+$obJoin->_left()
+	->_from('ecg','country_id')
 	->_to('iblock_element','ID','ecn')
 	->_cond()
 	->_eq('ecn.IBLOCK_ID',15);
 $obJoin->_left()
-	->_from('ee','city_id')
+	->_from('ecg','city_id')
 	->_to('iblock_element','ID','ect')
 	->_cond()
 	->_eq('ect.IBLOCK_ID',16);
@@ -92,6 +104,7 @@ $obFilter=$obQuery->builder()
 	->field('ee.full_name','full_name')
 	->field('ecn.NAME','country')
 	->field('ect.NAME','city')
+	->field('ec.name','company_name')
 	->filter();
 
 $obFilter->_eq('eet.type',3);
@@ -122,8 +135,10 @@ while($arRecord=$obResult->Fetch()){
 
 	$row->AddViewField("id",$arRecord['id']);
 	$row->AddViewField("full_name",$arRecord['full_name']);
+	$row->AddViewField("company_name",$arRecord['company_name']);
 	$row->AddViewField("country",$arRecord['country']);
 	$row->AddViewField("city",$arRecord['city']);
+
 
 	$arActions = Array();
 	$arActions[] = array("DEFAULT"=>"Y", "ICON"=>"edit", "TITLE"=>GetMessage("ESTELIFE_EDIT_ALT"), "ACTION"=>$lAdmin->ActionRedirect("estelife_training_edit.php?lang=".LANGUAGE_ID."&ID=$f_ID"), "TEXT"=>GetMessage("ESTELIFE_EDIT"));

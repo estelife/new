@@ -33,6 +33,7 @@ $obJoin->_left()
 $obQuery->builder()
 	->field('ec.*')
 	->field('ct.NAME', 'city')
+	->field('ct.ID', 'city_id')
 	->field('ct.CODE', 'city_code')
 	->field('mt.NAME', 'metro')
 	->field('eccp.value', 'phone')
@@ -45,6 +46,7 @@ $arResult['clinic'] = $obQuery->select()->assoc();
 
 $arResult['clinic']['main_contact'] = array(
 	'city' => $arResult['clinic']['city'],
+	'city_id' => $arResult['clinic']['city_id'],
 	'address' => $arResult['clinic']['address'],
 	'metro' => $arResult['clinic']['metro'],
 	'phone' => \core\types\VString::formatPhone($arResult['clinic']['phone']),

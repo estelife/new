@@ -241,8 +241,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		if($obPost->blank('company_id'))
 			$obError->setFieldError('COMPANY_NOT_FILL','company_id');
 
-		if($obPost->blank('full_name'))
-			$obError->setFieldError('FULL_NAME_NOT_FILL','full_name');
+//		if($obPost->blank('full_name'))
+//			$obError->setFieldError('FULL_NAME_NOT_FILL','full_name');
 
 		if($obPost->blank('short_name'))
 			$obError->setFieldError('SHORT_NAME_NOT_FILL','short_name');
@@ -752,10 +752,13 @@ if(!empty($arResult['error']['text'])){
 						<label for="direction_2"><input type="checkbox" name="directions[]" id="direction_2" value="2"<?=(in_array(2,$arResult['event']['directions']) ? ' checked="true"' : '')?> />Косметология</label>
 					</li>
 					<li>
+						<label for="direction_4"><input type="checkbox" name="directions[]" id="direction_4" value="4"<?=(in_array(4,$arResult['event']['directions']) ? ' checked="true"' : '')?> />Дерматология</label>
+					</li>
+					<li>
 						<label for="direction_3"><input type="checkbox" name="directions[]" id="direction_3" value="3"<?=(in_array(3,$arResult['event']['directions']) ? ' checked="true"' : '')?> />Косметика</label>
 					</li>
 					<li>
-						<label for="direction_4"><input type="checkbox" name="directions[]" id="direction_4" value="4"<?=(in_array(4,$arResult['event']['directions']) ? ' checked="true"' : '')?> />Дерматология</label>
+						<label for="direction_11"><input type="checkbox" name="directions[]" id="direction_11" value="11"<?=(in_array(11,$arResult['event']['directions']) ? ' checked="true"' : '')?> />Менеджмент</label>
 					</li>
 				</ul>
 			</td>

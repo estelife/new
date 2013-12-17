@@ -19,7 +19,7 @@ $MESS ['ESTELIFE_F_LOGO']='Логотип';
 $MESS ['ESTELIFE_F_PREVIEW_TEXT']='Кратко';
 $MESS ['ESTELIFE_F_DETAIL_TEXT']='Подробно';
 $MESS ['ESTELIFE_F_TRANSLIT']='Транслит';
-$MESS ['ESTELIFE_F_WEB']='Веб-сайт';
+$MESS ['ESTELIFE_F_WEB']='Веб-сайт события';
 $MESS ['ESTELIFE_F_ADD_GALLERY']='Добавить галерею';
 
 $MESS ['ESTELIFE_F_translit']='Транслит';
