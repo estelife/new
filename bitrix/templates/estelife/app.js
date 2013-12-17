@@ -21,8 +21,7 @@ $(document).ready(function() {
 		return false
 	});
 
-	
-	$(".menu>li:last").addClass("last");
+	//$(".menu>li:last").addClass("last");
 	$(".menu>li.active1").addClass("active");
 	
 	$(".menu a").each(function() {

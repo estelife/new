@@ -334,9 +334,11 @@ input.text {
 img, .img {
 	border:1px solid #d1d1d1;
 }
+img {
+	max-width: 100%;
+}
 .img img {
 	border:none;
-	max-width: 100%;
 }
 .img a {
 	display: block;
@@ -516,6 +518,7 @@ ul.stat .unlikes i {
 	border: 1px solid #D1D1D1;
 	text-align: center;
 	height:524px;
+	clear:right;
 }
 .experts h2 {
 	font-size:18px;
