@@ -1408,9 +1408,11 @@ td.prices span {
 	line-height: 26px;
 	height: 26px;
 	padding:0 26px 0 13px;
-	overflow: hidden;
+}
+.select a {
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	overflow: hidden;
 }
 .select .items .item {
 	width:100%;

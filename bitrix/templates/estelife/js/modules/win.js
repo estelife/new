@@ -47,9 +47,8 @@ Estelife.prototype.win=(function(){
 	}
 
 	function _show(){
-		var bd=$('body');
-		bd.css('overflow','hidden');
-		_win().parent.css('top',bd.scrollTop()+'px');
+		$('body').css('overflow','hidden');
+		_win().parent.css('top',(EL.browser().webkit ? $('body') : $('html')).scrollTop()+'px');
 		_win().parent.show();
 	}
 

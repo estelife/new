@@ -200,6 +200,13 @@ $(function(){
 
 		//Вывод списка городов в шапке
 		$('.change_main_city').click(function(){
+			var lnk=$(this);
+
+			if(lnk.hasClass('active'))
+				lnk.removeClass('active');
+			else
+				lnk.addClass('active');
+
 			EL.Geo.load(
 				EL.Geo.Adapters.createAdapter('main')
 			);
@@ -208,6 +215,13 @@ $(function(){
 
 		//Вывод списка городов для акций
 		$('.change_promotions_city').click(function(){
+			var lnk=$(this);
+
+			if(lnk.hasClass('active'))
+				lnk.removeClass('active');
+			else
+				lnk.addClass('active');
+
 			EL.Geo.load(
 				EL.Geo.Adapters.createAdapter('promotion')
 			);
