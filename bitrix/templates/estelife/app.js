@@ -79,7 +79,7 @@ $(function home(){
 	//Переход на детальную страницу
 	$('.items .item').click(function(e){
 		var target= $(e.target),
-			link = $(this).find('a:first').attr('href');
+			link = $(this).find('a:first').attr('href')||'';
 
 		if(target[0].tagName!='A' && link.length>0)
 			document.location.href=link;
@@ -204,7 +204,7 @@ $(function(){
 		//Вывод списка городов для акций
 		$('.change_promotions_city').click(function(){
 			EL.Geo.load(
-				EL.Geo.Adapters.createAdapter('promotions')
+				EL.Geo.Adapters.createAdapter('promotion')
 			);
 			return false;
 		});
@@ -445,50 +445,54 @@ $(function(){
 		}
 	)*/
 
-	EL.videoDirect.start();
+	if($('.media').length>0){
+		EL.loadModule('win',function(){
+			EL.videoDirect.start();
 
-	$('.media .items').on('click','.item',function(e){
-		var link=$(this),
-			id=link.attr('data-id'),
-			video=link.hasClass('video');
+			$('.media .items').on('click','.item',function(e){
+				var link=$(this),
+					id=link.attr('data-id'),
+					video=link.hasClass('video');
 
-		if(!id)
-			return;
+				if(!id)
+					return;
 
-		$.post('/api/estelife_ajax.php',{
-			'action':'get_media_content',
-			'id':id,
-			'video':(video) ? 1 : 0
-		},function(r){
-			if('images' in r){
-				var m=new EL.media({
-					'title': r.gallery.name,
-					'description': r.gallery.description
-				});
+				$.post('/api/estelife_ajax.php',{
+					'action':'get_media_content',
+					'id':id,
+					'video':(video) ? 1 : 0
+				},function(r){
+					if('images' in r){
+						var m=new EL.media({
+							'title': r.gallery.name,
+							'description': r.gallery.description
+						});
 
-				$.map(r.images,function(item){
-					m.setImage(new EL.mediaImage(
-						item.title,
-						item.small,
-						item.big
-					));
-				});
+						$.map(r.images,function(item){
+							m.setImage(new EL.mediaImage(
+								item.title,
+								item.small,
+								item.big
+							));
+						});
 
-				m.showImages();
-			}else if('video' in r){
-				var m=new EL.media();
+						m.showImages();
+					}else if('video' in r){
+						var m=new EL.media();
 
-				m.setVideo(new EL.mediaVideo(
-					r.video.title,
-					r.video.description,
-					r.video.video_id
-				));
-				m.showVideo();
-			}
-		},'json');
+						m.setVideo(new EL.mediaVideo(
+							r.video.title,
+							r.video.description,
+							r.video.video_id
+						));
+						m.showVideo();
+					}
+				},'json');
 
-		e.preventDefault();
-	});
+				e.preventDefault();
+			});
+		});
+	}
 
 	var icons={
 		'default':'/bitrix/templates/estelife/images/icons/point.png'

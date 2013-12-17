@@ -122,7 +122,7 @@ ul li:last-child, ul li.last-child {
 	background-position: -38px -56px;
 	border-color:#2c2c2c;
 }
-.arrow.active, .arrow:hover i {
+.arrow.active i, .arrow:hover i {
 	border-color:#e60364;
 	background-position: -71px -56px;
 }
@@ -824,7 +824,7 @@ td.prices span {
 	background:#dddddd;
 	border:2px solid #e50364;
 	position:absolute;
-	z-index:2;
+	z-index:4;
 	top:42px;
 	color:#7c7c7c;
 }
@@ -881,7 +881,7 @@ td.prices span {
 }
 .articles .menu a:hover span, .articles .menu li.active span,
 .item.detail .menu a:hover span, .item.detail .menu li.active span,
-.inner .title .menu a:hover, .inner .title .menu a.active, .arrow:hover,
+.inner .title .menu a:hover, .inner .title .menu a.active, .arrow:hover, .arrow.active,
 .item.detail .properties h3 a:hover, .item.detail .properties h3 a.active, .search-founded .menu a:hover, .search-founded .menu a.active {
 	color:#e50364;
 	border-color:#e50364;
@@ -1105,8 +1105,8 @@ td.prices span {
 }
 .media .item .border {
 	border-width: 3px;
-	top:-2px;
-	left:-2px;
+	top:-3px;
+	left:-3px;
 }
 .media .item span, .media .item.video .border {
 	border-color:#9f9f9f;
