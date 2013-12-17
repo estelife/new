@@ -93,6 +93,7 @@ if(!$obGet->blank('concreate'))
 if(!empty($arCount))
 	$obQuery->builder()->slice(0,$arCount);
 
+$obQuery->builder()->group('ea.id');
 $obResult=$obQuery->select();
 $arResult['akzii']=array();
 $arDescription=array();
