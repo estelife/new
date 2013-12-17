@@ -210,33 +210,31 @@ if (!empty($arIds)){
 	foreach ($arCalendar as $val)
 		$arResult['events'][$val['event_id']]['calendar'][]=$val['date'];
 
-	if (!empty($nDateFrom)){
-		$sNow = $nDateFrom;
-	}else{
-		$sNow = time();
-	}
+	$nNow = (!empty($nDateFrom)) ? $nDateFrom : time();
 
 	foreach($arResult['events'] as $nKey=>&$arEvent){
-		$arEvent['calendar']=\core\types\VDate::createDiapasons($arEvent['calendar'],function(&$nFrom,&$nTo,$sNow){
-			$arNowTo = strtotime(date('d.m.Y', $sNow).' 00:00:00');
-			$arNowFrom =strtotime(date('d.m.Y', $sNow).' 23:59:59');
+		$arEvent['calendar']=\core\types\VDate::createDiapasons($arEvent['calendar'],function(&$nFrom,&$nTo) use($nNow){
+			$nNowTo=strtotime(date('d.m.Y', $nNow).' 00:00:00');
+			$nNowFrom=strtotime(date('d.m.Y', $nNow).' 23:59:59');
+			$nTempTo=$nTo;
+			$nTempFrom=$nFrom;
 
-			if (($arNowTo<=$nTo && $arNowFrom>=$nFrom) || ($arNowTo<=$nFrom) || ($arNowTo<=$nFrom && $arNowFrom>=$nFrom)){
-				if($nTo==0){
-					$nFrom=\core\types\VDate::date($nFrom, 'j F');
-				}else{
-					$arFrom=explode('.',date('n',$nFrom));
-					$arTo=explode('.',date('n',$nTo));
-					$sPattern='j F';
+			if($nTo==0){
+				$nFrom=\core\types\VDate::date($nFrom, 'j F Y');
+			}else{
+				$arFrom=explode('.',date('n',$nFrom));
+				$arTo=explode('.',date('n',$nTo));
+				$sPattern='j F';
 
-					if($arFrom[1]==$arTo[1])
-						$sPattern=($arFrom[0]==$arTo[0]) ? 'j' : 'j F';
+				if($arFrom[1]==$arTo[1])
+					$sPattern=($arFrom[0]==$arTo[0]) ? 'j' : 'j F';
 
-					$nFrom=\core\types\VDate::date($nFrom,$sPattern);
-					$nTo=\core\types\VDate::date($nTo,'j F');
-				}
-				return false;
+				$nFrom=\core\types\VDate::date($nFrom,$sPattern);
+				$nTo=\core\types\VDate::date($nTo,'j F Y');
 			}
+
+			if(($nNowTo<=$nTempTo && $nNowFrom>=$nTempFrom) || ($nNowTo<=$nTempFrom) || ($nNowTo<=$nTempFrom && $nNowFrom>=$nTempFrom))
+				return false;
 
 			return true;
 		});

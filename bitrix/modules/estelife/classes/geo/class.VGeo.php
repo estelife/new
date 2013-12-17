@@ -32,7 +32,11 @@ final class VGeo{
 
 		$obCity = VDatabase::driver();
 		$obQuery = $obCity->createQuery();
-		$obQuery->builder()->from('iblock_element');
+		$obQuery->builder()
+			->field('ID')
+			->field('NAME')
+			->field('CODE')
+			->from('iblock_element');
 
 		if (empty($arParam)){
 			$geo = new Geo($this->option);

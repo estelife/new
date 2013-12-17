@@ -6,21 +6,12 @@ $arPath=explode('/',$sPath);
 $arPath=array_values(array_diff($arPath,array('')));
 
 $sRedirect=false;
-$arAssoc=array(
-	'clinic'=>'cl',
-	'sponsors'=>'sp',
-	'promotions'=>'pr',
-	'training-centers'=>'tc',
-	'novosti'=>'ns',
-	'podcast'=>'pt',
-	'articles'=>'ar',
-	'apparatuses-makers'=>'am',
-	'preparations-makers'=>'pm',
-	'preparations'=>'ps',
-	'apparatuses'=>'ap',
-	'events'=>'ev',
-	'trainings'=>'tr'
+$arAssoc=$APPLICATION->IncludeComponent(
+	'estelife:system-settings',
+	'',
+	array('filter'=>'directions')
 );
+$arAssoc=array_flip($arAssoc);
 
 switch($arPath[0]){
 	case 'clinic':

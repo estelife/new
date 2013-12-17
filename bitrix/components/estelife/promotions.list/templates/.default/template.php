@@ -16,19 +16,22 @@ $APPLICATION->SetPageProperty("keywords", $arResult['SEO']['keywords']);
 		<?php if (!empty($arResult['akzii'])):?>
 			<?php foreach ($arResult['akzii'] as $arValue):?>
 				<div class="item promotion">
-					<span class="perc"><?=$arValue["sale"]?>%</span>
-					<a href="<?=$arValue['link']?>">
-						<img src="<?=$arValue['src']?>" width="227px" height="158px" alt="<?=$arValue['name']?>" title="<?=$arValue['name']?>" />
-					</a>
-					<h3><?=$arValue["name"]?></h3>
-					<div class="cols prices">
-						<b><?=$arValue['new_price']?> <i></i></b>
-						<s><?=$arValue['old_price']?> <i></i></s>
+					<div class="item-rel">
+						<span class="perc"><?=$arValue["sale"]?>%</span>
+						<a href="<?=$arValue['link']?>">
+							<img src="<?=$arValue['src']?>" width="227px" height="158px" alt="<?=$arValue['name']?>" title="<?=$arValue['name']?>" />
+						</a>
+						<h3><?=$arValue["name"]?></h3>
+						<div class="cols prices">
+							<b><?=$arValue['new_price']?> <i></i></b>
+							<s><?=$arValue['old_price']?> <i></i></s>
+						</div>
+						<div class="cols time">
+							<?=$arValue['time']?> <?=$arValue['day']?>
+							<i></i>
+						</div>
 					</div>
-					<div class="cols time">
-						<?=$arValue['time']?> <?=$arValue['day']?>
-						<i></i>
-					</div>
+					<div class="border"></div>
 				</div>
 			<?php endforeach?>
 		<?php endif?>

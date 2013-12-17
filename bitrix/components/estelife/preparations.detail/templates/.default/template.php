@@ -157,21 +157,24 @@
 			<div class="items">
 				<?php foreach ($arResult['pill']['production'] as $arValue):?>
 					<div class="item product">
-						<div class="img">
-							<div class="img-in">
-								<?php if(!empty($arValue["logo_id"])):?>
-									<?=$arValue["img"]?>
-								<?endif?>
+						<div class="item-rel">
+							<div class="img">
+								<div class="img-in">
+									<?php if(!empty($arValue["logo_id"])):?>
+										<?=$arValue["img"]?>
+									<?endif?>
+								</div>
+							</div>
+							<div class="cols">
+								<h2><a href="<?=$arValue["link"]?>"><?=$arValue["name"]?></a></h2>
+								<ul>
+									<li class="country c<?=$arResult['pill']['country_id']?>"><?=$arResult['pill']['country_name']?></li>
+									<li>Производитель: <a href="<?=$arResult['pill']['company_link']?>"><?=$arResult['pill']['company_name']?></a></li>
+								</ul>
+								<p><?=$arValue["preview_text"]?></p>
 							</div>
 						</div>
-						<div class="cols">
-							<h2><a href="<?=$arValue["link"]?>"><?=$arValue["name"]?></a></h2>
-							<ul>
-								<li class="country c<?=$arResult['pill']['country_id']?>"><?=$arResult['pill']['country_name']?></li>
-								<li>Производитель: <a href="<?=$arResult['pill']['company_link']?>"><?=$arResult['pill']['company_name']?></a></li>
-							</ul>
-							<p><?=$arValue["preview_text"]?></p>
-						</div>
+						<div class="border"></div>
 					</div>
 				<?php endforeach?>
 			</div>

@@ -15,9 +15,9 @@
 
 			<div class="cols col1">
 
-				<?php if (!empty($arResult['clinic']['specialization'])):?>
+				<?php if (!empty($arResult['clinic']['specializations_string'])):?>
 					<p>
-						<?=$arResult['clinic']['specialization']?><i></i>
+						<?=$arResult['clinic']['specializations_string']?><i></i>
 					</p>
 				<?php endif?>
 
@@ -60,7 +60,7 @@
 				<p><?=$arResult['clinic']['detail_text']?></p>
 			</div>
 			<div class="tabs tab2 none">
-				<?php foreach ($arResult['clinic']['specialization'] as $key=>$val):?>
+				<?php foreach ($arResult['clinic']['specializations'] as $key=>$val):?>
 					<h2><?=$val['s_name']?></h2>
 					<?php foreach ($arResult['clinic']['service'] as $k=>$v):?>
 						<?php if ($key == $v['s_id']):?>
@@ -85,19 +85,22 @@
 						<?php if (!empty($arResult['clinic']['akzii'])):?>
 							<?php foreach ($arResult['clinic']['akzii'] as $arValue):?>
 								<div class="item promotion">
-									<span class="perc"><?=$arValue['sale']?>%</span>
-									<a href="<?=$arValue['link']?>">
-										<img src="<?=$arValue['logo']?>" alt="<?=$arValue["name"]?>" title="<?=$arValue["name"]?>" width="227px" height="159px">
-									</a>
-									<h3><?=$arValue["name"]?></h3>
-									<div class="cols prices">
-										<b><?=$arValue['new_price']?> <i></i></b>
-										<s><?=$arValue['old_price']?> <i></i></s>
+									<div class="item-rel">
+										<span class="perc"><?=$arValue['sale']?>%</span>
+										<a href="<?=$arValue['link']?>">
+											<img src="<?=$arValue['logo']?>" alt="<?=$arValue["name"]?>" title="<?=$arValue["name"]?>" width="227px" height="159px">
+										</a>
+										<h3><?=$arValue["name"]?></h3>
+										<div class="cols prices">
+											<b><?=$arValue['new_price']?> <i></i></b>
+											<s><?=$arValue['old_price']?> <i></i></s>
+										</div>
+										<div class="cols time">
+											<?=$arValue['time']?> <?=$arValue['day']?>
+											<i></i>
+										</div>
 									</div>
-									<div class="cols time">
-										<?=$arValue['time']?> <?=$arValue['day']?>
-										<i></i>
-									</div>
+									<div class="border"></div>
 								</div>
 							<?php endforeach; ?>
 						<?php else:?>

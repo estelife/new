@@ -37,9 +37,10 @@
 		</div>
 		<div class="tabs tab2 none">
 			<?php if (!empty($arResult['events'])):?>
+				<div class="items">
 				<?php foreach ($arResult['events'] as $val):?>
-					<div class="items">
-						<div class="item training">
+					<div class="item training">
+						<div class="item-rel">
 							<h2><a href="<?=$val['link']?>"><?=$val['name']?></a></h2>
 							<p><?=$val['preview_text']?></p>
 							Период проведения: <b><?=$val['first_period']['from']?>
@@ -49,8 +50,10 @@
 								<?php endif; ?></b><br>
 							<span class="date"><?=$val["first_date"]?></span>
 						</div>
+						<div class="border"></div>
 					</div>
 				<?php endforeach?>
+				</div>
 			<?php endif?>
 		</div>
 		<div class="tab-c tabs tab3 none">

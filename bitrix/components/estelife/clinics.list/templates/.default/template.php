@@ -11,28 +11,31 @@
 		<?php if (!empty($arResult['clinics'])):?>
 			<?php foreach ($arResult['clinics'] as $arClinic):?>
 			<div class="item company">
-				<h2><?php if ($arClinic["recomended"] == 1):?><span class="checked"></span><?php endif?><a href="<?=$arClinic["link"]?>" class="el-get-detail"><?=$arClinic["name"]?></a></h2>
-				<div class="item-in">
-					<?php if (!empty($arClinic['specialization'])):?>
-					<p><?=$arClinic['specialization']?></p>
-					<?php endif?>
-					<a href="<?=$arClinic["link"]?>" class="el-get-detail">
-						<div class="img">
-							<div class="img-in">
-								<?php if(!empty($arClinic["logo"])): ?>
-									<?=$arClinic["logo"]?>
-								<?php else: ?>
-									<img src="/img/icon/unlogo.png" />
-								<?endif?>
+				<div class="item-rel">
+					<h2><?php if ($arClinic["recomended"] == 1):?><span class="checked"></span><?php endif?><a href="<?=$arClinic["link"]?>" class="el-get-detail"><?=$arClinic["name"]?></a></h2>
+					<div class="item-in">
+						<?php if (!empty($arClinic['specialization'])):?>
+						<p><?=$arClinic['specialization']?></p>
+						<?php endif?>
+						<a href="<?=$arClinic["link"]?>" class="el-get-detail">
+							<div class="img">
+								<div class="img-in">
+									<?php if(!empty($arClinic["logo"])): ?>
+										<?=$arClinic["logo"]?>
+									<?php else: ?>
+										<img src="/img/icon/unlogo.png" />
+									<?endif?>
+								</div>
 							</div>
+						</a>
+						<div class="cols col1">
+							<span><?=$arClinic["address"]?></span>
+							<span><?=$arClinic['phone']?></span>
+							<a href="#"><a target='_blank' href="<?=$arClinic["web"]?>"><?=$arClinic["web_short"]?></a></a>
 						</div>
-					</a>
-					<div class="cols col1">
-						<span><?=$arClinic["address"]?></span>
-						<span><?=$arClinic['phone']?></span>
-						<a href="#"><a target='_blank' href="<?=$arClinic["web"]?>"><?=$arClinic["web_short"]?></a></a>
 					</div>
 				</div>
+				<div class="border"></div>
 			</div>
 			<?php endforeach; ?>
 		<?php endif; ?>

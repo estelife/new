@@ -1,20 +1,10 @@
 <?php
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
-$arDirectories = array(
-	"ns" => "novosti",
-	"pt" => "podcast",
-	"ar" => "articles",
-	"pr" => "promotions",
-	"cl" => "clinics",
-	"am" => "apparatuses-makers",
-	"pm" => "preparations-makers",
-	"ap" => "apparatuses",
-	"ps" => "preparations",
-	"tc" => "training-centers",
-	"tr" => "trainings",
-	"ev" => "events",
-	"sp" => "sponsors",
+$arDirectories=$APPLICATION->IncludeComponent(
+	'estelife:system-settings',
+	'',
+	array('filter'=>'directions')
 );
 
 $arDefaultUrlTemplates404 = array(
