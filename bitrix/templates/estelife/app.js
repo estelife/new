@@ -1,77 +1,65 @@
 $(document).ready(function() {
 
-	var timerID = 0,
-		timer2ID = 0;
+	EL.SystemSettings.ready(function(s){
 
-	//табы для раскрытия информации
-	$('body').on('click', '.el-tab h3', function(){
+		var timerID = 0,
+			timer2ID = 0;
 
-		var prnt = $(this).parent(),
-			el = $('a',$(this));
+		$(".menu a").each(function() {
+			var href = $(this).attr("href"),
+				path_name = document.location.pathname.split('/'),
+				reg=new RegExp('^.*'+path_name[1]+'.*$'),
+				matches=href.match(reg);
 
 
-		if (el.hasClass('active')){
-			el.removeClass('active');
-			prnt.find('h3').next().slideUp('700').addClass('none');
-		}else{
-			el.addClass('active');
-			prnt.find('h3').next().slideDown('700').removeClass('none');
+			if (matches && !$(".menu>li.active").length) {
+				$(this).closest(".menu>li").addClass("active").addClass('main');
+				return false;
+			}else{
+				var mass = s.directions,
+					path_name = path_name[1];
+				reg=new RegExp('^([a-z]{2})[0-9]+$');
+				matches=path_name.match(reg);
+				if (matches && matches.length>0){
+					if (mass[matches[1]].length>0 && (href == '/'+mass[matches[1]]+'/')){
+						$(this).closest(".menu>li").addClass("active").addClass('main');
+						return false;
+					}
+				}
+			}
+		});
+
+		if (!$(".main_menu li.active").length) {
+			$(".main_menu li:first").addClass("active");
 		}
 
-		return false
-	});
-
-	$(".menu>li.active1").addClass("active");
-	
-	$(".menu a").each(function() {
-		var href = $(this).attr("href"),
-			path_name = document.location.pathname.split('/'),
-			reg=new RegExp('^.*'+path_name[1]+'.*$'),
-			matches=href.match(reg);
-
-		if (matches && !$(".menu>li.active").length) {
-			$(this).closest(".menu>li").addClass("active").addClass('main');
-			return;
-		}
-	});
-
-	if (!$(".menu li.active").length) {
-		$(".menu li:first").addClass("active");
-	}
-	
-	$(".head .menu>li").hover(
-		function() {
-			var ob = this;
-			clearTimeout(timerID);
-			clearTimeout(timer2ID);
-			timer2ID = setTimeout(function(){
-					$(".menu>li").removeClass("active");
-					$(ob).addClass("active");
-				},
-				150
-			);
+		//Наведения
+		$(".head .menu>li").hover(
+			function() {
+				var ob = this;
+				clearTimeout(timerID);
+				clearTimeout(timer2ID);
+				timer2ID = setTimeout(function(){
+						$(".menu>li").removeClass("active");
+						$(ob).addClass("active");
+					},
+					150
+				);
 
 
-		},
-		function() {
-			timerID = setTimeout(function(){
-				$(".menu>li").removeClass("active");
-				$(".menu>li.main").addClass('active');
 			},
-			450
-			);
-		}
-	);
+			function() {
+				timerID = setTimeout(function(){
+						$(".menu>li").removeClass("active");
+						$(".menu>li.main").addClass('active');
+					},
+					450
+				);
+			}
+		);
 
-	$(".half-video .video img").click(function() {
-		var r = $(this).attr("rel");
-		var frame = "<iframe width='481' height='274' src='"+r+"' frameborder='0' allowfullscreen></iframe>";
-		$(".half-video .frame").html(frame);
-		$(".half-video .video").removeClass("active");
-		$(this).parent().addClass("active");
 	});
-	
-	$(".half-video .video:first img").click();
+
 });
 
 var showDetail;
@@ -138,6 +126,24 @@ $(function home(){
 		prnt.find('.title a').attr('href', section_url);
 
 		return false;
+	});
+
+	//табы для раскрытия информации
+	$('body').on('click', '.el-tab h3', function(){
+
+		var prnt = $(this).parent(),
+			el = $('a',$(this));
+
+
+		if (el.hasClass('active')){
+			el.removeClass('active');
+			prnt.find('h3').next().slideUp('700').addClass('none');
+		}else{
+			el.addClass('active');
+			prnt.find('h3').next().slideDown('700').removeClass('none');
+		}
+
+		return false
 	});
 
 	//переключения в галереи
@@ -882,7 +888,7 @@ function initFilter(context){
 
 	$('.text.date',context).each(function(){
 		var current=$(this),
-			img=current.find('img'),
+			img=current.find('i'),
 			prnt=current.parent(),
 			from=current.hasClass('from'),
 			other=(from) ?

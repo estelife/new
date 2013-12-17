@@ -82,7 +82,7 @@ if (!$obGet->blank('country')){
 	$obFilter->_eq('ecg.country_id', $obGet->one('country'));
 }
 if(!$obGet->blank('name')){
-	$obFilter->_like('ee.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+	$obFilter->_like('ee.short_name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 }
 
 if(!$obGet->blank('direction')){
@@ -129,10 +129,8 @@ while($arData=$obResult->Fetch()){
 		$arData['web_short']=\core\types\VString::checkUrl($arData['web']);
 
 	if(!empty($arData['logo_id'])){
-		$file = CFile::ShowImage($arData["logo_id"], 110, 90, 'alt="'.$arData['name'].'"');
-		$arData['logo']=$file;
-	}else{
-		$arData['logo']="<img src='/img/icon/unlogo.png' />";
+		$file = CFile::GetFileArray($arData["logo_id"]);
+		$arData['logo']=$file['SRC'];
 	}
 
 	$arData['preview_text'] = htmlspecialchars_decode($arData['preview_text'],ENT_NOQUOTES);
@@ -160,6 +158,7 @@ if (!empty($arIds)){
 		'2'=>'Косметология',
 		'3'=>'Косметика',
 		'4'=>'Дерматология',
+		'11'=>'Менеджмент',
 	);
 
 	foreach ($arDirections as $key=>$val){

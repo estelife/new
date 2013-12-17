@@ -38,7 +38,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<img src="<?=$val['IMG_S']['SRC']?>" width="143px" height="98px"" alt="<?=$val['NAME']?>" title="<?=$val['NAME']?>" />
 						</a>
 						<?php if($val["PREVIEW_TEXT"]):?>
-							<div><p><?=$val['PREVIEW_TEXT_S']?></p></div>
+							<div><p><?=$val['NAME']?></p></div>
 						<?php endif?>
 						<span><?=$i?></span>
 					</div>

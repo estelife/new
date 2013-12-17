@@ -2,7 +2,7 @@
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="/">Главная</a></li>
-		<li><b>Клиники</b></li>
+		<li><b>Клиники <?if ($_GET['city']==359):?>Москвы<?elseif($_GET['city']==358):?>Санкт-Петербурга<?endif?></b></li>
 	</ul>
 	<div class="title">
 		<h1>Клиники <?if ($_GET['city']==359):?>Москвы<?elseif($_GET['city']==358):?>Санкт-Петербурга<?endif?></h1>

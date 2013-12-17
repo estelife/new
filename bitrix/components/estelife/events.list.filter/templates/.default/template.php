@@ -4,6 +4,11 @@
 		<h4>Поиск событий</h4>
 		<!--		<span>Найдено 6 акций</span>-->
 	</div>
+	<div class="field">
+		<label for="name">Наименование</label>
+		<input name="name" type="text" value="<?=$_GET['name']?>" class="text"/>
+		<span class="block"></span>
+	</div>
 	<div class="field country">
 		<label for="country">Страна</label>
 		<select name="country" >
@@ -35,8 +40,9 @@
 			<option value="">--</option>
 			<option value="1" <?if($arResult['filter']['direction'] == 1) echo " selected";?>>Пластическая хирургия</option>
 			<option value="2" <?if($arResult['filter']['direction'] == 2) echo " selected";?>>Косметология</option>
-			<option value="3" <?if($arResult['filter']['direction'] == 3) echo " selected";?>>Косметика</option>
 			<option value="4" <?if($arResult['filter']['direction'] == 4) echo " selected";?>>Дерматология</option>
+			<option value="3" <?if($arResult['filter']['direction'] == 3) echo " selected";?>>Косметика</option>
+			<option value="11" <?if($arResult['filter']['direction'] == 11) echo " selected";?>>Менеджмент</option>
 		</select>
 		<span class="block"></span>
 	</div>

@@ -61,6 +61,7 @@ $obJoin->_left()
 $obQuery->builder()
 	->field('ct.NAME', 'city')
 	->field('ct.CODE', 'city_code')
+	->field('ct.ID', 'city_id')
 	->field('mt.NAME', 'metro')
 	->field('ec.name', 'clinic_name')
 	->field('ec.id', 'clinic_id')
@@ -69,17 +70,14 @@ $obQuery->builder()
 	->field('eccw.value', 'web')
 	->group('eca.clinic_id')
 	->filter()
+	->_eq('ec.clinic_id', 0)
 	->_eq('eca.akzii_id', $nActionID);
 
-$arClinics=$obQuery->select()->all();
-$arResult['action']['clinics'] = array();
+$arResult['action']['clinics'] =$obQuery->select()->assoc();
 
-if (!empty($arClinics)){
-	foreach ($arClinics as $val){
-		$val['link'] = '/cl'.$val['clinic_id'].'/';
-		$val['phone']=\core\types\VString::formatPhone($val['phone']);
-		$arResult['action']['clinics'][] = $val;
-	}
+if (!empty($arResult['action']['clinics'])){
+	$arResult['action']['clinics']['link'] = '/cl'.$arResult['action']['clinics']['clinic_id'].'/';
+	$arResult['action']['clinics']['phone']=\core\types\VString::formatPhone($arResult['action']['clinics']['phone']);
 }
 
 //Получение условий акции
@@ -115,14 +113,13 @@ if(!empty($arResult['action']['photos'])){
 	$arResult['action']['photos_count']=count($arResult['action']['photos']);
 }*/
 
-
 $arNow = time();
 //Получение похожих акций
 $obQuery = $obActions->createQuery();
 $obQuery->builder()->from('estelife_akzii');
 $obQuery->builder()
 	->filter()
-	->_eq('service_concreate_id', $arResult['action']['service_concreate_id'])
+	->_eq('service_id', $arResult['action']['service_id'])
 	->_eq('active', 1)
 	->_ne('id',$arResult['action']['id'])
 	->_gte('end_date', time());

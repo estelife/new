@@ -1,6 +1,7 @@
 <?php
 $MESS ['ESTELIFE_HEAD_TITLE'] = 'Список обучений';
 $MESS ['ESTELIFE_F_FULL_NAME'] = 'Полное название';
+$MESS ['ESTELIFE_F_COMPANY_NAME'] = 'Учебный центр';
 $MESS ['ESTELIFE_F_COUNTRY'] = 'Страна';
 $MESS ['ESTELIFE_F_CITY'] = 'Город';
 $MESS ['ESTELIFE_F_ID'] = 'ID';

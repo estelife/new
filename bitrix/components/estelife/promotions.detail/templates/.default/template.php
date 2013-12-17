@@ -2,7 +2,7 @@
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="/">Главная</a></li>
-		<li><a href="/promotions/">Акции</a></li>
+		<li><a href="/promotions/">Акции <?if ($arResult['action']['clinics']['city_id']==359):?>Москвы<?elseif($arResult['action']['clinics']['city_id']==358):?>Санкт-Петербурга<?endif?></a></li>
 		<li><b><?=$arResult['action']['preview_text']?></b></li>
 	</ul>
 	<div class="item promotion detail">
@@ -35,21 +35,19 @@
 			<?=$arResult['action']['detail_text']?>
 		</div>
 		<?php if (!empty($arResult['action']['clinics'])):?>
-			<?php foreach ($arResult['action']['clinics'] as $val):?>
 				<div class="clinic">
 					<div class="cols col1">
-						<a href="<?=$val['link']?>"></a>
+						<a href="<?=$arResult['action']['clinics']['link']?>"></a>
 					</div>
 					<div class="cols col2">
-						<h3><?=$val['clinic_name']?></h3>
-						<span>г. <?=$val['city']?> <?=$val['clinic_address']?></span>
-						<span><?=$val['phone']?></span>
+						<h3><?=$arResult['action']['clinics']['clinic_name']?></h3>
+						<span>г. <?=$arResult['action']['clinics']['city']?> <?=$arResult['action']['clinics']['clinic_address']?></span>
+						<span><?=$arResult['action']['clinics']['phone']?></span>
 					</div>
 					<div class="cols col3">
-						<a href="<?=$val['link']?>" class="more" target="_blank">Подробнее о клинике</a>
+						<a href="<?=$arResult['action']['clinics']['link']?>" class="more" target="_blank">Подробнее о клинике</a>
 					</div>
 				</div>
-			<?php endforeach?>
 		<?php endif?>
 		<div class="info nobo">
 			<div class="social cols">

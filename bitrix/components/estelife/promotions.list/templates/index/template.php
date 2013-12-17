@@ -12,7 +12,7 @@
 				<div class="item promotion">
 					<span class="perc"><?=$arValue["sale"]?>%</span>
 					<a href="<?=$arValue['link']?>">
-						<img src="<?=$arValue['src']?>" width="227px" height="158px" alt="<?=$arValue['name']?>" title="<?=$arValue['name']?>" />
+						<img src="<?=$arValue['src']?>" alt="<?=$arValue['name']?>" title="<?=$arValue['name']?>" />
 					</a>
 					<h3><?=$arValue['name']?></h3>
 					<div class="cols prices">

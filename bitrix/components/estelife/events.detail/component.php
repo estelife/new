@@ -116,6 +116,7 @@ $arDirectionsName = array(
 	'2'=>'Косметология',
 	'3'=>'Косметика',
 	'4'=>'Дерматология',
+	'11'=>'Менеджмент',
 );
 
 foreach ($arDirections as $key=>$val){

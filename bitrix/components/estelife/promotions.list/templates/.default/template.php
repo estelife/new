@@ -7,10 +7,10 @@ $APPLICATION->SetPageProperty("keywords", $arResult['SEO']['keywords']);
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="#">Главная</a></li>
-		<li><b>Акции</b></li>
+		<li><b>Акции <?if ($_GET['city']==359):?>Москвы<?elseif($_GET['city']==358):?>Санкт-Петербурга<?endif?></b></li>
 	</ul>
 	<div class="title">
-		<h2>Акции</h2>
+		<h2>Акции <?if ($_GET['city']==359):?>Москвы<?elseif($_GET['city']==358):?>Санкт-Петербурга<?endif?></h2>
 	</div>
 	<div class="items">
 		<?php if (!empty($arResult['akzii'])):?>
@@ -18,7 +18,7 @@ $APPLICATION->SetPageProperty("keywords", $arResult['SEO']['keywords']);
 				<div class="item promotion">
 					<span class="perc"><?=$arValue["sale"]?>%</span>
 					<a href="<?=$arValue['link']?>">
-						<img src="<?=$arValue['src']?>" width="227px" height="158px" alt="<?=$arValue['name']?>" title="<?=$arValue['name']?>" />
+						<img src="<?=$arValue['src']?>" alt="<?=$arValue['name']?>" title="<?=$arValue['name']?>" />
 					</a>
 					<h3><?=$arValue["name"]?></h3>
 					<div class="cols prices">
