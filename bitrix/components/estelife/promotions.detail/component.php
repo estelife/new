@@ -115,6 +115,7 @@ if(!empty($arResult['action']['photos'])){
 	$arResult['action']['photos_count']=count($arResult['action']['photos']);
 }*/
 
+
 $arNow = time();
 //Получение похожих акций
 $obQuery = $obActions->createQuery();
@@ -123,6 +124,7 @@ $obQuery->builder()
 	->filter()
 	->_eq('service_concreate_id', $arResult['action']['service_concreate_id'])
 	->_eq('active', 1)
+	->_ne('id',$arResult['action']['id'])
 	->_gte('end_date', time());
 $obQuery->builder()->slice(0,3);
 $arSimilar=$obQuery->select()->all();

@@ -161,7 +161,7 @@ $arProductions = $obQuery->select()->all();
 
 foreach ($arProductions as $val){
 	$val['img'] = CFile::ShowImage($val['logo_id'],150, 140, 'alt='.$val['name']);
-	$val['link'] = '/apparatuses/'.$val['translit'].'/';
+	$val['link'] = '/ap'.$val['id'].'/';
 	$arResult['app']['production'][] = $val;
 }
 
