@@ -11,33 +11,37 @@
 		<?php if (!empty($arResult['events'])):?>
 			<?php foreach ($arResult['events'] as $arEvent):?>
 				<div class="item event">
-					<span class="date"><?=$arEvent["first_date"]?></span>
-					<h2>
-						<a href="<?=$arEvent["link"]?>"><?=$arEvent["name"]?></a>
-					</h2>
-					<p><?=$arEvent["full_name"]?></p>
-					<div class="img">
-						<div class="img-in">
-							<?php if(!empty($arEvent["logo"])):?>
-								<img src="<?=$arEvent['logo']?>" title="<?=$arEvent["name"]?>" alt="<?=$arEvent["name"]?>" />
-							<?endif?>
+					<div class="item-rel">
+						<span class="date"><?=$arEvent["first_date"]?></span>
+						<h2>
+							<a href="<?=$arEvent["link"]?>"><?=$arEvent["name"]?></a>
+						</h2>
+						<p><?=$arEvent["full_name"]?></p>
+						<div class="img">
+							<div class="img-in">
+								<?php if(!empty($arEvent["logo"])):?>
+									<img src="<?=$arEvent['logo']?>" title="<?=$arEvent["name"]?>" alt="<?=$arEvent["name"]?>" />
+								<?endif?>
+							</div>
 						</div>
+					
+						<ul class="list1">
+							<li class="country big k<?=$arEvent["country_id"]?>"></li>
+							<?php if(!empty($arEvent["country_name"])):?>
+								<li>Место проведения: <b><?=$arEvent["country_name"]?><?if (!empty($arEvent["city_name"])):?>, г. <?=$arEvent["city_name"]?><?endif?></b></li>
+							<?php endif?>
+							<li>Период проведения: <b><?=$arEvent['first_period']['from']?>
+									<?php if(!empty($arEvent['first_period']['to'])):?>
+										-
+										<?=$arEvent['first_period']['to']?>
+									<?php endif; ?></b></li>
+						</ul>
+						<ul class="list2">
+							<li>Формат: <b><?=$arEvent['types']?></b></li>
+							<li>Направление: <b><?=$arEvent['directions']?></b></li>
+						</ul>
 					</div>
-					<ul class="list1">
-						<li class="country big k<?=$arEvent["country_id"]?>"></li>
-						<?php if(!empty($arEvent["country_name"])):?>
-							<li>Место проведения: <b><?=$arEvent["country_name"]?><?if (!empty($arEvent["city_name"])):?>, г. <?=$arEvent["city_name"]?><?endif?></b></li>
-						<?php endif?>
-						<li>Период проведения: <b><?=$arEvent['first_period']['from']?>
-								<?php if(!empty($arEvent['first_period']['to'])):?>
-									-
-									<?=$arEvent['first_period']['to']?>
-								<?php endif; ?></b></li>
-					</ul>
-					<ul class="list2">
-						<li>Формат: <b><?=$arEvent['types']?></b></li>
-						<li>Направление: <b><?=$arEvent['directions']?></b></li>
-					</ul>
+					<div class="border"></div>
 				</div>
 			<?php endforeach?>
 		<?php endif?>

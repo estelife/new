@@ -11,22 +11,27 @@
 		<?php if (!empty($arResult['training'])):?>
 			<?php foreach ($arResult['training'] as $arTraining):?>
 				<div class="item training">
-					<h2><a href="<?=$arTraining["link"]?>"><?=$arTraining["name"]?></a></h2>
-					<div class="img">
-						<div class="img-in">
-							<?php if(!empty($arTraining["logo"])):?>
-								<?=$arTraining['logo']?>
-							<?endif?>
+					<div class="item-rel">
+						<h2><a href="<?=$arTraining["link"]?>"><?=$arTraining["name"]?></a></h2>
+						<div class="item-in">
+							<div class="img">
+								<div class="img-in">
+									<?php if(!empty($arTraining["logo"])):?>
+										<?=$arTraining['logo']?>
+									<?endif?>
+								</div>
+							</div>
+							<p><?=$arTraining['preview_text']?></p>
+							Период проведения: <b><?=$arTraining['first_period']['from']?>
+								<?php if(!empty($arTraining['first_period']['to'])):?>
+									-
+									<?=$arTraining['first_period']['to']?>
+								<?php endif; ?></b><br>
+							Организатор: <a href="#" class="link"><?=$arTraining["company_name"]?></a>
+							<span class="date"><?=$arTraining["first_date"]?></span>
 						</div>
 					</div>
-					<p><?=$arTraining['preview_text']?></p>
-					Период проведения: <b><?=$arTraining['first_period']['from']?>
-						<?php if(!empty($arTraining['first_period']['to'])):?>
-							-
-							<?=$arTraining['first_period']['to']?>
-						<?php endif; ?></b><br>
-					Организатор: <a href="#" class="link"><?=$arTraining["company_name"]?></a>
-					<span class="date"><?=$arTraining["first_date"]?></span>
+					<div class="border"></div>
 				</div>
 			<?php endforeach?>
 		<?php endif?>

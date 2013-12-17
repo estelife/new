@@ -108,9 +108,8 @@ class VDate {
 					);
 					$nTo=0;
 
-					if($result === false){
+					if($result===false)
 						break;
-					}
 				}
 
 				$nFrom=$nDate;
@@ -118,6 +117,7 @@ class VDate {
 				$nTo=$nDate;
 			}
 		}
+
 		$arDates=$arTemp;
 		return $arDates;
 	}

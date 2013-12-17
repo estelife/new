@@ -10,7 +10,7 @@ ErrorDocument 404 /404.php
 </IfModule>
 
 <IfModule mod_rewrite.c>
-  Options +FollowSymLinks
+	Options +FollowSymLinks
 	Options -MultiViews
 	RewriteEngine On
 

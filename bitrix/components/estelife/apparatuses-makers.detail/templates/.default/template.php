@@ -28,19 +28,22 @@
 			<div class="items products">
 				<?php foreach ($arResult['production'] as $arValue):?>
 					<div class="item product">
-						<div class="img">
-							<div class="img-in">
-								<a href="<?=$arValue['link']?>">
-									<?php if(!empty($arValue["logo_id"])):?>
-										<?=$arValue["img"]?>
-									<?endif?>
-								</a>
+						<div class="item-rel">
+							<div class="img">
+								<div class="img-in">
+									<a href="<?=$arValue['link']?>">
+										<?php if(!empty($arValue["logo_id"])):?>
+											<?=$arValue["img"]?>
+										<?endif?>
+									</a>
+								</div>
+							</div>
+							<div class="cols">
+								<h4><?=$arValue["name"]?></h4>
+								<p><?=$arValue["preview_text"]?></p>
 							</div>
 						</div>
-						<div class="cols">
-							<h4><?=$arValue["name"]?></h4>
-							<p><?=$arValue["preview_text"]?></p>
-						</div>
+						<div class="border"></div>
 					</div>
 				<?php endforeach?>
 			</div>

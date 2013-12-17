@@ -15,25 +15,28 @@
 		<?php if (!empty($arResult['apparatus'])):?>
 			<?php foreach ($arResult['apparatus'] as $arApp):?>
 				<div class="item producer">
-					<div class="img">
-						<div class="img-in">
-							<?php if(!empty($arApp["logo_id"])): ?>
-								<?=$arApp["img"]?>
-							<?php else: ?>
-								<img src="/img/icon/unlogo.png" />
-							<?endif?>
+					<div class="item-rel">
+						<div class="img">
+							<div class="img-in">
+								<?php if(!empty($arApp["logo_id"])): ?>
+									<?=$arApp["img"]?>
+								<?php else: ?>
+									<img src="/img/icon/unlogo.png" />
+								<?endif?>
+							</div>
+						</div>
+						<div class="cols">
+							<h2><a href="<?=$arApp["link"]?>"><?=$arApp["name"]?></a></h2>
+							<ul>
+								<li class="country c<?=$arApp["country_id"]?>"><?=$arApp["country_name"]?></li>
+								<?php if (!empty($arApp["web"])):?>
+									<li><a href="<?=$arApp["web"]?>"><?=$arApp["web_short"]?></a></li>
+								<?php endif?>
+							</ul>
+							<p><?=$arApp['preview_text']?></p>
 						</div>
 					</div>
-					<div class="cols">
-						<h2><a href="<?=$arApp["link"]?>"><?=$arApp["name"]?></a></h2>
-						<ul>
-							<li class="country c<?=$arApp["country_id"]?>"><?=$arApp["country_name"]?></li>
-							<?php if (!empty($arApp["web"])):?>
-								<li><a href="<?=$arApp["web"]?>"><?=$arApp["web_short"]?></a></li>
-							<?php endif?>
-						</ul>
-						<p><?=$arApp['preview_text']?></p>
-					</div>
+					<div class="border"></div>
 				</div>
 			<?php endforeach?>
 		<?php endif;?>

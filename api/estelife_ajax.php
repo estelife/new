@@ -30,6 +30,14 @@ try{
 	$obFormError=new VFormException();
 
 	switch($sAction){
+		case 'get_system_settings':
+			$arResult=$arData=$APPLICATION->IncludeComponent(
+				"estelife:system-settings",
+				"ajax",
+				array(),
+				false
+			);
+			break;
 		case 'get_template':
 			if(!empty($arData['get_template_time'])){
 				$sFile=(isset($arData['template'])) ?

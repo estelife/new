@@ -107,7 +107,7 @@ $obQuery->builder()->filter()
 $arServices = $obQuery->select()->all();
 
 foreach ($arServices as $val){
-	$arResult['clinic']['specialization'][$val['s_id']] = $val;
+	$arResult['clinic']['specializations'][$val['s_id']] = $val;
 }
 
 foreach ($arServices as $val){
@@ -119,10 +119,11 @@ foreach ($arServices as $val){
 	$arResult['clinic']['con'][$val['con_id']] = $val;
 }
 
-foreach ($arResult['clinic']['specialization'] as $val){
-	$arResult['clinic']['specializations'][] = $val['s_name'];
+foreach ($arResult['clinic']['specializations'] as $val){
+	$arResult['clinic']['specializations_string'][] = $val['s_name'];
 }
-$arResult['clinic']['specializations'] = implode(', ', $arResult['clinic']['specializations']);
+
+$arResult['clinic']['specializations_string'] = implode(', ', $arResult['clinic']['specializations_string']);
 
 //Получаем галерею
 $obQuery = $obClinics->createQuery();

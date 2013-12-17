@@ -35,11 +35,11 @@ var Estelife=function(s){
 			}
 
 			return found;
-		}
+		};
 
 		String.prototype.addslashes=function(){
 			return (this+'').replace(/([^\w\d\s])/ig,'\\$1');
-		}
+		};
 	})();
 
 	this.loadModule=function(name,callback){
@@ -403,6 +403,30 @@ var Estelife=function(s){
 		this.error=error;
 	};
 };
+
+Estelife.prototype.SystemSettings=(function(){
+	var settings;
+
+	(function init(){
+		$.getJSON('/api/estelife_ajax.php',{
+			'action':'get_system_settings'
+		},function(r){
+			settings=(typeof r=='object') ? r : {};
+		});
+	})();
+
+	function ready(callback){
+		if(settings){
+			if(callback && typeof callback=='function')
+				callback(settings);
+		}else
+			setTimeout(ready,100);
+	}
+
+	return {
+		ready:ready
+	}
+})();
 var EL=new Estelife({
 	'path':'/bitrix/templates/estelife/js'
 });

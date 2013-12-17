@@ -204,6 +204,7 @@ $obQuery->builder()
 	->field('ee.short_name','name')
 	->field('ee.preview_text', 'preview_text');
 $obFilter=$obQuery->builder()->filter()
+	->_eq('ee.id',197)
 	->_eq('eet.type', 3)
 	->_eq('ece.company_id', $arResult['company']['id']);
 
@@ -216,6 +217,7 @@ $arEvents = $obQuery->select()->all();
 
 foreach ($arEvents as $val){
 	$val['link'] = '/tr'.$val['id'].'/';
+	$val['preview_text']=html_entity_decode($val['preview_text'],ENT_QUOTES,'utf-8');
 	$arResult['events'][$val['id']] = $val;
 	$arIds[] = $val['id'];
 }
@@ -237,34 +239,39 @@ if (!empty($arIds)){
 		$arResult['events'][$val['event_id']]['calendar'][]=$val['date'];
 
 
+	$nNow=time();
+
 	foreach($arResult['events'] as $nKey=>&$arTraining){
 		if (!empty($arTraining['calendar'])){
-			$arTraining['calendar']=\core\types\VDate::createDiapasons($arTraining['calendar'],function(&$nFrom,&$nTo){
-				$arNowTo = strtotime(date('d.m.Y', time()).' 00:00:00');
-				$arNowFrom =strtotime(date('d.m.Y', time()).' 23:59:59');
+			$arTraining['calendar']=\core\types\VDate::createDiapasons($arTraining['calendar'],function(&$nFrom,&$nTo) use($nNow){
+				$nNowTo=strtotime(date('d.m.Y', $nNow).' 00:00:00');
+				$nNowFrom=strtotime(date('d.m.Y', $nNow).' 23:59:59');
+				$nTempTo=$nTo;
+				$nTempFrom=$nFrom;
 
-				if (($arNowTo<=$nTo && $arNowFrom>=$nFrom) || ($arNowTo<=$nFrom) || ($arNowTo<=$nFrom && $arNowFrom>=$nFrom)){
-					if($nTo==0){
-						$nFrom=\core\types\VDate::date($nFrom, 'j F');
-					}else{
-						$arFrom=explode('.',date('n',$nFrom));
-						$arTo=explode('.',date('n',$nTo));
-						$sPattern='j F';
+				if($nTo==0){
+					$nFrom=\core\types\VDate::date($nFrom, 'j F Y');
+				}else{
+					$arFrom=explode('.',date('n',$nFrom));
+					$arTo=explode('.',date('n',$nTo));
+					$sPattern='j F';
 
-						if($arFrom[1]==$arTo[1])
-							$sPattern=($arFrom[0]==$arTo[0]) ? 'j' : 'j F';
+					if($arFrom[1]==$arTo[1])
+						$sPattern=($arFrom[0]==$arTo[0]) ? 'j' : 'j F';
 
-						$nFrom=\core\types\VDate::date($nFrom,$sPattern);
-						$nTo=\core\types\VDate::date($nTo,'j F');
-					}
-					return false;
+					$nFrom=\core\types\VDate::date($nFrom,$sPattern);
+					$nTo=\core\types\VDate::date($nTo,'j F Y');
 				}
+
+				if(($nNowTo<=$nTempTo && $nNowFrom>=$nTempFrom) || ($nNowTo<=$nTempFrom) || ($nNowTo<=$nTempFrom && $nNowFrom>=$nTempFrom))
+					return false;
 
 				return true;
 			});
-			$arTraining['first_period'] = reset($arTraining['calendar']);
+
+			$arTraining['first_period']=end($arTraining['calendar']);
 			$arD = preg_match("/^[0-9]+/", $arTraining['first_period']['from'], $mathes);
-			$arTraining['first_date'] =  $mathes[0]. ' <i>';
+			$arTraining['first_date']=$mathes[0].' <i>';
 
 			if (preg_match("/[а-я]+/u" ,$arTraining['first_period']['from'], $mathes)){
 				$arTraining['first_date'] .= mb_substr($mathes[0], 0, 3, 'utf-8').'</i>';

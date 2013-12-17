@@ -11,25 +11,28 @@
 		<?php if (!empty($arResult['org'])):?>
 			<?php foreach ($arResult['org'] as $arOrg):?>
 				<div class="item company sponsor">
-					<h2><a href="<?=$arOrg["link"]?>"><?=$arOrg["name"]?></a></h2>
-					<div class="item-in">
-						<div class="img">
-							<div class="img-in">
-								<?php if(!empty($arOrg["logo_id"])):?>
-									<?=$arOrg['img']?>
-								<?endif?>
+					<div class="item-rel">
+						<h2><a href="<?=$arOrg["link"]?>"><?=$arOrg["name"]?></a></h2>
+						<div class="item-in">
+							<div class="img">
+								<div class="img-in">
+									<?php if(!empty($arOrg["logo_id"])):?>
+										<?=$arOrg['img']?>
+									<?endif?>
+								</div>
+							</div>
+							<div class="cols col1">
+								<span class="country big k<?=$arOrg['country_id']?>"></span>
+								<? if(!empty($arOrg["address"])):?>
+									<span><?=$arOrg["address"]?></span>
+								<? endif?>
+								<? if (!empty($arOrg["web"])):?>
+									<a target='_blank' href="<?=$arOrg["web"]?>"><?=$arOrg["short_web"]?></a>
+								<? endif?>
 							</div>
 						</div>
-						<div class="cols col1">
-							<span class="country big k<?=$arOrg['country_id']?>"></span>
-							<? if(!empty($arOrg["address"])):?>
-								<span><?=$arOrg["address"]?></span>
-							<? endif?>
-							<? if (!empty($arOrg["web"])):?>
-								<a target='_blank' href="<?=$arOrg["web"]?>"><?=$arOrg["short_web"]?></a>
-							<? endif?>
-						</div>
 					</div>
+					<div class="border"></div>
 				</div>
 			<?php endforeach?>
 		<?php endif; ?>

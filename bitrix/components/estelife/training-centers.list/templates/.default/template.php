@@ -11,28 +11,30 @@
 		<?php if (!empty($arResult['org'])):?>
 			<?php foreach ($arResult['org'] as $arOrg):?>
 				<div class="item company">
-
-					<h2><a href="<?=$arOrg["link"]?>"><?=$arOrg["name"]?></a></h2>
-					<div class="item-in">
-						<div class="img">
-							<div class="img-in">
-								<?php if(!empty($arOrg["logo_id"])):?>
-									<?=$arOrg['img']?>
-								<?endif?>
+					<div class="item-rel">
+						<h2><a href="<?=$arOrg["link"]?>"><?=$arOrg["name"]?></a></h2>
+						<div class="item-in">
+							<div class="img">
+								<div class="img-in">
+									<?php if(!empty($arOrg["logo_id"])):?>
+										<?=$arOrg['img']?>
+									<?endif?>
+								</div>
+							</div>
+							<div class="cols col1">
+								<?php if(!empty($arOrg["address"])):?>
+									<span><?=$arOrg["address"]?></span>
+								<?php endif?>
+								<?php if (!empty($arOrg["phone"])):?>
+									<span><?=$arOrg['phone']?></span>
+								<?php endif;?>
+								<?php if (!empty($arOrg["web"])):?>
+									<a href="<?=$arOrg["web"]?>"><?=$arOrg["short_web"]?></a>
+								<?php endif;?>
 							</div>
 						</div>
-						<div class="cols col1">
-							<?php if(!empty($arOrg["address"])):?>
-								<span><?=$arOrg["address"]?></span>
-							<?php endif?>
-							<?php if (!empty($arOrg["phone"])):?>
-								<span><?=$arOrg['phone']?></span>
-							<?php endif;?>
-							<?php if (!empty($arOrg["web"])):?>
-								<a href="<?=$arOrg["web"]?>"><?=$arOrg["short_web"]?></a>
-							<?php endif;?>
-						</div>
 					</div>
+					<div class="border"></div>
 				</div>
 			<?php endforeach?>
 		<?php endif; ?>

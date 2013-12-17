@@ -15,25 +15,28 @@
 		<?php if (!empty($arResult['pills'])):?>
 			<?php foreach ($arResult['pills'] as $arPill):?>
 				<div class="item producer">
-					<div class="img">
-						<div class="img-in">
-							<?php if(!empty($arPill["logo_id"])): ?>
-								<?=$arPill["img"]?>
-							<?php else: ?>
-								<img src="/img/icon/unlogo.png" />
-							<?endif?>
+					<div class="item-rel">
+						<div class="img">
+							<div class="img-in">
+								<?php if(!empty($arPill["logo_id"])): ?>
+									<?=$arPill["img"]?>
+								<?php else: ?>
+									<img src="/img/icon/unlogo.png" />
+								<?endif?>
+							</div>
+						</div>
+						<div class="cols">
+							<h2><a href="<?=$arPill["link"]?>"><?=$arPill["name"]?></a></h2>
+							<ul>
+								<li class="country c<?=$arPill["country_id"]?>"><?=$arPill["country_name"]?></li>
+								<?php if (!empty($arPill["web"])):?>
+									<li><a href="<?=$arPill["web"]?>"><?=$arPill["web_short"]?></a></li>
+								<?php endif?>
+							</ul>
+							<p><?=$arPill['preview_text']?></p>
 						</div>
 					</div>
-					<div class="cols">
-						<h2><a href="<?=$arPill["link"]?>"><?=$arPill["name"]?></a></h2>
-						<ul>
-							<li class="country c<?=$arPill["country_id"]?>"><?=$arPill["country_name"]?></li>
-							<?php if (!empty($arPill["web"])):?>
-								<li><a href="<?=$arPill["web"]?>"><?=$arPill["web_short"]?></a></li>
-							<?php endif?>
-						</ul>
-						<p><?=$arPill['preview_text']?></p>
-					</div>
+					<div class="border"></div>
 				</div>
 			<?php endforeach?>
 		<?php endif;?>
