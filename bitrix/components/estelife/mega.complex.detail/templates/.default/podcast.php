@@ -1,5 +1,4 @@
 <? if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
-
 <? $ElementID = $APPLICATION->IncludeComponent(
 	"bitrix:news.detail",
 	"articles",
@@ -35,6 +34,7 @@
 		"USE_SHARE" => "N",
 		"SHARE_HIDE" => $arParams["SHARE_HIDE"],
 		"DETAIL_URL"	=>	'/'.$arResult["PREFIX"].'#ELEMENT_ID#/',
+		"SECTION_CODE"=>"podcast"
 	),
 	$component
 );?>

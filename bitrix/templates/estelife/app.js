@@ -1,5 +1,32 @@
 $(document).ready(function() {
 
+	var timerID = 0,
+		timer2ID = 0;
+
+	//Наведения
+	$(".main_menu>li").hover(
+		function() {
+			var ob = this;
+			clearTimeout(timerID);
+			clearTimeout(timer2ID);
+			timer2ID = setTimeout(function(){
+					$(".menu>li").removeClass("active");
+					$(ob).addClass("active");
+				},
+				150
+			);
+
+
+		},
+		function() {
+			timerID = setTimeout(function(){
+					$(".menu>li").removeClass("active");
+					$(".menu>li.main").addClass('active');
+				},
+				450
+			);
+		}
+	);
 
 });
 
@@ -158,8 +185,7 @@ $(function(){
 
 		//меню
 		EL.SystemSettings.ready(function(s){
-			var timerID = 0,
-				timer2ID = 0;
+
 
 			$(".menu a").each(function() {
 				var href = $(this).attr("href"),
@@ -175,7 +201,7 @@ $(function(){
 						path_name = path_name[1];
 					reg=new RegExp('^([a-z]{2})[0-9]+$');
 					matches=path_name.match(reg);
-					if (matches && matches.length>0 && mass[matches[1]].length>0){
+					if (matches && mass[matches[1]].length>0){
 						var reg=new RegExp('^.*'+mass[matches[1]]+'.*$'),
 							href_matches=href.match(reg);
 
@@ -188,58 +214,41 @@ $(function(){
 			});
 
 			//подсветка урлов второго уровня
-//			$(".submenu a").each(function(){
-//				var href = $(this).attr("href"),
-//					path_name = document.location.pathname.split('/'),
-//					reg=new RegExp('^\/'+path_name[1]+'\/$'),
-//					matches=href.match(reg);
-//
-//				console.log(matches);
-//
-//				if (!matches){
-//					reg=new RegExp('^.*'+path_name[1]+'.*$');
-//					matches=href.match(reg);
-//				}
-//
-//				if (matches) {
-//					$(this).closest(".submenu>li").addClass("second_active");
-//					return false;
-//				}else{
-//					var mass = s.directions,
-//						path_name = path_name[1];
-//					reg=new RegExp('^([a-z]{2})[0-9]+$');
-//					matches=path_name.match(reg);
-//
-//					if (matches && matches.length>0 && mass[matches[1]].length>0){
-//						var reg=new RegExp('^.*'+mass[matches[1]]+'.*$'),
-//							href_matches=href.match(reg);
-//
-//
-//
-//						if (href_matches){
-//							$(this).closest(".submenu>li").addClass("second_active");
-//							return false;
-//						}
-//					}
-//				}
-//			});
-			var url=new EL.url(),
-				city_url = url.getQuery(document.location.pathname).city,
-				reg=new RegExp('^.*(city=\\d*).*$');
-
 			$(".submenu a").each(function(){
 				var href = $(this).attr("href"),
-					matches=href.match(reg);
+					path_name = document.location.href.split('/').slice(3).join('/'),
+					path_name = '/'+path_name;
 
-				if(matches){
-					if (matches[1] == 'city='+city_url){
+				if (href==path_name || path_name == '/apparatuses-makers/') {
+					if (path_name == '/apparatuses-makers/'){
+						$('.submenu li a[href="/preparations-makers/"]').parent().addClass("second_active").parent().parent().addClass("active").addClass('main');
+					}else{
 						$(this).closest(".submenu>li").addClass("second_active");
-						return;
 					}
+					return false;
 				}else{
-					if ((href.indexOf(document.location.pathname) == 0) && !$(".submenu>li.active").length && document.location.pathname !='/' && document.location.pathname==href){
-						$(this).closest(".submenu>li").addClass("second_active");
-						return;
+
+					var mass = s.directions,
+						path_name = document.location.pathname.split('/').slice(1, -1).pop(),
+						reg=new RegExp('^([a-z]{2})[0-9]+$');
+
+					if (path_name){
+						var matches=path_name.match(reg);
+
+						if ((matches && mass[matches[1]].length>0) || (matches && matches[1]=='am')){
+
+							if (matches[1]=='am'){
+								$('.submenu li a[href="/preparations-makers/"]').parent().addClass("second_active").parent().parent().addClass("active").addClass('main');
+							}else{
+								var reg=new RegExp('^\/'+mass[matches[1]]+'\/$'),
+									href_matches=href.match(reg);
+
+								if (href_matches){
+									$(this).closest(".submenu>li").addClass("second_active");
+									return false;
+								}
+							}
+						}
 					}
 				}
 			});
@@ -248,30 +257,7 @@ $(function(){
 				$(".main_menu li:first").addClass("active");
 			}
 
-			//Наведения
-			$(".head .menu>li").hover(
-				function() {
-					var ob = this;
-					clearTimeout(timerID);
-					clearTimeout(timer2ID);
-					timer2ID = setTimeout(function(){
-							$(".menu>li").removeClass("active");
-							$(ob).addClass("active");
-						},
-						150
-					);
 
-
-				},
-				function() {
-					timerID = setTimeout(function(){
-							$(".menu>li").removeClass("active");
-							$(".menu>li.main").addClass('active');
-						},
-						450
-					);
-				}
-			);
 
 		});
 
