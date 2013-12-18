@@ -47,9 +47,8 @@ Estelife.prototype.win=(function(){
 	}
 
 	function _show(){
-		var bd=$('body');
-		bd.css('overflow','hidden');
-		_win().parent.css('top',bd.scrollTop()+'px');
+		$('body').css('overflow','hidden');
+		_win().parent.css('top',(EL.browser().webkit ? $('body') : $('html')).scrollTop()+'px');
 		_win().parent.show();
 	}
 
@@ -137,6 +136,13 @@ Estelife.prototype.media=function(s){
 				_next();
 				e.preventDefault();
 			});
+
+			$(document).keyup(function(e){
+				var code=e.charCode || e.keyCode;
+				if(code==27){
+					_hide();
+				}
+			});
 		}
 
 		return gallery;
@@ -182,6 +188,10 @@ Estelife.prototype.media=function(s){
 			next=0;
 
 		_showItem(next);
+	}
+
+	function _hide(){
+		EL.win.close();
 	}
 
 	this.setImage=function(image){
@@ -274,9 +284,7 @@ Estelife.prototype.media=function(s){
 		return true;
 	};
 
-	this.hide=function(){
-		EL.win.hide();
-	};
+	this.hide=_hide;
 
 	this.prev=function(){
 		_prev();

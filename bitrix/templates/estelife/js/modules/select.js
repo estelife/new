@@ -222,13 +222,14 @@ Estelife.prototype.select=function(jselect,need_filter){
 				currentOption=options.eq(index),
 				lastGroup='',
 				height=0,
-				curGroup,optPrnt,item,link,
+				curGroup,optPrnt,item,link,isPane,
 				prnt=list.find('.jspPane'),
 				optionValue;
 
-			if(prnt.length<=0)
+			if(prnt.length>0){
+				isPane=true;
+			}else{
 				prnt=list;
-			else{
 				list.css({
 					'visibility':'hidden',
 					'display':'block'
@@ -254,6 +255,7 @@ Estelife.prototype.select=function(jselect,need_filter){
 
 				if(optPrnt.get(0).tagName=='OPTGROUP'){
 					curGroup=optPrnt.attr('label');
+
 					if(curGroup!=lastGroup){
 						lastGroup=curGroup;
 						prnt.append('<em class="group">'+curGroup+'</em>');
@@ -278,20 +280,19 @@ Estelife.prototype.select=function(jselect,need_filter){
 				item.data('option',currentOption);
 				prnt.append(item.append(link));
 
-				if(i<10 && prnt.hasClass('jspPane')){
+				if(i<10 && isPane)
 					height+=item.height();
-				}
 			}
 
-			if(prnt.hasClass('jspPane')){
+			if(!isPane){
 				list.css({
 					'visibility':'visible',
 					'display':'none'
 				});
 			}
 
-			if(height>0)
-				prnt.parent().height(height);
+			if(isPane && height>0)
+				list.height(height)
 		}
 
 		current.closeOptions=function(){
