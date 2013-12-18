@@ -21,8 +21,6 @@ class VQuery implements db\VQuery {
 		$sSelect=$this->builder()->buildSelect();
 		$this->obBuilder=null;
 
-		var_dump($sSelect);
-
 		if(!($this->obQueryResult=$this->obDriver->connect()->query($sSelect)))
 			throw new db\exceptions\VQueryException(
 				$this->obDriver->connect()->error,
