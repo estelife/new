@@ -10,7 +10,7 @@ $(document).ready(function() {
 			clearTimeout(timerID);
 			clearTimeout(timer2ID);
 			timer2ID = setTimeout(function(){
-					$(".menu>li").removeClass("active");
+					$(".main_menu>li").removeClass("active");
 					$(ob).addClass("active");
 				},
 				150
@@ -20,8 +20,8 @@ $(document).ready(function() {
 		},
 		function() {
 			timerID = setTimeout(function(){
-					$(".menu>li").removeClass("active");
-					$(".menu>li.main").addClass('active');
+					$(".main_menu>li").removeClass("active");
+					$(".main_menu>li.main").addClass('active');
 				},
 				450
 			);
@@ -207,8 +207,8 @@ $(function(){
 					reg=new RegExp('^.*'+path_name[1]+'.*$'),
 					matches=href.match(reg);
 
-				if (matches && !$(".menu>li.active").length) {
-					$(this).closest(".menu>li").addClass("active").addClass('main');
+				if (matches && !$(".main_menu>li.active").length) {
+					$(this).closest(".main_menu>li").addClass("active").addClass('main');
 					return false;
 				}else{
 					var mass = s.directions,
@@ -219,8 +219,8 @@ $(function(){
 						var reg=new RegExp('^.*'+mass[matches[1]]+'.*$'),
 							href_matches=href.match(reg);
 
-						if (href_matches && !$(".menu>li.active").length){
-							$(this).closest(".menu>li").addClass("active").addClass('main');
+						if (href_matches && !$(".main_menu>li.active").length){
+							$(this).closest(".main_menu>li").addClass("active").addClass('main');
 							return false;
 						}
 					}

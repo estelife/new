@@ -27,8 +27,7 @@ $obJoin->_left()
 	->_to('estelife_event_types', 'event_id', 'eet');
 $obJoin->_left()
 	->_from('ee', 'id')
-	->_to('estelife_company_events', 'event_id', 'ece')
-	->_cond()->_eq('ece.is_owner', 1);
+	->_to('estelife_company_events', 'event_id', 'ece');
 $obJoin->_left()
 	->_from('ece','company_id')
 	->_to('estelife_companies','id','ec');

@@ -18,7 +18,7 @@
 					<li class="country c<?=$arResult['company']['country_id']?>"><?=$arResult['company']['country_name']?></li>
 				<?php endif?>
 				<?php if (!empty($arResult['company']['web'])):?>
-					<li><a href="<?=$arResult['company']['web']?>"><?=$arResult['company']['web_short']?></a></li>
+					<li><a href="<?=$arResult['company']['web']?>" target="_blank"><?=$arResult['company']['web_short']?></a></li>
 				<?php endif?>
 			</ul>
 		</div>

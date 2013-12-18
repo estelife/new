@@ -12,7 +12,7 @@
 	</div>
 	<div class="field country">
 		<label for="country">Страна</label>
-		<select name="country" >
+		<select name="country" data-rules="get_city:select[name=city]">
 			<option value="">--</option>
 			<?php if (!empty($arResult['countries'])):?>
 				<?php foreach ($arResult['countries'] as $val):?>

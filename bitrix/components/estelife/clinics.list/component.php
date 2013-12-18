@@ -151,7 +151,7 @@ if (!empty($arClinics)){
 
 $arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 
-$APPLICATION->SetPageProperty("title", "Estelife - Клиники");
+$APPLICATION->SetPageProperty("title", "Клиники");
 $APPLICATION->SetPageProperty("description", implode(", ", $arDescription));
 $APPLICATION->SetPageProperty("keywords", "Estelife, Акции, Клиники, ". implode(" ,", $arDescription));
 $this->IncludeComponentTemplate();

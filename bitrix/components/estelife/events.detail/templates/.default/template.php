@@ -18,6 +18,9 @@
 					<?=$arResult['event']['calendar']['first_period']['to']?>
 				<?php endif;?></b><br>
 			Место проведения: <b><?=$arResult['event']['country_name']?>, г. <?=$arResult['event']['city_name']?>, <?=$arResult['event']['dop_address']?></b><br>
+			<?php if (!empty($arResult['event']['address'])):?>
+				Адрес проведения: <b><?=$arResult['event']['address']?></b><br>
+			<?php endif?>
 			<?php if (!empty($arResult['event']['types'])):?>
 				Формат: <b><?=$arResult['event']['types']?></b><br>
 			<?php endif?>
@@ -28,7 +31,7 @@
 		<h3>Организаторы</h3>
 		<ul>
 			<?php foreach ($arResult['event']['org'] as $val):?>
-				<li><?=$val['company_name']?></li>
+				<li><a href="/sp<?=$val['company_id']?>/" target="_blank"><?=$val['company_name']?></a></li>
 			<?php endforeach?>
 		</ul>
 		<h3>Описание</h3>

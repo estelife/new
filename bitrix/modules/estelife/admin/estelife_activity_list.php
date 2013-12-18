@@ -68,12 +68,12 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 	}
 }
 
-if($by=='country')
-	$by='ecn.'.$by;
-else if($by=='city')
-	$by='ect.'.$by;
-else
-	$by='ee.'.$by;
+//if($by=='country')
+//	$by='ecn.'.$by;
+//else if($by=='city')
+//	$by='ect.'.$by;
+//else
+//	$by='ee.'.$by;
 
 $obQuery=\core\database\VDatabase::driver()->createQuery();
 $obJoin=$obQuery->builder()
@@ -93,7 +93,7 @@ $obJoin->_left()
 	->_from('ee','id')
 	->_to('estelife_event_types','event_id','eet');
 $obFilter=$obQuery->builder()
-	->sort($by,$order)
+	->sort('ee.'.$by,$order)
 	->field('ee.id','id')
 	->field('ee.short_name','short_name')
 	->field('ecn.NAME','country')

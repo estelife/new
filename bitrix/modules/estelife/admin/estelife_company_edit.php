@@ -246,11 +246,11 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 //		if($obCompany->blank('address'))
 //			$obError->setFieldError('ADDRESS_NOT_FILL', 'address');
 
-		if($obPost->blank('company_detail_text'))
-			$obError->setFieldError('DETAIL_TEXT_NOT_FILL', 'detail_text');
-
-		if($obPost->blank('company_preview_text'))
-			$obError->setFieldError('PREVIEW_TEXT_NOT_FILL', 'preview_text');
+//		if($obPost->blank('company_detail_text'))
+//			$obError->setFieldError('DETAIL_TEXT_NOT_FILL', 'detail_text');
+//
+//		if($obPost->blank('company_preview_text'))
+//			$obError->setFieldError('PREVIEW_TEXT_NOT_FILL', 'preview_text');
 
 		$obError->raise();
 

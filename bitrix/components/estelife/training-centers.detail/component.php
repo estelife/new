@@ -204,7 +204,6 @@ $obQuery->builder()
 	->field('ee.short_name','name')
 	->field('ee.preview_text', 'preview_text');
 $obFilter=$obQuery->builder()->filter()
-	->_eq('ee.id',197)
 	->_eq('eet.type', 3)
 	->_eq('ece.company_id', $arResult['company']['id']);
 
