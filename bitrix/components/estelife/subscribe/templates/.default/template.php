@@ -1,5 +1,4 @@
 <?php if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
-<script type="text/javascript" src="/js/subscr/jquery-ui-1.8.16.custom.min.js"></script>
 <?if (!empty($arResult['RUBRICS'])):?>
 	<?if(count($arResult["ERRORS"]) > 0):?>
 

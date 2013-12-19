@@ -10,16 +10,13 @@
 		<span class="block"></span>
 	</div>
 	<div class="field">
-		<label for="type">Тип</label>
+		<label for="type">Назначение</label>
 		<select name="type" >
 			<option value="">--</option>
-			<option value="">-- Не важно --</option>
+			<option value="1" <?if($_GET['type'] === 1) echo " selected";?>>Мезотерапия</option>
 			<option value="3" <?if($_GET['type'] === 3) echo " selected";?>>Биоревитализация</option>
 			<option value="2" <?if($_GET['type'] === 2) echo " selected";?>>Ботулинотерапия</option>
-			<option value="5" <?if($_GET['type'] === 5) echo " selected";?>>Имплантаты</option>
-			<option value="1" <?if($_GET['type'] === 1) echo " selected";?>>Мезотерапия</option>
-			<option value="6" <?if($_GET['type'] === 6) echo " selected";?>>Нити</option>
-			<option value="4" <?if($_GET['type'] === 4) echo " selected";?>>Филлеры</option>
+			<option value="4" <?if($_GET['type'] === 4) echo " selected";?>>Контурная пластика</option>
 		</select>
 
 		<span class="block"></span>

@@ -49,6 +49,16 @@ if(!empty($ID)){
 	$obResult=$obQuery->select();
 	$arResult['ak']=$obResult->assoc();
 
+
+	//Получение типов акций
+	$obQuery=$obPrices->createQuery();
+	$obQuery->builder()
+		->from('estelife_akzii_types')
+		->filter()
+		->_eq('akzii_id', $ID);
+	$arResult['ak']['types'] = $obQuery->select()->all();
+
+
 	//Получение клиник
 	$obQuery=$obPrices->createQuery();
 	$obQuery->builder()->from('estelife_clinic_akzii','eca');
@@ -112,7 +122,6 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			$obError->setFieldError('CLINIC_ID_NOT_FILL', 'clinic_id');
 
 
-
 		$obError->raise();
 
 		$obQueryAkzii = $obAkzii->createQuery();
@@ -125,19 +134,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			->value('base_new_price', $obPost->one('base_new_price'))
 			->value('base_sale', $obPost->one('base_sale'))
 			->value('start_date', strtotime($obPost->one('start_date')))
-			->value('end_date', strtotime($obPost->one('end_date')))
-			->value('service_concreate_id', intval($obPost->one('service_concreate_id')));
-
-		//получение вида услуг и специализации
-		$obQuery = $obPrices->createQuery();
-		$obQuery->builder()->from('estelife_clinic_services');
-		$obQuery->builder()->filter()
-			->_eq('service_concreate_id', intval($obPost->one('service_concreate_id')));
-		$arSpecialization = $obQuery->select()->assoc();
-
-		$obQueryAkzii->builder()
-			->value('service_id', $arSpecialization['service_id'])
-			->value('specialization_id',$arSpecialization['specialization_id']);
+			->value('end_date', strtotime($obPost->one('end_date')));
 
 
 		if(!empty($_FILES['small_photo'])){
@@ -176,12 +173,43 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			$idAkzii = $obQueryAkzii->insert()->insertId();
 		}
 
+		if(!empty($idAkzii)){
+			$obQuery=$obPrices->createQuery();
+			$obQuery->builder()->from('estelife_clinic_akzii');
+			$obQuery->builder()->filter()
+				->_eq('akzii_id',$idAkzii);
+			$obQuery->delete();
 
-		$obQuery=$obPrices->createQuery();
-		$obQuery->builder()->from('estelife_clinic_akzii');
-		$obQuery->builder()->filter()
-			->_eq('akzii_id',$idAkzii);
-		$obQuery->delete();
+			$obQuery=$obPrices->createQuery();
+			$obQuery->builder()->from('estelife_akzii_types');
+			$obQuery->builder()->filter()
+				->_eq('akzii_id',$idAkzii);
+			$obQuery->delete();
+		}
+
+
+		//добавление типов акций
+		foreach ($obPost->one('service_concreate_id') as $val){
+			if (empty($val) || intval($val)==0)
+				continue;
+
+			//получение вида услуг и специализации
+			$obQuery = $obPrices->createQuery();
+			$obQuery->builder()->from('estelife_service_concreate');
+			$obQuery->builder()->filter()
+				->_eq('id', intval($val));
+			$arSpecialization = $obQuery->select()->assoc();
+
+			$obQuery=$obPrices->createQuery();
+			$obQuery->builder()->from('estelife_akzii_types')
+				->value('service_concreate_id', $val)
+				->value('service_id', $arSpecialization['service_id'])
+				->value('specialization_id',$arSpecialization['specialization_id'])
+				->value('method_id',$arSpecialization['method_id'])
+				->value('akzii_id', $idAkzii);
+			$idAkziiType = $obQuery->insert()->insertId();
+		}
+
 
 		foreach ($obPost->one('clinic_id') as $val){
 
@@ -403,17 +431,37 @@ if(!empty($arResult['error']['text'])){
 			<td width="40%"><?=GetMessage("ESTELIFE_F_END_DATE")?></td>
 			<td width="60%"><?echo CAdminCalendar::CalendarDate("end_date", $arResult['ak']['end_date'], 19, true)?></td>
 		</tr>
+		<?php if(!empty($arResult['ak']['types'])): ?>
+			<?php foreach($arResult['ak']['types'] as $arValue): ?>
+				<tr class="adm-detail-required-field">
+					<td width="40%"><?=GetMessage("ESTELIFE_F_TYPE")?></td>
+					<td width="60%">
+						<select name="service_concreate_id[]" class="estelife-need-clone">
+							<option><?=GetMessage("ESTELIFE_F_SELECT_TYPE")?></option>
+							<?php if (!empty($arResult['service_concreate'])):?>
+								<?php foreach ($arResult['service_concreate'] as $val):?>
+									<option value="<?=$val['id']?>" <?php if ($arValue['service_concreate_id'] == $val['id']):?> selected <?php endif?>><?=$val['name']?></option>
+								<?php endforeach?>
+							<?php endif?>
+						</select>
+						<a href="#" class="estelife-more estelife-btn adm-btn adm-btn-delete estelife-delete"></a>
+					</td>
+				</tr>
+			<?php endforeach; ?>
+		<?php endif; ?>
+		<?php //if ($arResult['ak']['service_concreate_id'] == $val['id']):?><!-- selected --><?php //endif?>
 		<tr class="adm-detail-required-field">
 			<td width="40%"><?=GetMessage("ESTELIFE_F_TYPE")?></td>
 			<td width="60%">
-				<select name="service_concreate_id">
+				<select name="service_concreate_id[]" class="estelife-need-clone">
 					<option><?=GetMessage("ESTELIFE_F_SELECT_TYPE")?></option>
 					<?php if (!empty($arResult['service_concreate'])):?>
 						<?php foreach ($arResult['service_concreate'] as $val):?>
-							<option value="<?=$val['id']?>" <?php if ($arResult['ak']['service_concreate_id'] == $val['id']):?> selected <?php endif?>><?=$val['name']?></option>
+							<option value="<?=$val['id']?>" ><?=$val['name']?></option>
 						<?php endforeach?>
 					<?php endif?>
 				</select>
+				<a href="#" class="estelife-more estelife-btn adm-btn adm-btn-save">&crarr;</a>
 			</td>
 		</tr>
 		<?

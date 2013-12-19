@@ -2,7 +2,7 @@
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="/">Главная</a></li>
-		<li><a href="/">Раписание обучений</a></li>
+		<li><a href="/trainings/">Расписание семинаров</a></li>
 		<li><b><?=$arResult['event']['full_name']?></b></li>
 	</ul>
 	<div class="item detail training">

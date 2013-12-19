@@ -353,7 +353,7 @@ $arResult['types'] = $obQuery->select()->all();
 					<label for="format_3"><input type="checkbox" name="format[]" id="format_3" value="3"<?=(in_array(3,$arResult['pills']['format']) ? ' checked="true"' : '')?> />Биоревитализация</label>
 				</li>
 				<li>
-					<label for="format_4"><input type="checkbox" name="format[]" id="format_4" value="4"<?=(in_array(4,$arResult['pills']['format']) ? ' checked="true"' : '')?> />Филлеры</label>
+					<label for="format_4"><input type="checkbox" name="format[]" id="format_4" value="4"<?=(in_array(4,$arResult['pills']['format']) ? ' checked="true"' : '')?> />Контурная пластика</label>
 				</li>
 				<li>
 					<label for="format_5"><input type="checkbox" name="format[]" id="format_5" value="5"<?=(in_array(5,$arResult['pills']['format']) ? ' checked="true"' : '')?> />Имплантаты</label>

@@ -2,10 +2,10 @@
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="/">Главная</a></li>
-		<li><b>Расписание обучений</b></li>
+		<li><b>Расписание семинаров</b></li>
 	</ul>
 	<div class="title">
-		<h2>Расписание обучений</h2>
+		<h2>Расписание семинаров</h2>
 	</div>
 	<div class="items">
 		<?php if (!empty($arResult['training'])):?>

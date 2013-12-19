@@ -35,6 +35,22 @@ if(!empty($arResult['action']['big_photo_name'])){
 	unset($arResult['action']['big_photo_dir'],$arResult['action']['big_photo_name'],$arResult['action']['big_photo_description']);
 }
 
+//получение типов акций
+$obQuery = $obActions->createQuery();
+$obQuery->builder()
+	->from('estelife_akzii_types')
+	->field('service_id', 'service_id')
+	->filter()
+	->_eq('akzii_id', $arResult['action']['id']);
+$arServices = $obQuery->select()->all();
+
+if (!empty($arServices)){
+	foreach ($arServices as $val){
+		$arResult['service'][] = $val['service_id'];
+	}
+}
+$arResult['service'] = array_unique($arResult['service']);
+
 //получение клиник
 $obQuery = $obActions->createQuery();
 $obQuery->builder()->from('estelife_clinic_akzii', 'eca');
@@ -113,17 +129,23 @@ if(!empty($arResult['action']['photos'])){
 	$arResult['action']['photos_count']=count($arResult['action']['photos']);
 }*/
 
+
 $arNow = time();
 //Получение похожих акций
 $obQuery = $obActions->createQuery();
-$obQuery->builder()->from('estelife_akzii');
+$obQuery->builder()->from('estelife_akzii', 'ea');
+$obJoin=$obQuery->builder()->join();
+$obJoin->_left()
+	->_from('ea', 'id')
+	->_to('estelife_akzii_types', 'akzii_id', 'eat');
 $obQuery->builder()
 	->filter()
-	->_eq('service_id', $arResult['action']['service_id'])
-	->_eq('active', 1)
-	->_ne('id',$arResult['action']['id'])
-	->_gte('end_date', time());
+	->_in('eat.service_id', $arResult['service'])
+	->_eq('ea.active', 1)
+	->_ne('ea.id',$arResult['action']['id'])
+	->_gte('ea.end_date', time());
 $obQuery->builder()->slice(0,3);
+$obQuery->builder()->group('ea.id');
 $arSimilar=$obQuery->select()->all();
 if (!empty($arSimilar)){
 	foreach ($arSimilar as $val){
