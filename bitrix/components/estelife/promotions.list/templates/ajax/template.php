@@ -9,6 +9,5 @@ echo json_encode(array(
 		}),
 		'list'=>$arResult['akzii'],
 		'nav'=>$arResult['nav'],
-		'block_color'=>'blue'
 	)
 ));
