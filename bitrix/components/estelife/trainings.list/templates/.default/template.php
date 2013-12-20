@@ -27,7 +27,7 @@
 									-
 									<?=$arTraining['first_period']['to']?>
 								<?php endif; ?></b><br>
-							Организатор: <a href="#" class="link"><?=$arTraining["company_name"]?></a>
+							Организатор: <a href="<?=$arTraining['company_link']?>" class="link"><?=$arTraining["company_name"]?></a>
 							<span class="date"><?=$arTraining["first_date"]?></span>
 						</div>
 					</div>

@@ -96,6 +96,7 @@ $arResult['event']['calendar']=\core\types\VDate::createDiapasons($arResult['eve
 		$nTo=\core\types\VDate::date($nTo,'j F Y');
 	}
 
+
 	if(($nNowTo<=$nTempTo && $nNowFrom>=$nTempFrom) || ($nNowTo<=$nTempFrom) || ($nNowTo<=$nTempFrom && $nNowFrom>=$nTempFrom))
 		return false;
 
@@ -131,7 +132,7 @@ $arDirectionsName = array(
 
 foreach ($arDirections as $key=>$val){
 	$val['name'] = $arDirectionsName[$val['type']];
-	$arResult['event']['directions'][] = $val['name'];
+	$arResult['event']['directions'][] = mb_strtolower($val['name'],'utf-8');
 }
 if (!empty($arResult['event']['directions'])){
 	$arResult['event']['directions'] = implode(', ', $arResult['event']['directions']);
@@ -153,7 +154,7 @@ $arTypesName = array(
 
 foreach ($arTypes as $key=>$val){
 	$val['name'] = $arTypesName[$val['type']];
-	$arResult['event']['types'][] = $val['name'];
+	$arResult['event']['types'][] = mb_strtolower($val['name'],'utf-8');
 }
 if (!empty($arResult['event']['types'])){
 	$arResult['event']['types'] = implode(', ', $arResult['event']['types']);
