@@ -60,6 +60,7 @@ CModule::AddAutoloadClasses(
 		'core\types\VString' => "classes/core/types/class.VString.php",
 		'core\types\VDate' => "classes/core/types/class.VDate.php",
 		'core\http\VHttp' => "classes/core/http/class.VHttp.php",
+		'bitrix\VNavigation'=>"classes/bitrix/class.VNavigation.php",
 
 		// orm
 		'orm\items\VItem' => "classes/orm/items/class.VItem.php",

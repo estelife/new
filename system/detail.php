@@ -1,7 +1,5 @@
-<?
-require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-?>
 <?php
+require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->IncludeComponent("estelife:mega.complex.detail", "", array(
 		"SEF_MODE" => "Y",
 		"SEF_FOLDER" => "/",
@@ -10,5 +8,4 @@ $APPLICATION->IncludeComponent("estelife:mega.complex.detail", "", array(
 		)
 	)
 );
-?>
-<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");
