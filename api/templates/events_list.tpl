@@ -1,62 +1,37 @@
-<div class="news-item clinic-list el-item"><div class='item-wrap'>
-		<h2 class='clinic-title'><a href="<!--$link!-->" class="el-get-detail"><!--$name!--></a></h2>
-		<div class="full_name">
-			<!--$full_name!-->
-		</div>
-		<div class='news-picture'>
-			<div>
-				<a href="<!--$link!-->" class="el-get-detail">
-				<!--if ($logo)!-->
-					<!--$logo!-->
-				<!--endif!-->
-				</a>
-			</div>
-		</div>
-		<table class='clinic-table float'>
-			<tr>
-				<td valign="top">
-					<table class='data'>
-						<tr>
-							<td><i class='icon address'></i></td>
-							<td><!--$country_name!-->, г. <!--$city_name!--> </td>
-						</tr>
-
-						<!--if ($web)!-->
-						<tr>
-							<td><i class='icon link'></i></td>
-							<td><a target='_blank' href="<!--$web!-->"><!--$web_short!--></a></td>
-						</tr>
+<!--if($list)!-->
+	<!--foreach($list as $key=>$val)!-->
+		<div class="item event">
+			<div class="item-rel">
+				<span class="date"><!--$val.first_date!--></span>
+				<h2>
+					<a href="!--$val.link!-->"><!--$val.name!--></a>
+				</h2>
+				<p><!--$val.full_name!--></p>
+				<div class="img">
+					<div class="img-in">
+						<!-- if($val.logo)!-->
+						<img src="<!--$val.logo!-->" title="<!--$val.name!-->" alt="<!--$val.name!-->" />
 						<!--endif!-->
+					</div>
+				</div>
 
-					</table>
-				</td>
-				<td valign="top" class="profs">
-					<!--if ($calendar)!-->
-					<table class="data">
-						<tbody>
-						<!--foreach($calendar as $key=>$val)!-->
-						<tr>
-							<td class="<!--$key!-->"><i class="icon calendar"></i></td>
-							<td>
-								<!--$val.from!-->
-								<!--if($val.to)!-->
-									-
-									<!--$val.to!-->
-								<!--endif!-->
-							</td>
-						</tr>
-						<!--endforeach!-->
-						</tbody>
-					</table>
+				<ul class="list1">
+					<li class="country big k<!--$val.country_id!-->"></li>
+					<!--if($val.country_name)!-->
+					<li>Место проведения: <b><!--$val.country_name!--><?!--($$val.city_name)!-->, г. <!--$val.city_name!--><!--endif!--></b></li>
 					<!--endif!-->
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2" class="preview_table">
-					<!--$preview_text!-->
-				</td>
-			</tr>
-		</table>
-		<div class='clear'></div>
-	</div>
-</div>
+					<li>Период проведения: <b><!--$val.first_period.from!-->
+							<!--if($val.first_period.to)!-->
+							-
+							<!--$val.first_period.to!-->
+							<!--endif!--></b></li>
+				</ul>
+				<ul class="list2">
+					<li>Формат: <b><!--$val.types!--></b></li>
+					<li>Направление: <b><!--$val.directions!--></b></li>
+				</ul>
+			</div>
+			<div class="border"></div>
+		</div>
+	<!--endforeach!-->
+<!--endif!-->

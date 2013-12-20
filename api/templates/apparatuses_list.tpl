@@ -1,37 +1,26 @@
-<div class="news-item clinic-list el-item ">
-	<div class="item-wrap">
-		<b class="clinic-title"><a href="<!-- $link !-->" class="el-get-detail"><!-- $name !--></a></b>
-		<b class="news-picture">
-			<a href="<!--$link!-->" class="el-get-detail">
-			<!-- if ($logo) !-->
-			<!--$logo!-->
-			<!-- endif !-->
-			</a>
-		</b>
-		<table class="clinic-table float">
-			<tbody><tr>
-				<td valign="top">
-					<table class="data">
-						<tbody>
-						<!-- if ($country_name) !-->
-						<tr>
-							<td><i class="icon " style="background:url('/img/countries/c<!-- $country_id !-->.png')"></i></td>
-							<td><!-- $country_name !--></td>
-						</tr>
-						<!-- endif !-->
-						<!-- if ($company_name) !-->
-						<tr>
-							<td><i class="icon company"></i></td>
-							<td><a href="<!-- $company_link !-->"><!-- $company_name !--></a></td>
-						</tr>
-						<!-- endif !-->
-						</tbody></table>
-				</td>
-				<td valign="top" class="about">
-					<!-- $preview_text !-->
-				</td>
-			</tr>
-			</tbody></table>
-		<div class="clear"></div>
-	</div>
-</div>
+<!--if($list)!-->
+	<!--foreach($list as $key=>$val)!-->
+		<div class="item product">
+			<div class="item-rel">
+				<div class="img">
+					<div class="img-in">
+						<!--if($val.logo_id)!-->
+							<!--$val.logo!-->
+						<!--else!-->
+							<img src="/img/icon/unlogo.png" />
+						<!--endif!-->
+					</div>
+				</div>
+				<div class="cols">
+					<h2><a href="<!--$val.link!-->"><!--$val.name!--></a></h2>
+					<ul>
+						<li class="country c<!--$val.country_id!-->"><!--$val.country_name!--></li>
+						<li>Производитель: <a href="<!--$val.company_link!-->"><!--$val.company_name!--></a></li>
+					</ul>
+					<p><!--$val.preview_text!--></p>
+				</div>
+			</div>
+			<div class="border"></div>
+		</div>
+	<!--endforeach!-->
+<!--endif!-->

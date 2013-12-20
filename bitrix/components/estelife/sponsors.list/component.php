@@ -62,8 +62,8 @@ $obQuery->builder()
 	->field('ectg.country_id', 'type_country_id');
 
 $obFilter = $obQuery->builder()->filter()
-	->_ne('eet.type', 3)
-	->_eq('ece.is_owner', 1);
+	->_ne('eet.type', 3);
+//	->_eq('ece.is_owner', 1);
 
 if (!$obGet->blank('city')){
 	$obFilter->_eq('ecg.city_id', intval($obGet->one('city')));

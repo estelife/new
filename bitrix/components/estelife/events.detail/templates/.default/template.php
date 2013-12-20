@@ -25,7 +25,7 @@
 				Формат: <b><?=$arResult['event']['types']?></b><br>
 			<?php endif?>
 			<?php if (!empty($arResult['event']['directions'])):?>
-			Направления: <b><?=$arResult['event']['directions']?></b>
+			Направление: <b><?=$arResult['event']['directions']?></b>
 			<?php endif?>
 		</p>
 		<h3>Организаторы</h3>
