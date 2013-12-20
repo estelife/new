@@ -262,6 +262,7 @@ class VQueryBuilder extends db\VQueryBuilder {
 			if(!$this->obSpecialQuery->checkField($arFrom['table'],$sKey))
 				continue;
 
+			$mValue=$this->obQuery->driver()->escapeString($mValue);
 			$arFields[]=$sKey.'=\''.$mValue.'\'';
 		}
 

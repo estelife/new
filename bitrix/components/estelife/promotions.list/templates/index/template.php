@@ -11,14 +11,24 @@
 			<?php foreach ($arResult['akzii'] as $arValue):?>
 				<div class="item promotion">
 					<div class="item-rel">
-						<span class="perc"><?=$arValue["sale"]?>%</span>
+						<?php if($arValue['view_type']!=3): ?>
+							<span class="perc"><?=$arValue["sale"]?>%</span>
+						<?php endif; ?>
 						<a href="<?=$arValue['link']?>">
 							<img src="<?=$arValue['src']?>" alt="<?=$arValue['name']?>" title="<?=$arValue['name']?>" />
 						</a>
 						<h3><a href="<?=$arValue['link']?>"><?=$arValue['name']?></a></h3>
 						<div class="cols prices">
-							<b><?=$arValue['new_price']?> <i></i></b>
-							<s><?=$arValue['old_price']?> <i></i></s>
+							<b>
+								<?php if($arValue['view_type']==2): ?>
+									скидка <?=$arValue["sale"]?>%
+								<?php else: ?>
+									<?=$arValue['new_price']?> <i></i>
+								<?php endif; ?>
+							</b>
+							<?php if($arValue['view_type']==1): ?>
+								<s><?=$arValue['old_price']?> <i></i></s>
+							<?php endif; ?>
 						</div>
 						<div class="cols time">
 							<?=$arValue['time']?> <?=$arValue['day']?>

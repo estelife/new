@@ -26,7 +26,7 @@ if(!empty($arSection)){
 		),
 		false,
 		array('nPageSize'=>100),
-		array('ID', 'NAME', 'PREVIEW_PICTURE','PROPERTY_REAL_PICTURE')
+		array('ID', 'NAME','PREVIEW_TEXT', 'PREVIEW_PICTURE','PROPERTY_REAL_PICTURE')
 	);
 
 	$arResult['images']=array();
@@ -37,7 +37,7 @@ if(!empty($arSection)){
 
 		$arResult['images'][]=array(
 			'id'=>$arPhoto['ID'],
-			'title'=>$arPhoto['NAME'],
+			'title'=>$arPhoto['PREVIEW_TEXT'],
 			'small'=>$arPreview['SRC'],
 			'big'=>$arDetail['SRC']
 		);

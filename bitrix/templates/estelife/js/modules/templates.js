@@ -8,7 +8,8 @@
 Estelife.prototype.templates=function(s){
 	var settings=s||{},
 		html,gen,timer,
-		loadEvent;
+		loadEvent,
+		data={};
 
 	(function init(){
 		if(!('params' in settings) ||
@@ -156,8 +157,17 @@ Estelife.prototype.templates=function(s){
 		});
 	};
 
-	this.make=function(data){
-		return (gen) ? gen.aggregate(data) : '';
+	this.set=function(key,value){
+		data[key]=value;
+	};
+
+	this.render=function(d){
+		data=(d && typeof d=='object') ?
+			$.extend(data,d) :
+			data;
+		var result=(gen) ? gen.aggregate(data) : '';
+		data={};
+		return result;
 	};
 
 	this.ready=function(callback){

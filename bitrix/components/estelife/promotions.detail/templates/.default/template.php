@@ -8,17 +8,37 @@
 	<div class="item promotion detail">
 		<h1><?=$arResult['action']['preview_text']?></h1>
 		<div class="current">
-			<span class="perc"><?=$arResult['action']['base_sale']?>%</span>
+			<span class="perc">
+			<?php if($arResult['action']['view_type']!=3): ?>
+				<?=$arResult['action']['base_sale']?>%
+			<?php else: ?>
+				<?=$arResult['action']['new_price']?> <i></i>
+			<?php endif; ?>
+			</span>
+			<?php if($arResult['action']['view_type']!=3): ?>
 			<div class="cols prices">
-				<b><?=$arResult['action']['new_price']?> <i></i></b>
-				<s><?=$arResult['action']['old_price']?> <i></i></s>
+				<?php if($arResult['action']['view_type']==2): ?>
+				<b>
+					скидка <?=$arResult['action']["base_sale"]?>%
+				</b>
+				<?php elseif($arResult['action']['view_type']==1): ?>
+				<b>
+					<?=$arResult['action']['new_price']?> <i></i>
+				</b>
+				<?php endif; ?>
+
+				<?php if($arResult['action']['view_type']==1): ?>
+					<s><?=$arResult['action']['old_price']?> <i></i></s>
+				<?php endif; ?>
 			</div>
+			<?php endif; ?>
 			<div class="cols time">
 				<?=$arResult['action']['day_count']?>
 				<i></i>
 				<span>до <?=$arResult['action']['end_date']?></span>
 			</div>
 		</div>
+
 		<?if (!empty($arResult['action']['big_photo'])):?>
 			<div class="article-img">
 				<div class="article-img-in">
@@ -31,9 +51,11 @@
 				<?php endif; ?>
 			</div>
 		<?endif?>
+
 		<div class="announce">
 			<?=$arResult['action']['detail_text']?>
 		</div>
+
 		<?php if (!empty($arResult['action']['clinics'])):?>
 				<div class="clinic">
 					<div class="cols col1">
@@ -49,6 +71,7 @@
 					</div>
 				</div>
 		<?php endif?>
+
 		<div class="info nobo">
 			<div class="social cols">
 				<?$APPLICATION->IncludeComponent("estelife:social.estelife","",array());?>

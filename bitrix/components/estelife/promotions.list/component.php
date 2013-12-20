@@ -69,6 +69,7 @@ $obQuery->builder()
 	->field('ea.base_new_price','new_price')
 	->field('ea.base_sale','sale')
 	->field('ea.small_photo','logo_id')
+	->field('ea.view_type','view_type')
 	->field('ct.CODE', 'city_code')
 	->field('ea.small_photo','s_logo_id');
 $obFilter=$obQuery->builder()->filter();
@@ -108,8 +109,8 @@ if(!empty($arCount)){
 	foreach ($arActions as $val){
 		$val['img'] = CFile::GetFileArray($val["logo_id"]);
 		$val['src'] = $val['img']['SRC'];
-		$val['new_price'] = intval($val['new_price']);
-		$val['old_price'] = intval($val['old_price']);
+		$val['new_price'] = number_format($val['new_price'],0,'.',' ');
+		$val['old_price'] = number_format($val['old_price'],0,'.',' ');
 		$val['time'] = ceil(($val['end_date']-$arNow)/(60*60*24));
 		$val['day'] = \core\types\VString::spellAmount($val['time'], 'день,дня,дней');
 		$val['link'] = '/pr'.$val['id'].'/';
@@ -136,8 +137,9 @@ if(!empty($arCount)){
 			$arData['src']=$arData['img']['SRC'];
 		}
 
-		settype($arData['old_price'],'int');
-		settype($arData['new_price'],'int');
+		$arData['new_price'] = number_format(intval($arData['new_price']),0,'.',' ');
+		$arData['old_price'] = number_format(intval($arData['old_price']),0,'.',' ');
+
 		$arResult['akzii'][]=$arData;
 
 		if ($i<=5){

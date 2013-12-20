@@ -17,17 +17,19 @@
 						<?php if (!empty($arClinic['specialization'])):?>
 						<p><?=$arClinic['specialization']?></p>
 						<?php endif?>
-						<a href="<?=$arClinic["link"]?>" class="el-get-detail">
-							<div class="img">
-								<div class="img-in">
+
+						<div class="img">
+							<div class="img-in">
+								<a href="<?=$arClinic["link"]?>">
 									<?php if(!empty($arClinic["logo"])): ?>
 										<?=$arClinic["logo"]?>
 									<?php else: ?>
 										<img src="/img/icon/unlogo.png" />
 									<?endif?>
-								</div>
+								</a>
 							</div>
-						</a>
+						</div>
+
 						<div class="cols col1">
 							<span><?=$arClinic["address"]?></span>
 							<span><?=$arClinic['phone']?></span>
