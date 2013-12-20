@@ -201,7 +201,7 @@ $(function(){
 		EL.SystemSettings.ready(function(s){
 
 
-			$(".menu a").each(function() {
+			$(".main_menu a").each(function() {
 				var href = $(this).attr("href"),
 					path_name = document.location.pathname.split('/'),
 					reg=new RegExp('^.*'+path_name[1]+'.*$'),
