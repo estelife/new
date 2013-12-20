@@ -199,25 +199,28 @@ $(function(){
 
 		//меню
 		EL.SystemSettings.ready(function(s){
-
-
 			$(".main_menu a").each(function() {
 				var href = $(this).attr("href"),
 					path_name = document.location.pathname.split('/'),
-					reg=new RegExp('^.*'+path_name[1]+'.*$'),
+					reg,matches;
+
+				if(!_.isEmpty(path_name[1])){
+					reg=new RegExp('^.*'+path_name[1]+'.*$');
 					matches=href.match(reg);
+				}
 
 				if (matches && !$(".main_menu>li.active").length) {
 					$(this).closest(".main_menu>li").addClass("active").addClass('main');
 					return false;
 				}else{
-					var mass = s.directions,
-						path_name = path_name[1];
+					var mass = s.directions;
+					path_name = path_name[1];
 					reg=new RegExp('^([a-z]{2})[0-9]+$');
 					matches=path_name.match(reg);
+
 					if (matches && mass[matches[1]].length>0){
-						var reg=new RegExp('^.*'+mass[matches[1]]+'.*$'),
-							href_matches=href.match(reg);
+						reg=new RegExp('^.*'+mass[matches[1]]+'.*$');
+						var href_matches=href.match(reg);
 
 						if (href_matches && !$(".main_menu>li.active").length){
 							$(this).closest(".main_menu>li").addClass("active").addClass('main');
@@ -230,8 +233,8 @@ $(function(){
 			//подсветка урлов второго уровня
 			$(".submenu a").each(function(){
 				var href = $(this).attr("href"),
-					path_name = document.location.href.split('/').slice(3).join('/'),
-					path_name = '/'+path_name;
+					path_name = document.location.href.split('/').slice(3).join('/');
+				path_name = '/'+path_name;
 
 				if (href==path_name || path_name == '/apparatuses-makers/') {
 					if (path_name == '/apparatuses-makers/'){
@@ -243,8 +246,8 @@ $(function(){
 				}else{
 
 					var mass = s.directions,
-						path_name = document.location.pathname.split('/').slice(1, -1).pop(),
 						reg=new RegExp('^([a-z]{2})[0-9]+$');
+					path_name = document.location.pathname.split('/').slice(1, -1).pop();
 
 					if (path_name){
 						var matches=path_name.match(reg);
@@ -254,8 +257,8 @@ $(function(){
 							if (matches[1]=='am'){
 								$('.submenu li a[href="/preparations-makers/"]').parent().addClass("second_active").parent().parent().addClass("active").addClass('main');
 							}else{
-								var reg=new RegExp('^\/'+mass[matches[1]]+'\/$'),
-									href_matches=href.match(reg);
+								reg=new RegExp('^\/'+mass[matches[1]]+'\/$');
+								var href_matches=href.match(reg);
 
 								if (href_matches){
 									$(this).closest(".submenu>li").addClass("second_active");
@@ -266,13 +269,6 @@ $(function(){
 					}
 				}
 			});
-
-			if (!$(".main_menu li.active").length) {
-				$(".main_menu li:first").addClass("active");
-			}
-
-
-
 		});
 
 	});
