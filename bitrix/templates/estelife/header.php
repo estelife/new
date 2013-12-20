@@ -7,26 +7,19 @@
 	<?$APPLICATION->ShowMeta("keywords")?>
 	<?$APPLICATION->ShowMeta("description")?>
 	<title><?$APPLICATION->ShowTitle()?></title>
-	<script type='text/javascript' src='/bitrix/templates/estelife/js/jquery-1.10.2.min.js'></script>
-	<script type='text/javascript' src='/bitrix/templates/estelife/js/history.js'></script>
-	<?$APPLICATION->ShowCSS();?>
-	<?$APPLICATION->ShowHeadStrings()?>
-	<?$APPLICATION->ShowHeadScripts()?>
-	<script type='text/javascript' src='/bitrix/templates/estelife/js/estelife.js'></script>
-	<script type='text/javascript' src='/bitrix/templates/estelife/app.js?v=<?=filemtime($_SERVER['DOCUMENT_ROOT']."/bitrix/templates/estelife/app.js")?>'></script>
-	<script type='text/javascript' src='/bitrix/templates/estelife/js/jquery.mousewheel.js'></script>
-	<script type='text/javascript' src='/bitrix/templates/estelife/js/mwheelIntent.js'></script>
-	<script type='text/javascript' src='/bitrix/templates/estelife/js/jquery.jscrollpane.js'></script>
-	<script type='text/javascript' src='/bitrix/templates/estelife/js/jquery-ui-1.10.3.custom.min.js'></script>
-	<script type='text/javascript' src='/bitrix/templates/estelife/js/jquery-ui.rus.js'></script>
+	<script type="text/javascript" src="/bitrix/templates/estelife/js/libraries.js?<?=filemtime($_SERVER['DOCUMENT_ROOT']."/bitrix/templates/estelife/js/libraries.js")?>"></script>
+	<script type="text/javascript" src="/bitrix/templates/estelife/js/estelife.js"></script>
+	<script type="text/javascript" src="/bitrix/templates/estelife/app.js?v=<?=filemtime($_SERVER['DOCUMENT_ROOT']."/bitrix/templates/estelife/app.js")?>"></script>
+<!--	<script type="text/javascript" src="/bitrix/templates/estelife/js/ajax.js"></script>-->
 	<script type="text/javascript" src="/bitrix/js/estelife/vMapStyle.js"></script>
 	<script type="text/javascript" src="/bitrix/js/estelife/vMap.js"></script>
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAZfcZn-KLKm52_chZk22TGMdooeDvMYfI&sensor=false"></script>
-	<script type="text/javascript" src="https://www.youtube.com/player_api"></script>
+	<script type="text/javascript" src="https://www.youtube.com/player_api" async="true"></script>
 	
 	<link rel="icon" href="/favicon.png" type="image/icon">
 	<link rel="shortcut icon" href="/favicon.png" type="image/icon">
 	<link rel="stylesheet" type="text/css" href="/bitrix/templates/estelife/css/style.css" />
+	<link rel="stylesheet" type="text/css" href="/bitrix/templates/estelife/template_styles.css" />
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -39,7 +32,6 @@
 	</script>
 </head>
 <body>
-<? $APPLICATION->ShowPanel();?>
 <div class="wrap">
 	<div class="panel">
 		<div class="panel_in">

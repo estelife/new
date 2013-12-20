@@ -61,8 +61,6 @@ Estelife.prototype.select=function(jselect,need_filter){
 				if(!need_filter)
 					value=value.find('span');
 
-				makeOptions();
-
 				list.on('click','.item:not(.group)',function(e){
 					e.stopPropagation();
 					selectOption($(this));
@@ -100,6 +98,8 @@ Estelife.prototype.select=function(jselect,need_filter){
 						mouseWheelSpeed:30
 					});
 				}
+
+				makeOptions();
 
 				$(document).click(function(){
 					closeOptions();
@@ -228,12 +228,12 @@ Estelife.prototype.select=function(jselect,need_filter){
 
 			if(prnt.length>0){
 				isPane=true;
-			}else{
-				prnt=list;
 				list.css({
 					'visibility':'hidden',
 					'display':'block'
 				});
+			}else{
+				prnt=list;
 			}
 
 			if(!need_filter){
@@ -284,7 +284,7 @@ Estelife.prototype.select=function(jselect,need_filter){
 					height+=item.height();
 			}
 
-			if(!isPane){
+			if(isPane){
 				list.css({
 					'visibility':'visible',
 					'display':'none'

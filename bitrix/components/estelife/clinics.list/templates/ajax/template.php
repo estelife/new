@@ -2,12 +2,20 @@
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	die();
 
+$sTitle='Клиники '.(($_GET['city']==359) ? 'Москвы' : (($_GET['city']==358) ? 'Санкт-Петербурга' : ''));
 echo json_encode(array(
-	'complete'=>array(
-		'filter'=>array_filter($_GET,function($mValue){
-			return !empty($mValue);
-		}),
-		'list'=>$arResult['clinics'],
-		'nav'=>$arResult['nav']
+	'list'=>array_values($arResult['clinics']),
+	'title'=>array(
+		'name'=>$sTitle
+	),
+	'crumb'=>array(
+		array(
+			'name'=>'Главная',
+			'link'=>'/'
+		),
+		array(
+			'name'=>$sTitle,
+			'link'=>'#'
+		)
 	)
 ));

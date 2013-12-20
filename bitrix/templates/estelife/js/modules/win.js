@@ -79,7 +79,7 @@ Estelife.prototype.media=function(s){
 				stat=$('<ul class="stat"><li class="likes"><span></span><i></i></li><li class="unlikes"><span></span><i></i></li></ul>'),
 				big_item=$('<div class="win-gallery-in"><div class="win-gallery-items"></div><a href="#" class="arrow left">Назад<i></i></a><a href="#" class="arrow right">Вперед<i></i></a></div>'),
 				arrows=big_item.find('a').hide(),
-				item_desc=$('<p></p>').hide(),
+				item_desc=$('<p></p>'),
 				previews=$('<ul class="win-gallery-previews">').hide();
 
 			head.append(stat);
@@ -169,6 +169,9 @@ Estelife.prototype.media=function(s){
 			.find('.item')
 			.eq(current);
 
+		_gallery().item_desc
+			.html(items[current].getTitle());
+
 		preview.fadeTo(delay,0.3);
 		big.fadeTo(delay,1);
 	}
@@ -234,7 +237,6 @@ Estelife.prototype.media=function(s){
 		_gallery().name.html(video.getTitle());
 		_gallery().description.html(video.getDescription());
 
-
 		EL.win.content(_gallery().parent);
 		EL.win.open();
 
@@ -260,8 +262,7 @@ Estelife.prototype.media=function(s){
 
 					if(title!='')
 						_gallery().item_desc
-							.html(title)
-							.show();
+							.html(title);
 				}
 
 				found=true;
