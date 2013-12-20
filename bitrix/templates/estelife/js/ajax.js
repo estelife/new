@@ -8,21 +8,68 @@ window.App={
 EL.loadModule('templates',function(){
 	// MODELS
 	/**
+	 * Модель комплексной страницы, умеет тянуть свои данный с сервера
 	 * @type {*}
 	 */
-	App.Models.ListItem=Backbone.Model.extend({});
-	App.Models.PageNav=Backbone.Model.extend({});
-	App.Models.Title=Backbone.Model.extend({});
-	App.Models.BreadCrumb=Backbone.Model.extend({});
-	App.Models.Detail=Backbone.Model.extend({});
-	App.Models.Inner=Backbone.Model.extend({});
+	App.Models.Complex=Backbone.Model.extend({
+		viewCollection:{},
+		view:null,
+		page:null,
 
-	// COLLECTIONS
-	App.Collections.BreadCrumb=Backbone.Collection.extend({
-		model:App.Models.BreadCrumb
+		initialize:function(data,params){
+			var viewCollection=params.viewCollection||{},
+				view=params.view||null,
+				page=params.page||null;
+
+			if(!_.isString(page))
+				throw 'invalid page';
+
+			if(!(view instanceof App.Views.Complex))
+				throw 'invalid view';
+
+			this.view=view;
+			this.viewCollection=viewCollection;
+			this.page=page;
+
+			this.bind(
+				'change',
+				this.updateStateEvent,
+				this
+			);
+		},
+
+		updateStateEvent:function(){
+			var model=this;
+
+			_.map(this.viewCollection,function(view){
+				view.setData(model.toJSON());
+				return view;
+			});
+
+			this.view.setChildViews(this.viewCollection);
+			this.view.render();
+		},
+
+		sync:function(){
+			var model=this;
+
+			$.get('/rest/'+this.page,{},function(response){
+				try{
+					response=$.parseJSON(response);
+					model.set(response);
+				}catch(e){}
+			});
+		}
 	});
-	App.Collections.ListItems=Backbone.Collection.extend({
-		model:App.Models.ListItem
+
+	App.Models.Inner=App.Models.Complex.extend({
+		defaults:{
+			'crumb':null,
+			'title':null,
+			'nav':null,
+			'list':null,
+			'item':null
+		}
 	});
 
 	// VIEWS
@@ -33,22 +80,12 @@ EL.loadModule('templates',function(){
 	App.Views.Default=Backbone.View.extend({
 		el:null,
 		template:null,
-		model:null,
-		collection:null,
-		initialize: function(data){
-			data=data||{};
+		data:null,
+		initialize: function(params){
+			params=params||{};
 
-			this.template=(data.template) ?
-				data.template : this.template;
-
-			this.model=(data.model) ?
-				data.model : this.model;
-
-			this.collection=(data.collection) ?
-				data.collection : this.collection;
-
-			if(!(this.collection instanceof Backbone.Collection) && !(this.model instanceof Backbone.Model))
-				throw 'invalid model or collection';
+			this.template=(params.template) ?
+				params.template : this.template;
 
 			if(this.template && typeof this.template!='object')
 				this.template=new EL.templates({
@@ -58,6 +95,22 @@ EL.loadModule('templates',function(){
 						'action':'get_template'
 					}
 				});
+		},
+		setData:function(data){
+			if(_.isObject(data))
+				this.data=data;
+		}
+	});
+
+	/**
+	 * Базовое представление для комплексных представлений
+	 * @type {*}
+	 */
+	App.Views.Complex=Backbone.View.extend({
+		viewCollection:{},
+		setChildViews:function(viewCollection){
+			if(_.isObject(viewCollection))
+				this.viewCollection=viewCollection;
 		}
 	});
 
@@ -65,17 +118,18 @@ EL.loadModule('templates',function(){
 	 * Представление для списка записей
 	 * @type {*}
 	 */
-	App.Views.ListItems=App.Views.Default.extend({
+	App.Views.List=App.Views.Default.extend({
 		el:document.createElement('div'),
-		collection:App.Collections.ListItems,
 		render:function(){
-			var ob=this;
-			this.$el.addClass('items');
+			if(_.isObject(this.data) && 'list' in this.data){
+				var ob=this;
+				this.$el.addClass('items');
 
-			this.template.ready(function(){
-				ob.template.set('list', ob.collection.toJSON());
-				ob.$el.append(ob.template.render());
-			});
+				this.template.ready(function(){
+					ob.template.set('list', ob.data.list);
+					ob.$el.append(ob.template.render());
+				});
+			}
 
 			return this;
 		}
@@ -85,21 +139,40 @@ EL.loadModule('templates',function(){
 	 * Представление для постраничной навигации
 	 * @type {*}
 	 */
-	App.Views.PageNav=App.Views.Default.extend({
-		el:'ul.nav',
-		template:new EL.templates({
-			'template':'pagenav',
-			'path':'/api/estelife_ajax.php',
-			'params':{
-				'action':'get_template'
-			}
-		}),
+	App.Views.Nav=App.Views.Default.extend({
+		el:document.createElement('ul'),
 		render:function(){
-			var ob=this;
+			if(_.isObject(this.data) && 'nav' in this.data){
+				var nav=this.data.nav;
 
-			this.template.ready(function(){
-				ob.$el.replaceWith(ob.template.make(ob.model.toJSON()));
-			});
+				if(nav.endPage && nav.endPage>0){
+					if(nav.startPage>1){
+						this.$el.append('<li><a href="'+nav.urlPath+'?PAGEN_'+nav.navNum+'=1'+nav.queryString+'">1</a></li>')
+							.append('<li><span>...</span></li>');
+					}
+
+					var tempStart=nav.startPage;
+
+					while(tempStart<=nav.endPage)
+					{
+						if(tempStart==nav.pageNomer)
+							this.$el.append('<li><b>'+tempStart+'</b></li>');
+						else
+							this.$el.append('<li><a href="'+nav.urlPath+'?PAGEN_'+nav.navNum+'='+tempStart+nav.queryString+'">'+tempStart+'</a></li>');
+
+						tempStart++;
+					}
+
+					if(nav.endPage<nav.pageCount){
+						this.$el.append('<li><span>...</span></li>')
+							.append('<li><a href="'+nav.urlPath+'?PAGEN_'+nav.navNum+'='+nav.pageCount+nav.queryString+'">'+nav.pageCount+'</a></li>');
+					}
+
+
+				}
+
+				this.$el.addClass('nav');
+			}
 
 			return this;
 		}
@@ -109,19 +182,23 @@ EL.loadModule('templates',function(){
 	 * Представление для хлебной дорожки
 	 * @type {*}
 	 */
-	App.Views.BreadCrumb=App.Views.Default.extend({
+	App.Views.Crumb=App.Views.Default.extend({
 		el:document.createElement('ul'),
 		render:function(){
-			var ob=this,
-				last=this.collection.pop();
+			if(_.isObject(this.data) && 'crumb' in this.data){
+				var ob=this,
+					data=this.data.crumb,
+					last=data.pop();
 
-			this.$el.addClass('crumb');
+				this.$el.addClass('crumb');
 
-			this.collection.each(function(model){
-				ob.$el.append('<li><a href="'+model.get('link')+'">'+model.get('name')+'</a></li>');
-			});
+				_.each(data,function(item){
+					ob.$el.append('<li><a href="'+item.link+'">'+item.name+'</a></li>');
+				});
 
-			this.$el.append('<li><b>'+last.get('name')+'</b></li>');
+				this.$el.append('<li><b>'+last.name+'</b></li>');
+			}
+
 			return this;
 		}
 	});
@@ -133,121 +210,69 @@ EL.loadModule('templates',function(){
 	App.Views.Title=App.Views.Default.extend({
 		el:document.createElement('div'),
 		render:function(){
-			var name=this.model.get('name'),
-				html='<h1>'+name+'</h1>';
+			if(_.isObject(this.data) && 'title' in this.data){
+				var data=this.data.title,
+					html='<h1>'+data.name+'</h1>';
 
-			this.$el.addClass('title')
-				.empty()
-				.html(html);
+				this.$el.addClass('title')
+					.empty()
+					.html(html);
+			}
+
 			return this;
 		}
 	});
 
-	App.Views.Inner=Backbone.View.extend({
+	/**
+	 * Представление для внутренней страницы
+	 * @type {*}
+	 */
+	App.Views.Inner=App.Views.Complex.extend({
 		el:'.inner',
-		viewBreadCrumb:null,
-		viewPageNav:null,
-		viewListItems:null,
-		viewDetailItem:null,
-		viewTitle:null,
-
-		initialize:function(data){
-			data=data||{};
-			this.viewBreadCrumb=data.viewBreadCrumb||App.Views.BreadCrumb;
-			this.viewPageNav=data.viewPageNav||App.Views.PageNav;
-			this.viewListItems=data.viewListItems||App.Views.ListItems;
-			this.viewDetailItem=data.viewDetailItem||null;
-			this.viewTitle=data.viewTitle||App.Views.Title;
-		},
-
 		render:function(){
 			this.$el.empty();
-			var view;
 
-			if(this.viewBreadCrumb && this.model.has('crumb')){
-				view=new this.viewBreadCrumb({
-					collection:new App.Collections.BreadCrumb(this.model.get('crumb'))
-				});
-				this.$el.append(view.render().el);
-			}
+			if(this.viewCollection.viewCrumb)
+				this.$el.append(this.viewCollection.viewCrumb.render().el);
 
-			if(this.viewTitle && this.model.has('title')){
-				view=new this.viewTitle({
-					model:new App.Models.Title(this.model.get('title'))
-				});
-				this.$el.append(view.render().el);
-			}
+			if(this.viewCollection.viewTitle)
+				this.$el.append(this.viewCollection.viewTitle.render().el);
 
-			if(this.viewListItems && this.model.has('list')){
-				view=new this.viewListItems({
-					collection:new App.Collections.ListItems(this.model.get('list'))
-				});
-				this.$el.append(view.render().$el);
-			}else if(this.viewDetailItem && this.model.has('detail')){
-				view=new this.viewDetailItem({
-					model:new App.Models.Detail(this.model.get('detail'))
-				});
-				this.$el.append(view.render().el);
-			}
+			if(this.viewCollection.viewList)
+				this.$el.append(this.viewCollection.viewList.render().$el);
+			else if(this.viewCollection.viewItem)
+				this.$el.append(this.viewCollection.viewItem.render().el);
 
-			if(this.viewPageNav && this.model.has('nav')){
-				view=new this.viewPageNav({
-					model:new App.Models.PageNav(this.model.get('nav'))
-				});
-				this.$el.append(view.render().el);
-			}
+			if(this.viewCollection.viewNav)
+				this.$el.append(this.viewCollection.viewNav.render().el);
 
 			return this;
 		}
 	});
 
-	App.Views.ClinicList=App.Views.ListItems.extend({
+	App.Views.ClinicList=App.Views.List.extend({
 		template:'clinics_list'
 	});
 
 	// ROUTERS
-	App.Routers.Boss=new (Backbone.Router.extend({
+	App.Routers.Default=new (Backbone.Router.extend({
 		routes: {
 			'clinics/(.*)': 'clinicList',
 			'cl:number/': 'clinicDetail'
 		},
 
 		clinicList: function(){
-			var params=this.getQuery();
-			params.action='clinics_list';
-
-			$.getJSON(
-				'/api/estelife_ajax.php',
-				params,
-				function(response){
-					var view=new App.Views.Inner({
-						viewListItems:App.Views.ClinicList,
-						model:new App.Models.Inner(response)
-					});
-					view.render();
-				}
-			)
-		},
-
-		getQuery:function(){
-			var query=location.href.split('?'),
-				result={};
-
-			if(query.length==2 && query[1] !=''){
-				var temp=null;
-				query=query[1].split('&');
-
-				for(var i=0; i<query.length; i++){
-					temp=query[i].split('=');
-
-					if(temp.length==1)
-						temp[1]='';
-
-					result[temp[0]]=decodeURIComponent(temp[1]);
-				}
-			}
-
-			return result;
+			var model=new App.Models.Inner(null,{
+				'page':'clinics/'+EL.query().toString(),
+				'viewCollection':{
+					'viewTitle':new App.Views.Title(),
+					'viewCrumb':new App.Views.Crumb(),
+					'viewList':new App.Views.ClinicList(),
+					'viewNav':new App.Views.Nav()
+				},
+				'view':new App.Views.Inner()
+			});
+			model.fetch();
 		}
 	}));
 
@@ -263,7 +288,7 @@ EL.loadModule('templates',function(){
 				href=link.attr('href')||'';
 
 			if(href.length>0){
-				EstelifeRouter.navigate(
+				App.Routers.Default.navigate(
 					href.replace(/^\//,''),
 					{trigger: true }
 				);
@@ -276,7 +301,7 @@ EL.loadModule('templates',function(){
 				href=link.attr('href')||'';
 
 			if(href.length>0 && href!='#'){
-				EstelifeRouter.navigate(
+				App.Routers.Default.navigate(
 					href.replace(/^\//,''),
 					{trigger: true }
 				);

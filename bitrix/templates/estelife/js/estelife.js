@@ -307,6 +307,37 @@ var Estelife=function(s){
 		}
 	};
 
+	this.query=function(url){
+		var current=url||location.href,
+			query=current.split('?');
+		query=query[1]||'';
+
+		return {
+			toObject:function(){
+				var toObject={};
+
+				if(query.length>0){
+					var temp=null;
+					query=query[1].split('&');
+
+					for(var i=0; i<query.length; i++){
+						temp=query[i].split('=');
+
+						if(temp.length==1)
+							temp[1]='';
+
+						toObject[temp[0]]=decodeURIComponent(temp[1]);
+					}
+				}
+
+				return toObject;
+			},
+			toString:function(){
+				return (query.length>0) ? '?'+query : '';
+			}
+		}
+	};
+
 	this.cookie={
 		_get:function (name) {
 			var matches = document.cookie.match(new RegExp(
