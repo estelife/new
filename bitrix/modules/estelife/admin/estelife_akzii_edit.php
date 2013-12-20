@@ -134,8 +134,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			->value('base_new_price', $obPost->one('base_new_price'))
 			->value('base_sale', $obPost->one('base_sale'))
 			->value('start_date', strtotime($obPost->one('start_date')))
-			->value('end_date', strtotime($obPost->one('end_date')));
-
+			->value('end_date', strtotime($obPost->one('end_date')))
+			->value('view_type', intval($obPost->one('view_type')));
 
 		if(!empty($_FILES['small_photo'])){
 			$arImage=$_FILES['small_photo'];
@@ -394,11 +394,23 @@ if(!empty($arResult['error']['text'])){
 			<td width="60%"><input type="text" name="name" size="60" maxlength="255" value="<?=$arResult['ak']['name']?>"></td>
 		</tr>
 		<tr>
+			<td width="40%"><?=GetMessage("ESTELIFE_F_VIEW_TYPE")?></td>
+			<td width="60%">
+				<select name="view_type">
+					<option value="1"<?php if (empty($arResult['ak']['view_type']) || $arResult['ak']['view_type'] == 1):?> selected="true"<?php endif?>>Указывается старая цена, новая цена, размер скидки</option>
+					<option value="2"<?php if ($arResult['ak']['view_type'] == 2):?> selected="true"<?php endif?>>Указывается только одна цена</option>
+					<option value="3"<?php if ($arResult['ak']['view_type'] == 3):?> selected="true"<?php endif?>>Указывается только размер скидки</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
 			<td width="40%"><?=GetMessage("ESTELIFE_F_ACTIVE")?></td>
 			<td width="60%">
 				<ul class="estelife-checklist">
 					<li>
-						<label for="type_1"><input type="checkbox" name="active" id="type_1" value="1"<?=(($arResult['ak']['active'] == 1) ? ' checked="true"' : '')?> /></label>
+						<label for="type_1">
+							<input type="checkbox" name="active" id="type_1" value="1"<?=(($arResult['ak']['active'] == 1) ? ' checked="true"' : '')?> />
+						</label>
 					</li>
 				</ul>
 			</td>

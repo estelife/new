@@ -17,7 +17,7 @@
 					-
 					<?=$arResult['event']['calendar']['first_period']['to']?>
 				<?php endif;?></b><br>
-			Место проведения: <b><?=$arResult['event']['country_name']?>, г. <?=$arResult['event']['city_name']?>, <?=$arResult['event']['dop_address']?></b><br>
+			Место проведения: <b><?=$arResult['event']['country_name']?><?=(!empty($arResult['event']['city_name']) ? ', г.'.$arResult['event']['city_name'] : '' )?><?=(!empty($arResult['event']['dop_address']) ? ', '.$arResult['event']['dop_address'] : '')?></b><br>
 			<?php if (!empty($arResult['event']['address'])):?>
 				Адрес проведения: <b><?=$arResult['event']['address']?></b><br>
 			<?php endif?>

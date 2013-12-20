@@ -26,3 +26,4 @@ $MESS ['ESTELIFE_F_SELECT_TYPE']='Выберите тип услуг';
 $MESS ['ESTELIFE_T_PHOTO'] = 'Фото';
 $MESS ['ESTELIFE_F_SMALL_PHOTO']='Маленькая фотка';
 $MESS ['ESTELIFE_F_BIG_PHOTO']='Большая фотка';
+$MESS ['ESTELIFE_F_VIEW_TYPE']='Тип отображения';
