@@ -1,49 +1,30 @@
-<div class="news-item clinic-list el-item">
-	<div class='item-wrap'>
-		<h2 class='clinic-title'><a href="<!--$link!-->" class="el-get-detail"><!--$name!--></a></h2>
-		<div class='news-picture'>
-			<div>
-				<a href="<!--$link!-->" class="el-get-detail">
-				<!--if($logo_id)!-->
-					<!--$img!-->
-				<!--endif!-->
-				</a>
+<!--if($list)!-->
+	<!--foreach($list as $key=>$val)!-->
+		<div class="item company">
+			<div class="item-rel">
+				<h2><a href="<!--$val.link!-->"><!--$val.name!--></a></h2>
+				<div class="item-in">
+					<div class="img">
+						<div class="img-in">
+							<!-- if($val.logo_id)!-->
+								<!--$val.img!-->
+							<!--endif!-->
+						</div>
+					</div>
+					<div class="cols col1">
+						<!--if($val.address)!-->
+							<span><!--$val.address!--></span>
+						<!--endif!-->
+						<!--if($val.phone)!-->
+							<span><!--$val.phone!--></span>
+						<!--endif!-->
+						<!--if($val.web)!-->
+							<a href="<!--$val.web!-->"><!--$val.short_web!--></a>
+						<!--endif!-->
+					</div>
+				</div>
 			</div>
+			<div class="border"></div>
 		</div>
-		<table class='clinic-table float'>
-			<tr>
-				<td valign="top">
-					<table class='data'>
-						<!--$i=0!-->
-						<!--if($address)!-->
-						<tr>
-							<td><i class='icon address'></i></td>
-							<td><!--$address!--></td>
-						</tr>
-						<!--endif!-->
-						<!--if($metro)!-->
-						<tr>
-							<td><i class='icon metro<!--$city_id!-->'></i></td>
-							<td><!--$metro!--></td>
-						</tr>
-						<!--endif!-->
-						<!--if($web)!-->
-						<tr>
-							<td><i class='icon link'></i></td>
-							<td><a target='_blank' href="<!--$web!-->"><!--$short_web!--></a></td>
-						</tr>
-						<!--endif!-->
-						<!--if($phone)!--><tr>
-							<td><i class='icon phone'></i></td>
-							<td><b><!--$phone!--></b></td>
-						</tr>
-						<!--endif!-->
-					</table>
-				</td>
-				<td valign="top" >
-				</td>
-			</tr>
-		</table>
-		<div class='clear'></div>
-	</div>
-</div>
+	<!--endforeach!-->
+<!--endif!-->
