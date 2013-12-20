@@ -77,44 +77,33 @@ class VDate {
 	public static function createDiapasons(array $arDates,$fCallback=null){
 		sort($arDates,SORT_NUMERIC);
 		$arTemp=array();
-		$nLast=0;
-		$nTo=0;
-		$nFrom=reset($arDates);
+		$nFrom=0;
 		$nCount=count($arDates)-1;
 
 		foreach($arDates as $nKey=>$nDate){
 			$nDate=strtotime(date('d.m.Y 00:00',$nDate));
-			$bNotNext=false;
+			$nNext=(isset($arDates[$nKey+1])) ?
+				strtotime(date('d.m.Y 00:00',$arDates[$nKey+1])) : 0;
 
-			if(isset($arDates[$nKey-1]))
-				$nLast=strtotime(date('d.m.Y 00:00',$arDates[$nKey-1]));
+			if(!($bPrev=($nNext>0 && $nDate>=($nNext-86400))) || $nCount==$nKey){
+				$arDiapason=array(
+					'from'=>($nFrom>0) ? $nFrom : $nDate,
+					'to'=>($nFrom>0) ? $nDate : 0
+				);
 
-			if($nLast==0 || ($bNotNext=($nDate>($nLast+86400))) || $nCount==$nKey){
-				//if($nLast>0 || $nCount==$nKey){
-					if($nLast>0 && !$bNotNext)
-						$nTo=$nDate;
-					else if($bNotNext && $nFrom==$nLast)
-						$nFrom=$nDate;
+				$bResult=true;
 
-					$result=true;
+				if(($fCallback && is_callable($fCallback)))
+					$bResult=$fCallback($arDiapason['from'],$arDiapason['to']);
 
-					if(($fCallback && is_callable($fCallback)))
-						$result = $fCallback($nFrom,$nTo);
+				$arTemp[]=$arDiapason;
 
-					$arTemp[]=array(
-						'from'=>$nFrom,
-						'to'=>$nTo,
-					);
-					$nTo=0;
+				if($bResult===false)
+					break;
 
-					if($result===false)
-						break;
-				//}
-
+				$nFrom=0;
+			}else if($nFrom==0)
 				$nFrom=$nDate;
-			}else if($nDate>=$nLast && $nDate<=($nLast+86400)){
-				$nTo=$nDate;
-			}
 		}
 
 		$arDates=$arTemp;
