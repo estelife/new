@@ -30,7 +30,7 @@
 							<ul>
 								<li class="country c<?=$arApp["country_id"]?>"><?=$arApp["country_name"]?></li>
 								<?php if (!empty($arApp["web"])):?>
-									<li><a href="<?=$arApp["web"]?>"><?=$arApp["web_short"]?></a></li>
+									<li><a href="<?=$arApp["web"]?>" target="_blank"><?=$arApp["web_short"]?></a></li>
 								<?php endif?>
 							</ul>
 							<p><?=$arApp['preview_text']?></p>

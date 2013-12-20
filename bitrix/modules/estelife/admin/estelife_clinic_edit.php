@@ -347,6 +347,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			$obQuery->delete();
 		}
 
+
+
 		// Пишем ссылки на услуги
 		if(!$obPost->blank('services')){
 			$arServices=$obPost->one('services');
@@ -364,6 +366,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 					->value('specialization_id', $arService['specialization_id'])
 					->value('service_id', $arService['service_id'])
 					->value('service_concreate_id', $arService['id'])
+					->value('method_id', $arService['method_id'])
 					->value('clinic_id', $idClinic);
 
 				if(!empty($arPrices[$arService['id']]))

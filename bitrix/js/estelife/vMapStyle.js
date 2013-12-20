@@ -45,7 +45,35 @@ var VMapStyle=(function(){
 				{featureType:"poi",elementType: "all",stylers:[{visibility:"off"}]},
 				{featureType:"transit",elementType: "labels",stylers:[{visibility:"off"}]},
 				{featureType:"transit.station.bus",stylers:[{visibility:"on"}]},
-				{featureType: "water",stylers:[{ hue: "#c1d1e2"},{saturation: 50},{lightness: -1}]}
+				{
+					"featureType": "road.arterial",
+					"stylers": [
+						{ "color": "#f9f9f9" }
+					]
+				},{
+					"featureType": "road.highway",
+					"elementType": "geometry",
+					"stylers": [
+						{ "color": "#7f7f7f" }
+					]
+				},{
+					"featureType": "water",
+					"elementType": "geometry",
+					"stylers": [
+						{ "color": "#c3d2e3" }
+					]
+				},{
+					"featureType": "road.local",
+					"stylers": [
+						{ "color": "#d1d1d1" }
+					]
+				},{
+					"featureType": "administrative.locality",
+					"stylers": [
+						{ "color": "#222222" },
+						{ "weight": 0.4 }
+					]
+				}
 			]
 		}
 	}

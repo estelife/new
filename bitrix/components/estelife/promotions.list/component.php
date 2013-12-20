@@ -58,6 +58,9 @@ $obJoin->_left()
 	->_from('ec','city_id')
 	->_to('iblock_element','ID','ct')
 	->_cond()->_eq('ct.IBLOCK_ID',16);
+$obJoin->_left()
+	->_from('ea', 'id')
+	->_to('estelife_akzii_types', 'akzii_id', 'eat');
 $obQuery->builder()
 	->field('ea.id','id')
 	->field('ea.name','name')
@@ -85,11 +88,13 @@ if(!$obGet->blank('city')){
 if(!$obGet->blank('metro'))
 	$obFilter->_eq('ec.metro_id', intval($obGet->one('metro')));
 if(!$obGet->blank('spec'))
-	$obFilter->_eq('ea.specialization_id', intval($obGet->one('spec')));
+	$obFilter->_eq('eat.specialization_id', intval($obGet->one('spec')));
 if(!$obGet->blank('service'))
-	$obFilter->_eq('ea.service_id', intval($obGet->one('service')));
+	$obFilter->_eq('eat.service_id', intval($obGet->one('service')));
 if(!$obGet->blank('concreate'))
-	$obFilter->_eq('ea.service_concreate_id', intval($obGet->one('concreate')));
+	$obFilter->_eq('eat.service_concreate_id', intval($obGet->one('concreate')));
+if(!$obGet->blank('method'))
+	$obFilter->_eq('eat.method_id', intval($obGet->one('method')));
 
 if(!empty($arCount))
 	$obQuery->builder()->slice(0,$arCount);

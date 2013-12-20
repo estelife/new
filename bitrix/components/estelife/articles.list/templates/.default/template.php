@@ -7,9 +7,9 @@
 		</div>
 		<ul class="menu">
 			<?php if (!empty($arResult['SECTIONS_NAME'])):?>
-				<?php $i=1?>
+				<?php $i=1;?>
 				<?php foreach ($arResult['SECTIONS_NAME'] as $key=>$val):?>
-					<li class="<?php if ($i==1):?>active<?php endif?>"><a href="#"><span><?=$val?></span></a></li>
+					<li<?php if ($i==1):?> class="active"<?php endif?>><a href="#"><span><?=$val?></span></a></li>
 					<?php $i++?>
 				<?php endforeach?>
 			<?php endif;?>

@@ -1,4 +1,5 @@
 <?php
+use core\database\mysql\VFilter;
 use core\database\VDatabase;
 use core\types\VArray;
 
@@ -100,6 +101,10 @@ if (!$obGet->blank('city')){
 		->_eq('ecg.city_id', intval($obGet->one('city')));
 	$obFilter->_or()
 		->_eq('ectd.city_id', intval($obGet->one('city')));
+}
+
+if(!$obGet->blank('name')){
+	$obFilter->_like('ec.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 }
 
 

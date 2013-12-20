@@ -6,6 +6,11 @@
 		<!--		<span>Найдено 6 акций</span>-->
 	</div>
 	<div class="field">
+		<label for="name">Наименование</label>
+		<input name="name" type="text" value="<?=$_GET['name']?>" class="text"/>
+		<span class="block"></span>
+	</div>
+	<div class="field">
 		<label for="cities">Город</label>
 		<select name="city" data-rules="get_metro:select[name=metro]">
 			<option value="">--</option>

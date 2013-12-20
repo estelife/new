@@ -1,4 +1,5 @@
 <?php
+use core\database\mysql\VFilter;
 use core\database\VDatabase;
 use core\types\VArray;
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
@@ -74,6 +75,10 @@ if(!empty($arResult['city'])){
 	$obFilter->_eq('ec.city_id', intval($obGet->one('city')));
 }
 
+if(!$obGet->blank('name')){
+	$obFilter->_like('ec.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+}
+
 if(!$obGet->blank('metro'))
 	$obFilter->_eq('ec.metro_id', intval($obGet->one('metro')));
 
@@ -85,6 +90,9 @@ if(!$obGet->blank('service'))
 
 if(!$obGet->blank('concreate'))
 	$obFilter->_eq('ecs.service_concreate_id', intval($obGet->one('concreate')));
+
+if(!$obGet->blank('method'))
+	$obFilter->_eq('ecs.method_id', intval($obGet->one('method')));
 
 $obQuery->builder()->group('ec.id');
 $obQuery->builder()->sort('ec.name', 'asc');
@@ -151,7 +159,7 @@ if (!empty($arClinics)){
 
 $arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 
-$APPLICATION->SetPageProperty("title", "Estelife - Клиники");
+$APPLICATION->SetPageProperty("title", "Клиники");
 $APPLICATION->SetPageProperty("description", implode(", ", $arDescription));
 $APPLICATION->SetPageProperty("keywords", "Estelife, Акции, Клиники, ". implode(" ,", $arDescription));
 $this->IncludeComponentTemplate();

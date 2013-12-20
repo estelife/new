@@ -6,13 +6,13 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 CModule::IncludeModule("iblock");
 CModule::IncludeModule("estelife");
 
+//получение стран, которые есть только в аппаратах
 $obCountries = VDatabase::driver();
 $obQuery = $obCountries->createQuery();
-$obQuery->builder()->from('estelife_pills','ep');
-
+$obQuery->builder()->from('estelife_apparatus','ap');
 $obJoin = $obQuery->builder()->join();
 $obJoin->_left()
-	->_from('ep', 'company_id')
+	->_from('ap', 'company_id')
 	->_to('estelife_companies', 'id', 'ec');
 
 $obJoin->_left()

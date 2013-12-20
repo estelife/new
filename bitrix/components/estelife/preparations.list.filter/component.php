@@ -6,7 +6,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 CModule::IncludeModule("iblock");
 CModule::IncludeModule("estelife");
 
-//Получение списка стран
+//Получение списка стран, которые есть только в препаратах
 $obCountries = VDatabase::driver();
 $obQuery = $obCountries->createQuery();
 $obQuery->builder()->from('estelife_pills','ep');

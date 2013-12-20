@@ -1,67 +1,36 @@
 $(document).ready(function() {
 
-	EL.SystemSettings.ready(function(s){
-		var timerID = 0,
-			timer2ID = 0;
+	var timerID = 0,
+		timer2ID = 0;
 
-		$(".menu a").each(function() {
-			var href = $(this).attr("href"),
-				path_name = document.location.pathname.split('/'),
-				reg=new RegExp('^.*'+path_name[1]+'.*$'),
-				matches=href.match(reg);
+	//Наведения
+	$(".main_menu>li").hover(
+		function() {
+			var ob = this;
+			clearTimeout(timerID);
+			clearTimeout(timer2ID);
+			timer2ID = setTimeout(function(){
+					$(".main_menu>li").removeClass("active");
+					$(ob).addClass("active");
+				},
+				150
+			);
 
-			if (matches && !$(".menu>li.active").length) {
-				$(this).closest(".menu>li").addClass("active").addClass('main');
-				return false;
-			}else{
-				var mass = s.directions,
-					path_name = path_name[1];
-				reg=new RegExp('^([a-z]{2})[0-9]+$');
-				matches=path_name.match(reg);
-				if (matches && matches.length>0){
-					if (mass[matches[1]].length>0 && (href == '/'+mass[matches[1]]+'/')){
-						$(this).closest(".menu>li").addClass("active").addClass('main');
-						return false;
-					}
-				}
-			}
-		});
 
-		if (!$(".main_menu li.active").length) {
-			$(".main_menu li:first").addClass("active");
+		},
+		function() {
+			timerID = setTimeout(function(){
+					$(".main_menu>li").removeClass("active");
+					$(".main_menu>li.main").addClass('active');
+				},
+				450
+			);
 		}
-
-		//Наведения
-		$(".head .menu>li").hover(
-			function() {
-				var ob = this;
-				clearTimeout(timerID);
-				clearTimeout(timer2ID);
-				timer2ID = setTimeout(function(){
-						$(".menu>li").removeClass("active");
-						$(ob).addClass("active");
-					},
-					150
-				);
-
-
-			},
-			function() {
-				timerID = setTimeout(function(){
-						$(".menu>li").removeClass("active");
-						$(".menu>li.main").addClass('active');
-					},
-					450
-				);
-			}
-		);
-
-	});
+	);
 
 });
 
 var showDetail;
-
 $(function home(){
 	//Переход на детальную страницу
 	$('.items .item').click(function(e){
@@ -228,26 +197,84 @@ $(function(){
 			return false;
 		});
 
-		var url=new EL.url();
-		//подсветка урлов второго уровня
-		var city_url = url.getQuery(document.location.pathname).city,
-			reg=new RegExp('^.*(city=\\d*).*$');
+		//меню
+		EL.SystemSettings.ready(function(s){
 
-		$(".submenu a").each(function(){
-			var href = $(this).attr("href"),
-				matches=href.match(reg);
-			if(matches){
-				if (matches[1] == 'city='+city_url){
-					$(this).closest(".submenu>li").addClass("second_active");
-					return;
+
+			$(".menu a").each(function() {
+				var href = $(this).attr("href"),
+					path_name = document.location.pathname.split('/'),
+					reg=new RegExp('^.*'+path_name[1]+'.*$'),
+					matches=href.match(reg);
+
+				if (matches && !$(".main_menu>li.active").length) {
+					$(this).closest(".main_menu>li").addClass("active").addClass('main');
+					return false;
+				}else{
+					var mass = s.directions,
+						path_name = path_name[1];
+					reg=new RegExp('^([a-z]{2})[0-9]+$');
+					matches=path_name.match(reg);
+					if (matches && mass[matches[1]].length>0){
+						var reg=new RegExp('^.*'+mass[matches[1]]+'.*$'),
+							href_matches=href.match(reg);
+
+						if (href_matches && !$(".main_menu>li.active").length){
+							$(this).closest(".main_menu>li").addClass("active").addClass('main');
+							return false;
+						}
+					}
 				}
-			}else{
-				if ((href.indexOf(document.location.pathname) == 0) && !$(".submenu>li.active").length && document.location.pathname !='/' && document.location.pathname==href){
-					$(this).closest(".submenu>li").addClass("second_active");
-					return;
+			});
+
+			//подсветка урлов второго уровня
+			$(".submenu a").each(function(){
+				var href = $(this).attr("href"),
+					path_name = document.location.href.split('/').slice(3).join('/'),
+					path_name = '/'+path_name;
+
+				if (href==path_name || path_name == '/apparatuses-makers/') {
+					if (path_name == '/apparatuses-makers/'){
+						$('.submenu li a[href="/preparations-makers/"]').parent().addClass("second_active").parent().parent().addClass("active").addClass('main');
+					}else{
+						$(this).closest(".submenu>li").addClass("second_active");
+					}
+					return false;
+				}else{
+
+					var mass = s.directions,
+						path_name = document.location.pathname.split('/').slice(1, -1).pop(),
+						reg=new RegExp('^([a-z]{2})[0-9]+$');
+
+					if (path_name){
+						var matches=path_name.match(reg);
+
+						if ((matches && mass[matches[1]].length>0) || (matches && matches[1]=='am')){
+
+							if (matches[1]=='am'){
+								$('.submenu li a[href="/preparations-makers/"]').parent().addClass("second_active").parent().parent().addClass("active").addClass('main');
+							}else{
+								var reg=new RegExp('^\/'+mass[matches[1]]+'\/$'),
+									href_matches=href.match(reg);
+
+								if (href_matches){
+									$(this).closest(".submenu>li").addClass("second_active");
+									return false;
+								}
+							}
+						}
+					}
 				}
+			});
+
+			if (!$(".main_menu li.active").length) {
+				$(".main_menu li:first").addClass("active");
 			}
+
+
+
 		});
+
 	});
 
 	initFilter($('.filter'));

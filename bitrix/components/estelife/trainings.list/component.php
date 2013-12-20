@@ -1,5 +1,6 @@
 <?php
 use core\database\VDatabase;
+use core\database\VFilter;
 use core\types\VArray;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
@@ -107,6 +108,7 @@ if (!empty($arResult['city'])){
 			->_eq('ee.city_id', intval($obGet->one('city')));
 	}
 }
+
 
 if(!$obGet->blank('direction'))
 	$obFilter->_eq('eed.type', intval($obGet->one('direction')));

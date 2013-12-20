@@ -278,8 +278,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			value('country_id',intval($obPost->one('country_id',0)))->
 			value('city_id',intval($obPost->one('city_id',0)))->
 			value('metro_id',intval($obPost->one('metro_id',0)))->
-			value('address',strip_tags($obPost->one('address','')))->
-			value('dop_address',strip_tags($obPost->one('dop_address','')))->
+			value('address',htmlentities(strip_tags($obPost->one('address','')),ENT_QUOTES, 'utf-8'))->
+			value('dop_address',htmlentities(strip_tags($obPost->one('dop_address','')),ENT_QUOTES, 'utf-8'))->
 			value('dop_web',strip_tags($obPost->one('dop_web','')))->
 			value('preview_text',htmlentities($obPost->one('preview_text',''),ENT_QUOTES,'utf-8'))->
 			value('detail_text',htmlentities($obPost->one('detail_text',''),ENT_QUOTES,'utf-8'))->

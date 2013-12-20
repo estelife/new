@@ -50,6 +50,14 @@ if(!empty($arResult['event']['dop_web'])){
 	$arResult['event']['short_dop_web']=VString::checkUrl($arResult['event']['dop_web']);
 }
 
+if(!empty($arResult['event']['dop_address'])){
+	$arResult['event']['dop_address']=html_entity_decode($arResult['event']['dop_address'],ENT_QUOTES,'utf-8');
+}
+if(!empty($arResult['event']['address'])){
+	$arResult['event']['address']=html_entity_decode($arResult['event']['address'],ENT_QUOTES,'utf-8');
+}
+
+
 //Получение дат проведения
 $obQuery = $obEvent->createQuery();
 $obQuery->builder()

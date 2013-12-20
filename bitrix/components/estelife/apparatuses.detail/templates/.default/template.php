@@ -128,7 +128,7 @@
 	<?php if (!empty($arResult['app']['production'])):?>
 		<div class="similars products">
 			<div class="title">
-				<h2>Похожие препараты</h2>
+				<h2>Другие аппараты</h2>
 			</div>
 			<div class="items">
 				<?php foreach ($arResult['app']['production'] as $arValue):?>

@@ -10,11 +10,11 @@ CModule::IncludeModule("estelife");
 //Получение списка стран
 $obCities = VDatabase::driver();
 $obQuery = $obCities->createQuery();
-$obQuery->builder()->from('estelife_apparatus','ep');
+$obQuery->builder()->from('estelife_apparatus','ap');
 $obJoin = $obQuery->builder()->join();
 
 $obJoin->_left()
-	->_from('ep', 'company_id')
+	->_from('ap', 'company_id')
 	->_to('estelife_company_geo', 'company_id', 'ecg');
 $obJoin->_left()
 	->_from('ecg','country_id')
