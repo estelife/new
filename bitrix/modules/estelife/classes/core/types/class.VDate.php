@@ -83,7 +83,6 @@ class VDate {
 		$nCount=count($arDates)-1;
 
 		foreach($arDates as $nKey=>$nDate){
-
 			$nDate=strtotime(date('d.m.Y 00:00',$nDate));
 			$bNotNext=false;
 
@@ -91,7 +90,7 @@ class VDate {
 				$nLast=strtotime(date('d.m.Y 00:00',$arDates[$nKey-1]));
 
 			if($nLast==0 || ($bNotNext=($nDate>($nLast+86400))) || $nCount==$nKey){
-				if($nLast>0 || $nCount==$nKey){
+				//if($nLast>0 || $nCount==$nKey){
 					if($nLast>0 && !$bNotNext)
 						$nTo=$nDate;
 					else if($bNotNext && $nFrom==$nLast)
@@ -110,7 +109,7 @@ class VDate {
 
 					if($result===false)
 						break;
-				}
+				//}
 
 				$nFrom=$nDate;
 			}else if($nDate>=$nLast && $nDate<=($nLast+86400)){

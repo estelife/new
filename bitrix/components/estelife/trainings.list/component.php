@@ -109,7 +109,6 @@ if (!empty($arResult['city'])){
 	}
 }
 
-
 if(!$obGet->blank('direction'))
 	$obFilter->_eq('eed.type', intval($obGet->one('direction')));
 
@@ -131,6 +130,7 @@ if ($nDateTo){
 
 $obQuery->builder()->sort('ecal.date','asc');
 $obQuery->builder()->group('ee.id');
+
 $obResult = $obQuery->select();
 
 $obResult = $obResult->bxResult();
@@ -201,7 +201,7 @@ if (!empty($arIds)){
 		$arTraining['calendar']=\core\types\VDate::createDiapasons($arTraining['calendar'],function(&$nFrom,&$nTo) use($nNow){
 			$nNowTo=strtotime(date('d.m.Y', $nNow).' 00:00:00');
 			$nNowFrom=strtotime(date('d.m.Y', $nNow).' 23:59:59');
-			$nTempTo=$nTo;
+			$nTempTo=($nTo==0) ? $nFrom : $nTo;
 			$nTempFrom=$nFrom;
 
 			if($nTo==0){

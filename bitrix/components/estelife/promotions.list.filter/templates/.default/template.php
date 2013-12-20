@@ -29,7 +29,7 @@
 	</div>
 	<div class="field">
 		<label for="specs">Специализация</label>
-		<select name="spec" data-rules="get_service:select[name=service];get_method:select[name=method]">
+		<select name="spec" data-rules="get_service:select[name=service];get_method:select[name=method];get_concreate:select[name=concreate];">
 			<option value=''>--</option>
 			<?php if (!empty($arResult['specializations'])):?>
 				<?php foreach ($arResult['specializations'] as $val):?>

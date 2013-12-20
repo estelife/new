@@ -2,7 +2,7 @@
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="/">Главная</a></li>
-		<li><a href="/preparations/">Аппараты</a></li>
+		<li><a href="/apparatuses/">Аппараты</a></li>
 		<li><b><?=$arResult['app']['name']?></b></li>
 	</ul>
 	<div class="item detail product">
@@ -128,7 +128,7 @@
 	<?php if (!empty($arResult['app']['production'])):?>
 		<div class="similars products">
 			<div class="title">
-				<h2>Другие аппараты</h2>
+				<h2>Другие аппараты этого производителя</h2>
 			</div>
 			<div class="items">
 				<?php foreach ($arResult['app']['production'] as $arValue):?>
