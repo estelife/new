@@ -42,7 +42,7 @@ $obQuery->builder()
 	->field('service_id', 'service_id')
 	->filter()
 	->_eq('akzii_id', $arResult['action']['id']);
-$arServices = $obQuery->select()->all();
+$arServices=$obQuery->select()->all();
 
 if (!empty($arServices)){
 	foreach ($arServices as $val){
@@ -138,15 +138,19 @@ $obJoin=$obQuery->builder()->join();
 $obJoin->_left()
 	->_from('ea', 'id')
 	->_to('estelife_akzii_types', 'akzii_id', 'eat');
-$obQuery->builder()
+$obFilter=$obQuery->builder()
+	->slice(0,3)
+	->group('ea.id')
 	->filter()
-	->_in('eat.service_id', $arResult['service'])
 	->_eq('ea.active', 1)
 	->_ne('ea.id',$arResult['action']['id'])
 	->_gte('ea.end_date', time());
-$obQuery->builder()->slice(0,3);
-$obQuery->builder()->group('ea.id');
+	
+if(!empty($arResult['service']))
+	$obFilter->_in('eat.service_id', $arResult['service']);
+	
 $arSimilar=$obQuery->select()->all();
+
 if (!empty($arSimilar)){
 	foreach ($arSimilar as $val){
 		$val['img'] = CFile::GetFileArray($val["small_photo"]);
