@@ -8,10 +8,10 @@ $APPLICATION->SetPageProperty("keywords", $arResult['SEO']['keywords']);
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="#">Главная</a></li>
-		<li><b>Акции <?if ($_GET['city']==359):?>Москвы<?elseif($_GET['city']==358):?>Санкт-Петербурга<?endif?></b></li>
+		<li><b>Акции <?if ($arResult['city']['ID']==359):?>Москвы<?elseif($arResult['city']['ID']==358):?>Санкт-Петербурга<?endif?></b></li>
 	</ul>
 	<div class="title">
-		<h2>Акции <?if ($_GET['city']==359):?>Москвы<?elseif($_GET['city']==358):?>Санкт-Петербурга<?endif?></h2>
+		<h2>Акции <?if ($arResult['city']['ID']==359):?>Москвы<?elseif($arResult['city']['ID']==358):?>Санкт-Петербурга<?endif?></h2>
 	</div>
 	<div class="items">
 		<?php if (!empty($arResult['akzii'])):?>

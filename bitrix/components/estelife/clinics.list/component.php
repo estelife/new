@@ -2,6 +2,8 @@
 use core\database\mysql\VFilter;
 use core\database\VDatabase;
 use core\types\VArray;
+use geo\VGeo;
+
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	die();
 
@@ -25,6 +27,8 @@ if (isset($arParams['CITY_CODE']) && !empty($arParams['CITY_CODE'])){
 	while($res = $obCity->Fetch()) {
 		$arResult['city'] = $res;
 	}
+}elseif(isset($_COOKIE['estelife_city'])){
+	$arResult['city'] = VGeo::getInstance()->getGeo();
 }
 
 //Получение списка клиник
