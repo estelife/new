@@ -1,6 +1,18 @@
 <?
 $arUrlRewrite = array(
 	array(
+		"CONDITION" => "#^/rest/[a-z]{2}[0-9]+/#",
+		"RULE" => "",
+		"ID" => "estelife:mega.complex.detail",
+		"PATH" => "/rest/detail.php",
+	),
+	array(
+		"CONDITION" => "#^/rest/([a-zA-Z_-]+)/([a-zA-Z0-9_-]+/)?#",
+		"RULE" => "",
+		"ID" => "estelife:mega.complex.section",
+		"PATH" => "/rest/list.php",
+	),
+	array(
 		"CONDITION" => "#^/[a-z]{2}[0-9]+/#",
 		"RULE" => "",
 		"ID" => "estelife:mega.complex.detail",

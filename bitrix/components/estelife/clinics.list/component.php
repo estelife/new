@@ -157,9 +157,12 @@ if (!empty($arClinics)){
 	}
 }
 
-$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
+$sTemplate=$this->getTemplateName();
+$obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
+$arResult['nav']=$obNav->getNav();//$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav'.$sTemplate.'.php');
 
 $APPLICATION->SetPageProperty("title", "Клиники");
 $APPLICATION->SetPageProperty("description", implode(", ", $arDescription));
 $APPLICATION->SetPageProperty("keywords", "Estelife, Акции, Клиники, ". implode(" ,", $arDescription));
+
 $this->IncludeComponentTemplate();

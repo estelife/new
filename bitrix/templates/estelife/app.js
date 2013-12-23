@@ -154,7 +154,7 @@ $(function home(){
 $(function(){
 	var bd=$('body');
 
-	EL.loadModule(['ajaxSupport','url','Geo'],function(){
+	EL.loadModule('Geo',function(){
 		EL.Geo.addEventListener({
 			onCityChange:function(city){
 				$('.cities li').removeClass('active');
@@ -278,7 +278,7 @@ $(function(){
 
 function getPromotions(city){
 	EL.loadModule('templates',function(){
-		var detail_generator=new EL.templates({
+		var tpl=new EL.templates({
 			'path':'/api/estelife_ajax.php',
 			'template':'promotions_index',
 			'params':{
@@ -291,8 +291,8 @@ function getPromotions(city){
 			'city':city
 		},function(r){
 			if(r.complete){
-				detail_generator.ready(function(){
-					var h = detail_generator.make(r.complete);
+				tpl.ready(function(){
+					var h = tpl.render(r.complete);
 					if (h.length>0){
 						$('.promotions.announces .items').html(h);
 						$('.more_promotions').attr('href','/promotions/?city='+city);

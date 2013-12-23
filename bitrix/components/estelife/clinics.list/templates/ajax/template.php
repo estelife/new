@@ -17,5 +17,6 @@ echo json_encode(array(
 			'name'=>$sTitle,
 			'link'=>'#'
 		)
-	)
+	),
+	'nav'=>$arResult['nav']
 ));
