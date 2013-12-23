@@ -282,7 +282,7 @@ if (!empty($arIds)){
 	}
 
 }
-$APPLICATION->SetPageProperty("title", 'Estelife - '.$arResult['company']['name']);
+$APPLICATION->SetPageProperty("title", $arResult['company']['name']);
 $APPLICATION->SetPageProperty("description", mb_substr(trim(strip_tags($arResult['company']['preview_text'])),0,140,'utf-8'));
 $APPLICATION->SetPageProperty("keywords", "Estelife, учебный центр, ".mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['company']['name'])),'utf-8'));
 

@@ -85,6 +85,7 @@ $obResult->NavStart($arPageCount);
 $arResult['apparatus'] = array();
 
 $i=0;
+$arResult['apparatus'] = array();
 while($arData=$obResult->Fetch()){
 	if (!empty($arData['type_id'])){
 		$arData['name'] = $arData['type_name'];

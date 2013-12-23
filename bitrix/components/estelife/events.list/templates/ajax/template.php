@@ -2,14 +2,20 @@
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	die();
 
+$sTitle='Календарь событий';
 echo json_encode(array(
-	'complete'=>array(
-		'filter'=>array_filter($_GET,function($mValue){
-			return !empty($mValue);
-		}),
-		'list'=>(!empty($arResult['events'])) ?
-			array_values($arResult['events']) : array(),
-		'nav'=>$arResult['nav'],
-		'block_color'=>'blue'
+	'list'=>array_values($arResult['events']),
+	'title'=>array(
+		'name'=>$sTitle,
+	),
+	'crumb'=>array(
+		array(
+			'name'=>'Главная',
+			'link'=>'/'
+		),
+		array(
+			'name'=>$sTitle,
+			'link'=>'#'
+		)
 	)
 ));

@@ -87,6 +87,7 @@ $obResult->NavStart($arPageCount);
 $arResult['apps'] = array();
 
 $i = 0;
+$arResult['apps'] = array();
 while($arData=$obResult->Fetch()){
 	$arData['link'] = '/ap'.$arData['id'].'/';
 	$arData['preview_text'] = \core\types\VString::truncate(nl2br(htmlspecialchars_decode($arData['preview_text'],ENT_NOQUOTES)), 250, '...');

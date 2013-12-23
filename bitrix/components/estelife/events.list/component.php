@@ -17,6 +17,7 @@ if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 else
 	$arPageCount = 10;
 
+$arResult['events'] = array();
 
 //Получение списка клиник
 $obQuery = $obEvents->createQuery();

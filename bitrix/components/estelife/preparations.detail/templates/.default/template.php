@@ -152,7 +152,7 @@
 	<?php if (!empty($arResult['pill']['production'])):?>
 		<div class="similars products">
 			<div class="title">
-				<h2>Другие препараты этого производителя</h2>
+				<h2>Другие препараты</h2>
 			</div>
 			<div class="items">
 				<?php foreach ($arResult['pill']['production'] as $arValue):?>
