@@ -129,9 +129,12 @@ while($arData=$obResult->Fetch()){
 
 if (!empty($arClinics)){
 	//получаем услуги
-	$obQuery = $obClinics->createQuery();
-	$obQuery->builder()->from('estelife_clinic_services', 'ecs');
-	$obJoin=$obQuery->builder()->join();
+	$obQuery=$obClinics->createQuery();
+	$obQuery->builder()
+		->from('estelife_clinic_services', 'ecs');
+	$obJoin=$obQuery->builder()
+		->join();
+
 	$obJoin->_left()
 		->_from('ecs','specialization_id')
 		->_to('estelife_specializations','id','es');
@@ -139,13 +142,14 @@ if (!empty($arClinics)){
 		->field('es.name','s_name')
 		->field('es.id','s_id')
 		->field('ecs.clinic_id');
-	$obQuery->builder()->filter()
+	$obQuery->builder()
+		->filter()
 		->_in('ecs.clinic_id', $arClinics);
+
 	$arClinicSpecialization = $obQuery->select()->all();
-
 //	VArray::prePrint($arClinicSpecialization);
-
 	$arSpecialization = array();
+
 	if (!empty($arClinicSpecialization)){
 		foreach ($arClinicSpecialization as $val){
 			$arSpecialization[$val['clinic_id']][] = $val['s_name'];

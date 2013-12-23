@@ -123,7 +123,8 @@ EL.loadModule('templates',function(){
 		render:function(){
 			if(_.isObject(this.data) && 'list' in this.data){
 				var ob=this;
-				this.$el.addClass('items');
+				this.$el.addClass('items')
+					.empty();
 
 				this.template.ready(function(){
 					ob.template.set('list', ob.data.list);
@@ -140,10 +141,11 @@ EL.loadModule('templates',function(){
 	 * @type {*}
 	 */
 	App.Views.Nav=App.Views.Default.extend({
-		el:document.createElement('ul'),
+		el:'ul.nav',
 		render:function(){
 			if(_.isObject(this.data) && 'nav' in this.data){
 				var nav=this.data.nav;
+				this.$el.empty();
 
 				if(nav.endPage && nav.endPage>0){
 					if(nav.startPage>1){
@@ -167,11 +169,9 @@ EL.loadModule('templates',function(){
 						this.$el.append('<li><span>...</span></li>')
 							.append('<li><a href="'+nav.urlPath+'?PAGEN_'+nav.navNum+'='+nav.pageCount+nav.queryString+'">'+nav.pageCount+'</a></li>');
 					}
-
-
+				}else{
+					this.$el.append('<li><b>1</b></li>')
 				}
-
-				this.$el.addClass('nav');
 			}
 
 			return this;
@@ -183,14 +183,15 @@ EL.loadModule('templates',function(){
 	 * @type {*}
 	 */
 	App.Views.Crumb=App.Views.Default.extend({
-		el:document.createElement('ul'),
+		el:'ul.crumb',
 		render:function(){
 			if(_.isObject(this.data) && 'crumb' in this.data){
 				var ob=this,
 					data=this.data.crumb,
 					last=data.pop();
 
-				this.$el.addClass('crumb');
+				if(this.$el.length>0)
+					this.$el.empty();
 
 				_.each(data,function(item){
 					ob.$el.append('<li><a href="'+item.link+'">'+item.name+'</a></li>');
@@ -208,14 +209,13 @@ EL.loadModule('templates',function(){
 	 * @type {*}
 	 */
 	App.Views.Title=App.Views.Default.extend({
-		el:document.createElement('div'),
+		el:'div.title',
 		render:function(){
 			if(_.isObject(this.data) && 'title' in this.data){
 				var data=this.data.title,
 					html='<h1>'+data.name+'</h1>';
 
-				this.$el.addClass('title')
-					.empty()
+				this.$el.empty()
 					.html(html);
 			}
 
@@ -253,12 +253,15 @@ EL.loadModule('templates',function(){
 	App.Views.ClinicList=App.Views.List.extend({
 		template:'clinics_list'
 	});
+	App.Views.PromotionList=App.Views.List.extend({
+		template:'promotions_list'
+	});
 
 	// ROUTERS
 	App.Routers.Default=new (Backbone.Router.extend({
 		routes: {
 			'clinics/(.*)': 'clinicList',
-			'cl:number/': 'clinicDetail'
+			'promotions/(.*)':'promotionList'
 		},
 
 		clinicList: function(){
@@ -268,6 +271,20 @@ EL.loadModule('templates',function(){
 					'viewTitle':new App.Views.Title(),
 					'viewCrumb':new App.Views.Crumb(),
 					'viewList':new App.Views.ClinicList(),
+					'viewNav':new App.Views.Nav()
+				},
+				'view':new App.Views.Inner()
+			});
+			model.fetch();
+		},
+
+		promotionList: function(){
+			var model=new App.Models.Inner(null,{
+				'page':'promotions/'+EL.query().toString(),
+				'viewCollection':{
+					'viewTitle':new App.Views.Title(),
+					'viewCrumb':new App.Views.Crumb(),
+					'viewList':new App.Views.PromotionList(),
 					'viewNav':new App.Views.Nav()
 				},
 				'view':new App.Views.Inner()
@@ -296,16 +313,29 @@ EL.loadModule('templates',function(){
 			}
 		});
 
-		$('.head .menu a').click(function(){
+		$('.main_menu a').click(function(e){
 			var link=$(this),
-				href=link.attr('href')||'';
+				href=link.attr('href')||'',
+				parent=link.parents('ul:first'),
+				menu=$('.main_menu');
 
 			if(href.length>0 && href!='#'){
 				App.Routers.Default.navigate(
 					href.replace(/^\//,''),
-					{trigger: true }
+					{trigger: true}
 				);
 				e.preventDefault();
+			}
+
+			menu.find('.main,.active,.second_active')
+				.removeClass('main active second_active');
+
+			if(parent.hasClass('.main_menu')){
+				link.addClass('main')
+			}else{
+				parent=link.parents('li');
+				parent.eq(0).addClass('second_active');
+				parent.eq(1).addClass('main');
 			}
 		});
 	});
