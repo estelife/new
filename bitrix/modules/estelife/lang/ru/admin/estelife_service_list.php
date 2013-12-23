@@ -1,10 +1,10 @@
 <?php
-$MESS ['ESTELIFE_HEAD_TITLE'] = 'Список типов услуг';
+$MESS ['ESTELIFE_HEAD_TITLE'] = 'Список видов услуг';
 $MESS ['ESTELIFE_F_TITLE'] = 'Название';
 $MESS ['ESTELIFE_F_ID'] = 'ID';
 $MESS ['ESTELIFE_F_SPEC'] = 'Специализация';
-$MESS ['ESTELIFE_CREATE'] = 'Создать тип услуги';
-$MESS ['ESTELIFE_CREATE_TITLE'] = 'Отобразиться форма для создания типа услуги';
+$MESS ['ESTELIFE_CREATE'] = 'Создать вид услуги';
+$MESS ['ESTELIFE_CREATE_TITLE'] = 'Отобразиться форма для создания вида услуги';
 $MESS ['ESTELIFE_NOT_IMPORTANT'] = 'Не важно';
 
 $MESS ['ESTELIFE_EDIT_ALT']='Редактирование';

@@ -4,6 +4,7 @@ $APPLICATION->SetPageProperty("title", $arResult['SEO']['title']);
 $APPLICATION->SetPageProperty("description", $arResult['SEO']['description']);
 $APPLICATION->SetPageProperty("keywords", $arResult['SEO']['keywords']);
 ?>
+
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="#">Главная</a></li>
@@ -17,7 +18,7 @@ $APPLICATION->SetPageProperty("keywords", $arResult['SEO']['keywords']);
 			<?php foreach ($arResult['akzii'] as $arValue):?>
 				<div class="item promotion">
 					<div class="item-rel">
-						<?php if($arValue['view_type']!=3): ?>
+						<?php if($arValue['view_type']!=2): ?>
 							<span class="perc"><?=$arValue["sale"]?>%</span>
 						<?php endif; ?>
 						<a href="<?=$arValue['link']?>">
@@ -26,7 +27,7 @@ $APPLICATION->SetPageProperty("keywords", $arResult['SEO']['keywords']);
 						<h3><a href="<?=$arValue['link']?>"><?=$arValue['name']?></a></h3>
 						<div class="cols prices">
 							<b>
-								<?php if($arValue['view_type']==2): ?>
+								<?php if($arValue['view_type']==3): ?>
 									скидка <?=$arValue["sale"]?>%
 								<?php else: ?>
 									<?=$arValue['new_price']?> <i></i>

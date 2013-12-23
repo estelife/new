@@ -33,9 +33,18 @@ try{
 				$sName=trim(strip_tags($arData['term']));
 				$obClinics=VDatabase::driver();
 				$obQuery=$obClinics->createQuery();
-				$obQuery->builder()->from('estelife_clinics');
-				$obQuery->builder()->filter()
-					->_like('name',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+				$obQuery->builder()
+					->from('estelife_clinics','ec')
+					->join()
+					->_left()
+					->_from('ec','city_id')
+					->_to('iblock_element','ID','ct');
+				$obQuery->builder()
+					->field('ec.name')
+					->field('ec.id')
+					->field('ct.NAME','city')
+					->filter()
+					->_like('ec.name',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 
 				$obRecords=$obQuery->select()->all();
 				$arResult['list']=array();
@@ -43,11 +52,12 @@ try{
 				if(count($obRecords)>0){
 					foreach($obRecords as $obRecord){
 						$arRecord=$obRecord;
-						if ($arRecord['clinic_id'] == 0){
-							$arRecord['name']=html_entity_decode($arRecord['name'],ENT_QUOTES,'utf-8');
-						}else{
-							$arRecord['name']='Филиал '.html_entity_decode($arRecord['name'],ENT_QUOTES,'utf-8');
-						}
+						$arTerm=array($obRecord['city']);
+
+						if($arRecord['clinic_id']!=0)
+							$arTerm[]='филиал';
+
+						$arRecord['name']=html_entity_decode($arRecord['name'],ENT_QUOTES,'utf-8').' ('.implode($arTerm).')';
 						$arResult['list'][]=$arRecord;
 					}
 				}
@@ -349,11 +359,9 @@ try{
 			if(empty($nParentId))
 				throw new VException('server error');
 
-			$obCurrent=($sAction=='get_service') ?
-				new rs\VServices() :
-				new rs\VCServices();
-
-			$obCurrent->createQuery()->builder()
+			$obQuery=VDatabase::driver()->createQuery();
+			$obQuery->builder()
+				->from(($sAction=='get_service' ? 'estelife_services' : 'estelife_service_concreate'))
 				->filter()
 				->_eq(
 					($sAction=='get_service' ?
@@ -362,24 +370,16 @@ try{
 					$nParentId
 				);
 
-			$obList=$obCurrent->lineList();
-			$arResult['list']=array();
-
-			foreach($obList as $obRecord)
-				$arResult['list'][]=$obRecord->toArray();
+			$arResult['list']=$obQuery->select()->all();
 
 			if(!$bByMethod){
-				$obMethods=new rs\VMethods();
-				$obMethods->createQuery()->builder()
+				$obQuery=VDatabase::driver()->createQuery();
+				$obQuery->builder()
+					->from('estelife_methods')
 					->filter()
 					->_eq(($sAction=='get_service' ? 'specialization_id' : 'service_id'),$nParentId);
 
-				$obMethods=$obMethods->lineList();
-				$arResult['methods']=array();
-
-				foreach($obMethods as $obMethod)
-					$arResult['methods'][]=$obMethod->toArray();
-
+				$arResult['methods']=$obQuery->select()->all();
 				setcookie('el_sel_'.($sAction=='get_service' ? 'spec' : 'serv'),$nParentId,time()+86400,'/');
 			}else
 				setcookie('el_sel_method',$nParentId,time()+86400,'/');

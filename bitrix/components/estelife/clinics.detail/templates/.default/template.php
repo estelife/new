@@ -86,7 +86,7 @@
 						<?php foreach ($arResult['clinic']['akzii'] as $arValue):?>
 							<div class="item promotion">
 								<div class="item-rel">
-									<?php if($arValue['view_type']!=3): ?>
+									<?php if($arValue['view_type']!=2): ?>
 										<span class="perc"><?=$arValue["sale"]?>%</span>
 									<?php endif; ?>
 									<a href="<?=$arValue['link']?>">
@@ -95,7 +95,7 @@
 									<h3><a href="<?=$arValue['link']?>"><?=$arValue['name']?></a></h3>
 									<div class="cols prices">
 										<b>
-											<?php if($arValue['view_type']==2): ?>
+											<?php if($arValue['view_type']==3): ?>
 												скидка <?=$arValue["sale"]?>%
 											<?php else: ?>
 												<?=$arValue['new_price']?> <i></i>
