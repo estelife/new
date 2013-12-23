@@ -7,7 +7,7 @@
 	</div>
 	<div class="field">
 		<label for="name">Наименование</label>
-		<input name="name" type="text" value="<?=$_GET['name']?>" class="text"/>
+		<input name="name" type="text" value="<?=$_GET['name']?>" class="text" />
 		<span class="block"></span>
 	</div>
 	<div class="field">
