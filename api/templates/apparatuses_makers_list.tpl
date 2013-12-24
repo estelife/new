@@ -17,7 +17,7 @@
 						<li class="country c<!--$val.country_id!-->"><!--$val.country_name!--></li>
 						<!--if($val.web)!-->
 						<li><a href="<!--$val.web!-->" target="_blank"><!--$val.web_short!--></a></li>
-						<?php endif?>
+						<!--endif!-->
 					</ul>
 					<p><!--$val.preview_text!--></p>
 				</div>
@@ -25,4 +25,6 @@
 			<div class="border"></div>
 		</div>
 	<!--endforeach!-->
+<!--else!-->
+	<div class="not-found">Производители не найдены ...</div>
 <!--endif!-->

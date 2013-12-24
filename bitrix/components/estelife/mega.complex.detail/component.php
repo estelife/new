@@ -7,6 +7,7 @@ $arDirectories=$APPLICATION->IncludeComponent(
 	array('filter'=>'directions')
 );
 
+
 $arDefaultUrlTemplates404 = array(
 	"articles" => "#CURRENT_CODE#/",
 );

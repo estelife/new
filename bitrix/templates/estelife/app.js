@@ -136,7 +136,7 @@ $(function home(){
 	});
 
 	//Переключение между табами
-	$('.menu_tab ul li').click(function(){
+	$('body').on('click','.menu_tab ul li',function(){
 		var col = $('.menu_tab ul li'),
 		index = col.index($(this));
 

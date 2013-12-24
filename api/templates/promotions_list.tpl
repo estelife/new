@@ -29,4 +29,6 @@
 			<div class="border"></div>
 		</div>
 	<!--endforeach!-->
+<!--else!-->
+	<div class="not-found">Акции не найдены ...</div>
 <!--endif!-->

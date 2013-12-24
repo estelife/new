@@ -24,4 +24,6 @@
 			<div class="border"></div>
 		</div>
 	<!--endforeach!-->
+<!--else!-->
+	<div class="not-found">Семинары не найдены ...</div>
 <!--endif!-->

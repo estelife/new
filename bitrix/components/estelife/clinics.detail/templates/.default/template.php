@@ -90,7 +90,7 @@
 										<span class="perc"><?=$arValue["sale"]?>%</span>
 									<?php endif; ?>
 									<a href="<?=$arValue['link']?>">
-										<img src="<?=$arValue['src']?>" alt="<?=$arValue['name']?>" title="<?=$arValue['name']?>" />
+										<img src="<?=$arValue['logo']?>" alt="<?=$arValue['name']?>" title="<?=$arValue['name']?>" />
 									</a>
 									<h3><a href="<?=$arValue['link']?>"><?=$arValue['name']?></a></h3>
 									<div class="cols prices">

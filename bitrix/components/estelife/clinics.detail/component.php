@@ -155,7 +155,7 @@ $obQuery->builder()
 	->field('ea.base_old_price','old_price')
 	->field('ea.base_new_price','new_price')
 	->field('ea.base_sale','sale')
-	->field('ea.big_photo','logo_id');
+	->field('ea.small_photo','logo_id');
 $obQuery->builder()->filter()
 	->_eq('ecs.clinic_id', $nClinicID)
 	->_eq('ea.active', 1)
@@ -180,7 +180,6 @@ foreach ($arActions as $val){
 
 	$arResult['clinic']['akzii'][]=$val;
 }
-
 
 //Получаем филиалы
 $obQuery = $obClinics->createQuery();

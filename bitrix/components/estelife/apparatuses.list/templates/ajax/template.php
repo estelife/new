@@ -10,11 +10,13 @@ echo json_encode(array(
 		'menu'=>array(
 			array(
 				'name'=>'Препараты',
-				'link'=>'/preparations/'
+				'link'=>'/preparations/',
+				'class'=>''
 			),
 			array(
 				'name'=>'Аппараты',
-				'link'=>'/apparatuses/'
+				'link'=>'/apparatuses/',
+				'class'=>'active'
 			)
 		)
 	),

@@ -28,7 +28,5 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<li><a href="<?=$sUrlPath?>?PAGEN_<?=$this->NavNum?>=<?=$this->NavPageCount.$strNavQueryString?>"><?=$this->NavPageCount?></a></li>
 		<?php
 		endif;
-	else:?>
-			<li><b>1</b></li>
-	<?php endif; ?>
+	endif; ?>
 </ul>

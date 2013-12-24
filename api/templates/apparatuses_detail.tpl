@@ -1,166 +1,154 @@
-<div class="el-ajax-detail">
-	<div class="block" rel="app">
-		<div class='block-header red'>
-			<span><!--$name!--></span>
+<!--if($detail)!-->
+	<h1><!--$detail.name!--></h1>
+	<div class="current">
+		<div class="img">
+			<div class="img-in">
+				<!--$detail.img!-->
+			</div>
 		</div>
-		<div class='shadow'></div>
-		<div class="el-ditem el-ditem-h">
-			<div class="logo el-col">
-				<!--$img!-->
-			</div>
-			<div class="el-scroll">
-				<div class="el-scroll-in">
-					<table>
-						<tr>
-							<td>
-								<ul class="contacts el-col el-ul el-contacts">
-									<!--if($country_name)!-->
-									<li><span>Страна</span><span><!--$country_name!--></span><i class="icon" style="background:url('/img/countries/c<!--$country_id!-->.png')"></i></li>
-									<!--endif!-->
-									<!--if($company_name)!-->
-									<li><span>Компания</span><span><a href="<!--$company_link!-->"><!--$company_name!--></a></span></li>
-									<!--endif!-->
-									<!--if($type_name)!-->
-									<li><span>Вид препарата</span><span><!--$type_name!--></span></li>
-									<!--endif!-->
-								</ul>
-							</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			<div class="clear"></div>
-			<!--if($types)!-->
-			<div class="el-prop">
-				<h3>Типы препарата</h3>
-				<ul class="el-ul">
-					<!--foreach ($types as $key=>$val)!-->
-					<li><!--$val!--></li>
-					<!--endforeach!-->
-				</ul>
-			</div>
+		<ul>
+			<!--if($detail.country_name)!-->
+				<li class="country c<!--$detail.country_id!-->"><!--$detail.country_name!--></li>
 			<!--endif!-->
-			<div class="el-tab">
-				<div>Описание<span class="open"></span></div>
-				<p><!--$detail_text!--></p>
-			</div>
-
-			<!--if($registration)!-->
-			<div class="el-tab">
-				<div>Регистрация<span class="close"></span></div>
-				<p class="none"><!--$registration!--></p>
-			</div>
+			<!--if($detail.company_name)!-->
+				<li>Производитель: <a href="<!--$detail.company_link!-->"><!--$detail.company_name!--></a></li>
 			<!--endif!-->
-			<!--if($action)!-->
-			<div class="el-tab">
-				<div>Действие<span class="close"></span></div>
-				<p class="none"><!--$action!--></p>
-			</div>
-			<!--endif!-->
-			<!--if(func)!-->
-			<div class="el-tab">
-				<div>Функции<span class="close"></span></div>
-				<p class="none"><!--$func!--></p>
-			</div>
-			<!--endif!-->
-			<!--if($undesired)!-->
-			<div class="el-tab">
-				<div>Побочные действие<span class="close"></span></div>
-				<p class="none"><!--$undesired!--></p>
-			</div>
-			<!--endif!-->
-			<!--if($evidence)!-->
-			<div class="el-tab">
-				<div>Показания<span class="close"></span></div>
-				<p class="none"><!--$evidence!--></p>
-			</div>
-			<!--endif!-->
-			<!--if($procedure)!-->
-			<div class="el-tab">
-				<div>Курс процедур<span class="close"></span></div>
-				<p class="none"><!--$procedure!--></p>
-			</div>
-			<!--endif!-->
-			<!--if($contra)!-->
-			<div class="el-tab">
-				<div>Противопоказания<span class="close"></span></div>
-				<p class="none"><!--$contra!--></p>
-			</div>
-			<!--endif!-->
-			<!--if($advantages)!-->
-			<div class="el-tab">
-				<div>Преимущества<span class="close"></span></div>
-				<p class="none"><!--$advantages!--></p>
-			</div>
-			<!--endif!-->
-			<!--if($security)!-->
-			<div class="el-tab">
-				<div>Безопасность<span class="close"></span></div>
-				<p class="none"><!--$security!--></p>
-			</div>
-			<!--endif!-->
-			<!--if($protocol)!-->
-			<div class="el-tab">
-				<div>Протокол процедуры<span class="close"></span></div>
-				<p class="none"><!--$protocol!--></p>
-			</div>
-			<!--endif!-->
-			<!--if($specs)!-->
-			<div class="el-tab">
-				<div>Технические характеристики<span class="close"></span></div>
-				<p class="none"><!--$specs!--></p>
-			</div>
-			<!--endif!-->
-			<!--if($equipment)!-->
-			<div class="el-tab">
-				<div>Комплектация<span class="close"></span></div>
-				<p class="none"><!--$equipment!--></p>
-			</div>
-			<!--endif!-->
-
-		</div>
+		</ul>
 	</div>
-	<!--if($gallery)!-->
-	<div class="block" rel="app">
-		<div class='block-header blue'>
-			<span>Фотографии до/после</span>
-		</div>
-		<div class="dl_item">
-			<div class="el-gallery">
-				<!--foreach ($gallery as $key=>$val)!-->
-				<div class="image">
-					<a href="<!--$val!-->" class="colorbox" rel="app" target="_blank" title="">
-						<img src="<!--$val!-->" alt="" title="" />
-						<span class="desc"></span>
-					</a>
+	<p><!--$detail.detail_text!--></p>
+
+	<div class="properties">
+		<!--if($detail.registration)!-->
+			<div class="el-tab">
+				<h3><a href="#">Регистрация</a></h3>
+				<p class="none"><!--$detail.registration!--></p>
+			</div>
+		<!--endif!-->
+		<!--if($detail.action)!-->
+			<div class="el-tab">
+				<h3><a href="#">Действие</a></h3>
+				<p class="none"><!--$detail.action!--></p>
+			</div>
+		<!--endif!-->
+		<!--if($detail.func)!-->
+			<div class="el-tab">
+				<h3><a href="#">Функции</a></h3>
+				<p class="none"><!--$detail.func!--></p>
+			</div>
+		<!--endif!-->
+		<!--if($detail.undesired)!-->
+			<div class="el-tab">
+				<h3><a href="#">Побочные действие</a></h3>
+				<p class="none"><!--$detail.undesired!--></p>
+			</div>
+		<!--endif!-->
+		<!--if($detail.evidence)!-->
+			<div class="el-tab">
+				<h3><a href="#">Показания</a></h3>
+				<p class="none"><!--$detail.evidence!--></p>
+			</div>
+		<!--endif!-->
+		<!--if($detail.procedure)!-->
+			<div class="el-tab">
+				<h3><a href="#">Курс процедур</a></h3>
+				<p class="none"><!--$detail.procedure!--></p>
+			</div>
+		<!--endif!-->
+		<!--if($detail.contra)!-->
+			<div class="el-tab">
+				<h3><a href="#">Противопоказания</a></h3>
+				<p class="none"><!--$detail.contra!--></p>
+			</div>
+		<!--endif!-->
+		<!--if($detail.advantages)!-->
+			<div class="el-tab">
+				<h3><a href="#">Преимущества</a></h3>
+				<p class="none"><!--$detail.advantages!--></p>
+			</div>
+		<!--endif!-->
+		<!--if($detail.security)!-->
+			<div class="el-tab">
+				<h3><a href="#">Безопасность</a></h3>
+				<p class="none"><!--$detail.security!--></p>
+			</div>
+		<!--endif!-->
+		<!--if($detail.protocol)!-->
+			<div class="el-tab">
+				<h3><a href="#">Протокол процедуры</a></h3>
+				<p class="none"><!--$detail.protocol!--></p>
+			</div>
+		<!--endif!-->
+		<!--if($detail.specs)!-->
+			<div class="el-tab">
+				<h3><a href="#">Технические характеристики</a></h3>
+				<p class="none"><!--$detail.specs!--></p>
+			</div>
+		<!--endif!-->
+		<!--if($detail.equipment)!-->
+			<div class="el-tab">
+				<h3><a href="#">Комплектация</a></h3>
+				<p class="none"><!--$detail.equipment!--></p>
+			</div>
+		<!--endif!-->
+
+
+		<!--if($detail.gallery)!-->
+			<div class="el-tab">
+				<h3><a href="#">Фотографии результатов</a></h3>
+				<div class="items none">
+					<div class="gallery">
+						<div class="gallery-in">
+							<!--foreach($detail.gallery as $key=>$val)!-->
+								<div class="item">
+									<b>До</b>
+									<b class="r">После</b>
+									<div class="img">
+										<img src="<!--$val!-->" alt="До После" title="До После" />
+									</div>
+
+								</div>
+							<!--endforeach!-->
+						</div>
+						<a href="#" class="arrow left">Вперед<i></i></a>
+						<a href="#" class="arrow right">Назад<i></i></a>
+
+					</div>
 				</div>
+			</div>
+		<!--endif!-->
+	</div>
+	</div>
+	<!--if($detail.production)!-->
+		<div class="similars products">
+			<div class="title">
+				<h2>Другие аппараты</h2>
+			</div>
+			<div class="items">
+				<!--foreach($detail.production as $key=>$val)!-->
+					<div class="item product">
+						<div class="item-rel">
+							<div class="img">
+								<div class="img-in">
+									<!--if($val.logo_id)!-->
+										<!--$val.img!-->
+									<!--endif!-->
+								</div>
+							</div>
+							<div class="cols">
+								<h2><a href="<!--$val.link!-->"><!--$val.name!--></a></h2>
+								<ul>
+									<li class="country c<!--$detail.country_id!-->"><!--$detail.country_name!--></li>
+									<li>Производитель: <a href="<!--$detail.company_link!-->"><!--$detail.company_name!--></a></li>
+								</ul>
+								<p><!--$val.preview_text!--></p>
+							</div>
+						</div>
+						<div class="border"></div>
+					</div>
 				<!--endforeach!-->
 			</div>
 		</div>
-	</div>
 	<!--endif!-->
-	<!--if($production)!-->
-	<div class="block" rel="clinic">
-		<div class='block-header blue'>
-			<span>Другие препараты <!--$company_name!--></span>
-		</div>
-		<div class="el-ditem-action production-events production" >
-			<!--foreach ($production as $key=>$value)!-->
-			<div class="section big">
-				<a href="<!--$value.link!-->">
-					<div class="h"><!--$value.name!--></div>
-				</a>
-				<div class="i">
-					<!--if($value.logo_id)!-->
-					<!--$value.img!-->
-					<!--endif!-->
-				</div>
-
-				<div class="t"><!--$value.preview_text!--></div>
-			</div>
-			<!--endforeach!-->
-			<div class="clear"></div>
-		</div>
-	</div>
-	<!--endif!-->
-</div>
+<!--else!-->
+	<div class="not-found">Аппарат не найден ...</div>
+<!--endif!-->

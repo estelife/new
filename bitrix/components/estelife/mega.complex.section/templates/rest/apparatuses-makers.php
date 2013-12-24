@@ -3,7 +3,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)
 	die();
 
 $APPLICATION->IncludeComponent(
-	"estelife:clinics.list",
+	"estelife:apparatuses-makers.list",
 	"ajax",
 	array(
 		"PAGE_COUNT" => 10,

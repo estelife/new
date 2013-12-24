@@ -5,7 +5,7 @@
 		<li><b>Аппараты</b></li>
 	</ul>
 	<div class="title">
-		<h2>Аппараты</h2>
+		<h1>Аппараты</h1>
 		<ul class="menu">
 			<li><a href="/preparations/" >Препараты</a></li>
 			<li><a href="/apparatuses/" class="active">Аппараты</a></li>

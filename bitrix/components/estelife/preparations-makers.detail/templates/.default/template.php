@@ -23,10 +23,10 @@
 			</ul>
 		</div>
 		<p><?=$arResult['company']['detail_text']?></p>
-		<?php if (!empty($arResult['production'])):?>
+		<?php if (!empty($arResult['company']['production'])):?>
 			<h3>Продукция</h3>
 			<div class="items products">
-				<?php foreach ($arResult['production'] as $arValue):?>
+				<?php foreach ($arResult['company']['production'] as $arValue):?>
 					<div class="item product">
 						<div class="item-rel">
 							<div class="img">
