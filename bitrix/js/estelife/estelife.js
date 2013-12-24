@@ -583,7 +583,15 @@ $(function(){
 				.addClass('adm-btn-delete estelife-delete')
 				.html('');
 
-			setTimeout(function(){prnt.find('input,textarea,select').not('.ignore_cleared').val('')},0);
+			setTimeout(function(){
+				var field=prnt.find('input,textarea,select').not('.ignore_cleared');
+
+				if(field.length>0 && field[0].tagName=='SELECT'){
+					cln.find('select')[0].selectedIndex=field[0].selectedIndex;
+					field[0].selectedIndex=0;
+				}else
+					field.val('');
+			},0);
 			prnt.before(cln);
 		}
 		return false;

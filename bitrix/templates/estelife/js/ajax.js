@@ -7,30 +7,74 @@ window.App={
 
 EL.loadModule('templates',function(){
 	// MODELS
+	App.Models.Default=Backbone.Model.extend({
+		page:null,
+		pages:[],
+
+		initialize:function(data,params){
+			var page=params.page||null,
+				pages=params.pages||null;
+
+			if(!_.isString(page) && !_.isArray(pages))
+				throw 'invalid page';
+
+			this.pages=pages;
+			this.page=page;
+		},
+
+		sync:function(){
+			var model=this;
+
+			if(this.pages && 0<this.pages.length<10){
+				var data={},
+					numRequests=0,
+					maxTimeouts=0;
+
+				_.each(this.pages,function(page){
+					$.get('/rest/'+page,{},function(response){
+						try{
+							response=$.parseJSON(response);
+							_.extend(data,response);
+						}catch(e){}
+						maxTimeouts++;
+					});
+				});
+
+				var timeout=function(){
+					if(numRequests<=model.pages.length && maxTimeouts<10){
+						setTimeout(timeout,100);
+						maxTimeouts++;
+					}else{
+						model.set(data);
+					}
+				};
+				timeout();
+			}else if(this.page){
+				$.get('/rest/'+this.page,{},function(response){
+					try{
+						response=$.parseJSON(response);
+						model.set(response);
+					}catch(e){}
+				});
+			}
+		}
+	});
+
 	/**
 	 * Модель комплексной страницы, умеет тянуть свои данный с сервера
 	 * @type {*}
 	 */
-	App.Models.Complex=Backbone.Model.extend({
-		viewCollection:{},
-		view:null,
-		page:null,
+	App.Models.Complex=App.Models.Default.extend({
+		views:[],
 
 		initialize:function(data,params){
-			var viewCollection=params.viewCollection||{},
-				view=params.view||null,
-				page=params.page||null;
-
-			if(!_.isString(page))
-				throw 'invalid page';
+			App.Models.Default.prototype.initialize(data,params);
+			var view=params.view||null;
 
 			if(!(view instanceof App.Views.Complex))
 				throw 'invalid view';
 
 			this.view=view;
-			this.viewCollection=viewCollection;
-			this.page=page;
-
 			this.bind(
 				'change',
 				this.updateStateEvent,
@@ -39,29 +83,41 @@ EL.loadModule('templates',function(){
 		},
 
 		updateStateEvent:function(){
-			var model=this;
-
-			_.map(this.viewCollection,function(view){
-				view.setData(model.toJSON());
-				return view;
-			});
-
-			this.view.setChildViews(this.viewCollection);
+			this.view.setData(this.toJSON());
 			this.view.render();
-		},
-
-		sync:function(){
-			var model=this;
-
-			$.get('/rest/'+this.page,{},function(response){
-				try{
-					response=$.parseJSON(response);
-					model.set(response);
-				}catch(e){}
-			});
 		}
 	});
 
+	/**
+	 * Модель для отдельного компонента
+	 * @type {*}
+	 */
+	App.Models.Component=App.Models.Default.extend({
+		initialize:function(data,params){
+			App.Models.Default.prototype.initialize(data,params);
+			var view=params.view||null;
+
+			if(!(view instanceof App.Views.Default))
+				throw 'invalid view';
+
+			this.view=view;
+			this.bind(
+				'change',
+				this.updateStateEvent,
+				this
+			);
+		},
+
+		updateStateEvent:function(){
+			this.view.setData(this.toJSON());
+			this.view.render();
+		}
+	});
+
+	/**
+	 * Модель для внутренней страницы
+	 * @type {*}
+	 */
 	App.Models.Inner=App.Models.Complex.extend({
 		defaults:{
 			'crumb':null,
@@ -107,10 +163,37 @@ EL.loadModule('templates',function(){
 	 * @type {*}
 	 */
 	App.Views.Complex=Backbone.View.extend({
-		viewCollection:{},
-		setChildViews:function(viewCollection){
-			if(_.isObject(viewCollection))
-				this.viewCollection=viewCollection;
+		views:[],
+		initialize:function(params){
+			var views=params.views||null;
+
+			if(views && _.isArray(views))
+				this.views=views;
+		},
+		setData:function(data){
+			if(data && _.isObject(data)){
+				_.each(this.views,function(view){
+					view.setData(data);
+				})
+			}
+		},
+		render:function(){
+			var ob=this;
+			this.$el.empty();
+
+			var start=(new Date()).getTime(),
+				end=0;
+
+			if(this.views && this.views.length>0){
+				_.each(this.views,function(view){
+					ob.$el.append(view.render().el);
+				});
+			}
+
+			end=(new Date()).getTime();
+			console.log('profile: '+((end-start)));
+
+			return this;
 		}
 	});
 
@@ -206,6 +289,7 @@ EL.loadModule('templates',function(){
 		el:'ul.crumb',
 		render:function(){
 			if(_.isObject(this.data) && 'crumb' in this.data){
+
 				var ob=this,
 					data=this.data.crumb,
 					last=data.pop();
@@ -253,30 +337,34 @@ EL.loadModule('templates',function(){
 	});
 
 	/**
+	 * Представление для фильтра
+	 * @type {*}
+	 */
+	App.Views.Filter=App.Views.Default.extend({
+		el:'form.filter',
+		render:function(){
+			if(_.isObject(this.data)){
+				var ob=this;
+				this.template.ready(function(){
+					var form=$(ob.template.render(ob.data));
+					ob.$el.empty().append(form.html());
+					initFilter(ob.$el);
+				});
+			}
+
+			return this;
+		}
+	});
+
+	/**
 	 * Представление для внутренней страницы
 	 * @type {*}
 	 */
 	App.Views.Inner=App.Views.Complex.extend({
-		el:'.inner',
-		render:function(){
-			this.$el.empty();
-
-			if(this.viewCollection.viewCrumb)
-				this.$el.append(this.viewCollection.viewCrumb.render().el);
-
-			if(this.viewCollection.viewTitle)
-				this.$el.append(this.viewCollection.viewTitle.render().el);
-
-			if(this.viewCollection.viewList)
-				this.$el.append(this.viewCollection.viewList.render().$el);
-			else if(this.viewCollection.viewDetail)
-				this.$el.append(this.viewCollection.viewDetail.render().el);
-
-			if(this.viewCollection.viewNav)
-				this.$el.append(this.viewCollection.viewNav.render().el);
-
-			return this;
-		}
+		el:'.inner'
+	});
+	App.Views.Content=App.Views.Complex.extend({
+		el:'.content:first'
 	});
 
 	App.Views.ClinicList=App.Views.List.extend({
@@ -350,17 +438,27 @@ EL.loadModule('templates',function(){
 		},
 
 		clinicList: function(){
-			var model=new App.Models.Inner(null,{
-				'page':'clinics/'+EL.query().toString(),
-				'viewCollection':{
-					'viewTitle':new App.Views.Title(),
-					'viewCrumb':new App.Views.Crumb(),
-					'viewList':new App.Views.ClinicList(),
-					'viewNav':new App.Views.Nav()
-				},
-				'view':new App.Views.Inner()
-			});
-			model.fetch();
+			(new App.Models.Inner(null,{
+				pages:[
+					'clinics/'+EL.query().toString(),
+					'clinics_filter/'+EL.query().toString()
+				],
+				view:new App.Views.Content({
+					views:[
+						new App.Views.Inner({
+							views:[
+								new App.Views.Crumb(),
+								new App.Views.Title(),
+								new App.Views.ClinicList(),
+								new App.Views.Nav(),
+							]
+						}),
+						new App.Views.Filter({
+							template:'clinics_filter'
+						})
+					]
+				})
+			})).fetch();
 		},
 
 		promotionList: function(){
@@ -547,6 +645,27 @@ EL.loadModule('templates',function(){
 				'view':new App.Views.Inner()
 			});
 			model.fetch();
+			(new App.Models.Inner(null,{
+				pages:[
+					'promotions/'+EL.query().toString(),
+					'promotions_filter/'+EL.query().toString()
+				],
+				view:new App.Views.Content({
+					views:[
+						new App.Views.Inner({
+							views:[
+								new App.Views.Crumb(),
+								new App.Views.Title(),
+								new App.Views.PromotionList(),
+								new App.Views.Nav(),
+							]
+						}),
+						new App.Views.Filter({
+							template:'promotions_filter'
+						})
+					]
+				})
+			})).fetch();
 		}
 
 	}));
@@ -563,10 +682,7 @@ EL.loadModule('templates',function(){
 				href=link.attr('href')||'';
 
 			if(href.length>0){
-				App.Routers.Default.navigate(
-					href.replace(/^\//,''),
-					{trigger: true }
-				);
+				App.Routers.Default.navigate(href,{trigger: true});
 				e.preventDefault();
 			}
 		});
@@ -578,10 +694,7 @@ EL.loadModule('templates',function(){
 				menu=$('.main_menu');
 
 			if(href.length>0 && href!='#'){
-				App.Routers.Default.navigate(
-					href.replace(/^\//,''),
-					{trigger: true}
-				);
+				App.Routers.Default.navigate(href,{trigger: true});
 				e.preventDefault();
 			}
 
@@ -595,6 +708,57 @@ EL.loadModule('templates',function(){
 				parent.eq(0).addClass('second_active');
 				parent.eq(1).addClass('main');
 			}
+		});
+
+		$('body').on('click','.nav a', function(e){
+			var href=$(this).attr('href');
+
+			if(href && href.length>0){
+				EL.goto($('.main_menu'));
+				App.Routers.Default.navigate(
+					href.replace(/^\/rest/,''),
+					{trigger: true}
+				);
+				e.preventDefault();
+			}
+		}).on('submit','form.filter',function(e){
+			var frm=$(this),
+				page=frm.attr('action');
+
+			if(!page || page.length<=0)
+				throw 'invalid form action';
+
+			var data={};
+
+			frm.find('input,select').each(function(){
+				var inpt=$(this),
+					type=inpt.attr('type')||'select',
+					name=inpt.attr('name'),
+					val='';
+
+				if(type=='text' || type=='select'){
+					val=inpt.val();
+				}else{
+					val=frm.find('input[name='+name+']:checked')
+						.attr('value')||0;
+				}
+
+				if(val!='' && val!=0 && val!='0')
+					data[name]=val;
+			});
+
+			App.Routers.Default.navigate(
+				page+EL.query().toString(data),
+				{trigger: true}
+			);
+			e.preventDefault();
+		}).on('click','form.filter a.clear',function(e){
+			var href=$(this).attr('href');
+			App.Routers.Default.navigate(
+				href,
+				{trigger: true}
+			);
+			e.preventDefault();
 		});
 	});
 });

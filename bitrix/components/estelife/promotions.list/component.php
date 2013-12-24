@@ -20,6 +20,7 @@ if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 	$arPageCount = $arParams['PAGE_COUNT'];
 else
 	$arPageCount = 10;
+
 if (isset($arParams['CITY_ID']) && $arParams['CITY_ID']>0){
 	//Получаем имя города по его ID
 	$arSelect = Array("ID", "NAME");
@@ -39,7 +40,6 @@ if (isset($arParams['CITY_ID']) && $arParams['CITY_ID']>0){
 		$arResult['city'] = $res;
 	}
 }elseif(isset($_COOKIE['estelife_city'])){
-	//Получаем имя города по его ID
 	$arResult['city'] = VGeo::getInstance()->getGeo();
 }
 

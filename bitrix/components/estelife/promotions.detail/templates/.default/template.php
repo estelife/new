@@ -9,15 +9,15 @@
 		<h1><?=$arResult['action']['preview_text']?></h1>
 		<div class="current">
 			<span class="perc">
-			<?php if($arResult['action']['view_type']!=3): ?>
+			<?php if($arResult['action']['view_type']!=2): ?>
 				<?=$arResult['action']['base_sale']?>%
 			<?php else: ?>
 				<?=$arResult['action']['new_price']?> <i></i>
 			<?php endif; ?>
 			</span>
-			<?php if($arResult['action']['view_type']!=3): ?>
+			<?php if($arResult['action']['view_type']!=2): ?>
 			<div class="cols prices">
-				<?php if($arResult['action']['view_type']==2): ?>
+				<?php if($arResult['action']['view_type']==3): ?>
 				<b>
 					скидка <?=$arResult['action']["base_sale"]?>%
 				</b>

@@ -2,21 +2,21 @@
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 global $APPLICATION;
 
-$arDirectories=$APPLICATION->IncludeComponent(
+$arDirectories=array_values($APPLICATION->IncludeComponent(
 	'estelife:system-settings',
 	'',
 	array('filter'=>'directions')
-);
+));
+
+if(isset($arParams['DIRECTORIES']) && is_array($arParams['DIRECTORIES']))
+	$arDirectories=array_merge($arDirectories,$arParams['DIRECTORIES']);
 
 $arDefaultUrlTemplates404 = array(
 	"articles" => "#CURRENT_CODE#/#DOP_CODE#/",
 	"sections" => "#CURRENT_CODE#/",
 );
-
 $arDefaultVariableAliases404 = array();
-
 $arDefaultVariableAliases = array();
-
 $arComponentVariables = array(
 	"CURRENT_CODE",
 	"DOP_CODE"
@@ -24,10 +24,8 @@ $arComponentVariables = array(
 
 
 $arVariables = array();
-
 $arUrlTemplates = CComponentEngine::MakeComponentUrlTemplates($arDefaultUrlTemplates404, array());
 $arVariableAliases = CComponentEngine::MakeComponentVariableAliases($arDefaultVariableAliases404, $arParams["VARIABLE_ALIASES"]);
-
 $componentPage = CComponentEngine::ParseComponentPath(
 	$arParams["SEF_FOLDER"],
 	$arUrlTemplates,

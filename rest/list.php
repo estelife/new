@@ -5,6 +5,10 @@ $APPLICATION->IncludeComponent("estelife:mega.complex.section", "rest", array(
 		"SEF_FOLDER" => "/rest/",
 		"SEF_URL_TEMPLATES" => array(
 
+		),
+		'DIRECTORIES'=>array(
+			'clinics_filter',
+			'promotions_filter'
 		)
 	)
 );
