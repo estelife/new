@@ -332,8 +332,17 @@ var Estelife=function(s){
 
 				return toObject;
 			},
-			toString:function(){
-				return (query.length>0) ? '?'+query : '';
+			toString:function(q){
+				var temp=query;
+
+				if(typeof q=='object'){
+					temp=[];
+					for(key in q)
+						temp.push(key+'='+encodeURIComponent(q[key]));
+					temp=temp.join('&')
+				}
+
+				return (temp.length>0) ? '?'+temp : '';
 			}
 		}
 	};
@@ -434,7 +443,23 @@ var Estelife=function(s){
 		this.error=error;
 	};
 };
+Estelife.prototype.profiler=function(t){
+	var title=t||'profile:',
+		start=0;
 
+	this.start=function(){
+		start=(new Date()).getTime();
+	};
+
+	this.end=function(format){
+		var result=(new Date()).getTime()-start;
+
+		if(window.console)
+			console.log(title+' '+result);
+		else
+			alert(title+' '+result);
+	};
+};
 Estelife.prototype.SystemSettings=(function(){
 	var settings;
 
