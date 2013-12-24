@@ -463,14 +463,25 @@ EL.loadModule('templates',function(){
 
 		promotionList: function(){
 			var model=new App.Models.Inner(null,{
-				'page':'promotions/'+EL.query().toString(),
-				'viewCollection':{
-					'viewTitle':new App.Views.Title(),
-					'viewCrumb':new App.Views.Crumb(),
-					'viewList':new App.Views.PromotionList(),
-					'viewNav':new App.Views.Nav()
-				},
-				'view':new App.Views.Inner()
+				pages:[
+					'promotions/'+EL.query().toString(),
+					'promotions_filter/'+EL.query().toString()
+				],
+				view:new App.Views.Content({
+					views:[
+						new App.Views.Inner({
+							views:[
+								new App.Views.Crumb(),
+								new App.Views.Title(),
+								new App.Views.PromotionList(),
+								new App.Views.Nav()
+							]
+						}),
+						new App.Views.Filter({
+							template:'promotions_filter'
+						})
+					]
+				})
 			});
 			model.fetch();
 		},
@@ -613,24 +624,26 @@ EL.loadModule('templates',function(){
 
 		apparatusesMakersDetail: function(id){
 			var model=new App.Models.Inner(null,{
-				'page':'am'+id+'/',
-				'viewCollection':{
-					'viewCrumb':new App.Views.Crumb(),
-					'viewDetail':new App.Views.ApparatusesMakersDetail()
-				},
-				'view':new App.Views.Inner()
+				page:'am'+id+'/',
+				view:new App.Views.Inner({
+					views:[
+						new App.Views.Crumb(),
+						new App.Views.ApparatusesMakersDetail()
+					]
+				})
 			});
 			model.fetch();
 		},
 
 		clinicsDetail: function(id){
 			var model=new App.Models.Inner(null,{
-				'page':'cl'+id+'/',
-				'viewCollection':{
-					'viewCrumb':new App.Views.Crumb(),
-					'viewDetail':new App.Views.ClinicsDetail()
-				},
-				'view':new App.Views.Inner()
+				page:'cl'+id+'/',
+				view:new App.Views.Inner({
+					views:[
+						new App.Views.Crumb(),
+						new App.Views.ClinicsDetail()
+					]
+				})
 			});
 			model.fetch();
 		},
