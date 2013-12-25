@@ -1,112 +1,63 @@
-<div class="block el-ajax-detail" rel="event">
-	<div class='block-header red'>
-		<span><!--$short_name!--></span>
-	</div>
-	<div class='shadow'></div>
-	<div class="el-ditem el-ditem-h">
-		<div class="logo el-col">
-			<!--if($logo_id)!-->
-			<!--$img!-->
+<!--if($detail)!-->
+	<div class="item detail training">
+		<h1><!--$detail.full_name!--></h1>
+		<div class="current">
+			Период проведения: <b><!--$detail.calendar.first_period.from!-->
+				<!--if($detail.calendar.first_period.to)!-->
+				-
+				<!--$detail.calendar.first_period.to!-->
+				<!--endif!--></b>
+			<!--if($detail.city_name)!-->
+			Город: <b><!--$detail.city_name!--></b>
 			<!--endif!-->
+			<span class="date"><!--$detail.calendar.first_date!--></span>
 		</div>
-		<div class="el-scroll">
-			<h2><!--$full_name!--></h2>
-			<div class="el-scroll-in">
-				<table>
-					<tr>
-						<td>
-							<ul class="contacts el-col el-ul el-contacts">
-								<!--if($country_name)!-->
-								<li><span>Страна</span><span><!--$country_name!--></span><i class="icon" style="background:url('/img/countries/c<!--$country_id!-->.png')"></i></li>
-								<!--endif!-->
-								<!--if($city_name)!-->
-								<li><span>Город</span><span><!--$city_name!--></span></li>
-								<!--endif!-->
-								<!--if($web)!-->
-								<li><span>Сайт</span><span><a href="<!--$web!-->"><!--$web_short!--></a></span></li>
-								<!--endif!-->
-							</ul>
-						</td>
-					</tr>
-				</table>
+		<p><!--$detail.detail_text!--></p>
+		<!--
+		<h3>Тренер</h3>
+		<div class="user">
+			<img src="images/content/user.png">
+			<h4>Саромыцкая<br>Алена Николаевна</h4>
+			<span>Врач дерматолог, косметолог</span>
+			<a href="#">Узать больше</a>
+		</div>
+		-->
+		<h3>Организатор</h3>
+		<div class="item company">
+			<h4><a href="<!--$detail.company_link!-->"><!--$detail.company_name!--></a></h4>
+			<div class="cols">
+				<div class="img">
+					<div class="img-in">
+						<!--if($detail.logo_id)!-->
+							<!--$detail.img!-->
+						<!--endif!-->
+					</div>
+				</div>
+				<!--if($detail.address)!-->
+					<div><!--$detail.address!--></div>
+				<!--endif!-->
+				<div>
+					<!--if($detail.contacts.phone)!-->
+						<!--$detail.contacts.phone!-->
+					<!--endif!-->
+					<br />
+					<!--if($detail.contacts.fax)!-->
+						<!--$detail.contacts.fax!--> (факс)
+					<!--endif!-->
+				</div>
+				<!--if($detail.contacts.email)!-->
+					<div><!--$detail.contacts.email!--></div>
+				<!--endif!-->
+				<!--if($detail.contacts.web)!-->
+					<a href="<$detail.contacts.web!-->" class="link"><!--$detail.contacts.web_short!--></a>
+				<!--endif!-->
+			</div>
+			<div class="map">
+				<span class="lat"><!--$detail.contacts.lat!--></span>
+				<span class="lng"><!--$detail.contacts.lng!--></span>
 			</div>
 		</div>
-		<div class="clear"></div>
-
-		<!--if($calendar)!-->
-		<div class="el-prop">
-			<h3>Даты проведения</h3>
-			<ul class="el-ul">
-				<!--foreach($calendar as $key=>$val)!-->
-				<li><!--$val.full_date!--></li>
-				<!--endforeach!-->
-			</ul>
-		</div>
-		<!--endif!-->
-		<h3>Место проведения</h3>
-		<!--if($main_org.full_address)!-->
-			<p><!--$main_org.full_address!--></p>
-		<!--endif!-->
-		<!--if($org)!-->
-			<div class="el-prop">
-				<h3>Организаторы</h3>
-				<ul class="el-ul">
-					<!--foreach ($org as $key=>$val)!-->
-					<li><!--$val.company_name!--></li>
-					<!--endforeach!-->
-				</ul>
-			</div>
-		<!--endif!-->
-		<!--if($detail_text)!-->
-		<h3>Описание</h3>
-		<p><!--$detail_text!--></p>
-		<!--endif!-->
-		<!--if($contacts)!-->
-		<h3>Контактные данные</h3>
-		<div class="el-table">
-			<table>
-				<!--if($main_org)!-->
-				<tr>
-					<td class="t">Организация:</td>
-					<td class="d">
-						<!--$main_org.company_name!-->
-					</td>
-				</tr>
-				<!--endif!-->
-				<!--if($main_org.full_address)!-->
-				<tr>
-					<td class="t">Адрес:</td>
-					<td class="d">
-						<!--$main_org.full_address!-->
-					</td>
-				</tr>
-				<!--endif!-->
-				<!--if($contacts.phone)!-->
-				<tr>
-					<td class="t">Телефон:</td>
-					<td class="d">
-						<!--$contacts.phone!-->
-					</td>
-				</tr>
-				<!--endif!-->
-				<!--if($contacts.fax)!-->
-				<tr>
-					<td class="t">Факс:</td>
-					<td class="d">
-						<!--$contacts.fax!-->
-					</td>
-				</tr>
-				<!--endif!-->
-				<!--if($contacts.email)!-->
-				<tr>
-					<td class="t">E-mail:</td>
-					<td class="d">
-						<!--$contacts.email!-->
-					</td>
-				</tr>
-				<!--endif!-->
-			</table>
-		</div>
-		<!--endif!-->
 	</div>
-</div>
+<!--else!-->
+	<div class="not-found">Семинар не найден ...</div>
+<!--endif!-->

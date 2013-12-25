@@ -123,8 +123,10 @@ while($arData=$obResult->Fetch()){
 	}
 	$i++;
 }
-
-$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
+$sTemplate=$this->getTemplateName();
+$obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
+$arResult['nav']=$obNav->getNav();
+//$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 
 
 $APPLICATION->SetPageProperty("title", "Производители аппаратов");

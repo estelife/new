@@ -8,6 +8,7 @@ $arDirectories=array_values($APPLICATION->IncludeComponent(
 	array('filter'=>'directions')
 ));
 
+
 if(isset($arParams['DIRECTORIES']) && is_array($arParams['DIRECTORIES']))
 	$arDirectories=array_merge($arDirectories,$arParams['DIRECTORIES']);
 
@@ -31,6 +32,8 @@ $componentPage = CComponentEngine::ParseComponentPath(
 	$arUrlTemplates,
 	$arVariables
 );
+
+
 
 //разбираем $arVariables
 CModule::IncludeModule('estelife');
