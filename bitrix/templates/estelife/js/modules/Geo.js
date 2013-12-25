@@ -37,7 +37,7 @@ function Geo(){
 				},function(r){
 					if(r.active && r.passive){
 						detail_generator.ready(function(){
-							var h = detail_generator.make(r);
+							var h = detail_generator.render(r);
 							if (h.length>0){
 								html = h;
 

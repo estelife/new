@@ -38,7 +38,7 @@ Estelife.prototype.templates=function(s){
 			}
 
 			html=t.prop('outerHTML');
-			gen=new EL.templateAggregator(html);
+			gen=new EL.templateAggregator(html,settings.template);
 		} else {
 			checkLocalTemplate(function(response,from_server){
 				if(!('template' in response) ||
@@ -54,7 +54,7 @@ Estelife.prototype.templates=function(s){
 				}
 
 				html=response.template;
-				gen=new EL.templateAggregator(html);
+				gen=new EL.templateAggregator(html,settings.template);
 
 				if(from_server){
 					EL.storage().setItem(
@@ -181,8 +181,9 @@ Estelife.prototype.templates=function(s){
 		}
 	};
 };
-Estelife.prototype.templateAggregator=function(h){
+Estelife.prototype.templateAggregator=function(h,t){
 	var html=h,
+		templateName=t,
 		cache=[],
 		temp_html,temp_cache,
 		registry={
@@ -207,7 +208,7 @@ Estelife.prototype.templateAggregator=function(h){
 					current=stack.pop();
 
 					if(!current){
-						throw 'not found open tag for '+target;
+						throw 'not found open tag for '+target + ' in '+templateName+'['+i+']';
 					}
 
 					tag=target.replace(/(endif|endforeach)/,'$1['+current.index+']');
@@ -244,7 +245,7 @@ Estelife.prototype.templateAggregator=function(h){
 					current=stack[y];
 
 					if(current.type!='if')
-						throw 'not found open tag for '+target;
+						throw 'not found open tag for '+target + ' in '+templateName+'['+i+']';
 
 					temp=target.match(
 						/<!--[\s]*(else|elseif)[\s]*(\((.*)\))?/i

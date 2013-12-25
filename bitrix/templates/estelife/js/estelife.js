@@ -443,22 +443,27 @@ var Estelife=function(s){
 		this.error=error;
 	};
 };
-Estelife.prototype.profiler=function(t){
+Estelife.prototype.profile=function(t){
 	var title=t||'profile:',
 		start=0;
 
-	this.start=function(){
-		start=(new Date()).getTime();
-	};
+	return {
+		start:function(){
+			start=(new Date()).getTime();
+			return this;
+		},
+		end:function(t){
+			var result=(new Date()).getTime()-start;
 
-	this.end=function(format){
-		var result=(new Date()).getTime()-start;
+			if(t=='sec')
+				result/=1000;
 
-		if(window.console)
-			console.log(title+' '+result);
-		else
-			alert(title+' '+result);
-	};
+			if(window.console)
+				console.log(title+' '+result);
+			else
+				alert(title+' '+result);
+		}
+	}
 };
 Estelife.prototype.SystemSettings=(function(){
 	var settings;

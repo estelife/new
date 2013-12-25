@@ -47,7 +47,10 @@ try{
 	if (!empty($arElements)){
 		foreach ($arElements as $val){
 			$val['IMG'] = CFile::GetFileArray($val['IMG']);
-			$val['ACTIVE_FROM'] = date('d.m.Y',strtotime($val['ACTIVE_FROM']));
+			$val['IMG']=$val['IMG']['SRC'];
+			//$val['ACTIVE_FROM'] = date('d.m.Y',strtotime($val['ACTIVE_FROM']));
+
+			unset($val['ID'],$val['CODE'],$val['ACTIVE_FROM']);
 			$arResult['iblock'][] = $val;
 		}
 	}

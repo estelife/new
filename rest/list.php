@@ -16,7 +16,8 @@ $APPLICATION->IncludeComponent("estelife:mega.complex.section", "rest", array(
 			'events_filter',
 			'sponsors_filter',
 			'training_centers_filter',
-			'trainings_filter'
+			'trainings_filter',
+			'home'
 		)
 	)
 );

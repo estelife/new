@@ -1,3 +1,4 @@
+	</div>
 	<div class="footer">
 		<div class="footer-in">
 			<div class="content">
