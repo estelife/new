@@ -130,5 +130,8 @@ $APPLICATION->SetPageProperty("title", "Аппараты");
 $APPLICATION->SetPageProperty("description", implode(", ", $arDescription));
 $APPLICATION->SetPageProperty("keywords", "Estelife, Аппараты, ". implode(" ,", $arDescription));
 
-$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
+$sTemplate=$this->getTemplateName();
+$obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
+$arResult['nav']=$obNav->getNav();
+//$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 $this->IncludeComponentTemplate();

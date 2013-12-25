@@ -184,5 +184,9 @@ $APPLICATION->SetPageProperty("title", 'Учебные центры');
 $APPLICATION->SetPageProperty("description", $arDescription);
 $APPLICATION->SetPageProperty("keywords", "Estelife, учебные центры, ".$arDescription);
 
-$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
+//$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
+$sTemplate=$this->getTemplateName();
+$obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
+$arResult['nav']=$obNav->getNav();
+
 $this->IncludeComponentTemplate();

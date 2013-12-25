@@ -228,7 +228,7 @@ EL.loadModule('templates',function(){
 		render:function(){
 			if(_.isObject(this.data) && 'detail' in this.data){
 				var ob=this;
-				this.$el.addClass('item detail '+ob.data.class)
+				this.$el.addClass('wrap_item')
 					.empty();
 
 				this.template.ready(function(){
@@ -409,10 +409,23 @@ EL.loadModule('templates',function(){
 	App.Views.EventsDetail=App.Views.Detail.extend({
 		template:'events_detail'
 	});
-
-
+	App.Views.PreparationsDetail=App.Views.Detail.extend({
+		template:'preparations_detail'
+	});
 	App.Views.PreparationsMakersDetail=App.Views.Detail.extend({
 		template:'preparations_makers_detail'
+	});
+	App.Views.SponsorsDetail=App.Views.Detail.extend({
+		template:'sponsors_detail'
+	});
+	App.Views.PromotionsDetail=App.Views.Detail.extend({
+		template:'promotions_detail'
+	});
+	App.Views.TrainingCentersDetail=App.Views.Detail.extend({
+		template:'training_centers_detail'
+	});
+	App.Views.TrainingsDetail=App.Views.Detail.extend({
+		template:'trainings_detail'
 	});
 
 
@@ -430,11 +443,16 @@ EL.loadModule('templates',function(){
 			'sponsors/(.*)': 'sponsorsList',
 			'training-centers/(.*)': 'trainingCentersList',
 			'trainings/(.*)': 'trainingsList',
-			'pm:number/': 'preparationsMakersDetail',
 			'ap:number/': 'apparatusesDetail',
 			'am:number/': 'apparatusesMakersDetail',
 			'cl:number/': 'clinicsDetail',
-			'ev:number/': 'eventsDetail'
+			'ev:number/': 'eventsDetail',
+			'ps:number/': 'preparationsDetail',
+			'pm:number/': 'preparationsMakersDetail',
+			'sp:number/': 'sponsorsDetail',
+			'pr:number/': 'promotionsDetail',
+			'tc:number/': 'trainingCentersDetail',
+			'tr:number/': 'trainingsDetail'
 		},
 
 		clinicList: function(){
@@ -450,7 +468,7 @@ EL.loadModule('templates',function(){
 								new App.Views.Crumb(),
 								new App.Views.Title(),
 								new App.Views.ClinicList(),
-								new App.Views.Nav(),
+								new App.Views.Nav()
 							]
 						}),
 						new App.Views.Filter({
@@ -488,147 +506,244 @@ EL.loadModule('templates',function(){
 
 		preparationsMakersList: function(){
 			var model=new App.Models.Inner(null,{
-				'page':'preparations-makers/'+EL.query().toString(),
-				'viewCollection':{
-					'viewTitle':new App.Views.Title(),
-					'viewCrumb':new App.Views.Crumb(),
-					'viewList':new App.Views.PreparationsMakersList(),
-					'viewNav':new App.Views.Nav()
-				},
-				'view':new App.Views.Inner()
+				pages:[
+					'preparations-makers/'+EL.query().toString(),
+					'preparations_makers_filter/'+EL.query().toString()
+				],
+				view:new App.Views.Content({
+					views:[
+						new App.Views.Inner({
+							views:[
+								new App.Views.Crumb(),
+								new App.Views.Title(),
+								new App.Views.PreparationsMakersList(),
+								new App.Views.Nav()
+							]
+						}),
+						new App.Views.Filter({
+							template:'preparations_makers_filter'
+						})
+					]
+				})
 			});
 			model.fetch();
 		},
 
 		apparatusesMakersList: function(){
 			var model=new App.Models.Inner(null,{
-				'page':'apparatuses-makers/'+EL.query().toString(),
-				'viewCollection':{
-					'viewTitle':new App.Views.Title(),
-					'viewCrumb':new App.Views.Crumb(),
-					'viewList':new App.Views.ApparatusesMakersList(),
-					'viewNav':new App.Views.Nav()
-				},
-				'view':new App.Views.Inner()
+				pages:[
+					'apparatuses-makers/'+EL.query().toString(),
+					'apparatuses_makers_filter/'+EL.query().toString()
+				],
+				view:new App.Views.Content({
+					views:[
+						new App.Views.Inner({
+							views:[
+								new App.Views.Crumb(),
+								new App.Views.Title(),
+								new App.Views.ApparatusesMakersList(),
+								new App.Views.Nav()
+							]
+						}),
+						new App.Views.Filter({
+							template:'apparatuses_makers_filter'
+						})
+					]
+				})
 			});
 			model.fetch();
 		},
 
 		preparationsList: function(){
 			var model=new App.Models.Inner(null,{
-				'page':'preparations/'+EL.query().toString(),
-				'viewCollection':{
-					'viewTitle':new App.Views.Title(),
-					'viewCrumb':new App.Views.Crumb(),
-					'viewList':new App.Views.PreparationsList(),
-					'viewNav':new App.Views.Nav()
-				},
-				'view':new App.Views.Inner()
+				pages:[
+					'preparations/'+EL.query().toString(),
+					'preparations_filter/'+EL.query().toString()
+				],
+				view:new App.Views.Content({
+					views:[
+						new App.Views.Inner({
+							views:[
+								new App.Views.Crumb(),
+								new App.Views.Title(),
+								new App.Views.PreparationsList(),
+								new App.Views.Nav()
+							]
+						}),
+						new App.Views.Filter({
+							template:'preparations_filter'
+						})
+					]
+				})
 			});
 			model.fetch();
 		},
 
 		apparatusesList: function(){
 			var model=new App.Models.Inner(null,{
-				'page':'apparatuses/'+EL.query().toString(),
-				'viewCollection':{
-					'viewTitle':new App.Views.Title(),
-					'viewCrumb':new App.Views.Crumb(),
-					'viewList':new App.Views.ApparatusesList(),
-					'viewNav':new App.Views.Nav()
-				},
-				'view':new App.Views.Inner()
+				pages:[
+					'apparatuses/'+EL.query().toString(),
+					'apparatuses_filter/'+EL.query().toString()
+				],
+				view:new App.Views.Content({
+					views:[
+						new App.Views.Inner({
+							views:[
+								new App.Views.Crumb(),
+								new App.Views.Title(),
+								new App.Views.ApparatusesList(),
+								new App.Views.Nav()
+							]
+						}),
+						new App.Views.Filter({
+							template:'apparatuses_filter'
+						})
+					]
+				})
 			});
 			model.fetch();
 		},
 
 		eventsList: function(){
 			var model=new App.Models.Inner(null,{
-				'page':'events/'+EL.query().toString(),
-				'viewCollection':{
-					'viewTitle':new App.Views.Title(),
-					'viewCrumb':new App.Views.Crumb(),
-					'viewList':new App.Views.EventsList(),
-					'viewNav':new App.Views.Nav()
-				},
-				'view':new App.Views.Inner()
+				pages:[
+					'events/'+EL.query().toString(),
+					'events_filter/'+EL.query().toString()
+				],
+				view:new App.Views.Content({
+					views:[
+						new App.Views.Inner({
+							views:[
+								new App.Views.Crumb(),
+								new App.Views.Title(),
+								new App.Views.EventsList(),
+								new App.Views.Nav()
+							]
+						}),
+						new App.Views.Filter({
+							template:'events_filter'
+						})
+					]
+				})
 			});
 			model.fetch();
 		},
 
 		sponsorsList: function(){
 			var model=new App.Models.Inner(null,{
-				'page':'sponsors/'+EL.query().toString(),
-				'viewCollection':{
-					'viewTitle':new App.Views.Title(),
-					'viewCrumb':new App.Views.Crumb(),
-					'viewList':new App.Views.SponsorsList(),
-					'viewNav':new App.Views.Nav()
-				},
-				'view':new App.Views.Inner()
+				pages:[
+					'sponsors/'+EL.query().toString(),
+					'sponsors_filter/'+EL.query().toString()
+				],
+				view:new App.Views.Content({
+					views:[
+						new App.Views.Inner({
+							views:[
+								new App.Views.Crumb(),
+								new App.Views.Title(),
+								new App.Views.SponsorsList(),
+								new App.Views.Nav()
+							]
+						}),
+						new App.Views.Filter({
+							template:'sponsors_filter'
+						})
+					]
+				})
 			});
 			model.fetch();
 		},
 
 		trainingCentersList: function(){
 			var model=new App.Models.Inner(null,{
-				'page':'training-centers/'+EL.query().toString(),
-				'viewCollection':{
-					'viewTitle':new App.Views.Title(),
-					'viewCrumb':new App.Views.Crumb(),
-					'viewList':new App.Views.TrainingCentersList(),
-					'viewNav':new App.Views.Nav()
-				},
-				'view':new App.Views.Inner()
+				pages:[
+					'training-centers/'+EL.query().toString(),
+					'training_centers_filter/'+EL.query().toString()
+				],
+				view:new App.Views.Content({
+					views:[
+						new App.Views.Inner({
+							views:[
+								new App.Views.Crumb(),
+								new App.Views.Title(),
+								new App.Views.TrainingCentersList(),
+								new App.Views.Nav()
+							]
+						}),
+						new App.Views.Filter({
+							template:'training_centers_filter'
+						})
+					]
+				})
 			});
 			model.fetch();
 		},
 
 		trainingsList: function(){
 			var model=new App.Models.Inner(null,{
-				'page':'trainings/'+EL.query().toString(),
-				'viewCollection':{
-					'viewTitle':new App.Views.Title(),
-					'viewCrumb':new App.Views.Crumb(),
-					'viewList':new App.Views.TrainingsList(),
-					'viewNav':new App.Views.Nav()
-				},
-				'view':new App.Views.Inner()
-			});
-			model.fetch();
-		},
-
-		preparationsMakersDetail: function(id){
-			var model=new App.Models.Inner(null,{
-				'page':'pm'+id+'/',
-				'viewCollection':{
-					'viewCrumb':new App.Views.Crumb(),
-					'viewDetail':new App.Views.PreparationsMakersDetail()
-				},
-				'view':new App.Views.Inner()
+				pages:[
+					'trainings/'+EL.query().toString(),
+					'trainings_filter/'+EL.query().toString()
+				],
+				view:new App.Views.Content({
+					views:[
+						new App.Views.Inner({
+							views:[
+								new App.Views.Crumb(),
+								new App.Views.Title(),
+								new App.Views.TrainingsList(),
+								new App.Views.Nav()
+							]
+						}),
+						new App.Views.Filter({
+							template:'trainings_filter'
+						})
+					]
+				})
 			});
 			model.fetch();
 		},
 
 		apparatusesDetail: function(id){
 			var model=new App.Models.Inner(null,{
-				'page':'ap'+id+'/',
-				'viewCollection':{
-					'viewCrumb':new App.Views.Crumb(),
-					'viewDetail':new App.Views.ApparatusesDetail()
-				},
-				'view':new App.Views.Inner()
+				pages:[
+					'ap'+id+'/',
+					'apparations_filter/'+EL.query().toString()
+				],
+				view:new App.Views.Content({
+					views:[
+						new App.Views.Inner({
+							views:[
+								new App.Views.Crumb(),
+								new App.Views.ApparatusesDetail()
+							]
+						}),
+						new App.Views.Filter({
+							template:'apparations_filter'
+						})
+					]
+				})
 			});
 			model.fetch();
 		},
 
 		apparatusesMakersDetail: function(id){
 			var model=new App.Models.Inner(null,{
-				page:'am'+id+'/',
-				view:new App.Views.Inner({
+				pages:[
+					'am'+id+'/',
+					'apparatuses_makers_filter/'+EL.query().toString()
+				],
+				view:new App.Views.Content({
 					views:[
-						new App.Views.Crumb(),
-						new App.Views.ApparatusesMakersDetail()
+						new App.Views.Inner({
+							views:[
+								new App.Views.Crumb(),
+								new App.Views.ApparatusesMakersDetail()
+							]
+						}),
+						new App.Views.Filter({
+							template:'apparatuses_makers_filter'
+						})
 					]
 				})
 			});
@@ -637,11 +752,21 @@ EL.loadModule('templates',function(){
 
 		clinicsDetail: function(id){
 			var model=new App.Models.Inner(null,{
-				page:'cl'+id+'/',
-				view:new App.Views.Inner({
+				pages:[
+					'cl'+id+'/',
+					'clinics_filter/'+EL.query().toString()
+				],
+				view:new App.Views.Content({
 					views:[
-						new App.Views.Crumb(),
-						new App.Views.ClinicsDetail()
+						new App.Views.Inner({
+							views:[
+								new App.Views.Crumb(),
+								new App.Views.ClinicsDetail()
+							]
+						}),
+						new App.Views.Filter({
+							template:'clinics_filter'
+						})
 					]
 				})
 			});
@@ -650,17 +775,100 @@ EL.loadModule('templates',function(){
 
 		eventsDetail: function(id){
 			var model=new App.Models.Inner(null,{
-				'page':'ev'+id+'/',
-				'viewCollection':{
-					'viewCrumb':new App.Views.Crumb(),
-					'viewDetail':new App.Views.EventsDetail()
-				},
-				'view':new App.Views.Inner()
+				page:[
+					'ev'+id+'/',
+					'events_filter/'+EL.query().toString()
+				],
+				view:new App.Views.Content({
+					views:[
+						new App.Views.Inner({
+							views:[
+								new App.Views.Crumb(),
+								new App.Views.EventsDetail()
+							]
+						}),
+						new App.Views.Filter({
+							template:'events_filter'
+						})
+					]
+				})
 			});
 			model.fetch();
-			(new App.Models.Inner(null,{
+		},
+
+		preparationsDetail: function(id){
+			var model=new App.Models.Inner(null,{
+				page:[
+					'ps'+id+'/',
+					'preparations_filter/'+EL.query().toString()
+				],
+				view:new App.Views.Content({
+					views:[
+						new App.Views.Inner({
+							views:[
+								new App.Views.Crumb(),
+								new App.Views.PreparationsDetail()
+							]
+						}),
+						new App.Views.Filter({
+							template:'preparations_filter'
+						})
+					]
+				})
+			});
+			model.fetch();
+		},
+
+		preparationsMakersDetail: function(id){
+			var model=new App.Models.Inner(null,{
 				pages:[
-					'promotions/'+EL.query().toString(),
+					'pm'+id+'/',
+					'preparations_makers_filter/'+EL.query().toString()
+				],
+				view:new App.Views.Content({
+					views:[
+						new App.Views.Inner({
+							views:[
+								new App.Views.Crumb(),
+								new App.Views.PreparationsMakersDetail()
+							]
+						}),
+						new App.Views.Filter({
+							template:'preparations_makers_filter'
+						})
+					]
+				})
+			});
+			model.fetch();
+		},
+
+		sponsorsDetail: function(id){
+			var model=new App.Models.Inner(null,{
+				pages:[
+					'sp'+id+'/',
+					'sponsors_filter/'+EL.query().toString()
+				],
+				view:new App.Views.Content({
+					views:[
+						new App.Views.Inner({
+							views:[
+								new App.Views.Crumb(),
+								new App.Views.SponsorsDetail()
+							]
+						}),
+						new App.Views.Filter({
+							template:'sponsors_filter'
+						})
+					]
+				})
+			});
+			model.fetch();
+		},
+
+		promotionsDetail: function(id){
+			var model=new App.Models.Inner(null,{
+				pages:[
+					'pr'+id+'/',
 					'promotions_filter/'+EL.query().toString()
 				],
 				view:new App.Views.Content({
@@ -668,9 +876,7 @@ EL.loadModule('templates',function(){
 						new App.Views.Inner({
 							views:[
 								new App.Views.Crumb(),
-								new App.Views.Title(),
-								new App.Views.PromotionList(),
-								new App.Views.Nav(),
+								new App.Views.PromotionsDetail()
 							]
 						}),
 						new App.Views.Filter({
@@ -678,7 +884,54 @@ EL.loadModule('templates',function(){
 						})
 					]
 				})
-			})).fetch();
+			});
+			model.fetch();
+		},
+
+		trainingCentersDetail: function(id){
+			var model=new App.Models.Inner(null,{
+				pages:[
+					'tc'+id+'/',
+					'training_centers_filter/'+EL.query().toString()
+				],
+				view:new App.Views.Content({
+					views:[
+						new App.Views.Inner({
+							views:[
+								new App.Views.Crumb(),
+								new App.Views.TrainingCentersDetail()
+							]
+						}),
+						new App.Views.Filter({
+							template:'training_centers_filter'
+						})
+					]
+				})
+			});
+			model.fetch();
+		},
+
+		trainingsDetail: function(id){
+			var model=new App.Models.Inner(null,{
+				pages:[
+					'tr'+id+'/',
+					'trainings_filter/'+EL.query().toString()
+				],
+				view:new App.Views.Content({
+					views:[
+						new App.Views.Inner({
+							views:[
+								new App.Views.Crumb(),
+								new App.Views.TrainingsDetail()
+							]
+						}),
+						new App.Views.Filter({
+							template:'trainings_filter'
+						})
+					]
+				})
+			});
+			model.fetch();
 		}
 
 	}));

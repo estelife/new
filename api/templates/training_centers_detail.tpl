@@ -1,84 +1,90 @@
-<div class="el-ajax-detail el-block">
-	<div class="block" rel="clinic">
-		<div class='block-header red'>
-			<span><!--$name!--></span>
-			<div class='clear'></div>
-			<div class='shadow'></div>
-		</div>
-
-		<div class="el-ditem el-ditem-h">
-			<div class="logo el-col">
-				<!--if ($img)!-->
-				<!--$img!-->
+<!--if($detail)!-->
+	<div class="item detail company center">
+		<h1><!--$detail.name!--></h1>
+		<div class="img">
+			<div class="img-in">
+				<!--if($detail.img)!-->
+					<!--$detail.img!-->
 				<!--endif!-->
 			</div>
-			<div class="el-scroll">
-				<div class="el-scroll-in">
-					<div class="el-scroll-in">
-						<table><tr>
-								<td>
-									<ul class="contacts el-col el-ul el-contacts">
-										<!--if($country_name)!-->
-										<li><span>Страна</span><span><!--$country_name!--></span><i class="icon" style="background:url('/img/countries/c<!--$country_id!-->.png')"></i></li>
-										<!--endif!-->
-									</ul>
-									<ul class="contacts el-col el-ul el-contacts">
-										<!--if($city_name)!-->
-										<li><span>Город</span><span><!--$city_name!--></span></li>
-										<!--endif!-->
-									</ul>
-								</td>
-							</tr></table>
-					</div>
+		</div>
+		<div class="cols col1">
+			<!--if($detail.address)!-->
+				<span><!--$detail.address!--></span>
+			<!--endif!-->
+			<!--if($detail.contacts.phone)!-->
+				<span><!--$detail.contacts.phone!--></span>
+			<!--endif!-->
+			<!--if($detail.web)!-->
+				<a href="<!--$detail.web!-->"><!--$detail.web_short!--></a>
+			<!--endif!-->
+		</div>
+		<div class="menu menu_tab">
+			<ul>
+				<li class="active t1"><a href="#"><span>О центре</span></a></li>
+				<li class="t2"><a href="#"><span>Текущие семинары</span></a></li>
+				<li class="t3"><a href="#"><span>Контакты</span></a></li>
+			</ul>
+		</div>
+		<div class="tabs tab1 ">
+			<p><!--$detail.detail_text!--></p>
+		</div>
+		<div class="tabs tab2 none">
+			<!--if($detail.events)!-->
+				<div class="items">
+					<!--foreach ($detail.events as $key=>$val)!-->
+						<div class="item training">
+							<div class="item-rel">
+								<h2><a href="<!--$val.link!-->"><!--$val.name!--></a></h2>
+								<p><!--$val.preview_text!--></p>
+								Период проведения: <b><!--$val.first_period.from!-->
+									<!--if($val.first_period.to)!-->
+									-
+									<!--$val.first_period.to!-->
+									<!--endif!--></b><br>
+								<span class="date"><!--$val.first_date!--></span>
+							</div>
+							<div class="border"></div>
+						</div>
+					<!--endforeach!-->
 				</div>
-			</div>
-			<h3>О компании</h3>
-			<p><!--$detail_text!--></p>
-			<h3>Контактные данные</h3>
-			<div class="el-table">
-				<table>
-					<!--if ($address)!-->
-					<tr>
-						<td class="t">Адрес:</td>
-						<td class="d">
-							<!--$address!-->
-						</td>
-					</tr>
-					<!--endif!-->
-					<!--if ($phone)!-->
-					<tr>
-						<td class="t">Телефон:</td>
-						<td class="d">
-							<!--$phone!-->
-						</td>
-					</tr>
-					<!--endif!-->
-					<!--if ($fax)!-->
-					<tr>
-						<td class="t">Факс:</td>
-						<td class="d">
-							<!--$fax!-->
-						</td>
-					</tr>
-					<!--endif!-->
-					<!--if ($email)!-->
-					<tr>
-						<td class="t">E-mail:</td>
-						<td class="d">
-							<!--$email!-->
-						</td>
-					</tr>
-					<!--endif!-->
-					<!--if ($web)!-->
-					<tr>
-						<td class="t">Официальный сайт:</td>
-						<td class="d">
-							<a href="<!--$web!-->"><!--$web_short!--></a>
-						</td>
-					</tr>
-					<!--endif!-->
-				</table>
+			<!--endif!-->
+		</div>
+		<div class="tab-c tabs tab3 none">
+			<ul>
+				<!--if($detail.address)!-->
+					<li>
+						<b>Адрес</b>
+						<span><!--$detail.address!--></span>
+					</li>
+				<!--endif!-->
+				<!--if($detail.contacts.phone)!-->
+					<li>
+						<b>Телефон</b>
+						<span><!--$detail.contacts.phone!--></span>
+					</li>
+				<!--endif!-->
+				<!--if($detail.web)!-->
+					<li>
+						<b>Сайт учебного центра</b>
+						<a href="<!--$detail.web!-->"><!--$detail.web_short!--></a>
+					</li>
+				<!--endif!-->
+				<!--if($detail.contacts.email)!-->
+					<li>
+						<b>E-mail</b>
+						<span><!--$detail.contacts.email!--></span>
+					</li>
+				<!--endif!-->
+
+			</ul>
+
+			<div class="map">
+				<span class="lat"><!--$detail.contacts.lat!--></span>
+				<span class="lng"><!--$detail.contacts.lng!--></span>
 			</div>
 		</div>
 	</div>
-</div>
+<!--else!-->
+	<div class="not-found">Учебный центр не найден ...</div>
+<!--endif!-->

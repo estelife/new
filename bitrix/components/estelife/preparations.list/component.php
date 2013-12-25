@@ -126,5 +126,9 @@ $APPLICATION->SetPageProperty("title", 'Препараты');
 $APPLICATION->SetPageProperty("description", $arDescription);
 $APPLICATION->SetPageProperty("keywords", "Estelife, препараты, ".$arDescription);
 
-$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
+//$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
+$sTemplate=$this->getTemplateName();
+$obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
+$arResult['nav']=$obNav->getNav();
+
 $this->IncludeComponentTemplate();

@@ -217,9 +217,10 @@ $arEvents = $obQuery->select()->all();
 foreach ($arEvents as $val){
 	$val['link'] = '/tr'.$val['id'].'/';
 	$val['preview_text']=html_entity_decode($val['preview_text'],ENT_QUOTES,'utf-8');
-	$arResult['events'][$val['id']] = $val;
+	$arResult['company']['events'][$val['id']] = $val;
 	$arIds[] = $val['id'];
 }
+
 
 if (!empty($arIds)){
 	//Получение календаря
@@ -233,14 +234,13 @@ if (!empty($arIds)){
 
 	$arCalendar=$obQuery->select()->all();
 
-
 	foreach ($arCalendar as $val)
-		$arResult['events'][$val['event_id']]['calendar'][]=$val['date'];
+		$arResult['company']['events'][$val['event_id']]['calendar'][]=$val['date'];
 
 
 	$nNow=time();
 
-	foreach($arResult['events'] as $nKey=>&$arTraining){
+	foreach($arResult['company']['events'] as $nKey=>&$arTraining){
 		if (!empty($arTraining['calendar'])){
 			$arTraining['calendar']=\core\types\VDate::createDiapasons($arTraining['calendar'],function(&$nFrom,&$nTo) use($nNow){
 				$nNowTo=strtotime(date('d.m.Y', $nNow).' 00:00:00');
