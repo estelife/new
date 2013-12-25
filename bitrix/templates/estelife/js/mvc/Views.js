@@ -44,10 +44,14 @@ define(function(){
 	Views.Complex=Backbone.View.extend({
 		views:[],
 		initialize:function(params){
-			var views=params.views||null;
+			if(params.views && _.isArray(params.views)){
+				this.views=_.filter(params.views,function(view){
+					return (view instanceof Backbone.View);
+				})
+			}
 
-			if(views && _.isArray(views))
-				this.views=views;
+			if(this.views.length<0)
+				throw 'undefined views for complex view';
 		},
 		setData:function(data){
 			if(data && _.isObject(data)){
@@ -259,7 +263,7 @@ define(function(){
 	 * Представление для компонентов домашеней страницы
 	 * @type {*}
 	 */
-	Views.HomeComponent=Views.Default.extend({
+	Views.Component=Views.Default.extend({
 		el:document.createElement('div'),
 		render:function(){
 			if(_.isObject(this.data)){
