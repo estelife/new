@@ -51,16 +51,32 @@ try{
 			->_eq('ie.ACTIVE', 'Y');
 		$obQuery->builder()->union();
 	}
+
 	$arElements = $obQuery->select()->all();
+
 	if (!empty($arElements)){
 		foreach ($arElements as $val){
 			$val['DETAIL_URL'] = '/'.$arParams['PREFIX'].$val['ID'].'/';
 			$val['SECTION_URL'] = '/'.$arParams['MAIN_URL'].'/'.$val['SECTION_CODE'].'/';
 			$val['IMG'] = CFile::GetFileArray($val['VALUE']);
+			$val['IMG']=$val['IMG']['SRC'];
 			$val['PREVIEW_TEXT'] = \core\types\VString::truncate($val['PREVIEW_TEXT'], 80, '...');
 			$val['ACTIVE_FROM'] = date('d.m.Y',strtotime($val['ACTIVE_FROM']));
-			$arResult['iblock'][$val['SECTION_ID']]['articles'][] = $val;
-			$arResult['iblock'][$val['SECTION_ID']]['section'] = $val['SECTION_URL'];
+
+			$nSectionId=$val['SECTION_ID'];
+			$arResult['iblock'][$nSectionId]['section'] = $val['SECTION_URL'];
+
+			unset(
+				$val['CODE'],
+				$val['ID'],
+				$val['SECTION_CODE'],
+				$val['SECTION_ID'],
+				$val['SECTION_NAME'],
+				$val['SECTION_URL'],
+				$val['VALUE']
+			);
+
+			$arResult['iblock'][$nSectionId]['articles'][] = $val;
 		}
 	}
 

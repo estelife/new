@@ -122,7 +122,7 @@ $(function home(){
 			},function(r){
 				if(r.result){
 					detail_generator.ready(function(){
-						var html = detail_generator.make(r);
+						var html = detail_generator.render(r);
 						$('.media').find('.items')
 							.html(html);
 					});
@@ -445,7 +445,7 @@ function getFilterForm(type,query){
 				filter_generator.ready(function(){
 					el_filter.remove();
 					$('.sidebar:first').prepend(
-						filter_generator.make(r.filter)
+						filter_generator.render(r.filter)
 					);
 					el_filter=$('.el-filter');
 					initFilter(el_filter);

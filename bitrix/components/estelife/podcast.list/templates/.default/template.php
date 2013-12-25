@@ -12,7 +12,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<?php if (!empty($arResult["FIRST"])):?>
 				<div class="img">
 					<a href="<?=$arResult["FIRST"]["DETAIL_URL"]?>">
-						<img src="<?=$arResult["FIRST"]['IMG_B']['SRC']?>" width="393px" height="218px"" alt="<?=$arResult["FIRST"]['NAME']?>" title="<?=$arResult["FIRST"]['NAME']?>" />
+						<img src="<?=$arResult["FIRST"]['IMG_B']?>" width="393px" height="218px"" alt="<?=$arResult["FIRST"]['NAME']?>" title="<?=$arResult["FIRST"]['NAME']?>" />
 					</a>
 					<div>
 						<h3><?=$arResult["FIRST"]['NAME']?></h3>
@@ -30,21 +30,19 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<?php endif?>
 		</div>
 		<div class="cols col2">
-			<?php if (!empty($arResult["ELEMENTS"])):?>
-				<?$i = 2?>
-				<?php foreach ($arResult["ELEMENTS"] as $val):?>
-					<div class="img">
-						<a href="<?=$val['DETAIL_URL']?>">
-							<img src="<?=$val['IMG_S']['SRC']?>" width="143px" height="98px"" alt="<?=$val['NAME']?>" title="<?=$val['NAME']?>" />
-						</a>
-						<?php if($val["PREVIEW_TEXT"]):?>
-							<div><p><?=$val['NAME']?></p></div>
-						<?php endif?>
-						<span><?=$i?></span>
-					</div>
-					<?$i++;?>
-				<?php endforeach?>
-			<?php endif?>
+			<?$i = 2?>
+			<?php foreach ($arResult["ELEMENTS"] as $val):?>
+				<div class="img">
+					<a href="<?=$val['DETAIL_URL']?>">
+						<img src="<?=$val['IMG_S']?>" width="143px" height="98px"" alt="<?=$val['NAME']?>" title="<?=$val['NAME']?>" />
+					</a>
+					<?php if($val["NAME"]):?>
+						<div><p><?=$val['NAME']?></p></div>
+					<?php endif?>
+					<span><?=$i?></span>
+				</div>
+				<?$i++;?>
+			<?php endforeach?>
 <!--			<div class="subscribe">-->
 <!--				<h3>Хотите всегда быть в курсе?</h3>-->
 <!--				<a href="#" class="submit">Подпишитесь</a>-->

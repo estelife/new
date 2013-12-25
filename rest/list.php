@@ -8,7 +8,8 @@ $APPLICATION->IncludeComponent("estelife:mega.complex.section", "rest", array(
 		),
 		'DIRECTORIES'=>array(
 			'clinics_filter',
-			'promotions_filter'
+			'promotions_filter',
+			'home'
 		)
 	)
 );

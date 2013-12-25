@@ -8,12 +8,14 @@ if ($arParams['ONLY_VIDEO'] == "Y"){
 	$arFilter = array('IBLOCK_ID'=>33, 'GLOBAL_ACTIVE'=>'Y');
 	$arSelect = array('ID', 'NAME', 'PREVIEW_PICTURE', 'CODE');
 	$db_list = CIBlockElement::GetList(Array("created"=>"desc"), $arFilter, false, array('nPageSize'=>6), $arSelect);
+	$nKey=0;
 
 	while ($res = $db_list->Fetch()){
 		$res['IS_VIDEO'] = 'Y';
 		$res['LINK'] = '/video/'.$res['CODE'].'/';
-		$img = CFile::GetFileArray($res['PREVIEW_PICTURE']);
-		$res['IMG'] = $img['SRC'];
+		$res['IMG'] = CFile::GetFileArray($res['PREVIEW_PICTURE']);
+		$res['IMG'] = $res['IMG']['SRC'];
+		$res['KEY'] = ++$nKey;
 		$arVideos[] =  $res;
 	}
 
@@ -26,12 +28,14 @@ if ($arParams['ONLY_PHOTO'] == "Y"){
 	$arFilter = array('IBLOCK_ID'=>4, 'GLOBAL_ACTIVE'=>'Y',  "DEPTH_LEVEL"=>1);
 	$arSelect = array('ID', 'NAME', 'PICTURE', 'CODE');
 	$db_list = CIBlockSection::GetList(Array("created"=>"desc"), $arFilter, true, $arSelect, array('nPageSize'=>$arCountPhotos));
+	$nKey=0;
 
 	while ($res = $db_list->Fetch()){
 		$res['LINK'] = '/photo/'.$res['ID'].'/';
-		$img = CFile::GetFileArray($res['PICTURE']);
-		$res['IMG'] = $img['SRC'];
-		$arPhotos[] =  $res;
+		$res['IMG'] = CFile::GetFileArray($res['PICTURE']);
+		$res['IMG'] = $res['IMG']['SRC'];
+		$res['KEY'] = ++$nKey;
+		$arPhotos[]=$res;
 	}
 	$arResult = $arPhotos;
 

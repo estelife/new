@@ -49,7 +49,6 @@ CModule::AddAutoloadClasses(
 		'companies\VCompanies' => "classes/companies/class.VCompanies.php",
 		
 		// geo
-		'geo\Geo' => "classes/geo/geo.php",
 		'geo\VGeo' => "classes/geo/class.VGeo.php",
 
 		// bitrix

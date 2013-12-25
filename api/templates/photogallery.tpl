@@ -1,6 +1,4 @@
-<div>
 <!--$i=0!-->
-<div>
 <!--foreach($result as $key=>$val)!-->
 	<div class="item<!--if($val.IS_VIDEO)!--> video<!--endif!--> asd <!--if($i%6==0)!--> last<!--endif!-->" data-id="<!--$val.ID!-->">
 		<!--if($val.IS_VIDEO)!--><span></span><!--endif!-->
@@ -9,5 +7,3 @@
 	</div>
 <!--$i++!-->
 <!--endforeach!-->
-</div>
-</div>

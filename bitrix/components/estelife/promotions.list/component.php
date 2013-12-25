@@ -107,8 +107,8 @@ $arDescription=array();
 if(!empty($arCount)){
 	$arActions= $obResult->all();
 	foreach ($arActions as $val){
-		$val['img'] = CFile::GetFileArray($val["logo_id"]);
-		$val['src'] = $val['img']['SRC'];
+		$val['src'] = CFile::GetFileArray($val["logo_id"]);
+		$val['src'] = $val['src']['SRC'];
 		$val['new_price'] = number_format($val['new_price'],0,'.',' ');
 		$val['old_price'] = number_format($val['old_price'],0,'.',' ');
 		$val['time'] = ceil(($val['end_date']-$arNow)/(60*60*24));

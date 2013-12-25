@@ -36,16 +36,17 @@ EL.loadModule('templates',function(){
 							response=$.parseJSON(response);
 							_.extend(data,response);
 						}catch(e){}
+						numRequests++;
 						maxTimeouts++;
 					});
 				});
 
 				var timeout=function(){
-					if(numRequests<=model.pages.length && maxTimeouts<10){
-						setTimeout(timeout,100);
-						maxTimeouts++;
-					}else{
+					if(numRequests>=model.pages.length || maxTimeouts>=1000){
 						model.set(data);
+					}else{
+						setTimeout(timeout,10);
+						maxTimeouts++;
 					}
 				};
 				timeout();
@@ -54,7 +55,10 @@ EL.loadModule('templates',function(){
 					try{
 						response=$.parseJSON(response);
 						model.set(response);
-					}catch(e){}
+					}catch(e){
+						if(window.console)
+							console.error(e);
+					}
 				});
 			}
 		}
@@ -137,9 +141,12 @@ EL.loadModule('templates',function(){
 		el:null,
 		template:null,
 		data:null,
+		dataKey:null,
+
 		initialize: function(params){
 			params=params||{};
 
+			this.dataKey=params.dataKey||null;
 			this.template=(params.template) ?
 				params.template : this.template;
 
@@ -152,9 +159,13 @@ EL.loadModule('templates',function(){
 					}
 				});
 		},
+
 		setData:function(data){
-			if(_.isObject(data))
-				this.data=data;
+			if(!_.isObject(data) || (this.dataKey && !(this.dataKey in data)))
+				return;
+
+			this.data=(this.dataKey) ?
+				data[this.dataKey] : data;
 		}
 	});
 
@@ -177,23 +188,20 @@ EL.loadModule('templates',function(){
 				})
 			}
 		},
-		render:function(){
+		mainRender:function(){
 			var ob=this;
 			this.$el.empty();
 
-			var start=(new Date()).getTime(),
-				end=0;
-
 			if(this.views && this.views.length>0){
 				_.each(this.views,function(view){
-					ob.$el.append(view.render().el);
+					ob.$el.append(view.render().$el);
 				});
 			}
 
-			end=(new Date()).getTime();
-			console.log('profile: '+((end-start)));
-
 			return this;
+		},
+		render:function(){
+			return this.mainRender();
 		}
 	});
 
@@ -246,11 +254,11 @@ EL.loadModule('templates',function(){
 	 * @type {*}
 	 */
 	App.Views.Nav=App.Views.Default.extend({
-		el:'ul.nav',
+		el:document.createElement('ul'),
 		render:function(){
 			if(_.isObject(this.data) && 'nav' in this.data){
 				var nav=this.data.nav;
-				this.$el.empty();
+				this.$el.addClass('nav').empty();
 
 				if(nav.endPage && nav.endPage>0){
 					if(nav.startPage>1){
@@ -286,13 +294,14 @@ EL.loadModule('templates',function(){
 	 * @type {*}
 	 */
 	App.Views.Crumb=App.Views.Default.extend({
-		el:'ul.crumb',
+		el:document.createElement('ul'),
 		render:function(){
 			if(_.isObject(this.data) && 'crumb' in this.data){
-
 				var ob=this,
 					data=this.data.crumb,
 					last=data.pop();
+
+				this.$el.addClass('crumb');
 
 				if(this.$el.length>0)
 					this.$el.empty();
@@ -313,12 +322,13 @@ EL.loadModule('templates',function(){
 	 * @type {*}
 	 */
 	App.Views.Title=App.Views.Default.extend({
-		el:'.inner div.title',
+		el:document.createElement('div'),
 		render:function(){
 			if(_.isObject(this.data) && 'title' in this.data){
+				this.$el.addClass('title');
+
 				var data=this.data.title,
 					html='<h1>'+data.name+'</h1>';
-
 
 				if (data.menu){
 					html+='<ul class="menu">';
@@ -341,14 +351,54 @@ EL.loadModule('templates',function(){
 	 * @type {*}
 	 */
 	App.Views.Filter=App.Views.Default.extend({
-		el:'form.filter',
+		el:document.createElement('form'),
+		render:function(){
+			if(_.isObject(this.data)){
+				var ob=this;
+
+				this.template.ready(function(){
+					ob.$el=$(ob.template.render(ob.data));
+					initFilter(ob.$el);
+					ob.el=ob.$el[0]
+				});
+			}
+
+			return this;
+		}
+	});
+
+	/**
+	 * Представленеие для рекламного баннера справа
+	 * @type {*}
+	 */
+	App.Views.Advert=App.Views.Default.extend({
+		el:null,
+		render:function(){
+			if(_.isString(this.data)){
+				this.$el=$('<div></div>').addClass('adv');
+
+				if(this.className)
+					this.$el.addClass(this.className);
+
+				this.$el.append(this.data);
+				this.el=this.$el[0];
+			}
+			return this;
+		}
+	});
+
+	App.Views.HomeComponent=App.Views.Default.extend({
+		el:document.createElement('div'),
 		render:function(){
 			if(_.isObject(this.data)){
 				var ob=this;
 				this.template.ready(function(){
-					var form=$(ob.template.render(ob.data));
-					ob.$el.empty().append(form.html());
-					initFilter(ob.$el);
+					if(ob.dataKey=='NEWS')
+						ob.dataKey='ARTICLES';
+
+					ob.template.set(ob.dataKey,ob.data);
+					ob.$el=$(ob.template.render());
+					ob.el=ob.$el[0];
 				});
 			}
 
@@ -361,65 +411,42 @@ EL.loadModule('templates',function(){
 	 * @type {*}
 	 */
 	App.Views.Inner=App.Views.Complex.extend({
-		el:'.inner'
+		el:document.createElement('div'),
+		render:function(){
+			this.$el.addClass('inner');
+			return this.mainRender();
+		}
 	});
+
 	App.Views.Content=App.Views.Complex.extend({
-		el:'.content:first'
+		el:null,
+		render:function(){
+			this.$el=$('<div class="content"></div>');
+			this.el=this.$el[0];
+			return this.mainRender();
+		}
 	});
 
-	App.Views.ClinicList=App.Views.List.extend({
-		template:'clinics_list'
-	});
-	App.Views.PromotionList=App.Views.List.extend({
-		template:'promotions_list'
-	});
-	App.Views.PreparationsMakersList=App.Views.List.extend({
-		template:'preparations_makers_list'
-	});
-	App.Views.ApparatusesMakersList=App.Views.List.extend({
-		template:'apparatuses_makers_list'
-	});
-	App.Views.PreparationsList=App.Views.List.extend({
-		template:'preparations_list'
-	});
-	App.Views.ApparatusesList=App.Views.List.extend({
-		template:'apparatuses_list'
-	});
-	App.Views.EventsList=App.Views.List.extend({
-		template:'events_list'
-	});
-	App.Views.SponsorsList=App.Views.List.extend({
-		template:'sponsors_list'
-	});
-	App.Views.TrainingCentersList=App.Views.List.extend({
-		template:'training_centers_list'
-	});
-	App.Views.TrainingsList=App.Views.List.extend({
-		template:'trainings_list'
-	});
-	App.Views.ApparatusesDetail=App.Views.Detail.extend({
-		template:'apparatuses_detail'
-	});
-	App.Views.ApparatusesMakersDetail=App.Views.Detail.extend({
-		template:'apparatuses_makers_detail'
-	});
-	App.Views.ClinicsDetail=App.Views.Detail.extend({
-		template:'clinics_detail'
-	});
-	App.Views.EventsDetail=App.Views.Detail.extend({
-		template:'events_detail'
-	});
+	App.Views.WrapContent=App.Views.Complex.extend({
+		el:'div.wrap-content',
+		render:function(){
+			var ob=this;
+			this.$el.empty();
 
+			if(this.views && this.views.length>0){
+				_.each(this.views,function(view){
+					ob.$el.append(view.render().$el);
+				});
+			}
 
-	App.Views.PreparationsMakersDetail=App.Views.Detail.extend({
-		template:'preparations_makers_detail'
+			return this;
+		}
 	});
-
-
 
 	// ROUTERS
 	App.Routers.Default=new (Backbone.Router.extend({
 		routes: {
+			'':'homePage',
 			'clinics/(.*)': 'clinicList',
 			'promotions/(.*)':'promotionList',
 			'preparations-makers/(.*)': 'preparationsMakersList',
@@ -437,24 +464,80 @@ EL.loadModule('templates',function(){
 			'ev:number/': 'eventsDetail'
 		},
 
+		homePage:function(){
+			(new App.Models.Inner(null,{
+				page:'home/',
+				view:new App.Views.WrapContent({
+					views:[
+						new App.Views.Content({
+							views:[
+								new App.Views.HomeComponent({
+									template:'home_podcasts',
+									dataKey:'PODCASTS'
+								}),
+								new App.Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER_RIGHT'
+								}),
+								new App.Views.Advert({
+									className:'adv top',
+									dataKey:'BANNER_TOP'
+								}),
+								new App.Views.HomeComponent({
+									template:'home_experts',
+									dataKey:'EXPERTS'
+								}),
+								new App.Views.HomeComponent({
+									template:'home_promotions',
+									dataKey:'PROMOTIONS'
+								}),
+								new App.Views.HomeComponent({
+									template:'home_articles',
+									dataKey:'ARTICLES'
+								})
+							]
+						}),
+						new App.Views.HomeComponent({
+							template:'home_media',
+							dataKey:'PHOTOGALLERY'
+						}),
+						new App.Views.Content({
+							views:[
+								new App.Views.HomeComponent({
+									template:'home_articles',
+									dataKey:'NEWS'
+								})
+							]
+						})
+					]
+				})
+			})).fetch();
+		},
+
 		clinicList: function(){
 			(new App.Models.Inner(null,{
 				pages:[
 					'clinics/'+EL.query().toString(),
 					'clinics_filter/'+EL.query().toString()
 				],
-				view:new App.Views.Content({
+				view:new App.Views.WrapContent({
 					views:[
-						new App.Views.Inner({
+						new App.Views.Content({
 							views:[
-								new App.Views.Crumb(),
-								new App.Views.Title(),
-								new App.Views.ClinicList(),
-								new App.Views.Nav(),
+								new App.Views.Inner({
+									views:[
+										new App.Views.Crumb(),
+										new App.Views.Title(),
+										new App.Views.List({
+											template:'clinics_list'
+										}),
+										new App.Views.Nav()
+									]
+								}),
+								new App.Views.Filter({
+									template:'clinics_filter'
+								})
 							]
-						}),
-						new App.Views.Filter({
-							template:'clinics_filter'
 						})
 					]
 				})
@@ -467,18 +550,24 @@ EL.loadModule('templates',function(){
 					'promotions/'+EL.query().toString(),
 					'promotions_filter/'+EL.query().toString()
 				],
-				view:new App.Views.Content({
+				view:new App.Views.WrapContent({
 					views:[
-						new App.Views.Inner({
+						new App.Views.Content({
 							views:[
-								new App.Views.Crumb(),
-								new App.Views.Title(),
-								new App.Views.PromotionList(),
-								new App.Views.Nav()
+								new App.Views.Inner({
+									views:[
+										new App.Views.Crumb(),
+										new App.Views.Title(),
+										new App.Views.List({
+											template:'promotions_list'
+										}),
+										new App.Views.Nav()
+									]
+								}),
+								new App.Views.Filter({
+									template:'promotions_filter'
+								})
 							]
-						}),
-						new App.Views.Filter({
-							template:'promotions_filter'
 						})
 					]
 				})
@@ -492,7 +581,9 @@ EL.loadModule('templates',function(){
 				'viewCollection':{
 					'viewTitle':new App.Views.Title(),
 					'viewCrumb':new App.Views.Crumb(),
-					'viewList':new App.Views.PreparationsMakersList(),
+					'viewList':new App.Views.List({
+						template:'preparations_makers_list'
+					}),
 					'viewNav':new App.Views.Nav()
 				},
 				'view':new App.Views.Inner()
@@ -506,7 +597,9 @@ EL.loadModule('templates',function(){
 				'viewCollection':{
 					'viewTitle':new App.Views.Title(),
 					'viewCrumb':new App.Views.Crumb(),
-					'viewList':new App.Views.ApparatusesMakersList(),
+					'viewList':new App.Views.List({
+						template:'apparatuses_makers_list'
+					}),
 					'viewNav':new App.Views.Nav()
 				},
 				'view':new App.Views.Inner()
@@ -520,7 +613,9 @@ EL.loadModule('templates',function(){
 				'viewCollection':{
 					'viewTitle':new App.Views.Title(),
 					'viewCrumb':new App.Views.Crumb(),
-					'viewList':new App.Views.PreparationsList(),
+					'viewList':new App.Views.List({
+						template:'preparations_list'
+					}),
 					'viewNav':new App.Views.Nav()
 				},
 				'view':new App.Views.Inner()
@@ -534,7 +629,9 @@ EL.loadModule('templates',function(){
 				'viewCollection':{
 					'viewTitle':new App.Views.Title(),
 					'viewCrumb':new App.Views.Crumb(),
-					'viewList':new App.Views.ApparatusesList(),
+					'viewList':new App.Views.List({
+						template:'apparatuses_list'
+					}),
 					'viewNav':new App.Views.Nav()
 				},
 				'view':new App.Views.Inner()
@@ -548,7 +645,9 @@ EL.loadModule('templates',function(){
 				'viewCollection':{
 					'viewTitle':new App.Views.Title(),
 					'viewCrumb':new App.Views.Crumb(),
-					'viewList':new App.Views.EventsList(),
+					'viewList':new App.Views.List({
+						template:'events_list'
+					}),
 					'viewNav':new App.Views.Nav()
 				},
 				'view':new App.Views.Inner()
@@ -562,7 +661,9 @@ EL.loadModule('templates',function(){
 				'viewCollection':{
 					'viewTitle':new App.Views.Title(),
 					'viewCrumb':new App.Views.Crumb(),
-					'viewList':new App.Views.SponsorsList(),
+					'viewList':new App.Views.List({
+						template:'sponsors_list'
+					}),
 					'viewNav':new App.Views.Nav()
 				},
 				'view':new App.Views.Inner()
@@ -576,7 +677,9 @@ EL.loadModule('templates',function(){
 				'viewCollection':{
 					'viewTitle':new App.Views.Title(),
 					'viewCrumb':new App.Views.Crumb(),
-					'viewList':new App.Views.TrainingCentersList(),
+					'viewList':new App.Views.List({
+						template:'training_centers_list'
+					}),
 					'viewNav':new App.Views.Nav()
 				},
 				'view':new App.Views.Inner()
@@ -590,7 +693,9 @@ EL.loadModule('templates',function(){
 				'viewCollection':{
 					'viewTitle':new App.Views.Title(),
 					'viewCrumb':new App.Views.Crumb(),
-					'viewList':new App.Views.TrainingsList(),
+					'viewList':new App.Views.List({
+						template:'trainings_list'
+					}),
 					'viewNav':new App.Views.Nav()
 				},
 				'view':new App.Views.Inner()
@@ -603,7 +708,9 @@ EL.loadModule('templates',function(){
 				'page':'pm'+id+'/',
 				'viewCollection':{
 					'viewCrumb':new App.Views.Crumb(),
-					'viewDetail':new App.Views.PreparationsMakersDetail()
+					'viewDetail':new App.Views.Detail({
+						template:'preparations_makers_detail'
+					})
 				},
 				'view':new App.Views.Inner()
 			});
@@ -615,7 +722,9 @@ EL.loadModule('templates',function(){
 				'page':'ap'+id+'/',
 				'viewCollection':{
 					'viewCrumb':new App.Views.Crumb(),
-					'viewDetail':new App.Views.ApparatusesDetail()
+					'viewDetail':new App.Views.Detail({
+						template:'apparatuses_detail'
+					})
 				},
 				'view':new App.Views.Inner()
 			});
@@ -628,7 +737,9 @@ EL.loadModule('templates',function(){
 				view:new App.Views.Inner({
 					views:[
 						new App.Views.Crumb(),
-						new App.Views.ApparatusesMakersDetail()
+						new App.Views.Detail({
+							template:'apparatuses_makers_detail'
+						})
 					]
 				})
 			});
@@ -641,7 +752,9 @@ EL.loadModule('templates',function(){
 				view:new App.Views.Inner({
 					views:[
 						new App.Views.Crumb(),
-						new App.Views.ClinicsDetail()
+						new App.Views.Detail({
+							template:'clinics_detail'
+						})
 					]
 				})
 			});
@@ -653,32 +766,13 @@ EL.loadModule('templates',function(){
 				'page':'ev'+id+'/',
 				'viewCollection':{
 					'viewCrumb':new App.Views.Crumb(),
-					'viewDetail':new App.Views.EventsDetail()
+					'viewDetail':new App.Views.Detail({
+						template:'events_detail'
+					})
 				},
 				'view':new App.Views.Inner()
 			});
 			model.fetch();
-			(new App.Models.Inner(null,{
-				pages:[
-					'promotions/'+EL.query().toString(),
-					'promotions_filter/'+EL.query().toString()
-				],
-				view:new App.Views.Content({
-					views:[
-						new App.Views.Inner({
-							views:[
-								new App.Views.Crumb(),
-								new App.Views.Title(),
-								new App.Views.PromotionList(),
-								new App.Views.Nav(),
-							]
-						}),
-						new App.Views.Filter({
-							template:'promotions_filter'
-						})
-					]
-				})
-			})).fetch();
 		}
 
 	}));
@@ -714,8 +808,8 @@ EL.loadModule('templates',function(){
 			menu.find('.main,.active,.second_active')
 				.removeClass('main active second_active');
 
-			if(parent.hasClass('.main_menu')){
-				link.addClass('main')
+			if(parent.hasClass('main_menu')){
+				link.parent().addClass('main')
 			}else{
 				parent=link.parents('li');
 				parent.eq(0).addClass('second_active');
@@ -769,6 +863,12 @@ EL.loadModule('templates',function(){
 			var href=$(this).attr('href');
 			App.Routers.Default.navigate(
 				href,
+				{trigger: true}
+			);
+			e.preventDefault();
+		}).on('click','.logo',function(e){
+			App.Routers.Default.navigate(
+				$(this).attr('href'),
 				{trigger: true}
 			);
 			e.preventDefault();

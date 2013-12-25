@@ -49,23 +49,39 @@ try{
 			'ACTIVE' => 'Y'
 		);
 		$arSelect = array('ID', 'NAME', 'PREVIEW_TEXT', 'PROPERTY_COUNT', 'PROPERTY_FRONTRIGHT', 'PROPERTY_FRONTBIG');
-
 		$obResult = CIBlockElement::GetList(Array('PROPERTY_COUNT'=>'ASC'), $arFilter, false, array('nPageSize'=>$arParams['NEWS_COUNT']),$arSelect);
+		$bFirst=true;
 
 		while($asRes = $obResult->Fetch()){
 			$asRes['DETAIL_URL'] = '/'.$arParams['PREFIX'].$asRes['ID'].'/';
-			$asRes['PREVIEW_TEXT_B'] = \core\types\VString::truncate($asRes['PREVIEW_TEXT'], 165, '...');
-			$asRes['PREVIEW_TEXT_S'] = \core\types\VString::truncate($asRes['PREVIEW_TEXT'], 30, '...');
-			$asRes['IMG_B'] = CFile::GetFileArray($asRes['PROPERTY_FRONTBIG_VALUE']);
+
+			if($bFirst){
+				$asRes['PREVIEW_TEXT_B'] = \core\types\VString::truncate($asRes['PREVIEW_TEXT'], 165, '...');
+				$asRes['IMG_B'] = CFile::GetFileArray($asRes['PROPERTY_FRONTBIG_VALUE']);
+				$asRes['IMG_B']=$asRes['IMG_B']['SRC'];
+				$bFirst=false;
+			}
+
+			//$asRes['PREVIEW_TEXT_S'] = \core\types\VString::truncate($asRes['PREVIEW_TEXT'], 30, '...');
 			$asRes['IMG_S'] = CFile::GetFileArray($asRes['PROPERTY_FRONTRIGHT_VALUE']);
+			$asRes['IMG_S']=$asRes['IMG_S']['SRC'];
+
+			unset(
+				$asRes['PREVIEW_TEXT'],
+				$asRes['PROPERTY_FRONTRIGHT_VALUE'],
+				$asRes['PROPERTY_FRONTBIG_VALUE'],
+				$asRes['PROPERTY_FRONTRIGHT_VALUE_ID'],
+				$asRes['PROPERTY_FRONTBIG_VALUE_ID']
+			);
 			$arElements[] = $asRes;
 		}
 
 	}
-	$arResult['FIRST'] = array_shift($arElements);
+	$arResult['FIRST']=array_shift($arElements);
+	unset($arResult['FIRST']['IMG_S']);
 
 	if ($flag == 1){
-		$nValue = $arResult['FIRST']['PROPERTY_COUNT_VALUE'] + 1;
+		$nValue=$arResult['FIRST']['PROPERTY_COUNT_VALUE'] + 1;
 		CIBlockElement::SetPropertyValues($arResult['FIRST']['ID'], $arParams['IBLOCK_ID'], $nValue, 'COUNT');
 	}
 
