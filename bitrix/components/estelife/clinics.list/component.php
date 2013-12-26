@@ -18,15 +18,18 @@ if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 else
 	$arPageCount = 10;
 
-if (isset($arParams['CITY_CODE']) && !empty($arParams['CITY_CODE'])){
+if(!$obGet->blank('city')){
+	//Получаем имя города по его ID
+	$arSelect = Array("ID", "NAME");
+	$arFilter = Array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "ID" => intval($obGet->one('city')));
+	$obCity = CIBlockElement::GetList(Array("NAME"=>"ASC"), $arFilter, false, false, $arSelect);
+	$arResult['city'] = $obCity->Fetch();
+}elseif (isset($arParams['CITY_CODE']) && !empty($arParams['CITY_CODE'])){
 	//Получаем ID города по его коду
 	$arSelect = Array("ID", "NAME");
 	$arFilter = Array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "CODE" => $arParams['CITY_CODE']);
 	$obCity = CIBlockElement::GetList(Array("NAME"=>"ASC"), $arFilter, false, false, $arSelect);
-
-	while($res = $obCity->Fetch()) {
-		$arResult['city'] = $res;
-	}
+	$arResult['city'] = $obCity->Fetch();
 }elseif(isset($_COOKIE['estelife_city'])){
 	$arResult['city'] = VGeo::getInstance()->getGeo();
 }
@@ -73,11 +76,8 @@ $obFilter = $obQuery->builder()->filter();
 $obFilter->_eq('ec.active', 1);
 $obFilter->_eq('ec.clinic_id', 0);
 
-if(!empty($arResult['city'])){
+if(!empty($arResult['city']))
 	$obFilter->_eq('ec.city_id', $arResult['city']['ID']);
-}else if(!$obGet->blank('city')){
-	$obFilter->_eq('ec.city_id', intval($obGet->one('city')));
-}
 
 if(!$obGet->blank('name')){
 	$obFilter->_like('ec.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);

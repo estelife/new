@@ -178,11 +178,11 @@ require(['mvc/Routers'],function(Routers){
 						.removeClass('main active second_active');
 
 					if(parent.hasClass('main_menu')){
-						link.parent().addClass('main')
+						link.parent().addClass('main active')
 					}else{
 						parent=link.parents('li');
 						parent.eq(0).addClass('second_active');
-						parent.eq(1).addClass('main');
+						parent.eq(1).addClass('main active');
 					}
 					e.preventDefault();
 				}
@@ -246,22 +246,22 @@ require(['mvc/Routers'],function(Routers){
 					.removeClass('main active second_active');
 				e.preventDefault();
 			}).on('submit','form[name=search]',function(e){
-					var frm=$(this),
-						href=frm.attr('action'),
-						text=frm.find('input[name=q]').val();
+				var frm=$(this),
+					href=frm.attr('action'),
+					text=frm.find('input[name=q]').val();
 
-					if(text.length>0){
-						Router.navigate(
-							href+'?q='+text,
-							{trigger: true}
-						);
-						$('.main_menu').find('.main,.active,.second_active')
-							.removeClass('main active second_active');
-					}else{
-						alert('Укажите поисковый запрос')
-					}
+				if(text.length>0){
+					Router.navigate(
+						href+'?q='+text,
+						{trigger: true}
+					);
+					$('.main_menu').find('.main,.active,.second_active')
+						.removeClass('main active second_active');
+				}else{
+					alert('Укажите поисковый запрос')
+				}
 
-					e.preventDefault();
+				e.preventDefault();
 			});
 
 		});

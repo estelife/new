@@ -2084,8 +2084,8 @@ form.search .submit {
 }
 .win-gallery-in img {
 	border:none;
-	width:100%;
-	height: 100%;
+	/*width:100%;*/
+	/*height: 100%;*/
 }
 .win-gallery-in .item {
 	background:#f0f0f0;
@@ -2117,6 +2117,25 @@ form.search .submit {
 .win-gallery-bottom-fix {
 	height:100px;
 	clear: both ;
+}
+.el {
+	width:51px;
+	height:82px;
+	background:url('../images/el.png') 0 0 no-repeat;
+	position:absolute;
+	z-index:1;
+	top: -21px;
+	left: -35px;
+}
+.head {
+	position:relative;
+}
+.head .logo {
+	position: relative;
+	z-index: 2;
+}
+body {
+	background:#ddd url('../images/bg.jpg') 0 0 repeat;
 }
 /*
 body {
