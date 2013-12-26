@@ -7,6 +7,10 @@
 	border:0px solid;
 }
 
+.head .main_menu .hover a{
+	color:#e50264;
+}
+
 .country.k357{
 	background-image:url('images/countries/k357.png');
 }

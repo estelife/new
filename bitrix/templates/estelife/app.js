@@ -1,47 +1,18 @@
-$(document).ready(function() {
-
-	var timerID = 0,
-		timer2ID = 0;
-
-	//Наведения
-	$(".main_menu>li").hover(
-		function() {
-			var ob = this;
-			clearTimeout(timerID);
-			clearTimeout(timer2ID);
-			timer2ID = setTimeout(function(){
-					$(".main_menu>li").removeClass("active");
-					$(ob).addClass("active");
-				},
-				150
-			);
-
-
-		},
-		function() {
-			timerID = setTimeout(function(){
-					$(".main_menu>li").removeClass("active");
-					$(".main_menu>li.main").addClass('active');
-				},
-				450
-			);
-		}
-	);
-
-});
 
 var showDetail;
 $(function home(){
+
+
 	//Переход на детальную страницу
-	$('.items .item').click(function(e){
-		var target= $(e.target),
-			link = $(this).find('a:first').attr('href')||'';
+//	$('body').on('click', '.items .item', function(e){
+//		var target= $(e.target),
+//			link = $(this).find('a:first').attr('href')||'';
+//
+//		if(target[0].tagName!='A' && link.length>0)
+//			document.location.href=link;
+//	});
 
-		if(target[0].tagName!='A' && link.length>0)
-			document.location.href=link;
-	});
-
-	$('.col2 .img').click(function(e){
+	$('body').on('click', '.col2 .img', function(e){
 		var target= $(e.target),
 			link = $(this).find('a:first').attr('href');
 
@@ -50,7 +21,7 @@ $(function home(){
 	});
 
 	//переключение между пунктами меню в эксперном мнении
-	$('.experts .menu li').click(function(){
+	$('body').on('click','.experts .menu li',function(){
 		var prnt = $(this).parent().parent();
 			col = $('.experts .menu li'),
 			index = col.index($(this));
@@ -62,7 +33,7 @@ $(function home(){
 	});
 
 	//Переключение между вкладками
-	$('.articles .menu li').click(function(){
+	$('body').on('click','.articles .menu li', function(){
 		var prnt = $(this).parents('.articles:first'),
 			col = $('.menu li',prnt),
 			index = col.index($(this));
@@ -168,7 +139,7 @@ $(function(){
 		});
 
 		//Вывод списка городов в шапке
-		$('.change_main_city').click(function(){
+		$('body').on('click','.change_main_city', function(){
 			var lnk=$(this);
 
 			if(lnk.hasClass('active'))
@@ -183,7 +154,7 @@ $(function(){
 		});
 
 		//Вывод списка городов для акций
-		$('.change_promotions_city').click(function(){
+		$('body').on('click','.change_promotions_city', function(){
 			var lnk=$(this);
 
 			if(lnk.hasClass('active'))

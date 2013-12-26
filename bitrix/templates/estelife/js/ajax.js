@@ -1,6 +1,46 @@
 require(['mvc/Routers'],function(Routers){
 	var Router=new Routers.Default();
-	
+
+	$(function home(){
+		var timerID = 0,
+			timer2ID = 0;
+
+		//Наведение на меню
+		$(".main_menu>li").hover(
+			function() {
+				var ob = this;
+				clearTimeout(timerID);
+				clearTimeout(timer2ID);
+				timer2ID = setTimeout(function(){
+						$(".main_menu>li").removeClass("active");
+						$(ob).addClass("active");
+					},
+					100
+				);
+			},
+			function() {
+				timerID = setTimeout(function(){
+						$(".main_menu>li").removeClass("active");
+						$(".main_menu>li.main").addClass('active');
+					},
+					550
+				);
+			}
+		);
+
+		//Наведение на подменю
+		$(".submenu").hover(
+			function() {
+				var ob = this;
+				$(ob).parent().addClass("hover");
+			},
+			function() {
+				$(".main_menu>li").removeClass("hover");
+			}
+		);
+
+	});
+
 	EL.loadModule('templates',function(){
 		// BULLSHIT
 		$(function(){
@@ -9,12 +49,13 @@ require(['mvc/Routers'],function(Routers){
 				'hashChange': false
 			});
 
-			$('body').on("click",".items .item a", function(e){
-				var link=$(this),
-					href=link.attr('href')||'';
+			//Переход на детальную страницу
+			$('body').on('click', '.items .item', function(e){
+				var target= $(e.target),
+					link = $(this).find('a:first').attr('href')||'';
 
-				if(href.length>0){
-					Router.navigate(href,{trigger: true});
+				if(target[0].tagName!='A' && link.length>0){
+					Router.navigate(link,{trigger: true});
 					e.preventDefault();
 				}
 			});
