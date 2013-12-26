@@ -15,8 +15,6 @@ final class VGeo{
 			$this->ip = $this->getIp();
 		elseif($this->isValidIp($options['ip']))
 			$this->ip = $options['ip'];
-
-		$this->setGeo();
 	}
 
 	public static function getInstance() {
@@ -27,6 +25,9 @@ final class VGeo{
 	}
 
 	public function getGeo(){
+		if (!$this->city)
+			$this->setGeo();
+
 		return $this->city;
 	}
 
@@ -40,7 +41,7 @@ final class VGeo{
 			->from('iblock_element');
 
 		$mCity=(empty($mCity) && isset($_COOKIE['estelife_city'])) ?
-			intval($_COOKIE['estelife_city']) : 0;
+			intval($_COOKIE['estelife_city']) : $mCity;
 
 		if (empty($mCity)){
 			$arCity=$this->geoBaseData(false);
@@ -54,6 +55,7 @@ final class VGeo{
 				->_eq('IBLOCK_ID', 16)
 				->_like('NAME',$arCity['city'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
 		}else if (is_numeric($mCity)){
+
 			$obQuery->builder()->filter()
 				->_eq('IBLOCK_ID', 16)
 				->_eq('ID',$mCity);
