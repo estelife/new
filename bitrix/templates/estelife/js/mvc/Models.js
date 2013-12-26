@@ -45,13 +45,14 @@ define(['mvc/Views'],function(Views){
 				};
 				timeout();
 			}else if(this.page){
-				$.get('/rest/'+this.page,{},function(response){
+				var page=this.page;
+				$.get('/rest/'+page,{},function(response){
 					try{
 						response=$.parseJSON(response);
 						model.set(response);
 					}catch(e){
 						if(window.console)
-							console.error(e);
+							console.error(e,page);
 					}
 				});
 			}
@@ -116,15 +117,7 @@ define(['mvc/Views'],function(Views){
 	 * Модель для внутренней страницы
 	 * @type {*}
 	 */
-	Models.Inner=Models.Complex.extend({
-		defaults:{
-			'crumb':null,
-			'title':null,
-			'nav':null,
-			'list':null,
-			'item':null
-		}
-	});
+	Models.Inner=Models.Complex.extend({});
 
 	return Models;
 });

@@ -3,6 +3,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 	Routers.Default=Backbone.Router.extend({
 		routes: {
 			'':'homePage',
+			'search/(.*)':'searchPage',
 			'clinics/(.*)': 'clinicList',
 			'promotions/(.*)':'promotionList',
 			'preparations-makers/(.*)': 'preparationsMakersList',
@@ -25,6 +26,32 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			'tr:number/': 'trainingsDetail'
 		},
 
+		searchPage:function(){
+			(new Models.Inner(null,{
+				page:'search/'+EL.query().toString(),
+				view:new Views.WrapContent({
+						views:[
+							new Views.Content({
+								views:[
+									new Views.Inner({
+										views:[
+											new Views.Crumb(),
+											new Views.Title(),
+											new Views.Component({
+												template:'search_page',
+												dataKey:'SEARCH_PAGE'
+											}),
+											new Views.Nav()
+										]
+									})
+								]
+							})
+						]
+					}
+				)
+			})).fetch();
+		},
+
 		homePage:function(){
 			(new Models.Inner(null,{
 				page:'home/',
@@ -32,7 +59,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 					views:[
 						new Views.Content({
 							views:[
-								new Views.HomeComponent({
+								new Views.Component({
 									template:'home_podcasts',
 									dataKey:'PODCASTS'
 								}),
@@ -44,27 +71,27 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									className:'adv top',
 									dataKey:'BANNER_TOP'
 								}),
-								new Views.HomeComponent({
+								new Views.Component({
 									template:'home_experts',
 									dataKey:'EXPERTS'
 								}),
-								new Views.HomeComponent({
+								new Views.Component({
 									template:'home_promotions',
 									dataKey:'PROMOTIONS'
 								}),
-								new Views.HomeComponent({
+								new Views.Component({
 									template:'home_articles',
 									dataKey:'ARTICLES'
 								})
 							]
 						}),
-						new Views.HomeComponent({
+						new Views.Component({
 							template:'home_media',
 							dataKey:'PHOTOGALLERY'
 						}),
 						new Views.Content({
 							views:[
-								new Views.HomeComponent({
+								new Views.Component({
 									template:'home_articles',
 									dataKey:'NEWS'
 								})

@@ -137,7 +137,26 @@ require(['mvc/Routers'],function(Routers){
 					$(this).attr('href'),
 					{trigger: true}
 				);
+				$('.main_menu').find('.main,.active,.second_active')
+					.removeClass('main active second_active');
 				e.preventDefault();
+			}).on('submit','form[name=search]',function(e){
+					var frm=$(this),
+						href=frm.attr('action'),
+						text=frm.find('input[name=q]').val();
+
+					if(text.length>0){
+						Router.navigate(
+							href+'?q='+text,
+							{trigger: true}
+						);
+						$('.main_menu').find('.main,.active,.second_active')
+							.removeClass('main active second_active');
+					}else{
+						alert('Укажите поисковый запрос')
+					}
+
+					e.preventDefault();
 			});
 		});
 	});
