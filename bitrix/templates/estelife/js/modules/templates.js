@@ -9,12 +9,17 @@ Estelife.prototype.templates=function(s){
 	var settings=s||{},
 		html,gen,timer,
 		loadEvent,
-		data={};
+		data={},
+		readyTimeouts=0;
 
 	(function init(){
 		if(!('params' in settings) ||
 			typeof settings.params!='object')
 			settings.params={};
+
+		settings.params= $.extend(settings.params,{
+			maxReadyTimeouts:100
+		});
 
 		if(!'template' in settings){
 			if(timer)
@@ -173,11 +178,15 @@ Estelife.prototype.templates=function(s){
 	this.ready=function(callback){
 		if(gen){
 			callback(this);
+		}else if(readyTimeouts>=settings.params.maxReadyTimeouts){
+			if(window.console)
+				console.error('templates timeout error');
 		}else{
 			var ob=this;
 			timer=setTimeout(function(){
 				ob.ready(callback);
-			},200);
+			},50);
+			readyTimeouts++;
 		}
 	};
 };

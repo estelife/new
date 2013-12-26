@@ -132,7 +132,7 @@ define(function(){
 				var nav=this.data.nav;
 				this.$el.addClass('nav').empty();
 
-				if(nav.endPage && nav.endPage>0){
+				if(nav.endPage && nav.endPage>1){
 					if(nav.startPage>1){
 						this.$el.append('<li><a href="'+nav.urlPath+'?PAGEN_'+nav.navNum+'=1'+nav.queryString+'">1</a></li>')
 							.append('<li><span>...</span></li>');
@@ -264,18 +264,20 @@ define(function(){
 	 * @type {*}
 	 */
 	Views.Component=Views.Default.extend({
-		el:document.createElement('div'),
+		el:null,//document.createElement('div'),
 		render:function(){
 			if(_.isObject(this.data)){
 				var ob=this;
+				this.$el=$('<div class="ajax-content"></div>');
+
 				this.template.ready(function(){
 					if(ob.dataKey=='NEWS')
 						ob.dataKey='ARTICLES';
-
 					ob.template.set(ob.dataKey,ob.data);
-					ob.$el=$(ob.template.render());
-					ob.el=ob.$el[0];
+					ob.$el.append($(ob.template.render()));
 				});
+
+				ob.el=ob.$el[0];
 			}
 
 			return this;

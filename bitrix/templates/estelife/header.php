@@ -54,6 +54,7 @@
 	</div>
 	<div class="cities main_cities none"></div>
 	<div class="head">
+		<div class="el"></div>
 		<a href="/" class="logo">
 			Портал<br /> эстетической медицины
 		</a>

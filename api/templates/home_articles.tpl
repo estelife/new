@@ -6,7 +6,7 @@
 	</div>
 	<ul class="menu">
 		<!--if($ARTICLES.SECTIONS_NAME!--)!-->
-			<!--$i=1!-->
+			<!--$i=0!-->
 			<!--foreach ($ARTICLES.SECTIONS_NAME as $key=>$val)!-->
 				<li<!--if ($i==1)!--> class="active"<!--endif!-->><a href="#"><span><!--$val!--></span></a></li>
 			<!--$i++!-->

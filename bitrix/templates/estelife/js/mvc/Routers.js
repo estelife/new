@@ -3,6 +3,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 	Routers.Default=Backbone.Router.extend({
 		routes: {
 			'':'homePage',
+			'podcast/(:param/)(:query)':'podcastList',
+			'articles/(:param/)(:query)':'articlesList',
 			'search/(.*)':'searchPage',
 			'clinics/(.*)': 'clinicList',
 			'promotions/(.*)':'promotionList',
@@ -24,6 +26,35 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			'pr:number/': 'promotionsDetail',
 			'tc:number/': 'trainingCentersDetail',
 			'tr:number/': 'trainingsDetail'
+		},
+
+		podcastList:function(param){
+			this.articlesList(param,'podcast/')
+		},
+
+		articlesList:function(param,page){
+			page=(page ? page : 'articles/')+(param ? param+'/' : '') + EL.query().toString();
+			(new Models.Inner(null,{
+				page:page,
+				view:new Views.WrapContent({
+					views:[
+						new Views.Content({
+							views:[
+								new Views.Inner({
+									views:[
+										new Views.Crumb(),
+										new Views.Title(),
+										new Views.List({
+											template:'articles_list'
+										}),
+										new Views.Nav()
+									]
+								})
+							]
+						})
+					]
+				})
+			})).fetch();
 		},
 
 		searchPage:function(){
