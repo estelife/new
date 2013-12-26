@@ -1,12 +1,10 @@
-<?php
-if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)
-	die();
-$APPLICATION->IncludeComponent(
+<? if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
+<?$APPLICATION->IncludeComponent(
 	"bitrix:news.list",
 	"ajax",
 	Array(
 		"IBLOCK_TYPE"	=>	"news",
-		"IBLOCK_ID"	=>	"14",
+		"IBLOCK_ID"	=>	"3",
 		"NEWS_COUNT"	=>	"9",
 		"SORT_BY1"	=>	"ACTIVE_FROM",
 		"SORT_ORDER1"	=>	"DESC",
@@ -46,4 +44,4 @@ $APPLICATION->IncludeComponent(
 		"SECTION_URL"	=>	'#SECTION_CODE#/',
 	),
 	$component
-);
+);?>

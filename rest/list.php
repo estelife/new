@@ -20,7 +20,8 @@ $APPLICATION->IncludeComponent("estelife:mega.complex.section", "rest", array(
 			'home',
 			'search',
 			'podcast',
-			'articles'
+			'articles',
+			'banner'
 		)
 	)
 );

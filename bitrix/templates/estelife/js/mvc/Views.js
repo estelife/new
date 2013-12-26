@@ -1,4 +1,4 @@
-define(function(){
+define(['tpl/Template'],function(Template){
 	var Views={};
 
 	/**
@@ -19,7 +19,7 @@ define(function(){
 				params.template : this.template;
 
 			if(this.template && typeof this.template!='object')
-				this.template=new EL.templates({
+				this.template=new Template({
 					'template':this.template,
 					'path':'/api/estelife_ajax.php',
 					'params':{
@@ -230,7 +230,6 @@ define(function(){
 
 				this.template.ready(function(){
 					ob.$el=$(ob.template.render(ob.data));
-					initFilter(ob.$el);
 					ob.el=ob.$el[0]
 				});
 			}

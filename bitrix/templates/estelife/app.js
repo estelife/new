@@ -1,6 +1,5 @@
 
-var showDetail;
-$(function home(){
+//$(function home(){
 
 
 	//Переход на детальную страницу
@@ -119,13 +118,13 @@ $(function home(){
 //
 //		return false;
 //	})
-});
+//});
 
 
-$(function(){
-	var bd=$('body');
-
-	EL.loadModule('Geo',function(){
+//$(function(){
+//	var bd=$('body');
+//
+//	EL.loadModule('Geo',function(){
 //		EL.Geo.addEventListener({
 //			onCityChange:function(city){
 //				$('.cities li').removeClass('active');
@@ -242,10 +241,10 @@ $(function(){
 //			});
 //		});
 
-	});
-
-	initFilter($('.filter'));
-});
+//	});
+//
+//	initFilter($('.filter'));
+//});
 
 //function getPromotions(city){
 //	EL.loadModule('templates',function(){
@@ -279,157 +278,7 @@ $(function(){
 //	});
 //}
 
-function initFilter(context){
-	$('.text.date',context).each(function(){
-		var current=$(this),
-			img=current.find('i'),
-			prnt=current.parent(),
-			from=current.hasClass('from'),
-			other=(from) ?
-				prnt.find('.text.date:last') :
-				prnt.find('.text.date:first');
-
-		current.find('input').datepicker({
-			numberOfMonths: 1,
-			dateFormat: 'dd.mm.y',
-			isRTL:(!from),
-			onClose: function( selectedDate ) {
-				other.find('input').datepicker(
-					"option",
-					(from ? 'minDate' : 'maxDate'),
-					selectedDate
-				);
-			}
-		});
-
-		img.click(function(){
-			$(this).parent().find('input').datepicker('show');
-			return false;
-		});
-	});
-
-	EL.loadModule('select',function(){
-		$('select',context).each(function(){
-			new EL.select($(this));
-		});
-	});
-
-	$('select[data-rules]').change(function(){
-		var current=$(this),
-			val=current.val(),
-			name=current.attr('name'),
-			rules=current.attr('data-rules');
-
-		if(!(rules=rules.match(/[\w\d\-_]+\:[^;]+/gi)))
-			throw 'incorrect rule for linked fields';
-
-		var temp=null,
-			params={};
-		params[name]=val;
-
-		for(var i=0; i<rules.length; i++){
-			temp=rules[i].split(':');
-			params.action=temp[0];
-
-			$.get(
-				'/api/estelife_ajax.php',
-				params,
-				(function(selector){
-					return function(r){
-						var child = $(selector),
-							prnt=child.parent();
-
-						prnt.addClass('disabled');
-						child.find('option:not(:first)').remove();
-
-						if('list' in r && r.list.length>0){
-							for(var i= 0; i< r.list.length; i++)
-								child.append('<option value="'+ r.list[i].value+'">'+ r.list[i].label+'</option>');
-
-							prnt.removeClass('disabled');
-						}
-					};
-				})(temp[1]),
-				'json'
-			);
-		}
-	});
-
-	var input=$('input[name=name]',context);
-
-	if(input.length>0){
-		EL.loadModule('autocompleteFilter',function(){
-			new EL.autocompleteFilter(
-				'input[name=name]',
-				input.attr('data-action')
-			);
-		});
-	}
-}
-
-function activateMenuLink(lnk,title){
-	if(lnk.length<=0)
-		return;
-
-	var prnt=lnk.parents('.menu:first'),
-		sub=(lnk.parents('.submenu:first').length>0),
-		setTitle=!title;
-
-	prnt.find('.main,.active,.second_active')
-		.removeClass('main active second_active');
-
-	if(sub){
-		lnk.parent()
-			.addClass('second_active')
-			.parents('li:first').addClass('main active');
-	}else{
-		lnk.parent()
-			.addClass('main active');
-	}
-
-	if(setTitle)
-		$('.content .block-header h1').html(lnk.attr('title'));
-}
-
-function getFilterForm(type,query){
-	var temp=(query && typeof 'object') ?
-			query : {},
-		data=$.extend({
-			'action':'get_filter_data',
-			'filter':type
-		},temp);
-
-	$.getJSON(
-		'/api/estelife_ajax.php',
-		data,
-		function(r){
-			var el_filter=$('.el-filter');
-
-			if('filter' in r){
-				var filter_generator=new EL.templates({
-					'path':'/api/estelife_ajax.php',
-					'template':type+'_filter',
-					'params':{
-						'action':'get_template'
-					}
-				});
-
-				filter_generator.ready(function(){
-					el_filter.remove();
-					$('.sidebar:first').prepend(
-						filter_generator.render(r.filter)
-					);
-					el_filter=$('.el-filter');
-					initFilter(el_filter);
-				});
-			}else{
-				el_filter.remove();
-			}
-		}
-	);
-}
-
-$(function(){
+//$(function(){
 	/*var city_id;
 	EL.geolocation(
 		function(position){
@@ -547,4 +396,4 @@ $(function(){
 //			origin.replaceWith(jmap);
 //		});
 //	});
-});
+//});

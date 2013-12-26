@@ -2,12 +2,7 @@
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	die();
 
-class HOME {
-	public static $DATA=array();
-	public static $KEY;
-}
-
-HOME::$KEY='PODCASTS';
+bitrix\ERESULT::$KEY='PODCASTS';
 $APPLICATION->IncludeComponent(
 	"estelife:podcast.list",
 	"home_ajax",
@@ -20,10 +15,10 @@ $APPLICATION->IncludeComponent(
 	)
 );
 
-HOME::$KEY='BANNER_RIGHT';
+bitrix\ERESULT::$KEY='BANNER_RIGHT';
 $APPLICATION->IncludeComponent(
 	"bitrix:advertising.banner",
-	"home_ajax",
+	"ajax",
 	array(
 		"TYPE" => "main_right_1",
 		"CACHE_TYPE" => "A",
@@ -32,10 +27,10 @@ $APPLICATION->IncludeComponent(
 	)
 );
 
-HOME::$KEY='BANNER_TOP';
+bitrix\ERESULT::$KEY='BANNER_TOP';
 $APPLICATION->IncludeComponent(
 	"bitrix:advertising.banner",
-	"home_ajax",
+	"ajax",
 	array(
 		"TYPE" => "main_center_1",
 		"CACHE_TYPE" => "A",
@@ -44,7 +39,7 @@ $APPLICATION->IncludeComponent(
 	)
 );
 
-HOME::$KEY='EXPERTS';
+bitrix\ERESULT::$KEY='EXPERTS';
 $APPLICATION->IncludeComponent(
 	"estelife:expert.list",
 	"home_ajax",
@@ -61,7 +56,7 @@ $APPLICATION->IncludeComponent(
 	)
 );
 
-HOME::$KEY='PROMOTIONS';
+bitrix\ERESULT::$KEY='PROMOTIONS';
 $APPLICATION->IncludeComponent(
 	"estelife:promotions.list",
 	"home_ajax",
@@ -71,7 +66,7 @@ $APPLICATION->IncludeComponent(
 	false
 );
 
-HOME::$KEY='ARTICLES';
+bitrix\ERESULT::$KEY='ARTICLES';
 $APPLICATION->IncludeComponent(
 	"estelife:articles.list",
 	"home_ajax",
@@ -89,7 +84,7 @@ $APPLICATION->IncludeComponent(
 	)
 );
 
-HOME::$KEY='PHOTOGALLERY';
+bitrix\ERESULT::$KEY='PHOTOGALLERY';
 $APPLICATION->IncludeComponent(
 	"estelife:photogallery",
 	"home_ajax",
@@ -101,7 +96,7 @@ $APPLICATION->IncludeComponent(
 	false
 );
 
-HOME::$KEY='NEWS';
+bitrix\ERESULT::$KEY='NEWS';
 $APPLICATION->IncludeComponent(
 	"estelife:articles.list",
 	"home_ajax",
@@ -119,4 +114,4 @@ $APPLICATION->IncludeComponent(
 	)
 );
 
-echo json_encode(HOME::$DATA);
+echo json_encode(bitrix\ERESULT::$DATA);

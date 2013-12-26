@@ -3,6 +3,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 	Routers.Default=Backbone.Router.extend({
 		routes: {
 			'':'homePage',
+			'novosti/(:param/)(:query)':'newsList',
 			'podcast/(:param/)(:query)':'podcastList',
 			'articles/(:param/)(:query)':'articlesList',
 			'search/(.*)':'searchPage',
@@ -28,6 +29,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			'tr:number/': 'trainingsDetail'
 		},
 
+		newsList:function(param){
+			this.articlesList(param,'novosti/')
+		},
+
 		podcastList:function(param){
 			this.articlesList(param,'podcast/')
 		},
@@ -35,7 +40,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		articlesList:function(param,page){
 			page=(page ? page : 'articles/')+(param ? param+'/' : '') + EL.query().toString();
 			(new Models.Inner(null,{
-				page:page,
+				pages:[
+					page,
+					'banner/'
+				],
 				view:new Views.WrapContent({
 					views:[
 						new Views.Content({
@@ -49,6 +57,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 										}),
 										new Views.Nav()
 									]
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
 								})
 							]
 						})
@@ -59,7 +71,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 
 		searchPage:function(){
 			(new Models.Inner(null,{
-				page:'search/'+EL.query().toString(),
+				pages:[
+					'search/'+EL.query().toString(),
+					'banner/'
+				],
 				view:new Views.WrapContent({
 						views:[
 							new Views.Content({
@@ -74,6 +89,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 											}),
 											new Views.Nav()
 										]
+									}),
+									new Views.Advert({
+										className:'adv adv-out right',
+										dataKey:'BANNER'
 									})
 								]
 							})
@@ -137,7 +156,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			(new Models.Inner(null,{
 				pages:[
 					'clinics/'+EL.query().toString(),
-					'clinics_filter/'+EL.query().toString()
+					'clinics_filter/'+EL.query().toString(),
+					'banner/'
 				],
 				view:new Views.WrapContent({
 					views:[
@@ -155,6 +175,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'clinics_filter'
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
 								})
 							]
 						})
@@ -167,7 +191,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:[
 					'promotions/'+EL.query().toString(),
-					'promotions_filter/'+EL.query().toString()
+					'promotions_filter/'+EL.query().toString(),
+					'banner/'
 				],
 				view:new Views.WrapContent({
 					views:[
@@ -185,6 +210,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'promotions_filter'
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
 								})
 							]
 						})
@@ -198,7 +227,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:[
 					'preparations-makers/'+EL.query().toString(),
-					'preparations_makers_filter/'+EL.query().toString()
+					'preparations_makers_filter/'+EL.query().toString(),
+					'banner/'
 				],
 				view:new Views.WrapContent({
 					views:[
@@ -216,6 +246,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'preparations_makers_filter'
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
 								})
 							]
 						})
@@ -229,7 +263,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:[
 					'apparatuses-makers/'+EL.query().toString(),
-					'apparatuses_makers_filter/'+EL.query().toString()
+					'apparatuses_makers_filter/'+EL.query().toString(),
+					'banner/'
 				],
 				view:new Views.WrapContent({
 					views:[
@@ -247,6 +282,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'apparatuses_makers_filter'
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
 								})
 							]
 						})
@@ -260,7 +299,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:[
 					'preparations/'+EL.query().toString(),
-					'preparations_filter/'+EL.query().toString()
+					'preparations_filter/'+EL.query().toString(),
+					'banner/'
 				],
 				view:new Views.WrapContent({
 					views:[
@@ -278,6 +318,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'preparations_filter'
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
 								})
 							]
 						})
@@ -291,7 +335,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:[
 					'apparatuses/'+EL.query().toString(),
-					'apparatuses_filter/'+EL.query().toString()
+					'apparatuses_filter/'+EL.query().toString(),
+					'banner/'
 				],
 				view:new Views.WrapContent({
 					views:[
@@ -309,6 +354,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'apparatuses_filter'
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
 								})
 							]
 						})
@@ -322,7 +371,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:[
 					'events/'+EL.query().toString(),
-					'events_filter/'+EL.query().toString()
+					'events_filter/'+EL.query().toString(),
+					'banner/'
 				],
 				view:new Views.WrapContent({
 					views:[
@@ -340,6 +390,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'events_filter'
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
 								})
 							]
 						})
@@ -353,7 +407,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:[
 					'sponsors/'+EL.query().toString(),
-					'sponsors_filter/'+EL.query().toString()
+					'sponsors_filter/'+EL.query().toString(),
+					'banner/'
 				],
 				view:new Views.WrapContent({
 					views:[
@@ -371,6 +426,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'sponsors_filter'
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
 								})
 							]
 						})
@@ -384,7 +443,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:[
 					'training-centers/'+EL.query().toString(),
-					'training_centers_filter/'+EL.query().toString()
+					'training_centers_filter/'+EL.query().toString(),
+					'banner/'
 				],
 				view:new Views.WrapContent({
 					views:[
@@ -402,6 +462,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'training_centers_filter'
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
 								})
 							]
 						})
@@ -415,7 +479,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:[
 					'trainings/'+EL.query().toString(),
-					'trainings_filter/'+EL.query().toString()
+					'trainings_filter/'+EL.query().toString(),
+					'banner/'
 				],
 				view:new Views.WrapContent({
 					views:[
@@ -433,6 +498,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'trainings_filter'
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
 								})
 							]
 						})
@@ -446,7 +515,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:[
 					'ap'+id+'/',
-					'apparations_filter/'+EL.query().toString()
+					'apparations_filter/'+EL.query().toString(),
+					'banner/'
 				],
 				view:new Views.WrapContent({
 					views:[
@@ -462,6 +532,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'apparations_filter'
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
 								})
 							]
 						})
@@ -475,7 +549,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:[
 					'am'+id+'/',
-					'apparatuses_makers_filter/'+EL.query().toString()
+					'apparatuses_makers_filter/'+EL.query().toString(),
+					'banner/'
 				],
 				view:new Views.WrapContent({
 					views:[
@@ -491,6 +566,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'apparatuses_makers_filter'
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
 								})
 							]
 						})
@@ -504,7 +583,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:[
 					'cl'+id+'/',
-					'clinics_filter/'+EL.query().toString()
+					'clinics_filter/'+EL.query().toString(),
+					'banner/'
 				],
 				view:new Views.WrapContent({
 					views:[
@@ -520,6 +600,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'clinics_filter'
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
 								})
 							]
 						})
@@ -531,9 +615,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 
 		eventsDetail: function(id){
 			var model=new Models.Inner(null,{
-				page:[
+				pages:[
 					'ev'+id+'/',
-					'events_filter/'+EL.query().toString()
+					'events_filter/'+EL.query().toString(),
+					'banner/'
 				],
 				view:new Views.WrapContent({
 					views:[
@@ -549,6 +634,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'events_filter'
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
 								})
 							]
 						})
@@ -560,9 +649,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 
 		preparationsDetail: function(id){
 			var model=new Models.Inner(null,{
-				page:[
+				pages:[
 					'ps'+id+'/',
-					'preparations_filter/'+EL.query().toString()
+					'preparations_filter/'+EL.query().toString(),
+					'banner/'
 				],
 				view:new Views.WrapContent({
 					views:[
@@ -578,6 +668,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'preparations_filter'
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
 								})
 							]
 						})
@@ -591,7 +685,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:[
 					'pm'+id+'/',
-					'preparations_makers_filter/'+EL.query().toString()
+					'preparations_makers_filter/'+EL.query().toString(),
+					'banner/'
 				],
 				view:new Views.WrapContent({
 					views:[
@@ -607,6 +702,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'preparations_makers_filter'
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
 								})
 							]
 						})
@@ -620,7 +719,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:[
 					'sp'+id+'/',
-					'sponsors_filter/'+EL.query().toString()
+					'sponsors_filter/'+EL.query().toString(),
+					'banner/'
 				],
 				view:new Views.WrapContent({
 					views:[
@@ -636,6 +736,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'sponsors_filter'
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
 								})
 							]
 						})
@@ -649,7 +753,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:[
 					'pr'+id+'/',
-					'promotions_filter/'+EL.query().toString()
+					'promotions_filter/'+EL.query().toString(),
+					'banner/'
 				],
 				view:new Views.WrapContent({
 					views:[
@@ -665,6 +770,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'promotions_filter'
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
 								})
 							]
 						})
@@ -678,7 +787,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:[
 					'tc'+id+'/',
-					'training_centers_filter/'+EL.query().toString()
+					'training_centers_filter/'+EL.query().toString(),
+					'banner/'
 				],
 				view:new Views.WrapContent({
 					views:[
@@ -694,6 +804,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'training_centers_filter'
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
 								})
 							]
 						})
@@ -707,7 +821,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:[
 					'tr'+id+'/',
-					'trainings_filter/'+EL.query().toString()
+					'trainings_filter/'+EL.query().toString(),
+					'banner/'
 				],
 				view:new Views.WrapContent({
 					views:[
@@ -723,6 +838,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'trainings_filter'
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
 								})
 							]
 						})

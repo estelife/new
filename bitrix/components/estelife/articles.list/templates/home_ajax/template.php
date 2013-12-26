@@ -2,7 +2,7 @@
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	die();
 
-HOME::$DATA[HOME::$KEY]=array(
+bitrix\ERESULT::$DATA[bitrix\ERESULT::$KEY]=array(
 	'TITLE'=>$arParams['TITLE'],
 	'first_section'=>$arResult['first_section'],
 	'MORE_TITLE'=>$arParams['MORE_TITLE'],

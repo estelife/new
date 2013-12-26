@@ -1,5 +1,12 @@
-require(['mvc/Routers'],function(Routers){
-	var Router=new Routers.Default();
+require([
+	'mvc/Routers',
+	'tpl/Template',
+	'modules/Geo',
+	'modules/Media',
+	'modules/Select'
+],function(Routers,Template,Geo,Media,Select){
+	var body=$('body'),
+		Router=new Routers.Default();
 
 	$(function home(){
 		var timerID = 0,
@@ -41,230 +48,231 @@ require(['mvc/Routers'],function(Routers){
 
 	});
 
-	EL.loadModule('templates',function(){
-		// BULLSHIT
-		$(function(){
-			Backbone.history.start({
-				'pushState':true,
-				'hashChange': false
-			});
+	// BULLSHIT
+	$(function(){
+		Backbone.history.start({
+			'pushState':true,
+			'hashChange': false
+		});
 
-			//Переход на детальную страницу
-			$('body').on('click', '.items .item', function(e){
-				var target= $(e.target),
-					link = $(this).find('a:first').attr('href')||'';
+		//Переход на детальную страницу
+		body.on('click', '.items .item', function(e){
+			var target=$(e.target),
+				link=$(this).find('a:first').attr('href')||'',
+				parentTag=target.parent()[0].tagName;
 
-				if(target[0].tagName!='A' && link.length>0){
-					Router.navigate(link,{trigger: true});
-					e.preventDefault();
+			if((target[0].tagName!='A' && link.length>0) || ['H1','H2','H3'].inArray(parentTag)>-1){
+				Router.navigate(link,{trigger: true});
+				e.preventDefault();
+			}
+		});
+
+		body.on('click', '.col2 .img', function(e){
+			var target= $(e.target),
+				link = $(this).find('a:first').attr('href')||'';
+
+			if(target[0].tagName!='A' && link.length>0){
+				document.location.href=link;
+			}
+		});
+
+		//переключение между пунктами меню в эксперном мнении
+		body.on('click','.experts .menu li',function(){
+			var prnt = $(this).parent().parent(),
+				col = $('.experts .menu li'),
+				index = col.index($(this));
+
+			col.removeClass('active').eq(index).addClass('active');
+			$('.item',prnt).addClass('none').eq(index).removeClass('none');
+
+			return false;
+		});
+
+		//Переключение между вкладками
+		body.on('click','.articles .menu li', function(){
+			var prnt = $(this).parents('.articles:first'),
+				col = $('.menu li',prnt),
+				index = col.index($(this));
+
+			$('.menu li',prnt).removeClass('active').eq(index).addClass('active');
+			$('.items' ,prnt).addClass('none').eq(index).removeClass('none');
+
+			var section_url = $('.items' ,prnt).eq(index).attr('rel');
+			prnt.find('.title a').attr('href', section_url);
+
+			return false;
+		});
+
+		//табы для раскрытия информации
+		body.on('click', '.el-tab h3', function(){
+			var prnt = $(this).parent(),
+				el = $('a',$(this));
+
+			if (el.hasClass('active')){
+				el.removeClass('active');
+				prnt.find('h3').next().slideUp('700').addClass('none');
+			}else{
+				el.addClass('active');
+				prnt.find('h3').next().slideDown('700').removeClass('none');
+			}
+
+			return false
+		});
+
+		//Переключение между табами
+		body.on('click','.menu_tab ul li',function(){
+			var col = $('.menu_tab ul li'),
+				index = col.index($(this));
+
+			col.removeClass('active');
+			$(this).addClass('active');
+
+			$('.tabs').addClass('none').eq(index).removeClass('none');
+
+			return false;
+		});
+
+		//переключения между табами в галереи
+		body.on('click', '.media .menu a', function(){
+			var lnk=$(this),
+				rel=lnk.attr('rel');
+
+			var tpl=new Template({
+				'path':'/api/estelife_ajax.php',
+				'template':'photogallery',
+				'params':{
+					'action':'get_template'
 				}
 			});
 
-			$('body').on('click', '.col2 .img', function(e){
-				var target= $(e.target),
-					link = $(this).find('a:first').attr('href')||'';
+			lnk.parents('.menu').find('.active').removeClass('active');
+			if (lnk.attr('rel') != 'ALL')
+				lnk.addClass('active');
 
-				if(target[0].tagName!='A' && link.length>0){
-					document.location.href=link;
+			$.get('/api/estelife_ajax.php',{
+				'action':'get_media',
+				'params':{
+					'photo': (rel=="ONLY_PHOTO" || rel=='ALL') ? 'Y' : 'N',
+					'video': (rel=="ONLY_VIDEO" || rel=='ALL') ? 'Y' : 'N'
 				}
-			});
-
-			//переключение между пунктами меню в эксперном мнении
-			$('body').on('click','.experts .menu li',function(){
-				var prnt = $(this).parent().parent(),
-					col = $('.experts .menu li'),
-					index = col.index($(this));
-
-				col.removeClass('active').eq(index).addClass('active');
-				$('.item',prnt).addClass('none').eq(index).removeClass('none');
-
-				return false;
-			});
-
-			//Переключение между вкладками
-			$('body').on('click','.articles .menu li', function(){
-				var prnt = $(this).parents('.articles:first'),
-					col = $('.menu li',prnt),
-					index = col.index($(this));
-
-				$('.menu li',prnt).removeClass('active').eq(index).addClass('active');
-				$('.items' ,prnt).addClass('none').eq(index).removeClass('none');
-
-				var section_url = $('.items' ,prnt).eq(index).attr('rel');
-				prnt.find('.title a').attr('href', section_url);
-
-				return false;
-			});
-
-			//табы для раскрытия информации
-			$('body').on('click', '.el-tab h3', function(){
-				var prnt = $(this).parent(),
-					el = $('a',$(this));
-
-				if (el.hasClass('active')){
-					el.removeClass('active');
-					prnt.find('h3').next().slideUp('700').addClass('none');
+			},function(r){
+				if(r.result){
+					tpl.ready(function(){
+						var html=tpl.render(r);
+						$('.media').find('.items')
+							.html(html);
+					});
 				}else{
-					el.addClass('active');
-					prnt.find('h3').next().slideDown('700').removeClass('none');
+					alert('Ошибка получения фотогалереи');
 				}
+			},'json');
 
-				return false
-			});
+			return false;
+		});
 
-			//Переключение между табами
-			$('body').on('click','.menu_tab ul li',function(){
-				var col = $('.menu_tab ul li'),
-					index = col.index($(this));
+		$('.main_menu a').click(function(e){
+			var link=$(this),
+				href=link.attr('href')||'',
+				parent=link.parents('ul:first'),
+				menu=$('.main_menu');
 
-				col.removeClass('active');
-				$(this).addClass('active');
+			if(href.length>0 && href!='#'){
+				Router.navigate(href,{trigger: true});
+				menu.find('.main,.active,.second_active')
+					.removeClass('main active second_active');
 
-				$('.tabs').addClass('none').eq(index).removeClass('none');
-
-				return false;
-			})
-
-			//переключения между табами в галереи
-			$('body').on('click', '.media .menu a', function(){
-				var lnk=$(this),
-					rel=lnk.attr('rel');
-
-				var detail_generator=new EL.templates({
-					'path':'/api/estelife_ajax.php',
-					'template':'photogallery',
-					'params':{
-						'action':'get_template'
-					}
-				});
-
-				lnk.parents('.menu').find('.active').removeClass('active');
-				if (lnk.attr('rel') != 'ALL'){
-					lnk.addClass('active');
+				if(parent.hasClass('main_menu')){
+					link.parent().addClass('main active')
+				}else{
+					parent=link.parents('li');
+					parent.eq(0).addClass('second_active');
+					parent.eq(1).addClass('main active');
 				}
+				e.preventDefault();
+			}
+		});
 
-				$.get('/api/estelife_ajax.php',{
-					'action':'get_media',
-					'params':{
-						'photo': (rel=="ONLY_PHOTO" || rel=='ALL') ? 'Y' : 'N',
-						'video': (rel=="ONLY_VIDEO" || rel=='ALL') ? 'Y' : 'N'
-					}
-				},function(r){
-					if(r.result){
-						detail_generator.ready(function(){
-							var html = detail_generator.render(r);
-							$('.media').find('.items')
-								.html(html);
-						});
-					}else{
-						alert('Ошибка получения фотогалереи');
-					}
-				},'json');
+		body.on('click','.nav a, .articles .title a, .crumb a', function(e){
+			var lnk=$(this),
+				href=lnk.attr('href'),
+				crumb=lnk.parents('.crumb:first');
 
-				return false;
-			});
-
-
-
-			$('.main_menu a').click(function(e){
-				var link=$(this),
-					href=link.attr('href')||'',
-					parent=link.parents('ul:first'),
-					menu=$('.main_menu');
-
-				if(href.length>0 && href!='#'){
-					Router.navigate(href,{trigger: true});
-					menu.find('.main,.active,.second_active')
-						.removeClass('main active second_active');
-
-					if(parent.hasClass('main_menu')){
-						link.parent().addClass('main active')
-					}else{
-						parent=link.parents('li');
-						parent.eq(0).addClass('second_active');
-						parent.eq(1).addClass('main active');
-					}
-					e.preventDefault();
-				}
-			});
-
-			$('body').on('click','.nav a', function(e){
-				var href=$(this).attr('href');
-
-				if(href && href.length>0){
+			if(href && href.length>0){
+				if(crumb.length<=0)
 					EL.goto($('.main_menu'));
-					Router.navigate(
-						href.replace(/^\/rest/,''),
-						{trigger: true}
-					);
-					e.preventDefault();
+
+				Router.navigate(
+					href.replace(/^\/rest/,''),
+					{trigger: true}
+				);
+
+				e.preventDefault();
+			}
+		}).on('submit','form.filter',function(e){
+			var frm=$(this),
+				page=frm.attr('action');
+
+			if(!page || page.length<=0)
+				throw 'invalid form action';
+
+			var data={};
+
+			frm.find('input,select').each(function(){
+				var inpt=$(this),
+					type=inpt.attr('type')||'select',
+					name=inpt.attr('name'),
+					val='';
+
+				if(type=='text' || type=='select'){
+					val=inpt.val();
+				}else{
+					val=frm.find('input[name='+name+']:checked')
+						.attr('value')||0;
 				}
-			}).on('submit','form.filter',function(e){
-				var frm=$(this),
-					page=frm.attr('action');
 
-				if(!page || page.length<=0)
-					throw 'invalid form action';
+				if(val!='' && val!=0 && val!='0')
+					data[name]=val;
+			});
 
-				var data={};
+			Router.navigate(
+				page+EL.query().toString(data),
+				{trigger: true}
+			);
+			e.preventDefault();
+		}).on('click','form.filter a.clear',function(e){
+			var href=$(this).attr('href');
+			Router.navigate(
+				href,
+				{trigger: true}
+			);
+			e.preventDefault();
+		}).on('click','.logo',function(e){
+			Router.navigate(
+				$(this).attr('href'),
+				{trigger: true}
+			);
+			$('.main_menu').find('.main,.active,.second_active')
+				.removeClass('main active second_active');
+			e.preventDefault();
+		}).on('submit','form[name=search]',function(e){
+			var frm=$(this),
+				href=frm.attr('action'),
+				text=frm.find('input[name=q]').val();
 
-				frm.find('input,select').each(function(){
-					var inpt=$(this),
-						type=inpt.attr('type')||'select',
-						name=inpt.attr('name'),
-						val='';
-
-					if(type=='text' || type=='select'){
-						val=inpt.val();
-					}else{
-						val=frm.find('input[name='+name+']:checked')
-							.attr('value')||0;
-					}
-
-					if(val!='' && val!=0 && val!='0')
-						data[name]=val;
-				});
-
+			if(text.length>0){
 				Router.navigate(
-					page+EL.query().toString(data),
-					{trigger: true}
-				);
-				e.preventDefault();
-			}).on('click','form.filter a.clear',function(e){
-				var href=$(this).attr('href');
-				Router.navigate(
-					href,
-					{trigger: true}
-				);
-				e.preventDefault();
-			}).on('click','.logo',function(e){
-				Router.navigate(
-					$(this).attr('href'),
+					href+'?q='+text,
 					{trigger: true}
 				);
 				$('.main_menu').find('.main,.active,.second_active')
 					.removeClass('main active second_active');
-				e.preventDefault();
-			}).on('submit','form[name=search]',function(e){
-				var frm=$(this),
-					href=frm.attr('action'),
-					text=frm.find('input[name=q]').val();
+			}else{
+				alert('Укажите поисковый запрос')
+			}
 
-				if(text.length>0){
-					Router.navigate(
-						href+'?q='+text,
-						{trigger: true}
-					);
-					$('.main_menu').find('.main,.active,.second_active')
-						.removeClass('main active second_active');
-				}else{
-					alert('Укажите поисковый запрос')
-				}
-
-				e.preventDefault();
-			});
-
+			e.preventDefault();
 		});
+
 	});
 
 	//меню
@@ -342,101 +350,92 @@ require(['mvc/Routers'],function(Routers){
 	});
 
 	//Работа с Гео
-	$(function geo(){
-		EL.loadModule('Geo',function(){
-			EL.Geo.addEventListener({
-				onCityChange:function(city){
-					$('.cities li').removeClass('active');
-					$('.cities a.'+city.ID).parent().addClass('active');
+	$(function(){
+		Geo.addEventListener({
+			onCityChange:function(city){
+				$('.cities li').removeClass('active');
+				$('.cities a.'+city.ID).parent().addClass('active');
 
-					$('.change_city span').html(city.NAME).attr('class', 'city_'+city.ID);
-					$('.cities').addClass('none').removeClass('cities_open');
+				$('.change_city span').html(city.NAME).attr('class', 'city_'+city.ID);
+				$('.cities').addClass('none').removeClass('cities_open');
 
-					getPromotions(city.ID);
-				}
-			});
-
-			//Вывод списка городов в шапке
-			$('body').on('click','.change_main_city', function(){
-				var lnk=$(this);
-
-				if(lnk.hasClass('active'))
-					lnk.removeClass('active');
-				else
-					lnk.addClass('active');
-
-				EL.Geo.load(
-					EL.Geo.Adapters.createAdapter('main')
-				);
-				return false;
-			});
-
-			//Вывод списка городов для акций
-			$('body').on('click','.change_promotions_city', function(){
-				var lnk=$(this);
-
-				if(lnk.hasClass('active'))
-					lnk.removeClass('active');
-				else
-					lnk.addClass('active');
-
-				EL.Geo.load(
-					EL.Geo.Adapters.createAdapter('promotion')
-				);
-				return false;
-			});
+				getPromotions(city.ID);
+			}
 		});
 
+		//Вывод списка городов в шапке
+		body.on('click','.change_main_city', function(){
+			var lnk=$(this);
+
+			if(lnk.hasClass('active'))
+				lnk.removeClass('active');
+			else
+				lnk.addClass('active');
+
+			Geo.load(
+				Geo.Adapters.createAdapter('main')
+			);
+			return false;
+		});
+
+		//Вывод списка городов для акций
+		body.on('click','.change_promotions_city', function(){
+			var lnk=$(this);
+
+			if(lnk.hasClass('active'))
+				lnk.removeClass('active');
+			else
+				lnk.addClass('active');
+
+			Geo.load(
+				Geo.Adapters.createAdapter('promotion')
+			);
+			return false;
+		});
 	});
 
-	//Галерея
-	if($('.media').length>0){
-		EL.loadModule('win',function(){
-			EL.videoDirect.start();
-			$('body').on('click','.media .items .item',function(e){
-				var link=$(this),
-					id=link.attr('data-id'),
-					video=link.hasClass('video');
+	body.on('click','.media .items .item',function(e){
+		Media.VideoDirect.start();
 
-				if(!id)
-					return;
+		var link=$(this),
+			id=link.attr('data-id'),
+			video=link.hasClass('video');
 
-				$.post('/api/estelife_ajax.php',{
-					'action':'get_media_content',
-					'id':id,
-					'video':(video) ? 1 : 0
-				},function(r){
-					if('images' in r){
-						var m=new EL.media({
-							'title': r.gallery.name,
-							'description': r.gallery.description
-						});
+		if(!id)
+			return;
 
-						$.map(r.images,function(item){
-							m.setImage(new EL.mediaImage(
-								item.title,
-								item.small,
-								item.big
-							));
-						});
+		$.post('/api/estelife_ajax.php',{
+			'action':'get_media_content',
+			'id':id,
+			'video':(video) ? 1 : 0
+		},function(r){
+			var m;
+			if('images' in r){
+				m=new Media.Gallery({
+					'title': r.gallery.name,
+					'description': r.gallery.description
+				});
+				$.map(r.images,function(item){
+					m.setImage(new Media.GalleryImage(
+						item.title,
+						item.small,
+						item.big
+					));
+				});
+				m.showImages();
+			}else if('video' in r){
+				m=new Media.Gallery();
+				m.setVideo(new Media.GalleryVideo(
+					r.video.title,
+					r.video.description,
+					r.video.video_id
+				));
+				m.showVideo();
+			}
+		},'json');
 
-						m.showImages();
-					}else if('video' in r){
-						var m=new EL.media();
-
-						m.setVideo(new EL.mediaVideo(
-							r.video.title,
-							r.video.description,
-							r.video.video_id
-						));
-						m.showVideo();
-					}
-				},'json');
-
-				e.preventDefault();
-			});
-		});
-	}
+		e.preventDefault();
+	});
 
 	var icons={
 		'default':'/bitrix/templates/estelife/images/icons/point.png'
@@ -459,7 +458,7 @@ require(['mvc/Routers'],function(Routers){
 			'position':'absolute',
 			'left':'-100000px'
 		});
-		$('body').append(jmap);
+		body.append(jmap);
 
 		map.markers().icons(icons);
 		map.create(jmap,lat,lng);
@@ -478,36 +477,126 @@ require(['mvc/Routers'],function(Routers){
 		});
 	});
 
+	//получение акция в Гео
+	function getPromotions(city){
+		var tpl=new Template({
+			'path':'/api/estelife_ajax.php',
+			'template':'promotions_index',
+			'params':{
+				'action':'get_template'
+			}
+		});
 
-});
+		$.get('/api/estelife_ajax.php',{
+			'action':'get_promotions_index',
+			'city':city
+		},function(r){
+			if(r.list){
+				tpl.ready(function(){
+					tpl.set('list',r.list);
+					var h = tpl.render();
+					if (h.length>0){
+						$('.promotions.announces .items').html(h);
+						$('.more_promotions').attr('href','/promotions/?city='+city);
+					}else{
+						console.log('Ошибка получения html')
+					}
+				});
+			}else{
+				console.log('Ошибка получения городов')
+			}
+		},'json');
+	}
 
-//получение акция в Гео
-function getPromotions(city){
-	var tpl=new EL.templates({
-		'path':'/api/estelife_ajax.php',
-		'template':'promotions_index',
-		'params':{
-			'action':'get_template'
+	function initFilter(selector){
+		var form=$(selector);
+
+		if(!form.attr('data-inited')){
+			initFormFields(form);
+			form.attr('data-inited',1);
 		}
-	});
 
-	$.get('/api/estelife_ajax.php',{
-		'action':'get_promotions_index',
-		'city':city
-	},function(r){
-		if(r.list){
-			tpl.ready(function(){
-				tpl.set('list',r.list);
-				var h = tpl.render();
-				if (h.length>0){
-					$('.promotions.announces .items').html(h);
-					$('.more_promotions').attr('href','/promotions/?city='+city);
-				}else{
-					console.log('Ошибка получения html')
+		setTimeout(function(){
+			initFilter(selector);
+		},100);
+	}
+
+	function initFormFields(form){
+		$('.text.date',form).each(function(){
+			var current=$(this),
+				img=current.find('i'),
+				prnt=current.parent(),
+				from=current.hasClass('from'),
+				other=(from) ?
+					prnt.find('.text.date:last') :
+					prnt.find('.text.date:first');
+
+			current.find('input').datepicker({
+				numberOfMonths: 1,
+				dateFormat: 'dd.mm.y',
+				isRTL:(!from),
+				onClose: function( selectedDate ) {
+					other.find('input').datepicker(
+						"option",
+						(from ? 'minDate' : 'maxDate'),
+						selectedDate
+					);
 				}
 			});
-		}else{
-			console.log('Ошибка получения городов')
-		}
-	},'json');
-}
+
+			img.click(function(){
+				$(this).parent().find('input').datepicker('show');
+				return false;
+			});
+		});
+
+		$('select',form).each(function(){
+			Select.make($(this));
+		});
+
+		$('select[data-rules]').change(function(){
+			var current=$(this),
+				val=current.val(),
+				name=current.attr('name'),
+				rules=current.attr('data-rules');
+
+			if(!(rules=rules.match(/[\w\d\-_]+\:[^;]+/gi)))
+				throw 'incorrect rule for linked fields';
+
+			var temp=null,
+				params={};
+			params[name]=val;
+
+			for(var i=0; i<rules.length; i++){
+				temp=rules[i].split(':');
+				params.action=temp[0];
+
+				$.get(
+					'/api/estelife_ajax.php',
+					params,
+					(function(selector){
+						return function(r){
+							var child = $(selector),
+								prnt=child.parent();
+
+							prnt.addClass('disabled');
+							child.find('option:not(:first)').remove();
+
+							if('list' in r && r.list.length>0){
+								for(var i= 0; i< r.list.length; i++)
+									child.append('<option value="'+ r.list[i].value+'">'+ r.list[i].label+'</option>');
+
+								prnt.removeClass('disabled');
+							}
+						};
+					})(temp[1]),
+					'json'
+				);
+			}
+		});
+
+		var input=$('input[name=name]',form);
+	}
+
+	initFilter('form.filter');
+});
