@@ -10,21 +10,12 @@
 							<!--$detail.new_price!--> <i></i>
 						<!--endif!-->
 						</span>
-				<!--if($detail.view_type!=2)!-->
+				<!--if($detail.view_type==1)!-->
 					<div class="cols prices">
-						<!--if($detail.view_type==3)!-->
-							<b>
-								скидка <!--$detail.base_sale!-->%
-							</b>
-						<!--elseif($detail.view_type==1)!-->
 						<b>
 							<!--$detail.new_price!--> <i></i>
 						</b>
-						<!--endif!-->
-
-						<!--if($detail.view_type==1)!-->
-							<s><!--$detail.old_price!--> <i></i></s>
-						<!--endif!-->
+						<s><!--$detail.old_price!--> <i></i></s>
 					</div>
 				<!--endif!-->
 				<div class="cols time">

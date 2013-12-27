@@ -95,6 +95,7 @@ else
 	$by='esc.'.$by;
 
 $obQuery->builder()->sort($by,$order);
+$obFilter=$obQuery->builder()->filter();
 
 if(!empty($find_id))
 	$obFilter->_like('esc.id',$find_id,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);

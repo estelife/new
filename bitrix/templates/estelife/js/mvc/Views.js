@@ -66,7 +66,8 @@ define(['tpl/Template'],function(Template){
 
 			if(this.views && this.views.length>0){
 				_.each(this.views,function(view){
-					ob.$el.append(view.render().$el);
+					var form = view.render().$el;
+					ob.$el.append(form);
 				});
 			}
 
@@ -229,8 +230,12 @@ define(['tpl/Template'],function(Template){
 				var ob=this;
 
 				this.template.ready(function(){
+					setTimeout(function(){
+						ob.$el.trigger('update');
+					},100);
 					ob.$el=$(ob.template.render(ob.data));
 					ob.el=ob.$el[0]
+
 				});
 			}
 

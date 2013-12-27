@@ -441,41 +441,45 @@ require([
 		'default':'/bitrix/templates/estelife/images/icons/point.png'
 	};
 
-	$('.map').each(function(){
-		var origin=$(this),
-			jmap=origin.clone(),
-			map=new VMap(),
-			lat=$('span.lat',jmap).html(),
-			lng=$('span.lng',jmap).html();
+	$('body').on('mouseup', '', function(){
+		$('.map').each(function(){
+			var origin=$(this),
+				jmap=origin.clone(),
+				map=new VMap(),
+				lat=$('span.lat',jmap).html(),
+				lng=$('span.lng',jmap).html();
 
-		if(!lat || !lng){
-			jmap.hide();
-			return;
-		}
+			if(!lat || !lng){
+				jmap.hide();
+				return;
+			}
 
-		jmap.css({
-			'visibility':'hidden',
-			'position':'absolute',
-			'left':'-100000px'
-		});
-		body.append(jmap);
-
-		map.markers().icons(icons);
-		map.create(jmap,lat,lng);
-		map.zoom(16);
-
-		map.markers().add(new map.marker(lat,lng));
-		map.markers().draw();
-
-		map.load(function(){
 			jmap.css({
-				'visibility':'visible',
-				'position':'relative',
-				'left':0
+				'visibility':'hidden',
+				'position':'absolute',
+				'left':'-100000px'
 			});
-			origin.replaceWith(jmap);
+			body.append(jmap);
+
+			map.markers().icons(icons);
+			map.create(jmap,lat,lng);
+			map.zoom(16);
+
+			map.markers().add(new map.marker(lat,lng));
+			map.markers().draw();
+
+			map.load(function(){
+				jmap.css({
+					'visibility':'visible',
+					'position':'relative',
+					'left':0
+				});
+				origin.replaceWith(jmap);
+			});
 		});
 	});
+
+
 
 	//получение акция в Гео
 	function getPromotions(city){
@@ -508,20 +512,14 @@ require([
 		},'json');
 	}
 
-	function initFilter(selector){
-		var form=$(selector);
+	$('body').on('update', 'form.filter', function(){
+		var form=$(this);
+		initFormFields(form);
+	});
 
-		if(!form.attr('data-inited')){
-			initFormFields(form);
-			form.attr('data-inited',1);
-		}
-
-		setTimeout(function(){
-			initFilter(selector);
-		},100);
-	}
 
 	function initFormFields(form){
+
 		$('.text.date',form).each(function(){
 			var current=$(this),
 				img=current.find('i'),
@@ -598,5 +596,4 @@ require([
 		var input=$('input[name=name]',form);
 	}
 
-	initFilter('form.filter');
 });

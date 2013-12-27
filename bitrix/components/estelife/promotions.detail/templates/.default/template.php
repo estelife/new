@@ -17,21 +17,12 @@
 						<?=$arResult['action']['new_price']?> <i></i>
 					<?php endif; ?>
 					</span>
-					<?php if($arResult['action']['view_type']!=2): ?>
+					<?php if($arResult['action']['view_type']==1): ?>
 					<div class="cols prices">
-						<?php if($arResult['action']['view_type']==3): ?>
-						<b>
-							скидка <?=$arResult['action']["base_sale"]?>%
-						</b>
-						<?php elseif($arResult['action']['view_type']==1): ?>
 						<b>
 							<?=$arResult['action']['new_price']?> <i></i>
 						</b>
-						<?php endif; ?>
-
-						<?php if($arResult['action']['view_type']==1): ?>
-							<s><?=$arResult['action']['old_price']?> <i></i></s>
-						<?php endif; ?>
+						<s><?=$arResult['action']['old_price']?> <i></i></s>
 					</div>
 					<?php endif; ?>
 					<div class="cols time">
