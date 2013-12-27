@@ -18,7 +18,7 @@ define(['tpl/Template'],function(Templates){
 			load:function(adapter){
 				if (!html){
 					//Загружаем список и преобразуем шаблон
-					EL.loadModule('templates',function(){
+//					EL.loadModule('templates',function(){
 						var detail_generator=new Templates({
 							'path':'/api/estelife_ajax.php',
 							'template':'cities',
@@ -46,7 +46,7 @@ define(['tpl/Template'],function(Templates){
 								console.log('Ошибка получения городов')
 							}
 						},'json');
-					});
+//					});
 				}else{
 					var h=html;
 
@@ -98,7 +98,7 @@ define(['tpl/Template'],function(Templates){
 
 					html.find('a').click(function(){
 						var target=$(this);
-						EL.Geo.setCity(target.attr('class'));
+						Geo.setCity(target.attr('class'));
 					});
 				}
 			},

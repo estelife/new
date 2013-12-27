@@ -52,7 +52,7 @@ var VMapStyle=(function(){
 					]
 				},{
 					"featureType": "road.highway",
-					"elementType": "geometry",
+					"elementType": "geometry.fill",
 					"stylers": [
 						{ "color": "#7f7f7f" }
 					]
@@ -64,6 +64,7 @@ var VMapStyle=(function(){
 					]
 				},{
 					"featureType": "road.local",
+					"elementType": "geometry.fill",
 					"stylers": [
 						{ "color": "#d1d1d1" }
 					]
