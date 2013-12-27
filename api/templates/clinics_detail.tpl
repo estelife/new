@@ -77,7 +77,7 @@
 						<!--foreach($detail.akzii as $key=>$val)!-->
 							<div class="item promotion">
 								<div class="item-rel">
-									<!--if($val.view_type!=3)!-->
+									<!--if($val.view_type!=2)!-->
 										<span class="perc"><!--$val.sale!-->%</span>
 									<!--endif!-->
 									<a href="<!--$val.link!-->">
@@ -86,7 +86,7 @@
 									<h3><a href="<!--$val.link!-->"><!--$val.name!--></a></h3>
 									<div class="cols prices">
 										<b>
-											<!--if($val.view_type==2)!-->
+											<!--if($val.view_type==3)!-->
 												скидка <!--$val.sale!-->%
 											<!--else!-->
 												<!--$val.new_price!--> <i></i>

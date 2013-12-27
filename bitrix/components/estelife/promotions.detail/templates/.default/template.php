@@ -14,14 +14,12 @@
 					<?php if($arResult['action']['view_type']!=2): ?>
 						<?=$arResult['action']['base_sale']?>%
 					<?php else: ?>
-						<?=$arResult['action']['new_price']?> <i></i>
+						<span><?=$arResult['action']['new_price']?> <i></i></span>
 					<?php endif; ?>
 					</span>
 					<?php if($arResult['action']['view_type']==1): ?>
 					<div class="cols prices">
-						<b>
-							<?=$arResult['action']['new_price']?> <i></i>
-						</b>
+						<b><?=$arResult['action']['new_price']?> <i></i></b>
 						<s><?=$arResult['action']['old_price']?> <i></i></s>
 					</div>
 					<?php endif; ?>

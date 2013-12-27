@@ -64,6 +64,7 @@ var VMapStyle=(function(){
 					]
 				},{
 					"featureType": "road.local",
+					"elementType": "geometry.fill",
 					"stylers": [
 						{ "color": "#d1d1d1" }
 					]

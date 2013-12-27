@@ -62,7 +62,7 @@ body {
 }
 .social a, .arrow i, ul.stat i, .promotion .time i, .promotion .prices i, .media .item span, .media .menu .first a,
 .promotion .time i, .promotion .prices i, .item.detail .clinic .col1 a, .select .arrow, .item.company p i, .gallery .arrow i, td.prices i,
-.filter .date i, .win-close, .checked{
+.filter .date i, .win-close, .checked, .item.promotion .current .perc i{
 	background-image:url('../images/complex.png');
 	background-repeat: no-repeat;
 }
@@ -672,7 +672,7 @@ ul.stat .unlikes i {
 	height:40px;
 }
 .item.promotion .prices b, .item.promotion .prices s, .item.promotion .time, td.prices span,
-.item.training .current {
+.item.training .current, .item.promotion .current .perc span {
 	position: relative;
 }
 .item.promotion .prices b {
@@ -684,7 +684,7 @@ ul.stat .unlikes i {
 	display: block;
 	float:left;
 }
-.item.promotion .prices i, .item.promotion .time i, td.prices i{
+.item.promotion .prices i, .item.promotion .time i, td.prices i, .item.promotion .current .perc i {
 	display: block;
 	top:0;
 	right:0;
@@ -702,6 +702,17 @@ ul.stat .unlikes i {
 	float:left;
 	display: block;
 	line-height: 13px;
+}
+.item.promotion .current .perc span {
+	padding-right: 20px;
+	text-align: left;
+	display: block;
+}
+.item.promotion .current .perc i {
+	width:13px;
+	height:17px;
+	top:13px;
+	background-position: -22px -68px;
 }
 td.prices span {
 	padding-right:15px;
@@ -2136,6 +2147,7 @@ form.search .submit {
 }
 body {
 	background:#ddd url('../images/bg.jpg') 0 0 repeat;
+	background-attachment: fixed;
 }
 /*
 body {

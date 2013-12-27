@@ -1,5 +1,6 @@
 define(['tpl/Template'],function(Template){
-	var Views={};
+	var Views={},
+		Events=[];
 
 	/**
 	 * Дефолтный view для реализации общих действий
@@ -66,8 +67,8 @@ define(['tpl/Template'],function(Template){
 
 			if(this.views && this.views.length>0){
 				_.each(this.views,function(view){
-					var form = view.render().$el;
-					ob.$el.append(form);
+					var el=view.render().$el;
+					ob.$el.append(el);
 				});
 			}
 
@@ -106,18 +107,36 @@ define(['tpl/Template'],function(Template){
 	 */
 	Views.Detail=Views.Default.extend({
 		el:document.createElement('div'),
-		render:function(){
-			if(_.isObject(this.data) && 'detail' in this.data){
+		detailRender:function(){
+			if(_.isObject(this.data) && this.data.hasOwnProperty('detail')){
 				var ob=this;
 				this.$el.addClass('wrap_item')
 					.empty();
 
 				this.template.ready(function(){
 					ob.template.set('detail', ob.data.detail);
+
+					if(ob.data.hasOwnProperty('same_data'))
+						ob.template.set('same_data',ob.data.same_data);
+
 					ob.$el.append(ob.template.render());
 				});
 			}
 
+			return this;
+		},
+		render:function(){
+			return this.detailRender();
+		}
+	});
+
+	Views.DetailWithMap=Views.Detail.extend({
+		render:function(){
+			this.detailRender();
+			Events.push({
+				target:this.$el,
+				type:'showMap'
+			});
 			return this;
 		}
 	});
@@ -230,12 +249,13 @@ define(['tpl/Template'],function(Template){
 				var ob=this;
 
 				this.template.ready(function(){
-					setTimeout(function(){
-						ob.$el.trigger('update');
-					},100);
 					ob.$el=$(ob.template.render(ob.data));
-					ob.el=ob.$el[0]
+					ob.el=ob.$el[0];
 
+					Events.push({
+						'target':ob.$el,
+						'type':'update'
+					})
 				});
 			}
 
@@ -327,6 +347,14 @@ define(['tpl/Template'],function(Template){
 				_.each(this.views,function(view){
 					ob.$el.append(view.render().$el);
 				});
+
+				if(!_.isEmpty(Events)){
+					_.each(Events,function(event){
+						if(event.hasOwnProperty('target') && event.hasOwnProperty('type'))
+							event.target.trigger(event.type);
+					});
+					Events=[];
+				}
 			}
 
 			return this;

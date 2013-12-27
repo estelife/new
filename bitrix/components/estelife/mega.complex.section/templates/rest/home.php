@@ -39,6 +39,18 @@ $APPLICATION->IncludeComponent(
 	)
 );
 
+bitrix\ERESULT::$KEY='BANNER_BOTTOM';
+$APPLICATION->IncludeComponent(
+	"bitrix:advertising.banner",
+	"ajax",
+	array(
+		"TYPE" => "main_center_2",
+		"CACHE_TYPE" => "A",
+		"NOINDEX" => "N",
+		"CACHE_TIME" => "3600"
+	)
+);
+
 bitrix\ERESULT::$KEY='EXPERTS';
 $APPLICATION->IncludeComponent(
 	"estelife:expert.list",

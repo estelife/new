@@ -7,14 +7,12 @@
 						<!--if($detail.view_type!=2)!-->
 							<!--$detail.base_sale!-->%
 						<!--else!-->
-							<!--$detail.new_price!--> <i></i>
+							<span><!--$detail.new_price!--> <i></i></span>
 						<!--endif!-->
 						</span>
 				<!--if($detail.view_type==1)!-->
 					<div class="cols prices">
-						<b>
-							<!--$detail.new_price!--> <i></i>
-						</b>
+						<b><!--$detail.new_price!--> <i></i></b>
 						<s><!--$detail.old_price!--> <i></i></s>
 					</div>
 				<!--endif!-->

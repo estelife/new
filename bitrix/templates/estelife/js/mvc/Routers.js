@@ -26,7 +26,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			'sp:number/': 'sponsorsDetail',
 			'pr:number/': 'promotionsDetail',
 			'tc:number/': 'trainingCentersDetail',
-			'tr:number/': 'trainingsDetail'
+			'tr:number/': 'trainingsDetail',
+			'pt:number/': 'podcastDetail',
+			'ar:number/': 'articlesDetail',
+			'ns:number/': 'newsDetail'
 		},
 
 		newsList:function(param){
@@ -132,6 +135,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Component({
 									template:'home_articles',
 									dataKey:'ARTICLES'
+								}),
+								new Views.Advert({
+									className:'adv bottom',
+									dataKey:'BANNER_BOTTOM'
 								})
 							]
 						}),
@@ -511,6 +518,44 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			model.fetch();
 		},
 
+		newsDetail:function(id){
+			this.articlesDetail(id,'ns');
+		},
+
+		podcastDetail:function(id){
+			this.articlesDetail(id,'pt');
+		},
+
+		articlesDetail:function(id,type){
+			type=(!type) ? 'ar' : type;
+			(new Models.Inner(null,{
+				pages:[
+					type+id+'/',
+					'banner/'
+				],
+				view:new Views.WrapContent({
+					views:[
+						new Views.Content({
+							views:[
+								new Views.Inner({
+									views:[
+										new Views.Crumb(),
+										new Views.Detail({
+											template:'articles_detail'
+										})
+									]
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
+								})
+							]
+						})
+					]
+				})
+			})).fetch();
+		},
+
 		apparatusesDetail: function(id){
 			var model=new Models.Inner(null,{
 				pages:[
@@ -593,7 +638,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Inner({
 									views:[
 										new Views.Crumb(),
-										new Views.Detail({
+										new Views.DetailWithMap({
 											template:'clinics_detail'
 										})
 									]
@@ -797,7 +842,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Inner({
 									views:[
 										new Views.Crumb(),
-										new Views.Detail({
+										new Views.DetailWithMap({
 											template:'training_centers_detail'
 										})
 									]
@@ -831,7 +876,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Inner({
 									views:[
 										new Views.Crumb(),
-										new Views.Detail({
+										new Views.DetailWithMap({
 											template:'trainings_detail'
 										})
 									]

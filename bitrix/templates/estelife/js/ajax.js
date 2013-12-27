@@ -3,8 +3,8 @@ require([
 	'tpl/Template',
 	'modules/Geo',
 	'modules/Media',
-	'modules/Select'
-],function(Routers,Template,Geo,Media,Select){
+	'modules/Functions'
+],function(Routers,Template,Geo,Media,Functions){
 	var body=$('body'),
 		Router=new Routers.Default();
 
@@ -63,6 +63,7 @@ require([
 
 			if((target[0].tagName!='A' && link.length>0) || ['H1','H2','H3'].inArray(parentTag)>-1){
 				Router.navigate(link,{trigger: true});
+				EL.goto($('.main_menu'));
 				e.preventDefault();
 			}
 		});
@@ -192,7 +193,7 @@ require([
 			}
 		});
 
-		body.on('click','.nav a, .articles .title a, .crumb a', function(e){
+		body.on('click','.nav a, .articles .title a, .crumb a, .search_page a', function(e){
 			var lnk=$(this),
 				href=lnk.attr('href'),
 				crumb=lnk.parents('.crumb:first');
@@ -359,7 +360,7 @@ require([
 				$('.change_city span').html(city.NAME).attr('class', 'city_'+city.ID);
 				$('.cities').addClass('none').removeClass('cities_open');
 
-				getPromotions(city.ID);
+				Functions.getPromotions(city.ID);
 			}
 		});
 
@@ -441,8 +442,8 @@ require([
 		'default':'/bitrix/templates/estelife/images/icons/point.png'
 	};
 
-	$('body').on('mouseup', '', function(){
-		$('.map').each(function(){
+	body.on('showMap', '', function(){
+		$('.map',$(this)).each(function(){
 			var origin=$(this),
 				jmap=origin.clone(),
 				map=new VMap(),
@@ -479,121 +480,8 @@ require([
 		});
 	});
 
-
-
-	//получение акция в Гео
-	function getPromotions(city){
-		var tpl=new Template({
-			'path':'/api/estelife_ajax.php',
-			'template':'promotions_index',
-			'params':{
-				'action':'get_template'
-			}
-		});
-
-		$.get('/api/estelife_ajax.php',{
-			'action':'get_promotions_index',
-			'city':city
-		},function(r){
-			if(r.list){
-				tpl.ready(function(){
-					tpl.set('list',r.list);
-					var h = tpl.render();
-					if (h.length>0){
-						$('.promotions.announces .items').html(h);
-						$('.more_promotions').attr('href','/promotions/?city='+city);
-					}else{
-						console.log('Ошибка получения html')
-					}
-				});
-			}else{
-				console.log('Ошибка получения городов')
-			}
-		},'json');
-	}
-
-	$('body').on('update', 'form.filter', function(){
+	body.on('update', 'form.filter', function(){
 		var form=$(this);
-		initFormFields(form);
+		Functions.initFormFields(form);
 	});
-
-
-	function initFormFields(form){
-
-		$('.text.date',form).each(function(){
-			var current=$(this),
-				img=current.find('i'),
-				prnt=current.parent(),
-				from=current.hasClass('from'),
-				other=(from) ?
-					prnt.find('.text.date:last') :
-					prnt.find('.text.date:first');
-
-			current.find('input').datepicker({
-				numberOfMonths: 1,
-				dateFormat: 'dd.mm.y',
-				isRTL:(!from),
-				onClose: function( selectedDate ) {
-					other.find('input').datepicker(
-						"option",
-						(from ? 'minDate' : 'maxDate'),
-						selectedDate
-					);
-				}
-			});
-
-			img.click(function(){
-				$(this).parent().find('input').datepicker('show');
-				return false;
-			});
-		});
-
-		$('select',form).each(function(){
-			Select.make($(this));
-		});
-
-		$('select[data-rules]').change(function(){
-			var current=$(this),
-				val=current.val(),
-				name=current.attr('name'),
-				rules=current.attr('data-rules');
-
-			if(!(rules=rules.match(/[\w\d\-_]+\:[^;]+/gi)))
-				throw 'incorrect rule for linked fields';
-
-			var temp=null,
-				params={};
-			params[name]=val;
-
-			for(var i=0; i<rules.length; i++){
-				temp=rules[i].split(':');
-				params.action=temp[0];
-
-				$.get(
-					'/api/estelife_ajax.php',
-					params,
-					(function(selector){
-						return function(r){
-							var child = $(selector),
-								prnt=child.parent();
-
-							prnt.addClass('disabled');
-							child.find('option:not(:first)').remove();
-
-							if('list' in r && r.list.length>0){
-								for(var i= 0; i< r.list.length; i++)
-									child.append('<option value="'+ r.list[i].value+'">'+ r.list[i].label+'</option>');
-
-								prnt.removeClass('disabled');
-							}
-						};
-					})(temp[1]),
-					'json'
-				);
-			}
-		});
-
-		var input=$('input[name=name]',form);
-	}
-
 });

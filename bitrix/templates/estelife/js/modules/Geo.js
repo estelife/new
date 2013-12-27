@@ -1,4 +1,4 @@
-define(['tpl/Template'],function(Templates){
+define(['tpl/Template','modules/Functions'],function(Templates,Functions){
 	var Geo=(function(){
 		var html,
 			listeners=[];
@@ -148,7 +148,7 @@ define(['tpl/Template'],function(Templates){
 						$('.change_promotions_city span').html(target.html()).attr('class', 'city_'+id);
 						$('.cities').addClass('none').removeClass('cities_open');
 
-						getPromotions(id);
+						Functions.getPromotions(id);
 						return false;
 					});
 				}
