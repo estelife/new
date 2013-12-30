@@ -43,7 +43,6 @@ $obQuery->builder()->filter()
 $arResult['clinic'] = $obQuery->select()->assoc();
 
 
-
 $arResult['clinic']['main_contact'] = array(
 	'city' => $arResult['clinic']['city'],
 	'city_id' => $arResult['clinic']['city_id'],
@@ -256,12 +255,24 @@ if(!empty($arResult['clinic']['logo_id']))
 	$arResult['clinic']['logo']=CFile::ShowImage($arResult['clinic']['logo_id'],200,85);
 
 $arResult['clinic']['detail_text']=htmlspecialchars_decode($arResult['clinic']['detail_text'],ENT_NOQUOTES);
-$arResult['clinic']['seo_description'] = mb_substr(strip_tags($arResult['clinic']['preview_text']), 0, 140, 'utf-8');
+
+//получение города в родительском патеже
+if (!empty($arResult['clinic']['city_id'])){
+	$obRes = CIBlockElement::GetList(Array(), array("IBLOCK_ID"=>16,"ID"=>$arResult['clinic']['city_id']), false, false, array("PROPERTY_CITY"));
+	$arCity = $obRes->Fetch();
+	if (!empty($arCity['PROPERTY_CITY_VALUE'])){
+		$arCity = $arCity['PROPERTY_CITY_VALUE'];
+	}else{
+		$arCity = $arResult['clinic']['city'];
+	}
+}
 
 
-$APPLICATION->SetPageProperty("title", mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['clinic']['name'])),'utf-8'));
+$arResult['clinic']['seo_title'] = 'Клиника '.$arResult['clinic']['name'].' в '.$arCity.' - акции, цены, адреса';
+$arResult['clinic']['seo_description'] = 'Акции, а так же цены и адреса клиники '.$arResult['clinic']['name'].' в городе '.$arCity.' Смотрите здесь.';
+
+$APPLICATION->SetPageProperty("title", $arResult['clinic']['seo_title']);
 $APPLICATION->SetPageProperty("description", $arResult['clinic']['seo_description']);
-$APPLICATION->SetPageProperty("keywords", "Estelife, Акции, Клиники, ".$arResult['clinic']['name']);
 
 
 $this->IncludeComponentTemplate();

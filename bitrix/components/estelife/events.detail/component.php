@@ -242,8 +242,14 @@ if (!empty($arPhones)){
 	$arResult['event']['contacts']['phone'] = implode(', ', $arPhones);
 }
 
-$APPLICATION->SetPageProperty("title", trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['event']['short_name'])));
-$APPLICATION->SetPageProperty("description", trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['event']['full_name'])));
-$APPLICATION->SetPageProperty("keywords", "Estelife, События, Мероприятия, ".$arResult['event']['short_name']);
+$arTime = $arResult['event']['calendar']['first_period']['from'];
+if(!empty($arResult['event']['calendar']['first_period']['to'])){
+	$arTime.=' - '.$arResult['event']['calendar']['first_period']['to'];
+}
+$arResult['event']['seo_title'] = $arResult['event']['short_name'].' - '.$arTime.', '.$arResult['event']['country_name'].', '.$arResult['event']['city_name'];
+$arResult['event']['seo_description'] = 'В городе '.$arResult['event']['city_name'].' ('.$arResult['event']['country_name'].')'. ' '.$arTime.' проводится '.$arResult['event']['short_name'].'. Вся информация здесь.';
+
+$APPLICATION->SetPageProperty("title", $arResult['event']['seo_title']);
+$APPLICATION->SetPageProperty("description", $arResult['event']['seo_description']);
 
 $this->IncludeComponentTemplate();

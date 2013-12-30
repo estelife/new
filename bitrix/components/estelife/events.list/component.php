@@ -256,7 +256,13 @@ $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
 $arResult['nav']=$obNav->getNav();
 
-$APPLICATION->SetPageProperty("title", "Календарь событий");
-$APPLICATION->SetPageProperty("description", implode(", ", $arDescription));
-$APPLICATION->SetPageProperty("keywords", "Estelife, Календарь событий, Мероприятия,  ". implode(" ,", $arDescription));
+$arTitle = 'Календарь событий по косметологии и пластической хирургии';
+if (isset($_GET['PAGEN_1']) && $_GET['PAGEN_1']>0){
+	$arPage = intval(strip_tags($_GET['PAGEN_1']));
+	$arTitle .= ' ('.$arPage.' страница)';
+}
+$arDescription = 'Все важные события в мире косметологии и пластической хирургиив одном месте';
+
+$APPLICATION->SetPageProperty("title", $arTitle);
+$APPLICATION->SetPageProperty("description", $arDescription);
 $this->IncludeComponentTemplate();

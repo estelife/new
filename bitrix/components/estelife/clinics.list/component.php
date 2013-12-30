@@ -106,7 +106,6 @@ $obResult = $obResult->bxResult();
 $obResult->NavStart($arPageCount);
 $arResult['clinics']=array();
 
-$i=0;
 while($arData=$obResult->Fetch()){
 	$arClinics[]=$arData['id'];
 	$arData['name']=trim($arData['name']);
@@ -124,11 +123,6 @@ while($arData=$obResult->Fetch()){
 		$arData['web_short']=\core\types\VString::checkUrl($arData['web']);
 
 	$arResult['clinics'][$arData['id']]=$arData;
-
-	if ($i<=5){
-		$arDescription[]= mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arData['name'])),'utf-8');
-	}
-	$i++;
 }
 
 if (!empty($arClinics)){
@@ -169,8 +163,30 @@ $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
 $arResult['nav']=$obNav->getNav();//$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav'.$sTemplate.'.php');
 
-$APPLICATION->SetPageProperty("title", "Клиники");
-$APPLICATION->SetPageProperty("description", implode(", ", $arDescription));
-$APPLICATION->SetPageProperty("keywords", "Estelife, Акции, Клиники, ". implode(" ,", $arDescription));
+$arTitle = "Клиники косметологии и пластической хирургии";
+if ($arResult['city']['ID']==359){
+	$arCity = 'Москва';
+	$arCityR = 'в Москве';
+}elseif($arResult['city']['ID']==358){
+	$arCity = 'Санкт-Петербург';
+	$arCityR = 'в Санкт-Петербурге';
+}
+if (!empty($arCity)){
+	$arTitle .= ' ('.$arCity.')';
+}
+
+if (!empty($arCityR)){
+	$arDescription = 'Список всех клиник '.$arCityR.' по косметологии и пластической хирургии. Читайте здесь.';
+}else{
+	$arDescription = 'Список всех клиник по косметологии и пластической хирургии. Читайте здесь.';
+}
+
+if (isset($_GET['PAGEN_1']) && $_GET['PAGEN_1']>0){
+	$arPage = intval(strip_tags($_GET['PAGEN_1']));
+	$arTitle .= ' - ('.$arPage.' страница)';
+}
+
+$APPLICATION->SetPageProperty("title", $arTitle);
+$APPLICATION->SetPageProperty("description", $arDescription);
 
 $this->IncludeComponentTemplate();
