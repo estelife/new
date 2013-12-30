@@ -1,10 +1,17 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("");
-$APPLICATION->SetPageProperty("description", "yvoire");
-$APPLICATION->SetPageProperty("keywords", "yvoire");
-$APPLICATION->SetPageProperty("title", "yvoire");
-?> <?$APPLICATION->IncludeComponent(
+$APPLICATION->SetPageProperty("description", "Yvoire");
+$APPLICATION->SetPageProperty("keywords", "Yvoire");
+$APPLICATION->SetPageProperty("title", "Yvoire");
+
+function include_sidebar(){
+	require_once $_SERVER['DOCUMENT_ROOT'].'/bitrix/templates/estelife/system/yvoire_sidebar.php';
+}
+?>
+<div class="yvoire">
+<?php
+$APPLICATION->IncludeComponent(
 	"estelife:yvoire",
 	"web20-articles",
 	Array(
@@ -96,4 +103,6 @@ $APPLICATION->SetPageProperty("title", "yvoire");
 			"detail" => Array(),
 		)
 	)
-);?> <? require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+);?>
+</div>
+<? require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

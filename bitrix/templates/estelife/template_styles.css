@@ -387,3 +387,26 @@
 .jspPane {
 	position:absolute;
 }
+.yvoire {
+	width:976px;
+	margin:0 auto;
+}
+.yvoire .content, .yvoire .inner {
+	width:655px;
+	float:left;
+}
+.yvoire .adv {
+	display: none;
+}
+.yvoire-sidebar {
+	float:right;
+	width:302px;
+	margin-top:90px;
+}
+.yvoire-sidebar a {
+	display: block;
+	margin-bottom: 20px;
+}
+.yvoire .inner img {
+	border:none;
+}

@@ -328,6 +328,12 @@ input.text {
 	border:none;
 	background:none;
 }
+.head li.last.main li a, .head li.last li a {
+	color:#2C2C2C;
+}
+.head li.last.main li a:hover, .head li.last li a:hover, .head li.last.main li.second_active a, .head li.last li.second_active a {
+	color:#e50264;
+}
 .head li.last a:hover {
 	color:#fff;
 }
@@ -1282,6 +1288,7 @@ td.prices span {
 	padding-top:15px;
 	float: left;
 	width: 100%;
+	margin-top:30px;
 }
 .item.detail .info.nobo {
 	border:none;

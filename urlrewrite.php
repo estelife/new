@@ -1,6 +1,12 @@
 <?
 $arUrlRewrite = array(
 	array(
+		"CONDITION" => "#^/yvoire/#",
+		"RULE" => "",
+		"ID" => "estelife:yvoire",
+		"PATH" => "/yvoire/index.php",
+	),
+	array(
 		"CONDITION" => "#^/rest/[a-z]{2}[0-9]+/#",
 		"RULE" => "",
 		"ID" => "estelife:mega.complex.detail",
