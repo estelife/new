@@ -138,7 +138,6 @@ $obResult->NavStart($arPageCount);
 
 $arResult['training'] = array();
 $arIds = array();
-$arDescription=array();
 
 while($arData=$obResult->Fetch()){
 	$arIds[] = $arData['id'];
@@ -171,8 +170,6 @@ while($arData=$obResult->Fetch()){
 	$arData['preview_text'] = \core\types\VString::truncate(nl2br(htmlspecialchars_decode($arData['preview_text'],ENT_NOQUOTES)), 80, '...');
 	$arData['phone']=\core\types\VString::formatPhone($arData["company_phone"]);
 	$arResult['training'][$arData['id']]=$arData;
-
-	$arDescription[]=mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arData['name'])),'utf-8');
 }
 
 if (!empty($arIds)){
@@ -240,10 +237,10 @@ if (!empty($arIds)){
 
 }
 
-$arDescription=implode(', ',$arDescription);
-$APPLICATION->SetPageProperty("title", 'Расписание обучений');
-$APPLICATION->SetPageProperty("description", $arDescription);
-$APPLICATION->SetPageProperty("keywords", "Estelife, обучение, ".$arDescription);
+$sPage=(isset($_GET['PAGEN_1']) && $_GET['PAGEN_1'] > 1) ?
+	' '.\core\types\VString::spellAmount($_GET['PAGEN_1'],'страница,страницы,страниц') : '';
+$APPLICATION->SetPageProperty("title", 'Семинары, курсы и обучения - косметология и пластическая хирургия'.$sPage);
+$APPLICATION->SetPageProperty("description", 'Расписание семинаров, обучений и курсов в учебных центрах по косметологии и платисческой хирургии.');
 
 //$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 $sTemplate=$this->getTemplateName();

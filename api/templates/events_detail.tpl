@@ -3,13 +3,12 @@
 		<h1><!--$detail.short_name!--></h1>
 		<div class="current">
 			<span class="date"><!--$detail.calendar.first_date!--></span>
-			<!--$detail.event.full_name!-->
+			<!--$detail.full_name!-->
 		</div>
 		<p>
 			Период проведения: <b><!--$detail.calendar.first_period.from!-->
 				<!--if($detail.calendar.first_period.to)!-->
-				-
-				<!--$detail.calendar.first_period.to!-->
+					- <!--$detail.calendar.first_period.to!-->
 				<!--endif!--></b><br>
 			Место проведения: <b><!--$detail.country_name!--><!--if($detail.city_name)!-->, г.<!--$detail.city_name!--><!--endif!--><!--if($detail.dop_address)!-->, <!--$detail.dop_address!--><!--endif!--></b><br>
 			<!--if($detail.address)!-->

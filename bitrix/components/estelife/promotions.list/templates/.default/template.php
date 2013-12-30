@@ -1,10 +1,4 @@
 <?php if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
-<?php
-$APPLICATION->SetPageProperty("title", $arResult['SEO']['title']);
-$APPLICATION->SetPageProperty("description", $arResult['SEO']['description']);
-$APPLICATION->SetPageProperty("keywords", $arResult['SEO']['keywords']);
-?>
-
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="#">Главная</a></li>

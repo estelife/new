@@ -1,35 +1,27 @@
-<div class="small-block el-filter">
-	<div class="block-header red">
-		<span>Фильтр</span>
-		<a href="/trainings-center/" class="el-cl-filter" data-filter="trainings_center" title="Сбросить параметры фильтра">Сбросить</a>
-		<div class="clear"></div>
+<form name="training-centers" class="filter" method="get" action="/training-centers/" >
+	<div class="title">
+		<h4>Поиск учебного центра</h4>
+		<!--		<span>Найдено 6 акций</span>-->
 	</div>
-	<div class="shadow"></div>
-	<form method="get" action="/training-centers/" name="training_centers">
-		<table class='clinic-table'>
-			<tr>
-				<td valign="top">
-					<div class="field-block"></div>
-					<label>Название</label>
-					<div class="text inp">
-						<input name="name" type="text" value="" data-action="get_uch"  />
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td valign="top">
-					<div class="field-block"></div>
-					<label>Город</label>
-					<select name="city">
-						<option value="">-- Не важно --</option>
-						<!--if ($cities)!-->
-							<!--foreach ($cities as $key=>$val)!-->
-								<option value="<!--$val.ID!-->"><!--$val.NAME!--></option>
-							<!--endforeach!-->
-						<!--endif!-->
-					</select>
-				</td>
-			</tr>
-		</table>
-	</form>
-</div>
+	<div class="field">
+		<label for="name">Наименование</label>
+		<input name="name" id="name" type="text" value="<!--$filter.name!-->" class="text"/>
+		<span class="block"></span>
+	</div>
+	<div class="field">
+		<label for="city">Город</label>
+		<select name="city" id="city">
+			<option value="">--</option>
+			<!--if($cities)!-->
+				<!--foreach($cities as $key=>$val)!-->
+					<option value="<!--$val.ID!-->"<!--if($filter.country==$val.ID)!--> selected="true"<!--endif!-->><!--$val.NAME!--></option>
+				<!--endforeach!-->
+			<!--endif!-->
+		</select>
+
+		<span class="block"></span>
+	</div>
+
+	<input type="submit" value="Найти учебный центр" class="submit">
+	<a href="/training-centers/" class="clear">Сбросить фильтр</a>
+</form>

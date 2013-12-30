@@ -49,7 +49,9 @@ $obQuery->builder()
 	->field('cttype.NAME', 'type_country_name')
 	->field('cttype.ID', 'type_country_id')
 	->field('cty.NAME', 'city_name')
+	->field('cty.ID', 'city_id')
 	->field('ctytype.NAME', 'type_city_name')
+	->field('ctytype.ID', 'type_city_id')
 	->field('ecg.address')
 	->field('ecg.latitude','lat')
 	->field('ecg.longitude','lng')
@@ -94,6 +96,7 @@ unset($arResult['company']['type_country_name']);
 
 if (!empty($arResult['company']['type_city_name'])){
 	$arResult['company']['city_name'] = $arResult['company']['type_city_name'];
+	$arResult['company']['city_id']=$arResult['company']['type_city_id'];
 }
 unset($arResult['company']['type_city_name']);
 
@@ -282,8 +285,19 @@ if (!empty($arIds)){
 	}
 
 }
-$APPLICATION->SetPageProperty("title", $arResult['company']['name']);
-$APPLICATION->SetPageProperty("description", mb_substr(trim(strip_tags($arResult['company']['preview_text'])),0,140,'utf-8'));
-$APPLICATION->SetPageProperty("keywords", "Estelife, учебный центр, ".mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['company']['name'])),'utf-8'));
+
+$mCity=$arResult['company']['city_name'];
+
+if (!empty($arResult['company']['city_id'])){
+	$obRes = CIBlockElement::GetList(Array(), array("IBLOCK_ID"=>16,"ID"=>$arResult['company']['city_id']), false, false, array("PROPERTY_CITY"));
+	$mCity=$obRes->Fetch();
+
+	$mCity=(!empty($mCity['PROPERTY_CITY_VALUE'])) ?
+		$mCity['PROPERTY_CITY_VALUE']:
+		$arResult['company']['city_name'];
+}
+
+$APPLICATION->SetPageProperty("title", $arResult['company']['name']. ' - учебный центр в '.$mCity.' - курсы и семинары');
+$APPLICATION->SetPageProperty("description",'Подробная информация об учебном центре: '.$arResult['company']['name'].' в '.$mCity.', семинары, обучения и курсы. Читайте здесь.');
 
 $this->IncludeComponentTemplate();

@@ -15,19 +15,19 @@
 			<option value="">--</option>
 			<?php if (!empty($arResult['countries'])):?>
 				<?php foreach ($arResult['countries'] as $val):?>
-					<option value="<?=$val['ID']?>" <?if($_GET['country'] === $val['ID']) echo " selected";?>><?=$val['NAME']?></option>
+					<option value="<?=$val['ID']?>"<?=($_GET['country']==$val['ID'])? ' selected="true"': '' ?>><?=$val['NAME']?></option>
 				<?php endforeach?>
 			<?php endif?>
 		</select>
 		<span class="block"></span>
 	</div>
-	<div class="field <?=(empty($arResult['cities']) ? ' disabled' : '')?>">
+	<div class="field<?=(empty($arResult['cities']) ? ' disabled' : '')?>">
 		<label for="city">Город</label>
 		<select name="city" >
 			<option value="">--</option>
 			<?php if (!empty($arResult['cities'])):?>
 				<?php foreach ($arResult['cities'] as $val):?>
-					<option value="<?=$val['ID']?>" <?if($_GET['city'] === $val['ID']) echo " selected";?>><?=$val['NAME']?></option>
+					<option value="<?=$val['ID']?>"<?=($_GET['city']==$val['ID'] ? ' selected="true"' : '')?>><?=$val['NAME']?></option>
 				<?php endforeach?>
 			<?php endif?>
 		</select>
@@ -38,11 +38,11 @@
 		<label for="direction">Направление</label>
 		<select name="direction" >
 			<option value="">--</option>
-			<option value="1" <?if($arResult['filter']['direction'] == 1) echo " selected";?>>Пластическая хирургия</option>
-			<option value="2" <?if($arResult['filter']['direction'] == 2) echo " selected";?>>Косметология</option>
-			<option value="4" <?if($arResult['filter']['direction'] == 4) echo " selected";?>>Дерматология</option>
-			<option value="3" <?if($arResult['filter']['direction'] == 3) echo " selected";?>>Косметика</option>
-			<option value="11" <?if($arResult['filter']['direction'] == 11) echo " selected";?>>Менеджмент</option>
+			<option value="1"<?=($arResult['filter']['direction'] == 1 ? ' selected="true"' : '')?>>Пластическая хирургия</option>
+			<option value="2"<?=($arResult['filter']['direction'] == 2 ? ' selected="true"' : '')?>>Косметология</option>
+			<option value="4"<?=($arResult['filter']['direction'] == 4 ? ' selected="true"' : '')?>>Дерматология</option>
+			<option value="3"<?=($arResult['filter']['direction'] == 3 ? ' selected="true"' : '')?>>Косметика</option>
+			<option value="11"<?=($arResult['filter']['direction'] == 11 ? ' selected="true"' : '')?>>Менеджмент</option>
 		</select>
 		<span class="block"></span>
 	</div>
@@ -51,9 +51,9 @@
 		<label for="type">Формат</label>
 		<select name="type" >
 			<option value="">--</option>
-			<option value="1" <?if($arResult['filter']['type'] == 1) echo " selected";?>>Форум</option>
-			<option value="2" <?if($arResult['filter']['type'] == 2) echo " selected";?>>Выставка</option>
-			<option value="4" <?if($arResult['filter']['type'] == 4) echo " selected";?>>Тренинг</option>
+			<option value="1"<?=($arResult['filter']['type'] == 1 ? ' selected="true"' : '')?>>Форум</option>
+			<option value="2"<?=($arResult['filter']['type'] == 2 ? ' selected="true"' : '')?>>Выставка</option>
+			<option value="4"<?=($arResult['filter']['type'] == 4 ? ' selected="true"' : '')?>>Тренинг</option>
 		</select>
 		<span class="block"></span>
 	</div>

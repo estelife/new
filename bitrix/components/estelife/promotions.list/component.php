@@ -9,38 +9,37 @@ CModule::IncludeModule("estelife");
 
 $obClinics = VDatabase::driver();
 $obGet=new VArray($_GET);
-
 $arNow=time();
+$nCityId=0;
 
-if (isset($arParams['COUNT']) && $arParams['COUNT']>0){
+if (isset($arParams['COUNT']) && $arParams['COUNT']>0)
 	$arCount = $arParams['COUNT'];
-}
 
 if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 	$arPageCount = $arParams['PAGE_COUNT'];
 else
 	$arPageCount = 10;
 
-if(!$obGet->blank('city')){
+if(!$obGet->blank('city'))
+	$nCityId=intval($obGet->one('city'));
+elseif (isset($arParams['CITY_ID']) && $arParams['CITY_ID']>0)
+	$nCityId=intval($arParams['CITY_ID']);
+elseif(isset($_COOKIE['estelife_city']))
+	$nCityId=intval($_COOKIE['estelife_city']);
+
+if($nCityId>0){
 	//Получаем имя города по его ID
-	$arSelect = Array("ID", "NAME");
-	$arFilter = Array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "ID" => intval($obGet->one('city')));
-	$obCity = CIBlockElement::GetList(Array("NAME"=>"ASC"), $arFilter, false, false, $arSelect);
-	$arResult['city'] = $obCity->Fetch();
-}elseif (isset($arParams['CITY_ID']) && $arParams['CITY_ID']>0){
-	//Получаем имя города по его ID
-	$arSelect = Array("ID", "NAME");
-	$arFilter = Array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "ID" => $arParams['CITY_ID']);
-	$obCity = CIBlockElement::GetList(Array("NAME"=>"ASC"), $arFilter, false, false, $arSelect);
-	$arResult['city'] = $obCity->Fetch();
-}else if(isset($arParams['CITY_CODE']) && !empty($arParams['CITY_CODE'])){
-	//Получаем ID города по его коду
-	$arSelect = Array("ID", "NAME");
-	$arFilter = Array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "CODE" => $arParams['CITY_CODE']);
-	$obCity = CIBlockElement::GetList(Array("NAME"=>"ASC"), $arFilter, false, false, $arSelect);
+	$obCity=CIBlockElement::GetList(
+		array("NAME"=>"ASC"),
+		array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "ID" => $nCityId),
+		false,
+		false,
+		array("ID", "NAME", 'PROPERTY_CITY')
+	);
 	$arResult['city']=$obCity->Fetch();
-}elseif(isset($_COOKIE['estelife_city'])){
-	$arResult['city'] = VGeo::getInstance()->getGeo();
+	$arResult['city']['R_NAME']=(!empty($arResult['city']['PROPERTY_CITY_VALUE'])) ?
+		$arResult['city']['PROPERTY_CITY_VALUE'] :
+		$arResult['city']['NAME'];
 }
 
 //Получение списка акций
@@ -96,7 +95,6 @@ if(!empty($arCount))
 $obQuery->builder()->group('ea.id');
 $obResult=$obQuery->select();
 $arResult['akzii']=array();
-$arDescription=array();
 
 if(!empty($arCount)){
 	$arActions= $obResult->all();
@@ -120,7 +118,6 @@ if(!empty($arCount)){
 	$obResult=$obResult->bxResult();
 	$obResult->NavStart($arPageCount);
 
-	$i = 0;
 	while($arData=$obResult->Fetch()){
 		$arData['time']=ceil(($arData['end_date']-$arNow)/(60*60*24));
 		$arData['day']=\core\types\VString::spellAmount($arData['time'], 'день,дня,дней');
@@ -135,11 +132,6 @@ if(!empty($arCount)){
 		$arData['old_price'] = number_format(intval($arData['old_price']),0,'.',' ');
 
 		$arResult['akzii'][]=$arData;
-
-		if ($i<=5){
-			$arDescription[]= mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arData['name'])),'utf-8');
-		}
-		$i++;
 	}
 
 	$sTemplate=$this->getTemplateName();
@@ -148,11 +140,10 @@ if(!empty($arCount)){
 //	$arResult['nav']=$obResult->GetNavPrint('', true,'akzii','/bitrix/templates/estelife/system/pagenav.php');
 }
 
-$arDescription=implode(", ", $arDescription);
-$arResult['SEO']=array(
-	'title'=>'Акции',
-	'description'=>$arDescription,
-	'keywords'=>"Estelife, Акции, Клиники, ".$arDescription
-);
+$sPage=(isset($_GET['PAGEN_1']) && $_GET['PAGEN_1'] > 1) ?
+	' '.\core\types\VString::spellAmount($_GET['PAGEN_1'],'страница,страницы,страниц') : '';
+
+$APPLICATION->SetPageProperty("title", 'Клиники в '.$arResult['city']['R_NAME'].' - акции, скидки, купоны - '.$sPage);
+$APPLICATION->SetPageProperty("description", 'Актуальные акции и скидки клиник в '.$arResult['city']['R_NAME'].'.');
 
 $this->IncludeComponentTemplate();

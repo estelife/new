@@ -2,7 +2,7 @@
 
 <form name="trainings" class="filter" method="get" action="/trainings/" >
 	<div class="title">
-		<h4>Поиск обучения</h4>
+		<h4>Поиск семинаров</h4>
 		<!--		<span>Найдено 6 акций</span>-->
 	</div>
 	<div class="field">
@@ -35,16 +35,16 @@
 	<div class="field date">
 		<label for="date">Период проведения</label>
 		<div class="from text date">
-			<input type="text" class="text" name="date_from" value="<?=$arResult['filter']['date_from']?>" />
+			<input type="text" class="text" name="date_from" value="<!--$filter.date_from!-->" />
 			<i></i>
 		</div>
 		<div class="to text date">
-			<input type="text" class="text" name="date_to" value="<?=$arResult['filter']['date_to']?>" />
+			<input type="text" class="text" name="date_to" value="<!--$filter.date_to!-->" />
 			<i></i>
 		</div>
 		<span class="block"></span>
 	</div>
 
-	<input type="submit" value="Найти обучение" class="submit">
+	<input type="submit" value="Найти семинар" class="submit">
 	<a href="/trainings/" class="clear">Сбросить фильтр</a>
 </form>
