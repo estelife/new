@@ -241,6 +241,30 @@ define(['tpl/Template'],function(Template){
 	});
 
 	/**
+	 * Представление для обозначения сео данных
+	 * @type {*}
+	 */
+	Views.SEO=Views.Default.extend({
+		el:null,
+		render:function(){
+			if(_.isObject(this.data) && this.data.hasOwnProperty('seo')){
+				var data=this.data.seo;
+
+				if(data.hasOwnProperty('title'))
+					$('title').html(data.title);
+
+				if(data.hasOwnProperty('description'))
+					$('meta[name=description]').attr('content',data.description);
+
+				if(data.hasOwnProperty('keywords'))
+					$('meta[name=keywords]').attr('content',data.keywords);
+			}
+
+			return this;
+		}
+	});
+
+	/**
 	 * Представление для фильтра
 	 * @type {*}
 	 */

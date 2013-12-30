@@ -49,6 +49,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Inner({
@@ -80,6 +81,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 						views:[
+							new Views.SEO(),
 							new Views.Content({
 								views:[
 									new Views.Inner({
@@ -110,6 +112,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				page:'home/',
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Component({
@@ -168,6 +171,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Inner({
@@ -203,6 +207,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Inner({
@@ -239,6 +244,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Inner({
@@ -275,6 +281,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Inner({
@@ -311,6 +318,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Inner({
@@ -347,6 +355,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Inner({
@@ -383,6 +392,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Inner({
@@ -419,6 +429,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Inner({
@@ -455,6 +466,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Inner({
@@ -491,6 +503,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Inner({
@@ -535,6 +548,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Inner({
@@ -565,6 +579,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Inner({
@@ -599,6 +614,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Inner({
@@ -633,6 +649,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Inner({
@@ -667,6 +684,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Inner({
@@ -701,6 +719,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Inner({
@@ -735,6 +754,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Inner({
@@ -769,6 +789,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Inner({
@@ -803,6 +824,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Inner({
@@ -837,6 +859,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Inner({
@@ -871,6 +894,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				],
 				view:new Views.WrapContent({
 					views:[
+						new Views.SEO(),
 						new Views.Content({
 							views:[
 								new Views.Inner({
