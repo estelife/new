@@ -40,6 +40,7 @@ $obQuery->builder()
 	->field('ct.NAME','country_name')
 	->field('ct.ID','country_id')
 	->field('cty.NAME','city_name')
+	->field('cty.ID','city_id')
 	->field('ecg.address','address')
 	->field('ecg.latitude','lat')
 	->field('ecg.longitude','lng')
@@ -121,6 +122,8 @@ if (preg_match("/[а-я]+/u" ,$arResult['event']['calendar']['first_period']['fr
 	$arM = preg_match("/[а-я]+/u", $arResult['event']['calendar']['first_period']['to'], $mathes);
 	$arResult['event']['calendar']['first_date'] .= mb_substr($mathes[0], 0, 3, 'utf-8').'</i>';
 }
+
+$arResult['event']['calendar']['first_period']=$arResult['event']['calendar']['first_period']['from'].(!empty($arResult['event']['calendar']['first_period']['to']) ? ' - '.$arResult['event']['calendar']['first_period']['to'] : '');
 /*
 //Получение организаторов
 $obQuery = $obEvent->createQuery();
@@ -205,10 +208,18 @@ if(!empty($arWebs[0])){
 	$arResult['event']['contacts']['web_short']=$arResult['event']['web_short'];
 }
 
+$mCity=$arResult['event']['city_name'];
 
-$sFullName=mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['event']['full_name'])));
-$APPLICATION->SetPageProperty("title", $arResult['event']['short_name']);
-$APPLICATION->SetPageProperty("description", $sFullName,'utf-8');
-$APPLICATION->SetPageProperty("keywords", "Estelife, учебный центр, ".$sFullName);
+if (!empty($arResult['event']['city_id'])){
+	$obRes = CIBlockElement::GetList(Array(), array("IBLOCK_ID"=>16,"ID"=>$arResult['event']['city_id']), false, false, array("PROPERTY_CITY"));
+	$mCity=$obRes->Fetch();
+
+	$mCity=(!empty($mCity['PROPERTY_CITY_VALUE'])) ?
+		$mCity['PROPERTY_CITY_VALUE']:
+		$arResult['event']['city_name'];
+}
+
+$APPLICATION->SetPageProperty("title", $arResult['event']['full_name'].' - обучение, курсы и семинары');
+$APPLICATION->SetPageProperty("description", $arResult['event']['full_name'].' '.$arResult['event']['calendar']['first_period'].' в '.$mCity.' - вся информация о курсах, обучении и семинаре');
 
 $this->IncludeComponentTemplate();

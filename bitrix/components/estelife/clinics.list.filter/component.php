@@ -25,13 +25,16 @@ $arResult['specializations'] = $obQuery->select()->all();
 $obGet=new VArray($_GET);
 
 //получаем метро по городу
-if (!$obGet->blank('city')){
+if (!$obGet->blank('city') || isset($_COOKIE['estelife_city'])){
+	$nCity=intval($obGet->one('city',$_COOKIE['estelife_city']));
+	$obGet->set('city',$nCity);
+
 	$arSelect=Array("ID", "NAME");
 	$arFilter=Array(
 		"IBLOCK_ID"=>17,
 		"ACTIVE_DATE"=>"Y",
 		"ACTIVE"=>"Y",
-		"PROPERTY_CITY" => intval($obGet->one('city'))
+		"PROPERTY_CITY" =>$nCity
 	);
 	$obMetro=CIBlockElement::GetList(
 		Array("NAME"=>"ASC"),
@@ -40,7 +43,6 @@ if (!$obGet->blank('city')){
 		false,
 		$arSelect
 	);
-
 	while($res=$obMetro->Fetch()){
 		$arResult['metro'][] = $res;
 	}

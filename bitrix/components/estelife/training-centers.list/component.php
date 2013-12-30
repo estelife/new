@@ -125,8 +125,6 @@ $obResult = $obResult->bxResult();
 $obResult->NavStart($arPageCount);
 $arResult['org']=array();
 
-$arDescription=array();
-
 while($arData=$obResult->Fetch()){
 	if (!empty($arData['type_company_id'])){
 		$arData['name'] = $arData['type_name'];
@@ -175,14 +173,13 @@ while($arData=$obResult->Fetch()){
 	if(!empty($arData['web']))
 		$arData['short_web']=\core\types\VString::checkUrl($arData['web']);
 
-	$arDescription[]=mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arData['name'])),'utf-8');
 	$arResult['org'][]=$arData;
 }
 
-$arDescription=implode(', ',$arDescription);
-$APPLICATION->SetPageProperty("title", 'Учебные центры');
-$APPLICATION->SetPageProperty("description", $arDescription);
-$APPLICATION->SetPageProperty("keywords", "Estelife, учебные центры, ".$arDescription);
+$sPage=(isset($_GET['PAGEN_1']) && $_GET['PAGEN_1'] > 1) ?
+	' '.\core\types\VString::spellAmount($_GET['PAGEN_1'],'страница,страницы,страниц') : '';
+$APPLICATION->SetPageProperty("title", 'Учебные центры по косметологии и пластической хирургии'.$sPage);
+$APPLICATION->SetPageProperty("description", 'Список учебных центров в сфере косметологии и пластической хирургии. Все здесь.');
 
 //$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 $sTemplate=$this->getTemplateName();

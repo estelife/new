@@ -9,11 +9,7 @@
 		<div class="item detail training">
 			<h1><?=$arResult['event']['full_name']?></h1>
 			<div class="current">
-				Период проведения: <b><?=$arResult['event']['calendar']['first_period']['from']?>
-					<?php if(!empty($arResult['event']['calendar']['first_period']['to'])):?>
-						-
-						<?=$arResult['event']['calendar']['first_period']['to']?>
-					<?php endif;?></b>
+				Период проведения: <b><?=$arResult['event']['calendar']['first_period']?></b>
 				<?php if (!empty($arResult['event']['city_name'])):?>
 					Город: <b><?=$arResult['event']['city_name']?></b>
 				<?php endif?>

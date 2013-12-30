@@ -172,8 +172,7 @@ $arResult['action']['day_count']=ceil(($arResult['action']['end_date']-time())/8
 $arResult['action']['day_count']=$arResult['action']['day_count'].' '.\core\types\VString::spellAmount($arResult['action']['day_count'],'день,дня,дней');
 $arResult['action']['end_date']=date('d.m.Y', $arResult['action']['end_date']);
 
-$APPLICATION->SetPageProperty("title", mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['action']['name'])),'utf-8'));
-$APPLICATION->SetPageProperty("description", mb_substr(strip_tags($arResult['action']['preview_text']), 0, 140, 'utf-8'));
-$APPLICATION->SetPageProperty("keywords", "Estelife, Акции, Клиники, ".$arResult['action']['name']);
+$APPLICATION->SetPageProperty("title", $arResult['action']['preview_text'].' в '.$arResult['action']['clinics']['clinic_name'].' ('.$arResult['action']['clinics']['city'].')');
+$APPLICATION->SetPageProperty("description", 'Акция: '.$arResult['action']['preview_text'].' в '.$arResult['action']['clinics']['clinic_name'].' ('.$arResult['action']['clinics']['city'].')');
 
 $this->IncludeComponentTemplate();

@@ -222,6 +222,8 @@ define(['tpl/Template'],function(Template){
 				var data=this.data.title,
 					html='<h1>'+data.name+'</h1>';
 
+//				$('title').html(data.name);
+
 				if (data.menu){
 					html+='<ul class="menu">';
 					_.each(data.menu, function(item){

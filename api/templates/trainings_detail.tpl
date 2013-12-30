@@ -2,11 +2,7 @@
 	<div class="item detail training">
 		<h1><!--$detail.full_name!--></h1>
 		<div class="current">
-			Период проведения: <b><!--$detail.calendar.first_period.from!-->
-				<!--if($detail.calendar.first_period.to)!-->
-				-
-				<!--$detail.calendar.first_period.to!-->
-				<!--endif!--></b>
+			Период проведения: <b><!--$detail.calendar.first_period!--></b>
 			<!--if($detail.city_name)!-->
 			Город: <b><!--$detail.city_name!--></b>
 			<!--endif!-->
