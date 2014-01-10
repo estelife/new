@@ -1,49 +1,38 @@
-<div class="small-block el-filter">
-	<div class="block-header blue">
-		<span>Фильтр</span>
-		<div class="clear"></div>
+<form name="preparations" class="filter" method="get" action="/preparations/" >
+	<div class="title">
+		<h4>Поиск препарата</h4>
+		<!--		<span>Найдено 6 акций</span>-->
 	</div>
-	<div class="shadow"></div>
-	<form method="get" action="/preparations/" name="preparations">
-		<table class='clinic-table'>
-			<tr>
-				<td valign="top">
-					<div class="field-block"></div>
-					<label>Название</label>
-					<div class="text inp">
-						<input name="name" type="text" value="" data-action="get_pills" />
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td valign="top">
-					<div class="field-block"></div>
-					<label>Страна</label>
-					<select name="country">
-						<option value="">-- Не важно --</option>
-						<!--if ($countries)!-->
-							<!--foreach ($countries as $key=>$val)!-->
-								<option value="<!--$val.ID!-->"><!--$val.NAME!--></option>
-							<!--endforeach!-->
-						<!--endif!-->
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td valign="top">
-					<div class="field-block"></div>
-					<label>Тип</label>
-					<select name="type">
-						<option value="">-- Не важно --</option>
-						<option value="3">Биоревитализация</option>
-						<option value="2">Ботулинотерапия</option>
-						<option value="5">Имплантаты</option>
-						<option value="1">Мезотерапия</option>
-						<option value="6">Нити</option>
-						<option value="4">Филлеры</option>
-					</select>
-				</td>
-			</tr>
-		</table>
-	</form>
-</div>
+	<div class="field">
+		<label for="name">Наименование</label>
+		<input name="name" type="text" value="<!--$filter.name!-->" class="text"/>
+		<span class="block"></span>
+	</div>
+	<div class="field">
+		<label for="type">Назначение</label>
+		<select name="type" >
+			<option value="">--</option>
+			<option value="1" <!--if($filter.type===1)!--> selected="true"<!--endif!-->>Мезотерапия</option>
+			<option value="3" <!--if($filter.type===3)!--> selected="true"<!--endif!-->>Биоревитализация</option>
+			<option value="2" <!--if($filter.type=== 2)!--> selected="true"<!--endif!-->>Ботулинотерапия</option>
+			<option value="4" <!--if($filter.type===4)!--> selected="true"<!--endif!-->>Контурная пластика</option>
+		</select>
+
+		<span class="block"></span>
+	</div>
+	<div class="field country">
+		<label for="country">Страна</label>
+		<select name="country" >
+			<option value="">--</option>
+			<!--if($countries)!-->
+				<!--foreach($countries as $key=>$val)!-->
+					<option value="<!--$val.ID!-->" <!--if($filter.country===$val.ID)!--> selected="true"<!--endif!-->><!--$val.NAME!--></option>
+				<!--endforeach!-->
+			<!--endif!-->
+		</select>
+		<span class="block"></span>
+	</div>
+
+	<input type="submit" value="Найти препарат" class="submit">
+	<a href="/preparations/" class="clear">Сбросить фильтр</a>
+</form>

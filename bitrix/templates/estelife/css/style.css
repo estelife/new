@@ -34,7 +34,7 @@ body {
 	background:#dddddd;
 }
 .none {
-	display: none;
+	display: none !important;
 }
 .experts .quote, .cl, .items .item.event ul.list2 {
 	clear:both;
@@ -1439,7 +1439,7 @@ td.prices span {
 	float:right;
 }
 .filter .date input {
-	width:74px;
+	/*width:74px;*/
 	min-width: 0;
 	padding:3px 7px;
 }

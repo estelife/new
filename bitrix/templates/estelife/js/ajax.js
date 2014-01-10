@@ -77,17 +77,45 @@ require([
 			}
 		});
 
+
+		var intId;
 		//переключение между пунктами меню в эксперном мнении
 		body.on('click','.experts .menu li',function(){
-			var prnt = $(this).parent().parent(),
-				col = $('.experts .menu li'),
-				index = col.index($(this));
+			clearInterval(intId);
+			showNextExpert($(this));
+			expertClick();
+			return false;
+		});
+
+		function showNextExpert(li){
+			var prnt = $('.experts'),
+				col = $('.menu li',prnt),
+				act = $('.menu li.active',prnt);
+
+
+			if(li){
+				index = col.index(li);
+			}else{
+				index =col.index(act);
+				index++;
+			}
+
+			if(index >= col.length)
+				index = 0;
 
 			col.removeClass('active').eq(index).addClass('active');
 			$('.item',prnt).addClass('none').eq(index).removeClass('none');
+		}
 
-			return false;
-		});
+		function expertClick(){
+			intId=setInterval(
+				function(){
+					showNextExpert();
+				},
+				4000);
+		}
+		expertClick();
+
 
 		//Переключение между вкладками
 		body.on('click','.articles .menu li', function(){
@@ -147,8 +175,13 @@ require([
 			});
 
 			lnk.parents('.menu').find('.active').removeClass('active');
-			if (lnk.attr('rel') != 'ALL')
+			if (lnk.attr('rel') != 'ALL'){
 				lnk.addClass('active');
+				lnk.parent().parent().find('.first').find('a').removeClass('none');
+
+			}else{
+				lnk.parent().parent().find('.first').find('a').addClass('none');
+			}
 
 			$.get('/api/estelife_ajax.php',{
 				'action':'get_media',

@@ -2,6 +2,7 @@
 use core\database\mysql\VFilter;
 use core\database\VDatabase;
 use core\types\VArray;
+use geo\VGeo;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 CModule::IncludeModule("iblock");
@@ -15,6 +16,18 @@ if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 	$arPageCount = $arParams['PAGE_COUNT'];
 else
 	$arPageCount = 10;
+
+if ($obGet->blank('city') && $obGet->blank('country')){
+	if (isset($_COOKIE['estelife_city']))
+		$arResult['city'] = VGeo::getInstance()->getGeo();
+		$arResult['country']['COUNTRY_ID'] = $arResult['city']['COUNTRY_ID'];
+}else{
+	if(!$obGet->blank('city'))
+		$arResult['city']['ID'] = intval($obGet->one('city'));
+
+	if(!$obGet->blank('country'))
+		$arResult['country']['COUNTRY_ID'] = intval($obGet->one('country'));
+}
 
 //Получение списка организаторов
 $obQuery = $obClinics->createQuery();
@@ -65,12 +78,15 @@ $obFilter = $obQuery->builder()->filter()
 	->_ne('eet.type', 3);
 //	->_eq('ece.is_owner', 1);
 
-if (!$obGet->blank('city')){
-	$obFilter->_eq('ecg.city_id', intval($obGet->one('city')));
+
+if (!empty($arResult['city'])){
+	$obFilter->_eq('ecg.city_id', $arResult['city']['ID']);
 }
-if (!$obGet->blank('country')){
-	$obFilter->_eq('ecg.country_id', $obGet->one('country'));
+
+if (!empty($arResult['country'])){
+	$obFilter->_eq('ecg.country_id', $arResult['country']['COUNTRY_ID']);
 }
+
 if(!$obGet->blank('name')){
 	$obFilter->_like('ec.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 }

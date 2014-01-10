@@ -1,4 +1,4 @@
-define(['tpl/Template','modules/Functions'],function(Templates,Functions){
+define(['tpl/Template','modules/Functions','mvc/Routers'],function(Templates,Functions,Routers){
 	var Geo=(function(){
 		var html,
 			listeners=[];
@@ -18,7 +18,6 @@ define(['tpl/Template','modules/Functions'],function(Templates,Functions){
 			load:function(adapter){
 				if (!html){
 					//Загружаем список и преобразуем шаблон
-//					EL.loadModule('templates',function(){
 						var detail_generator=new Templates({
 							'path':'/api/estelife_ajax.php',
 							'template':'cities',
@@ -46,7 +45,6 @@ define(['tpl/Template','modules/Functions'],function(Templates,Functions){
 								console.log('Ошибка получения городов')
 							}
 						},'json');
-//					});
 				}else{
 					var h=html;
 
@@ -99,6 +97,13 @@ define(['tpl/Template','modules/Functions'],function(Templates,Functions){
 					html.find('a').click(function(){
 						var target=$(this);
 						Geo.setCity(target.attr('class'));
+
+						Router=new Routers.Default();
+						Router.navigate(
+							location.pathname+'?city='+target.attr('class'),
+							{trigger: true}
+						);
+
 					});
 				}
 			},

@@ -5,7 +5,7 @@
 			<h2>Медиа</h2>
 		</div>
 		<ul class="menu">
-			<li class="first"><a href="#" class="get_photos_and_videos" rel="ALL">x</a></li>
+			<li class="first"><a href="#" class="get_photos_and_videos none" rel="ALL">x</a></li>
 			<li><a href="#" class="get_only_photos" rel="ONLY_PHOTO">Только фото</a></li>
 			<li><a href="#" class="get_only_videos" rel="ONLY_VIDEO">Только видео</a></li>
 		</ul>

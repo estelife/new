@@ -14,7 +14,7 @@
 			<option value="">--</option>
 			<!--if($cities)!-->
 				<!--foreach($cities as $key=>$val)!-->
-					<option value="<!--$val.ID!-->"<!--if($filter.country==$val.ID)!--> selected="true"<!--endif!-->><!--$val.NAME!--></option>
+					<option value="<!--$val.ID!-->"<!--if($filter.city==$val.ID)!--> selected="true"<!--endif!-->><!--$val.NAME!--></option>
 				<!--endforeach!-->
 			<!--endif!-->
 		</select>

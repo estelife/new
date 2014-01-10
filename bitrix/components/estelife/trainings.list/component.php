@@ -16,14 +16,10 @@ if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 else
 	$arPageCount = 10;
 
-if (isset($arParams['CITY_CODE']) && !empty($arParams['CITY_CODE'])){
-	//Получаем ID города по его коду
-	$arSelect = Array("ID", "NAME");
-	$arFilter = Array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "CODE" => $arParams['CITY_CODE']);
-	$obCity = CIBlockElement::GetList(Array("NAME"=>"ASC"), $arFilter, false, false, $arSelect);
-	while($res = $obCity->Fetch()) {
-		$arResult['city'] = $res;
-	}
+if(!$obGet->blank('city')){
+	$arResult['city'] = intval($obGet->one('city'));
+}elseif(isset($_COOKIE['estelife_city'])){
+	$arResult['city'] = intval($_COOKIE['estelife_city']);
 }
 
 //Получение списка обучений
@@ -99,14 +95,10 @@ $obFilter=$obQuery->builder()->filter();
 $obFilter->_eq('eet.type', 3);
 
 if (!empty($arResult['city'])){
-	$obFilter->_eq('ee.city_id', $arResult['city']['ID']);
-}else{
-	if (!$obGet->blank('city')){
-		$obFilter->_or()
-			->_eq('ecg.city_id', intval($obGet->one('city')));
-		$obFilter->_or()
-			->_eq('ee.city_id', intval($obGet->one('city')));
-	}
+	$obFilter->_or()
+		->_eq('ecg.city_id', $arResult['city']);
+	$obFilter->_or()
+		->_eq('ee.city_id', $arResult['city']);
 }
 
 if(!$obGet->blank('direction'))

@@ -36,34 +36,10 @@ $obQuery->builder()->group('ct.ID');
 $obQuery->builder()->sort('ct.NAME', 'asc');
 $arResult['cities'] = $obQuery->select()->all();
 
-//получение списка специализаций
-$obQuery = $obClinics->createQuery();
-$obQuery->builder()->from('estelife_specializations');
-$arResult['specializations'] = $obQuery->select()->all();
-
-
 $obGet=new VArray($_GET);
 
-if (!$obGet->blank('spec')){
-	//Получение вида услуги
-	$obQuery = $obClinics->createQuery();
-	$obQuery->builder()->from('estelife_services')->filter()
-		->_eq('specialization_id', intval($obGet->one('spec')));
-	$arResult['service'] = $obQuery->select()->all();
-
-}
-
-if (!$obGet->blank('spec') && !$obGet->blank('service')){
-	//Получение типов услуг
-	$obQuery = $obClinics->createQuery();
-	$obQuery->builder()->from('estelife_service_concreate')->filter()
-		->_eq('specialization_id',  intval($obGet->one('spec')))
-		->_eq('service_id',  intval($obGet->one('service')));
-	$arResult['concreate'] = $obQuery->select()->all();
-}
-
 $arResult['filter']=array(
-	'city'=>intval($obGet->one('city',0)),
+	'city'=>intval($obGet->one('city', $_COOKIE['estelife_city'])),
 	'direction'=>intval($obGet->one('direction',0)),
 	'date_from'=>$obGet->one('date_from', date('d.m.y',time())),
 	'date_to'=>$obGet->one('date_to','')
