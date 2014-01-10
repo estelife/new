@@ -16,7 +16,7 @@
 				<span>1</span>
 			</div>
 			<!--if($PODCASTS.FIRST.PREVIEW_TEXT_B)!-->
-				<a href="<!--$PODCASTS.FIRST.DETAIL_URL!-->" class="text"><!--$PODCASTS.FIRST.PREVIEW_TEXT_B!--> &rarr;</a>
+				<a href="<!--$PODCASTS.FIRST.DETAIL_URL!-->" class="text"><!--$PODCASTS.FIRST.PREVIEW_TEXT_B!--></a>
 			<!--endif!-->
 		<!--endif!-->
 	</div>

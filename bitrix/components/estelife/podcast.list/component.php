@@ -56,7 +56,7 @@ try{
 			$asRes['DETAIL_URL'] = '/'.$arParams['PREFIX'].$asRes['ID'].'/';
 
 			if($bFirst){
-				$asRes['PREVIEW_TEXT_B'] = \core\types\VString::truncate($asRes['PREVIEW_TEXT'], 165, '...');
+				$asRes['PREVIEW_TEXT_B'] = \core\types\VString::truncate($asRes['PREVIEW_TEXT'], 165, '...').'<span></span>';
 				$asRes['IMG_B'] = CFile::GetFileArray($asRes['PROPERTY_FRONTBIG_VALUE']);
 				$asRes['IMG_B']=$asRes['IMG_B']['SRC'];
 				$bFirst=false;

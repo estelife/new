@@ -60,7 +60,7 @@ try{
 			$val['SECTION_URL'] = '/'.$arParams['MAIN_URL'].'/'.$val['SECTION_CODE'].'/';
 			$val['IMG'] = CFile::GetFileArray($val['VALUE']);
 			$val['IMG']=$val['IMG']['SRC'];
-			$val['PREVIEW_TEXT'] = \core\types\VString::truncate($val['PREVIEW_TEXT'], 80, '...');
+			$val['PREVIEW_TEXT'] = \core\types\VString::truncate($val['PREVIEW_TEXT'], 80, '...').'<span></span>';
 			$val['ACTIVE_FROM'] = date('d.m.Y',strtotime($val['ACTIVE_FROM']));
 
 			$nSectionId=$val['SECTION_ID'];

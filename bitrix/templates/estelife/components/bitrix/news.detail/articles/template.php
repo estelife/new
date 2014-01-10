@@ -14,7 +14,7 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 			<?php endif; ?>
 			<li><b><?=$arResult["NAME"]?></b></li>
 		</ul>
-		<div class="item detail">
+		<div class="item detail big-font">
 			<h1><?=$arResult["NAME"]?></h1>
 			<ul class="stat">
 				<?php if (!empty($arResult['ACTIVE_FROM'])):?>

@@ -20,7 +20,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					<span>1</span>
 				</div>
 				<?php if($arResult["FIRST"]["PREVIEW_TEXT_B"]):?>
-					<a href="<?=$arResult["FIRST"]["DETAIL_URL"]?>" class="text"><?=$arResult["FIRST"]['PREVIEW_TEXT_B']?> &rarr;</a>
+					<a href="<?=$arResult["FIRST"]["DETAIL_URL"]?>" class="text"><?=$arResult["FIRST"]['PREVIEW_TEXT_B']?></a>
 				<?php endif?>
 				<!--					<ul class="stat">-->
 				<!--						<li class="comments"><i></i>0</li>-->

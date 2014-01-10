@@ -1,4 +1,4 @@
-<div class="item detail">
+<div class="item detail big-font">
 	<h1><!--$detail.NAME!--></h1>
 	<ul class="stat">
 		<!--if ($detail.ACTIVE_FROM)!-->
