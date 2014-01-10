@@ -7,7 +7,7 @@
 	</div>
 	<div class="field">
 		<label for="name">Наименование</label>
-		<input name="name" type="text" value="<?=$_GET['name']?>" class="text"/>
+		<input name="name" type="text" value="<?=$arResult['filter']['name']?>" class="text"/>
 		<span class="block"></span>
 	</div>
 	<div class="field country">
@@ -16,7 +16,7 @@
 			<option value="">--</option>
 			<?php if (!empty($arResult['countries'])):?>
 				<?php foreach ($arResult['countries'] as $val):?>
-					<option value="<?=$val['ID']?>" <?if($_GET['country'] === $val['ID']) echo " selected";?>><?=$val['NAME']?></option>
+					<option value="<?=$val['ID']?>" <?if($arResult['filter']['country'] === $val['ID']) echo " selected";?>><?=$val['NAME']?></option>
 				<?php endforeach?>
 			<?php endif?>
 		</select>
@@ -28,7 +28,7 @@
 			<option value="">--</option>
 			<?php if (!empty($arResult['cities'])):?>
 				<?php foreach ($arResult['cities'] as $val):?>
-					<option value="<?=$val['ID']?>" <?if($_GET['city'] === $val['ID']) echo " selected";?>><?=$val['NAME']?></option>
+					<option value="<?=$val['ID']?>" <?if($arResult['filter']['city'] === $val['ID']) echo " selected";?>><?=$val['NAME']?></option>
 				<?php endforeach?>
 			<?php endif?>
 		</select>

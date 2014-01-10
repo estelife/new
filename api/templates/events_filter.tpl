@@ -10,7 +10,7 @@
 	</div>
 	<div class="field country">
 		<label for="country">Страна</label>
-		<select name="country" id="country" data-rules="get_city:select[name=city]">
+		<select name="country" data-rules="get_city:select[name=city]">
 			<option value="">--</option>
 			<!--if($countries)!-->
 				<!--foreach ($countries as $key=>$val)!-->
@@ -20,7 +20,7 @@
 		</select>
 		<span class="block"></span>
 	</div>
-	<div class="field<!--if($cities)!--> disabled<!--endif!-->">
+	<div class="field <!--if($cities)!--> <!--else!--> disabled<!--endif!-->">
 		<label for="city">Город</label>
 		<select name="city" id="city">
 			<option value="">--</option>

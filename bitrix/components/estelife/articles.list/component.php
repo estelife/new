@@ -18,6 +18,7 @@ try{
 	foreach ($arParams['SECTIONS_NAME'] as $key=>$val){
 		$arResult['SECTIONS_NAME'][$arParams['SECTIONS_ID'][$key]] = $val;
 	}
+	$sNow = date('Y-m-d H:i:s',time());
 
 	$arResult['first'] = key($arResult['SECTIONS_NAME']);
 
@@ -48,7 +49,8 @@ try{
 		$obQuery->builder()->filter()
 			->_eq('ie.IBLOCK_ID', $arParams['IBLOCK_ID'])
 			->_eq('ie.IBLOCK_SECTION_ID', $val)
-			->_eq('ie.ACTIVE', 'Y');
+			->_eq('ie.ACTIVE', 'Y')
+			->_lte('ie.ACTIVE_FROM', $sNow);
 		$obQuery->builder()->union();
 	}
 

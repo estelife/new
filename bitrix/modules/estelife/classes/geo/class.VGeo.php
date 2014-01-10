@@ -35,10 +35,20 @@ final class VGeo{
 		$obCity=VDatabase::driver();
 		$obQuery=$obCity->createQuery();
 		$obQuery->builder()
-			->field('ID')
-			->field('NAME')
-			->field('CODE')
-			->from('iblock_element');
+			->field('ie.ID')
+			->field('ie.NAME')
+			->field('ie.CODE')
+			->field('ieps.PROPERTY_44', 'COUNTRY_ID')
+			->field('iec.NAME', 'COUNTRY_NAME')
+			->from('iblock_element', 'ie');
+
+		$obJoin=$obQuery->builder()->join();
+		$obJoin->_left()
+			->_from('ie','ID')
+			->_to('iblock_element_prop_s16','IBLOCK_ELEMENT_ID','ieps');
+		$obJoin->_left()
+			->_from('ieps','PROPERTY_44')
+			->_to('iblock_element','ID','iec');
 
 		$mCity=(empty($mCity) && isset($_COOKIE['estelife_city'])) ?
 			intval($_COOKIE['estelife_city']) : $mCity;
@@ -52,17 +62,17 @@ final class VGeo{
 			}
 
 			$obQuery->builder()->filter()
-				->_eq('IBLOCK_ID', 16)
-				->_like('NAME',$arCity['city'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
+				->_eq('ie.IBLOCK_ID', 16)
+				->_like('ie.NAME',$arCity['city'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
 		}else if (is_numeric($mCity)){
 
 			$obQuery->builder()->filter()
-				->_eq('IBLOCK_ID', 16)
-				->_eq('ID',$mCity);
+				->_eq('ie.IBLOCK_ID', 16)
+				->_eq('ie.ID',$mCity);
 		}else{
 			$obQuery->builder()->filter()
-				->_eq('IBLOCK_ID', 16)
-				->_like('NAME',$mCity,VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
+				->_eq('ie.IBLOCK_ID', 16)
+				->_like('ie.NAME',$mCity,VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
 		}
 
 		$arCities=$obQuery->select()->all();
@@ -70,6 +80,7 @@ final class VGeo{
 		if (!empty($arCities)){
 			$this->city = reset($arCities);
 			setcookie('estelife_city', $this->city['ID'], time() + 12*60*60*24*30, '/');
+			setcookie('estelife_country', $this->city['COUNTRY_ID'], time() + 12*60*60*24*30, '/');
 		}else{
 			throw new VException('city not found');
 		}

@@ -13,7 +13,8 @@ try{
 
 	//Получение ID секции
 	$sNow = date('d.m.Y', time());
-	$sDateNow = date('d', time());
+	$sDateNow = strtotime($sNow.' 00:00:00');
+
 	$arFilter = array(
 		'IBLOCK_ID' => $arParams['IBLOCK_ID'],
 		'SECTION_ID' => $arParams['SECTION_ID'],
@@ -31,7 +32,8 @@ try{
 
 	//проверка на публикацию сегодня
 	$flag = 0;
-	if (date('d', strtotime($arSection['UF_DATE_UPD_SECTION'])) < $sDateNow){
+	$sSectionTime = date('d.m.Y', strtotime($arSection['UF_DATE_UPD_SECTION']));
+	if (strtotime($sSectionTime.' 00:00:00') < $sDateNow){
 		$flag = 1;
 		$bs = new CIBlockSection;
 		$arFields = Array(
@@ -40,6 +42,7 @@ try{
 		);
 		$res = $bs->Update($arSection['ID'], $arFields);
 	}
+
 
 	//Получение статей
 	if (!empty($arSection)){

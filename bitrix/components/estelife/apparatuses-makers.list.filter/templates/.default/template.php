@@ -1,13 +1,13 @@
 <?php if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
 
-<form name="preparations-makers" class="filter" method="get" action="/apparatuses-makers/" >
+<form name="apparatuses-makers" class="filter" method="get" action="/apparatuses-makers/" >
 	<div class="title">
 		<h4>Поиск производителя</h4>
 		<!--		<span>Найдено 6 акций</span>-->
 	</div>
 	<div class="field">
 		<label for="name">Наименование</label>
-		<input name="name" type="text" value="<?=$_GET['name']?>" class="text"/>
+		<input name="name" type="text" value="<?=$arResult['filter']['name']?>" class="text"/>
 		<span class="block"></span>
 	</div>
 	<div class="field country">
@@ -16,7 +16,7 @@
 			<option value="">--</option>
 			<?php if (!empty($arResult['countries'])):?>
 				<?php foreach ($arResult['countries'] as $val):?>
-					<option value="<?=$val['ID']?>" <?if($_GET['country'] === $val['ID']) echo " selected";?>><?=$val['NAME']?></option>
+					<option value="<?=$val['ID']?>" <?if($arResult['filter']['country'] === $val['ID']) echo " selected";?>><?=$val['NAME']?></option>
 				<?php endforeach?>
 			<?php endif?>
 		</select>

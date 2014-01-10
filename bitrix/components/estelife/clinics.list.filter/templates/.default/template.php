@@ -1,5 +1,4 @@
 <?php if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
-
 <form name="promotions" class="filter" method="get" action="/clinics/" >
 	<div class="title">
 		<h4>Поиск клиники</h4>

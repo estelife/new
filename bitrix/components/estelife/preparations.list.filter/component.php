@@ -5,6 +5,7 @@ use core\types\VArray;
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 CModule::IncludeModule("iblock");
 CModule::IncludeModule("estelife");
+$obGet=new VArray($_GET);
 
 //Получение списка стран, которые есть только в препаратах
 $obCountries = VDatabase::driver();
@@ -28,5 +29,10 @@ $obQuery->builder()->group('ct.ID');
 $obQuery->builder()->sort('ct.NAME', 'asc');
 $arResult['countries'] = $obQuery->select()->all();
 
+$arResult['filter']=array(
+	'country'=>intval($obGet->one('country',0)),
+	'type'=>intval($obGet->one('type',0)),
+	'name'=>strip_tags(trim($obGet->one('name',''))),
+);
 
 $this->IncludeComponentTemplate();

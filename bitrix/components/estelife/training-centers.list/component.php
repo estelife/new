@@ -2,6 +2,7 @@
 use core\database\mysql\VFilter;
 use core\database\VDatabase;
 use core\types\VArray;
+use geo\VGeo;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 CModule::IncludeModule("iblock");
@@ -15,6 +16,13 @@ if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 	$arPageCount = $arParams['PAGE_COUNT'];
 else
 	$arPageCount = 10;
+
+if(!$obGet->blank('city')){
+	$arResult['city'] = intval($obGet->one('city'));
+}elseif(isset($_COOKIE['estelife_city'])){
+	$arResult['city'] = intval($_COOKIE['estelife_city']);
+}
+
 
 //Получение списка организаторов
 $obQuery = $obClinics->createQuery();
@@ -96,11 +104,11 @@ $obFilter = $obQuery->builder()->filter()
 	->_eq('ece.is_owner', 1);
 
 
-if (!$obGet->blank('city')){
+if (!empty($arResult['city'])){
 	$obFilter->_or()
-		->_eq('ecg.city_id', intval($obGet->one('city')));
+		->_eq('ecg.city_id', $arResult['city']);
 	$obFilter->_or()
-		->_eq('ectd.city_id', intval($obGet->one('city')));
+		->_eq('ectd.city_id', $arResult['city']);
 }
 
 if(!$obGet->blank('name')){
@@ -181,7 +189,6 @@ $sPage=(isset($_GET['PAGEN_1']) && $_GET['PAGEN_1'] > 1) ?
 $APPLICATION->SetPageProperty("title", 'Учебные центры по косметологии и пластической хирургии'.$sPage);
 $APPLICATION->SetPageProperty("description", 'Список учебных центров в сфере косметологии и пластической хирургии. Все здесь.');
 
-//$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
 $arResult['nav']=$obNav->getNav();

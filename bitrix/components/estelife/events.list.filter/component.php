@@ -21,10 +21,11 @@ while($res = $obCountries->Fetch()) {
 
 $obGet=new VArray($_GET);
 
-if (!$obGet->blank('country')){
+if (!$obGet->blank('country') || intval($_COOKIE['estelife_country'])>0){
+	$nCountry = intval($obGet->one('country',$_COOKIE['estelife_country']));
 	//получаем города по стране
 	$arSelect = Array("ID", "NAME");
-	$arFilter = Array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "PROPERTY_COUNTRY" => intval($obGet->one('country')));
+	$arFilter = Array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "PROPERTY_COUNTRY" => $nCountry);
 	$obCity= CIBlockElement::GetList(Array("NAME"=>"ASC"), $arFilter, false, false, $arSelect);
 
 	while($res = $obCity->Fetch()) {
@@ -33,12 +34,13 @@ if (!$obGet->blank('country')){
 }
 
 $arResult['filter']=array(
-	'country'=>intval($obGet->one('country',0)),
-	'city'=>intval($obGet->one('city',0)),
+	'country'=>intval($obGet->one('country',$_COOKIE['estelife_country'])),
+	'city'=>intval($obGet->one('city',$_COOKIE['estelife_city'])),
 	'direction'=>intval($obGet->one('direction',0)),
 	'type'=>intval($obGet->one('type',0)),
 	'date_from'=>$obGet->one('date_from', date('d.m.y',time())),
-	'date_to'=>$obGet->one('date_to','')
+	'date_to'=>$obGet->one('date_to',''),
+	'name'=>strip_tags(trim($obGet->one('name',''))),
 );
 
 $this->IncludeComponentTemplate();
