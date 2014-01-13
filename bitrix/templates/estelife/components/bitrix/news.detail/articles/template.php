@@ -44,9 +44,9 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 			<div class="info">
 				<?$APPLICATION->IncludeComponent("estelife:social.estelife","",array());?>
 				<div class="author cols">
-					<?php if (!empty($arResult['PROPERTIES']['AUTHOR']['VALUE'])):?>
+					<?php if (!empty($arResult['PROPERTIES']['SOURCE']['VALUE'])):?>
 					Автор статьи
-					<b><?=$arResult['PROPERTIES']['AUTHOR']['VALUE']?></b>
+					<b><?=$arResult['PROPERTIES']['SOURCE']['VALUE']?></b>
 					<?php endif?>
 				</div>
 			</div>

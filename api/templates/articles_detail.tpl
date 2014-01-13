@@ -19,9 +19,9 @@
 	<!--$detail.DETAIL_TEXT!-->
 	<div class="info">
 		<div class="author cols">
-			<!--if ($detail.AUTHOR)!-->
+			<!--if ($detail.SOURCE)!-->
 			Автор статьи
-			<b><!--$detail.AUTHOR!--></b>
+			<b><!--$detail.SOURCE!--></b>
 			<!--endif!-->
 		</div>
 	</div>
