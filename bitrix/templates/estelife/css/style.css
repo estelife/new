@@ -451,6 +451,7 @@ h1, h2 {
 	text-decoration: none;
 	margin-top:26px;
 	display: block;
+	color:#2c2c2c;
 }
 .general-news .col1 a.text span {
 	background:url('../images/big-arrow-art.png') 0 center no-repeat;
@@ -788,8 +789,9 @@ td.prices span {
 	float: left;
 	margin-top: 10px;
 	margin-left:-1px;
-	width: 43px;
+	min-width: 43px;
 	padding: 0 10px;
+	width: auto;
 }
 .item.promotion .current .prices, .promotion .time, .item.promotion .current .time {
 	margin-top:13px;
@@ -1384,7 +1386,7 @@ td.prices span {
 }
 .item.detail .clinic {
 	height: 120px;
-	margin:60px 0 40px 0;
+	margin:60px 0 0 0;
 }
 .item.detail .clinic h3 {
 	margin:0 !important;
@@ -1808,6 +1810,7 @@ li.country, span.country {
 	border:none;
 	padding:0;
 	float:left;
+	margin-bottom: 0;
 }
 .item.detail.producer .current, .item.detail.product .current {
 	overflow: hidden;
@@ -1864,7 +1867,7 @@ li.country, span.country {
 .item.training .date {
 	width:84px;
 	top: -12px;
-	left: -21px;
+	left: -19px;
 }
 .item.training .date i, .item.event .date i {
 	font-style: normal;
@@ -1959,10 +1962,15 @@ li.country, span.country {
 .item.detail .user img {
 	margin:0 20px 20px 0;
 }
-.item.detail .user h4, .item.detail .user h4 a, .item.detail .company h4, .item.detail .company h4 a {
+.item.detail .user h4, .item.detail .user h4 a,
+.item.detail .company h4, .item.detail .company h4 a {
 	font-size:15px;
 	margin:0 0 30px 0;
 	text-decoration: none;
+	color:#2c2c2c;
+}
+.item.detail .user h4 a:hover,.item.detail .company h4 a:hover {
+	color:#e60365;
 }
 .item.detail .user a {
 	position: absolute;
@@ -2007,6 +2015,7 @@ li.country, span.country {
 	position: absolute;
 	left:0;
 }
+.item.detail.training .item.company .map,
 .map {
 	background:#d1d1d1;
 	float:right;

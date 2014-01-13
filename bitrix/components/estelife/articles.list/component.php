@@ -76,9 +76,9 @@ try{
 				$val['ANONS']=unserialize($val['ANONS']);
 			}
 			if (!empty($val['ANONS']['TEXT']))
-				$val['PREVIEW_TEXT'] = $val['ANONS']['TEXT'].'<span></span>';
+				$val['PREVIEW_TEXT'] = trim($val['ANONS']['TEXT']).'<span></span>';
 			else
-				$val['PREVIEW_TEXT'] = \core\types\VString::truncate($val['PREVIEW_TEXT'], 80, '...').'<span></span>';
+				$val['PREVIEW_TEXT'] = trim(\core\types\VString::truncate($val['PREVIEW_TEXT'], 80, '...')).'<span></span>';
 
 			$val['ACTIVE_FROM'] = date('d.m.Y',strtotime($val['ACTIVE_FROM']));
 
