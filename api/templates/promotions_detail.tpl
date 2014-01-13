@@ -61,36 +61,36 @@
 			</div>
 		</div>
 		-->
-		<!--if ($detail.similar)!-->
-			<div class="similars">
-				<div class="title">
-					<h2>Похожие акции</h2>
-				</div>
-				<div class="items">
-					<!--foreach($detail.similar as $key=>$val)!-->
-						<div class="item promotion">
-							<div class="item-rel">
-								<span class="perc"><!--$val.base_sale!-->%</span>
-								<a href="<!--$val.link!-->">
-									<img src="<!--$val.src!-->" alt="<!--$val.name!-->" title="<!--$val.name!-->" />
-								</a>
-								<h3><!--$val.name!--></h3>
-								<div class="cols prices">
-									<b><!--$val.new_price!--> <i></i></b>
-									<s><!--$val.old_price!--> <i></i></s>
-								</div>
-								<div class="cols time">
-									<!--$val.time!--> <!--$val.day!-->
-									<i></i>
-								</div>
-							</div>
-							<div class="border"></div>
-						</div>
-					<!--endforeach!-->
-				</div>
-			</div>
-		<!--endif!-->
 	</div>
+	<!--if ($detail.similar)!-->
+	<div class="similars">
+		<div class="title">
+			<h2>Похожие акции</h2>
+		</div>
+		<div class="items">
+			<!--foreach($detail.similar as $key=>$val)!-->
+			<div class="item promotion">
+				<div class="item-rel">
+					<span class="perc"><!--$val.base_sale!-->%</span>
+					<a href="<!--$val.link!-->">
+						<img src="<!--$val.src!-->" alt="<!--$val.name!-->" title="<!--$val.name!-->" />
+					</a>
+					<h3><!--$val.name!--></h3>
+					<div class="cols prices">
+						<b><!--$val.new_price!--> <i></i></b>
+						<s><!--$val.old_price!--> <i></i></s>
+					</div>
+					<div class="cols time">
+						<!--$val.time!--> <!--$val.day!-->
+						<i></i>
+					</div>
+				</div>
+				<div class="border"></div>
+			</div>
+			<!--endforeach!-->
+		</div>
+	</div>
+	<!--endif!-->
 <!--else!-->
 	<div class="not-found">Акция не найдена ...</div>
 <!--endif!-->
