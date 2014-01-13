@@ -36,7 +36,7 @@
 			<?php endforeach?>
 		<?php endif?>
 	</div>
-	<div class="not-found<?=(!empty($arResult['training']) ? ' none' : '')?>">Обучения не найдены ...</div>
+	<div class="not-found<?=(!empty($arResult['training']) ? ' none' : '')?>">Семинары не найдены ...</div>
 	<?php if (!empty($arResult['nav'])):?>
 		<?=$arResult['nav']?>
 	<?php endif; ?>

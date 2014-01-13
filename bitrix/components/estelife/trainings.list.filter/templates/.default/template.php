@@ -8,7 +8,7 @@
 	<div class="field">
 		<label for="city">Город</label>
 		<select name="city" >
-			<option value="">--</option>
+			<option value="all">--</option>
 			<?php if (!empty($arResult['cities'])):?>
 				<?php foreach ($arResult['cities'] as $val):?>
 					<option value="<?=$val['ID']?>" <?if($_GET['city'] === $val['ID']) echo " selected";?>><?=$val['NAME']?></option>
@@ -35,16 +35,18 @@
 	<div class="field date">
 		<label for="date">Период проведения</label>
 		<div class="from text date">
-			<input type="text" class="text" name="date_from" value="<!--$filter.date_from!-->" />
+			<input type="text" class="text" name="date_from" value="<?=$arResult['filter']['date_from']?>" />
 			<i></i>
 		</div>
 		<div class="to text date">
-			<input type="text" class="text" name="date_to" value="<!--$filter.date_to!-->" />
+			<input type="text" class="text" name="date_to" value="<?=$arResult['filter']['date_to']?>" />
 			<i></i>
 		</div>
 		<span class="block"></span>
 	</div>
 
 	<input type="submit" value="Найти семинар" class="submit">
-	<a href="/trainings/" class="clear">Сбросить фильтр</a>
+	<?php if ($arResult['empty']):?>
+		<a href="/trainings/?city=all" class="clear">Сбросить фильтр</a>
+	<?php endif?>
 </form>

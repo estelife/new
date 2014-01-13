@@ -94,7 +94,7 @@ $obQuery->builder()
 $obFilter=$obQuery->builder()->filter();
 $obFilter->_eq('eet.type', 3);
 
-if (!empty($arResult['city'])){
+if (!empty($arResult['city']) && $obGet->one('direction')!='all'){
 	$obFilter->_or()
 		->_eq('ecg.city_id', $arResult['city']);
 	$obFilter->_or()

@@ -73,6 +73,7 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 			"TITLE"=>"Советы о красоте",
 			"MORE_TITLE"=>"Больше советов о красоте",
 			"IMG_FIELD" => 151,
+			"ANONS_FIELD"=> 175,
 			"PREFIX" => "ar"
 		)
 	)?>

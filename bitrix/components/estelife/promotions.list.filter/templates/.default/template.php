@@ -6,9 +6,14 @@
 <!--		<span>Найдено 6 акций</span>-->
 	</div>
 	<div class="field">
+		<label for="name">Наименование</label>
+		<input name="name" type="text" value="<?=$arResult['filter']['name']?>" class="text" />
+		<span class="block"></span>
+	</div>
+	<div class="field">
 		<label for="cities">Город</label>
 		<select name="city" data-rules="get_metro:select[name=metro]">
-			<option value="">--</option>
+			<option value="all">--</option>
 			<option value="359"<?if($arResult['filter']['city'] === "359") echo " selected";?>>Москва</option>
 			<option value="358"<?if($arResult['filter']['city'] === "358") echo " selected";?>>Санкт-Петербург</option>
 		</select>
@@ -60,7 +65,8 @@
 					<option value="<?=$val['id']?>" <?if($arResult['filter']['method'] === $val['id']) echo " selected";?>><?=$val['name']?></option>
 				<?php endforeach?>
 			<?php endif?>
-		</select><span class="block"></span>
+		</select>
+		<span class="block"></span>
 	</div>
 	<div class="field<?=(empty($arResult['concreate']) ? ' disabled' : '')?>">
 		<label for="concreate">Тип услуги</label>
@@ -74,5 +80,7 @@
 		</select><span class="block"></span>
 	</div>
 	<input type="submit" value="Найти акции" class="submit">
-	<a href="/promotions/" class="clear">Сбросить фильтр</a>
+	<?php if ($arResult['empty']):?>
+		<a href="/promotions/?city=all" class="clear">Сбросить фильтр</a>
+	<?php endif?>
 </form>

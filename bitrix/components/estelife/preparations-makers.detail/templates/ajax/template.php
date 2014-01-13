@@ -10,7 +10,7 @@ echo json_encode(array(
 			'link'=>'/'
 		),
 		array(
-			'name'=>'Производители',
+			'name'=>'Производители препаратов',
 			'link'=>'/preparations-makers/'
 		),
 		array(

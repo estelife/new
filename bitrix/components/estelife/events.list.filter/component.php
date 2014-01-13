@@ -43,4 +43,13 @@ $arResult['filter']=array(
 	'name'=>strip_tags(trim($obGet->one('name',''))),
 );
 
+$arResult['empty']=false;
+foreach ($arResult['filter'] as $key=>$val){
+	if (($val=='' && $val==0) || $val=='all')
+		continue;
+	if ($key=='date_from' && $val==date('d.m.y',time()))
+		continue;
+	$arResult['empty']=true;
+}
+
 $this->IncludeComponentTemplate();

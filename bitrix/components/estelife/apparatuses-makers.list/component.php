@@ -70,7 +70,7 @@ $obQuery->builder()
 	->field('ect.logo_id','type_logo_id')
 	->field('ectc.value', 'type_web');
 $obFilter = $obQuery->builder()->filter();
-	if (!$obGet->blank('country')){
+	if (!$obGet->blank('country') && $obGet->one('country')!=='all'){
 		$obFilter->_eq('ecg.country_id', intval($obGet->one('country')));
 	}
 	if (!$obGet->blank('name')){

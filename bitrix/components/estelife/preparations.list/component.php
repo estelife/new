@@ -66,7 +66,7 @@ $obQuery->builder()
 $obFilter = $obQuery->builder()->filter();
 
 
-if(!$obGet->blank('country')){
+if(!$obGet->blank('country') && $obGet->one('country')!=='all'){
 	$obFilter->_or()->_eq('ecg.country_id', intval($obGet->one('country')));
 	$obFilter->_or()->_eq('ectg.country_id', intval($obGet->one('country')));
 }

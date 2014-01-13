@@ -13,7 +13,7 @@
 	<div class="field country">
 		<label for="country">Страна</label>
 		<select name="country" data-rules="get_city:select[name=city]">
-			<option value="">--</option>
+			<option value="all">--</option>
 			<?php if (!empty($arResult['countries'])):?>
 				<?php foreach ($arResult['countries'] as $val):?>
 					<option value="<?=$val['ID']?>" <?if($arResult['filter']['country'] === $val['ID']) echo " selected";?>><?=$val['NAME']?></option>
@@ -25,7 +25,7 @@
 	<div class="field <?=(empty($arResult['cities']) ? ' disabled' : '')?>">
 		<label for="city">Город</label>
 		<select name="city" >
-			<option value="">--</option>
+			<option value="all">--</option>
 			<?php if (!empty($arResult['cities'])):?>
 				<?php foreach ($arResult['cities'] as $val):?>
 					<option value="<?=$val['ID']?>" <?if($arResult['filter']['city'] === $val['ID']) echo " selected";?>><?=$val['NAME']?></option>
@@ -37,5 +37,7 @@
 	</div>
 
 	<input type="submit" value="Найти организатора" class="submit">
-	<a href="/sponsors/" class="clear">Сбросить фильтр</a>
+	<?php if ($arResult['empty']):?>
+		<a href="/sponsors/?country=all&city=all" class="clear">Сбросить фильтр</a>
+	<?php endif?>
 </form>
