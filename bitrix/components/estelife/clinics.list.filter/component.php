@@ -90,5 +90,21 @@ if($obMethod){
 	$arResult['methods']=$obMethod->select()->all();
 }
 
-$arResult['filter']=$obGet->all();
+$arResult['filter']=array(
+	'city'=>intval($obGet->one('city',0)),
+	'metro'=>intval($obGet->one('metro',0)),
+	'spec'=>intval($obGet->one('spec',0)),
+	'service'=>intval($obGet->one('service',0)),
+	'method'=>intval($obGet->one('method',0)),
+	'concreate'=>intval($obGet->one('concreate',0)),
+	'name'=>strip_tags(trim($obGet->one('name'))),
+);
+
+$arResult['empty']=false;
+foreach ($arResult['filter'] as $val){
+	if (($val=='' && $val==0) || $val=='all')
+		continue;
+	$arResult['empty']=true;
+}
+
 $this->IncludeComponentTemplate();

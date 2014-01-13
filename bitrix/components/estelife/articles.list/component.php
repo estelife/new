@@ -22,6 +22,7 @@ try{
 
 	$arResult['first'] = key($arResult['SECTIONS_NAME']);
 
+
 	$obIblock = VDatabase::driver();
 	$obQuery = $obIblock->createQuery();
 	$obQuery->builder()->from('iblock_element', 'ie');
@@ -33,6 +34,12 @@ try{
 		->_from('ie','ID')
 		->_to('iblock_element_property','IBLOCK_ELEMENT_ID','iep')
 		->_cond()->_eq('iep.IBLOCK_PROPERTY_ID', $arParams['IMG_FIELD']);
+	if (!empty($arParams['ANONS_FIELD'])){
+		$obJoin->_left()
+			->_from('ie','ID')
+			->_to('iblock_element_property','IBLOCK_ELEMENT_ID','iepa')
+			->_cond()->_eq('iepa.IBLOCK_PROPERTY_ID', $arParams['ANONS_FIELD']);
+	}
 	$obQuery->builder()
 		->field('ie.ID', 'ID')
 		->field('ie.NAME', 'NAME')
@@ -43,6 +50,9 @@ try{
 		->field('ic.NAME', 'SECTION_NAME')
 		->field('ic.CODE', 'SECTION_CODE')
 		->field('iep.VALUE', 'VALUE');
+		if (!empty($arParams['ANONS_FIELD'])){
+			$obQuery->builder()->field('iepa.VALUE', 'ANONS');
+		}
 	$obQuery->builder()->slice(0,4);
 	$obQuery->builder()->sort('ie.ACTIVE_FROM', 'DESC');
 	foreach ($arParams['SECTIONS_ID'] as $val){
@@ -62,7 +72,14 @@ try{
 			$val['SECTION_URL'] = '/'.$arParams['MAIN_URL'].'/'.$val['SECTION_CODE'].'/';
 			$val['IMG'] = CFile::GetFileArray($val['VALUE']);
 			$val['IMG']=$val['IMG']['SRC'];
-			$val['PREVIEW_TEXT'] = \core\types\VString::truncate($val['PREVIEW_TEXT'], 80, '...').'<span></span>';
+			if (!empty($val['ANONS'])){
+				$val['ANONS']=unserialize($val['ANONS']);
+			}
+			if (!empty($val['ANONS']['TEXT']))
+				$val['PREVIEW_TEXT'] = $val['ANONS']['TEXT'].'<span></span>';
+			else
+				$val['PREVIEW_TEXT'] = \core\types\VString::truncate($val['PREVIEW_TEXT'], 80, '...').'<span></span>';
+
 			$val['ACTIVE_FROM'] = date('d.m.Y',strtotime($val['ACTIVE_FROM']));
 
 			$nSectionId=$val['SECTION_ID'];

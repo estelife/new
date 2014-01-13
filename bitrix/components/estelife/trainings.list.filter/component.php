@@ -45,4 +45,13 @@ $arResult['filter']=array(
 	'date_to'=>$obGet->one('date_to','')
 );
 
+$arResult['empty']=false;
+foreach ($arResult['filter'] as $key=>$val){
+	if (($val=='' && $val==0) || $val=='all')
+		continue;
+	if ($key=='date_from' && $val==date('d.m.y',time()))
+		continue;
+	$arResult['empty']=true;
+}
+
 $this->IncludeComponentTemplate();

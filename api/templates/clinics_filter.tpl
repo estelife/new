@@ -11,7 +11,7 @@
 	<div class="field">
 		<label for="cities">Город</label>
 		<select name="city" data-rules="get_metro:select[name=metro]">
-			<option value="">--</option>
+			<option value="all">--</option>
 			<option value="359"<!--if($filter.city===359)!--> selected="true"<!--endif!-->>Москва</option>
 			<option value="358"<!--if($filter.city===358)!--> selected="true"<!--endif!-->>Санкт-Петербург</option>
 		</select>
@@ -53,7 +53,7 @@
 		</select>
 		<span class="block"></span>
 	</div>
-	<div class="field disabled>">
+	<div class="field disabled">
 		<label for="method">Методика</label>
 		<select name="method" data-rules="get_concreate:select[name=concreate]">
 			<option value="">--</option>
@@ -78,5 +78,7 @@
 		<span class="block"></span>
 	</div>
 	<input type="submit" value="Найти клинику" class="submit">
-	<a href="/clinics/" class="clear">Сбросить фильтр</a>
+	<!--if($empty)!-->
+		<a href="/clinics/?city=all" class="clear">Сбросить фильтр</a>
+	<!--endif!-->
 </form>

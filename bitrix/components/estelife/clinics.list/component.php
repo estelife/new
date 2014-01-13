@@ -76,7 +76,7 @@ $obFilter = $obQuery->builder()->filter();
 $obFilter->_eq('ec.active', 1);
 $obFilter->_eq('ec.clinic_id', 0);
 
-if(!empty($arResult['city']))
+if(!empty($arResult['city']) && $obGet->one('city')!=='all')
 	$obFilter->_eq('ec.city_id', $arResult['city']['ID']);
 
 if(!$obGet->blank('name')){
@@ -145,7 +145,6 @@ if (!empty($arClinics)){
 		->_in('ecs.clinic_id', $arClinics);
 
 	$arClinicSpecialization = $obQuery->select()->all();
-//	VArray::prePrint($arClinicSpecialization);
 	$arSpecialization = array();
 
 	if (!empty($arClinicSpecialization)){

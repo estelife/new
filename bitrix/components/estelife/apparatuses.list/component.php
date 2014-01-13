@@ -16,7 +16,7 @@ if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 else
 	$arPageCount = 10;
 
-//Получение списка клиник
+//Получение списка аппаратов
 $obQuery = $obPills->createQuery();
 $obQuery->builder()->from('estelife_apparatus', 'ap');
 $obJoin=$obQuery->builder()->join();
@@ -62,11 +62,10 @@ $obQuery->builder()
 	->field('ect.id','type_company_id')
 	->field('ect.translit','type_company_translit')
 	->field('ect.id','type_company_id');
-
 $obFilter = $obQuery->builder()->filter();
 
 
-if(!$obGet->blank('country')){
+if(!$obGet->blank('country') && $obGet->one('country')!=='all'){
 	$obFilter->_or()->_eq('ecg.country_id', intval($obGet->one('country')));
 	$obFilter->_or()->_eq('ectg.country_id', intval($obGet->one('country')));
 }

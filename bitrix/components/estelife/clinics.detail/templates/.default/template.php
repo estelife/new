@@ -62,7 +62,6 @@
 			</div>
 			<div class="tabs tab2 none">
 				<?php foreach ($arResult['clinic']['specializations'] as $key=>$val):?>
-					<h2><?=$val['s_name']?></h2>
 					<?php foreach ($arResult['clinic']['service'] as $k=>$v):?>
 						<?php if ($key == $v['s_id']):?>
 								<h3><?=$v['ser_name']?></h3>
@@ -123,7 +122,6 @@
 			<div class="tabs tab-c tab4 none">
 				<?php if (!empty($arResult['clinic']['contacts'])):?>
 					<?php foreach ($arResult['clinic']['contacts'] as $val):?>
-						<h3><?=$val['name']?></h3>
 						<ul>
 							<li>
 								<b>Адрес</b>

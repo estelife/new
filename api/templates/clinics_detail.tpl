@@ -52,7 +52,6 @@
 		</div>
 		<div class="tabs tab2 none">
 			<!--foreach($detail.specializations as $key=>$val)!-->
-				<h2><!--$val.s_name!--></h2>
 				<!--foreach($detail.service as $k=>$v)!-->
 					<!--if($key==$v.s_id)!-->
 						<h3><!--$v.ser_name!--></h3>
@@ -113,7 +112,6 @@
 		<div class="tabs tab-c tab4 none">
 			<!--if ($detail.contacts)!-->
 				<!--foreach($detail.contacts as $key=>$val)!-->
-					<h3><!--$val.name!--></h3>
 					<ul>
 						<li>
 							<b>Адрес</b>

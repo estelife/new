@@ -88,11 +88,11 @@ $obQuery->builder()
 $obFilter=$obQuery->builder()->filter();
 $obFilter->_ne('eet.type', 3);
 
-if (!empty($arResult['city'])){
+if (!empty($arResult['city']) && $obGet->one('city')!=='all'){
 	$obFilter->_eq('ecg.city_id', $arResult['city']['ID']);
 }
 
-if (!empty($arResult['country'])){
+if (!empty($arResult['country']) && $obGet->one('country')!=='all'){
 	$obFilter->_eq('ecg.country_id', $arResult['country']['COUNTRY_ID']);
 }
 

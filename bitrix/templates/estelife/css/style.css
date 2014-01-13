@@ -1687,6 +1687,9 @@ li.country, span.country, .country .select .has-value, .country.big {
 	background-repeat: no-repeat;
 	margin-bottom: 0;
 }
+.country .select .vall{
+	padding-left:0px;
+}
 li.country, span.country {
 	height:20px;
 	margin-right: 20px;
@@ -1770,7 +1773,7 @@ li.country, span.country {
 	float:none;
 	width:auto;
 }
-.inner .products .item.product ul, .inner .products.similars .item.product p {
+.inner .products .item.product ul{
 	margin:0;
 	display: none;
 }

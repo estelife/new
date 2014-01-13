@@ -12,7 +12,7 @@
 	<div class="field">
 		<label for="city">Город</label>
 		<select name="city" >
-			<option value="">--</option>
+			<option value="all">--</option>
 			<?php if (!empty($arResult['cities'])):?>
 				<?php foreach ($arResult['cities'] as $val):?>
 					<option value="<?=$val['ID']?>" <?if($arResult['filter']['city'] === $val['ID']) echo " selected";?>><?=$val['NAME']?></option>
@@ -24,5 +24,7 @@
 	</div>
 
 	<input type="submit" value="Найти учебный центр" class="submit">
-	<a href="/training-centers/" class="clear">Сбросить фильтр</a>
+	<?php if ($arResult['empty']):?>
+		<a href="/training-centers/?city=all" class="clear">Сбросить фильтр</a>
+	<?php endif?>
 </form>

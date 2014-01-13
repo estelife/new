@@ -14,9 +14,11 @@
 				<div class="item-rel">
 					<h2><?php if ($arClinic["recomended"] == 1):?><span class="checked"></span><?php endif?><a href="<?=$arClinic["link"]?>" class="el-get-detail"><?=$arClinic["name"]?></a></h2>
 					<div class="item-in">
-						<?php if (!empty($arClinic['specialization'])):?>
-						<p><?=$arClinic['specialization']?></p>
-						<?php endif?>
+						<?if (!empty($arClinic['specialization'])):?>
+							<p><?=$arClinic['specialization']?></p>
+						<?else:?>
+							<p>На текущий момент клиника не предоставила официальных данных</p>
+						<?endif?>
 
 						<div class="img">
 							<div class="img-in">

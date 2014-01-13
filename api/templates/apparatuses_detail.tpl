@@ -122,25 +122,24 @@
 	<!--if($detail.production)!-->
 		<div class="similars products">
 			<div class="title">
-				<h2>Другие аппараты</h2>
+				<h2>Другие аппараты производителя</h2>
+				<a href="<!--$detail.company_link!-->">Смотреть все</a>
 			</div>
-			<div class="items">
+			<div class="items products">
 				<!--foreach($detail.production as $key=>$val)!-->
 					<div class="item product">
 						<div class="item-rel">
 							<div class="img">
 								<div class="img-in">
-									<!--if($val.logo_id)!-->
-										<!--$val.img!-->
-									<!--endif!-->
+									<a href="<!--$val.link!-->">
+										<!--if($val.logo_id)!-->
+											<!--$val.img!-->
+										<!--endif!-->
+									</a>
 								</div>
 							</div>
 							<div class="cols">
-								<h2><a href="<!--$val.link!-->"><!--$val.name!--></a></h2>
-								<ul>
-									<li class="country c<!--$detail.country_id!-->"><!--$detail.country_name!--></li>
-									<li>Производитель: <a href="<!--$detail.company_link!-->"><!--$detail.company_name!--></a></li>
-								</ul>
+								<h4><!--$val.name!--></h4>
 								<p><!--$val.preview_text!--></p>
 							</div>
 						</div>

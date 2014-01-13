@@ -29,7 +29,7 @@
 	<div class="field country">
 		<label for="country">Страна</label>
 		<select name="country" >
-			<option value="">--</option>
+			<option value="all">--</option>
 			<?php if (!empty($arResult['countries'])):?>
 				<?php foreach ($arResult['countries'] as $val):?>
 					<option value="<?=$val['ID']?>" <?if($arResult['filter']['country'] === $val['ID']) echo " selected";?>><?=$val['NAME']?></option>
@@ -40,5 +40,7 @@
 	</div>
 
 	<input type="submit" value="Найти аппарат" class="submit">
-	<a href="/apparatuses/" class="clear">Сбросить фильтр</a>
+	<?php if ($arResult['empty']):?>
+		<a href="/apparatuses/?country=all" class="clear">Сбросить фильтр</a>
+	<?php endif?>
 </form>

@@ -345,10 +345,12 @@ require([
 		//подсветка урлов второго уровня
 		$(".submenu a").each(function(){
 			var href = $(this).attr("href"),
+				reg=new RegExp('^('+href+')(\\?.*)?$'),
 				path_name = document.location.href.split('/').slice(3).join('/');
 			path_name = '/'+path_name;
+			matches =path_name.match(reg);
 
-			if (href==path_name || path_name == '/apparatuses-makers/') {
+			if (matches || path_name == '/apparatuses-makers/') {
 				if (path_name == '/apparatuses-makers/'){
 					$('.submenu li a[href="/preparations-makers/"]').parent().addClass("second_active").parent().parent().addClass("active").addClass('main');
 				}else{
