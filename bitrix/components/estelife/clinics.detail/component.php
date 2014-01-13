@@ -42,6 +42,10 @@ $obQuery->builder()->filter()
 	->_eq('ec.id', $nClinicID);
 $arResult['clinic'] = $obQuery->select()->assoc();
 
+if (!empty($arResult['clinic']['preview_text'])){
+	$arResult['clinic']['name'] = $arResult['clinic']['preview_text'];
+}
+
 
 $arResult['clinic']['main_contact'] = array(
 	'city' => $arResult['clinic']['city'],

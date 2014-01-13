@@ -7,5 +7,6 @@ echo json_encode(array(
 	'specializations'=>$arResult['specializations'],
 	'service'=>(isset($arResult['service'])) ? $arResult['service'] : array(),
 	'concreate'=>(isset($arResult['concreate'])) ? $arResult['concreate'] : array(),
-	'filter'=>$arResult['filter']
+	'filter'=>$arResult['filter'],
+	'empty'=>$arResult['empty']
 ));

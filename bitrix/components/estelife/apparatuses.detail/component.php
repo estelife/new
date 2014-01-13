@@ -157,11 +157,13 @@ $obQuery->builder()->from('estelife_apparatus');
 $obQuery->builder()->filter()
 	->_eq('company_id', $arResult['app']['company_id'])
 	->_ne('id', $arResult['app']['id']);
+$obQuery->builder()->slice(0,3);
 $arProductions = $obQuery->select()->all();
 
 foreach ($arProductions as $val){
 	$val['img'] = CFile::ShowImage($val['logo_id'],150, 140, 'alt='.$val['name']);
 	$val['link'] = '/ap'.$val['id'].'/';
+	$val['preview_text'] = \core\types\VString::truncate($val['preview_text'], 100, '...');
 	$arResult['app']['production'][] = $val;
 }
 

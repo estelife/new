@@ -12,7 +12,7 @@
 	<div class="field country">
 		<label for="country">Страна</label>
 		<select name="country" >
-			<option value="">--</option>
+			<option value="all">--</option>
 			<?php if (!empty($arResult['countries'])):?>
 			<?php foreach ($arResult['countries'] as $val):?>
 				<option value="<?=$val['ID']?>" <?if($arResult['filter']['country'] === $val['ID']) echo " selected";?>><?=$val['NAME']?></option>
@@ -24,6 +24,8 @@
 	</div>
 
 	<input type="submit" value="Найти производителя" class="submit">
-	<a href="/preparations-makers/" class="clear">Сбросить фильтр</a>
+	<?php if ($arResult['empty']):?>
+		<a href="/preparations-makers/?country=all" class="clear">Сбросить фильтр</a>
+	<?php endif?>
 </form>
 

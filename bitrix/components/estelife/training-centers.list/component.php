@@ -104,7 +104,7 @@ $obFilter = $obQuery->builder()->filter()
 	->_eq('ece.is_owner', 1);
 
 
-if (!empty($arResult['city'])){
+if (!empty($arResult['city']) && $obGet->one('name')!=='all'){
 	$obFilter->_or()
 		->_eq('ecg.city_id', $arResult['city']);
 	$obFilter->_or()

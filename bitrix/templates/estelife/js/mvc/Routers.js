@@ -574,7 +574,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:[
 					'ap'+id+'/',
-					'apparations_filter/'+EL.query().toString(),
+					'apparatuses_filter/'+EL.query().toString(),
 					'banner/'
 				],
 				view:new Views.WrapContent({
@@ -591,7 +591,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									]
 								}),
 								new Views.Filter({
-									template:'apparations_filter'
+									template:'apparatuses_filter'
 								}),
 								new Views.Advert({
 									className:'adv adv-out right',

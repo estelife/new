@@ -35,4 +35,11 @@ $arResult['filter']=array(
 	'name'=>strip_tags(trim($obGet->one('name',''))),
 );
 
+$arResult['empty']=false;
+foreach ($arResult['filter'] as $val){
+	if (($val=='' && $val==0) || $val=='all')
+		continue;
+	$arResult['empty']=true;
+}
+
 $this->IncludeComponentTemplate();

@@ -2,7 +2,7 @@
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	die();
 
-$sTitle='Производители';
+$sTitle='Производители препаратов';
 echo json_encode(array(
 	'list'=>array_values($arResult['pills']),
 	'title'=>array(

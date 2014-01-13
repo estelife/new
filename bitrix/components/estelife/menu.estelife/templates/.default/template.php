@@ -17,18 +17,8 @@
 			<li><a href="/articles/raznoe/">Разное</a></li>
 		</ul>
 	</li>
-	<li><a href="/clinics/" title="Клиники">Клиники</a>
-		<ul class="submenu">
-			<li><a href="/clinics/?city=358" title="Клиники Санкт-Петербурга">Санкт-Петербург</a></li>
-			<li><a href="/clinics/?city=359" title="Клиники Москвы">Москва</a></li>
-		</ul>
-	</li>
-	<li><a href="/promotions/" title="Акции">Акции</a>
-		<ul class="submenu">
-			<li><a href="/promotions/?city=358" title="Акции Санкт-Петербурга">Санкт-Петербург</a></li>
-			<li><a href="/promotions/?city=359" title="Акции Москвы">Москва</a></li>
-		</ul>
-	</li>
+	<li><a href="/clinics/" title="Клиники">Клиники</a></li>
+	<li><a href="/promotions/" title="Акции">Акции</a></li>
 	<li><a href="#" class="empty_link">События</a>
 		<ul class="submenu">
 			<li><a href="/sponsors/" title="Организаторы">Организаторы</a></li>

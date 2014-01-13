@@ -23,7 +23,7 @@
 	<div class="field country">
 		<label for="country">Страна</label>
 		<select name="country" >
-			<option value="">--</option>
+			<option value="all">--</option>
 			<!--if($countries)!-->
 				<!--foreach($countries as $key=>$val)!-->
 					<option value="<!--$val.ID!-->" <!--if($filter.country===$val.ID)!--> selected="true"<!--endif!-->><!--$val.NAME!--></option>
@@ -34,5 +34,7 @@
 	</div>
 
 	<input type="submit" value="Найти препарат" class="submit">
-	<a href="/preparations/" class="clear">Сбросить фильтр</a>
+	<!--if($empty)!-->
+		<a href="/preparations/?country=all" class="clear">Сбросить фильтр</a>
+	<!--endif!-->
 </form>
