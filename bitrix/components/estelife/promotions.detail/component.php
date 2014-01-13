@@ -155,8 +155,8 @@ if (!empty($arSimilar)){
 	foreach ($arSimilar as $val){
 		$val['img'] = CFile::GetFileArray($val["small_photo"]);
 		$val['src'] = $val['img']['SRC'];
-		$val['new_price'] = intval($val['base_new_price']);
-		$val['old_price'] = intval($val['base_old_price']);
+		$val['new_price'] = number_format($val['base_new_price'],0,'.',' ');
+		$val['old_price'] = number_format($val['base_old_price'],0,'.',' ');
 		$val['time'] = ceil(($val['end_date']-$arNow)/(60*60*24));
 		$val['day'] = \core\types\VString::spellAmount($val['time'], 'день,дня,дней');
 		$val['link'] = '/pr'.$val['id'].'/';

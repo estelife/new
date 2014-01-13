@@ -60,7 +60,7 @@
 				<?php endif?>
 				<p><?=$arResult['clinic']['detail_text']?></p>
 			</div>
-			<div class="tabs tab2 none">
+			<div class="tabs tab2 services none">
 				<?php foreach ($arResult['clinic']['specializations'] as $key=>$val):?>
 					<h2><?=$val['s_name']?></h2>
 					<?php foreach ($arResult['clinic']['service'] as $k=>$v):?>

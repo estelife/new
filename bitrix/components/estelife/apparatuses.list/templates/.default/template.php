@@ -6,10 +6,6 @@
 	</ul>
 	<div class="title">
 		<h1>Аппараты</h1>
-		<ul class="menu">
-			<li><a href="/preparations/" >Препараты</a></li>
-			<li><a href="/apparatuses/" class="active">Аппараты</a></li>
-		</ul>
 	</div>
 	<div class="items">
 		<?php if (!empty($arResult['apps'])):?>

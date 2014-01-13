@@ -30,6 +30,12 @@ html,body,textarea,input,a {
 	color:#2c2c2c;
 	line-height: 20px;
 }
+a {
+	color:#E50364;
+}
+a:hover {
+	text-decoration: none;
+}
 body {
 	background:#dddddd;
 }
@@ -223,7 +229,7 @@ input.text, .select, .select a {
 	text-decoration: none;
 }
 input.text {
-	padding: 3px 12px;
+	padding: 4px 12px;
 	min-width: 164px;
 }
 .submit {
@@ -359,7 +365,7 @@ h1, h2 {
 	text-transform: uppercase;
 	font-size:30px;
 	margin:0;
-	line-height: 22px;
+	line-height: 27px;
 }
 .img {
 	position:relative;
@@ -552,8 +558,9 @@ ul.stat .unlikes i {
 	height:185px;
 }
 .item.detail .menu a, .experts .quote,
-.inner .products .item.product .cols {
-	padding:0 20px;
+.inner .products .item.product .cols,
+.similars .item.product .cols {
+	padding:0 17px;
 }
 .experts .user b {
 	display: block;
@@ -567,12 +574,14 @@ ul.stat .unlikes i {
 .experts .quote {
 	height:165px;
 }
-.experts h3, .item.detail .clinic h3, .item h3, .item h3 a,
-.inner .products .item.product h2, .inner .products .item.product h2 a, .item.detail .product h2 a  {
+.experts h3, .item.detail .clinic h3, .content .item h3, .content .item h3 a,
+.inner .products .item.product h2, .inner .products .item.product h2 a,
+.item.detail .product h2 a, .item.product h4,  .item.product h4 a{
 	font-size:18px;
 	text-decoration: none;
+	color:#2c2c2c;
 }
-.promotion h3, .promotion h3 a {
+.content .promotion h3, .content .promotion h3 a {
 	font-size:16px;
 }
 .experts h3 {
@@ -652,7 +661,8 @@ ul.stat .unlikes i {
 	cursor: pointer;
 }
 .item.promotion:hover, .item.company:hover,
-.item.product:hover, .item.producer:hover, .item.training:hover, .item.event:hover {
+.item.product:hover, .item.producer:hover, 
+.item.training:hover, .item.event:hover {
 	border-color:#e50364;
 }
 .item .perc, .promotion .perc, .item.training .date, .item.event .date {
@@ -771,13 +781,14 @@ td.prices span {
 	top: 10px;
 	height: 43px;
 	font-size: 24px;
-	line-height: 41px;
+	line-height: 44px;
 }
 .item.promotion .current .perc {
 	position: static;
 	float: left;
 	margin-top: 10px;
-	width: auto;
+	margin-left:-1px;
+	width: 43px;
 	padding: 0 10px;
 }
 .item.promotion .current .prices, .promotion .time, .item.promotion .current .time {
@@ -800,25 +811,32 @@ td.prices span {
 	height:20px;
 	margin-bottom:20px;
 }
+.inner .title {
+	height:24px;
+}
 .articles .title {
 	margin-bottom:26px;
 }
-.title h2, .title a {
+.title h1, .title h2, .title a {
 	float:left;
 	letter-spacing: -0.6px;
 }
 .title a {
 	font-size: 14px;
 	color:#5c5c5c;
-	margin: 7px 0 0 21px;
+	margin: 8px 0 0 31px;
 }
 .title a:hover {
 	text-decoration: none;
 }
 .title .arrow {
 	float:right;
-	margin:2px 21px 0 0;
+	margin:5px 21px 0 0;
 	color:#2c2c2c;
+	line-height: 16px;
+}
+.title .arrow i {
+	top:2px;
 }
 .cities {
 	width:100%;
@@ -937,6 +955,7 @@ td.prices span {
 	text-align: center;
 	line-height: 33px;
 	border-bottom: none;
+	color:#2c2c2c;
 }
 .articles .menu a:hover span, .articles .menu li.active span,
 .item.detail .menu a:hover span, .item.detail .menu li.active span,
@@ -1027,7 +1046,7 @@ td.prices span {
 	width:100%;
 }
 .inner .item {
-	margin-bottom:20px;
+	margin-bottom:19px;
 }
 .inner .item:nth-child(3n+3),
 .inner .item.last {
@@ -1202,6 +1221,12 @@ td.prices span {
 .media .item.video:hover .border, .media .item.video:hover span {
 	border-color:#e50364;
 }
+.item.detail, .item.detail a {
+	font-size:14px;
+}
+.item.detail:hover {
+	cursor: default;
+}
 .item.detail h1, .item.detail h2 {
 	text-transform: none;
 	font-weight: bold;
@@ -1327,9 +1352,6 @@ td.prices span {
 .item.detail li {
 	padding-left: 10px;
 }
-.item.detail.big-font {
-	font-size:14px;
-}
 .item.detail .info {
 	border-top:1px solid #5c5c5c;
 	padding-top:15px;
@@ -1344,7 +1366,7 @@ td.prices span {
 .item.detail .info img {
 	border:none;
 }
-.item.detail .info .social .cols, .item.training .img, .item.event .img {
+.item.detail .info .social .cols, .item.training .img {
 	margin-right:20px;
 }
 .item.detail .info .author {
@@ -1370,26 +1392,27 @@ td.prices span {
 	width:100%;
 }
 .item.detail .clinic .col1 {
-	width:85px;
+	width:82px;
 }
 .item.detail .clinic .col1 a {
 	display: block;
-	width:30px;
+	width:31px;
 	height:20px;
 	background-color:#E50364;
 	background-position: -115px -51px;
 }
 .item.detail .clinic .col2 {
-	width:330px;
+	width:333px;
 }
 .item.detail .clinic span {
 	display: block;
-	margin-top:30px;
+	margin-top:19px;
 }
 .filter {
 	background:#e8e8e8;
 	color:#2c2c2c;
 	height:auto;
+	padding-top:24px;
 }
 .filter h4 {
 	font-size:18px;
@@ -1399,8 +1422,8 @@ td.prices span {
 	text-align: center;
 }
 .filter .title {
-	margin-bottom:20px;
-	height:auto;
+	margin-bottom:8px;
+	height:68px;
 }
 .filter .title span {
 	display: block;
@@ -1408,7 +1431,7 @@ td.prices span {
 	margin-top:8px;
 }
 .filter .field {
-	margin-bottom:13px;
+	margin-bottom:10px;
 	position: relative;
 }
 .field label {
@@ -1425,7 +1448,7 @@ td.prices span {
 	height:28px;
 }
 .filter .select, .filter .input.text {
-	height:26px;
+	height:28px;
 }
 .filter .date {
 	overflow: hidden;
@@ -1490,6 +1513,10 @@ td.prices span {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
+	color:#2c2c2c;
+}
+.select a.value span.has-value {
+	color:#e50364;
 }
 .select .items .item {
 	width:100%;
@@ -1503,16 +1530,16 @@ td.prices span {
 	color:#fff;
 }
 .select .arrow {
-	background-color:#f0f0f0;
-	background-position: -141px -53px;
+	background-color: #f0f0f0;
+	background-position: -141px -51px;
 	border: 2px solid #5c5c5c;
-	width:24px;
-	height:24px;
+	width: 25px;
+	height: 25px;
 	display: block;
 	position: absolute;
-	top:-1px;
-	right:-1px;
-	padding:0;
+	top: 0px;
+	right: 0px;
+	padding: 0;
 }
 .select .arrow.active, .select .arrow:hover {
 	background-position: -161px -53px;
@@ -1540,10 +1567,12 @@ td.prices span {
 	width: 90px;
 	margin: 20px auto 0 auto;
 }
-.item.company h2 a, .item.producer h2 a, .item.product h2 a, .item.training h2 a,
+.item.company h2 a, .item.producer h2 a,
+.item.product h2 a, .item.training h2 a,
 .item.event h2 a {
 	font-size:24px;
 	text-decoration: none;
+	color:#2c2c2c;
 }
 .item.event h2 a {
 	line-height: 30px;
@@ -1553,15 +1582,25 @@ td.prices span {
 	text-transform: none;
 	font-weight: bold;
 }
+.item.company .services h2 {
+	font-weight: normal;
+	text-transform: uppercase;
+	font-size:24px;
+}
+.item.product h2 {
+	margin-top:2px;
+}
 .item.company, .item.producer, .item.product, .item.training, .item.event {
 	border:1px solid #d1d1d1;
-	width:685px;
-	padding:20px 20px 30px 20px;
+	width:687px;
+	padding:20px 18px 30px 18px;
 }
-.item.producer, .item.product, .item.training, .item.sponsor, .item.event {
-	padding-bottom:20px;
+.item.producer, .item.product, .item.training, .item.sponsor {
+	padding-bottom:19px;
 	height: auto;
-	/*overflow: hidden;*/
+}
+.item.producer {
+	padding-bottom:14px;
 }
 .item .item-in, .item.producer .item-rel, .item.product .item-rel {
 	width:100%;
@@ -1588,18 +1627,27 @@ td.prices span {
 	font-size: 14px;
 	line-height: 14px;
 }
-.item.company .col1 a, .item.detail .tab-c a, h1 a:hover, h2 a:hover,h3 a:hover, p a, .items .item:hover h1 a, .items .item:hover h2 a, .items .item:hover h3 a, .items .item.search a {
+.item.company .col1 a, .item.detail .tab-c a, h1 a:hover, h2 a:hover,h3 a:hover, .items .item:hover h1 a, .items .item:hover h2 a, .items .item:hover h3 a, .items .item.search a {
 	color:#e60365;
 	text-decoration: none;
 	margin-bottom:0;
 }
-.item.company .col1 a:hover, .item.detail .tab-c a:hover, p a:hover, .item.search a:hover,
+.item.company .col1 a:hover, .item.detail .tab-c a:hover, .item.search a:hover,
 .item.product ul a:hover, .item.training a.link:hover, .item.producer ul a:hover {
 	text-decoration: underline !important;
 }
-.item.company h1, .item.producer h1, .item.product h1,
+.item.company h1,
 .item.training h1, .item.event h1 {
 	margin-bottom:30px;
+}
+.item.detail.company h1 {
+	margin-bottom: 14px;
+}
+.item.product h1 {
+	margin-bottom:34px;
+}
+.item.producer h1 {
+	margin-bottom:14px;
 }
 .item.company .img-in, .item.producer .img-in, .item.product .img-in, .item.training .img-in,
 .item.event .img-in {
@@ -1610,13 +1658,19 @@ td.prices span {
 	height:100px;
 	text-align: center;
 }
-.item.detail.company .img-in, .item.detail.producer .img-in, .item.detail .company .img-in,
+.item.detail.company .img-in, .item.detail.producer .img-in,
+.item.detail .company .img-in, .item.event .img-in{
+	width:227px;
+	height: 118px;
+}
+.item.event .img {
+	margin:0 11px 28px 0;
+}
 .item.event .img-in {
-	width:226px;
-	height:117px;
+	width: 207px;
 }
 .item.detail.company .col1 p {
-	margin:13px 0 20px 0;
+	margin:6px 0 22px 0;
 	position: relative;
 	line-height: 20px;
 	height:20px;
@@ -1635,7 +1689,7 @@ td.prices span {
 	margin-top:15px;
 }
 .item.detail.company .col1 span {
-	margin-bottom:4px;
+	margin-bottom:6px;
 }
 .item.detail.center .col1 span{
 	margin-bottom:15px;
@@ -1647,28 +1701,37 @@ td.prices span {
 	font-weight: normal;
 }
 .item.company h3 {
-	margin:30px 0 20px 0;
+	margin: 16px 0 15px 0;
 	font-size:18px;
 }
 .item.producer .img-in {
-	width:124px;
-	height:117px;
+	width:125px;
+	height:118px;
 }
 .item.product .img-in {
-	width:200px;
-	height:200px;
+	width:208px;
+	height:198px;
 }
 .items .item.producer ul, .item.producer .current ul, .items .item.product ul {
 	float:left;
 	width: 100%;
 	margin:5px 0 30px 0;
 }
+.items .item.product ul {
+	margin-bottom:39px;
+}
+.item.producer .current li,
+.item.product .current li,
+.inner .products .item.product li,
+.similars .item.product li {
+	padding-left:0;
+}
 .item.producer .cols, .item.product .cols {
 	float:right;
-	width:538px;
+	width:540px;
 }
 .item.product .cols {
-	width:463px;
+	width:458px;
 }
 .items .item.producer p, .items .item.product p {
 	margin:0;
@@ -1680,7 +1743,8 @@ td.prices span {
 	color:#e60365;
 	text-decoration: none;
 }
-li.country, span.country, .country .select .has-value, .country.big {
+.content li.country, .content .current li.country,
+span.country, .country .select .has-value, .country.big {
 	display: block;
 	padding-left:25px;
 	background-position: 0 center;
@@ -1701,7 +1765,7 @@ li.country, span.country {
 .country.c2, .country .v2 {
 	background-image:url('../images/content/c2.png');
 }
-.item.product .country, .item.detail.producer .country {
+.item.product .country {
 	margin-bottom: 10px;
 }
 .country.big {
@@ -1715,15 +1779,15 @@ li.country, span.country {
 }
 .item.detail table {
 	border-collapse: collapse;
-	width:555px;
-	margin-bottom: 30px;
+	width:560px;
+	margin-bottom: 34px;
 }
 .item.detail table td {
 	border:1px solid #d1d1d1;
-	padding:7px 20px;
+	padding: 5px 20px 4px 18px;
 }
 .item.detail table td.prices {
-	width:100px;
+	width:127px;
 }
 .item.detail .tabs {
 	float:left;
@@ -1734,6 +1798,7 @@ li.country, span.country {
 }
 .item.detail .tab-c li, .items .item.training p {
 	margin-bottom: 25px;
+	padding-left:0;
 }
 .item.detail {
 	width:100%;
@@ -1743,26 +1808,41 @@ li.country, span.country {
 }
 .item.detail.producer .current, .item.detail.product .current {
 	overflow: hidden;
+	margin-bottom:26px;
+}
+.item.detail.product .current {
+	margin-bottom:47px;
 }
 .item.detail.producer .current ul,
 .item.detail.product .current ul {
-	width:477px;
+	width:479px;
 	float: right;
+}
+.item.detail.product .current ul {
+	margin-top:6px;
+}
+.item.detail.product .current .country {
+	margin-bottom:21px;
 }
 .item.detail.producer h3,
 .item.detail.product h3, .item.detail.training h3 {
-	margin:65px 0 35px 0;
+	margin:58px 0 36px 0;
 }
-.inner .products .item.product {
+.inner .products .item.product,
+.similars .item.product {
 	padding:0 0 20px 0;
-	height:324px;
+	height:318px;
 }
-.inner .products.similars .item.product {
-	height:293px;
+.inner .products .item.product h4,
+.similars .item.product h4,
+.inner .products .item.product h2,
+.similars .item.product h2 {
+	margin: 25px 0 22px 0;
 }
-.inner .products .item.product .img-in {
+.inner .products .item.product .img-in,
+.similars .item.product .img-in {
 	background:#fff;
-	height:150px;
+	height:158px;
 	width:227px;
 	text-align: center;
 }
@@ -1781,7 +1861,7 @@ li.country, span.country {
 .item.training .date {
 	width:84px;
 	top: -12px;
-	left: -20px;
+	left: -21px;
 }
 .item.training .date i, .item.event .date i {
 	font-style: normal;
@@ -1803,25 +1883,28 @@ li.country, span.country {
 }
 .item.event {
 	padding-top:0;
+	padding-bottom:12px;
 }
 .item.event h2 a, .item.event h2, .item.sponsor h2, .item.sponsor h2 a {
 	font-size:21px;
 }
 .item.event .date {
-	width:64px;
+	width:65px;
 	position: static;
 	display: block;
 	font-size:24px;
-	height:20px;
+	height:19px;
 	float:left;
-	margin:-20px 20px 0 0;
+	margin:-19px 20px 0 0;
+	padding-top:22px;
 }
 .items .item.event .country {
 	margin:20px 0 5px 0;
 }
 .item.sponsor .col1, .item.event h2,
 .content .item.detail.sponsor .col1{
-	margin-top:20px;
+	margin-top:18px;
+	margin-bottom:18px;
 }
 .item.sponsor .col1 span {
 	margin-bottom:5px;
@@ -1831,13 +1914,14 @@ li.country, span.country {
 }
 .item.detail.product .img-in {
 	width:227px;
-	height:216px;
+	height:218px;
 }
 .inner .title .menu {
 	float:right;
+	margin-right: 2px;
 }
 .item.detail .properties {
-	margin-top:65px;
+	margin-top:58px;
 }
 .item.detail .properties h3 {
 	margin:0 0 20px 0;
@@ -1894,7 +1978,7 @@ li.country, span.country {
 .item.detail .company .cols {
 	width:226px;
 }
-.item.detail .company div, .item.event .img, .item.detail .announce {
+.item.detail .company div, .item.detail .announce {
 	margin-bottom: 20px;
 }
 .item.detail.sponsor .col1 {
@@ -1929,6 +2013,10 @@ li.country, span.country {
 }
 .map span {
 	display: none;
+}
+.item.company .map {
+	width:725px;
+	height:278px;
 }
 .checked {
 	display:block;
@@ -2213,4 +2301,5 @@ body {
 	max-height: initial;
 	max-width: initial;
 	border: none;
+	z-index:10;
 }

@@ -50,7 +50,7 @@
 			<!--endif!-->
 			<p><!--$detail.detail_text!--></p>
 		</div>
-		<div class="tabs tab2 none">
+		<div class="tabs tab2 services none">
 			<!--foreach($detail.specializations as $key=>$val)!-->
 				<h2><!--$val.s_name!--></h2>
 				<!--foreach($detail.service as $k=>$v)!-->

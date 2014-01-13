@@ -6,19 +6,7 @@ $sTitle='Аппараты';
 echo json_encode(array(
 	'list'=>array_values($arResult['apps']),
 	'title'=>array(
-		'name'=>$sTitle,
-		'menu'=>array(
-			array(
-				'name'=>'Препараты',
-				'link'=>'/preparations/',
-				'class'=>''
-			),
-			array(
-				'name'=>'Аппараты',
-				'link'=>'/apparatuses/',
-				'class'=>'active'
-			)
-		)
+		'name'=>$sTitle
 	),
 	'crumb'=>array(
 		array(

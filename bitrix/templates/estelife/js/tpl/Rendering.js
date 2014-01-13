@@ -399,11 +399,12 @@ define(function(){
 			var matches=temp.match(/<\!--[\s]*\$([^!]+)[\s]*\!-->/gi);
 
 			if(matches){
-				var v;
+				var v,t;
 				for(var i=0; i<matches.length; i++){
-					v=matches[i].replace(/<\!--[\s]*\$([^!]+)[\s]*\!-->/,'$1');
-					v=_value(v);
-					temp=temp.replace(matches[i],((v) ? v : ''));
+					if(t=matches[i].match(/\$([^!\s]+)/)){
+						v=_value(t[1]);
+						temp=temp.replace(matches[i],((v!==false) ? v : ''));
+					}
 				}
 			}
 
@@ -421,7 +422,7 @@ define(function(){
 					data=(field[i] in data) ?
 						data[field[i]] : false;
 
-					if(!data)
+					if(data===false)
 						return def;
 					else if(i==x)
 						return data;

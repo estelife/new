@@ -43,10 +43,10 @@
 			?>
 			<div class="cols col2 social">
 				<span>Мы в соцсетях:</span>
-				<a href="http://vk.com/estelife_ru" class="vk">ВКонтакте</a>
-				<a href="https://www.facebook.com/EsteLife.RU" class="fb">Facebook</a>
-				<a href="http://www.youtube.com/esteliferu" class="yt">Youtube</a>
-				<a href="https://plus.google.com/u/0/b/106608290098923557575/" class="gp">Google+</a>
+				<a href="http://vk.com/estelife_ru" class="vk" target="_blank">ВКонтакте</a>
+				<a href="https://www.facebook.com/EsteLife.RU" class="fb" target="_blank">Facebook</a>
+				<a href="http://www.youtube.com/esteliferu" class="yt" target="_blank">Youtube</a>
+				<a href="https://plus.google.com/u/0/b/106608290098923557575/" class="gp" target="_blank">Google+</a>
 			</div>
 <!--			<a href="#" class="cols">Войти</a>-->
 		</div>

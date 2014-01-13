@@ -6,10 +6,6 @@
 	</ul>
 	<div class="title">
 		<h2>Препараты</h2>
-		<ul class="menu">
-			<li><a href="/preparations/" class="active">Препараты</a></li>
-			<li><a href="/apparatuses/">Аппараты</a></li>
-		</ul>
 	</div>
 	<div class="items">
 		<?php if (!empty($arResult['pills'])):?>

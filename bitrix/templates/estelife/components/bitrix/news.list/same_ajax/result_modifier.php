@@ -6,7 +6,7 @@ if(isset($arResult['ITEMS'])){
 	$arAvai=array('SRC','NAME','PREVIEW_TEXT','DETAIL_PAGE_URL','ACTIVE_FROM');
 
 	foreach($arResult['ITEMS'] as &$arItem){
-		$arItem['PREVIEW_TEXT']=\core\types\VString::truncate($arItem['PREVIEW_TEXT'], 70, '...');
+		$arItem['PREVIEW_TEXT']=\core\types\VString::truncate($arItem['PREVIEW_TEXT'], 70, '...').'<span></span>';
 
 		if(!empty($arItem['ACTIVE_FROM']))
 			$arItem['ACTIVE_FROM']=date('d.m.Y',strtotime($arItem['ACTIVE_FROM']));
