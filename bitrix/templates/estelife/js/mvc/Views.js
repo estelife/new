@@ -1,5 +1,6 @@
 define(['tpl/Template'],function(Template){
 	var Views={},
+		cash=[],
 		Events=[];
 
 	/**
@@ -271,7 +272,7 @@ define(['tpl/Template'],function(Template){
 	Views.Filter=Views.Default.extend({
 		el:document.createElement('form'),
 		render:function(){
-			if(_.isObject(this.data)){
+			if(_.isObject(this.data) && this.data.filter){
 				var ob=this;
 
 				this.template.ready(function(){
@@ -283,9 +284,12 @@ define(['tpl/Template'],function(Template){
 						'type':'update'
 					})
 				});
-			}
+				cash['filter'] = this;
 
-			return this;
+				return this;
+			}else{
+				return cash['filter'];
+			}
 		}
 	});
 
@@ -296,7 +300,7 @@ define(['tpl/Template'],function(Template){
 	Views.Advert=Views.Default.extend({
 		el:null,
 		render:function(){
-			if(_.isString(this.data)){
+			if(_.isString(this.data) && this.data!=null){
 				this.$el=$('<div></div>').addClass('adv');
 
 				if(this.className)
@@ -304,8 +308,12 @@ define(['tpl/Template'],function(Template){
 
 				this.$el.append(this.data);
 				this.el=this.$el[0];
+				cash['advert'] = this;
+
+				return this;
+			}else{
+				return cash['advert'];
 			}
-			return this;
 		}
 	});
 

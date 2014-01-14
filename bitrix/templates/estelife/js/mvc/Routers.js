@@ -1,5 +1,6 @@
 define(['mvc/Models','mvc/Views'],function(Models,Views){
-	var Routers={};
+	var Routers={},
+		lctn;
 	Routers.Default=Backbone.Router.extend({
 		routes: {
 			'':'homePage',
@@ -30,6 +31,26 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			'pt:number/': 'podcastDetail',
 			'ar:number/': 'articlesDetail',
 			'ns:number/': 'newsDetail'
+		},
+
+		getShortPages:function(pages, pageNum){
+			var newPages=new Array();
+			if (lctn == location.pathname){
+
+				if (pageNum instanceof Array){
+					var i;
+					for (i=0; i<pageNum.length; i++){
+						newPages[i] = pages[pageNum[i]];
+					}
+				}else{
+					newPages = [pages[pageNum]];
+				}
+			}else{
+				newPages = pages;
+			}
+			lctn=location.pathname;
+
+			return newPages;
 		},
 
 		newsList:function(param){
@@ -164,11 +185,14 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 
 		clinicList: function(){
 			(new Models.Inner(null,{
-				pages:[
-					'clinics/'+EL.query().toString(),
-					'clinics_filter/'+EL.query().toString(),
-					'banner/'
-				],
+				pages: this.getShortPages(
+					[
+						'clinics/'+EL.query().toString(),
+						'clinics_filter/'+EL.query().toString(),
+						'banner/'
+					],
+					0
+				),
 				view:new Views.WrapContent({
 					views:[
 						new Views.SEO(),
@@ -200,11 +224,14 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 
 		promotionList: function(){
 			var model=new Models.Inner(null,{
-				pages:[
-					'promotions/'+EL.query().toString(),
-					'promotions_filter/'+EL.query().toString(),
-					'banner/'
-				],
+				pages:this.getShortPages(
+					[
+						'promotions/'+EL.query().toString(),
+						'promotions_filter/'+EL.query().toString(),
+						'banner/'
+					],
+					0
+				),
 				view:new Views.WrapContent({
 					views:[
 						new Views.SEO(),
@@ -237,11 +264,14 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 
 		preparationsMakersList: function(){
 			var model=new Models.Inner(null,{
-				pages:[
-					'preparations-makers/'+EL.query().toString(),
-					'preparations_makers_filter/'+EL.query().toString(),
-					'banner/'
-				],
+				pages:this.getShortPages(
+					[
+						'preparations-makers/'+EL.query().toString(),
+						'preparations_makers_filter/'+EL.query().toString(),
+						'banner/'
+					],
+					0
+				),
 				view:new Views.WrapContent({
 					views:[
 						new Views.SEO(),
@@ -274,11 +304,14 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 
 		apparatusesMakersList: function(){
 			var model=new Models.Inner(null,{
-				pages:[
-					'apparatuses-makers/'+EL.query().toString(),
-					'apparatuses_makers_filter/'+EL.query().toString(),
-					'banner/'
-				],
+				pages:this.getShortPages(
+					[
+						'apparatuses-makers/'+EL.query().toString(),
+						'apparatuses_makers_filter/'+EL.query().toString(),
+						'banner/'
+					],
+					0
+				),
 				view:new Views.WrapContent({
 					views:[
 						new Views.SEO(),
@@ -311,11 +344,14 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 
 		preparationsList: function(){
 			var model=new Models.Inner(null,{
-				pages:[
-					'preparations/'+EL.query().toString(),
-					'preparations_filter/'+EL.query().toString(),
-					'banner/'
-				],
+				pages:this.getShortPages(
+					[
+						'preparations/'+EL.query().toString(),
+						'preparations_filter/'+EL.query().toString(),
+						'banner/'
+					],
+					0
+				),
 				view:new Views.WrapContent({
 					views:[
 						new Views.SEO(),
@@ -348,11 +384,14 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 
 		apparatusesList: function(){
 			var model=new Models.Inner(null,{
-				pages:[
-					'apparatuses/'+EL.query().toString(),
-					'apparatuses_filter/'+EL.query().toString(),
-					'banner/'
-				],
+				pages:this.getShortPages(
+					[
+						'apparatuses/'+EL.query().toString(),
+						'apparatuses_filter/'+EL.query().toString(),
+						'banner/'
+					],
+					0
+				),
 				view:new Views.WrapContent({
 					views:[
 						new Views.SEO(),
@@ -385,11 +424,14 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 
 		eventsList: function(){
 			var model=new Models.Inner(null,{
-				pages:[
-					'events/'+EL.query().toString(),
-					'events_filter/'+EL.query().toString(),
-					'banner/'
-				],
+				pages:this.getShortPages(
+					[
+						'events/'+EL.query().toString(),
+						'events_filter/'+EL.query().toString(),
+						'banner/'
+					],
+					0
+				),
 				view:new Views.WrapContent({
 					views:[
 						new Views.SEO(),
@@ -422,11 +464,14 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 
 		sponsorsList: function(){
 			var model=new Models.Inner(null,{
-				pages:[
-					'sponsors/'+EL.query().toString(),
-					'sponsors_filter/'+EL.query().toString(),
-					'banner/'
-				],
+				pages:this.getShortPages(
+					[
+						'sponsors/'+EL.query().toString(),
+						'sponsors_filter/'+EL.query().toString(),
+						'banner/'
+					],
+					0
+				),
 				view:new Views.WrapContent({
 					views:[
 						new Views.SEO(),
@@ -459,11 +504,14 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 
 		trainingCentersList: function(){
 			var model=new Models.Inner(null,{
-				pages:[
-					'training-centers/'+EL.query().toString(),
-					'training_centers_filter/'+EL.query().toString(),
-					'banner/'
-				],
+				pages:this.getShortPages(
+					[
+						'training-centers/'+EL.query().toString(),
+						'training_centers_filter/'+EL.query().toString(),
+						'banner/'
+					],
+					0
+				),
 				view:new Views.WrapContent({
 					views:[
 						new Views.SEO(),
@@ -496,11 +544,14 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 
 		trainingsList: function(){
 			var model=new Models.Inner(null,{
-				pages:[
-					'trainings/'+EL.query().toString(),
-					'trainings_filter/'+EL.query().toString(),
-					'banner/'
-				],
+				pages:this.getShortPages(
+					[
+						'trainings/'+EL.query().toString(),
+						'trainings_filter/'+EL.query().toString(),
+						'banner/'
+					],
+					0
+				),
 				view:new Views.WrapContent({
 					views:[
 						new Views.SEO(),

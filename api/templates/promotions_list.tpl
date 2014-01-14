@@ -6,7 +6,7 @@
 					<span class="perc"><!--$val.sale!-->%</span>
 				<?php endif; ?>
 				<a href="<!--$val.link!-->">
-					<img src="<!--$val.src!-->" alt="<!--$val.name!-->" title="<!--val.name!-->" />
+					<img src="<!--$val.src!-->" alt="<!--$val.name!-->" title="<!--$val.name!-->" />
 				</a>
 				<h3><a href="<!--$val.link!-->"><!--$val.name!--></a></h3>
 				<div class="cols prices">

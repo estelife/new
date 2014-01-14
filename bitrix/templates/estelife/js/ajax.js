@@ -519,4 +519,5 @@ require([
 		var form=$(this);
 		Functions.initFormFields(form);
 	});
+
 });

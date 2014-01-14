@@ -62,7 +62,7 @@ define(['tpl/Template','modules/Select'],function(Template,Select){
 				Select.make($(this));
 			});
 
-			$('select[data-rules]').change(function(){
+			$('body').on('change', 'select[data-rules]', function(){
 				var current=$(this),
 					val=current.val(),
 					name=current.attr('name'),
