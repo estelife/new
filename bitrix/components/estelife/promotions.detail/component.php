@@ -134,7 +134,9 @@ $arNow = time();
 //Получение похожих акций
 $obQuery = $obActions->createQuery();
 $obQuery->builder()->from('estelife_akzii', 'ea');
-$obJoin=$obQuery->builder()->join();
+$obJoin=$obQuery->builder()
+	->field('ea.*')
+	->join();
 $obJoin->_left()
 	->_from('ea', 'id')
 	->_to('estelife_akzii_types', 'akzii_id', 'eat');
@@ -147,7 +149,7 @@ $obFilter=$obQuery->builder()
 	->_gte('ea.end_date', time());
 	
 if(!empty($arResult['service']))
-	$obFilter->_in('eat.service_id', $arResult['service']);
+	$obFilter->_in('eat.service_id',$arResult['service']);
 	
 $arSimilar=$obQuery->select()->all();
 

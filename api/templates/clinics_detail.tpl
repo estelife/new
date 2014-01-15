@@ -1,6 +1,9 @@
 <!--if($detail)!-->
 	<div class="item detail company">
-		<h1><!--$detail.name!--></h1>
+		<h1>
+			<!--if($detail.recomended==1)!--><span class="checked"></span><!--endif!-->
+			<!--$detail.name!-->
+		</h1>
 		<div class="img">
 			<div class="img-in">
 				<!--$detail.logo!-->

@@ -26,6 +26,10 @@ define(function(){
 					_hide();
 					e.preventDefault();
 				});
+				shadow.click(function(e){
+					_hide();
+					e.preventDefault();
+				});
 
 				win={
 					'parent':parent,

@@ -2039,6 +2039,9 @@ li.country, span.country {
 	margin-right: 10px;
 	margin-top:-1px;
 }
+.item.detail .checked {
+	margin-top:3px;
+}
 form.search {
 	float:left;
 	width:100%;
