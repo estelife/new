@@ -146,11 +146,20 @@
 .country.k2580{
 	background-image:url('images/countries/k2580.png');
 }
+.country.k2954{
+	background-image:url('images/countries/k2954.jpg');
+}
+.country.k2999{
+	background-image:url('images/countries/k2999.jpg');
+}
 
 
-
-
-
+.country.c2999, .country .v2999 {
+	background-image:url('images/countries/c2999.jpg');
+}
+.country.c2954, .country .v2954 {
+	background-image:url('images/countries/c2954.jpg');
+}
 .country.c357, .country .v357 {
 	background-image:url('images/countries/c357.png');
 }
