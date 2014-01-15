@@ -1,6 +1,6 @@
 define(['tpl/Template'],function(Template){
 	var Views={},
-		cash=[],
+		Cache=[],
 		Events=[];
 
 	/**
@@ -284,11 +284,16 @@ define(['tpl/Template'],function(Template){
 						'type':'update'
 					})
 				});
-				cash['filter'] = this;
 
+				Cache['filter'] = this;
 				return this;
 			}else{
-				return cash['filter'];
+				var view=Cache['filter'];
+				Events.push({
+					'target':view.$el,
+					'type':'update'
+				});
+				return view;
 			}
 		}
 	});
@@ -308,11 +313,10 @@ define(['tpl/Template'],function(Template){
 
 				this.$el.append(this.data);
 				this.el=this.$el[0];
-				cash['advert'] = this;
-
+				Cache['advert']=this;
 				return this;
 			}else{
-				return cash['advert'];
+				return Cache['advert'];
 			}
 		}
 	});

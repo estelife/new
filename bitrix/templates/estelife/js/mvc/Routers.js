@@ -34,22 +34,21 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		getShortPages:function(pages, pageNum){
-			var newPages=new Array();
-			if (lctn == location.pathname){
+			var newPages=[];
 
+			if (lctn==location.pathname){
 				if (pageNum instanceof Array){
-					var i;
-					for (i=0; i<pageNum.length; i++){
+					for(var i=0; i<pageNum.length; i++){
 						newPages[i] = pages[pageNum[i]];
 					}
 				}else{
-					newPages = [pages[pageNum]];
+					newPages.push(pages[pageNum]);
 				}
 			}else{
 				newPages = pages;
 			}
-			lctn=location.pathname;
 
+			lctn=location.pathname;
 			return newPages;
 		},
 

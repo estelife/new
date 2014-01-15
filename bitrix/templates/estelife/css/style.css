@@ -1498,7 +1498,7 @@ td.prices span {
 .select .items {
 	display: none;
 	background: #FFF;
-	top: 26px;
+	top: 29px;
 	position: absolute;
 	border: 1px solid #D1D1D1;
 	left: -1px;
@@ -1517,7 +1517,7 @@ td.prices span {
 	overflow: hidden;
 	color:#2c2c2c;
 }
-.select a.value span.has-value {
+.select a.value span.has-value, .select .item.active a {
 	color:#e50364;
 }
 .select .items .item {
@@ -1544,16 +1544,16 @@ td.prices span {
 	padding: 0;
 }
 .select .arrow.active, .select .arrow:hover {
-	background-position: -161px -53px;
+	background-position: -161px -51px;
 	border-color:#e50364;
 }
 .select .arrow:hover {
 	background-color:#e50364;
-	background-position: -181px -53px;
+	background-position: -181px -51px;
 }
 .field.disabled .select .arrow {
 	border-color:#c9c9c9;
-	background-position: -203px -53px;
+	background-position: -203px -51px;
 }
 .filter .submit {
 	height:36px;

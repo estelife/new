@@ -35,7 +35,8 @@ define(function(){
 	Select=function(je,nf){
 		var jSelect=je,
 			needFilter=nf||false,
-			created,visible,select,value,list,arrow,startValue,keyupInit,
+			created,visible,select,value,
+			list,arrow,startValue,keyupInit,
 			current=this,
 			events={};
 
@@ -44,17 +45,22 @@ define(function(){
 				if(!created){
 					if(jSelect.length<=0)
 						return;
+					else if(jSelect.data('Select'))
+						jSelect.data('Select').remove();
+					else if(jSelect.next().hasClass('select')){
+						jSelect.next().remove();
+					}
 
 					select=$('<div></div>').addClass('select');
-					var jSelect_class=jSelect.attr('class'),
+					var jSelectClass=jSelect.attr('class'),
 						selected=$('<div></div>').addClass('selected');
 
 					value=(!needFilter) ?
 						$('<a href="javascript:void(0)"><span></span></a>').addClass('value') :
 						$('<input type="text" />');
 
-					if(jSelect_class!='')
-						select.addClass(jSelect_class);
+					if(jSelectClass!='')
+						select.addClass(jSelectClass);
 
 					arrow=$('<a href="javascript:void(0)"></a>').addClass('arrow');
 					list=$('<div class="items"></div>');
@@ -112,7 +118,7 @@ define(function(){
 
 					created=true;
 					visible=true;
-					jSelect.data('vapi_select',current);
+					jSelect.data('Select',current);
 
 					SelectFactory.pull_remaked.push((function(){
 						return remake;
@@ -316,6 +322,11 @@ define(function(){
 				select.fadeIn(100);
 				visible=true;
 			}
+		};
+
+		this.remove=function(){
+			select.remove();
+			jSelect.data('Select',null);
 		};
 
 		this.set=function(val){
