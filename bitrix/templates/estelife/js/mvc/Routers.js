@@ -43,7 +43,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						newPages[i] = pages[pageNum[i]];
 					}
 				}else{
-					newPages = [pages[pageNum]];
+					newPages.push(pages[pageNum]);
 				}
 			}else{
 				newPages = pages;
