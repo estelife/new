@@ -30,8 +30,8 @@
 			<p><!--$detail.detail_text!--></p>
 		</div>
 		<div class="tabs tab2 none">
-			<!--if($detail.events)!-->
-				<div class="items">
+			<div class="items">
+				<!--if($detail.events)!-->
 					<!--foreach ($detail.events as $key=>$val)!-->
 						<div class="item training">
 							<div class="item-rel">
@@ -47,8 +47,26 @@
 							<div class="border"></div>
 						</div>
 					<!--endforeach!-->
-				</div>
-			<!--endif!-->
+				<!--else!-->
+					<div class="default">
+						<h3>Текущих семинаров нет</h3>
+						<p>На текущий момент учебный центр <!--$detail.name!--> не проводит семинаров.</p>
+						<p>Однако, Вы можете оставить нам свой e-mail, и мы с радостью сообщим Вам о запуске новых семинарах от данного учебного центра.</p>
+						<form name="subscribe" method="post" action="" class="subscribe">
+							<div class="field">
+								<input type="text" name="email" class="text" placeholder="Ваш e-mail..." />
+							</div>
+							<div class="field check">
+								<input type="checkbox" name="always" value="1" id="always" />
+								<label for="always">Хочу узнавать обо всех новых семинарах, размещаемых на портале</label>
+								<input type="hidden" name="type" value="2" />
+								<input type="hidden" name="params[id]" value="<!--$detail.id!-->" />
+							</div>
+							<input type="submit" class="submit" value="Оставить" />
+						</form>
+					</div>
+				<!--endif!-->
+			</div>
 		</div>
 		<div class="tab-c tabs tab3 none">
 			<ul>

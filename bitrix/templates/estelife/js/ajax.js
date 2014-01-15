@@ -5,7 +5,7 @@ require([
 	'modules/Media',
 	'modules/Functions'
 ],function(Routers,Template,Geo,Media,Functions){
-	var body=$('body'),
+	var body=$('body');
 		Router=new Routers.Default();
 
 	$(function home(){
@@ -53,6 +53,32 @@ require([
 		Backbone.history.start({
 			'pushState':true,
 			'hashChange': false
+		});
+
+		//подписка
+		body.on('submit', 'form.subscribe', function(e){
+			var form=$('form.subscribe'),
+				data={'action':'set_subscribe'};
+			form.find('input').each(function(){
+				data[$(this).attr('name')]=$(this).val();
+			});
+			if ($('input[type=checkbox]', form).prop('checked')){
+				data['always'] = 1;
+			}else{
+				data['always'] = 0;
+			}
+			$.post('/api/estelife_ajax.php',
+				data,
+				function(r){
+				if (r.complete == 1){
+					alert('Вы успешно подписаны');
+					$('input[name=email]').val('');
+				}else{
+					alert(r.error);
+				}
+			},'json');
+
+			e.preventDefault();
 		});
 
 		//Переход на детальную страницу

@@ -379,6 +379,16 @@ try{
 			);
 			$arResult=false;
 			break;
+		case 'set_subscribe':
+			$_POST=array_merge($_POST,$arData);
+			$APPLICATION->IncludeComponent(
+				"estelife:subscribe",
+				"ajax",
+				array(),
+				false
+			);
+			$arResult=false;
+			break;
 		case 'set_city':
 			$_GET=array_merge($_GET,$arData);
 			$APPLICATION->IncludeComponent(

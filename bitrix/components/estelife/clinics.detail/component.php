@@ -10,6 +10,7 @@ $obClinics = VDatabase::driver();
 $nClinicID =  (isset($arParams['ID'])) ?
 	intval($arParams['ID']) : 0;
 
+
 //Получаем данные по клинике
 $obQuery = $obClinics->createQuery();
 $obQuery->builder()->from('estelife_clinics', 'ec');

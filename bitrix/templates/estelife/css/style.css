@@ -2315,3 +2315,47 @@ body {
 	border: none;
 	z-index:10;
 }
+
+.item.detail .default {
+	float: left;
+	width: 100%;
+}
+.item.detail .default h3 {
+	margin:5px 0 42px 0;
+}
+.item.detail .default p {
+	margin-bottom:18px;
+}
+.item.detail .default form {
+	background: #E8E8E8;
+	padding: 20px 18px 9px 18px;
+	border: 1px solid #D1D1D1;
+	overflow: hidden;
+}
+.item.detail .default form .field {
+	float:left;
+}
+.item.detail .default form .field.check {
+	float: right;
+	width: 459px;
+}
+.item.detail .default form .field.check input {
+	float: left;
+	margin-top: 8px;
+}
+.item.detail .default form .field.check label {
+	float: right;
+	width: 438px;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 32px;
+}
+.item.detail .default form input.text {
+	width: 184px;
+}
+.item.detail .default form .submit {
+	margin-top: 10px;
+	float: left;
+	width: 210px;
+	height: 29px;
+}
