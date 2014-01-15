@@ -7,7 +7,7 @@
 	</ul>
 	<div class="wrap_item">
 		<div class="item detail company">
-			<h1><?=$arResult['clinic']['name']?></h1>
+			<h1><?php if ($arResult['clinic']["recomended"] == 1):?><span class="checked"></span><?php endif?><?=$arResult['clinic']['name']?></h1>
 			<div class="img">
 				<div class="img-in">
 					<?=$arResult['clinic']['logo']?>
@@ -114,7 +114,20 @@
 								</div>
 							<?php endforeach; ?>
 						<?php else:?>
-							<h2>Нет доступных акций</h2>
+							<div class="default">
+								<h3>Текущих акций нет</h3>
+								<p>На текущий момент Клиника <?=$arResult['clinic']['name']?> не проводит акций.</p>
+								<p>Однако, Вы можете оставить нам свой e-mail, и мы с радостью сообщим Вам о запуске новых акций от данной клиники.</p>
+								<?$APPLICATION->IncludeComponent(
+									"estelife:subscribe",
+									"",
+									array(
+										'params'=>array('id'=>$arResult['clinic']['id']),
+										'type'=>1,
+										'text'=>'Хочу узнавать обо всех новых акциях, размещаемых на портале'
+									)
+								)?>
+							</div>
 						<?php endif?>
 					</div>
 				</div>

@@ -37,25 +37,40 @@
 				<p><?=$arResult['company']['detail_text']?></p>
 			</div>
 			<div class="tabs tab2 none">
-				<?php if (!empty($arResult['company']['events'])):?>
-					<div class="items">
-					<?php foreach ($arResult['company']['events'] as $val):?>
-						<div class="item training">
-							<div class="item-rel">
-								<h2><a href="<?=$val['link']?>"><?=$val['name']?></a></h2>
-								<p><?=$val['preview_text']?></p>
-								Период проведения: <b><?=$val['first_period']['from']?>
-									<?php if(!empty($val['first_period']['to'])):?>
-										-
-										<?=$val['first_period']['to']?>
-									<?php endif; ?></b><br>
-								<span class="date"><?=$val["first_date"]?></span>
+				<div class="items">
+					<?php if (!empty($arResult['company']['events'])):?>
+						<?php foreach ($arResult['company']['events'] as $val):?>
+							<div class="item training">
+								<div class="item-rel">
+									<h2><a href="<?=$val['link']?>"><?=$val['name']?></a></h2>
+									<p><?=$val['preview_text']?></p>
+									Период проведения: <b><?=$val['first_period']['from']?>
+										<?php if(!empty($val['first_period']['to'])):?>
+											-
+											<?=$val['first_period']['to']?>
+										<?php endif; ?></b><br>
+									<span class="date"><?=$val["first_date"]?></span>
+								</div>
+								<div class="border"></div>
 							</div>
-							<div class="border"></div>
+						<?php endforeach?>
+					<?php else:?>
+						<div class="default">
+							<h3>Текущих семинаров нет</h3>
+							<p>На текущий момент учебный центр <?=$arResult['company']['name']?> не проводит семинаров.</p>
+							<p>Однако, Вы можете оставить нам свой e-mail, и мы с радостью сообщим Вам о запуске новых семинарах от данного учебного центра.</p>
+							<?$APPLICATION->IncludeComponent(
+								"estelife:subscribe",
+								"",
+								array(
+									'params'=>array('id'=>$arResult['company']['id']),
+									'type'=>2,
+									'text'=>'Хочу узнавать обо всех новых семинарах, размещаемых на портале'
+								)
+							)?>
 						</div>
-					<?php endforeach?>
-					</div>
-				<?php endif?>
+					<?php endif?>
+				</div>
 			</div>
 			<div class="tab-c tabs tab3 none">
 				<ul>

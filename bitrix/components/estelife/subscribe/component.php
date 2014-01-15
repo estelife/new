@@ -1,148 +1,69 @@
 <?php
+use core\database\VDatabase;
+use core\exceptions\VException;
+use core\types\VString;
+
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
+$arData=array();
+if (isset($_REQUEST) && !empty($_REQUEST)){
+	CModule::IncludeModule("estelife");
+	try{
+	//обработка формы
+	if (empty($_POST['email']))
+		throw new VException("Укажите email");
+	else
+		$arData['email']=strip_tags(trim($_POST['email']));
 
-if(!IsModuleInstalled("subscribe"))
-{
-	ShowError(GetMessage("SUBSCR_MODULE_NOT_INSTALLED"));
-	return;
-}
-CModule::IncludeModule("subscribe");
-$obSubscription = new CSubscription;
+	if (!VString::isEmail($arData['email']))
+		throw new VException("Email введен некорректно");
 
-if(!isset($arParams["CACHE_TIME"]))
-	$arParams["CACHE_TIME"] = 3600;
-if($arParams["CACHE_TYPE"] == "N" || ($arParams["CACHE_TYPE"] == "A" && COption::GetOptionString("main", "component_cache_on", "Y") == "N"))
-	$arParams["CACHE_TIME"] = 0;
-	
-
-if(!CModule::IncludeModule("subscribe"))
-{
-	ShowError(GetMessage("SUBSCR_MODULE_NOT_INSTALLED"));
-	return;
-}
-//Получение подписки авторизованного пользователя
-if (!$USER->IsAuthorized()){
-	$arEmail = $arParams['EMAIL'];
-}else{
-	$arEmail = $USER->GetEmail();
-}
-
-
-$arSubscription = CSubscription::GetByEmail($arEmail)->Fetch();
-$arSubID = $arSubscription['ID'];
-//Получение массива рассылок
-$arResult['sub'] = CSubscription::GetRubricArray($arSubID);
-
-
-//Обработка запроса на подписку
-if($arParams['ACTION'] == 'update'){
-
-	if (!empty($arParams["RUB_ID"])){
-		$arRUB_ID = explode('_', $arParams["RUB_ID"]);
+	if (isset($_POST['always']) && intval($_POST['always'])==1)
+		$arData['filter'] = '';
+	else{
+		if (!empty($_POST['params']))
+			$arData['filter'] = serialize($_POST['params']);
 	}
-	
-	$arNewRubrics = array();
-	if(is_array($arRUB_ID))
-	{
-		foreach($arRUB_ID as $rub_id)
-		{
-			$rub_id = intval($rub_id);
-			if($rub_id > 0)
-				$arNewRubrics[$rub_id] = $rub_id;
-		}
-	}
+	$arData['active'] = 1;
 
-	//удаляем подписку если она есть, и мы ничего не выбрали
-	if (count($arNewRubrics) <= 0){
-		if (!empty($arSubscription)){
-			$rs = $obSubscription->Delete($arSubscription["ID"]);
-			if(!$rs){
-				$arResult["ERRORS"][] = GetMessage("CC_BSS_DELETE_ERROR");
-				$arResult["subscribe"][] = $obSubscription->LAST_ERROR;
-			}else{
-				$_SESSION["subscribe.simple.message"] = GetMessage("CC_BSS_UPDATE_SUCCESS");
-				$arResult["subscribe"] = 'subscribe_delete';
-			}
-		}
+	if (empty($_POST['type']))
+		throw new VException("Тип не указан");
+	else
+		$arData['type'] = $_POST['type'];
+
+	$obSubscribe = VDatabase::driver();
+
+	//Проверка на существование подписки
+	$obQuery=$obSubscribe->createQuery();
+	$obQuery->builder()->from('estelife_subscribe')
+		->filter()
+			->_eq('email', $arData['email'])
+			->_eq('type', $arData['type']);
+	$arSubs = $obQuery->select()->assoc();
+
+	$obQuery=$obSubscribe->createQuery();
+	$obQuery->builder()->from('estelife_subscribe')
+		->value('email', $arData['email'])
+		->value('type', $arData['type'])
+		->value('filter', $arData['filter'])
+		->value('active', $arData['active']);
+	if (!empty($arSubs) && $arSubs['id']>0){
+		$obQuery->builder()->filter()
+			->_eq('id',$arSubs['id']);
+		$obQuery->update();
+		$nSubs = $arSubs['id'];
 	}else{
-	//Добавляем новые рассылки на подписку
-		if (!empty($arSubscription)){
-			$rs = $obSubscription->Update(
-				$arSubscription["ID"],
-				array(
-					"FORMAT" => "html",
-					"RUB_ID" => $arNewRubrics,
-				),
-				false
-			);
-
-			if(!$rs){
-				$arResult["ERRORS"][] = $obSubscription->LAST_ERROR;
-				$arResult["subscribe"][] = $obSubscription->LAST_ERROR;
-			}else{
-				$_SESSION["subscribe.simple.message"] = GetMessage("CC_BSS_UPDATE_SUCCESS");
-				$arResult["subscribe"] = 'subscribe_update';
-			}
-		}else{
-			$ID = $obSubscription->Add(array(
-				"USER_ID" => ($USER->IsAuthorized()? $USER->GetID():false),
-				"ACTIVE" => "Y",
-				"EMAIL" => $arEmail,
-				"FORMAT" => "html",
-				"CONFIRMED" => "Y",
-				"SEND_CONFIRM" => "N",
-				"RUB_ID" => $arNewRubrics,
-			));
-
-			if(!$ID){
-				$arResult["ERRORS"][] = $obSubscription->LAST_ERROR;
-				$arResult["subscribe"][] = $obSubscription->LAST_ERROR;
-			}else{
-				$_SESSION["subscribe.simple.message"] = GetMessage("CC_BSS_UPDATE_SUCCESS");
-				$arResult["subscribe"] = 'subscribe_insert';
-			}
-		}
+		$nSubs = $obQuery->insert()->insertId();
 	}
 
-//	if(count($arResult["ERRORS"]) <= 0)
-//	{
-//		LocalRedirect($APPLICATION->GetCurPageParam());
-//	}
-}
+	if ($nSubs>0)
+		$arResult['complete']=1;
+	else
+		$arResult['complete']=0;
 
-//Получение списка подписок
-$obCache = new CPHPCache;
-$strCacheID = LANG.$arParams["SHOW_HIDDEN"];
-if($obCache->StartDataCache($arParams["CACHE_TIME"], $strCacheID, "/".SITE_ID.$this->GetRelativePath()))
-{
-	if(!CModule::IncludeModule("subscribe"))
-	{
-		$obCache->AbortDataCache();
-		ShowError(GetMessage("SUBSCR_MODULE_NOT_INSTALLED"));
-		return;
+	$arResult['error']=null;
+	}catch(VException $e){
+		$arResult['error'] = $e->getMessage();
+		$arResult['complete']=0;
 	}
-
-	$arFilter = array("ACTIVE"=>"Y", "LID"=>LANG);
-	if(!$arParams["SHOW_HIDDEN"])
-		$arFilter["VISIBLE"]="Y";
-	$rsRubric = CRubric::GetList(array("SORT"=>"ASC", "NAME"=>"ASC"), $arFilter);
-	$arRubrics = array();
-	while($arRubric = $rsRubric->GetNext())
-	{
-		$arRubrics[]=$arRubric;
-	}
-	$obCache->EndDataCache($arRubrics);
 }
-else
-{
-	$arRubrics = $obCache->GetVars();
-}
-
-if(count($arRubrics)<=0)
-{
-	ShowError(GetMessage("SUBSCR_NO_RUBRIC_FOUND"));
-	return;
-}
-$arResult["RUBRICS"] = $arRubrics;
-
 $this->IncludeComponentTemplate();
