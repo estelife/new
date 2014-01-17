@@ -172,13 +172,15 @@ $(function(){
 
 			active.each(function(){
 				var t=$(this).clone(true);
-				//t.find('input').remove();
+				console.log(t.html());
 				temp.push(t.html());
 			});
 
 			var spec=active.eq(0).attr('data-id'),
 				serv=active.eq(1).attr('data-id'),
-				cserv=active.eq(2).attr('data-id');
+				cserv=(active.length==4) ?
+					active.eq(3).attr('data-id') :
+					active.eq(2).attr('data-id');
 
 			if(sl.find('[data-cservice='+cserv+']').length>0)
 				return false;
@@ -196,27 +198,31 @@ $(function(){
 					var uls=prnt.parent().find('ul'),
 						ul=(cls=='specialization' ? uls.filter('.service') : uls.filter('.service_concreate')),
 						frm_prnt=forms.find('[data-action='+cls+']').next(),
-						currents=[];
+						currents=[],
+						currentPrices=[];
 
 					ul.empty();
 					if(cls=='specialization')
 						ul.next().empty();
 
-					if(cls=='service'){
+					if(cls=='service' || cls=='methods'){
 						var sl=$('.estelife-services .selected');
 						sl.find('li').each(function(){
 							currents.push($(this).attr('data-cservice'))
+							currentPrices.push($(this).find('input[type=text]').val());
 						});
 					}
+
+					var current;
 
 					for(var i=0; i<r.list.length; i++){
 						ul.append('<li><a href="#" data-id="'+ r.list[i].id+'">'+ r.list[i].name+'</a></li>');
 
-						if($.inArray(r.list[i].id,currents)>-1)
+						if((current=$.inArray(r.list[i].id,currents))>-1){
 							ul.find('li:last a').addClass('active');
-
-						if(cls=='service')
-							ul.find('li:last a').append('<input type="text" name="service_price['+r.list[i].id+']" value="" />');
+							ul.find('li:last a').append('<input type="text" name="service_price['+r.list[i].id+']" value="'+currentPrices[current]+'" />');
+						}else if(cls=='service' || cls=='methods')
+							ul.find('li:last a').append('<input type="text" name="service_price['+r.list[i].id+']" value="0.00" />');
 					}
 
 					prnt.find('.active').removeClass('active');

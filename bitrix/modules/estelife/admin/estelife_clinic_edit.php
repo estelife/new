@@ -74,7 +74,9 @@ if(!empty($ID) || !empty($CLINIC_ID)){
 
 	$obQuery=$obClinics->createQuery();
 	$obQuery->builder()->from('estelife_clinic_services','ecs');
-	$obJoin=$obQuery->builder()->join();
+	$obJoin=$obQuery->builder()
+		->sort('ecs.id','asc')
+		->join();
 	$obJoin->_left()
 		->_from('ecs','specialization_id')
 		->_to('estelife_specializations','id','es');
@@ -118,7 +120,15 @@ if(!empty($ID) || !empty($CLINIC_ID)){
 	$obQuery->builder()->filter()->_eq('clinic_id',$arResult['clinic']['id']);
 	$obResult=$obQuery->select();
 	$arHours=$obResult->all();
-	$arTemp=array(1=>array(),2=>array(),3=>array(),4=>array(),5=>array(),6=>array(),7=>array());
+	$arTemp=array(
+		1=>array(),
+		2=>array(),
+		3=>array(),
+		4=>array(),
+		5=>array(),
+		6=>array(),
+		7=>array()
+	);
 
 	if(!empty($arHours)){
 		foreach($arHours as $arHour){

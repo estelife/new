@@ -82,24 +82,18 @@ require([
 		});
 
 		//Переход на детальную страницу
-		body.on('click', '.items .item', function(e){
+		body.on('click', '.items .item, .general-news .col1, .general-news .col2 .img', function(e){
 			var target=$(e.target),
-				link=$(this).find('a:first').attr('href')||'',
-				parentTag=target.parent()[0].tagName;
+				currentTag=target[0].tagName,
+				parentTag=target.parent()[0].tagName,
+				link=(currentTag=='A') ?
+					target.attr('href') :
+					$(this).find('a:first').attr('href');
 
-			if((target[0].tagName!='A' && link.length>0) || ['H1','H2','H3'].inArray(parentTag)>-1){
+			if((currentTag!='A' && link && link.length>0) || ['H1','H2','H3'].inArray(parentTag)>-1){
 				Router.navigate(link,{trigger: true});
 				EL.goto($('.main_menu'));
 				e.preventDefault();
-			}
-		});
-
-		body.on('click', '.col2 .img', function(e){
-			var target= $(e.target),
-				link = $(this).find('a:first').attr('href')||'';
-
-			if(target[0].tagName!='A' && link.length>0){
-				document.location.href=link;
 			}
 		});
 
@@ -543,7 +537,40 @@ require([
 
 	body.on('update', 'form.filter', function(){
 		var form=$(this);
-		Functions.initFormFields(form);
+		Functions.initFilter(form);
 	});
 
+	var toTop=$('.to-top'),
+		min=200,
+		max=1000;
+
+	toTop.click(function(){
+		EL.goto();
+		return false;
+	});
+
+	changeOpacityByScroll($(document).scrollTop());
+	$(document).scroll(function(){
+		changeOpacityByScroll($(this).scrollTop());
+	});
+
+	function changeOpacityByScroll(scroll){
+		if(scroll>=min && scroll<=max){
+			if(toTop.is(':hidden')){
+				toTop.css({
+					'display':'block',
+					'opacity':0
+				});
+			}
+
+			if(scroll<max)
+				toTop.css('opacity',parseFloat(scroll/(max-min)).toFixed(1));
+		}else if(scroll>max){
+			toTop.css({
+				'display':'block',
+				'opacity':1
+			});
+		}else if(scroll<min && toTop.is(':visible'))
+			toTop.css('display','none');
+	}
 });

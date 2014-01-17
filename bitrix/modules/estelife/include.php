@@ -63,10 +63,5 @@ CModule::AddAutoloadClasses(
 		//bitrix
 		'bitrix\VNavigation'=>"classes/bitrix/class.VNavigation.php",
 		'bitrix\ERESULT'=>"classes/bitrix/class.ERESULT.php",
-
-		// orm
-		'orm\items\VItem' => "classes/orm/items/class.VItem.php",
-		'orm\items\VClinic' => 'classes/orm/items/class.VClinic.php',
-		'orm\VEntities' => 'classes/orm/class.VEntities.php'
 	)
 );

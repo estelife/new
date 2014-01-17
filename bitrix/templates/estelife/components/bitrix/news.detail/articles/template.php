@@ -42,7 +42,15 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 			</div>
 			<?=$arResult["DETAIL_TEXT"];?>
 			<div class="info">
-				<?$APPLICATION->IncludeComponent("estelife:social.estelife","",array());?>
+				<ul class="stat">
+					<li><a href="#" class="likes">0<i></i></a></li>
+					<li><a href="#" class="unlikes">0<i></i></a></li>
+				</ul>
+				<div class="social cols">
+					<span>Поделиться: </span>
+					<a href="#" class="vk">ВКонтакте</a>
+					<a href="#" class="fb">Facebook</a>
+				</div>
 				<div class="author cols">
 					<?php if (!empty($arResult['PROPERTIES']['SOURCE']['VALUE'])):?>
 					Автор статьи

@@ -10,11 +10,11 @@ echo json_encode(array(
 			'link'=>'/'
 		),
 		array(
-			'name'=>'Акции',
-			'link'=>'/promotions/'
+			'name'=>'Акции'.($arResult['action']['clinics']['city_id']==359 ? ' Москвы' : ($arResult['action']['clinics']['city_id']==358 ? ' Санкт-Петербурга' : '')),
+			'link'=>'/promotions/'.($arResult['action']['clinics']['city_id']==359 ? '?city=359' : ($arResult['action']['clinics']['city_id']==358 ? '?city=358' : ''))
 		),
 		array(
-			'name'=>$arResult['action']['name'],
+			'name'=>$arResult['action']['preview_text'],
 			'link'=>'#'
 		)
 	),
