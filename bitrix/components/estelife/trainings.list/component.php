@@ -2,6 +2,7 @@
 use core\database\VDatabase;
 use core\database\VFilter;
 use core\types\VArray;
+use core\types\VString;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 CModule::IncludeModule("iblock");
@@ -126,6 +127,9 @@ $obQuery->builder()->group('ee.id');
 $obResult = $obQuery->select();
 
 $obResult = $obResult->bxResult();
+$nCount = $obResult->SelectedRowsCount();
+$arResult['count'] = 'Найден'.VString::spellAmount($nCount, ',о,о'). ' '.$nCount.' семинар'.VString::spellAmount($nCount, ',а,ов');
+\bitrix\ERESULT::$DATA['count'] = $arResult['count'];
 $obResult->NavStart($arPageCount);
 
 $arResult['training'] = array();

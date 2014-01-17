@@ -20,6 +20,7 @@ echo json_encode(array(
 			)
 		)
 	),
+	'count'=>$arResult['count'],
 	'crumb'=>array(
 		array(
 			'name'=>'Главная',

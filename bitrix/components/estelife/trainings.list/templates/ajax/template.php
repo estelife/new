@@ -13,6 +13,7 @@ echo json_encode(array(
 		'title'=>$APPLICATION->GetPageProperty('title'),
 		'description'=>$APPLICATION->GetPageProperty('description')
 	),
+	'count'=>$arResult['count'],
 	'crumb'=>array(
 		array(
 			'name'=>'Главная',

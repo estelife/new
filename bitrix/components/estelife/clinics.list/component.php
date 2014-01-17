@@ -2,6 +2,7 @@
 use core\database\mysql\VFilter;
 use core\database\VDatabase;
 use core\types\VArray;
+use core\types\VString;
 use geo\VGeo;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
@@ -103,6 +104,10 @@ $obQuery->builder()->sort('ec.name', 'asc');
 $obResult = $obQuery->select();
 
 $obResult = $obResult->bxResult();
+$nCount = $obResult->SelectedRowsCount();
+$arResult['count'] = 'Найден'.VString::spellAmount($nCount, 'а,о,о'). ' '.$nCount.' клиник'.VString::spellAmount($nCount, 'а,и,');
+\bitrix\ERESULT::$DATA['count'] = $arResult['count'];
+
 $obResult->NavStart($arPageCount);
 $arResult['clinics']=array();
 

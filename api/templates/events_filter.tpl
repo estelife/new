@@ -1,7 +1,9 @@
 <form name="events" class="filter" method="get" action="/events/" >
 	<div class="title">
 		<h4>Поиск событий</h4>
-		<!--<span>Найдено 6 акций</span>-->
+		<!--if($count)!-->
+			<span class="count-result"><!--$count!--></span>
+		<!--endif!-->
 	</div>
 	<div class="field">
 		<label for="name">Наименование</label>

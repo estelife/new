@@ -300,12 +300,12 @@ require([
 			);
 			e.preventDefault();
 		}).on('click','form.filter a.clear',function(e){
-			var href=$(this).attr('href');
-			Router.navigate(
-				href,
-				{trigger: true}
-			);
-			e.preventDefault();
+//			var href=$(this).attr('href');
+//			Router.navigate(
+//				href,
+//				{trigger: true}
+//			);
+//			e.preventDefault();
 		}).on('click','.logo',function(e){
 			Router.navigate(
 				$(this).attr('href'),

@@ -1,6 +1,7 @@
 <?php
 use core\database\VDatabase;
 use core\types\VArray;
+use core\types\VString;
 use geo\VGeo;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
@@ -116,6 +117,9 @@ if(!empty($arCount)){
 	unset($arActions);
 }else{
 	$obResult=$obResult->bxResult();
+	$nCount = $obResult->SelectedRowsCount();
+	$arResult['count'] = 'Найден'.VString::spellAmount($nCount, 'а,о,о'). ' '.$nCount.' акц'.VString::spellAmount($nCount, 'я,ии,ий');
+	\bitrix\ERESULT::$DATA['count'] = $arResult['count'];
 	$obResult->NavStart($arPageCount);
 
 	while($arData=$obResult->Fetch()){

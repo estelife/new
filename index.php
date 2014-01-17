@@ -64,17 +64,16 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 		"estelife:articles.list",
 		"",
 		array(
-			"IBLOCK_ID"=>14,
-			"SECTIONS_ID"=> array(194,195,196,197),
-			"SECTIONS_NAME"=> array("Красивое лицо", "Идеальное тело", "Изящные ручки", "Прекрасные ножки"),
+			"IBLOCK_ID"=>3,
+			"SECTIONS_ID"=> array(172,173,176,177),
+			"SECTIONS_NAME"=> array("Косметология", "Пластическая хирургия", "Косметика", "Обо всем"),
 			"NEWS_COUNT" => 4,
 			"NEED_SECTION" => "N",
-			"MAIN_URL" => "articles",
-			"TITLE"=>"Советы о красоте",
-			"MORE_TITLE"=>"Больше советов о красоте",
-			"IMG_FIELD" => 151,
-			"ANONS_FIELD"=> 175,
-			"PREFIX" => "ar"
+			"MAIN_URL" => "novosti",
+			"TITLE"=>"Новости сферы",
+			"MORE_TITLE"=>"Архив новостей",
+			"IMG_FIELD" =>145,
+			"PREFIX" => "ns"
 		)
 	)?>
 	<div class="adv bottom">
@@ -114,6 +113,23 @@ $APPLICATION->IncludeComponent(
 			"MORE_TITLE"=>"Архив новостей",
 			"IMG_FIELD" =>145,
 			"PREFIX" => "ns"
+		)
+	)?>
+	<?$APPLICATION->IncludeComponent(
+		"estelife:articles.list",
+		"",
+		array(
+			"IBLOCK_ID"=>14,
+			"SECTIONS_ID"=> array(194,195,196,197),
+			"SECTIONS_NAME"=> array("Красивое лицо", "Идеальное тело", "Изящные ручки", "Прекрасные ножки"),
+			"NEWS_COUNT" => 4,
+			"NEED_SECTION" => "N",
+			"MAIN_URL" => "articles",
+			"TITLE"=>"Советы о красоте",
+			"MORE_TITLE"=>"Больше советов о красоте",
+			"IMG_FIELD" => 151,
+			"ANONS_FIELD"=> 175,
+			"PREFIX" => "ar"
 		)
 	)?>
 </div>

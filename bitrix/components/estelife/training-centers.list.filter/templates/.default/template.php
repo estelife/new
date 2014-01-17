@@ -2,7 +2,7 @@
 <form name="training-centers" class="filter" method="get" action="/training-centers/" >
 	<div class="title">
 		<h4>Поиск учебного центра</h4>
-		<!--		<span>Найдено 6 акций</span>-->
+		<span class="count-result"><?=$arResult['count']?></span>
 	</div>
 	<div class="field">
 		<label for="name">Наименование</label>

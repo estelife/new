@@ -1,12 +1,13 @@
 <?php if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
 <ul class="menu main_menu">
 	<li><a href="#" class="empty_link">Точка зрения</a>
-		<ul class="submenu">
-			<li><a href="/podcast/express-uhod/">Экспресс-уход</a></li>
-			<li><a href="/podcast/vnimanie-k-detalyam/">Внимание к деталям</a></li>
-			<li><a href="/podcast/gotovimsya-k-prazdniku/">Готовимся к празднику</a></li>
-			<li><a href="/podcast/oshibki-v-ukhode/">Ошибки в уходе</a></li>
-		</ul>
+		<?php if (!empty($arResult['tz'])):?>
+			<ul class="submenu">
+				<?php foreach ($arResult['tz'] as $val):?>
+					<li><a href="/podcast/<?=$val['CODE']?>/"><?=$val['NAME']?></a></li>
+				<?php endforeach?>
+			</ul>
+		<?php endif?>
 	</li>
 	<li><a href="#" class="empty_link">Косметология</a>
 		<ul class="submenu">

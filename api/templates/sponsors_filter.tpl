@@ -1,7 +1,9 @@
 <form name="sponsors" class="filter" method="get" action="/sponsors/" >
 	<div class="title">
 		<h4>Поиск организатора</h4>
-		<!--		<span>Найдено 6 акций</span>-->
+		<!--if($count)!-->
+			<span class="count-result"><!--$count!--></span>
+		<!--endif!-->
 	</div>
 	<div class="field">
 		<label for="name">Наименование</label>

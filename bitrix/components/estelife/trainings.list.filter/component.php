@@ -45,6 +45,8 @@ $arResult['filter']=array(
 	'date_to'=>$obGet->one('date_to','')
 );
 
+$arResult['count'] = \bitrix\ERESULT::$DATA['count'];
+
 $arResult['empty']=false;
 foreach ($arResult['filter'] as $key=>$val){
 	if (($val=='' && $val==0) || $val=='all')

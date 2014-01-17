@@ -503,7 +503,7 @@ ul.stat {
 	height:220px;
 	margin:71px 0 0 0;
 }
-ul.stat li {
+.content ul.stat li {
 	padding-left:20px;
 	margin-right:15px;
 	position: relative;
@@ -1435,6 +1435,9 @@ td.prices span {
 .filter .field {
 	margin-bottom:10px;
 	position: relative;
+}
+.filter .count-result b{
+	font-weight: normal;
 }
 .field label {
 	font-weight:bold;

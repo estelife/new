@@ -1,7 +1,9 @@
 <form name="clinics" class="filter" method="get" action="/clinics/" >
 	<div class="title">
 		<h4>Поиск клиники</h4>
-		<!--<span>Найдено 6 акций</span>-->
+		<!--if($count)!-->
+			<span class="count-result"><!--$count!--></span>
+		<!--endif!-->
 	</div>
 	<div class="field">
 		<label for="name">Наименование</label>

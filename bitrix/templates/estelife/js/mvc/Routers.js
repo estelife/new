@@ -157,7 +157,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Component({
 									template:'home_articles',
-									dataKey:'ARTICLES'
+									dataKey:'NEWS'
 								}),
 								new Views.Advert({
 									className:'adv bottom',
@@ -173,7 +173,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 							views:[
 								new Views.Component({
 									template:'home_articles',
-									dataKey:'NEWS'
+									dataKey:'ARTICLES'
 								})
 							]
 						})
@@ -190,7 +190,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						'clinics_filter/'+EL.query().toString(),
 						'banner/'
 					],
-					0
+					[0,1]
 				),
 				view:new Views.WrapContent({
 					views:[
@@ -229,7 +229,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						'promotions_filter/'+EL.query().toString(),
 						'banner/'
 					],
-					0
+					[0,1]
 				),
 				view:new Views.WrapContent({
 					views:[
@@ -269,7 +269,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						'preparations_makers_filter/'+EL.query().toString(),
 						'banner/'
 					],
-					0
+					[0,1]
 				),
 				view:new Views.WrapContent({
 					views:[
@@ -309,7 +309,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						'apparatuses_makers_filter/'+EL.query().toString(),
 						'banner/'
 					],
-					0
+					[0,1]
 				),
 				view:new Views.WrapContent({
 					views:[
@@ -349,7 +349,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						'preparations_filter/'+EL.query().toString(),
 						'banner/'
 					],
-					0
+					[0,1]
 				),
 				view:new Views.WrapContent({
 					views:[
@@ -389,7 +389,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						'apparatuses_filter/'+EL.query().toString(),
 						'banner/'
 					],
-					0
+					[0,1]
 				),
 				view:new Views.WrapContent({
 					views:[
@@ -429,7 +429,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						'events_filter/'+EL.query().toString(),
 						'banner/'
 					],
-					0
+					[0,1]
 				),
 				view:new Views.WrapContent({
 					views:[
@@ -469,7 +469,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						'sponsors_filter/'+EL.query().toString(),
 						'banner/'
 					],
-					0
+					[0,1]
 				),
 				view:new Views.WrapContent({
 					views:[
@@ -509,7 +509,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						'training_centers_filter/'+EL.query().toString(),
 						'banner/'
 					],
-					0
+					[0,1]
 				),
 				view:new Views.WrapContent({
 					views:[
@@ -549,7 +549,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						'trainings_filter/'+EL.query().toString(),
 						'banner/'
 					],
-					0
+					[0,1]
 				),
 				view:new Views.WrapContent({
 					views:[

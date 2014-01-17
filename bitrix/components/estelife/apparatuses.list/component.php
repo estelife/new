@@ -2,6 +2,8 @@
 use core\database\mysql\VFilter;
 use core\database\VDatabase;
 use core\types\VArray;
+use core\types\VString;
+
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	die();
 
@@ -82,6 +84,10 @@ $obQuery->builder()->sort('ap.name', 'asc');
 $obResult = $obQuery->select();
 
 $obResult = $obResult->bxResult();
+$nCount = $obResult->SelectedRowsCount();
+$arResult['count'] = 'Найден'.VString::spellAmount($nCount, ',о,о'). ' '.$nCount.' аппарат'.VString::spellAmount($nCount, ',а,ов');
+\bitrix\ERESULT::$DATA['count'] = $arResult['count'];
+
 $obResult->NavStart($arPageCount);
 $arResult['apps'] = array();
 

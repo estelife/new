@@ -78,6 +78,37 @@ $APPLICATION->IncludeComponent(
 	false
 );
 
+bitrix\ERESULT::$KEY='NEWS';
+$APPLICATION->IncludeComponent(
+	"estelife:articles.list",
+	"home_ajax",
+	array(
+		"IBLOCK_ID"=>3,
+		"SECTIONS_ID"=> array(172,173,176,177),
+		"SECTIONS_NAME"=> array("Косметология", "Пластическая хирургия", "Косметика", "Обо всем"),
+		"NEWS_COUNT" => 4,
+		"NEED_SECTION" => "N",
+		"MAIN_URL" => "novosti",
+		"TITLE"=>"Новости сферы",
+		"MORE_TITLE"=>"Архив новостей",
+		"IMG_FIELD" =>145,
+		"PREFIX" => "ns"
+	)
+);
+
+bitrix\ERESULT::$KEY='PHOTOGALLERY';
+$APPLICATION->IncludeComponent(
+	"estelife:photogallery",
+	"home_ajax",
+	array(
+		"COUNT" => 18,
+		"ONLY_VIDEO"=>"Y",
+		"ONLY_PHOTO"=>"Y",
+	),
+	false
+);
+
+
 bitrix\ERESULT::$KEY='ARTICLES';
 $APPLICATION->IncludeComponent(
 	"estelife:articles.list",
@@ -94,36 +125,6 @@ $APPLICATION->IncludeComponent(
 		"IMG_FIELD" => 151,
 		"ANONS_FIELD"=> 175,
 		"PREFIX" => "ar"
-	)
-);
-
-bitrix\ERESULT::$KEY='PHOTOGALLERY';
-$APPLICATION->IncludeComponent(
-	"estelife:photogallery",
-	"home_ajax",
-	array(
-		"COUNT" => 18,
-		"ONLY_VIDEO"=>"Y",
-		"ONLY_PHOTO"=>"Y",
-	),
-	false
-);
-
-bitrix\ERESULT::$KEY='NEWS';
-$APPLICATION->IncludeComponent(
-	"estelife:articles.list",
-	"home_ajax",
-	array(
-		"IBLOCK_ID"=>3,
-		"SECTIONS_ID"=> array(172,173,176,177),
-		"SECTIONS_NAME"=> array("Косметология", "Пластическая хирургия", "Косметика", "Обо всем"),
-		"NEWS_COUNT" => 4,
-		"NEED_SECTION" => "N",
-		"MAIN_URL" => "novosti",
-		"TITLE"=>"Новости сферы",
-		"MORE_TITLE"=>"Архив новостей",
-		"IMG_FIELD" =>145,
-		"PREFIX" => "ns"
 	)
 );
 

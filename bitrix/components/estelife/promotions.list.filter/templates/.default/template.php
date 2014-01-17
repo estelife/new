@@ -3,7 +3,7 @@
 <form name="promotions" class="filter" method="get" action="/promotions/" >
 	<div class="title">
 		<h4>Поиск акций</h4>
-<!--		<span>Найдено 6 акций</span>-->
+		<span class="count-result"><?=$arResult['count']?></span>
 	</div>
 	<div class="field">
 		<label for="name">Наименование</label>

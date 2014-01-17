@@ -1,6 +1,6 @@
 define(['tpl/Template'],function(Template){
 	var Views={},
-		Cache=[],
+		Cache={},
 		Events=[];
 
 	/**
@@ -272,7 +272,7 @@ define(['tpl/Template'],function(Template){
 	Views.Filter=Views.Default.extend({
 		el:document.createElement('form'),
 		render:function(){
-			if(_.isObject(this.data) && this.data.filter){
+			if(_.isObject(this.data)){
 				var ob=this;
 
 				this.template.ready(function(){
@@ -287,14 +287,18 @@ define(['tpl/Template'],function(Template){
 
 				Cache['filter'] = this;
 				return this;
-			}else{
-				var view=Cache['filter'];
-				Events.push({
-					'target':view.$el,
-					'type':'update'
-				});
-				return view;
 			}
+//			}else{
+//				var view=Cache['filter'];
+//				if (this.data.count)
+//					view.$el.find('span.count-result').html(this.data.count);
+//
+//				Events.push({
+//					'target':view.$el,
+//					'type':'update'
+//				});
+//				return view;
+//			}
 		}
 	});
 
