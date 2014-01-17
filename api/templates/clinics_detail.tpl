@@ -1,8 +1,8 @@
 <!--if($detail)!-->
 	<div class="item detail company">
 		<h1>
-			<!--if($detail.recomended==1)!--><span class="checked"></span><!--endif!-->
 			<!--$detail.name!-->
+			<!--if($detail.recomended==1)!--><a href="/about/quality-mark.php" class="checked">Знак качества Estelife</a><!--endif!-->
 		</h1>
 		<div class="img">
 			<div class="img-in">
@@ -116,7 +116,7 @@
 									<input type="text" name="email" class="text" placeholder="Ваш e-mail..." />
 								</div>
 								<div class="field check">
-									<input type="checkbox" name="always" value="1" id="always" />
+									<input type="checkbox" name="always" checked="true" value="1" id="always" />
 									<label for="always">Хочу узнавать обо всех новых акциях, размещаемых на портале</label>
 									<input type="hidden" name="type" value="1" />
 									<input type="hidden" name="params[id]" value="<!--$detail.id!-->" />

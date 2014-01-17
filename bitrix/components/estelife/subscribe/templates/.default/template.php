@@ -4,7 +4,7 @@
 		<input type="text" name="email" class="text" placeholder="Ваш e-mail..." />
 	</div>
 	<div class="field check">
-		<input type="checkbox" name="always" value="1" id="always" />
+		<input type="checkbox" name="always" checked="true" value="1" id="always" />
 		<label for="always"><?=$arParams['text']?></label>
 		<input type="hidden" name="type" value="<?=$arParams['type']?>" />
 		<?php if (!empty($arParams['params'])):?>

@@ -50,7 +50,7 @@ body {
 .experts ul li, .item.promotion, .articles, .articles .menu li,.item.detail .menu li, .item.article, .media .item, .media .menu li, .footer .menu li,
 .crumb, .crumb li, .nav, .nav li, .inner, .item.detail .gallery, .similars, .item.producer .img, .item.product .img, .items .item.producer li,
 .inner .title .menu li, .search-founded .menu li, .inner .products .item.product, .item.training .img, .item.detail .user img, .item.event .img, .items .item.event ul.list1,
-.win-gallery-previews li{
+.win-gallery-previews li, .quality ul.steps li{
 	float:left;
 	display: block;
 }
@@ -68,7 +68,7 @@ body {
 }
 .social a, .arrow i, ul.stat i, .promotion .time i, .promotion .prices i, .media .item span, .media .menu .first a,
 .promotion .time i, .promotion .prices i, .item.detail .clinic .col1 a, .select .arrow, .item.company p i, .gallery .arrow i, td.prices i,
-.filter .date i, .win-close, .checked, .item.promotion .current .perc i{
+.filter .date i, .win-close, .checked, .item.promotion .current .perc i,.checkbox.active i, .to-top i, h2.show-quality-form i{
 	background-image:url('../images/complex.png');
 	background-repeat: no-repeat;
 }
@@ -264,7 +264,7 @@ input.text {
 }
 .head .menu, .head .submenu, ul.menu, ul.stat, .cities ul, .crumb, .nav, .item.detail .tab-c ul,
 .items .item.producer ul, .items .item.product ul, .item.producer .current ul, .item.product .current ul,
-.items .item.event ul, .win-gallery-previews{
+.items .item.event ul, .win-gallery-previews, .quality ul.steps{
 	list-style: none;
 	padding:0;
 	margin:0;
@@ -503,16 +503,28 @@ ul.stat {
 	height:220px;
 	margin:71px 0 0 0;
 }
-ul.stat li {
+.content ul.stat li {
+	padding-left: 0;
+}
+.content ul.stat .likes,
+.content ul.stat .unlikes,
+.content ul.stat .date,
+.content ul.stat .comments {
 	padding-left:20px;
 	margin-right:15px;
-	position: relative;
 	height:16px;
+}
+.content ul.stat .unlikes {
+	margin-right: 0;
+}
+.content ul.stat li, .content ul.stat a {
+	position: relative;
 	font-size: 12px;
 	line-height: 15px;
 	color:#656565;
+	text-decoration: none;
 }
-ul.stat li.date {
+.content ul.stat li.date {
 	padding-left:0;
 	margin-right: 20px;
 	font-style: italic;
@@ -526,15 +538,24 @@ ul.stat i {
 	left:0;
 	background-position: -227px -35px;
 }
-ul.stat .comments i, ul.stat .unlikes i {
+ul.stat .comments i,
+ul.stat .unlikes i {
 	top:2px;
 }
 ul.stat .likes i {
 	top:-1px;
 	background-position: -248px -34px;
 }
+ul.stat a.likes:hover i,
+ul.stat .likes.active i {
+	background-position: -95px -89px;
+}
 ul.stat .unlikes i {
 	background-position: -271px -35px;
+}
+ul.stat a.unlikes:hover i,
+ul.stat .unlikes.active i {
+	background-position: -118px -89px;
 }
 .experts {
 	width:227px;
@@ -1141,6 +1162,7 @@ td.prices span {
 	padding:0;
 	margin:3px 10px;
 	line-height: 15px;
+	color:#2c2c2c;
 }
 .media .menu a.active {
 	margin:0;
@@ -1356,17 +1378,18 @@ td.prices span {
 }
 .item.detail .info {
 	border-top:1px solid #5c5c5c;
-	padding-top:15px;
+	padding-top:25px;
 	float: left;
 	width: 100%;
 	margin-top:30px;
 }
+.item.detail .info .stat {
+	margin:0 54px 0 0;
+	float:left;
+}
 .item.detail .info.nobo {
 	border:none;
 	margin-bottom:20px;
-}
-.item.detail .info img {
-	border:none;
 }
 .item.detail .info .social .cols, .item.training .img {
 	margin-right:20px;
@@ -1377,6 +1400,24 @@ td.prices span {
 }
 .item.detail .info .author b {
 	display: block;
+}
+.item.detail .info .social a {
+	width:17px;
+	height:17px;
+	background-position: 0 -88px;
+}
+.item.detail .info .social a:hover {
+	background-position: -24px -88px;
+}
+.item.detail .info .social a.vk {
+	background-position: -47px -88px;
+}
+.item.detail .info .social a.vk:hover {
+	background-position: -72px -88px;
+}
+.item.detail .info .social span {
+	color:#656565;
+	font-size:12px;
 }
 .item.detail .announce, .item.detail .clinic, .item.detail .clinic a {
 	font-size:15px;
@@ -2038,6 +2079,7 @@ li.country, span.country {
 	background-position: -446px -57px;
 	margin-right: 10px;
 	margin-top:-1px;
+	text-indent: -10000px;
 }
 .item.detail .checked {
 	margin-top:3px;
@@ -2311,7 +2353,7 @@ body {
 	position: absolute;
 	opacity: 0.5;
 	top: 0;
-	left: -34px;
+	left: -284px;
 	width: 1920px;
 	max-height: initial;
 	max-width: initial;
@@ -2346,7 +2388,8 @@ body {
 	float: left;
 	margin-top: 8px;
 }
-.item.detail .default form .field.check label {
+.item.detail .default form .field.check label,
+.item.detail .default form .field.check a{
 	float: right;
 	width: 438px;
 	font-size: 12px;
@@ -2361,4 +2404,174 @@ body {
 	float: left;
 	width: 210px;
 	height: 29px;
+}
+.checkbox {
+	color: #2c2c2c;
+	text-decoration: none;
+	position: relative;
+	padding-left:24px;
+}
+.checkbox i, .to-top {
+	display: block;
+	border: 2px solid #5c5c5c;
+}
+.checkbox i {
+	position: absolute;
+	left:0;
+	top:50%;
+	width:13px;
+	height:12px;
+	margin-top:-8px;
+}
+.checkbox.active i {
+	background-position: -45px -72px;
+}
+.to-top {
+	width:65px;
+	height:36px;
+	bottom:100px;
+	position: fixed;
+	color:#2c2c2c;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-size:10px;
+	text-align: center;
+	left:50%;
+	margin-left:-600px;
+	display: none;
+}
+.to-top i {
+	display: block;
+	width:17px;
+	height:9px;
+	background-position: -67px -73px;
+	margin: 8px auto 0 auto;
+}
+.to-top:hover {
+	background-color:#e60365;
+	border-color:#e60365;
+	color:#fff;
+}
+.to-top:hover i {
+	background-position: -94px -73px;
+}
+div.quality {
+	font-size:14px;
+	text-align:center;
+}
+div.quality img {
+	border:none;
+}
+.quality h1, .quality h2, .quality h3 {
+	font-weight: bold;
+}
+div.quality h1 {
+	margin-bottom: 35px;
+}
+div.quality p.first, div.quality h3 {
+	font-size: 18px;
+}
+div.quality p.first {
+	margin: 70px 0 21px 0;
+}
+div.quality h3 {
+	margin: 39px 0 21px 0;
+}
+div.quality h2 {
+	font-size: 24px;
+	text-transform: none;
+	margin: 73px 0 20px 0;
+}
+div.quality img.steps {
+	margin: 39px 0 42px 0;
+}
+div.quality ul.steps {
+	font-size:15px;
+	margin-left:81px;
+	overflow: hidden;
+}
+div.quality ul.steps li:first-child {
+	text-align: left;
+	width:330px;
+}
+div.quality ul.steps li:last-child {
+	text-align: right;
+	width:330px;
+}
+form.quality {
+	overflow: hidden;
+}
+h2.show-quality-form {
+	margin-top:143px;
+	width:100%;
+	text-align: center;
+}
+h2.show-quality-form a {
+	font-size:21px;
+	text-decoration: none;
+	color:#2c2c2c;
+	font-weight: bold;
+	border-bottom:1px dotted #2c2c2c;
+	position: relative;
+}
+h2.show-quality-form i {
+	display: block;
+	width:15px;
+	height:8px;
+	background-position: -119px -76px;
+	position: absolute;
+	left:190px;
+	top:37px;
+}
+h2.show-quality-form.active a {
+	color:#e60365;
+	border-color:#e60365;
+}
+h2.show-quality-form.active i {
+	background-position: -141px -76px;
+}
+form.quality p {
+	text-align: center;
+	margin: 38px 0 59px;
+}
+form.quality .field {
+	float:left;
+	margin:0 20px 31px 0;
+}
+form.quality .field.phone,form.quality .field.city {
+	margin-right: 0;
+}
+form.quality label {
+	font-size:14px;
+	color:#5f5f5f;
+	font-weight: normal;
+	margin-bottom:9px;
+}
+form.quality input {
+	padding-top:9px;
+	padding-bottom:9px;
+	width:286px;
+}
+form.quality .phone span {
+	font-size: 17px;
+	margin-right: 16px;
+}
+form.quality .phone input {
+	min-width: 0;
+	width:29px;
+	margin-right: 23px;
+}
+form.quality .phone input#phone_number {
+	width: 168px;
+	margin-right: 0;
+}
+form.quality .clinic  input {
+	width: 618px;
+}
+form.quality .submit {
+	height: 40px;
+	margin-top: 14px;
+	float: left;
+	padding: 0;
+	width: 186px;
 }

@@ -2,9 +2,9 @@
 	<!--foreach($list as $key=>$val)!-->
 		<div class="item promotion">
 			<div class="item-rel">
-				<?!--if($val.view_type!=2)!-->
+				<!--if($val.view_type!=2)!-->
 					<span class="perc"><!--$val.sale!-->%</span>
-				<?php endif; ?>
+				<!--endif!-->
 				<a href="<!--$val.link!-->">
 					<img src="<!--$val.src!-->" alt="<!--$val.name!-->" title="<!--$val.name!-->" />
 				</a>

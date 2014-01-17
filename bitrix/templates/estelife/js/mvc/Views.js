@@ -347,6 +347,27 @@ define(['tpl/Template'],function(Template){
 	});
 
 	/**
+	 * Статичная страница
+	 * @type {*}
+	 */
+	Views.StaticPage=Views.Default.extend({
+		el:null,
+		render:function(){
+			if(this.data && this.data.hasOwnProperty('page')){
+				this.$el=$('<div></div>').addClass('static-page');
+
+				if(this.className){
+					this.$el.addClass(this.className);
+				}
+
+				this.$el.append(this.data.page);
+				this.el=this.$el[0];
+			}
+			return this;
+		}
+	});
+
+	/**
 	 * Представление для внутренней страницы
 	 * @type {*}
 	 */
