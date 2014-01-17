@@ -2578,3 +2578,23 @@ form.quality .submit {
 	padding: 0;
 	width: 186px;
 }
+.quality-result {
+	text-align: center;
+	margin-top: 50px;
+}
+.field {
+	position: relative;
+}
+.field.error input {
+	background: rgb(240, 76, 24);
+	color:#fff;
+}
+.field.error i {
+	font-size:12px;
+	font-style: normal;
+	display: block;
+	position: absolute;
+	bottom: -24px;
+	color: #E60365;
+	left: 0;
+}

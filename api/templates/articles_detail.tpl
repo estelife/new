@@ -22,10 +22,10 @@
 			<li><a href="#" class="likes">0<i></i></a></li>
 			<li><a href="#" class="unlikes">0<i></i></a></li>
 		</ul>
-		<div class="social cols">
+		<div class="social cols repost">
 			<span>Поделиться: </span>
-			<a href="#" class="vk">ВКонтакте</a>
-			<a href="#" class="fb">Facebook</a>
+			<a href="http://vkontakte.ru/share.php?url=http://estelife.ru/ar<!--$detail.ID!-->/" target="_blank" class="vk">ВКонтакте</a>
+			<a href="https://www.facebook.com/sharer.php?u=http://estelife.ru/ar<!--$detail.ID!-->/" target="_blank" class="fb">Facebook</a>
 		</div>
 		<div class="author cols">
 			<!--if ($detail.SOURCE)!-->

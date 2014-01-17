@@ -70,6 +70,7 @@ echo json_encode(array(
 		)
 	),
 	'detail'=>array(
+		'ID'=>$arResult['ID'],
 		'NAME'=>$arResult['NAME'],
 		'ACTIVE_FROM'=>(!empty($arResult['ACTIVE_FROM'])) ? date('d.m.Y',strtotime($arResult['ACTIVE_FROM'])) : '',
 		'IMG'=>array(

@@ -460,3 +460,32 @@
 .yvoire .inner img {
 	border:none;
 }
+.ui-helper-hidden-accessible {
+	display: none;
+}
+.ui-autocomplete {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	background:#fff;
+	border:1px solid #d1d1d1;
+	margin-top:-1px;
+}
+.ui-autocomplete .ui-menu-item, .ui-autocomplete .ui-menu-item a {
+	display: block;
+	height:26px;
+	line-height: 26px;
+	text-decoration: none;
+}
+.ui-autocomplete .ui-menu-item a {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	color:#2c2c2c;
+	padding:0 26px 0 13px;
+	cursor:pointer;
+}
+.ui-autocomplete .ui-menu-item a:hover, .ui-autocomplete .ui-menu-item a.ui-state-focus {
+	background-color:#e50364;
+	color:#fff;
+}

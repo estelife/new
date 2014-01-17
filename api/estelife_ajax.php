@@ -414,6 +414,30 @@ try{
 			);
 			$arResult=false;
 			break;
+		case 'get_cities_by_term':
+			$arResult['list']=array();
+
+			if(!empty($arData['term'])){
+				$obQuery=$obData->createQuery();
+				$obQuery->builder()
+					->from('iblock_element')
+					->sort('NAME','asc')
+					->field('NAME','name')
+					->field('ID','id')
+					->slice(0,5)
+					->filter()
+					->_eq('IBLOCK_ID',16)
+					->_like(
+						'NAME',
+						$arData['term'],
+						VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE
+					);
+
+				$arResult['list']=$obQuery
+					->select()
+					->all();
+			}
+			break;
 		case 'get_city':
 			$arResult['list']=array();
 			$nCountry=intval(VArray::get($arData,'country',0));
@@ -656,6 +680,35 @@ try{
 			}
 
 			$arResult=false;
+			break;
+		case 'add_request':
+			$APPLICATION->IncludeComponent(
+				"estelife:clinics.request",
+				"ajax"
+			);
+			$arResult=false;
+			break;
+		case 'get_clinics':
+			$arResult['list']=array();
+
+			if(!empty($arData['term'])){
+				$obQuery = $obData->createQuery();
+				$obQuery->builder()
+					->from('estelife_clinics')
+					->sort('name','asc')
+					->field('name')
+					->field('id')
+					->slice(0,5)
+					->filter()
+					->_like(
+						'name',
+						$arData['term'],
+						VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE
+					);
+				$arResult['list']=$obQuery
+					->select()
+					->all();
+			}
 			break;
 		default:
 			throw new VException('unsupported action',21);

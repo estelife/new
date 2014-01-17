@@ -540,6 +540,104 @@ require([
 		Functions.initFilter(form);
 	});
 
+	body.on('submit','form[name=add_request]',function(e){
+		var form=$(this),
+			data={
+				'action':'add_request'
+			};
+		form.find('error')
+			.removeClass('error')
+			.find('i')
+			.remove();
+		form.find('input').each(function(){
+			var input=$(this);
+			data[input.attr('name')]=input.val();
+		});
+		$.post('/api/estelife_ajax.php',data,function(r){
+			if(r.hasOwnProperty('error')){
+				if(r.error.hasOwnProperty('message')){
+					alert(r.error.message);
+				}else{
+					var field;
+					for(f in r.error){
+						field=form.find('input[id='+f+']')
+							.parent();
+						field.addClass('error');
+						field.append('<i>'+ r.error[f]+'</i>');
+					}
+				}
+			}else if(r.hasOwnProperty('step')){
+				if(r.step==3){
+					form.replaceWith('<p>Спасибо. Заявка принята, в ближайшее время с Вами свяжется наш специалист.</p>');
+				}
+			}
+		},'json');
+
+		e.preventDefault();
+	});
+
+	body.on('focus','input.preload', function(){
+		$(this).autocomplete({
+			minLength:3,
+			source:function(request, response){
+				var action=$(this.element).attr('data-action');
+
+				if(!action)
+					return;
+
+				var data={
+					'action':action,
+					'term':request.term
+				};
+				$.post('/api/estelife_ajax.php',data,function(result){
+					if(result.hasOwnProperty('list')){
+						response($.map(result.list,function( item ) {
+							return {
+								label: item.name,
+								value: item.name,
+								id: item.id
+							}
+						}));
+					}
+				},'json');
+			},
+			select:function(e,ui){
+				var input=$(this);
+				input.next('input[type=hidden]').val(ui.item.id);
+			},
+			open:function(e,ui){
+				var input=$(this),
+					width=input.data('auWidth');
+
+				if(!width){
+					width=input.width();
+					pLeft=parseInt(input.css('padding-left').replace(/[^0-9]+/,''));
+					pRight=parseInt(input.css('padding-right').replace(/[^0-9]+/,''));
+
+					if(pLeft)
+						width+=pLeft;
+
+					if(pRight)
+						width+=pRight;
+
+					input.data('auWidth',width);
+				}
+
+				$('.ui-autocomplete').width(width);
+			}
+		})
+	});
+
+	body.on('click','.repost a', function(e){
+		var href=$(this).attr('href'),
+			width=550,
+			height=400,
+			left=screen.availWidth/2-width/2,
+			top=screen.availHeight/2-height/2;
+		window.open(href,'repost',"menubar=no,location=no,status=no,width="+width+",height="+height+",left="+left+",top="+top);
+		e.preventDefault();
+	});
+
 	var toTop=$('.to-top'),
 		min=200,
 		max=1000;
