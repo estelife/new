@@ -1,5 +1,5 @@
 <?php
-return array (
+return array (
   'utf_mode' => 
   array (
     'value' => true,
@@ -45,9 +45,9 @@
       array (
         'className' => '\\Bitrix\\Main\\DB\\MysqlConnection',
         'host' => 'localhost',
-        'database' => 'estelife.new',
+        'database' => 'vhost_estelife',
         'login' => 'root',
-        'password' => 'root',
+        'password' => 'lyrjytd',
         'options' => 2,
       ),
     ),
