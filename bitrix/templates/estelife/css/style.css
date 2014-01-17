@@ -2503,6 +2503,10 @@ div.quality ul.steps li:last-child {
 }
 form.quality {
 	overflow: hidden;
+	height:0;
+}
+form.quality .quality-in {
+	height:371px;
 }
 h2.show-quality-form {
 	margin-top:143px;

@@ -187,14 +187,14 @@ var Estelife=function(s){
 		}
 	};
 
-	this.goto=function(el){
+	this.goto=function(el,all){
 		var target=(this.browser().webkit) ? $('body') : $('html')
 
 		if(el && el.length>0){
 			var top=el.offset().top,
 				scrl=target.scrollTop();
 
-			if(scrl>top)
+			if(all || scrl>top)
 				target.animate({'scrollTop':top+'px'},200);
 		}else
 			target.animate({'scrollTop':'0px'},200);
