@@ -27,10 +27,9 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 			<div class="announce">
 				<?=$arResult["PREVIEW_TEXT"];?>
 			</div>
-			<?$img = CFile::GetFileArray($arResult['PROPERTIES']['INSIDE']['VALUE']);?>
 			<div class="article-img">
 				<div class="article-img-in">
-					<img src="<?=$img['SRC']?>" alt="<?=$arResult["NAME"]?>" title="<?=$arResult["NAME"]?>">
+					<img src="<?=$arResult['IMG']['SRC']?>" alt="<?=$arResult["NAME"]?>" title="<?=$arResult["NAME"]?>">
 				</div>
 				<div class="article-img-desc">
 					<?php if (!empty($img['DESCRIPTION'])):?>
@@ -42,7 +41,15 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 			</div>
 			<?=$arResult["DETAIL_TEXT"];?>
 			<div class="info">
-				<?$APPLICATION->IncludeComponent("estelife:social.estelife","",array());?>
+				<ul class="stat">
+					<li><a href="#" class="likes">0<i></i></a></li>
+					<li><a href="#" class="unlikes">0<i></i></a></li>
+				</ul>
+				<div class="social cols repost">
+					<span>Поделиться: </span>
+					<a href="http://vkontakte.ru/share.php?url=http://estelife.ru/ar<?=$arResult['ID']?>/" target="_blank" class="vk">ВКонтакте</a>
+					<a href="https://www.facebook.com/sharer.php?u=http://estelife.ru/ar<?=$arResult['ID']?>/" target="_blank" class="fb">Facebook</a>
+				</div>
 				<div class="author cols">
 					<?php if (!empty($arResult['PROPERTIES']['SOURCE']['VALUE'])):?>
 					Автор статьи

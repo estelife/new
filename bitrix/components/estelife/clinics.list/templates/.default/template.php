@@ -12,7 +12,10 @@
 			<?php foreach ($arResult['clinics'] as $arClinic):?>
 			<div class="item company">
 				<div class="item-rel">
-					<h2><?php if ($arClinic["recomended"] == 1):?><span class="checked"></span><?php endif?><a href="<?=$arClinic["link"]?>" class="el-get-detail"><?=$arClinic["name"]?></a></h2>
+					<h2>
+						<a href="<?=$arClinic["link"]?>" class="el-get-detail"><?=$arClinic["name"]?></a>
+						<?php if ($arClinic["recomended"] == 1):?><a href="/about/quality-mark.php" class="checked">Знак качества Estelife</a><?php endif?>
+					</h2>
 					<div class="item-in">
 						<?if (!empty($arClinic['specialization'])):?>
 							<p><?=$arClinic['specialization']?></p>

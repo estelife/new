@@ -82,24 +82,18 @@ require([
 		});
 
 		//Переход на детальную страницу
-		body.on('click', '.items .item', function(e){
+		body.on('click', '.items .item, .general-news .col1, .general-news .col2 .img', function(e){
 			var target=$(e.target),
-				link=$(this).find('a:first').attr('href')||'',
-				parentTag=target.parent()[0].tagName;
+				currentTag=target[0].tagName,
+				parentTag=target.parent()[0].tagName,
+				link=(currentTag=='A') ?
+					target.attr('href') :
+					$(this).find('a:first').attr('href');
 
-			if((target[0].tagName!='A' && link.length>0) || ['H1','H2','H3'].inArray(parentTag)>-1){
+			if((currentTag!='A' && link && link.length>0) || ['H1','H2','H3'].inArray(parentTag)>-1){
 				Router.navigate(link,{trigger: true});
 				EL.goto($('.main_menu'));
 				e.preventDefault();
-			}
-		});
-
-		body.on('click', '.col2 .img', function(e){
-			var target= $(e.target),
-				link = $(this).find('a:first').attr('href')||'';
-
-			if(target[0].tagName!='A' && link.length>0){
-				document.location.href=link;
 			}
 		});
 
@@ -543,7 +537,138 @@ require([
 
 	body.on('update', 'form.filter', function(){
 		var form=$(this);
-		Functions.initFormFields(form);
+		Functions.initFilter(form);
 	});
 
+	body.on('submit','form[name=add_request]',function(e){
+		var form=$(this),
+			data={
+				'action':'add_request'
+			};
+		form.find('error')
+			.removeClass('error')
+			.find('i')
+			.remove();
+		form.find('input').each(function(){
+			var input=$(this);
+			data[input.attr('name')]=input.val();
+		});
+		$.post('/api/estelife_ajax.php',data,function(r){
+			if(r.hasOwnProperty('error')){
+				if(r.error.hasOwnProperty('message')){
+					alert(r.error.message);
+				}else{
+					var field;
+					for(f in r.error){
+						field=form.find('input[id='+f+']')
+							.parent();
+						field.addClass('error');
+						field.append('<i>'+ r.error[f]+'</i>');
+					}
+				}
+			}else if(r.hasOwnProperty('step')){
+				if(r.step==3){
+					form.replaceWith('<p>Спасибо. Заявка принята, в ближайшее время с Вами свяжется наш специалист.</p>');
+				}
+			}
+		},'json');
+
+		e.preventDefault();
+	});
+
+	body.on('focus','input.preload', function(){
+		$(this).autocomplete({
+			minLength:3,
+			source:function(request, response){
+				var action=$(this.element).attr('data-action');
+
+				if(!action)
+					return;
+
+				var data={
+					'action':action,
+					'term':request.term
+				};
+				$.post('/api/estelife_ajax.php',data,function(result){
+					if(result.hasOwnProperty('list')){
+						response($.map(result.list,function( item ) {
+							return {
+								label: item.name,
+								value: item.name,
+								id: item.id
+							}
+						}));
+					}
+				},'json');
+			},
+			select:function(e,ui){
+				var input=$(this);
+				input.next('input[type=hidden]').val(ui.item.id);
+			},
+			open:function(e,ui){
+				var input=$(this),
+					width=input.data('auWidth');
+
+				if(!width){
+					width=input.width();
+					pLeft=parseInt(input.css('padding-left').replace(/[^0-9]+/,''));
+					pRight=parseInt(input.css('padding-right').replace(/[^0-9]+/,''));
+
+					if(pLeft)
+						width+=pLeft;
+
+					if(pRight)
+						width+=pRight;
+
+					input.data('auWidth',width);
+				}
+
+				$('.ui-autocomplete').width(width);
+			}
+		})
+	});
+
+	body.on('click','.repost a', function(e){
+		var href=$(this).attr('href'),
+			width=550,
+			height=400,
+			left=screen.availWidth/2-width/2,
+			top=screen.availHeight/2-height/2;
+		window.open(href,'repost',"menubar=no,location=no,status=no,width="+width+",height="+height+",left="+left+",top="+top);
+		e.preventDefault();
+	});
+
+	var toTop=$('.to-top'),
+		min=200,
+		max=1000;
+
+	toTop.click(function(){
+		EL.goto();
+		return false;
+	});
+
+	changeOpacityByScroll($(document).scrollTop());
+	$(document).scroll(function(){
+		changeOpacityByScroll($(this).scrollTop());
+	});
+
+	function changeOpacityByScroll(scroll){
+		if(scroll>=min && scroll<=max){
+			if(toTop.is(':hidden')){
+				toTop.css({
+					'display':'block',
+					'opacity':0
+				});
+			}
+
+			if(scroll<max)
+				toTop.css('opacity',parseFloat(scroll/(max-min)).toFixed(1));
+		}else if(scroll>max){
+			toTop.css({
+				'display':'block',
+				'opacity':1
+			});
+		}else if(scroll<min && toTop.is(':visible'))
+			toTop.css('display','none');
+	}
 });

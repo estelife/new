@@ -61,11 +61,11 @@
 .estelife-services .lists ul, .estelife-services .forms div, .estelife-services .one-list {
 	width: 194px;
 	padding-right: 20px;
-	margin-right: 43px;
+	margin-right: 21px;
 	border-right: 1px solid #DBDBDB;
 }
 .estelife-services .lists ul.service_concreate {
-	width: 530px;
+	width: 525px;
 	margin-right: 0;
 	padding-right: 0;
 	border-right: none;

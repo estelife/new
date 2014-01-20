@@ -7,7 +7,10 @@
 	</ul>
 	<div class="wrap_item">
 		<div class="item detail company">
-			<h1><?php if ($arResult['clinic']["recomended"] == 1):?><span class="checked"></span><?php endif?><?=$arResult['clinic']['name']?></h1>
+			<h1>
+				<?=$arResult['clinic']['name']?>
+				<?php if ($arResult['clinic']["recomended"] == 1):?><a href="/about/quality-mark.php" class="checked">Знак качества Estelife</a><?php endif?>
+			</h1>
 			<div class="img">
 				<div class="img-in">
 					<?=$arResult['clinic']['logo']?>

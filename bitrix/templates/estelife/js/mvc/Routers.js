@@ -30,9 +30,20 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			'tr:number/': 'trainingsDetail',
 			'pt:number/': 'podcastDetail',
 			'ar:number/': 'articlesDetail',
-			'ns:number/': 'newsDetail'
+			'ns:number/': 'newsDetail',
+			'*path':  'defaultRoute'
 		},
-
+		defaultRoute:function(path){
+			(new Models.Inner(null,{
+				page: path,
+				view:new Views.WrapContent({
+					views:[
+						new Views.StaticPage()
+					]
+				}),
+				staticPage:true
+			})).fetch();
+		},
 		getShortPages:function(pages, pageNum){
 			var newPages=[];
 

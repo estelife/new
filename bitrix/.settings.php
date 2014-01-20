@@ -1,5 +1,5 @@
 <?php
-return array (
+return array (
   'utf_mode' => 
   array (
     'value' => true,

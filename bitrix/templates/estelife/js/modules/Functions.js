@@ -29,39 +29,8 @@ define(['tpl/Template','modules/Select'],function(Template,Select){
 				}
 			},'json');
 		},
-		initFormFields:function(form){
-			$('.text.date',form).each(function(){
-				var current=$(this),
-					img=current.find('i'),
-					prnt=current.parent(),
-					from=current.hasClass('from'),
-					other=(from) ?
-						prnt.find('.text.date:last') :
-						prnt.find('.text.date:first');
-
-				current.find('input').datepicker({
-					numberOfMonths: 1,
-					dateFormat: 'dd.mm.y',
-					isRTL:(!from),
-					onClose: function( selectedDate ) {
-						other.find('input').datepicker(
-							"option",
-							(from ? 'minDate' : 'maxDate'),
-							selectedDate
-						);
-					}
-				});
-
-				img.click(function(){
-					$(this).parent().find('input').datepicker('show');
-					return false;
-				});
-			});
-
-			$('select',form).each(function(){
-				Select.make($(this));
-			});
-
+		initFilter:function(form){
+			this.initFormFields(form);
 			$('body').on('change', 'select[data-rules]', function(){
 				var current=$(this),
 					val=current.val(),
@@ -104,6 +73,79 @@ define(['tpl/Template','modules/Select'],function(Template,Select){
 			});
 
 			var input=$('input[name=name]',form);
+		},
+		initFormFields:function(form){
+			$('.text.date',form).each(function(){
+				var current=$(this),
+					img=current.find('i'),
+					prnt=current.parent(),
+					from=current.hasClass('from'),
+					other=(from) ?
+						prnt.find('.text.date:last') :
+						prnt.find('.text.date:first');
+
+				current.find('input').datepicker({
+					numberOfMonths: 1,
+					dateFormat: 'dd.mm.y',
+					isRTL:(!from),
+					onClose: function( selectedDate ) {
+						other.find('input').datepicker(
+							"option",
+							(from ? 'minDate' : 'maxDate'),
+							selectedDate
+						);
+					}
+				});
+
+				img.click(function(){
+					$(this).parent().find('input').datepicker('show');
+					return false;
+				});
+			});
+
+			$('select',form).each(function(){
+				Select.make($(this));
+			});
+
+			$('input[type=checkbox]').each(function(){
+				var inpt=$(this),
+					form=$(this.form),
+					link=$('<a href="#"></a>'),
+					id=inpt.attr('id'),
+					label;
+
+				if(id && id.length>0){
+					label=form.find('label[for='+id+']');
+
+					if(label.length>0){
+						label.hide();
+						label=label.html();
+					}else
+						label='';
+				}else{
+					label=inpt.attr('title')||'';
+				}
+
+				inpt.after(link).hide();
+				link.html('<i></i>'+label);
+				link.data('Input',inpt).addClass('checkbox');
+
+				if(inpt.is(':checked'))
+					link.addClass('active');
+
+				link.click(function(e){
+					var link=$(this);
+
+					if(link.hasClass('active')){
+						link.removeClass('active');
+						link.data('Input').prop('checked',false);
+					}else{
+						link.addClass('active');
+						link.data('Input').prop('checked',true);
+					}
+					e.preventDefault();
+				});
+			});
 		}
 	}
 });
