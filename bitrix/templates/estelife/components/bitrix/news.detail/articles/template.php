@@ -21,8 +21,8 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 					<li class="date"><?=date('d.m.Y',strtotime($arResult['ACTIVE_FROM']))?></li>
 				<?php endif?>
 <!--				<li class="comments">9<i></i></li>-->
-<!--				<li class="likes">41<i></i></li>-->
-<!--				<li class="unlikes">2<i></i></li>-->
+				<li class="likes">41<i></i></li>
+				<li class="unlikes">2<i></i></li>
 			</ul>
 			<div class="announce">
 				<?=$arResult["PREVIEW_TEXT"];?>

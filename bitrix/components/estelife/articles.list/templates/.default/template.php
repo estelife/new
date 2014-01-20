@@ -24,9 +24,8 @@
 						<p><?=$val['PREVIEW_TEXT']?></p>
 						<ul class="stat">
 							<li class="date"><?=$val['ACTIVE_FROM']?></li>
-	<!--						<li class="comments">9<i></i></li>-->
-	<!--						<li class="likes">41<i></i></li>-->
-	<!--						<li class="unlikes">2<i></i></li>-->
+							<li class="likes">41<i></i></li>
+							<li class="unlikes">2<i></i></li>
 						</ul>
 					</div>
 				<?php endforeach?>

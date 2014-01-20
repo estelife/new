@@ -2,7 +2,9 @@
 	<h1><!--$detail.NAME!--></h1>
 	<ul class="stat">
 		<!--if ($detail.ACTIVE_FROM)!-->
-		<li class="date"><!--$detail.ACTIVE_FROM!--></li>
+			<li class="date"><!--$detail.ACTIVE_FROM!--></li>
+			<li class="likes">41<i></i></li>
+			<li class="unlikes">2<i></i></li>
 		<!--endif!-->
 	</ul>
 	<div class="announce">
