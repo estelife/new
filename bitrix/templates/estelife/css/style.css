@@ -2347,6 +2347,7 @@ form.search .submit {
 .head .logo {
 	position: relative;
 	z-index: 2;
+	color:#2c2c2c;
 }
 body {
 	background:#ddd url('../images/bg.jpg') 0 0 repeat;
