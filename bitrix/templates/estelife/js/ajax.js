@@ -662,10 +662,17 @@ require([
 	});
 
 	body.on('mouseover mouseout','[data-help]',function(e){
+		var target=$(this),
+			isSelect=(target.parents('.select:first').length>0),
+			fromTop=(isSelect && target.hasClass('has-value'));
+
+		if(isSelect && !fromTop)
+			return;
+
 		if(e.type=='mouseover'){
-			EL.help($(this)).show();
+			EL.help($(this),fromTop).show();
 		}else{
-			EL.help($(this)).hide();
+			EL.help($(this),fromTop).hide();
 		}
 	});
 

@@ -120,7 +120,7 @@ if(!empty($arCount)){
 }else{
 	$obResult=$obResult->bxResult();
 	$nCount = $obResult->SelectedRowsCount();
-	$arResult['count'] = 'Найден'.VString::spellAmount($nCount, 'а,о,о'). ' '.$nCount.' акц'.VString::spellAmount($nCount, 'я,ии,ий');
+	$arResult['count'] = 'Найден'.VString::spellAmount($nCount, 'а,о,о'). ' '.$nCount.' акц'.VString::spellAmount($nCount, 'ия,ии,ий');
 	\bitrix\ERESULT::$DATA['count'] = $arResult['count'];
 	$obResult->NavStart($arPageCount);
 

@@ -1617,13 +1617,14 @@ td.prices span {
 	border: 1px solid #D1D1D1;
 	left: -1px;
 	z-index: 1;
+	/*max-height: 208px;*/
 }
 .select a, .select em {
 	text-decoration: none;
 	display: block;
 	line-height: 26px;
 	height: 26px;
-	padding:0 26px 0 13px;
+	padding:0 13px;
 }
 .select a {
 	text-overflow: ellipsis;
@@ -2682,6 +2683,7 @@ form.quality .submit {
 	border-radius: 4px;
 	position: absolute;
 	display: none;
+	z-index:1000;
 }
 .help i {
 	display: block;
@@ -2692,4 +2694,9 @@ form.quality .submit {
 	left:50%;
 	margin-left:-5px;
 	background-position: -168px -76px;
+}
+.help.top-orient i {
+	top:auto;
+	bottom:-6px;
+	background-position: -188px -76px;
 }

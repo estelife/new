@@ -65,6 +65,8 @@ define(['tpl/Template','modules/Select'],function(Template,Select){
 
 									prnt.removeClass('disabled');
 								}
+
+								child.trigger('updateOptions');
 							};
 						})(temp[1]),
 						'json'
@@ -103,8 +105,13 @@ define(['tpl/Template','modules/Select'],function(Template,Select){
 				});
 			});
 
+			Select.bindEvent('createItem',function(context,data){
+				data.item
+					.find('a')
+					.attr('data-help',data.html);
+			});
 			$('select',form).each(function(){
-				Select.make($(this));
+				var sl=Select.make($(this));
 			});
 
 			$('input[type=checkbox]').each(function(){

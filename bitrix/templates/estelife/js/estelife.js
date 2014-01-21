@@ -446,7 +446,7 @@ var Estelife=function(s){
 		this.error=error;
 	};
 
-	this.help=function(el){
+	this.help=function(el,fromTop){
 		if(!el || !(el instanceof jQuery))
 			return null;
 
@@ -455,23 +455,20 @@ var Estelife=function(s){
 		if(!el.data('helpObject')){
 			helpObject=new function(){
 				var help,endTop,startTop,
-					hideTimeout,
+					hideTimeout,showTimeout,
 					marginTop=10;
 
 				(function init(){
 					var text=el.attr('data-help');
 					help=$('<div></div>').addClass('help');
 					help.html('<span>'+text+'</span><i></i>');
-
 					$('body').append(help);
+
+					if(fromTop)
+						help.addClass('top-orient');
 				})();
 
-				this.show=function(){
-					if(hideTimeout){
-						clearTimeout(hideTimeout);
-						return;
-					}
-
+				function _show(){
 					help.css({
 						'display':'block',
 						'visibility':'hidden'
@@ -488,8 +485,13 @@ var Estelife=function(s){
 						offset=el.offset(),
 						left=offset.left+(elWidth/2-helpWidth/2);
 
-					endTop=(offset.top+elHeight)+marginTop;
-					startTop=endTop+helpHeight;
+					if(fromTop){
+						startTop=(offset.top-helpHeight*2)-marginTop;
+						endTop=startTop+helpHeight;
+					}else{
+						endTop=(offset.top+elHeight)+marginTop;
+						startTop=endTop+helpHeight;
+					}
 
 					help.css({
 						'left':left+'px',
@@ -500,15 +502,34 @@ var Estelife=function(s){
 						'opacity':1,
 						'top':endTop+'px'
 					},150);
+				}
+
+				this.show=function(){
+					if(hideTimeout){
+						clearTimeout(hideTimeout);
+						return;
+					}
+
+					showTimeout=setTimeout(function(){
+						showTimeout=null;
+						_show();
+					},300);
 				};
 				this.hide=function(){
+					if(showTimeout){
+						clearTimeout(showTimeout);
+						return;
+					}
+
 					hideTimeout=setTimeout(function(){
 						hideTimeout=null;
 						help.stop().animate({
 							'opacity':0,
 							'top':startTop+'px'
-						},100);
-					},200);
+						},80,'swing',function(){
+							help.hide();
+						});
+					},300);
 				}
 			};
 
