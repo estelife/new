@@ -25,6 +25,7 @@
 					<!--$val.time!--> <!--$val.day!-->
 					<i></i>
 				</div>
+				<a href="/cl<!--$val.clinic_id!-->/" class="clinic-link"><!--$val.clinic_name!--></a>
 			</div>
 			<div class="border"></div>
 		</div>

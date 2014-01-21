@@ -638,6 +638,37 @@ require([
 		e.preventDefault();
 	});
 
+	body.on('click','.show-quality-form',function(e){
+		var link=$(this),
+			form=link.next('form');
+
+		if(link.hasClass('active')){
+			link.removeClass('active');
+			form.stop().animate({'height':'0px'},200);
+		}else{
+			link.addClass('active');
+			var height=form.find('.quality-in').height();
+			form.stop().animate(
+				{'height':height+'px'},
+				200,
+				'swing',
+				function(){
+					EL.goto(form,true);
+				}
+			);
+		}
+
+		e.preventDefault();
+	});
+
+	body.on('mouseover mouseout','[data-help]',function(e){
+		if(e.type=='mouseover'){
+			EL.help($(this)).show();
+		}else{
+			EL.help($(this)).hide();
+		}
+	});
+
 	var toTop=$('.to-top'),
 		min=200,
 		max=1000;

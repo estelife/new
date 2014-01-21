@@ -187,14 +187,14 @@ var Estelife=function(s){
 		}
 	};
 
-	this.goto=function(el){
+	this.goto=function(el,all){
 		var target=(this.browser().webkit) ? $('body') : $('html')
 
 		if(el && el.length>0){
 			var top=el.offset().top,
 				scrl=target.scrollTop();
 
-			if(scrl>top)
+			if(all || scrl>top)
 				target.animate({'scrollTop':top+'px'},200);
 		}else
 			target.animate({'scrollTop':'0px'},200);
@@ -445,6 +445,79 @@ var Estelife=function(s){
 		this.complete=complete;
 		this.error=error;
 	};
+
+	this.help=function(el){
+		if(!el || !(el instanceof jQuery))
+			return null;
+
+		var helpObject;
+
+		if(!el.data('helpObject')){
+			helpObject=new function(){
+				var help,endTop,startTop,
+					hideTimeout,
+					marginTop=10;
+
+				(function init(){
+					var text=el.attr('data-help');
+					help=$('<div></div>').addClass('help');
+					help.html('<span>'+text+'</span><i></i>');
+
+					$('body').append(help);
+				})();
+
+				this.show=function(){
+					if(hideTimeout){
+						clearTimeout(hideTimeout);
+						return;
+					}
+
+					help.css({
+						'display':'block',
+						'visibility':'hidden'
+					});
+					var helpWidth=help.outerWidth(),
+						helpHeight=help.outerHeight();
+					help.css({
+						'display':'none',
+						'visibility':'visible'
+					});
+
+					var elHeight=el.outerHeight(),
+						elWidth=el.outerWidth(),
+						offset=el.offset(),
+						left=offset.left+(elWidth/2-helpWidth/2);
+
+					endTop=(offset.top+elHeight)+marginTop;
+					startTop=endTop+helpHeight;
+
+					help.css({
+						'left':left+'px',
+						'top':startTop+'px',
+						'opacity':0
+					}).show();
+					help.stop().animate({
+						'opacity':1,
+						'top':endTop+'px'
+					},150);
+				};
+				this.hide=function(){
+					hideTimeout=setTimeout(function(){
+						hideTimeout=null;
+						help.stop().animate({
+							'opacity':0,
+							'top':startTop+'px'
+						},100);
+					},200);
+				}
+			};
+
+			el.data('helpObject',helpObject);
+		}else
+			helpObject=el.data('helpObject');
+
+		return helpObject;
+	}
 };
 Estelife.prototype.profile=function(t){
 	var title=t||'profile:',

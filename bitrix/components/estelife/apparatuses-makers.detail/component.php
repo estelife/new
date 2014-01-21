@@ -115,7 +115,7 @@ foreach ($arProductions as $val){
 }
 
 
-$arResult['company']['seo_description'] = mb_substr(strip_tags($arResult['company']['preview_text']), 0, 140, 'utf-8');
+$arResult['company']['seo_description'] = mb_substr(strip_tags($arResult['company']['name'].'. '.$arResult['company']['detail_text']), 0, 155, 'utf-8');
 
 $APPLICATION->SetPageProperty("title", mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['company']['name'])),'utf-8'));
 $APPLICATION->SetPageProperty("description", $arResult['company']['seo_description']);

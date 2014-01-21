@@ -42,8 +42,8 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 			<?=$arResult["DETAIL_TEXT"];?>
 			<div class="info">
 				<ul class="stat">
-					<li><a href="#" class="likes">0<i></i></a></li>
-					<li><a href="#" class="unlikes">0<i></i></a></li>
+					<li><a href="#" class="likes" data-help="Нравится">0<i></i></a></li>
+					<li><a href="#" class="unlikes" data-help="Не нравится">0<i></i></a></li>
 				</ul>
 				<div class="social cols repost">
 					<span>Поделиться: </span>
