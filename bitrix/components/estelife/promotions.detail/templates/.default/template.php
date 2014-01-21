@@ -17,10 +17,12 @@
 						<?=$arResult['action']['base_sale']?>%
 					</span>
 				<?php endif; ?>
-				<?php if($arResult['action']['view_type']==1): ?>
+				<?php if($arResult['action']['view_type']!=3): ?>
 					<div class="cols prices">
 						<b><?=$arResult['action']['new_price']?> <i></i></b>
-						<s><?=$arResult['action']['old_price']?> <i></i></s>
+						<?php if($arResult['action']['view_type']==1):?>
+							<s><?=$arResult['action']['old_price']?> <i></i></s>
+						<?php endif; ?>
 					</div>
 				<?php endif; ?>
 				<div class="cols time">

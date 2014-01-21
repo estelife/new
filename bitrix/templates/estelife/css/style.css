@@ -854,9 +854,9 @@ td.prices span {
 	margin-left:0;
 	width:145px;
 	margin-top:19px;
+	margin-right:20px;
 }
 .item.promotion .current .time {
-	margin-left:20px;
 	margin-top:19px;
 	width:auto;
 }

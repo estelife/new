@@ -11,10 +11,12 @@
 				<!--if($detail.view_type!=2)!-->
 					<span class="perc"><!--$detail.base_sale!-->%</span>
 				<!--endif!-->
-				<!--if($detail.view_type==1)!-->
+				<!--if($detail.view_type!=3)!-->
 				<div class="cols prices">
 					<b><!--$detail.new_price!--> <i></i></b>
-					<s><!--$detail.old_price!--> <i></i></s>
+					<!--if($detail.view_type==1)!-->
+						<s><!--$detail.old_price!--> <i></i></s>
+					<!--endif!-->
 				</div>
 				<!--endif!-->
 				<div class="cols time">
