@@ -255,6 +255,32 @@ $(function(){
 		return false;
 	});
 
+	var ctrlActive = 0;
+	var countClick = 0;
+	var firstClick = 0;
+	var firtsTr = 0;
+	var firstTd = 0;
+	var secondTd = 0;
+	var secondTr = 0;
+	var firstElem = '';
+	var secondClick = 0;
+	var secondElem = '';
+	var action_active = 1;
+
+	$(document).keydown(function (e) {
+
+		if(e.which == 90){
+			ctrlActive = 1;
+		}
+	});
+
+	$(document).keyup(function (e) {
+			ctrlActive = 0;
+			countClick = 0;
+	});
+
+
+
 
 	$('.estelife-services .selected li').each(function(){
 		var id=$(this).attr('data-cservice')
@@ -306,20 +332,107 @@ $(function(){
 		}
 	}).on('click','td:not(.h)',function(){
 			var cur=$(this),
+				table=$('.estelife-busy-hours'),
 				prnt=cur.parent(),
-				all_td=prnt.find('td'),
+				all_td=table.find('td'),
+				all_tr=table.find('tr'),
+				currindex_temp=all_td.index(cur),
+				cur_tr = cur.find('input').val(),
+
 				active=prnt.find('.active');
+
+				var cur_td = prnt.find('td').index(cur);
+
+				if(ctrlActive == 1){
+					if(cur.hasClass('active')){
+						cur.removeClass('active').find('input').prop('checked',false);
+					}else{
+						cur.removeClass('bh-active').addClass('active').find('input').prop('checked',true);
+					}
+
+					var td = $('td');
+					countClick = countClick+1;
+					var curId = $(this)[0]['id'];
+
+					if(countClick == 1){
+
+						if(cur.hasClass('active')){
+							action_active = 1;
+						}else{
+							action_active = 0;
+						}
+
+						firstClick = curId;
+						firstClick = parseFloat(firstClick);
+						firtsTr = cur_tr;
+						firtsTr = parseFloat(firtsTr);
+						firstTd = cur_td;
+						firstTd = parseFloat(firstTd);
+						firstElem = cur;
+						if(firstElem.hasClass('active')){
+							//firstElem.removeClass('bh-active active').find('input').prop('checked',false);
+						}
+					}else if(countClick == 2){
+						secondClick = curId;
+						secondClick = parseFloat(secondClick);
+						secondElem = cur;
+						secondTr = cur_tr;
+						secondTr = parseFloat(secondTr);
+						secondTd = cur_td;
+						secondTd = parseFloat(secondTd);
+					}
+
+
+					if(countClick == 2){
+						$.each(all_tr,  function(i)   {
+
+							$.each($(this).find('td') , function(k){
+								var td_class =this.className;
+								var  start_k = k+1;
+								var finish_k = k;
+
+								console.log(action_active);
+
+								if(i >= firtsTr && i <= secondTr && start_k >= firstTd+1 && finish_k < secondTd+1){
+
+									if(action_active == 0){
+										$(this).removeClass('bh-active active').find('input').prop('checked',false);
+									}else{
+										$(this).removeClass('bh-active').addClass('active').find('input').prop('checked',true);
+									}
+
+									if(td_class !="active"){
+
+									}
+									if(td_class == 'active'){
+
+
+									}
+								}
+							});
+
+						});
+						countClick = 0;
+					}
+
+				}else{
+					if(cur.hasClass('active')){
+						cur.removeClass('active').find('input').prop('checked',false);
+					}else{
+						cur.removeClass('bh-active').addClass('active').find('input').prop('checked',true);
+					}
+				}
 
 			cur.removeClass('bh-active');
 
 			if(cur.hasClass('active')){
 				if(active.length==1){
-					cur.removeClass('active').find('input').prop('checked',false);
+					//cur.removeClass('active').find('input').prop('checked',false);
 				}else if(active.length>1){
 					var currindex=all_td.index(cur)+1,
 						maxindex=all_td.index(active.eq(active.length-1));
 
-					for(var i=currindex; i<=maxindex; i++){
+					/*for(var i=currindex; i<=maxindex; i++){
 						all_td.eq(i).removeClass('bh-active active').find('input').prop('checked',false);
 					}
 				}
@@ -331,14 +444,15 @@ $(function(){
 						activeindex=all_td.index(active.eq(0)),
 						start=currindex,
 						end=activeindex;
+					//console.log(currindex);
 
 					if(activeindex<currindex){
 						start=activeindex;
 						end=currindex;
 					}
-
+/*
 					for(var i=start;i<=end;i++)
-						all_td.eq(i).removeClass('bh-active').addClass('active').find('input').prop('checked',true);
+						all_td.eq(i).removeClass('bh-active').addClass('active').find('input').prop('checked',true);*/
 				}
 			}
 		});
