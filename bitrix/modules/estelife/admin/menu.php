@@ -186,6 +186,26 @@ if($APPLICATION->GetGroupRight("estelife")>"D")
 						)
 					)
 				),
+				array(
+					"text" => GetMessage("ESTELIFE_SUBSCRIBE"),
+					"dynamic" => true,
+					"module_id" => "estelife",
+					"title" => GetMessage("ESTELIFE_SUBSCRIBE_TITLE"),
+					"items_id" => "menu_estelife_production",
+					"items" => array(
+						array(
+							"text" => GetMessage("ESTELIFE_SUBSCRIBE_LIST"),
+							"dynamic" => true,
+							"module_id" => "estelife",
+							"title" => GetMessage("ESTELIFE_SUBSCRIBE_LIST"),
+							"items_id" => "menu_estelife_subscribe",
+							"url" => '/bitrix/admin/estelife_subscribe_list.php?lang='.LANGUAGE_ID,
+							'more_url'=>array(
+								'/bitrix/admin/estelife_subscribe_edit.php?lang='.LANGUAGE_ID,
+							)
+						),
+					)
+				),
 			)
 		);
 
