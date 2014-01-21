@@ -63,5 +63,11 @@ CModule::AddAutoloadClasses(
 		//bitrix
 		'bitrix\VNavigation'=>"classes/bitrix/class.VNavigation.php",
 		'bitrix\ERESULT'=>"classes/bitrix/class.ERESULT.php",
+
+		//request
+		'request\VRequest'=>"classes/request/class.VRequest.php",
+		'request\VCompany'=>"classes/request/class.VCompany.php",
+		'request\VUser'=>"classes/request/class.VUser.php",
+		'request\exceptions\VRequest'=>"classes/request/exceptions/class.VRequest.php"
 	)
 );

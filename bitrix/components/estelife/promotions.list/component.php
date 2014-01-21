@@ -70,7 +70,9 @@ $obQuery->builder()
 	->field('ea.small_photo','logo_id')
 	->field('ea.view_type','view_type')
 	->field('ct.CODE', 'city_code')
-	->field('ea.small_photo','s_logo_id');
+	->field('ea.small_photo','s_logo_id')
+	->field('ec.name','clinic_name')
+	->field('ec.id','clinic_id');
 $obFilter=$obQuery->builder()->filter();
 $obFilter->_gte('ea.end_date', $arNow);
 $obFilter->_eq('ea.active', 1);

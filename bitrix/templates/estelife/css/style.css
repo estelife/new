@@ -67,8 +67,8 @@ body {
 	box-shadow: 0 0 10px #aaa;
 }
 .social a, .arrow i, ul.stat i, .promotion .time i, .promotion .prices i, .media .item span, .media .menu .first a,
-.promotion .time i, .promotion .prices i, .item.detail .clinic .col1 a, .select .arrow, .item.company p i, .gallery .arrow i, td.prices i,
-.filter .date i, .win-close, .checked, .item.promotion .current .perc i,.checkbox.active i, .to-top i, h2.show-quality-form i{
+.promotion .time i, .promotion .prices i, .item.detail .clinic a.more i, .select .arrow, .item.company p i, .gallery .arrow i, td.prices i,
+.filter .date i, .win-close, .checked, .item.promotion .current .perc i,.checkbox.active i, .to-top i, h2.show-quality-form i,.help i{
 	background-image:url('../images/complex.png');
 	background-repeat: no-repeat;
 }
@@ -264,7 +264,7 @@ input.text {
 }
 .head .menu, .head .submenu, ul.menu, ul.stat, .cities ul, .crumb, .nav, .item.detail .tab-c ul,
 .items .item.producer ul, .items .item.product ul, .item.producer .current ul, .item.product .current ul,
-.items .item.event ul, .win-gallery-previews, .quality ul.steps{
+.items .item.event ul, .win-gallery-previews, .quality ul.steps, .item.detail .clinic ul{
 	list-style: none;
 	padding:0;
 	margin:0;
@@ -663,7 +663,6 @@ ul.stat .unlikes.active i {
 	width:727px;
 	height:380px;
 	margin-top:40px;
-	border-bottom:1px solid #D1D1D1;
 	position: relative;
 }
 .item.detail .promotions {
@@ -676,11 +675,23 @@ ul.stat .unlikes.active i {
 .similars {
 	margin-top:70px;
 }
-.item.promotion, .item.promotion .current {
+.item.promotion, .item.promotion .data {
 	position: relative;
 	border:1px solid #D1D1D1;
 	padding-bottom:15px;
 	cursor: pointer;
+}
+.item.promotion .data {
+	margin:34px 0 26px 0;
+	padding-bottom:0;
+	overflow: hidden;
+}
+.item.promotion .data img {
+	width:310px;
+	height:198px;
+	float:left !important;
+	border-bottom:none;
+	border-right:1px solid #d1d1d1;
 }
 .item.promotion:hover, .item.company:hover,
 .item.product:hover, .item.producer:hover, 
@@ -700,16 +711,31 @@ ul.stat .unlikes.active i {
 	top:-1px;
 	left:22px;
 }
+.promotion .perc {
+	width:45px;
+}
 .item.promotion.last, .item.promotion:last-child {
 	margin-right: 0;
 }
 .item.promotion h3 {
-	margin:25px 0 25px 20px !important;
+	margin: 24px 0 23px 20px !important;
 	width:185px;
 	height: 40px;
 }
 .item.promotion a {
 	display: block;
+}
+.item.promotion .clinic-link {
+	float: left;
+	font-size: 15px;
+	color: #E50364;
+	font-weight: bold;
+	text-decoration: none;
+	margin: 18px 0 0 20px;
+	width:100%;
+}
+.item.promotion .clinic-link:hover {
+	text-decoration: underline;
 }
 .item.promotion img, .inner .products .item.product .img {
 	float:none !important;
@@ -718,7 +744,7 @@ ul.stat .unlikes.active i {
 	border-right:none;
 }
 .item.promotion .prices {
-	width: 120px;
+	width: 115px;
 	margin-left: 20px;
 	height:40px;
 }
@@ -775,10 +801,10 @@ td.prices span {
 	top:2px;
 }
 .item.promotion .time {
-	margin-right: 20px;
 	padding-left: 20px;
 	font-size: 12px;
 	margin-top:0;
+	width:67px;
 }
 .item.promotion .time i {
 	width:16px;
@@ -789,9 +815,18 @@ td.prices span {
 	background-position: -324px -34px;
 }
 .item.promotion .current {
+	float:right;
 	height:77px;
-	padding:0;
-	margin:35px 0 20px 0;
+	padding:26px 0 0 0;
+	width:394px;
+}
+.item.promotion .current h3 {
+	font-size:18px;
+	margin:0 !important;
+	height: auto;
+}
+.item.promotion .current .city {
+	display: block;
 }
 .item.promotion .current .time {
 	float:left;
@@ -801,28 +836,29 @@ td.prices span {
 	width: 65px;
 	left: 0;
 	top: 10px;
-	height: 43px;
+	height: 45px;
 	font-size: 24px;
 	line-height: 44px;
 }
 .item.promotion .current .perc {
-	position: static;
-	float: left;
-	margin-top: 10px;
-	margin-left:-1px;
 	min-width: 43px;
-	padding: 0 10px;
+	padding: 0 7px;
 	width: auto;
+	top: -1px;
+	left: 20px;
 }
-.item.promotion .current .prices, .promotion .time, .item.promotion .current .time {
+.promotion .time {
 	margin-top:13px;
 }
 .item.promotion .current .prices {
-	margin-left:20px;
+	margin-left:0;
 	width:145px;
+	margin-top:19px;
 }
 .item.promotion .current .time {
 	margin-left:20px;
+	margin-top:19px;
+	width:auto;
 }
 .item.promotion .current .time span {
 	display: block;
@@ -1425,31 +1461,65 @@ td.prices span {
 .item.detail .more {
 	color:#E50364;
 }
+.item.promotion .current .more {
+	display: block;
+	width: 100%;
+	float:left;
+	margin-top:40px;
+}
 .item.detail .clinic {
-	height: 120px;
-	margin:60px 0 0 0;
+	border:1px solid #d1d1d1;
+	margin:54px 0 0 0;
+	padding: 25px 31px 25px 80px;
+	overflow: hidden;
+	position: relative;
 }
 .item.detail .clinic h3 {
 	margin:0 !important;
 	height: auto;
 	width:100%;
 }
-.item.detail .clinic .col1 {
-	width:82px;
-}
-.item.detail .clinic .col1 a {
+.item.detail .clinic a.more {
 	display: block;
 	width:31px;
-	height:20px;
+	height:30px;
 	background-color:#E50364;
-	background-position: -115px -51px;
+	position: absolute;
+	top:19px;
+	left:-1px;
 }
-.item.detail .clinic .col2 {
-	width:333px;
+.item.detail .clinic a.more i {
+	display: block;
+	background-position: -123px -58px;
+	width: 15px;
+	height: 7px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -3px 0 0 -7px;
 }
 .item.detail .clinic span {
 	display: block;
-	margin-top:19px;
+}
+.item.detail .clinic span a {
+	text-decoration: none;
+}
+.item.detail .clinic span a:hover {
+	text-decoration: underline;
+}
+.item.detail .clinic li {
+	padding-left:0;
+	margin-bottom:10px;
+	font-size:13px;
+}
+.item.detail .clinic h4 {
+	margin:40px 0 20px 0;
+}
+.item.detail .clinic .map {
+	width:610px;
+	height:178px;
+	border:1px solid #d1d1d1;
+	margin-top:20px;
 }
 .filter {
 	background:#e8e8e8;
@@ -2068,7 +2138,7 @@ li.country, span.country {
 	border: 1px solid #d1d1d1;
 }
 .map span {
-	display: none;
+	display: none !important;
 }
 .item.company .map {
 	width:725px;
@@ -2356,7 +2426,7 @@ body {
 	position: absolute;
 	opacity: 0.5;
 	top: 0;
-	left: -284px;
+	left: -283px;
 	width: 1920px;
 	max-height: initial;
 	max-width: initial;
@@ -2601,4 +2671,24 @@ form.quality .submit {
 	bottom: -24px;
 	color: #E60365;
 	left: 0;
+}
+.help {
+	font-size: 12px;
+	color: #fff;
+	text-align: center;
+	padding: 2px 10px;
+	background: #222;
+	border-radius: 4px;
+	position: absolute;
+	display: none;
+}
+.help i {
+	display: block;
+	width:11px;
+	height:6px;
+	position: absolute;
+	top:-6px;
+	left:50%;
+	margin-left:-5px;
+	background-position: -168px -76px;
 }

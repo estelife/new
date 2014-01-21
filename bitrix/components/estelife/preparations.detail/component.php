@@ -164,6 +164,6 @@ foreach ($arProductions as $val){
 }
 
 $APPLICATION->SetPageProperty("title", $arResult['pill']['name']);
-$APPLICATION->SetPageProperty("description", mb_substr(trim(strip_tags($arResult['pill']['preview_text'])),0,140,'utf-8'));
+$APPLICATION->SetPageProperty("description", mb_substr(trim(strip_tags($arResult['pill']['name'].'. '.$arResult['pill']['detail_text'])),0,155,'utf-8'));
 $APPLICATION->SetPageProperty("keywords", "Estelife, учебный центр, ".mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['pill']['name'])),'utf-8'));
 $this->IncludeComponentTemplate();

@@ -34,6 +34,7 @@
 							<?=$arValue['time']?> <?=$arValue['day']?>
 							<i></i>
 						</div>
+						<a href="/cl<?=$arValue['clinic_id']?>/" class="clinic-link"><?=$arValue['clinic_name']?></a>
 					</div>
 					<div class="border"></div>
 				</div>

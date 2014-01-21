@@ -135,7 +135,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			->value('base_sale', $obPost->one('base_sale'))
 			->value('start_date', strtotime($obPost->one('start_date')))
 			->value('end_date', strtotime($obPost->one('end_date')))
-			->value('view_type', intval($obPost->one('view_type')));
+			->value('view_type', intval($obPost->one('view_type')))
+			->value('more_information', strip_tags($obPost->one('more_information')));
 
 		if(!empty($_FILES['small_photo'])){
 			$arImage=$_FILES['small_photo'];
@@ -474,6 +475,12 @@ if(!empty($arResult['error']['text'])){
 					<?php endif?>
 				</select>
 				<a href="#" class="estelife-more estelife-btn adm-btn adm-btn-save">&crarr;</a>
+			</td>
+		</tr>
+		<tr>
+			<td width="30%"><?=GetMessage("ESTELIFE_F_MORE_INFORMATION")?></td>
+			<td width="70%">
+				<input type="text" size="60" maxlength="255" name="more_information" value="<?=$arResult['ak']['more_information']?>" />
 			</td>
 		</tr>
 		<?

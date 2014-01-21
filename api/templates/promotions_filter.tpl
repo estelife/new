@@ -81,6 +81,6 @@
 	</div>
 	<input type="submit" value="Найти акцию" class="submit">
 	<!--if($empty)!-->
-		<a href="/clinics/?city=all" class="clear">Сбросить фильтр</a>
+		<a href="/promotions/?city=all" class="clear">Сбросить фильтр</a>
 	<!--endif!-->
 </form>

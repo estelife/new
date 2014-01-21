@@ -891,7 +891,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Inner({
 									views:[
 										new Views.Crumb(),
-										new Views.Detail({
+										new Views.DetailWithMap({
 											template:'promotions_detail'
 										})
 									]

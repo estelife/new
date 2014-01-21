@@ -661,6 +661,14 @@ require([
 		e.preventDefault();
 	});
 
+	body.on('mouseover mouseout','[data-help]',function(e){
+		if(e.type=='mouseover'){
+			EL.help($(this)).show();
+		}else{
+			EL.help($(this)).hide();
+		}
+	});
+
 	var toTop=$('.to-top'),
 		min=200,
 		max=1000;
