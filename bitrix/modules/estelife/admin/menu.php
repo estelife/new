@@ -206,6 +206,26 @@ if($APPLICATION->GetGroupRight("estelife")>"D")
 						),
 					)
 				),
+				array(
+					"text" => GetMessage("ESTELIFE_REQUEST"),
+					"dynamic" => true,
+					"module_id" => "estelife",
+					"title" => GetMessage("ESTELIFE_REQUEST_TITLE"),
+					"items_id" => "menu_estelife_request",
+					"items" => array(
+						array(
+							"text" => GetMessage("ESTELIFE_REQUEST_LIST"),
+							"dynamic" => true,
+							"module_id" => "estelife",
+							"title" => GetMessage("ESTELIFE_REQUEST_LIST"),
+							"items_id" => "menu_estelife_request2",
+							"url" => '/bitrix/admin/estelife_request_list.php?lang='.LANGUAGE_ID,
+							'more_url'=>array(
+								'/bitrix/admin/estelife_request_edit.php?lang='.LANGUAGE_ID,
+							)
+						),
+					)
+				),
 			)
 		);
 

@@ -35,5 +35,9 @@ $MESS ['ESTELIFE_METHODS_TITLE']='Управление методиками';
 $MESS ['ESTELIFE_SUBSCRIBE']='Подписка';
 $MESS ['ESTELIFE_SUBSCRIBE_TITLE']='Управление подпиской';
 $MESS ['ESTELIFE_SUBSCRIBE_LIST']='Список подписок';
+$MESS ['ESTELIFE_REQUEST']='Заявки';
+$MESS ['ESTELIFE_REQUEST_TITLE']='Управление заявками';
+$MESS ['ESTELIFE_REQUEST_LIST']='Список заявок';
+
 
 

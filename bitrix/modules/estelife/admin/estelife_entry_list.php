@@ -4,7 +4,7 @@ use core\database\VDatabase;
 
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_before.php");
 
-$sTableID = "tbl_estelife_subscribe_list";
+$sTableID = "tbl_estelife_entry_list";
 $oSort = new CAdminSorting($sTableID, "id", "asc");
 $lAdmin = new CAdminList($sTableID, $oSort);
 
@@ -20,34 +20,37 @@ CModule::IncludeModule("estelife");
 IncludeModuleLangFile(__FILE__);
 
 
+
 //===== FILTER ==========
 $arFilterFields = Array(
+	"find_name",
 	"find_email",
-	"find_active",
-	"find_type"
+	"find_phone"
 );
 $lAdmin->InitFilter($arFilterFields);
 
+InitBVar($find_name_exact_match);
 InitBVar($find_email_exact_match);
-InitBVar($find_active_exact_match);
-InitBVar($find_type_exact_match);
+InitBVar($find_phone_exact_match);
 
 $arFilter = Array(
+	"name"						=> $find_name,
 	"email"						=> $find_email,
-	"active"					=> $find_active,
-	"type"						=> $find_type
+	"phone"						=> $find_phone
 );
 
 
 //====== TABLE HEADERS =========
 $headers = array(
 	array("id"=>"ID", "content"=>GetMessage("ESTELIFE_F_ID"), "sort"=>"id", "default"=>true),
-	array("id"=>"ACTIVE", "content"=>GetMessage("ESTELIFE_F_ACTIVE"), "sort"=>"active", "default"=>true),
+	array("id"=>"NAME", "content"=>GetMessage("ESTELIFE_F_NAME"), "sort"=>"name", "default"=>true),
 	array("id"=>"EMAIL", "content"=>GetMessage("ESTELIFE_F_EMAIL"), "sort"=>"email", "default"=>true),
-	array("id"=>"TYPE", "content"=>GetMessage("ESTELIFE_F_TYPE"), "sort"=>"type", "default"=>true),
+	array("id"=>"PHONE", "content"=>GetMessage("ESTELIFE_F_PHONE"), "sort"=>"phone", "default"=>true),
 	array("id"=>"DATE", "content"=>GetMessage("ESTELIFE_F_DATE"), "sort"=>"date", "default"=>true),
 );
+
 $lAdmin->AddHeaders($headers);
+
 
 //==== Здесь надо зафигачить генерацию списка ========
 if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
@@ -55,7 +58,7 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 		if(($ID = IntVal($ID))>0 && $_REQUEST['action']=='delete'){
 			try{
 				$obQuery = VDatabase::driver()->createQuery();
-				$obQuery->builder()->from('estelife_subscribe')->filter()
+				$obQuery->builder()->from('estelife_entry')->filter()
 					->_eq('id', $ID);
 				$obQuery->delete();
 			}catch(\core\database\exceptions\VCollectionException $e){}
@@ -63,35 +66,38 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 	}
 }
 
+
 $obQuery=VDatabase::driver()->createQuery();
 $obQuery->builder()
-	->from('estelife_subscribe');
+	->from('estelife_entry');
 
 $obFilter=$obQuery->builder()->filter();
 
-
 if($_GET && $_GET['set_filter'] == 'Y'){
 
-if(!empty($arFilter['email']))
-	$obFilter->_like('email',$arFilter['email'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
-if($arFilter['active'] != 'all')
-	$obFilter->_eq('active',$arFilter['active']);
-if($arFilter['type'] != 'all')
-	$obFilter->_eq('type',$arFilter['type']);
+	if(!empty($arFilter['name']))
+		$obFilter->_like('name',$arFilter['name'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
+	if(!empty($arFilter['email']))
+		$obFilter->_like('email',$arFilter['email'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
+	if(!empty($arFilter['phone']))
+		$obFilter->_like('phone',$arFilter['phone'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
 }
 
 
-
-if($by=='email')
+if($by=='name')
+	$obQuery->builder()->sort('name',$order);
+elseif($by=='email')
 	$obQuery->builder()->sort('email',$order);
-elseif($by=='active')
-	$obQuery->builder()->sort('active',$order);
-elseif($by=='type')
-	$obQuery->builder()->sort('type',$order);
+elseif($by=='phone')
+	$obQuery->builder()->sort('phone',$order);
 elseif($by=='date')
-	$obQuery->builder()->sort('date_send',$order);
+	$obQuery->builder()->sort('date',$order);
 else
 	$obQuery->builder()->sort($by,$order);
+
+
+
+
 
 $obResult=$obQuery->select();
 $obResult=new CAdminResult(
@@ -101,42 +107,31 @@ $obResult=new CAdminResult(
 
 
 
-
-
-
 $obResult->NavStart();
 $lAdmin->NavText($obResult->GetNavPrint(GetMessage('ESTELIFE_PAGES')));
 
-$types = array(
-	1=>'Клиники',
-	2=>'Учебные центры'
-);
 
 while($arRecord=$obResult->Fetch()){
 	$f_ID=$arRecord['id'];
 	$row =& $lAdmin->AddRow($f_ID,$arRecord);
 
-	if($arRecord['active'] == 1){
-		$active = "Да";
-	}else{
-		$active = "Нет";
-	}
-
-	$date_send = date('d-m-Y, h:i',$arRecord['date_send']);
+	$date = date('d-m-Y, h:i',$arRecord['date']);
 
 
 	$row->AddViewField("ID",$arRecord['id']);
-	$row->AddViewField("ACTIVE", $active);
+	$row->AddViewField("NAME", $arRecord['name']);
 	$row->AddViewField("EMAIL", $arRecord['email']);
-	$row->AddViewField("TYPE", $types[$arRecord['type']]);
-	$row->AddViewField("DATE", $date_send);
+	$row->AddViewField("PHONE", $arRecord['phone']);
+	$row->AddViewField("DATE", $date);
 
 	$arActions = Array();
-	$arActions[] = array("DEFAULT"=>"Y", "ICON"=>"edit", "TITLE"=>GetMessage("ESTELIFE_EDIT_ALT"), "ACTION"=>$lAdmin->ActionRedirect("estelife_subscribe_edit.php?lang=".LANGUAGE_ID."&ID=$f_ID"), "TEXT"=>GetMessage("ESTELIFE_EDIT"));
+	$arActions[] = array("DEFAULT"=>"Y", "ICON"=>"edit", "TITLE"=>GetMessage("ESTELIFE_EDIT_ALT"), "ACTION"=>$lAdmin->ActionRedirect("estelife_entry_edit.php?lang=".LANGUAGE_ID."&ID=$f_ID"), "TEXT"=>GetMessage("ESTELIFE_EDIT"));
 	$arActions[] = array("ICON"=>"delete", "TITLE"=>GetMessage("ESTELIFE_DELETE_ALT"),"ACTION"=>"javascript:if(confirm('".GetMessage("ESTELIFE_CONFIRM_DELETE")."')) window.location='?lang=".LANGUAGE_ID."&action=delete&ID=$f_ID&".bitrix_sessid_get()."'","TEXT"=>GetMessage("ESTELIFE_DELETE"));
 	$row->AddActions($arActions);
 
 }
+
+
 
 $lAdmin->AddFooter(
 	array(
@@ -145,11 +140,15 @@ $lAdmin->AddFooter(
 	)
 );
 
+
+
 //========= Групповое удаление, если права позволяют
 //if ($FORM_RIGHT=="W")
 $lAdmin->AddGroupActionTable(Array(
 	"delete"=>GetMessage("FORM_DELETE_L"),
 ));
+
+
 
 
 //======= Контектстное меню ===========
@@ -163,69 +162,56 @@ $aMenu[] = array(
 	"ICON" => "btn_new"
 );
 
-/*$aContext = $aMenu;
-$lAdmin->AddAdminContextMenu($aContext);*/
-//}
+
 
 $lAdmin->CheckListMode();
 
 $APPLICATION->SetTitle(GetMessage("ESTELIFE_HEAD_TITLE"));
 
 
+
 require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_after.php");
 
 ?>
-<script type="text/javascript" src="/bitrix/js/estelife/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="/bitrix/js/estelife/jquery-ui-1.10.3.custom.min.js"></script>
-<script type="text/javascript" src="/bitrix/js/estelife/estelife.js"></script>
+	<script type="text/javascript" src="/bitrix/js/estelife/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="/bitrix/js/estelife/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="/bitrix/js/estelife/estelife.js"></script>
 
-<a name="tb"></a>
-<form name="form1" method="GET" action="<?=$APPLICATION->GetCurPage()?>?">
-	<?php
-	$oFilter = new CAdminFilter(
-		$sTableID."_filter",
-		array(
-			GetMessage("ESTELIFE_F_EMAIL"),
-			GetMessage("ESTELIFE_F_TYPE"),
-			GetMessage("ESTELIFE_F_ACTIVE")
-		)
-	);
-	$oFilter->Begin();
-	?>
-	<tr>
-		<td><?echo GetMessage("ESTELIFE_F_EMAIL")?></td>
-		<td><input type="text" name="find_email" size="30" value="<?echo htmlspecialcharsbx($find_email)?>"></td>
-	</tr>
+	<a name="tb"></a>
+	<form name="form1" method="GET" action="<?=$APPLICATION->GetCurPage()?>?">
+		<?php
+		$oFilter = new CAdminFilter(
+			$sTableID."_filter",
+			array(
+				GetMessage("ESTELIFE_F_NAME"),
+				GetMessage("ESTELIFE_F_EMAIL"),
+				GetMessage("ESTELIFE_F_PHONE"),
+			)
+		);
+		$oFilter->Begin();
+		?>
+		<tr>
+			<td><?echo GetMessage("ESTELIFE_F_NAME")?></td>
+			<td><input type="text" name="find_name" size="30" value="<?echo htmlspecialcharsbx($find_name)?>"></td>
+		</tr>
 
-	<tr>
-		<td><?echo GetMessage("ESTELIFE_F_ACTIVE")?></td>
-		<td>
-			<select name="find_active" value="<?echo htmlspecialcharsbx($find_active)?>">
-				<option value="all"><?echo GetMessage("ESTELIFE_NOT_IMPORTANT")?></option>
-						<option value="1">Да</option>
-						<option value="0">Нет</option>
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<td><?echo GetMessage("ESTELIFE_F_TYPE")?></td>
-		<td>
-			<select name="find_type" value="<?echo htmlspecialcharsbx($find_type)?>">
-				<option value="all"><?echo GetMessage("ESTELIFE_NOT_IMPORTANT")?></option>
-				<? foreach($types as $type_key=>$type){ ?>
-					<option value="<?=$type_key;?>"><?=$type;?></option>
-				<? } ?>
-			</select>
-		</td>
-	</tr>
+		<tr>
+			<td><?echo GetMessage("ESTELIFE_F_EMAIL")?></td>
+			<td><input type="text" name="find_email" size="30" value="<?echo htmlspecialcharsbx($find_email)?>"></td>
+		</tr>
+		<tr>
+			<td><?echo GetMessage("ESTELIFE_F_PHONE")?></td>
+			<td><input type="text" name="find_phone" size="30" value="<?echo htmlspecialcharsbx($find_phone)?>"></td>
+		</tr>
 
-	<?
-	$oFilter->Buttons(array("table_id"=>$sTableID, "url"=>$APPLICATION->GetCurPage()));
-	$oFilter->End();
-	#############################################################
-	?>
-</form>
+		<?
+		$oFilter->Buttons(array("table_id"=>$sTableID, "url"=>$APPLICATION->GetCurPage()));
+		$oFilter->End();
+		#############################################################
+		?>
+	</form>
 
 <?
+
 
 $lAdmin->DisplayList();
