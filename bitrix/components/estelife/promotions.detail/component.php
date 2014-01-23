@@ -174,7 +174,17 @@ $arResult['action']['day_count']=ceil(($arResult['action']['end_date']-time())/8
 $arResult['action']['day_count']=$arResult['action']['day_count'].' '.\core\types\VString::spellAmount($arResult['action']['day_count'],'день,дня,дней');
 $arResult['action']['end_date']=date('d.m.Y', $arResult['action']['end_date']);
 
-$APPLICATION->SetPageProperty("title", $arResult['action']['preview_text'].' в '.$arResult['action']['clinics']['clinic_name'].' ('.$arResult['action']['clinics']['city'].')');
-$APPLICATION->SetPageProperty("description", 'Акция: '.$arResult['action']['preview_text'].' в '.$arResult['action']['clinics']['clinic_name'].' ('.$arResult['action']['clinics']['city'].')');
+$arResult['action']['clinics']['clinic_name'] = trim(strip_tags(html_entity_decode($arResult['action']['clinics']['clinic_name'], ENT_QUOTES, 'utf-8')));
+$arResult['action']['clinics']['seo_clinic_name'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['action']['clinics']['clinic_name']);
+
+$arResult['action']['preview_text'] = trim(strip_tags(html_entity_decode($arResult['action']['preview_text'], ENT_QUOTES, 'utf-8')));
+$arResult['action']['seo_preview_text'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['action']['preview_text']);
+
+if (!empty($arResult['action']['clinics']['city']))
+	$arCity = ' ('.$arResult['action']['clinics']['city'].')';
+else
+	$arCity = '';
+$APPLICATION->SetPageProperty("title", $arResult['action']['seo_preview_text'].' в '.$arResult['action']['clinics']['seo_clinic_name'].$arCity);
+$APPLICATION->SetPageProperty("description", 'Акция: '.$arResult['action']['seo_preview_text'].' в '.$arResult['action']['clinics']['seo_clinic_name'].$arCity);
 
 $this->IncludeComponentTemplate();

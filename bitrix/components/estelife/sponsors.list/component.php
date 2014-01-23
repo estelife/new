@@ -143,12 +143,15 @@ while($arData=$obResult->Fetch()){
 
 	$arData['short_web']=\core\types\VString::checkUrl($arData['web']);
 	$arResult['org'][]=$arData;
-	$arDescription[]=mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arData['name'])),'utf-8');
+	$arDescription[]=mb_strtolower($arData['name']);
 }
 
 $arDescription=implode(', ',$arDescription);
+$arDescription = strip_tags(html_entity_decode(implode(", ", $arDescription), ENT_QUOTES, 'utf-8'));
+$arDescription = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arDescription);
+
 $APPLICATION->SetPageProperty("title", 'Организаторы');
-$APPLICATION->SetPageProperty("description", $arDescription);
+$APPLICATION->SetPageProperty("description", VString::truncate($arDescription, 160, ''));
 $APPLICATION->SetPageProperty("keywords", "Estelife, организаторы, ".$arDescription);
 
 //$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');

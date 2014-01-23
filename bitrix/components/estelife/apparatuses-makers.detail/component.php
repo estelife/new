@@ -114,11 +114,14 @@ foreach ($arProductions as $val){
 	$arResult['company']['production'][] = $val;
 }
 
+$arResult['company']['preview_text'] = trim(strip_tags(html_entity_decode($arResult['company']['preview_text'], ENT_QUOTES, 'utf-8')));
+$arResult['company']['seo_description'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['company']['preview_text']);
 
-$arResult['company']['seo_description'] = mb_substr(strip_tags($arResult['company']['preview_text']), 0, 140, 'utf-8');
+$arResult['company']['name'] = trim(strip_tags(html_entity_decode($arResult['company']['name'], ENT_QUOTES, 'utf-8')));
+$arResult['company']['seo_name'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['company']['name']);
 
-$APPLICATION->SetPageProperty("title", mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['company']['name'])),'utf-8'));
-$APPLICATION->SetPageProperty("description", $arResult['company']['seo_description']);
-$APPLICATION->SetPageProperty("keywords", "Estelife, Производители апппаратов, ".$arResult['company']['name']);
+$APPLICATION->SetPageProperty("title", mb_strtolower($arResult['company']['seo_name']));
+$APPLICATION->SetPageProperty("description", \core\types\VString::truncate($arResult['company']['seo_description'],160,''));
+$APPLICATION->SetPageProperty("keywords", "Estelife, Производители апппаратов, ".$arResult['company']['seo_name']);
 
 $this->IncludeComponentTemplate();

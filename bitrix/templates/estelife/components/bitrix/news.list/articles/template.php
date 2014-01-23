@@ -16,17 +16,17 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<? foreach($arResult["ITEMS"] as $arItem):?>
 				<div class="item article">
 					<?$img = CFile::GetFileArray($arItem['PROPERTIES']['LISTIMG']['VALUE']);?>
-					<img src="<?=$img['SRC']?>" alt="<?=$arItem['NAME']?>" title="<?=$arItem['NAME']?>" width="229" height="160" />
+					<img src="<?=$img['SRC']?>" alt="<?=$arItem['NAME']?>" title="<?=$arItem['NAME']?>" />
 					<h3><a href="<?=$arItem["DETAIL_PAGE_URL"]?>"><?=$arItem['NAME']?></a></h3>
 					<p><?=$arItem['PREVIEW_TEXT']?></p>
-					<ul class="stat">
+					<ul class="stat notlike">
 
 						<?php if (!empty($arItem['ACTIVE_FROM'])):?>
 							<li class="date"><?=date('d.m.Y',strtotime($arItem['ACTIVE_FROM']))?></li>
 						<?php endif?>
 <!--						<li class="comments">9<i></i></li>-->
-<!--						<li class="likes">41<i></i></li>-->
-<!--						<li class="unlikes">2<i></i></li>-->
+						<li class="likes"><?if ($arItem['LIKES']['countLike']>0):?><?=$arItem['LIKES']['countLike']?><?else:?>0<?endif?><i></i></li>
+						<li class="unlikes"><?if ($arItem['LIKES']['countDislike']>0):?><?=$arItem['LIKES']['countDislike']?><?else:?>0<?endif?><i></i></li>
 					</ul>
 				</div>
 				<?endforeach?>

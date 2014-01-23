@@ -126,14 +126,17 @@ while($arData=$obResult->Fetch()){
 	$arResult['apps'][]=$arData;
 
 	if ($i<=5){
-		$arDescription[]= mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arData['name'])),'utf-8');
+		$arDescription[]= mb_strtolower($arData['name']);
 	}
 	$i++;
 }
 
+$arDescription = strip_tags(html_entity_decode(implode(", ", $arDescription), ENT_QUOTES, 'utf-8'));
+$arDescription = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arDescription);
+
 $APPLICATION->SetPageProperty("title", "Аппараты");
-$APPLICATION->SetPageProperty("description", implode(", ", $arDescription));
-$APPLICATION->SetPageProperty("keywords", "Estelife, Аппараты, ". implode(" ,", $arDescription));
+$APPLICATION->SetPageProperty("description", VString::truncate($arDescription, 160, ''));
+$APPLICATION->SetPageProperty("keywords", "Estelife, Аппараты, ". $arDescription);
 
 $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));

@@ -5,6 +5,7 @@ use core\exceptions\VException;
 use core\exceptions\VFormException;
 use core\http\VHttp;
 use core\types\VArray;
+use like\VLike;
 use reference\services as rs;
 
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
@@ -388,6 +389,15 @@ try{
 				false
 			);
 			$arResult=false;
+			break;
+		case 'set_likes':
+			$obLike = new VLike(intval($_POST['type']));
+			if (!empty($_POST['md5']))
+				$sMd5 = $_POST['md5'];
+			else
+				$sMd5=false;
+
+			$arResult = $obLike->like(intval($_POST['elementId']), intval($_POST['typeLike']),$sMd5);
 			break;
 		case 'set_city':
 			$_GET=array_merge($_GET,$arData);

@@ -297,7 +297,10 @@ if (!empty($arResult['company']['city_id'])){
 		$arResult['company']['city_name'];
 }
 
-$APPLICATION->SetPageProperty("title", $arResult['company']['name']. ' - учебный центр в '.$mCity.' - курсы и семинары');
-$APPLICATION->SetPageProperty("description",'Подробная информация об учебном центре: '.$arResult['company']['name'].' в '.$mCity.', семинары, обучения и курсы. Читайте здесь.');
+$arResult['company']['name'] = trim(strip_tags(html_entity_decode($arResult['company']['name'], ENT_QUOTES, 'utf-8')));
+$arResult['company']['seo_name'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['company']['name']);
+
+$APPLICATION->SetPageProperty("title", $arResult['company']['seo_name']. ' - учебный центр в '.$mCity.' - курсы и семинары');
+$APPLICATION->SetPageProperty("description",'Подробная информация об учебном центре: '.$arResult['company']['seo_name'].' в '.$mCity.', семинары, обучения и курсы. Читайте здесь.');
 
 $this->IncludeComponentTemplate();

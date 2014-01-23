@@ -19,7 +19,7 @@
 		</select>
 		<span class="block"></span>
 	</div>
-	<div class="field<!--if($filter.metro)!--> <!--else!--> disabled<!--endif!-->">
+	<div class="field<!--if($metro)!--> <!--else!--> disabled<!--endif!-->">
 		<label for="metros">Станция метро</label>
 		<select name="metro" id="metros">
 			<option value="">--</option>
