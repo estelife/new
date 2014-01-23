@@ -2,6 +2,7 @@
 use core\database\mysql\VFilter;
 use core\database\VDatabase;
 use core\types\VArray;
+use core\types\VString;
 use geo\VGeo;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
@@ -130,6 +131,10 @@ $obQuery->builder()->group('ece.company_id');
 $obResult = $obQuery->select();
 
 $obResult = $obResult->bxResult();
+$nCount = $obResult->SelectedRowsCount();
+$arResult['count'] = 'Найден'.VString::spellAmount($nCount, ',о,о'). ' '.$nCount.' учебн'.VString::spellAmount($nCount, 'ый,ых,ых').' центр'.VString::spellAmount($nCount, ',а,ов');
+\bitrix\ERESULT::$DATA['count'] = $arResult['count'];
+
 $obResult->NavStart($arPageCount);
 $arResult['org']=array();
 

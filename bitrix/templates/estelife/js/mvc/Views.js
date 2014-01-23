@@ -1,6 +1,6 @@
 define(['tpl/Template'],function(Template){
 	var Views={},
-		cash=[],
+		Cache={},
 		Events=[];
 
 	/**
@@ -272,7 +272,7 @@ define(['tpl/Template'],function(Template){
 	Views.Filter=Views.Default.extend({
 		el:document.createElement('form'),
 		render:function(){
-			if(_.isObject(this.data) && this.data.filter){
+			if(_.isObject(this.data)){
 				var ob=this;
 
 				this.template.ready(function(){
@@ -284,12 +284,21 @@ define(['tpl/Template'],function(Template){
 						'type':'update'
 					})
 				});
-				cash['filter'] = this;
 
+				Cache['filter'] = this;
 				return this;
-			}else{
-				return cash['filter'];
 			}
+//			}else{
+//				var view=Cache['filter'];
+//				if (this.data.count)
+//					view.$el.find('span.count-result').html(this.data.count);
+//
+//				Events.push({
+//					'target':view.$el,
+//					'type':'update'
+//				});
+//				return view;
+//			}
 		}
 	});
 
@@ -308,11 +317,10 @@ define(['tpl/Template'],function(Template){
 
 				this.$el.append(this.data);
 				this.el=this.$el[0];
-				cash['advert'] = this;
-
+				Cache['advert']=this;
 				return this;
 			}else{
-				return cash['advert'];
+				return Cache['advert'];
 			}
 		}
 	});
@@ -338,6 +346,27 @@ define(['tpl/Template'],function(Template){
 				ob.el=ob.$el[0];
 			}
 
+			return this;
+		}
+	});
+
+	/**
+	 * Статичная страница
+	 * @type {*}
+	 */
+	Views.StaticPage=Views.Default.extend({
+		el:null,
+		render:function(){
+			if(this.data && this.data.hasOwnProperty('page')){
+				this.$el=$('<div></div>').addClass('static-page');
+
+				if(this.className){
+					this.$el.addClass(this.className);
+				}
+
+				this.$el.append(this.data.page);
+				this.el=this.$el[0];
+			}
 			return this;
 		}
 	});

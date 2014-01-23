@@ -27,3 +27,4 @@ $MESS ['ESTELIFE_T_PHOTO'] = 'Фото';
 $MESS ['ESTELIFE_F_SMALL_PHOTO']='Маленькая фотка';
 $MESS ['ESTELIFE_F_BIG_PHOTO']='Большая фотка';
 $MESS ['ESTELIFE_F_VIEW_TYPE']='Тип отображения';
+$MESS ['ESTELIFE_F_MORE_INFORMATION']='Подробная информация и цены (ссылка)';

@@ -1,7 +1,9 @@
 <form name="trainings" class="filter" method="get" action="/trainings/" >
 	<div class="title">
 		<h4>Поиск обучения</h4>
-		<!--		<span>Найдено 6 акций</span>-->
+		<!--if($count)!-->
+			<span class="count-result"><!--$count!--></span>
+		<!--endif!-->
 	</div>
 	<div class="field">
 		<label for="city">Город</label>
@@ -26,6 +28,9 @@
 			<option value="8"<!--if($filter.direction==8)!--> selected="true"<!--endif!-->>Биоревитализация</option>
 			<option value="9"<!--if($filter.direction==9)!--> selected="true"<!--endif!-->>Объемное моделирование</option>
 			<option value="10"<!--if($filter.direction==10)!--> selected="true"<!--endif!-->>Безоперационный лифтинг</option>
+			<option value="12"<!--if($filter.direction==12)!--> selected="true"<!--endif!-->>Пилинги</option>
+			<option value="13"<!--if($filter.direction==13)!--> selected="true"<!--endif!-->>Космецевтика</option>
+			<option value="14"<!--if($filter.direction==14)!--> selected="true"<!--endif!-->>Аппаратная косметология</option>
 		</select>
 		<span class="block"></span>
 	</div>

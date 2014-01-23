@@ -2,6 +2,8 @@
 use core\database\mysql\VFilter;
 use core\database\VDatabase;
 use core\types\VArray;
+use core\types\VString;
+
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	die();
 
@@ -83,6 +85,10 @@ $obQuery->builder()->sort('ep.name', 'asc');
 $obResult = $obQuery->select();
 
 $obResult = $obResult->bxResult();
+$nCount = $obResult->SelectedRowsCount();
+$arResult['count'] = 'Найден'.VString::spellAmount($nCount, ',о,о'). ' '.$nCount.' препарат'.VString::spellAmount($nCount, ',а,ов');
+\bitrix\ERESULT::$DATA['count'] = $arResult['count'];
+
 $obResult->NavStart($arPageCount);
 $arResult['pills'] = array();
 $arDescription=array();
@@ -118,15 +124,16 @@ while($arData=$obResult->Fetch()){
 	$arData['company_link'] = '/pm'.$arData['company_id'].'/';
 
 	$arResult['pills'][]=$arData;
-	$arDescription[]=mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arData['name'])),'utf-8');
+	$arDescription[]=mb_strtolower($arData['name']);
 }
 
-$arDescription=implode(', ',$arDescription);
+$arDescription = strip_tags(html_entity_decode(implode(", ", $arDescription), ENT_QUOTES, 'utf-8'));
+$arDescription = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arDescription);
+
 $APPLICATION->SetPageProperty("title", 'Препараты');
-$APPLICATION->SetPageProperty("description", $arDescription);
+$APPLICATION->SetPageProperty("description", VString::truncate($arDescription,'160', ''));
 $APPLICATION->SetPageProperty("keywords", "Estelife, препараты, ".$arDescription);
 
-//$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
 $arResult['nav']=$obNav->getNav();

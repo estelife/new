@@ -75,25 +75,43 @@ $obJoin->_left()
 	->_to('estelife_clinic_contacts','clinic_id','eccw')
 	->_cond()->_eq('eccw.type', 'web');
 $obQuery->builder()
-	->field('ct.NAME', 'city')
+	->field('ct.NAME', 'city_name')
 	->field('ct.CODE', 'city_code')
 	->field('ct.ID', 'city_id')
 	->field('mt.NAME', 'metro')
-	->field('ec.name', 'clinic_name')
-	->field('ec.id', 'clinic_id')
-	->field('ec.address', 'clinic_address')
+	->field('ec.name', 'name')
+	->field('ec.more_information', 'more_information')
+	->field('ec.latitude', 'latitude')
+	->field('ec.longitude', 'longitude')
+	->field('ec.clinic_id', 'clinic_id')
+	->field('ec.id', 'id')
+	->field('ec.address', 'address')
 	->field('eccp.value', 'phone')
 	->field('eccw.value', 'web')
 	->group('eca.clinic_id')
 	->filter()
-	->_eq('ec.clinic_id', 0)
 	->_eq('eca.akzii_id', $nActionID);
 
-$arResult['action']['clinics'] =$obQuery->select()->assoc();
+$arClinics=$obQuery->select()->all();
 
-if (!empty($arResult['action']['clinics'])){
-	$arResult['action']['clinics']['link'] = '/cl'.$arResult['action']['clinics']['clinic_id'].'/';
-	$arResult['action']['clinics']['phone']=\core\types\VString::formatPhone($arResult['action']['clinics']['phone']);
+if (!empty($arClinics)){
+	$arCurrent=array();
+	$arOffices=array();
+
+	foreach($arClinics as $arClinic){
+		$arClinic['link']='/cl'.$arClinic['id'].'/';
+		$arClinic['phone']=\core\types\VString::formatPhone($arClinic['phone']);
+		$arClinic['web_short']=\core\types\VString::checkUrl($arClinic['web']);
+
+		if($arClinic['clinic_id']==0)
+			$arCurrent=$arClinic;
+		else
+			$arOffices[]=$arClinic;
+	}
+
+	$arCurrent['offices']=$arOffices;
+	$arResult['action']['clinic']=$arCurrent;
+	unset($arCurrent,$arOffices,$arClinics);
 }
 
 //Получение условий акции
@@ -134,7 +152,17 @@ $arNow = time();
 //Получение похожих акций
 $obQuery = $obActions->createQuery();
 $obQuery->builder()->from('estelife_akzii', 'ea');
-$obJoin=$obQuery->builder()->join();
+$obJoin=$obQuery->builder()
+	->field('ea.*')
+	->field('ec.name','clinic_name')
+	->field('ec.id','clinic_id')
+	->join();
+$obJoin->_left()
+	->_from('ea','id')
+	->_to('estelife_clinic_akzii','akzii_id','eca');
+$obJoin->_left()
+	->_from('eca','clinic_id')
+	->_to('estelife_clinics','id','ec');
 $obJoin->_left()
 	->_from('ea', 'id')
 	->_to('estelife_akzii_types', 'akzii_id', 'eat');
@@ -145,10 +173,10 @@ $obFilter=$obQuery->builder()
 	->_eq('ea.active', 1)
 	->_ne('ea.id',$arResult['action']['id'])
 	->_gte('ea.end_date', time());
-	
+
 if(!empty($arResult['service']))
-	$obFilter->_in('eat.service_id', $arResult['service']);
-	
+	$obFilter->_in('eat.service_id',$arResult['service']);
+
 $arSimilar=$obQuery->select()->all();
 
 if (!empty($arSimilar)){
@@ -172,7 +200,17 @@ $arResult['action']['day_count']=ceil(($arResult['action']['end_date']-time())/8
 $arResult['action']['day_count']=$arResult['action']['day_count'].' '.\core\types\VString::spellAmount($arResult['action']['day_count'],'день,дня,дней');
 $arResult['action']['end_date']=date('d.m.Y', $arResult['action']['end_date']);
 
-$APPLICATION->SetPageProperty("title", $arResult['action']['preview_text'].' в '.$arResult['action']['clinics']['clinic_name'].' ('.$arResult['action']['clinics']['city'].')');
-$APPLICATION->SetPageProperty("description", 'Акция: '.$arResult['action']['preview_text'].' в '.$arResult['action']['clinics']['clinic_name'].' ('.$arResult['action']['clinics']['city'].')');
+$arResult['action']['clinics']['clinic_name'] = trim(strip_tags(html_entity_decode($arResult['action']['clinics']['clinic_name'], ENT_QUOTES, 'utf-8')));
+$arResult['action']['clinics']['seo_clinic_name'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['action']['clinics']['clinic_name']);
+
+$arResult['action']['preview_text'] = trim(strip_tags(html_entity_decode($arResult['action']['preview_text'], ENT_QUOTES, 'utf-8')));
+$arResult['action']['seo_preview_text'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['action']['preview_text']);
+
+if (!empty($arResult['action']['clinics']['city']))
+	$arCity = ' ('.$arResult['action']['clinics']['city'].')';
+else
+	$arCity = '';
+$APPLICATION->SetPageProperty("title", $arResult['action']['seo_preview_text'].' в '.$arResult['action']['clinics']['seo_clinic_name'].$arCity);
+$APPLICATION->SetPageProperty("description", 'Акция: '.$arResult['action']['seo_preview_text'].' в '.$arResult['action']['clinics']['seo_clinic_name'].$arCity);
 
 $this->IncludeComponentTemplate();

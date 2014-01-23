@@ -30,16 +30,26 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			'tr:number/': 'trainingsDetail',
 			'pt:number/': 'podcastDetail',
 			'ar:number/': 'articlesDetail',
-			'ns:number/': 'newsDetail'
+			'ns:number/': 'newsDetail',
+			'*path':  'defaultRoute'
 		},
-
+		defaultRoute:function(path){
+			(new Models.Inner(null,{
+				page: path,
+				view:new Views.WrapContent({
+					views:[
+						new Views.StaticPage()
+					]
+				}),
+				staticPage:true
+			})).fetch();
+		},
 		getShortPages:function(pages, pageNum){
-			var newPages=new Array();
-			if (lctn == location.pathname){
+			var newPages=[];
 
+			if (lctn==location.pathname){
 				if (pageNum instanceof Array){
-					var i;
-					for (i=0; i<pageNum.length; i++){
+					for(var i=0; i<pageNum.length; i++){
 						newPages[i] = pages[pageNum[i]];
 					}
 				}else{
@@ -48,8 +58,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			}else{
 				newPages = pages;
 			}
-			lctn=location.pathname;
 
+			lctn=location.pathname;
 			return newPages;
 		},
 
@@ -158,7 +168,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Component({
 									template:'home_articles',
-									dataKey:'ARTICLES'
+									dataKey:'NEWS'
 								}),
 								new Views.Advert({
 									className:'adv bottom',
@@ -174,7 +184,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 							views:[
 								new Views.Component({
 									template:'home_articles',
-									dataKey:'NEWS'
+									dataKey:'ARTICLES'
 								})
 							]
 						})
@@ -191,7 +201,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						'clinics_filter/'+EL.query().toString(),
 						'banner/'
 					],
-					0
+					[0,1]
 				),
 				view:new Views.WrapContent({
 					views:[
@@ -230,7 +240,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						'promotions_filter/'+EL.query().toString(),
 						'banner/'
 					],
-					0
+					[0,1]
 				),
 				view:new Views.WrapContent({
 					views:[
@@ -270,7 +280,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						'preparations_makers_filter/'+EL.query().toString(),
 						'banner/'
 					],
-					0
+					[0,1]
 				),
 				view:new Views.WrapContent({
 					views:[
@@ -310,7 +320,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						'apparatuses_makers_filter/'+EL.query().toString(),
 						'banner/'
 					],
-					0
+					[0,1]
 				),
 				view:new Views.WrapContent({
 					views:[
@@ -350,7 +360,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						'preparations_filter/'+EL.query().toString(),
 						'banner/'
 					],
-					0
+					[0,1]
 				),
 				view:new Views.WrapContent({
 					views:[
@@ -390,7 +400,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						'apparatuses_filter/'+EL.query().toString(),
 						'banner/'
 					],
-					0
+					[0,1]
 				),
 				view:new Views.WrapContent({
 					views:[
@@ -430,7 +440,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						'events_filter/'+EL.query().toString(),
 						'banner/'
 					],
-					0
+					[0,1]
 				),
 				view:new Views.WrapContent({
 					views:[
@@ -470,7 +480,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						'sponsors_filter/'+EL.query().toString(),
 						'banner/'
 					],
-					0
+					[0,1]
 				),
 				view:new Views.WrapContent({
 					views:[
@@ -510,7 +520,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						'training_centers_filter/'+EL.query().toString(),
 						'banner/'
 					],
-					0
+					[0,1]
 				),
 				view:new Views.WrapContent({
 					views:[
@@ -550,7 +560,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						'trainings_filter/'+EL.query().toString(),
 						'banner/'
 					],
-					0
+					[0,1]
 				),
 				view:new Views.WrapContent({
 					views:[
@@ -881,7 +891,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Inner({
 									views:[
 										new Views.Crumb(),
-										new Views.Detail({
+										new Views.DetailWithMap({
 											template:'promotions_detail'
 										})
 									]

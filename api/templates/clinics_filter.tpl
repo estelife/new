@@ -1,7 +1,9 @@
 <form name="clinics" class="filter" method="get" action="/clinics/" >
 	<div class="title">
 		<h4>Поиск клиники</h4>
-		<!--<span>Найдено 6 акций</span>-->
+		<!--if($count)!-->
+			<span class="count-result"><!--$count!--></span>
+		<!--endif!-->
 	</div>
 	<div class="field">
 		<label for="name">Наименование</label>
@@ -17,7 +19,7 @@
 		</select>
 		<span class="block"></span>
 	</div>
-	<div class="field<!--if($filter.metro)!--> <!--else!--> disabled<!--endif!-->">
+	<div class="field<!--if($metro)!--> <!--else!--> disabled<!--endif!-->">
 		<label for="metros">Станция метро</label>
 		<select name="metro" id="metros">
 			<option value="">--</option>

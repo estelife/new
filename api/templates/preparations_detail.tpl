@@ -69,7 +69,7 @@
 			<!--endif!-->
 			<!--if($detail.usage)!-->
 				<div class="el-tab">
-					<h3><a href="#">Способ применения</a></h3>
+					<h3><a href="#">Курс лечения</a></h3>
 					<p class="none"><!--$detail.usage!--></p>
 				</div>
 			<!--endif!-->

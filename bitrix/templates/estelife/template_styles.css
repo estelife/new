@@ -146,10 +146,33 @@
 .country.k2580{
 	background-image:url('images/countries/k2580.png');
 }
-
-
-
-
+.country.k2900{
+	background-image:url('images/countries/k2900.jpg');
+}
+.country.k2906{
+	background-image:url('images/countries/k2906.jpg');
+}
+.country.k2954{
+	background-image:url('images/countries/k2954.jpg');
+}
+.country.k2957{
+	background-image:url('images/countries/k2957.jpg');
+}
+.country.k2961{
+	background-image:url('images/countries/k2961.jpg');
+}
+.country.k2970{
+	background-image:url('images/countries/k2970.jpg');
+}
+.country.k2977{
+	background-image:url('images/countries/k2977.jpg');
+}
+.country.k2993{
+	background-image:url('images/countries/k2993.jpg');
+}
+.country.k2999{
+	background-image:url('images/countries/k2999.jpg');
+}
 
 .country.c357, .country .v357 {
 	background-image:url('images/countries/c357.png');
@@ -286,6 +309,33 @@
 .country.c2580, .country .v2580 {
 	background-image:url('images/countries/c2580.png');
 }
+.country.c2900, .country .v2900{
+	background-image:url('images/countries/c2900.jpg');
+}
+.country.c2906, .country .v2906{
+	background-image:url('images/countries/c2906.jpg');
+}
+.country.c2954, .country .v2954{
+	background-image:url('images/countries/c2954.jpg');
+}
+.country.c2957, .country .v2957{
+	background-image:url('images/countries/c2957.jpg');
+}
+.country.c2961, .country .v2961{
+	background-image:url('images/countries/c2961.jpg');
+}
+.country.c2970, .country .v2970{
+	background-image:url('images/countries/c2970.jpg');
+}
+.country.c2977, .country .v2977{
+	background-image:url('images/countries/c2977.jpg');
+}
+.country.c2993, .country .v2993{
+	background-image:url('images/countries/c2993.jpg');
+}
+.country.c2999, .country .v2999{
+	background-image:url('images/countries/c2999.jpg');
+}
 
 #ui-datepicker-div {
 	background: #f0f0f0;
@@ -409,4 +459,33 @@
 }
 .yvoire .inner img {
 	border:none;
+}
+.ui-helper-hidden-accessible {
+	display: none;
+}
+.ui-autocomplete {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	background:#fff;
+	border:1px solid #d1d1d1;
+	margin-top:-1px;
+}
+.ui-autocomplete .ui-menu-item, .ui-autocomplete .ui-menu-item a {
+	display: block;
+	height:26px;
+	line-height: 26px;
+	text-decoration: none;
+}
+.ui-autocomplete .ui-menu-item a {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	color:#2c2c2c;
+	padding:0 26px 0 13px;
+	cursor:pointer;
+}
+.ui-autocomplete .ui-menu-item a:hover, .ui-autocomplete .ui-menu-item a.ui-state-focus {
+	background-color:#e50364;
+	color:#fff;
 }

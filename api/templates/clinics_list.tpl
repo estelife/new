@@ -2,7 +2,10 @@
 	<!--foreach($list as $key=>$val)!-->
 		<div class="item company">
 			<div class="item-rel">
-				<h2><!--if($val.recomended==1)!--><span class="checked"></span><!--endif!--><a href="<!--$val.link!-->" class="el-get-detail"><!--$val.name!--></a></h2>
+				<h2>
+					<a href="<!--$val.link!-->" class="el-get-detail"><!--$val.name!--></a>
+					<!--if($val.recomended==1)!--><a href="/about/quality-mark.php" class="checked">Знак качества Estelife</a><!--endif!-->
+				</h2>
 				<div class="item-in">
 					<!--if($val.specialization)!-->
 						<p><!--$val.specialization!--></p>

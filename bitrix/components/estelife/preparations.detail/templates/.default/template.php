@@ -76,7 +76,7 @@
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['usage'])):?>
 					<div class="el-tab">
-						<h3><a href="#">Способ применения</a></h3>
+						<h3><a href="#">Курс лечения</a></h3>
 						<p class="none"><?=$arResult['pill']['usage']?></p>
 					</div>
 				<?php endif?>

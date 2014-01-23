@@ -21,6 +21,7 @@
 			</div>
 		</div>
 	</div>
+	<a href="#" class="to-top"><i></i>Вверх</a>
 </div>
 <!--	<img src="/el.png" class="home-img" />-->
 </body>

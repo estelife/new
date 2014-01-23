@@ -1,5 +1,4 @@
 <?php
-
 return array (
   'utf_mode' => 
   array (

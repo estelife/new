@@ -413,13 +413,17 @@ define(function(){
 
 		function _value(field,def){
 			field=$.trim(field);
-			var data=$.extend({},registry.global,registry.local);
+			var data=$.extend(
+				{},
+				registry.global,
+				registry.local
+			);
 
 			if(field.indexOf('.')>-1){
 				field=field.split('.');
 
 				for(var i=0,x=field.length-1;i<field.length;i++){
-					data=(field[i] in data) ?
+					data=(data && typeof data=='object' && field[i] in data) ?
 						data[field[i]] : false;
 
 					if(data===false)

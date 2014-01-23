@@ -28,6 +28,7 @@
 	  ga('create', 'UA-43968108-1', 'estelife.ru');
 	  ga('send', 'pageview');
 	</script>
+	<?$APPLICATION->ShowHeadStrings()?>
 </head>
 <body>
 <div class="wrap">

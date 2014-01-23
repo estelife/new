@@ -8,6 +8,7 @@ echo json_encode(array(
 	'title'=>array(
 		'name'=>$sTitle,
 	),
+	'count'=>$arResult['count'],
 	'crumb'=>array(
 		array(
 			'name'=>'Главная',

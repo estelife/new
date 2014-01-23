@@ -56,7 +56,7 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 		if(($ID = IntVal($ID))>0 && $_REQUEST['action']=='delete'){
 			try{
 				$obQuery = $obColl->createQuery();
-				$obQuery->builder()->from('estelife_methods')->filter()
+				$obQuery->builder()->from('estelife_service_concreate')->filter()
 					->_eq('id', $ID);
 				$obQuery->delete();
 			}catch(\core\database\exceptions\VCollectionException $e){}

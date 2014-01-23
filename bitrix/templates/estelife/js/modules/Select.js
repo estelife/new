@@ -1,6 +1,7 @@
 define(function(){
 	var SelectFactory,
-		Select;
+		Select,
+		events={};
 
 	SelectFactory={
 		selects:[],
@@ -16,45 +17,51 @@ define(function(){
 				select.closeOptions();
 			}
 		},
-		remake:function(){
-			if(this.pull_remaked.length>0){
-				$.map(this.pull_remaked,function(fn){
-					fn();
-				});
-			}
-			var ob=this;
-			setTimeout(function(){
-				ob.remake();
-			},200);
-		},
 		make:function(je,nf){
 			return new Select(je,nf);
+		},
+		fireEvent:function(event,context,data){
+			if(events.hasOwnProperty(event))
+				events[event](context,data);
+		},
+		bindEvent:function(event,callback){
+			if(callback && typeof callback=='function')
+				events[event]=callback;
+		},
+		unbindEvent:function(event){
+			if(events.hasOwnProperty(event))
+				delete events[event];
 		}
 	};
 	
 	Select=function(je,nf){
 		var jSelect=je,
 			needFilter=nf||false,
-			created,visible,select,value,list,arrow,startValue,keyupInit,
-			current=this,
-			events={};
+			created,visible,select,value,
+			list,arrow,startValue,keyupInit,
+			current=this;
 
 		(function(){
 			(function create(){
 				if(!created){
 					if(jSelect.length<=0)
 						return;
+					else if(jSelect.data('Select'))
+						jSelect.data('Select').remove();
+					else if(jSelect.next().hasClass('select')){
+						jSelect.next().remove();
+					}
 
 					select=$('<div></div>').addClass('select');
-					var jSelect_class=jSelect.attr('class'),
+					var jSelectClass=jSelect.attr('class'),
 						selected=$('<div></div>').addClass('selected');
 
 					value=(!needFilter) ?
 						$('<a href="javascript:void(0)"><span></span></a>').addClass('value') :
 						$('<input type="text" />');
 
-					if(jSelect_class!='')
-						select.addClass(jSelect_class);
+					if(jSelectClass!='')
+						select.addClass(jSelectClass);
 
 					arrow=$('<a href="javascript:void(0)"></a>').addClass('arrow');
 					list=$('<div class="items"></div>');
@@ -91,18 +98,6 @@ define(function(){
 					jSelect.css('display','none');
 					jSelect.after(select);
 
-					if('jScrollPane' in jQuery.fn){
-						list.jScrollPane({
-							hideFocus:true,
-							verticalDragMaxHeight:100,
-							verticalDragMinHeight:50,
-							autoReinitialise:true,
-							autoReinitialiseDelay:200,
-							verticalGutter:0,
-							mouseWheelSpeed:30
-						});
-					}
-
 					makeOptions();
 
 					$(document).click(function(){
@@ -112,11 +107,11 @@ define(function(){
 
 					created=true;
 					visible=true;
-					jSelect.data('vapi_select',current);
 
-					SelectFactory.pull_remaked.push((function(){
-						return remake;
-					})());
+					jSelect.data('Select',current);
+					jSelect.on('updateOptions',function(){
+						remake();
+					});
 				}
 			})();
 
@@ -225,20 +220,11 @@ define(function(){
 					index=jSelect.get(0).selectedIndex,
 					currentOption=options.eq(index),
 					lastGroup='',
-					height=0,
-					curGroup,optPrnt,item,link,isPane,
-					prnt=list.find('.jspPane'),
-					optionValue;
+					curGroup,optPrnt,item,link,listItems,
+					optionValue,optionHtml;
 
-				if(prnt.length>0){
-					isPane=true;
-					list.css({
-						'visibility':'hidden',
-						'display':'block'
-					});
-				}else{
-					prnt=list;
-				}
+				var height=0,
+					scrollPane=list.data('jsp');
 
 				if(!needFilter){
 					optionValue=currentOption.attr('value');
@@ -253,6 +239,16 @@ define(function(){
 				}else
 					value.val(parseOptHtml(currentOption.html()));
 
+				list.css({
+					'visibility':'hidden',
+					'display':'block'
+				});
+
+				if(scrollPane)
+					listItems=scrollPane.getContentPane();
+				else
+					listItems=list;
+
 				for(var i=0; i<options.length; i++){
 					currentOption=options.eq(i);
 					optPrnt=currentOption.parent();
@@ -262,18 +258,19 @@ define(function(){
 
 						if(curGroup!=lastGroup){
 							lastGroup=curGroup;
-							prnt.append('<em class="group">'+curGroup+'</em>');
+							listItems.append('<em class="group">'+curGroup+'</em>');
 						}
 					}
 
 					optionValue=currentOption.attr('value');
+					optionHtml=parseOptHtml(currentOption.html());
 					item=$('<em></em>').addClass('item');
 					link=$('<a></a>')
 						.attr({
 							'data-value':optionValue,
 							'href':'javascript:void(0)'
 						})
-						.html(parseOptHtml(currentOption.html()));
+						.html(optionHtml);
 
 					if(optionValue!='' && optionValue!=0)
 						link.addClass('has-value v'+optionValue);
@@ -281,22 +278,42 @@ define(function(){
 					if(index==i)
 						item.addClass('active');
 
-					item.data('option',currentOption);
-					prnt.append(item.append(link));
+					item.data('option',currentOption)
+						.append(link);
+					listItems.append(item);
+					SelectFactory.fireEvent('createItem',this,{
+						'item':item,
+						'value':optionValue,
+						'html':optionHtml
+					});
 
-					if(i<10 && isPane)
+					if(i<10)
 						height+=item.height();
 				}
 
-				if(isPane){
-					list.css({
-						'visibility':'visible',
-						'display':'none'
-					});
+				if(height>0){
+					list.height(height);
+
+					if(scrollPane){
+						scrollPane.reinitialise({
+							verticalGutter:0
+						});
+					}else
+						list.jScrollPane({
+							hideFocus:true,
+							verticalDragMaxHeight:100,
+							verticalDragMinHeight:50,
+							autoReinitialise:false,
+							autoReinitialiseDelay:200,
+							verticalGutter:0,
+							mouseWheelSpeed:30
+						});
 				}
 
-				if(isPane && height>0)
-					list.height(height)
+				list.css({
+					'visibility':'visible',
+					'display':'none'
+				});
 			}
 
 			current.closeOptions=function(){
@@ -318,6 +335,11 @@ define(function(){
 			}
 		};
 
+		this.remove=function(){
+			select.remove();
+			jSelect.data('Select',null);
+		};
+
 		this.set=function(val){
 			list.find('.item').each(function(i){
 				var item=$(this);
@@ -335,16 +357,7 @@ define(function(){
 		this.selected=function(){
 			return jSelect.find('option:selected').attr('value');
 		};
-
-		this.on=function(event,callback){
-			if(typeof callback=='function')
-				events[event]=callback;
-		}
 	};
-
-	setTimeout(function(){
-		SelectFactory.remake()
-	},200);
 
 	return SelectFactory;
 });

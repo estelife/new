@@ -43,6 +43,8 @@ $arResult['filter']=array(
 	'name'=>strip_tags(trim($obGet->one('name',''))),
 );
 
+$arResult['count'] = \bitrix\ERESULT::$DATA['count'];
+
 $arResult['empty']=false;
 foreach ($arResult['filter'] as $key=>$val){
 	if (($val=='' && $val==0) || $val=='all')

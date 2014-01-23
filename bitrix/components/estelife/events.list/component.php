@@ -2,6 +2,7 @@
 use core\database\mysql\VFilter;
 use core\database\VDatabase;
 use core\types\VArray;
+use core\types\VString;
 use geo\VGeo;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
@@ -129,6 +130,9 @@ $obResult = $obQuery->select();
 
 
 $obResult = $obResult->bxResult();
+$nCount = $obResult->SelectedRowsCount();
+$arResult['count'] = 'Найден'.VString::spellAmount($nCount, 'о,о,о'). ' '.$nCount.' событ'.VString::spellAmount($nCount, 'ие,ия,ий');
+\bitrix\ERESULT::$DATA['count'] = $arResult['count'];
 $obResult->NavStart($arPageCount);
 
 $arResult['training'] = array();
@@ -266,7 +270,6 @@ if (!empty($arIds)){
 }
 
 
-//$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
 $arResult['nav']=$obNav->getNav();

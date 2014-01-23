@@ -3,7 +3,7 @@
 <form name="trainings" class="filter" method="get" action="/trainings/" >
 	<div class="title">
 		<h4>Поиск семинаров</h4>
-		<!--		<span>Найдено 6 акций</span>-->
+		<span class="count-result"><?=$arResult['count']?></span>
 	</div>
 	<div class="field">
 		<label for="city">Город</label>
@@ -28,6 +28,9 @@
 		<option value="8" <?if($arResult['filter']['direction'] == 8) echo " selected";?>>Биоревитализация</option>
 		<option value="9" <?if($arResult['filter']['direction'] == 9) echo " selected";?>>Объемное моделирование</option>
 		<option value="10" <?if($arResult['filter']['direction'] == 10) echo " selected";?>>Безоперационный лифтинг</option>
+		<option value="12" <?if($arResult['filter']['direction'] == 12) echo " selected";?>>Пилинги</option>
+		<option value="13" <?if($arResult['filter']['direction'] == 13) echo " selected";?>>Космецевтика</option>
+		<option value="14" <?if($arResult['filter']['direction'] == 14) echo " selected";?>>Аппаратная косметология</option>
 	</select>
 	<span class="block"></span>
 	</div>

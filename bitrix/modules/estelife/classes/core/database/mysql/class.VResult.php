@@ -11,9 +11,6 @@ use core\database as db;
 class VResult implements db\VResult {
 	private $obQuery;
 	private $nFetchedRows;
-	private $nCount;
-	private $nInsertId;
-	private $nAffected;
 
 	/**
 	 * Задает объект запроса, сгенерировавшего результат

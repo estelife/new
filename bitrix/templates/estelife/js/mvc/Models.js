@@ -4,6 +4,7 @@ define(['mvc/Views'],function(Views){
 	Models.Default=Backbone.Model.extend({
 		page:null,
 		pages:[],
+		staticPage:null,
 
 		initialize:function(data,params){
 			var page=params.page||null,
@@ -14,6 +15,16 @@ define(['mvc/Views'],function(Views){
 
 			this.pages=pages;
 			this.page=page;
+			this.staticPage=params.staticPage||false;
+
+			if(!this.staticPage){
+				if(this.page)
+					this.page='rest/'+this.page;
+				if(this.pages)
+					this.pages=_.map(this.pages,function(page){
+						return 'rest/'+page;
+					});
+			}
 		},
 
 		sync:function(){
@@ -25,11 +36,16 @@ define(['mvc/Views'],function(Views){
 					maxTimeouts=0;
 
 				_.each(this.pages,function(page){
-					$.get('/rest/'+page,{},function(response){
+					$.get('/'+page,{},function(response){
 						try{
 							response=$.parseJSON(response);
 							_.extend(data,response);
-						}catch(e){}
+						}catch(e){
+							if(model.staticPage){
+								data.page.push(response);
+							}else if(window.console)
+								console.error(e,page);
+						}
 						numRequests++;
 						maxTimeouts++;
 					});
@@ -46,12 +62,16 @@ define(['mvc/Views'],function(Views){
 				timeout();
 			}else if(this.page){
 				var page=this.page;
-				$.get('/rest/'+page,{},function(response){
+				$.get('/'+page,{},function(response){
 					try{
 						response=$.parseJSON(response);
 						model.set(response);
 					}catch(e){
-						if(window.console)
+						if(model.staticPage){
+							model.set({
+								'page':response
+							});
+						}else if(window.console)
 							console.error(e,page);
 					}
 				});

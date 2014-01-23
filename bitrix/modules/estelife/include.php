@@ -51,6 +51,9 @@ CModule::AddAutoloadClasses(
 		// geo
 		'geo\VGeo' => "classes/geo/class.VGeo.php",
 
+		// likes
+		'like\VLike' => "classes/likes/class.VLike.php",
+
 		// bitrix
 		'core\bx\VDatabaseAdapter' => "classes/core/bx/class.VDatabaseAdapter.php",
 
@@ -64,9 +67,10 @@ CModule::AddAutoloadClasses(
 		'bitrix\VNavigation'=>"classes/bitrix/class.VNavigation.php",
 		'bitrix\ERESULT'=>"classes/bitrix/class.ERESULT.php",
 
-		// orm
-		'orm\items\VItem' => "classes/orm/items/class.VItem.php",
-		'orm\items\VClinic' => 'classes/orm/items/class.VClinic.php',
-		'orm\VEntities' => 'classes/orm/class.VEntities.php'
+		//request
+		'request\VRequest'=>"classes/request/class.VRequest.php",
+		'request\VCompany'=>"classes/request/class.VCompany.php",
+		'request\VUser'=>"classes/request/class.VUser.php",
+		'request\exceptions\VRequest'=>"classes/request/exceptions/class.VRequest.php"
 	)
 );

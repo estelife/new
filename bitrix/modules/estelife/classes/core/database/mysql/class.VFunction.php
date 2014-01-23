@@ -109,12 +109,15 @@ class VFunction implements db\VFunction {
 				$arTemp=array();
 				$arFields=$this->obParams->one('data',array());
 
-				foreach($arFields as &$sField){
+				foreach($arFields as $sValue){
 					if($this->obQuery->driver()->createSpecialQuery()->checkField(
 						$this->obQuery->getRegisteredTables(),
-						$sField
-					))
-						$arTemp[]=$sField;
+						$sValue
+					)){
+						$arTemp[]=$sValue;
+					}else{
+						$arTemp[]='\''.$sValue.'\'';
+					}
 				}
 
 				if(empty($arTemp))
@@ -144,6 +147,11 @@ class VFunction implements db\VFunction {
 				return $sField.' REGEXP \''.$sExpression.'\'';
 				break;
 			case '_md5':
+				try {
+					$this->sFn='_concat';
+					$sField=$this->make();
+				}catch(db\exceptions\VQueryException $e){}
+
 				return 'MD5('.$sField.')';
 				break;
 		}

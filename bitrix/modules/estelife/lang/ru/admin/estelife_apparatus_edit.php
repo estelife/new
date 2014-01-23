@@ -17,12 +17,12 @@ $MESS ['ESTELIFE_F_REGISTRATION'] = 'Регистрация';
 $MESS ['ESTELIFE_F_ADVANTAGES'] = 'Преимущества';
 $MESS ['ESTELIFE_F_PROCEDURE'] = 'Курс процедур';
 $MESS ['ESTELIFE_F_SECURITY'] = 'Безопасность';
-$MESS ['ESTELIFE_F_PROTOCOL'] = 'Протокол процедур';
+$MESS ['ESTELIFE_F_PROTOCOL'] = 'Протокол процедуры';
 $MESS ['ESTELIFE_F_UNDESIRED'] = 'Побочные эффекты';
 $MESS ['ESTELIFE_F_EQUIPMENT'] = 'Комплектация';
 
-$MESS ['ESTELIFE_F_TYPE_SELECT'] = 'Выберите тип препарата';
-$MESS ['ESTELIFE_T_BASE'] = 'Добавление препарата';
+$MESS ['ESTELIFE_F_TYPE_SELECT'] = 'Выберите тип аппарата';
+$MESS ['ESTELIFE_T_BASE'] = 'Добавление аппарата';
 $MESS ['ESTELIFE_T_GALLERY'] = 'Фото до/после';
 $MESS ['ESTELIFE_T_CERTIFICATION'] = 'Сертификаты';
 $MESS ['ESTELIFE_T_FITTING'] = 'Аксессуары';

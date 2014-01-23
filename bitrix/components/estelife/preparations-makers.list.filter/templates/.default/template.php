@@ -2,7 +2,7 @@
 <form name="preparations-makers" class="filter" method="get" action="/preparations-makers/" >
 	<div class="title">
 		<h4>Поиск производителя</h4>
-		<!--		<span>Найдено 6 акций</span>-->
+		<span class="count-result"><?=$arResult['count']?></span>
 	</div>
 	<div class="field">
 		<label for="name">Наименование</label>

@@ -2,6 +2,7 @@
 use core\database\mysql\VFilter;
 use core\database\VDatabase;
 use core\types\VArray;
+use core\types\VString;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 CModule::IncludeModule("iblock");
@@ -81,6 +82,9 @@ $obQuery->builder()->sort('ec.name', 'asc');
 $obResult = $obQuery->select();
 
 $obResult = $obResult->bxResult();
+$nCount = $obResult->SelectedRowsCount();
+$arResult['count'] = 'Найден'.VString::spellAmount($nCount, ',о,о'). ' '.$nCount.' производител'.VString::spellAmount($nCount, 'ь,я,ей');
+\bitrix\ERESULT::$DATA['count'] = $arResult['count'];
 $obResult->NavStart($arPageCount);
 $arResult['apparatus'] = array();
 
@@ -119,17 +123,18 @@ while($arData=$obResult->Fetch()){
 	$arResult['apparatus'][]=$arData;
 
 	if ($i<=5){
-		$arDescription[]= mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arData['name'])),'utf-8');
+		$arDescription[]= $arData['name'];
 	}
 	$i++;
 }
 $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
 $arResult['nav']=$obNav->getNav();
-//$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 
+$arDescription = strip_tags(html_entity_decode(implode(", ", $arDescription), ENT_QUOTES, 'utf-8'));
+$arDescription = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arDescription);
 
 $APPLICATION->SetPageProperty("title", "Производители аппаратов");
-$APPLICATION->SetPageProperty("description", implode(", ", $arDescription));
-$APPLICATION->SetPageProperty("keywords", "Estelife, Производители аппаратов, ". implode(" ,", $arDescription));
+$APPLICATION->SetPageProperty("description", VString::truncate($arDescription,'160',''));
+$APPLICATION->SetPageProperty("keywords", "Estelife, Производители аппаратов, ". $arDescription);
 $this->IncludeComponentTemplate();

@@ -16,21 +16,20 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 		</ul>
 		<div class="item detail big-font">
 			<h1><?=$arResult["NAME"]?></h1>
-			<ul class="stat">
+			<ul class="stat notlike" data-elid="<?=$arResult['LIKES']['element_id']?>" data-type="<?=$arResult['LIKES']['type']?>">
 				<?php if (!empty($arResult['ACTIVE_FROM'])):?>
 					<li class="date"><?=date('d.m.Y',strtotime($arResult['ACTIVE_FROM']))?></li>
 				<?php endif?>
 <!--				<li class="comments">9<i></i></li>-->
-<!--				<li class="likes">41<i></i></li>-->
-<!--				<li class="unlikes">2<i></i></li>-->
+				<li class="likes islike"><?=$arResult['LIKES']['countLike']?><?if ($arResult['LIKES']['typeLike']==1):?> и Ваш<?endif?><i></i></li>
+				<li class="unlikes islike"><?=$arResult['LIKES']['countDislike']?><?if ($arResult['LIKES']['typeLike']==2):?> и Ваш<?endif?><i></i></li>
 			</ul>
 			<div class="announce">
 				<?=$arResult["PREVIEW_TEXT"];?>
 			</div>
-			<?$img = CFile::GetFileArray($arResult['PROPERTIES']['INSIDE']['VALUE']);?>
 			<div class="article-img">
 				<div class="article-img-in">
-					<img src="<?=$img['SRC']?>" alt="<?=$arResult["NAME"]?>" title="<?=$arResult["NAME"]?>">
+					<img src="<?=$arResult['IMG']['SRC']?>" alt="<?=$arResult["NAME"]?>" title="<?=$arResult["NAME"]?>">
 				</div>
 				<div class="article-img-desc">
 					<?php if (!empty($img['DESCRIPTION'])):?>
@@ -42,7 +41,15 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 			</div>
 			<?=$arResult["DETAIL_TEXT"];?>
 			<div class="info">
-				<?$APPLICATION->IncludeComponent("estelife:social.estelife","",array());?>
+				<ul class="stat" data-elid="<?=$arResult['LIKES']['element_id']?>" data-type="<?=$arResult['LIKES']['type']?>">
+					<li><a href="#" class="likes islike<?if ($arResult['LIKES']['typeLike']==1):?> active<?endif?>" data-help="Нравится"><?=$arResult['LIKES']['countLike']?><?if ($arResult['LIKES']['typeLike']==1):?> и Ваш<?endif?><i></i></a></li>
+					<li><a href="#" class="unlikes islike<?if ($arResult['LIKES']['typeLike']==2):?> active<?endif?>" data-help="Не нравится"><?=$arResult['LIKES']['countDislike']?><?if ($arResult['LIKES']['typeLike']==2):?> и Ваш<?endif?><i></i></a></li>
+				</ul>
+				<div class="social cols repost">
+					<span>Поделиться: </span>
+					<a href="http://vkontakte.ru/share.php?url=http://estelife.ru/ar<?=$arResult['ID']?>/" target="_blank" class="vk">ВКонтакте</a>
+					<a href="https://www.facebook.com/sharer.php?u=http://estelife.ru/ar<?=$arResult['ID']?>/" target="_blank" class="fb">Facebook</a>
+				</div>
 				<div class="author cols">
 					<?php if (!empty($arResult['PROPERTIES']['SOURCE']['VALUE'])):?>
 					Автор статьи

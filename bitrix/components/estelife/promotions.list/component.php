@@ -1,6 +1,7 @@
 <?php
 use core\database\VDatabase;
 use core\types\VArray;
+use core\types\VString;
 use geo\VGeo;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
@@ -69,7 +70,9 @@ $obQuery->builder()
 	->field('ea.small_photo','logo_id')
 	->field('ea.view_type','view_type')
 	->field('ct.CODE', 'city_code')
-	->field('ea.small_photo','s_logo_id');
+	->field('ea.small_photo','s_logo_id')
+	->field('ec.name','clinic_name')
+	->field('ec.id','clinic_id');
 $obFilter=$obQuery->builder()->filter();
 $obFilter->_gte('ea.end_date', $arNow);
 $obFilter->_eq('ea.active', 1);
@@ -116,6 +119,9 @@ if(!empty($arCount)){
 	unset($arActions);
 }else{
 	$obResult=$obResult->bxResult();
+	$nCount = $obResult->SelectedRowsCount();
+	$arResult['count'] = 'Найден'.VString::spellAmount($nCount, 'а,о,о'). ' '.$nCount.' акц'.VString::spellAmount($nCount, 'ия,ии,ий');
+	\bitrix\ERESULT::$DATA['count'] = $arResult['count'];
 	$obResult->NavStart($arPageCount);
 
 	while($arData=$obResult->Fetch()){
@@ -143,7 +149,12 @@ if(!empty($arCount)){
 $sPage=(isset($_GET['PAGEN_1']) && $_GET['PAGEN_1'] > 1) ?
 	' '.\core\types\VString::spellAmount($_GET['PAGEN_1'],'страница,страницы,страниц') : '';
 
-$APPLICATION->SetPageProperty("title", 'Клиники в '.$arResult['city']['R_NAME'].' - акции, скидки, купоны'.$sPage);
-$APPLICATION->SetPageProperty("description", 'Актуальные акции и скидки клиник в '.$arResult['city']['R_NAME'].'.');
+if (empty($arResult['city']['R_NAME']))
+	$arResult['city']['R_NAME'] = '';
+else
+	$arResult['city']['R_NAME'] = ' в '.$arResult['city']['R_NAME'];
+
+$APPLICATION->SetPageProperty("title", 'Клиники'.$arResult['city']['R_NAME'].' - акции, скидки, купоны'.$sPage);
+$APPLICATION->SetPageProperty("description", 'Актуальные акции и скидки клиник'.$arResult['city']['R_NAME'].'.');
 
 $this->IncludeComponentTemplate();

@@ -68,6 +68,14 @@ try{
 
 	if (!empty($arElements)){
 		foreach ($arElements as $val){
+			$arIds[] = $val['ID'];
+		}
+		if (!empty($arIds)){
+			$obLike = new \like\VLike(\like\VLike::ARTICLE);
+			$arNewLikes= $obLike->getOnlyLikes($arIds);
+		}
+		foreach ($arElements as $val){
+			$val['LIKES'] = $arNewLikes[$val['ID']];
 			$val['DETAIL_URL'] = '/'.$arParams['PREFIX'].$val['ID'].'/';
 			$val['SECTION_URL'] = '/'.$arParams['MAIN_URL'].'/'.$val['SECTION_CODE'].'/';
 			$val['IMG'] = CFile::GetFileArray($val['VALUE']);
@@ -99,7 +107,7 @@ try{
 		}
 	}
 
-	$arResult['first_section'] = $arResult['iblock'][$arResult['first']]['section'];
+
 
 }catch(VException $e){
 	echo $e->getMessage(), "\n";

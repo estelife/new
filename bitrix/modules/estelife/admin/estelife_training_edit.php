@@ -681,6 +681,15 @@ if(!empty($arResult['error']['text'])){
 					<li>
 						<label for="direction_10"><input type="checkbox" name="directions[]" id="direction_10" value="10"<?=(in_array(10,$arResult['event']['directions']) ? ' checked="true"' : '')?> />Безоперационный лифтинг</label>
 					</li>
+					<li>
+						<label for="direction_12"><input type="checkbox" name="directions[]" id="direction_12" value="12"<?=(in_array(12,$arResult['event']['directions']) ? ' checked="true"' : '')?> />Пилинги</label>
+					</li>
+					<li>
+						<label for="direction_13"><input type="checkbox" name="directions[]" id="direction_13" value="13"<?=(in_array(13,$arResult['event']['directions']) ? ' checked="true"' : '')?> />Космецевтика</label>
+					</li>
+					<li>
+						<label for="direction_14"><input type="checkbox" name="directions[]" id="direction_14" value="14"<?=(in_array(14,$arResult['event']['directions']) ? ' checked="true"' : '')?> />Аппаратная косметология</label>
+					</li>
 				</ul>
 			</td>
 		</tr>

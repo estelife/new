@@ -5,6 +5,7 @@ use core\exceptions\VException;
 use core\exceptions\VFormException;
 use core\http\VHttp;
 use core\types\VArray;
+use like\VLike;
 use reference\services as rs;
 
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
@@ -389,6 +390,15 @@ try{
 			);
 			$arResult=false;
 			break;
+		case 'set_likes':
+			$obLike = new VLike(intval($_POST['type']));
+			if (!empty($_POST['md5']))
+				$sMd5 = $_POST['md5'];
+			else
+				$sMd5=false;
+
+			$arResult = $obLike->like(intval($_POST['elementId']), intval($_POST['typeLike']),$sMd5);
+			break;
 		case 'set_city':
 			$_GET=array_merge($_GET,$arData);
 			$APPLICATION->IncludeComponent(
@@ -413,6 +423,30 @@ try{
 				false
 			);
 			$arResult=false;
+			break;
+		case 'get_cities_by_term':
+			$arResult['list']=array();
+
+			if(!empty($arData['term'])){
+				$obQuery=$obData->createQuery();
+				$obQuery->builder()
+					->from('iblock_element')
+					->sort('NAME','asc')
+					->field('NAME','name')
+					->field('ID','id')
+					->slice(0,5)
+					->filter()
+					->_eq('IBLOCK_ID',16)
+					->_like(
+						'NAME',
+						$arData['term'],
+						VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE
+					);
+
+				$arResult['list']=$obQuery
+					->select()
+					->all();
+			}
 			break;
 		case 'get_city':
 			$arResult['list']=array();
@@ -656,6 +690,35 @@ try{
 			}
 
 			$arResult=false;
+			break;
+		case 'add_request':
+			$APPLICATION->IncludeComponent(
+				"estelife:clinics.request",
+				"ajax"
+			);
+			$arResult=false;
+			break;
+		case 'get_clinics':
+			$arResult['list']=array();
+
+			if(!empty($arData['term'])){
+				$obQuery = $obData->createQuery();
+				$obQuery->builder()
+					->from('estelife_clinics')
+					->sort('name','asc')
+					->field('name')
+					->field('id')
+					->slice(0,5)
+					->filter()
+					->_like(
+						'name',
+						$arData['term'],
+						VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE
+					);
+				$arResult['list']=$obQuery
+					->select()
+					->all();
+			}
 			break;
 		default:
 			throw new VException('unsupported action',21);
