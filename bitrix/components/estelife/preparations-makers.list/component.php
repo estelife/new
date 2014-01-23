@@ -123,13 +123,15 @@ while($arData=$obResult->Fetch()){
 	}
 
 	$arData["preview_text"] = \core\types\VString::truncate(html_entity_decode($arData['preview_text'],ENT_QUOTES,'UTF-8'), 160, '...');
-	$arDescription[]=mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arData['name'])),'utf-8');
+	$arDescription[]=mb_strtolower($arData['name']);
 	$arResult['pills'][]=$arData;
 }
 
-$arDescription=implode(', ',$arDescription);
+$arDescription = strip_tags(html_entity_decode(implode(", ", $arDescription), ENT_QUOTES, 'utf-8'));
+$arDescription = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arDescription);
+
 $APPLICATION->SetPageProperty("title", 'Производители препаратов');
-$APPLICATION->SetPageProperty("description", $arDescription);
+$APPLICATION->SetPageProperty("description", VString::truncate($arDescription,160,''));
 $APPLICATION->SetPageProperty("keywords", "Estelife, производители препаратов, ".$arDescription);
 
 //$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');

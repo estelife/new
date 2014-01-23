@@ -5,7 +5,7 @@ require([
 	'modules/Media',
 	'modules/Functions'
 ],function(Routers,Template,Geo,Media,Functions){
-	var body=$('body');
+	var body=$('body'),
 		Router=new Routers.Default();
 
 	$(function home(){
@@ -135,6 +135,69 @@ require([
 				4000);
 		}
 		expertClick();
+
+		//Лайки
+		body.on('click', '.stat .likes', function(){
+			var prnt = $(this).parent().parent(),
+				act = $(this).hasClass('active'),
+				md5 = EL.storage().getItem('like_'+prnt.attr('data-elid')+ prnt.attr('data-type'));
+
+			if ($(this).parent().hasClass('notlike'))
+				return false;
+
+			$.post('/api/estelife_ajax.php',{
+				'action':'set_likes',
+				'elementId': prnt.attr('data-elid'),
+				'type': prnt.attr('data-type'),
+				'typeLike': 1,
+				'md5': md5
+			},function(r){
+				if (r){
+					if (act == false){
+						$('.likes.islike').addClass('active').html(r.countLike+' и Ваш<i></i>');
+					}else{
+						$('.likes.islike').removeClass('active').html(r.countLike+'<i></i>');
+					}
+					$('.unlikes.islike').removeClass('active').html(r.countDislike+'<i></i>');
+					EL.storage().setItem('like_'+r.element_id+ r.type, r.md5);
+				}else{
+					alert('Ошибка постановки лайков');
+				}
+			},'json');
+
+			return false;
+		});
+
+		body.on('click', '.stat .unlikes', function(){
+			var prnt = $(this).parent().parent(),
+				act = $(this).hasClass('active'),
+				md5 = EL.storage().getItem('like_'+prnt.attr('data-elid')+ prnt.attr('data-type'));
+
+			if ($(this).parent().hasClass('notlike'))
+				return false;
+
+			$.post('/api/estelife_ajax.php',{
+				'action':'set_likes',
+				'elementId': prnt.attr('data-elid'),
+				'type': prnt.attr('data-type'),
+				'typeLike': 2,
+				'md5': md5
+			},function(r){
+				if (r){
+					if (act == false){
+						$('.unlikes.islike').addClass('active').html(r.countDislike+' и Ваш<i></i>');
+					}else{
+						$('.unlikes.islike').removeClass('active').html(r.countDislike+'<i></i>');
+					}
+					$('.likes.islike').removeClass('active').html(r.countLike+'<i></i>');
+					EL.storage().setItem('like_'+r.element_id+ r.type, r.md5);
+				}else{
+					alert('Ошибка постановки лайков');
+				}
+			},'json');
+
+			return false;
+		});
 
 
 		//Переключение между вкладками

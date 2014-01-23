@@ -123,17 +123,18 @@ while($arData=$obResult->Fetch()){
 	$arResult['apparatus'][]=$arData;
 
 	if ($i<=5){
-		$arDescription[]= mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arData['name'])),'utf-8');
+		$arDescription[]= $arData['name'];
 	}
 	$i++;
 }
 $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
 $arResult['nav']=$obNav->getNav();
-//$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 
+$arDescription = strip_tags(html_entity_decode(implode(", ", $arDescription), ENT_QUOTES, 'utf-8'));
+$arDescription = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arDescription);
 
 $APPLICATION->SetPageProperty("title", "Производители аппаратов");
-$APPLICATION->SetPageProperty("description", implode(", ", $arDescription));
-$APPLICATION->SetPageProperty("keywords", "Estelife, Производители аппаратов, ". implode(" ,", $arDescription));
+$APPLICATION->SetPageProperty("description", VString::truncate($arDescription,'160',''));
+$APPLICATION->SetPageProperty("keywords", "Estelife, Производители аппаратов, ". $arDescription);
 $this->IncludeComponentTemplate();

@@ -272,9 +272,16 @@ if (!empty($arResult['clinic']['city_id'])){
 	}
 }
 
+if (!empty($arCity))
+	$arCity = ' в '.$arCity;
+else
+	$arCity = '';
 
-$arResult['clinic']['seo_title'] = 'Клиника '.$arResult['clinic']['name'].' в '.$arCity.' - акции, цены, адреса';
-$arResult['clinic']['seo_description'] = 'Акции, а так же цены и адреса клиники '.$arResult['clinic']['name'].' в городе '.$arCity.' Смотрите здесь.';
+$arResult['clinic']['name'] = trim(strip_tags(html_entity_decode($arResult['clinic']['name'], ENT_QUOTES, 'utf-8')));
+$arResult['clinic']['seo_name'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['clinic']['name']);
+
+$arResult['clinic']['seo_title'] = 'Клиника '.$arResult['clinic']['seo_name'].$arCity.' - акции, цены, адреса';
+$arResult['clinic']['seo_description'] = 'Акции, а так же цены и адреса клиники '.$arResult['clinic']['seo_name'].$arCity.'. Смотрите здесь.';
 
 $APPLICATION->SetPageProperty("title", $arResult['clinic']['seo_title']);
 $APPLICATION->SetPageProperty("description", $arResult['clinic']['seo_description']);

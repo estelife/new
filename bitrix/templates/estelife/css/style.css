@@ -1916,6 +1916,16 @@ li.country, span.country {
 	display: block;
 	font-size:14px;
 }
+
+.item.detail .tab-c .info-clinic{
+	padding-top:25px;
+}
+
+.item.detail .tab-c .info-clinic a{
+	padding-top:25px;
+	display:inline;
+}
+
 .item.detail .tab-c li, .items .item.training p {
 	margin-bottom: 25px;
 	padding-left:0;

@@ -163,7 +163,14 @@ foreach ($arProductions as $val){
 	$arResult['pill']['production'][] = $val;
 }
 
-$APPLICATION->SetPageProperty("title", $arResult['pill']['name']);
-$APPLICATION->SetPageProperty("description", mb_substr(trim(strip_tags($arResult['pill']['name'].'. '.$arResult['pill']['detail_text'])),0,155,'utf-8'));
-$APPLICATION->SetPageProperty("keywords", "Estelife, учебный центр, ".mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['pill']['name'])),'utf-8'));
+$arResult['pill']['name'] = trim(strip_tags(html_entity_decode($arResult['pill']['name'], ENT_QUOTES, 'utf-8')));
+$arResult['pill']['seo_name'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['pill']['name']);
+
+$arResult['pill']['seo_preview_text'] = trim(strip_tags(html_entity_decode($arResult['pill']['detail_text'], ENT_QUOTES, 'utf-8')));
+$arResult['pill']['seo_preview_text'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['pill']['seo_preview_text']);
+
+$APPLICATION->SetPageProperty("title", $arResult['pill']['seo_name']);
+$APPLICATION->SetPageProperty("description", VString::truncate($arResult['pill']['seo_preview_text'],160,''));
+$APPLICATION->SetPageProperty("keywords", "Estelife, препараты, ".mb_strtolower($arResult['pill']['seo_name']));
+
 $this->IncludeComponentTemplate();

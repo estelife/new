@@ -21,8 +21,10 @@
 			<img src="<!--$val.IMG!-->" alt="<!--$val.NAME!-->" title="<!--$val.NAME!-->" />
 			<h3><a href="<!--$val.DETAIL_URL!-->"><!--$val.NAME!--></a></h3>
 			<p><!--$val.PREVIEW_TEXT!--></p>
-			<ul class="stat">
+			<ul class="stat notlike">
 				<li class="date"><!--$val.ACTIVE_FROM!--></li>
+				<li class="likes"><!--if($val.LIKES.countLike>0)!--><!--$val.LIKES.countLike!--><!--else!-->0<!--endif!--><i></i></li>
+				<li class="unlikes"><!--if($val.LIKES.countDislike>0)!--><!--$val.LIKES.countDislike!--><!--else!-->0<!--endif!--><i></i></li>
 			</ul>
 		</div>
 		<!--endforeach!-->

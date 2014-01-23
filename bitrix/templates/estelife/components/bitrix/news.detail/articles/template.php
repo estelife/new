@@ -16,13 +16,13 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 		</ul>
 		<div class="item detail big-font">
 			<h1><?=$arResult["NAME"]?></h1>
-			<ul class="stat">
+			<ul class="stat notlike" data-elid="<?=$arResult['LIKES']['element_id']?>" data-type="<?=$arResult['LIKES']['type']?>">
 				<?php if (!empty($arResult['ACTIVE_FROM'])):?>
 					<li class="date"><?=date('d.m.Y',strtotime($arResult['ACTIVE_FROM']))?></li>
 				<?php endif?>
 <!--				<li class="comments">9<i></i></li>-->
-<!--				<li class="likes">41<i></i></li>-->
-<!--				<li class="unlikes">2<i></i></li>-->
+				<li class="likes islike"><?=$arResult['LIKES']['countLike']?><?if ($arResult['LIKES']['typeLike']==1):?> и Ваш<?endif?><i></i></li>
+				<li class="unlikes islike"><?=$arResult['LIKES']['countDislike']?><?if ($arResult['LIKES']['typeLike']==2):?> и Ваш<?endif?><i></i></li>
 			</ul>
 			<div class="announce">
 				<?=$arResult["PREVIEW_TEXT"];?>
@@ -41,9 +41,9 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 			</div>
 			<?=$arResult["DETAIL_TEXT"];?>
 			<div class="info">
-				<ul class="stat">
-					<li><a href="#" class="likes" data-help="Нравится">0<i></i></a></li>
-					<li><a href="#" class="unlikes" data-help="Не нравится">0<i></i></a></li>
+				<ul class="stat" data-elid="<?=$arResult['LIKES']['element_id']?>" data-type="<?=$arResult['LIKES']['type']?>">
+					<li><a href="#" class="likes islike<?if ($arResult['LIKES']['typeLike']==1):?> active<?endif?>" data-help="Нравится"><?=$arResult['LIKES']['countLike']?><?if ($arResult['LIKES']['typeLike']==1):?> и Ваш<?endif?><i></i></a></li>
+					<li><a href="#" class="unlikes islike<?if ($arResult['LIKES']['typeLike']==2):?> active<?endif?>" data-help="Не нравится"><?=$arResult['LIKES']['countDislike']?><?if ($arResult['LIKES']['typeLike']==2):?> и Ваш<?endif?><i></i></a></li>
 				</ul>
 				<div class="social cols repost">
 					<span>Поделиться: </span>

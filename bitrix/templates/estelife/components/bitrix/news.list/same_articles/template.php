@@ -20,8 +20,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 							<li class="date"><?=date('d.m.Y',strtotime($arItem['ACTIVE_FROM']))?></li>
 						<?php endif?>
 						<!--						<li class="comments">9<i></i></li>-->
-						<!--						<li class="likes">41<i></i></li>-->
-						<!--						<li class="unlikes">2<i></i></li>-->
+						<li class="likes"><?if ($arItem['LIKES']['countLike']>0):?><?=$arItem['LIKES']['countLike']?><?else:?>0<?endif?><i></i></li>
+						<li class="unlikes"><?if ($arItem['LIKES']['countDislike']>0):?><?=$arItem['LIKES']['countDislike']?><?else:?>0<?endif?><i></i></li>
 					</ul>
 				</div>
 			<?endforeach?>

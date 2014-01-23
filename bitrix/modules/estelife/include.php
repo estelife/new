@@ -51,6 +51,9 @@ CModule::AddAutoloadClasses(
 		// geo
 		'geo\VGeo' => "classes/geo/class.VGeo.php",
 
+		// likes
+		'like\VLike' => "classes/likes/class.VLike.php",
+
 		// bitrix
 		'core\bx\VDatabaseAdapter' => "classes/core/bx/class.VDatabaseAdapter.php",
 

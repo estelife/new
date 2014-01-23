@@ -134,8 +134,14 @@ $arResult['company']['contacts']['phone'] = implode('<br />', $arResult['company
 $arResult['company']['contacts']['fax'] = implode('<br />', $arResult['company']['fax']);
 $arResult['company']['contacts']['email'] = implode('<br />', $arResult['company']['email']);
 
-$APPLICATION->SetPageProperty("title", $arResult['company']['name']);
-$APPLICATION->SetPageProperty("description", mb_substr(trim(strip_tags($arResult['company']['preview_text'])),0,140,'utf-8'));
-$APPLICATION->SetPageProperty("keywords", "Estelife, организаторы, ".mb_strtolower(trim(preg_replace('#[^\w\d\s\.\,\-а-я]+#iu','',$arResult['company']['name'])),'utf-8'));
+$arResult['company']['name'] = trim(strip_tags(html_entity_decode($arResult['company']['name'], ENT_QUOTES, 'utf-8')));
+$arResult['company']['preview_text'] = trim(strip_tags(html_entity_decode($arResult['company']['preview_text'], ENT_QUOTES, 'utf-8')));
+
+$arResult['company']['seo_name'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['company']['name']);
+$arResult['company']['seo_preview_text'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['company']['preview_text']);
+
+$APPLICATION->SetPageProperty("title", $arResult['company']['seo_name']);
+$APPLICATION->SetPageProperty("description", \core\types\VString::truncate($arResult['company']['seo_preview_text'],160,''));
+$APPLICATION->SetPageProperty("keywords", "Estelife, организаторы, ".mb_strtolower($arResult['company']['seo_name'],'utf-8'));
 
 $this->IncludeComponentTemplate();

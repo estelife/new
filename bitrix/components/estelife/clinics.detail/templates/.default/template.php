@@ -31,148 +31,158 @@
 					<a href="<?=$arResult['clinic']['main_contact']['web']?>" target="_blank"><?=$arResult['clinic']['main_contact']['web_short']?></a>
 				<?php endif?>
 			</div>
-			<div class="menu menu_tab">
-				<ul>
-					<li class="active t1"><a href="#"><span>О клинике</span></a></li>
-					<li class="t3"><a href="#"><span>Услуги и цены</span></a></li>
-					<li class="t2"><a href="#"><span>Акции</span></a></li>
-					<li class="t4"><a href="#"><span>Контакты</span></a></li>
-				</ul>
-			</div>
-			<div class="tabs tab1">
-				<?php if (!empty($arResult['clinic']['gallery'])):?>
-					<div class="gallery">
-						<div class="gallery-in">
-							<?php foreach ($arResult['clinic']['gallery'] as $val):?>
-								<div class="item">
-									<div class="img">
-										<img src="<?=$val['original']?>" alt="<?=$val['description']?>" title="<?=$val['description']?>" />
-									</div>
-									<div class="desc">
-										<?=$val['description']?>
-									</div>
-								</div>
-							<?php endforeach?>
-						</div>
-						<div class="gallery-desc">
-							<?=$val['description']?>
-						</div>
-						<a href="#" class="arrow left">Назад<i></i></a>
-						<a href="#" class="arrow right">Вперед<i></i></a>
-					</div>
-				<?php endif?>
-				<p><?=$arResult['clinic']['detail_text']?></p>
-			</div>
-			<div class="tabs tab2 services none">
-				<?php foreach ($arResult['clinic']['specializations'] as $key=>$val):?>
-					<?php foreach ($arResult['clinic']['service'] as $k=>$v):?>
-						<?php if ($key == $v['s_id']):?>
-								<h3><?=$v['ser_name']?></h3>
-								<table>
-									<?php foreach ($arResult['clinic']['con'] as $kk=>$vv):?>
-										<?php if ($k == $vv['ser_id']):?>
-										<tr>
-											<td><?=$vv['con_name']?></td>
-											<td class="prices"><span>от <?=$vv['price_from']?><i></i></span></td>
-										</tr>
-										<?php endif?>
-									<?php endforeach?>
-								</table>
-						<?php endif?>
-					<?php endforeach?>
-				<?php endforeach?>
-			</div>
-			<div class="tabs tab3 none">
-				<div class="promotions">
-					<div class="items">
-						<?php if (!empty($arResult['clinic']['akzii'])):?>
-							<?php foreach ($arResult['clinic']['akzii'] as $arValue):?>
-								<div class="item promotion">
-									<div class="item-rel">
-										<?php if($arValue['view_type']!=2): ?>
-											<span class="perc"><?=$arValue["sale"]?>%</span>
-										<?php endif; ?>
-										<a href="<?=$arValue['link']?>">
-											<img src="<?=$arValue['logo']?>" alt="<?=$arValue['name']?>" title="<?=$arValue['name']?>" />
-										</a>
-										<h3><a href="<?=$arValue['link']?>"><?=$arValue['name']?></a></h3>
-										<div class="cols prices">
-											<b>
-												<?php if($arValue['view_type']==3): ?>
-													скидка <?=$arValue["sale"]?>%
-												<?php else: ?>
-													<?=$arValue['new_price']?> <i></i>
-												<?php endif; ?>
-											</b>
-											<?php if($arValue['view_type']==1): ?>
-												<s><?=$arValue['old_price']?> <i></i></s>
-											<?php endif; ?>
+			<?php if ($arResult['clinic']["recomended"] == 1):?>
+				<div class="menu menu_tab">
+					<ul>
+						<li class="active t1"><a href="#"><span>О клинике</span></a></li>
+						<li class="t3"><a href="#"><span>Услуги и цены</span></a></li>
+						<li class="t2"><a href="#"><span>Акции</span></a></li>
+						<li class="t4"><a href="#"><span>Контакты</span></a></li>
+					</ul>
+				</div>
+				<div class="tabs tab1">
+					<?php if (!empty($arResult['clinic']['gallery'])):?>
+						<div class="gallery">
+							<div class="gallery-in">
+								<?php foreach ($arResult['clinic']['gallery'] as $val):?>
+									<div class="item">
+										<div class="img">
+											<img src="<?=$val['original']?>" alt="<?=$val['description']?>" title="<?=$val['description']?>" />
 										</div>
-										<div class="cols time">
-											<?=$arValue['time']?> <?=$arValue['day']?>
-											<i></i>
+										<div class="desc">
+											<?=$val['description']?>
 										</div>
 									</div>
-									<div class="border"></div>
-								</div>
-							<?php endforeach; ?>
-						<?php else:?>
-							<div class="default">
-								<h3>Текущих акций нет</h3>
-								<p>На текущий момент Клиника <?=$arResult['clinic']['name']?> не проводит акций.</p>
-								<p>Однако, Вы можете оставить нам свой e-mail, и мы с радостью сообщим Вам о запуске новых акций от данной клиники.</p>
-								<?$APPLICATION->IncludeComponent(
-									"estelife:subscribe",
-									"",
-									array(
-										'params'=>array('id'=>$arResult['clinic']['id']),
-										'type'=>1,
-										'text'=>'Хочу узнавать обо всех новых акциях, размещаемых на портале'
-									)
-								)?>
+								<?php endforeach?>
 							</div>
-						<?php endif?>
+							<div class="gallery-desc">
+								<?=$val['description']?>
+							</div>
+							<a href="#" class="arrow left">Назад<i></i></a>
+							<a href="#" class="arrow right">Вперед<i></i></a>
+						</div>
+					<?php endif?>
+					<p><?=$arResult['clinic']['detail_text']?></p>
+				</div>
+				<div class="tabs tab2 services none">
+					<?php foreach ($arResult['clinic']['specializations'] as $key=>$val):?>
+						<?php foreach ($arResult['clinic']['service'] as $k=>$v):?>
+							<?php if ($key == $v['s_id']):?>
+									<h3><?=$v['ser_name']?></h3>
+									<table>
+										<?php foreach ($arResult['clinic']['con'] as $kk=>$vv):?>
+											<?php if ($k == $vv['ser_id']):?>
+											<tr>
+												<td><?=$vv['con_name']?></td>
+												<td class="prices"><span>от <?=$vv['price_from']?><i></i></span></td>
+											</tr>
+											<?php endif?>
+										<?php endforeach?>
+									</table>
+							<?php endif?>
+						<?php endforeach?>
+					<?php endforeach?>
+				</div>
+				<div class="tabs tab3 none">
+					<div class="promotions">
+						<div class="items">
+							<?php if (!empty($arResult['clinic']['akzii'])):?>
+								<?php foreach ($arResult['clinic']['akzii'] as $arValue):?>
+									<div class="item promotion">
+										<div class="item-rel">
+											<?php if($arValue['view_type']!=2): ?>
+												<span class="perc"><?=$arValue["sale"]?>%</span>
+											<?php endif; ?>
+											<a href="<?=$arValue['link']?>">
+												<img src="<?=$arValue['logo']?>" alt="<?=$arValue['name']?>" title="<?=$arValue['name']?>" />
+											</a>
+											<h3><a href="<?=$arValue['link']?>"><?=$arValue['name']?></a></h3>
+											<div class="cols prices">
+												<b>
+													<?php if($arValue['view_type']==3): ?>
+														скидка <?=$arValue["sale"]?>%
+													<?php else: ?>
+														<?=$arValue['new_price']?> <i></i>
+													<?php endif; ?>
+												</b>
+												<?php if($arValue['view_type']==1): ?>
+													<s><?=$arValue['old_price']?> <i></i></s>
+												<?php endif; ?>
+											</div>
+											<div class="cols time">
+												<?=$arValue['time']?> <?=$arValue['day']?>
+												<i></i>
+											</div>
+										</div>
+										<div class="border"></div>
+									</div>
+								<?php endforeach; ?>
+							<?php else:?>
+								<div class="default">
+									<h3>Текущих акций нет</h3>
+									<p>На текущий момент Клиника <?=$arResult['clinic']['name']?> не проводит акций.</p>
+									<p>Однако, Вы можете оставить нам свой e-mail, и мы с радостью сообщим Вам о запуске новых акций от данной клиники.</p>
+									<?$APPLICATION->IncludeComponent(
+										"estelife:subscribe",
+										"",
+										array(
+											'params'=>array('id'=>$arResult['clinic']['id']),
+											'type'=>1,
+											'text'=>'Хочу узнавать обо всех новых акциях, размещаемых на портале'
+										)
+									)?>
+								</div>
+							<?php endif?>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="tabs tab-c tab4 none">
-				<?php if (!empty($arResult['clinic']['contacts'])):?>
-					<?php foreach ($arResult['clinic']['contacts'] as $val):?>
-						<ul>
-							<li>
-								<b>Адрес</b>
-								<span>м. <?=$val['metro']?>, <?=$val['address']?></span>
-							</li>
-							<?php if (!empty($val['phone'])):?>
+				<div class="tabs tab-c tab4 none">
+					<?php if (!empty($arResult['clinic']['contacts'])):?>
+						<?php foreach ($arResult['clinic']['contacts'] as $val):?>
+							<ul>
 								<li>
-									<b>Телефон</b>
-									<span><?=$val['phone']?></span>
+									<b>Адрес</b>
+									<span>м. <?=$val['metro']?>, <?=$val['address']?></span>
 								</li>
-							<?php endif?>
-							<!--<li>-->
-							<!--<b>Режим работы</b>-->
-							<!--<span>с 9:00 до 21:00 <i>без выходных</i></span>-->
-							<!--</li>-->
-							<?php if (!empty($val['web'])):?>
-								<li>
-									<b>Сайт клиники</b>
-									<a href="<?=$val['web']?>" target="_blank"><?=$val['web_short']?></a>
-								</li>
-							<?php endif?>
-							<?php if (!empty($val['pays'])):?>
-								<li>
-									<b>Принимают к оплате</b>
-									<span><?=$val['pays']?></span>
-								</li>
-							<?php endif?>
-						</ul>
-						<div class="map">
-							<span class="lat"><?=$val['lat']?></span>
-							<span class="lng"><?=$val['lng']?></span>
-						</div>
-					<?php endforeach?>
-				<?php endif?>
-			</div>
+								<?php if (!empty($val['phone'])):?>
+									<li>
+										<b>Телефон</b>
+										<span><?=$val['phone']?></span>
+									</li>
+								<?php endif?>
+								<!--<li>-->
+								<!--<b>Режим работы</b>-->
+								<!--<span>с 9:00 до 21:00 <i>без выходных</i></span>-->
+								<!--</li>-->
+								<?php if (!empty($val['web'])):?>
+									<li>
+										<b>Сайт клиники</b>
+										<a href="<?=$val['web']?>" target="_blank"><?=$val['web_short']?></a>
+									</li>
+								<?php endif?>
+								<?php if (!empty($val['pays'])):?>
+									<li>
+										<b>Принимают к оплате</b>
+										<span><?=$val['pays']?></span>
+									</li>
+								<?php endif?>
+							</ul>
+							<div class="map">
+								<span class="lat"><?=$val['lat']?></span>
+								<span class="lng"><?=$val['lng']?></span>
+							</div>
+						<?php endforeach?>
+					<?php endif?>
+				</div>
+			<?php else:?>
+				<div class="tabs tab-c">
+					<div class="info-clinic">
+						К сожалению, на данный момент клиника не предоставила нам официальные данные об оказываемых услугах и проводимых акциях.
+						<br /><br />
+						Если данная организация Вас заинтересовала, предлагаем воспользоваться возможностью быстрого перехода на <a href="<?=$arResult['clinic']['main_contact']['web']?>" target="_blank">официальный сайт</a> клиники.
+					</div>
+				</div>
+			<?php endif?>
 		</div>
 	</div>
 </div>
