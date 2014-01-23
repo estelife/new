@@ -19,22 +19,10 @@
 		<p><!--$detail.detail_text!--></p>
 
 		<div class="properties">
-			<!--if($detail.registration)!-->
-				<div class="el-tab">
-					<h3><a href="#">Регистрация</a></h3>
-					<p class="none"><!--$detail.registration'!--></p>
-				</div>
-			<!--endif!-->
 			<!--if($detail.action)!-->
 				<div class="el-tab">
 					<h3><a href="#">Действие</a></h3>
 					<p class="none"><!--$detail.action!--></p>
-				</div>
-			<!--endif!-->
-			<!--if($detail.undesired)!-->
-				<div class="el-tab">
-					<h3><a href="#">Побочные действия</a></h3>
-					<p class="none"><!--$detail.undesired!--></p>
 				</div>
 			<!--endif!-->
 			<!--if($detail.evidence)!-->
@@ -43,40 +31,22 @@
 					<p class="none"><!--$detail.evidence!--></p>
 				</div>
 			<!--endif!-->
-			<!--if($detail.structure)!-->
-				<div class="el-tab">
-					<h3><a href="#">Состав</a></h3>
-					<p class="none"><!--$detail.structure!--></p>
-				</div>
-			<!--endif!-->
-			<!--if($detail.effect)!-->
-				<div class="el-tab">
-					<h3><a href="#">Достигаемый эффект</a></h3>
-					<p class="none"><!--$detail.effect!--></p>
-				</div>
-			<!--endif!-->
-			<!--if($detail.form)!-->
-				<div class="el-tab">
-					<h3><a href="#">Форма выпуска</a></h3>
-					<p class="none"><!--$detail.form!--></p>
-				</div>
-			<!--endif!-->
 			<!--if($detail.contra)!-->
 				<div class="el-tab">
 					<h3><a href="#">Противопоказания</a></h3>
 					<p class="none"><!--$detail.contra!--></p>
 				</div>
 			<!--endif!-->
-			<!--if($detail.usage)!-->
+			<!--if($detail.structure)!-->
 				<div class="el-tab">
-					<h3><a href="#">Курс лечения</a></h3>
-					<p class="none"><!--$detail.usage!--></p>
+					<h3><a href="#">Состав</a></h3>
+					<p class="none"><!--$detail.structure!--></p>
 				</div>
 			<!--endif!-->
-			<!--if($detail.storage)!-->
+			<!--if($detail.registration)!-->
 				<div class="el-tab">
-					<h3><a href="#">Условия хранения</a></h3>
-					<p class="none"><!--$detail.storage!--></p>
+					<h3><a href="#">Регистрация</a></h3>
+					<p class="none"><!--$detail.registration'!--></p>
 				</div>
 			<!--endif!-->
 			<!--if($detail.advantages)!-->
@@ -85,10 +55,28 @@
 					<p class="none"><!--$detail.advantages!--></p>
 				</div>
 			<!--endif!-->
+			<!--if($detail.usage)!-->
+				<div class="el-tab">
+					<h3><a href="#">Курс лечения</a></h3>
+					<p class="none"><!--$detail.usage!--></p>
+				</div>
+			<!--endif!-->
 			<!--if($detail.area)!-->
 				<div class="el-tab">
 					<h3><a href="#">Зоны применения</a></h3>
 					<p class="none"><!--$detail.area!--></p>
+				</div>
+			<!--endif!-->
+			<!--if($detail.effect)!-->
+				<div class="el-tab">
+					<h3><a href="#">Достигаемый эффект</a></h3>
+					<p class="none"><!--$detail.effect!--></p>
+				</div>
+			<!--endif!-->
+			<!--if($detail.undesired)!-->
+				<div class="el-tab">
+					<h3><a href="#">Побочные действия</a></h3>
+					<p class="none"><!--$detail.undesired!--></p>
 				</div>
 			<!--endif!-->
 			<!--if($detail.security)!-->
@@ -103,19 +91,30 @@
 					<p class="none"><!--$detail.mix!--></p>
 				</div>
 			<!--endif!-->
-			<!--if($detail.protocol)!-->
-				<div class="el-tab">
-					<h3><a href="#">Протокол процедуры</a></h3>
-					<p class="none"><!--$detail.protocol!--></p>
-				</div>
-			<!--endif!-->
 			<!--if($detail.specs)!-->
 				<div class="el-tab">
 					<h3><a href="#">Технические характеристики</a></h3>
 					<p class="none"><!--$detail.specs!--></p>
 				</div>
 			<!--endif!-->
-
+			<!--if($detail.protocol)!-->
+				<div class="el-tab">
+					<h3><a href="#">Протокол процедуры</a></h3>
+					<p class="none"><!--$detail.protocol!--></p>
+				</div>
+			<!--endif!-->
+			<!--if($detail.form)!-->
+				<div class="el-tab">
+					<h3><a href="#">Форма выпуска</a></h3>
+					<p class="none"><!--$detail.form!--></p>
+				</div>
+			<!--endif!-->
+			<!--if($detail.storage)!-->
+				<div class="el-tab">
+					<h3><a href="#">Условия хранения</a></h3>
+					<p class="none"><!--$detail.storage!--></p>
+				</div>
+			<!--endif!-->
 			<!--if($detail.gallery)!-->
 				<div class="el-tab">
 					<h3><a href="#">Фотографии результатов</a></h3>

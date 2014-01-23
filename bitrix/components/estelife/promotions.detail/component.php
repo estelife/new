@@ -198,7 +198,8 @@ $arResult['action']['old_price']=number_format($arResult['action']['base_old_pri
 
 $arResult['action']['day_count']=ceil(($arResult['action']['end_date']-time())/86400);
 $arResult['action']['day_count']=$arResult['action']['day_count'].' '.\core\types\VString::spellAmount($arResult['action']['day_count'],'день,дня,дней');
-$arResult['action']['end_date']=date('d.m.Y', $arResult['action']['end_date']);
+$arResult['action']['end_date_format']=date('d.m.Y', $arResult['action']['end_date']);
+$arResult['action']['now'] = time();
 
 $arResult['action']['clinics']['clinic_name'] = trim(strip_tags(html_entity_decode($arResult['action']['clinics']['clinic_name'], ENT_QUOTES, 'utf-8')));
 $arResult['action']['clinics']['seo_clinic_name'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['action']['clinics']['clinic_name']);

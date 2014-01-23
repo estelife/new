@@ -19,12 +19,6 @@
 		<p><!--$detail.detail_text!--></p>
 
 		<div class="properties">
-			<!--if($detail.registration)!-->
-				<div class="el-tab">
-					<h3><a href="#">Регистрация</a></h3>
-					<p class="none"><!--$detail.registration!--></p>
-				</div>
-			<!--endif!-->
 			<!--if($detail.action)!-->
 				<div class="el-tab">
 					<h3><a href="#">Действие</a></h3>
@@ -37,22 +31,10 @@
 					<p class="none"><!--$detail.func!--></p>
 				</div>
 			<!--endif!-->
-			<!--if($detail.undesired)!-->
-				<div class="el-tab">
-					<h3><a href="#">Побочные действие</a></h3>
-					<p class="none"><!--$detail.undesired!--></p>
-				</div>
-			<!--endif!-->
 			<!--if($detail.evidence)!-->
 				<div class="el-tab">
 					<h3><a href="#">Показания</a></h3>
 					<p class="none"><!--$detail.evidence!--></p>
-				</div>
-			<!--endif!-->
-			<!--if($detail.procedure)!-->
-				<div class="el-tab">
-					<h3><a href="#">Курс процедур</a></h3>
-					<p class="none"><!--$detail.procedure!--></p>
 				</div>
 			<!--endif!-->
 			<!--if($detail.contra)!-->
@@ -61,10 +43,34 @@
 					<p class="none"><!--$detail.contra!--></p>
 				</div>
 			<!--endif!-->
+			<!--if($detail.registration)!-->
+				<div class="el-tab">
+					<h3><a href="#">Регистрация</a></h3>
+					<p class="none"><!--$detail.registration!--></p>
+				</div>
+			<!--endif!-->
 			<!--if($detail.advantages)!-->
 				<div class="el-tab">
 					<h3><a href="#">Преимущества</a></h3>
 					<p class="none"><!--$detail.advantages!--></p>
+				</div>
+			<!--endif!-->
+			<!--if($detail.procedure)!-->
+				<div class="el-tab">
+					<h3><a href="#">Курс процедур</a></h3>
+					<p class="none"><!--$detail.procedure!--></p>
+				</div>
+			<!--endif!-->
+			<!--if($detail.undesired)!-->
+				<div class="el-tab">
+					<h3><a href="#">Побочные действие</a></h3>
+					<p class="none"><!--$detail.undesired!--></p>
+				</div>
+			<!--endif!-->
+			<!--if($detail.specs)!-->
+				<div class="el-tab">
+					<h3><a href="#">Технические характеристики</a></h3>
+					<p class="none"><!--$detail.specs!--></p>
 				</div>
 			<!--endif!-->
 			<!--if($detail.security)!-->
@@ -79,20 +85,12 @@
 					<p class="none"><!--$detail.protocol!--></p>
 				</div>
 			<!--endif!-->
-			<!--if($detail.specs)!-->
-				<div class="el-tab">
-					<h3><a href="#">Технические характеристики</a></h3>
-					<p class="none"><!--$detail.specs!--></p>
-				</div>
-			<!--endif!-->
 			<!--if($detail.equipment)!-->
 				<div class="el-tab">
 					<h3><a href="#">Комплектация</a></h3>
 					<p class="none"><!--$detail.equipment!--></p>
 				</div>
 			<!--endif!-->
-
-
 			<!--if($detail.gallery)!-->
 				<div class="el-tab">
 					<h3><a href="#">Фотографии результатов</a></h3>

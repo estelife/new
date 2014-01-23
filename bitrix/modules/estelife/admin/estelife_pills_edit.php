@@ -442,6 +442,12 @@ $arResult['types'] = $obQuery->select()->all();
 		</td>
 	</tr>
 	<tr>
+		<td width="40%"><?=GetMessage("ESTELIFE_F_UNDESIRED")?></td>
+		<td width="60%">
+			<textarea name="undesired" rows="12" style="width:70%"><?=$arResult['pills']['undesired']?></textarea>
+		</td>
+	</tr>
+	<tr>
 		<td width="40%"><?=GetMessage("ESTELIFE_F_SECURITY")?></td>
 		<td width="60%">
 			<textarea name="security" rows="12" style="width:70%"><?=$arResult['pills']['security']?></textarea>
@@ -477,12 +483,7 @@ $arResult['types'] = $obQuery->select()->all();
 			<textarea name="storage" rows="12" style="width:70%"><?=$arResult['pills']['storage']?></textarea>
 		</td>
 	</tr>
-	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_UNDESIRED")?></td>
-		<td width="60%">
-			<textarea name="undesired" rows="12" style="width:70%"><?=$arResult['pills']['undesired']?></textarea>
-		</td>
-	</tr>
+
 	<?php $tabControl->BeginNextTab();?>
 	<tr>
 		<td colspan="2">

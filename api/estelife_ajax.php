@@ -6,7 +6,6 @@ use core\exceptions\VFormException;
 use core\http\VHttp;
 use core\types\VArray;
 use like\VLike;
-use reference\services as rs;
 
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/estelife/prolog.php");

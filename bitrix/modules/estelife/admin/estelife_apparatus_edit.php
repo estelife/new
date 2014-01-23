@@ -494,6 +494,12 @@ $arResult['types'] = $obQuery->select()->all();
 		</td>
 	</tr>
 	<tr>
+		<td width="40%"><?=GetMessage("ESTELIFE_F_FUNC")?></td>
+		<td width="60%">
+			<textarea name="func" rows="12" style="width:70%"><?=$arResult['apps']['func']?></textarea>
+		</td>
+	</tr>
+	<tr>
 		<td width="40%"><?=GetMessage("ESTELIFE_F_EVIDENCE")?></td>
 		<td width="60%">
 			<textarea name="evidence" rows="12" style="width:70%"><?=$arResult['apps']['evidence']?></textarea>
@@ -503,18 +509,6 @@ $arResult['types'] = $obQuery->select()->all();
 		<td width="40%"><?=GetMessage("ESTELIFE_F_CONTRA")?></td>
 		<td width="60%">
 			<textarea name="contra" rows="12" style="width:70%"><?=$arResult['apps']['contra']?></textarea>
-		</td>
-	</tr>
-	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_SPECS")?></td>
-		<td width="60%">
-			<textarea name="specs" rows="12" style="width:70%"><?=$arResult['apps']['specs']?></textarea>
-		</td>
-	</tr>
-	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_FUNC")?></td>
-		<td width="60%">
-			<textarea name="func" rows="12" style="width:70%"><?=$arResult['apps']['func']?></textarea>
 		</td>
 	</tr>
 	<tr>
@@ -542,15 +536,21 @@ $arResult['types'] = $obQuery->select()->all();
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_PROTOCOL")?></td>
-		<td width="60%">
-			<textarea name="protocol" rows="12" style="width:70%"><?=$arResult['apps']['protocol']?></textarea>
-		</td>
-	</tr>
-	<tr>
 		<td width="40%"><?=GetMessage("ESTELIFE_F_UNDESIRED")?></td>
 		<td width="60%">
 			<textarea name="undesired" rows="12" style="width:70%"><?=$arResult['apps']['undesired']?></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td width="40%"><?=GetMessage("ESTELIFE_F_SPECS")?></td>
+		<td width="60%">
+			<textarea name="specs" rows="12" style="width:70%"><?=$arResult['apps']['specs']?></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td width="40%"><?=GetMessage("ESTELIFE_F_PROTOCOL")?></td>
+		<td width="60%">
+			<textarea name="protocol" rows="12" style="width:70%"><?=$arResult['apps']['protocol']?></textarea>
 		</td>
 	</tr>
 	<tr>

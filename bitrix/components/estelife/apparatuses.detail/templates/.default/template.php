@@ -26,12 +26,6 @@
 			<p><?=$arResult['app']['detail_text']?></p>
 
 			<div class="properties">
-				<?php if (!empty($arResult['app']['registration'])):?>
-					<div class="el-tab">
-						<h3><a href="#">Регистрация</a></h3>
-						<p class="none"><?=$arResult['app']['registration']?></p>
-					</div>
-				<?php endif?>
 				<?php if (!empty($arResult['app']['action'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Действие</a></h3>
@@ -44,22 +38,10 @@
 						<p class="none"><?=$arResult['app']['func']?></p>
 					</div>
 				<?php endif?>
-				<?php if (!empty($arResult['app']['undesired'])):?>
-					<div class="el-tab">
-						<h3><a href="#">Побочные действие</a></h3>
-						<p class="none"><?=$arResult['app']['undesired']?></p>
-					</div>
-				<?php endif?>
 				<?php if (!empty($arResult['app']['evidence'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Показания</a></h3>
 						<p class="none"><?=$arResult['app']['evidence']?></p>
-					</div>
-				<?php endif?>
-				<?php if (!empty($arResult['app']['procedure'])):?>
-					<div class="el-tab">
-						<h3><a href="#">Курс процедур</a></h3>
-						<p class="none"><?=$arResult['app']['procedure']?></p>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['contra'])):?>
@@ -68,10 +50,28 @@
 						<p class="none"><?=$arResult['app']['contra']?></p>
 					</div>
 				<?php endif?>
+				<?php if (!empty($arResult['app']['registration'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Регистрация</a></h3>
+						<p class="none"><?=$arResult['app']['registration']?></p>
+					</div>
+				<?php endif?>
 				<?php if (!empty($arResult['app']['advantages'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Преимущества</a></h3>
 						<p class="none"><?=$arResult['app']['advantages']?></p>
+					</div>
+				<?php endif?>
+				<?php if (!empty($arResult['app']['procedure'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Курс процедур</a></h3>
+						<p class="none"><?=$arResult['app']['procedure']?></p>
+					</div>
+				<?php endif?>
+				<?php if (!empty($arResult['app']['undesired'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Побочные действие</a></h3>
+						<p class="none"><?=$arResult['app']['undesired']?></p>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['security'])):?>
@@ -80,16 +80,16 @@
 						<p class="none"><?=$arResult['app']['security']?></p>
 					</div>
 				<?php endif?>
-				<?php if (!empty($arResult['app']['protocol'])):?>
-					<div class="el-tab">
-						<h3><a href="#">Протокол процедуры</a></h3>
-						<p class="none"><?=$arResult['app']['protocol']?></p>
-					</div>
-				<?php endif?>
 				<?php if (!empty($arResult['app']['specs'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Технические характеристики</a></h3>
 						<p class="none"><?=$arResult['app']['specs']?></p>
+					</div>
+				<?php endif?>
+				<?php if (!empty($arResult['app']['protocol'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Протокол процедуры</a></h3>
+						<p class="none"><?=$arResult['app']['protocol']?></p>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['equipment'])):?>
