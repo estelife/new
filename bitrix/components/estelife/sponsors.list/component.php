@@ -18,34 +18,26 @@ if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 else
 	$arPageCount = 10;
 
-if ($obGet->blank('city') && $obGet->blank('country') && isset($_COOKIE['estelife_city'])){
-	$arResult['city'] = VGeo::getInstance()->getGeo();
-	$arResult['country']['ID']=$arResult['city']['COUNTRY_ID'];
-	$arResult['country']['NAME']=$arResult['city']['COUNTRY_NAME'];
+if(!$obGet->blank('city')){
+	$obQuery=$obDriver->createQuery();
+	$obQuery->builder()
+		->from('iblock_element')
+		->field('NAME')
+		->field('ID')
+		->filter()
+		->_eq('ID',intval($obGet->one('city')));
+	$arResult['city']=$obQuery->select()->assoc();
+}
 
-	unset($arResult['city']['COUNTRY_ID'],$arResult['city']['COUNTRY_NAME']);
-}else{
-	if(!$obGet->blank('city')){
-		$obQuery=$obDriver->createQuery();
-		$obQuery->builder()
-			->from('iblock_element')
-			->field('NAME')
-			->field('ID')
-			->filter()
-			->_eq('ID',intval($obGet->one('city')));
-		$arResult['city']=$obQuery->select()->assoc();
-	}
-
-	if(!$obGet->blank('country')){
-		$obQuery=$obDriver->createQuery();
-		$obQuery->builder()
-			->from('iblock_element')
-			->field('NAME')
-			->field('ID')
-			->filter()
-			->_eq('ID',intval($obGet->one('country')));
-		$arResult['country']=$obQuery->select()->assoc();
-	}
+if(!$obGet->blank('country')){
+	$obQuery=$obDriver->createQuery();
+	$obQuery->builder()
+		->from('iblock_element')
+		->field('NAME')
+		->field('ID')
+		->filter()
+		->_eq('ID',intval($obGet->one('country')));
+	$arResult['country']=$obQuery->select()->assoc();
 }
 
 //Получение списка организаторов
