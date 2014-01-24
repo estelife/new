@@ -16,6 +16,7 @@ $arAssoc=array_flip($arAssoc);
 switch($arPath[0]){
 	case 'clinic':
 	case 'promotions':
+	case 'actions':
 	case 'organizatory':
 	case 'sponsors':
 	case 'uchebnie-centry':
@@ -26,11 +27,13 @@ switch($arPath[0]){
 			$arPath[0]='clinics';
 		else if($arPath[0]=='organizatory')
 			$arPath[0]='sponsors';
+		else if($arPath[0]=='actions')
+			$arPath[0]='promotions';
 
 		if(preg_match('#([0-9]+)/?$#',$arPath[1],$arMatches))
 			$sRedirect='/'.$arAssoc[$arPath[0]].$arMatches[1].'/';
 		else
-			$sRedirect='/clinics/';
+			$sRedirect='/'.$arPath[0].'/';
 		break;
 	case 'novosti':
 	case 'articles':
@@ -101,7 +104,6 @@ switch($arPath[0]){
 			$sRedirect='/'.$arPath[0].'/';
 		}
 		break;
-	case 'actions':
 	case 'pr':
 		$sRedirect='/promotions/';
 		break;

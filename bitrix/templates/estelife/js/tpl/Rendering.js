@@ -184,7 +184,7 @@ define(function(){
 				var matches;
 
 				if(matches=cond.match(/(!)?((\$?[\w\d\_\.]+)(([\-\/%\+]+)([\d]+))*)([\s]*([\!\=\<>]{1,3}|in)[\s]*((\$?[\w\d\._]+)(([\-\/%\+]+)([\d]+))*))*/i)){
-					var res=_checkExpr(
+					return _checkExpr(
 						matches[1],
 						$.trim(matches[3]),
 						$.trim(matches[5]),
@@ -194,8 +194,6 @@ define(function(){
 						$.trim(matches[12]),
 						$.trim(matches[13])
 					);
-					console.log($.trim(matches[10]),res);
-					return res;
 				}
 
 				return false;

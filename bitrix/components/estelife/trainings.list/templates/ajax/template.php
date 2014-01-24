@@ -11,7 +11,8 @@ echo json_encode(array(
 	),
 	'seo'=>array(
 		'title'=>$APPLICATION->GetPageProperty('title'),
-		'description'=>$APPLICATION->GetPageProperty('description')
+		'description'=>$APPLICATION->GetPageProperty('description'),
+		'keywords'=>$APPLICATION->GetPageProperty('keywords')
 	),
 	'count'=>$arResult['count'],
 	'crumb'=>array(
