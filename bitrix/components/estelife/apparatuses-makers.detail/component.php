@@ -120,7 +120,7 @@ $arResult['company']['seo_name'] = \core\types\VString::pregStrSeo($arResult['co
 
 
 $APPLICATION->SetPageProperty("title", $arResult['company']['seo_name']);
-$APPLICATION->SetPageProperty("description", \core\types\VString::truncate('Подробная информация о компании '.$arResult['company']['seo_description'].', её история, контактные данные, товары и услуги. Узнайте подробнее у нас.',160,''));
+$APPLICATION->SetPageProperty("description", \core\types\VString::truncate('Подробная информация о компании '.$arResult['company']['seo_description'].' - история, контактные данные и продукция. Узнайте подробнее у нас.',160,''));
 $APPLICATION->SetPageProperty("keywords", "Производители апппаратов, ".$arResult['company']['seo_name']);
 
 $this->IncludeComponentTemplate();
