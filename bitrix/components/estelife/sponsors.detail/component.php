@@ -175,9 +175,9 @@ $arResult['company']['contacts']['fax'] = implode('<br />', $arResult['company']
 $arResult['company']['contacts']['email'] = implode('<br />', $arResult['company']['email']);
 
 $arResult['company']['seo_name'] = trim(strip_tags(html_entity_decode($arResult['company']['name'], ENT_QUOTES, 'utf-8')));
-$arResult['company']['seo_name'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['company']['seo_name']);
+$arResult['company']['seo_name'] = \core\types\VString::pregStrSeo($arResult['company']['seo_name']);
 $arResult['company']['seo_description'] = trim(strip_tags(html_entity_decode($arResult['company']['detail_text'], ENT_QUOTES, 'utf-8')));
-$arResult['company']['seo_description'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['company']['seo_description']);
+$arResult['company']['seo_description'] = \core\types\VString::pregStrSeo($arResult['company']['seo_description']);
 
 $APPLICATION->SetPageProperty("title", $arResult['company']['seo_name']);
 $APPLICATION->SetPageProperty("description", \core\types\VString::truncate($arResult['company']['seo_name'].' - '.$arResult['company']['seo_description'],160,''));

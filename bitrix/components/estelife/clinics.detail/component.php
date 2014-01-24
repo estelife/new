@@ -278,7 +278,7 @@ else
 	$arCity = '';
 
 $arResult['clinic']['name'] = trim(strip_tags(html_entity_decode($arResult['clinic']['name'], ENT_QUOTES, 'utf-8')));
-$arResult['clinic']['seo_name'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['clinic']['name']);
+$arResult['clinic']['seo_name'] = \core\types\VString::pregStrSeo($arResult['clinic']['name']);
 
 $sPrefix='Клиника ';
 

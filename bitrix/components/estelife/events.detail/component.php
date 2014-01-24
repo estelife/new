@@ -247,7 +247,7 @@ if(!empty($arResult['event']['calendar']['first_period']['to'])){
 }
 
 $arResult['event']['short_name'] = trim(strip_tags(html_entity_decode($arResult['event']['short_name'], ENT_QUOTES, 'utf-8')));
-$arResult['event']['seo_short_name'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu', '', $arResult['event']['short_name']);
+$arResult['event']['seo_short_name'] = VString::pregStrSeo($arResult['event']['short_name']);
 $arResult['event']['seo_title'] = $arResult['event']['seo_short_name'].' - '.$arTime.', '.$arResult['event']['country_name'].', '.$arResult['event']['city_name'];
 $arResult['event']['seo_description'] = 'В городе '.$arResult['event']['city_name'].' ('.$arResult['event']['country_name'].')'. ' '.$arTime.' проводится '.$arResult['event']['seo_short_name'].'. Вся информация здесь.';
 

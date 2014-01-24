@@ -164,10 +164,10 @@ foreach ($arProductions as $val){
 }
 
 $arResult['pill']['name'] = trim(strip_tags(html_entity_decode($arResult['pill']['name'], ENT_QUOTES, 'utf-8')));
-$arResult['pill']['seo_name'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['pill']['name']);
+$arResult['pill']['seo_name'] = VString::pregStrSeo($arResult['pill']['name']);
 
 $arResult['pill']['seo_preview_text'] = trim(strip_tags(html_entity_decode($arResult['pill']['detail_text'], ENT_QUOTES, 'utf-8')));
-$arResult['pill']['seo_preview_text'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['pill']['seo_preview_text']);
+$arResult['pill']['seo_preview_text'] = VString::pregStrSeo($arResult['pill']['seo_preview_text']);
 
 $APPLICATION->SetPageProperty("title", $arResult['pill']['seo_name']);
 $APPLICATION->SetPageProperty("description", VString::truncate($arResult['pill']['seo_preview_text'],160,''));

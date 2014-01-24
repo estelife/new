@@ -2694,7 +2694,7 @@ form.quality .submit {
 	position: relative;
 }
 .field.error input {
-	background: rgb(240, 76, 24);
+	background: #ff5858;
 	color:#fff;
 }
 .field.error i {
@@ -2703,8 +2703,12 @@ form.quality .submit {
 	display: block;
 	position: absolute;
 	bottom: -24px;
-	color: #E60365;
+	color: #dd3a3a;
 	left: 0;
+}
+.field.half_error input{
+	background-color: #fff;
+	color:#2c2c2c;
 }
 .help {
 	font-size: 12px;

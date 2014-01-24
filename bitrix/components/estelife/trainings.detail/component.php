@@ -220,7 +220,7 @@ if (!empty($arResult['event']['city_id'])){
 }
 
 $arResult['event']['full_name'] = trim(strip_tags(html_entity_decode($arResult['event']['full_name'], ENT_QUOTES, 'utf-8')));
-$arResult['event']['seo_full_name'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['event']['full_name']);
+$arResult['event']['seo_full_name'] = VString::pregStrSeo($arResult['event']['full_name']);
 
 $APPLICATION->SetPageProperty("title", $arResult['event']['seo_full_name'].' - обучение, курсы и семинары');
 $APPLICATION->SetPageProperty("description", \core\types\VString::truncate($arResult['event']['seo_full_name'].' '.$arResult['event']['calendar']['first_period'].' в '.$mCity.' - вся информация о курсах, обучении и семинаре',160,''));

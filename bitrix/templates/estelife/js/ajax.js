@@ -622,9 +622,11 @@ require([
 			data={
 				'action':'add_request'
 			};
-		form.find('error')
-			.removeClass('error')
-			.find('i')
+		form.find('.error')
+			.removeClass('error');
+		form.find('.half_error')
+			.removeClass('half_error');
+		form.find('i')
 			.remove();
 		form.find('input').each(function(){
 			var input=$(this);
@@ -652,6 +654,10 @@ require([
 
 		e.preventDefault();
 	});
+
+	body.on('focus','.quality-in input', function(){
+		$(this).parent().addClass('half_error');
+	})
 
 	body.on('focus','input.preload', function(){
 		$(this).autocomplete({
@@ -737,6 +743,7 @@ require([
 
 		e.preventDefault();
 	});
+
 
 	body.on('mouseover mouseout','[data-help]',function(e){
 		var target=$(this),
