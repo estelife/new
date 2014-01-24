@@ -127,12 +127,24 @@ while($arData=$obResult->Fetch()){
 	$arDescription[]=mb_strtolower($arData['name']);
 }
 
-$arDescription = strip_tags(html_entity_decode(implode(", ", $arDescription), ENT_QUOTES, 'utf-8'));
-$arDescription = VString::pregStrSeo($arDescription);
+$arTypes = array(
+	"1"=>"Мезотерапия",
+	"2"=>"Ботулинотерапия",
+	"3"=>"Биоревитализация",
+	"4"=>"Контурная пластика"
+);
 
-$APPLICATION->SetPageProperty("title", 'Препараты');
-$APPLICATION->SetPageProperty("description", VString::truncate($arDescription,'160', ''));
-$APPLICATION->SetPageProperty("keywords", "Estelife, препараты, ".$arDescription);
+if (empty($_GET['type'])){
+	$arSEOTitle = 'Список и база данных препаратов в эстетической медицине.';
+	$arSEODescription = 'Большая база данных препаратов для процедур и различных видов терапий в эстетической медицине. Мы собрали для Вас всю информацию.';
+}else{
+	$arSEOTitle = $arTypes[$_GET['type']].' - все препараты в нашей базе данных.';
+	$arSEODescription = 'Вся информация по препаратам для процедуры '.$arTypes[$_GET['type']].'. Весь список с подробным описанием в нашей базе данных.';
+}
+
+$APPLICATION->SetPageProperty("title", $arSEOTitle);
+$APPLICATION->SetPageProperty("description", VString::truncate($arSEODescription,'160', ''));
+$APPLICATION->SetPageProperty("keywords", "Препараты, ".$arDescription);
 
 $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));

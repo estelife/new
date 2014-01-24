@@ -131,11 +131,29 @@ while($arData=$obResult->Fetch()){
 	$i++;
 }
 
-$arDescription = strip_tags(html_entity_decode(implode(", ", $arDescription), ENT_QUOTES, 'utf-8'));
-$arDescription = VString::pregStrSeo($arDescription);
+$arTypes = array(
+"1"=>'Anti-Age терапия',
+"7"=>'Диагностика',
+"2"=>'Коррекция фигуры',
+"9"=>'Микропигментация',
+"5"=>'Микротоки',
+"4"=>'Миостимуляция',
+"6"=>'Лазеры',
+"8"=>'Реабилитация',
+"3"=>'Эпиляция'
+);
 
-$APPLICATION->SetPageProperty("title", "Аппараты");
-$APPLICATION->SetPageProperty("description", VString::truncate($arDescription, 160, ''));
+if (empty($_GET['type'])){
+	$arSEOTitle = 'Список и база данных аппартов в эстетической медицине.';
+	$arSEODescription = 'Огромная база данных по аппаратам для всех процедур и видов терапий в эстетической медицине. Подробная информация только у нас.';
+}else{
+	$arSEOTitle = $arTypes[$_GET['type']].' - все аппараты в нашей базе данных.';
+	$arSEODescription = 'Вся информация по аппаратам для процедуры '.$arTypes[$_GET['type']].'. Весь список с подробным описанием в нашей базе данных.';
+}
+
+
+$APPLICATION->SetPageProperty("title", $arSEOTitle);
+$APPLICATION->SetPageProperty("description", VString::truncate($arSEODescription, 160, ''));
 $APPLICATION->SetPageProperty("keywords", "Estelife, Аппараты, ". $arDescription);
 
 $sTemplate=$this->getTemplateName();
