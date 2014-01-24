@@ -59,6 +59,9 @@ class VCompanies {
 		if (empty($idCompany))
 			return false;
 
+		if (empty($obArray['city_name']))
+			$obArray['city_id'] = 0;
+
 		$obQuery = $this->obCompanies->createQuery();
 		$obQuery ->builder()->from($tableName)
 			->value('country_id', intval($obArray['country_id']))

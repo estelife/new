@@ -14,9 +14,11 @@
 		<div class="article-img-in">
 			<img src="<!--$detail.IMG.SRC!-->" alt="<!--$detail.NAME!-->" title="<!--$detail.NAME!-->">
 		</div>
-		<div class="article-img-desc">
-			<!--$detail.IMG.DESCRIPTION!-->
-		</div>
+		<!--if($detail.IMG.DESCRIPTION)!-->
+			<div class="article-img-desc">
+				<!--$detail.IMG.DESCRIPTION!-->
+			</div>
+		<!--endif!-->
 	</div>
 	<!--$detail.DETAIL_TEXT!-->
 	<div class="info">

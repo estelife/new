@@ -1,4 +1,4 @@
-<?php
+ <?php
 use companies\VCompanies;
 use core\database\VDatabase;
 use core\exceptions as ex;

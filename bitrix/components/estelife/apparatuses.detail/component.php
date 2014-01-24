@@ -172,7 +172,7 @@ $arResult['app']['seo_name'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arRe
 $arResult['app']['seo_preview_text'] = trim(strip_tags(html_entity_decode($arResult['app']['detail_text'], ENT_QUOTES, 'utf-8')));
 $arResult['app']['seo_preview_text'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['app']['seo_preview_text']);
 
-$APPLICATION->SetPageProperty("title", mb_strtolower($arResult['app']['seo_name']));
+$APPLICATION->SetPageProperty("title", $arResult['app']['seo_name']);
 $APPLICATION->SetPageProperty("description", VString::truncate($arResult['app']['seo_preview_text'],160,''));
 $APPLICATION->SetPageProperty("keywords", "Estelife, Аппараты, ".$arResult['app']['seo_name']);
 

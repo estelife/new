@@ -31,13 +31,11 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 				<div class="article-img-in">
 					<img src="<?=$arResult['IMG']['SRC']?>" alt="<?=$arResult["NAME"]?>" title="<?=$arResult["NAME"]?>">
 				</div>
-				<div class="article-img-desc">
-					<?php if (!empty($img['DESCRIPTION'])):?>
-						<?=$img['DESCRIPTION']?>
-					<?php else:?>
-						<?=$arResult["NAME"]?>
-					<?php endif?>
-				</div>
+				<?php if (!empty($arResult['IMG']['DESCRIPTION'])):?>
+					<div class="article-img-desc">
+						<?=$arResult['IMG']['DESCRIPTION']?>
+					</div>
+				<?php endif?>
 			</div>
 			<?=$arResult["DETAIL_TEXT"];?>
 			<div class="info">

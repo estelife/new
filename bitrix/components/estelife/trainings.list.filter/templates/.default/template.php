@@ -22,15 +22,15 @@
 	<label for="direction">Направление</label>
 	<select name="direction" >
 		<option value="">--</option>
+		<option value="14" <?if($arResult['filter']['direction'] == 14) echo " selected";?>>Аппаратная косметология</option>
+		<option value="10" <?if($arResult['filter']['direction'] == 10) echo " selected";?>>Безоперационный лифтинг</option>
+		<option value="8" <?if($arResult['filter']['direction'] == 8) echo " selected";?>>Биоревитализация</option>
 		<option value="5" <?if($arResult['filter']['direction'] == 5) echo " selected";?>>Ботулинотерапия</option>
 		<option value="6" <?if($arResult['filter']['direction'] == 6) echo " selected";?>>Контурная пластика</option>
-		<option value="7" <?if($arResult['filter']['direction'] == 7) echo " selected";?>>Мезотерапия</option>
-		<option value="8" <?if($arResult['filter']['direction'] == 8) echo " selected";?>>Биоревитализация</option>
-		<option value="9" <?if($arResult['filter']['direction'] == 9) echo " selected";?>>Объемное моделирование</option>
-		<option value="10" <?if($arResult['filter']['direction'] == 10) echo " selected";?>>Безоперационный лифтинг</option>
-		<option value="12" <?if($arResult['filter']['direction'] == 12) echo " selected";?>>Пилинги</option>
 		<option value="13" <?if($arResult['filter']['direction'] == 13) echo " selected";?>>Космецевтика</option>
-		<option value="14" <?if($arResult['filter']['direction'] == 14) echo " selected";?>>Аппаратная косметология</option>
+		<option value="7" <?if($arResult['filter']['direction'] == 7) echo " selected";?>>Мезотерапия</option>
+		<option value="9" <?if($arResult['filter']['direction'] == 9) echo " selected";?>>Объемное моделирование</option>
+		<option value="12" <?if($arResult['filter']['direction'] == 12) echo " selected";?>>Пилинги</option>
 	</select>
 	<span class="block"></span>
 	</div>
