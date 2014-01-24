@@ -22,7 +22,6 @@ try{
 
 	$arResult['first'] = key($arResult['SECTIONS_NAME']);
 
-
 	$obIblock = VDatabase::driver();
 	$obQuery = $obIblock->createQuery();
 	$obQuery->builder()->from('iblock_element', 'ie');
@@ -106,6 +105,9 @@ try{
 			$arResult['iblock'][$nSectionId]['articles'][] = $val;
 		}
 	}
+
+	if (!empty($arResult['iblock'][$arResult['first']]))
+		$arResult['first_section'] = $arResult['iblock'][$arResult['first']]['section'];
 
 
 
