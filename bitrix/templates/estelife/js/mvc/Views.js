@@ -270,35 +270,23 @@ define(['tpl/Template'],function(Template){
 	 * @type {*}
 	 */
 	Views.Filter=Views.Default.extend({
-		el:document.createElement('form'),
+		el:document.createElement('div'),
 		render:function(){
 			if(_.isObject(this.data)){
 				var ob=this;
+				this.$el
+					.addClass('ajax-filter')
+					.empty();
 
 				this.template.ready(function(){
-					ob.$el=$(ob.template.render(ob.data));
-					ob.el=ob.$el[0];
-
+					ob.$el.append(ob.template.render(ob.data));
 					Events.push({
-						'target':ob.$el,
+						'target':ob.$el.find('form'),
 						'type':'update'
 					})
 				});
-
-				Cache['filter'] = this;
 				return this;
 			}
-//			}else{
-//				var view=Cache['filter'];
-//				if (this.data.count)
-//					view.$el.find('span.count-result').html(this.data.count);
-//
-//				Events.push({
-//					'target':view.$el,
-//					'type':'update'
-//				});
-//				return view;
-//			}
 		}
 	});
 
@@ -317,6 +305,7 @@ define(['tpl/Template'],function(Template){
 
 				this.$el.append(this.data);
 				this.el=this.$el[0];
+
 				Cache['advert']=this;
 				return this;
 			}else{

@@ -311,6 +311,7 @@ input.text {
 	position: static;
 	text-transform: none;
 	font-weight: normal;
+	padding: 0 18px;
 }
 .head .menu li a:hover, .head .menu li.second_active a {
 	color:#e50264;

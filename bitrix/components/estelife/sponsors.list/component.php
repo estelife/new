@@ -175,9 +175,6 @@ while($arData=$obResult->Fetch()){
 	if(!empty($arData['city_name']))
 		$arAddress[]='г. '.$arData['city_name'];
 
-	if(!empty($arData['address']))
-		$arAddress[]=$arData['address'];
-
 	$arData['address']=implode(', ',$arAddress);
 
 	unset(

@@ -1,10 +1,9 @@
- <?php
+<?php
 use companies\VCompanies;
 use core\database\VDatabase;
 use core\exceptions as ex;
 use core\types\VArray;
 use core\types\VString;
-use reference\services as rs;
 
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_before.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/estelife/prolog.php");
@@ -15,7 +14,6 @@ $FORM_RIGHT = $APPLICATION->GetGroupRight("estelife");
 
 if($FORM_RIGHT<="D")
 	$APPLICATION->AuthForm(GetMessage("ACCESS_DENIED"));
-
 
 CModule::IncludeModule("estelife");
 CModule::IncludeModule('iblock');
