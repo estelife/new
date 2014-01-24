@@ -2,6 +2,7 @@
 namespace core\database\mysql;
 use core\database as db;
 
+
 /**
  * Класс для генерации sql запроса из массива данных
  * @since 12.05.2012

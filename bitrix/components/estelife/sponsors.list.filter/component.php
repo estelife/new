@@ -9,16 +9,36 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 CModule::IncludeModule("iblock");
 CModule::IncludeModule("estelife");
 
-$obClinics = VDatabase::driver();
+$obQuery = VDatabase::driver()->createQuery();
+$obQuery->builder()
+	->from('estelife_company_events', 'ece')
+	->group('ct.ID')
+	->field('ct.ID','ID')
+	->field('ct.NAME','NAME');
+$obJoin=$obQuery->builder()->join();
+$obJoin->_left()
+	->_from('ece', 'event_id')
+	->_to('estelife_events', 'id', 'ee');
+$obJoin->_left()
+	->_from('ee', 'id')
+	->_to('estelife_event_types', 'event_id', 'eet');
+$obJoin->_left()
+	->_from('ece', 'company_id')
+	->_to('estelife_companies', 'id', 'ec');
+$obJoin->_left()
+	->_from('ec', 'id')
+	->_to('estelife_company_geo', 'company_id', 'ecg');
+$obJoin->_left()
+	->_from('ecg', 'country_id')
+	->_to('iblock_element', 'ID', 'ct')
+	->_cond()->_eq('ct.IBLOCK_ID',15);
+$obFilter = $obQuery->builder()->filter()
+	->_ne('eet.type', 3);
+$arCountries=$obQuery->select()->all();
 
-//Получение списка стран
-$arSelect = Array("ID", "NAME");
-$arFilter = Array("IBLOCK_ID"=>15, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
-$obCountries = CIBlockElement::GetList(Array("NAME"=>"ASC"), $arFilter, false, false, $arSelect);
-
-while($res = $obCountries->Fetch()) {
-	$arResult['countries'][] = $res;
-}
+$obCounties=new VArray($arCountries);
+$obCounties->sortByPriorities(array(357),'ID');
+$arResult['countries']=$obCounties->all();
 
 $obGet=new VArray($_GET);
 

@@ -14,7 +14,7 @@
 				<span><!--$detail.address!--></span>
 			<!--endif!-->
 			<!--if($detail.contacts.web)!-->
-				<a href="<!--$detail.contacts.web!-->"><!--$detail.contacts.web_short!--></a>
+				<a href="<!--$detail.contacts.web!-->" target="_blank"><!--$detail.contacts.web_short!--></a>
 			<!--endif!-->
 		</div>
 		<div class="cl"></div>

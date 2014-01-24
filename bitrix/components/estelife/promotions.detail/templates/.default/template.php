@@ -36,9 +36,7 @@
 			</div>
 		</div>
 
-		<div class="announce">
-			<?=$arResult['action']['detail_text']?>
-		</div>
+		<?=$arResult['action']['detail_text']?>
 
 		<div class="clinic">
 			<a href="<?=$arResult['action']['clinic']['link']?>" class="more"><i></i></a>

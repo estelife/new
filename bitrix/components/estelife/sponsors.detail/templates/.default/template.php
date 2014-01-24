@@ -21,7 +21,7 @@
 					<span><?=$arResult['company']['address']?></span>
 				<?php endif?>
 				<?php if (!empty($arResult['company']['contacts']['web'])):?>
-					<a href="<?=$arResult['company']['contacts']['web']?>"><?=$arResult['company']['contacts']['web_short']?></a>
+					<a href="<?=$arResult['company']['contacts']['web']?>" target="_blank"><?=$arResult['company']['contacts']['web_short']?></a>
 				<?php endif?>
 			</div>
 			<div class="cl"></div>

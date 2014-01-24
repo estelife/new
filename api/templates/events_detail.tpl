@@ -10,7 +10,7 @@
 				<!--if($detail.calendar.first_period.to)!-->
 					- <!--$detail.calendar.first_period.to!-->
 				<!--endif!--></b><br>
-			Место проведения: <b><!--$detail.country_name!--><!--if($detail.city_name)!-->, г.<!--$detail.city_name!--><!--endif!--><!--if($detail.dop_address)!-->, <!--$detail.dop_address!--><!--endif!--></b><br>
+			Место проведения: <b><!--$detail.country_name!--><!--if($detail.city_name)!-->, г. <!--$detail.city_name!--><!--endif!--><!--if($detail.dop_address)!-->, <!--$detail.dop_address!--><!--endif!--></b><br>
 			<!--if($detail.address)!-->
 				Адрес проведения: <b><!--$detail.address!--></b><br>
 			<!--endif!-->

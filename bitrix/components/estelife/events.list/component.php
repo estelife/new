@@ -19,9 +19,10 @@ if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 else
 	$arPageCount = 10;
 
-if ($obGet->blank('city') && $obGet->blank('country')){
-	if (isset($_COOKIE['estelife_city']))
+if($obGet->blank('city') && $obGet->blank('country')){
+	if(isset($_COOKIE['estelife_city']))
 		$arResult['city'] = VGeo::getInstance()->getGeo();
+
 	$arResult['country']['COUNTRY_ID'] = $arResult['city']['COUNTRY_ID'];
 }else{
 	if(!$obGet->blank('city'))
@@ -34,21 +35,12 @@ if ($obGet->blank('city') && $obGet->blank('country')){
 $arResult['events'] = array();
 
 //Получение списка клиник
-$obQuery = $obEvents->createQuery();
+$obQuery=$obEvents->createQuery();
 $obQuery->builder()->from('estelife_events', 'ee');
 $obJoin=$obQuery->builder()->join();
 $obJoin->_left()
 	->_from('ee', 'id')
 	->_to('estelife_event_types', 'event_id', 'eet');
-$obJoin->_left()
-	->_from('ee', 'id')
-	->_to('estelife_company_events', 'event_id', 'ece');
-$obJoin->_left()
-	->_from('ece','company_id')
-	->_to('estelife_companies','id','ec');
-$obJoin->_left()
-	->_from('ec','id')
-	->_to('estelife_company_geo','company_id','ecg');
 $obJoin->_left()
 	->_from('ee','city_id')
 	->_to('iblock_element','ID','ct')
@@ -75,37 +67,55 @@ $obQuery->builder()
 	->field('ee.full_name','full_name')
 	->field('ee.city_id','city_id')
 	->field('ee.translit','translit')
-	->field('ecg.city_id','company_city_id')
 	->field('ee.address','address')
-	->field('ecg.address','company_address')
 	->field('ct.NAME','city_name')
 	->field('cty.NAME','country_name')
 	->field('cty.ID','country_id')
 	->field('ee.web','web')
-	->field('ee.logo_id','logo_id')
-	->field('ec.name','company_name')
-	->field('ec.id','company_id');
+	->field('ee.logo_id','logo_id');
 
 $obFilter=$obQuery->builder()->filter();
 $obFilter->_ne('eet.type', 3);
 
-if (!empty($arResult['city']) && $obGet->one('city')!=='all'){
-	$obFilter->_eq('ecg.city_id', $arResult['city']['ID']);
-}
+if (!empty($arResult['city']) && $obGet->one('city')!=='all')
+	$obFilter->_eq('ee.city_id', $arResult['city']['ID']);
 
-if (!empty($arResult['country']) && $obGet->one('country')!=='all'){
-	$obFilter->_eq('ecg.country_id', $arResult['country']['COUNTRY_ID']);
-}
+if(!empty($arResult['country']) && $obGet->one('country')!=='all')
+	$obFilter->_eq('ee.country_id', $arResult['country']['COUNTRY_ID']);
 
-if(!$obGet->blank('name')){
+if(!$obGet->blank('name'))
 	$obFilter->_like('ee.short_name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
-}
 
 if(!$obGet->blank('direction')){
-	$obFilter->_eq('eed.type', intval($obGet->one('direction')));
+	$mDirections=$obGet->one('direction');
+
+	if(is_array($mDirections)){
+		foreach($mDirections as $nKey=>$nValue){
+			$nValue=intval($nValue);
+			if($nValue<=0)
+				unset($arDirections[$nKey]);
+		}
+		$obFilter->_in('eed.type', $mDirections);
+	}else{
+		$mDirections=intval($mDirections);
+		$obFilter->_eq('eed.type', $mDirections);
+	}
 }
+
 if(!$obGet->blank('type')){
-	$obFilter->_eq('eet.type', intval($obGet->one('type')));
+	$arTypes=$obGet->one('type');
+
+	if(is_array($arTypes)){
+		foreach($arTypes as $nKey=>$nValue){
+			$nValue=intval($nValue);
+			if($nValue<=0)
+				unset($arTypes[$nKey]);
+		}
+		$obFilter->_in('eet.type', $arTypes);
+	}else{
+		$arTypes=intval($arTypes);
+		$obFilter->_eq('eet.type', $arTypes);
+	}
 }
 
 $nDateFrom=preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$obGet->one('date_from'));
@@ -120,14 +130,12 @@ if (!$obGet->blank('date_to')){
 
 $obFilter->_gte('ecal.date',$nDateFrom);
 
-if ($nDateTo){
+if ($nDateTo)
 	$obFilter->_lte('ecal.date',$nDateTo);
-}
 
 $obQuery->builder()->sort('ecal.date', 'asc');
 $obQuery->builder()->group('ee.id');
 $obResult = $obQuery->select();
-
 
 $obResult = $obResult->bxResult();
 $nCount = $obResult->SelectedRowsCount();

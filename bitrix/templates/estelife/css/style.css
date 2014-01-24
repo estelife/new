@@ -574,10 +574,13 @@ ul.stat .unlikes.active i {
 }
 .experts .user {
 	float: right;
-	width: 146px;
+	width: 147px;
 	margin-bottom: 22px;
 	line-height: 15px;
 	height:185px;
+}
+.experts .user img {
+	border-right:none;
 }
 .item.detail .menu a, .experts .quote,
 .inner .products .item.product .cols,
@@ -684,7 +687,9 @@ ul.stat .unlikes.active i {
 .item.promotion .data {
 	margin:34px 0 26px 0;
 	padding-bottom:0;
-	overflow: hidden;
+	float:left;
+	width: 100%;
+	cursor:default;
 }
 .item.promotion .data img {
 	width:310px;
@@ -824,6 +829,7 @@ td.prices span {
 	font-size:18px;
 	margin:0 !important;
 	height: auto;
+	width:auto;
 }
 .item.promotion .current .city {
 	display: block;
@@ -1549,6 +1555,18 @@ td.prices span {
 }
 .filter .count-result b{
 	font-weight: normal;
+}
+.filter .checkbox,
+.filter input[type=checkbox] {
+	display: block;
+	margin-bottom:3px;
+}
+.filter input[type=checkbox] {
+	visibility: hidden;
+	height: 17px;
+}
+.filter .checkbox-label {
+	margin-bottom:10px;
 }
 .field label {
 	font-weight:bold;

@@ -103,22 +103,6 @@ $APPLICATION->IncludeComponent(
 		"estelife:articles.list",
 		"",
 		array(
-			"IBLOCK_ID"=>3,
-			"SECTIONS_ID"=> array(172,173,176,177),
-			"SECTIONS_NAME"=> array("Косметология", "Пластическая хирургия", "Косметика", "Обо всем"),
-			"NEWS_COUNT" => 4,
-			"NEED_SECTION" => "N",
-			"MAIN_URL" => "novosti",
-			"TITLE"=>"Новости сферы",
-			"MORE_TITLE"=>"Архив новостей",
-			"IMG_FIELD" =>145,
-			"PREFIX" => "ns"
-		)
-	)?>
-	<?$APPLICATION->IncludeComponent(
-		"estelife:articles.list",
-		"",
-		array(
 			"IBLOCK_ID"=>14,
 			"SECTIONS_ID"=> array(194,195,196,197),
 			"SECTIONS_NAME"=> array("Красивое лицо", "Идеальное тело", "Изящные ручки", "Прекрасные ножки"),

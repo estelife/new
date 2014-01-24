@@ -1,8 +1,8 @@
 <!--if($detail)!-->
 	<div class="item detail company">
 		<h1>
-			<!--$detail.name!-->
 			<!--if($detail.recomended==1)!--><a href="/about/quality-mark.php" class="checked">Знак качества Estelife</a><!--endif!-->
+			<!--$detail.name!-->
 		</h1>
 		<div class="img">
 			<div class="img-in">

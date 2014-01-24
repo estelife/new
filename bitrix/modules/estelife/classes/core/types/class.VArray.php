@@ -220,4 +220,31 @@ class VArray implements \Countable,\Iterator,\ArrayAccess {
 	public function count(){
 		return $this->size();
 	}
+
+	public function sortByPriorities(array $arPriorities,$sField=''){
+		$arValues=array();
+
+		if($sField!=''){
+			foreach($this->arValues as $nTempKey=>$arValue){
+				if(isset($arValue[$sField]) && ($nKey=array_search($arValue[$sField],$arPriorities))!==false){
+					$arValue['priority']=true;
+					array_splice($arValues,$nKey,0,array($arValue));
+				}else{
+					$arValues[]=$arValue;
+				}
+			}
+		}else{
+			foreach($this->arKeys as $nTempKey=>$sValue){
+				if(($nKey=array_search($sValue,$arPriorities))!==false){
+					$this->arValues[$nTempKey]['priority']=true;
+					array_splice($arValues,$nKey,0,array($this->arValues[$nTempKey]));
+				}else{
+					$arValues[]=$this->arValues[$nTempKey];
+				}
+			}
+		}
+
+		$this->arValues=$arValues;
+		$this->arKeys=array_keys($arValues);
+	}
 }
