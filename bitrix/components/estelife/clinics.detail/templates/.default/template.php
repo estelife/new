@@ -8,8 +8,8 @@
 	<div class="wrap_item">
 		<div class="item detail company">
 			<h1>
-				<?=$arResult['clinic']['name']?>
 				<?php if ($arResult['clinic']["recomended"] == 1):?><a href="/about/quality-mark.php" class="checked">Знак качества Estelife</a><?php endif?>
+				<?=$arResult['clinic']['name']?>
 			</h1>
 			<div class="img">
 				<div class="img-in">

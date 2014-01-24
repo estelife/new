@@ -332,7 +332,8 @@ require([
 			if(!page || page.length<=0)
 				throw 'invalid form action';
 
-			var data={};
+			var data={},
+				keys={};
 
 			frm.find('input,select').each(function(){
 				var inpt=$(this),
@@ -342,13 +343,26 @@ require([
 
 				if(type=='text' || type=='select'){
 					val=inpt.val();
-				}else{
-					val=frm.find('input[name='+name+']:checked')
-						.attr('value')||0;
+				}else if(type=='checkbox' && inpt.prop('checked')){
+					val=inpt.val();
 				}
 
-				if(val!='' && val!=0 && val!='0')
-					data[name]=val;
+				if(val!='' && val!=0 && val!='0'){
+					var matches;
+
+					if(matches=name.match(/([a-z_\-0-9]+)\[(.*)\]/)){
+						if(!keys.hasOwnProperty(matches[1]))
+							keys[matches[1]]=[];
+
+						var key=(matches[2]!='') ?
+							matches[2] :
+							Object.keys(keys[matches[1]]).length;
+
+						keys[matches[1]].push(key);
+						data[matches[1]+'['+key+']']=val;
+					}else
+						data[name]=val;
+				}
 			});
 
 			Router.navigate(

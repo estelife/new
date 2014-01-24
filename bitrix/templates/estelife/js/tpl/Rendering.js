@@ -183,8 +183,8 @@ define(function(){
 			function _check(cond){
 				var matches;
 
-				if(matches=cond.match(/(!)?(\$([\w\d\_\.]+)(([\-\/%\+]+)([\d]+))*)([\s]*([\!\=\<>]{1,3})[\s]*((\$?[\w\d\._]+)(([\-\/%\+]+)([\d]+))*))*/i)){
-					return _checkExpr(
+				if(matches=cond.match(/(!)?((\$?[\w\d\_\.]+)(([\-\/%\+]+)([\d]+))*)([\s]*([\!\=\<>]{1,3}|in)[\s]*((\$?[\w\d\._]+)(([\-\/%\+]+)([\d]+))*))*/i)){
+					var res=_checkExpr(
 						matches[1],
 						$.trim(matches[3]),
 						$.trim(matches[5]),
@@ -194,6 +194,7 @@ define(function(){
 						$.trim(matches[12]),
 						$.trim(matches[13])
 					);
+					return res;
 				}
 
 				return false;
@@ -201,7 +202,8 @@ define(function(){
 
 			function _checkExpr(neg,left,lo,ld,expr,right,ro,rd){
 				var result=false,
-					left_val=_value(left),
+					left_val=(left.substr(0,1)=='$') ?
+						_value(left.substr(1)) : left,
 					right_val=(right.substr(0,1)=='$') ?
 						_value(right.substr(1)) : right;
 
@@ -215,6 +217,7 @@ define(function(){
 					switch(expr){
 						case '==':
 						case '===':
+
 							result=(right_val && left_val==right_val);
 							break;
 						case '!=':
@@ -232,6 +235,11 @@ define(function(){
 							break;
 						case '>=':
 							result=(right_val && left_val<=right_val);
+							break;
+						case 'in':
+							result=(right_val && typeof right_val=='object') ?
+								((right_val instanceof Array && right_val.inArray(left_val)>-1) ||
+									(!(right_val instanceof Array) && left_val in right_val)) : false;
 							break;
 					}
 				}else{
@@ -283,6 +291,11 @@ define(function(){
 							return value*data;
 							break;
 					}
+				}else if(typeof value=='string'){
+					var v=parseInt(value);
+
+					if(!isNaN(v))
+						value=v;
 				}
 
 				return value;

@@ -6,7 +6,7 @@
 	</div>
 	<div class="field">
 		<label for="name">Наименование</label>
-		<input name="name" type="text" value="<?=$_GET['name']?>" class="text"/>
+		<input name="name" type="text" value="<?=$arResult['filter']['name']?>" class="text"/>
 		<span class="block"></span>
 	</div>
 	<div class="field country">
@@ -15,7 +15,7 @@
 			<option value="all">--</option>
 			<?php if (!empty($arResult['countries'])):?>
 				<?php foreach ($arResult['countries'] as $val):?>
-					<option value="<?=$val['ID']?>"<?=($_GET['country']==$val['ID'])? ' selected="true"': '' ?>><?=$val['NAME']?></option>
+					<option value="<?=$val['ID']?>"<?=($arResult['filter']['country']==$val['ID'])? ' selected="true"': '' ?>><?=$val['NAME']?></option>
 				<?php endforeach?>
 			<?php endif?>
 		</select>
@@ -27,7 +27,7 @@
 			<option value="all">--</option>
 			<?php if (!empty($arResult['cities'])):?>
 				<?php foreach ($arResult['cities'] as $val):?>
-					<option value="<?=$val['ID']?>"<?=($_GET['city']==$val['ID'] ? ' selected="true"' : '')?>><?=$val['NAME']?></option>
+					<option value="<?=$val['ID']?>"<?=($arResult['filter']['city']==$val['ID'] ? ' selected="true"' : '')?>><?=$val['NAME']?></option>
 				<?php endforeach?>
 			<?php endif?>
 		</select>
@@ -35,26 +35,20 @@
 	</div>
 
 	<div class="field">
-		<label for="direction">Направление</label>
-		<select name="direction" >
-			<option value="">--</option>
-			<option value="1"<?=($arResult['filter']['direction'] == 1 ? ' selected="true"' : '')?>>Пластическая хирургия</option>
-			<option value="2"<?=($arResult['filter']['direction'] == 2 ? ' selected="true"' : '')?>>Косметология</option>
-			<option value="4"<?=($arResult['filter']['direction'] == 4 ? ' selected="true"' : '')?>>Дерматология</option>
-			<option value="3"<?=($arResult['filter']['direction'] == 3 ? ' selected="true"' : '')?>>Косметика</option>
-			<option value="11"<?=($arResult['filter']['direction'] == 11 ? ' selected="true"' : '')?>>Менеджмент</option>
-		</select>
+		<label for="direction" class="checkbox-label">Направление</label>
+		<input type="checkbox" name="direction[]" value="1" title="Пластическая хирургия"<?=(in_array(1,$arResult['filter']['direction']) ? ' checked="true"' : '')?> />
+		<input type="checkbox" name="direction[]" value="2" title="Косметология"<?=(in_array(2,$arResult['filter']['direction']) ? ' checked="true"' : '')?> />
+		<input type="checkbox" name="direction[]" value="4" title="Дерматология"<?=(in_array(4,$arResult['filter']['direction']) ? ' checked="true"' : '')?> />
+		<input type="checkbox" name="direction[]" value="3" title="Косметика"<?=(in_array(3,$arResult['filter']['direction']) ? ' checked="true"' : '')?> />
+		<input type="checkbox" name="direction[]" value="11" title="Менеджмент"<?=(in_array(11,$arResult['filter']['direction']) ? ' checked="true"' : '')?> />
 		<span class="block"></span>
 	</div>
 
 	<div class="field">
-		<label for="type">Формат</label>
-		<select name="type" >
-			<option value="">--</option>
-			<option value="1"<?=($arResult['filter']['type'] == 1 ? ' selected="true"' : '')?>>Форум</option>
-			<option value="2"<?=($arResult['filter']['type'] == 2 ? ' selected="true"' : '')?>>Выставка</option>
-			<option value="4"<?=($arResult['filter']['type'] == 4 ? ' selected="true"' : '')?>>Тренинг</option>
-		</select>
+		<label for="type" class="checkbox-label">Формат</label>
+		<input type="checkbox" name="type[]" value="1" title="Форум"<?=(in_array(1,$arResult['filter']['type']) ? ' checked="true"' : '')?> />
+		<input type="checkbox" name="type[]" value="2" title="Выставка"<?=(in_array(2,$arResult['filter']['type']) ? ' checked="true"' : '')?> />
+		<input type="checkbox" name="type[]" value="4" title="Тренинг"<?=(in_array(4,$arResult['filter']['type']) ? ' checked="true"' : '')?> />
 		<span class="block"></span>
 	</div>
 

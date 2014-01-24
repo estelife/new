@@ -25,6 +25,22 @@ $obJoin->_left()
 $obJoin->_left()
 	->_from('ect', 'id')
 	->_to('estelife_company_type_geo', 'company_id', 'ectg');
+$obJoin->_left()
+	->_from('ecg','country_id')
+	->_to('iblock_element','ID','company_country')
+	->_cond()->_eq('company_country.IBLOCK_ID',15);
+$obJoin->_left()
+	->_from('ectg','country_id')
+	->_to('iblock_element','ID','company_type_country')
+	->_cond()->_eq('company_type_country.IBLOCK_ID',15);
+$obJoin->_left()
+	->_from('ecg','city_id')
+	->_to('iblock_element','ID','company_city')
+	->_cond()->_eq('company_city.IBLOCK_ID',16);
+$obJoin->_left()
+	->_from('ectg','city_id')
+	->_to('iblock_element','ID','company_type_city')
+	->_cond()->_eq('company_type_city.IBLOCK_ID',16);
 $obQuery->builder()
 	->field('ec.*')
 	->field('ecg.address')
@@ -34,36 +50,60 @@ $obQuery->builder()
 	->field('ect.detail_text', 'type_detail_text')
 	->field('ect.id', 'type_id')
 	->field('ecg.country_id', 'country_id')
-	->field('ectg.country_id', 'type_country_id');
+	->field('ectg.country_id', 'type_country_id')
+	->field('company_country.NAME','country_name')
+	->field('company_type_country.NAME','type_country_name')
+	->field('company_city.NAME','city_name')
+	->field('company_type_city.NAME','type_city_name');
 $obQuery->builder()->filter()
 	->_eq('ec.id', $arCompanyID);
-$arResult['company'] = $obQuery->select()->assoc();
+$arResult['company']=$obQuery->select()->assoc();
 
-if (!empty($arResult['company']['type_name'])){
+if (!empty($arResult['company']['type_name']))
 	$arResult['company']['name'] = $arResult['company']['type_name'];
-}
-unset($arResult['company']['type_name']);
 
-if (!empty($arResult['company']['type_address'])){
+if (!empty($arResult['company']['type_address']))
 	$arResult['company']['address'] = $arResult['company']['type_address'];
-}
-unset($arResult['company']['type_address']);
 
-if (!empty($arResult['company']['type_country_id'])){
+if (!empty($arResult['company']['type_country_id']))
 	$arResult['company']['country_id'] = $arResult['company']['type_country_id'];
-}
-unset($arResult['company']['type_address']);
 
-if (!empty($arResult['company']['type_logo_id'])){
+if (!empty($arResult['company']['type_logo_id']))
 	$arResult['company']['logo_id'] = $arResult['company']['type_logo_id'];
-}
-unset($arResult['company']['type_logo_id']);
+
+if(!empty($arData['type_country_name']))
+	$arResult['company']['country_name']=$arResult['company']['type_country_name'];
+
+if(!empty($arData['type_city_name']))
+	$arResult['company']['city_name']=$arResult['company']['type_city_name'];
+
+$arAddress=array();
+
+if(!empty($arResult['company']['country_name']))
+	$arAddress[]=$arResult['company']['country_name'];
+
+if(!empty($arResult['company']['city_name']))
+	$arAddress[]='г. '.$arResult['company']['city_name'];
+
+if(!empty($arResult['company']['address']))
+	$arAddress[]=$arResult['company']['address'];
+
+$arResult['company']['address']=implode(', ',$arAddress);
 $arResult['company']['img'] = CFile::ShowImage($arResult['company']['logo_id'],200, 85, 'alt='.$arResult['company']['name']);
 
-if (!empty($arResult['company']['type_detail_text'])){
+if (!empty($arResult['company']['type_detail_text']))
 	$arResult['company']['detail_text'] = $arResult['company']['type_detail_text'];
-}
-unset($arResult['company']['type_detail_text']);
+
+unset(
+	$arResult['company']['type_detail_text'],
+	$arResult['company']['type_logo_id'],
+	$arResult['company']['logo_id'],
+	$arResult['company']['type_address'],
+	$arResult['company']['type_address'],
+	$arResult['company']['type_name'],
+	$arResult['company']['country_name'],
+	$arResult['company']['city_name']
+);
 
 $arResult['company']['detail_text'] = htmlspecialchars_decode($arResult['company']['detail_text'], ENT_NOQUOTES);
 
@@ -134,14 +174,13 @@ $arResult['company']['contacts']['phone'] = implode('<br />', $arResult['company
 $arResult['company']['contacts']['fax'] = implode('<br />', $arResult['company']['fax']);
 $arResult['company']['contacts']['email'] = implode('<br />', $arResult['company']['email']);
 
-$arResult['company']['name'] = trim(strip_tags(html_entity_decode($arResult['company']['name'], ENT_QUOTES, 'utf-8')));
-$arResult['company']['preview_text'] = trim(strip_tags(html_entity_decode($arResult['company']['preview_text'], ENT_QUOTES, 'utf-8')));
-
-$arResult['company']['seo_name'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['company']['name']);
-$arResult['company']['seo_preview_text'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['company']['preview_text']);
+$arResult['company']['seo_name'] = trim(strip_tags(html_entity_decode($arResult['company']['name'], ENT_QUOTES, 'utf-8')));
+$arResult['company']['seo_name'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['company']['seo_name']);
+$arResult['company']['seo_description'] = trim(strip_tags(html_entity_decode($arResult['company']['detail_text'], ENT_QUOTES, 'utf-8')));
+$arResult['company']['seo_description'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['company']['seo_description']);
 
 $APPLICATION->SetPageProperty("title", $arResult['company']['seo_name']);
-$APPLICATION->SetPageProperty("description", \core\types\VString::truncate($arResult['company']['seo_preview_text'],160,''));
+$APPLICATION->SetPageProperty("description", \core\types\VString::truncate($arResult['company']['seo_name'].' - '.$arResult['company']['seo_description'],160,''));
 $APPLICATION->SetPageProperty("keywords", "Estelife, организаторы, ".mb_strtolower($arResult['company']['seo_name'],'utf-8'));
 
 $this->IncludeComponentTemplate();

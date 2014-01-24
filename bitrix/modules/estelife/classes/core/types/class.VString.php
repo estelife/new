@@ -226,15 +226,20 @@ class VString {
 	/**
 	 * Подправляет ссылку и делаем короткий урл
 	 * @param $sUrl
+	 * @param bool $bAppendTail
 	 * @return array
 	 */
-	public static function checkUrl(&$sUrl){
+	public static function checkUrl(&$sUrl,$bAppendTail=false){
 		$sUrl=trim($sUrl);
 		$sShort=$sUrl;
 
 		if(preg_match('#^(https?:\/\/)*([^\/]+)(\/.*)*#',$sUrl,$arMatches)){
 			$sUrl=((!empty($arMatches[1])) ? $arMatches[1] : 'http://').$arMatches[2].$arMatches[3];
 			$sShort=$arMatches[2];
+			$nLength=!empty($arMatches[3]) ? strlen($arMatches[3]) : 0;
+
+			if($bAppendTail && $nLength>1)
+				$sShort.=($nLength>10) ? substr($arMatches[3],0,10).'...' : $arMatches[3];
 		}
 
 		return $sShort;

@@ -42,9 +42,8 @@ $arResult['event'] = $obQuery->select()->assoc();
 $arResult['event']['img'] = CFile::ShowImage($arResult['event']['logo_id'],280, 120, 'alt='.$arResult['event']['name']);
 $arResult['event']['detail_text'] = htmlspecialchars_decode($arResult['event']['detail_text'],ENT_NOQUOTES);
 
-if(!empty($arResult['event']['web'])){
-	$arResult['event']['short_web']=VString::checkUrl($arResult['event']['web']);
-}
+if(!empty($arResult['event']['web']))
+	$arResult['event']['short_web']=VString::checkUrl($arResult['event']['web'],true);
 
 if(!empty($arResult['event']['dop_web'])){
 	$arResult['event']['short_dop_web']=VString::checkUrl($arResult['event']['dop_web']);

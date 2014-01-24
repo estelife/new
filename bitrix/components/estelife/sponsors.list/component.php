@@ -61,6 +61,22 @@ $obJoin->_left()
 	->_from('ect', 'id')
 	->_to('estelife_company_type_contacts', 'company_id', 'ectc')
 	->_cond()->_eq('ecc.type', 'web');
+$obJoin->_left()
+	->_from('ecg','country_id')
+	->_to('iblock_element','ID','company_country')
+	->_cond()->_eq('company_country.IBLOCK_ID',15);
+$obJoin->_left()
+	->_from('ectg','country_id')
+	->_to('iblock_element','ID','company_type_country')
+	->_cond()->_eq('company_type_country.IBLOCK_ID',15);
+$obJoin->_left()
+	->_from('ecg','city_id')
+	->_to('iblock_element','ID','company_city')
+	->_cond()->_eq('company_city.IBLOCK_ID',16);
+$obJoin->_left()
+	->_from('ectg','city_id')
+	->_to('iblock_element','ID','company_type_city')
+	->_cond()->_eq('company_type_city.IBLOCK_ID',16);
 $obQuery->builder()
 	->field('ec.name', 'name')
 	->field('ec.logo_id', 'logo_id')
@@ -73,24 +89,23 @@ $obQuery->builder()
 	->field('ece.company_id','company_id')
 	->field('ect.id', 'type_company_id')
 	->field('ecg.country_id', 'country_id')
-	->field('ectg.country_id', 'type_country_id');
+	->field('ectg.country_id', 'type_country_id')
+	->field('company_country.NAME','country_name')
+	->field('company_type_country.NAME','type_country_name')
+	->field('company_city.NAME','city_name')
+	->field('company_type_city.NAME','type_city_name');
 
 $obFilter = $obQuery->builder()->filter()
 	->_ne('eet.type', 3);
-//	->_eq('ece.is_owner', 1);
 
-
-if (!empty($arResult['city']) && $obGet->one('city')!=='all'){
+if (!empty($arResult['city']) && $obGet->one('city')!=='all')
 	$obFilter->_eq('ecg.city_id', $arResult['city']['ID']);
-}
 
-if (!empty($arResult['country']) && $obGet->one('country')!=='all'){
+if (!empty($arResult['country']) && $obGet->one('country')!=='all')
 	$obFilter->_eq('ecg.country_id', $arResult['country']['COUNTRY_ID']);
-}
 
-if(!$obGet->blank('name')){
+if(!$obGet->blank('name'))
 	$obFilter->_like('ec.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
-}
 
 $obIf=$obQuery->builder()->_if();
 $obIf->when(
@@ -121,27 +136,52 @@ while($arData=$obResult->Fetch()){
 	}
 	$arData['link'] = '/sp'.$arData['company_id'].'/';
 
-	if (!empty($arData['type_logo_id'])){
+	if (!empty($arData['type_logo_id']))
 		$arData["logo_id"] = $arData["type_logo_id"];
-	}
-	$arData['img'] = CFile::ShowImage($arData["logo_id"], 110, 90, 'alt='.$arData["name"]);
 
-	if (!empty($arData['type_address'])){
-		$arData["address"] = $arData["type_address"];
-	}
-	unset($arData['type_address']);
-
-	if (!empty($arData['type_web'])){
-		$arData["web"] = $arData["type_web"];
-	}
-	unset($arData['type_web']);
-
-	if (!empty($arData['type_country_id'])){
-		$arData['country_id'] = $arData['type_country_id'];
-	}
-	unset($arData['type_country_id']);
-
+	$arData['img']=CFile::ShowImage($arData["logo_id"], 110, 90, 'alt='.$arData["name"]);
 	$arData['short_web']=\core\types\VString::checkUrl($arData['web']);
+
+	if (!empty($arData['type_address']))
+		$arData["address"] = $arData["type_address"];
+
+	if (!empty($arData['type_web']))
+		$arData["web"] = $arData["type_web"];
+
+	if (!empty($arData['type_country_id']))
+		$arData['country_id'] = $arData['type_country_id'];
+
+	if(!empty($arData['type_country_name']))
+		$arData['country_name']=$arData['type_country_name'];
+
+	if(!empty($arData['type_city_name']))
+		$arData['city_name']=$arData['type_city_name'];
+
+	$arAddress=array();
+
+	if(!empty($arData['country_name']))
+		$arAddress[]=$arData['country_name'];
+
+	if(!empty($arData['city_name']))
+		$arAddress[]='г. '.$arData['city_name'];
+
+	if(!empty($arData['address']))
+		$arAddress[]=$arData['address'];
+
+	$arData['address']=implode(', ',$arAddress);
+
+	unset(
+		$arData['type_address'],
+		$arData['type_web'],
+		$arData['type_country_id'],
+		$arData['type_country_name'],
+		$arData['type_city_name'],
+		$arData['country_name'],
+		$arData['city_name'],
+		$arData['type_logo_id'],
+		$arData['logo_id']
+	);
+
 	$arResult['org'][]=$arData;
 	$arDescription[]=mb_strtolower($arData['name']);
 }

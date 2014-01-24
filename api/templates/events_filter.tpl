@@ -22,7 +22,7 @@
 		</select>
 		<span class="block"></span>
 	</div>
-	<div class="field <!--if($cities)!--> <!--else!--> disabled<!--endif!-->">
+	<div class="field<!--if(!$cities)!--> disabled<!--endif!-->">
 		<label for="city">Город</label>
 		<select name="city" id="city">
 			<option value="all">--</option>
@@ -36,26 +36,20 @@
 	</div>
 
 	<div class="field">
-		<label for="direction">Направление</label>
-		<select name="direction" id="direction">
-			<option value="">--</option>
-			<option value="1"<!--if($filter.direction==1)!--> selected="true"<!--endif!-->>Пластическая хирургия</option>
-			<option value="2"<!--if($filter.direction==2)!--> selected="true"<!--endif!-->>Косметология</option>
-			<option value="4"<!--if($filter.direction==4)!--> selected="true"<!--endif!-->>Дерматология</option>
-			<option value="3"<!--if($filter.direction==3)!--> selected="true"<!--endif!-->>Косметика</option>
-			<option value="11"<!--if($filter.direction==11)!--> selected="true"<!--endif!-->>Менеджмент</option>
-		</select>
+		<label for="direction" class="checkbox-label">Направление</label>
+		<input type="checkbox" name="direction[]" value="1" title="Пластическая хирургия"<!--if(1 in $filter.direction)!--> checked="true"<!--endif!--> />
+		<input type="checkbox" name="direction[]" value="2" title="Косметология"<!--if(2 in $filter.direction)!--> checked="true"<!--endif!--> />
+		<input type="checkbox" name="direction[]" value="4" title="Дерматология"<!--if(4 in $filter.direction)!--> checked="true"<!--endif!--> />
+		<input type="checkbox" name="direction[]" value="3" title="Косметика"<!--if(3 in $filter.direction)!--> checked="true"<!--endif!--> />
+		<input type="checkbox" name="direction[]" value="11" title="Менеджмент"<!--if(11 in $filter.direction)!--> checked="true"<!--endif!--> />
 		<span class="block"></span>
 	</div>
 
 	<div class="field">
-		<label for="type">Формат</label>
-		<select name="type" id="type">
-			<option value="">--</option>
-			<option value="1"<!--if($filter.type==1)!--> selected="true"<!--endif!-->>Форум</option>
-			<option value="2"<!--if($filter.type==2)!--> selected="true"<!--endif!-->>Выставка</option>
-			<option value="4"<!--if($filter.type==4)!--> selected="true"<!--endif!-->>Тренинг</option>
-		</select>
+		<label for="type" class="checkbox-label">Формат</label>
+		<input type="checkbox" name="type[]" value="1" title="Форум"<!--if(1 in $filter.type)!--> checked="true"<!--endif!--> />
+		<input type="checkbox" name="type[]" value="2" title="Выставка"<!--if(2 in $filter.type)!--> checked="true"<!--endif!--> />
+		<input type="checkbox" name="type[]" value="4" title="Тренинг"<!--if(4 in $filter.type)!--> checked="true"<!--endif!--> />
 		<span class="block"></span>
 	</div>
 

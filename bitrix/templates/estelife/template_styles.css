@@ -358,6 +358,7 @@
 	text-decoration: none;
 	width:100%;
 	padding:2px 0;
+	color:#2c2c2c;
 }
 .ui-datepicker-calendar a:hover {
 	background:#e50364;

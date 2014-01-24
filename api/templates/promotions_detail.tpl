@@ -38,9 +38,7 @@
 			</div>
 		</div>
 
-		<div class="announce">
-			<!--$detail.detail_text!-->
-		</div>
+		<!--$detail.detail_text!-->
 
 		<div class="clinic">
 			<a href="<!--$detail.clinic.link!-->" class="more"><i></i></a>

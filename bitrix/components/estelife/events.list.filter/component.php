@@ -11,41 +11,66 @@ CModule::IncludeModule("estelife");
 $obClinics = VDatabase::driver();
 
 //Получение списка стран
-$arSelect = Array("ID", "NAME");
-$arFilter = Array("IBLOCK_ID"=>15, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
-$obCountries = CIBlockElement::GetList(Array("NAME"=>"ASC"), $arFilter, false, false, $arSelect);
+$obQuery=VDatabase::driver()->createQuery();
+$obQuery->builder()
+	->from('estelife_events','ee')
+	->field('ct.NAME','NAME')
+	->field('ct.ID','ID')
+	->group('ct.ID')
+	->join()
+	->_left()
+	->_from('ee','country_id')
+	->_to('iblock_element','ID','ct')
+	->_cond()->_eq('ct.IBLOCK_ID',15);
+$obQuery->builder()->filter()->_ne('ee.country_id',0);
+$arCountries=$obQuery->select()->all();
 
-while($res = $obCountries->Fetch()) {
-	$arResult['countries'][] = $res;
-}
-
+$obCounties=new VArray($arCountries);
+$obCounties->sortByPriorities(array(357),'ID');
+$arResult['countries']=$obCounties->all();
 $obGet=new VArray($_GET);
 
 if (!$obGet->blank('country') || intval($_COOKIE['estelife_country'])>0){
-	$nCountry = intval($obGet->one('country',$_COOKIE['estelife_country']));
+	$nCountry=intval($obGet->one(
+		'country',
+		$_COOKIE['estelife_country']
+	));
 	//получаем города по стране
-	$arSelect = Array("ID", "NAME");
-	$arFilter = Array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "PROPERTY_COUNTRY" => $nCountry);
-	$obCity= CIBlockElement::GetList(Array("NAME"=>"ASC"), $arFilter, false, false, $arSelect);
+	$obCity=CIBlockElement::GetList(
+		array("NAME"=>"ASC"),
+		array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "PROPERTY_COUNTRY" => $nCountry),
+		false,
+		false,
+		array("ID", "NAME")
+	);
 
 	while($res = $obCity->Fetch()) {
 		$arResult['cities'][] = $res;
 	}
 }
 
+$arDirections=array();
+$arTypes=array();
+
+foreach($obGet->one('direction',array()) as $nDirection)
+	$arDirections[]=intval($nDirection);
+
+foreach($obGet->one('type',array()) as $nType)
+	$arTypes[]=intval($nType);
+
 $arResult['filter']=array(
 	'country'=>intval($obGet->one('country',$_COOKIE['estelife_country'])),
 	'city'=>intval($obGet->one('city',$_COOKIE['estelife_city'])),
-	'direction'=>intval($obGet->one('direction',0)),
-	'type'=>intval($obGet->one('type',0)),
+	'direction'=>$arDirections,
+	'type'=>$arTypes,
 	'date_from'=>$obGet->one('date_from', date('d.m.y',time())),
 	'date_to'=>$obGet->one('date_to',''),
 	'name'=>strip_tags(trim($obGet->one('name',''))),
 );
 
-$arResult['count'] = \bitrix\ERESULT::$DATA['count'];
-
+$arResult['count']=\bitrix\ERESULT::$DATA['count'];
 $arResult['empty']=false;
+
 foreach ($arResult['filter'] as $key=>$val){
 	if (($val=='' && $val==0) || $val=='all')
 		continue;

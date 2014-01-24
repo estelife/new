@@ -31,6 +31,7 @@ define(['tpl/Template','modules/Select'],function(Template,Select){
 		},
 		initFilter:function(form){
 			this.initFormFields(form);
+
 			$('body').on('change', 'select[data-rules]', function(){
 				var current=$(this),
 					val=current.val(),

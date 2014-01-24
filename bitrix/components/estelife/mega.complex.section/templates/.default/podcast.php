@@ -40,7 +40,7 @@
 
 		"PARENT_SECTION"	=>	$arResult["VARIABLES"]["SECTION_ID"],
 		"PARENT_SECTION_CODE"	=>	$arResult["VARIABLES"]["DOP_CODE"],
-		"DETAIL_URL"	=>	'/'.$arResult["PREFIX"].'#ELEMENT_ID#/',
+		"DETAIL_URL"	=>	'/pt#ELEMENT_ID#/',
 		"SECTION_URL"	=>	'#SECTION_CODE#/',
 	),
 	$component
