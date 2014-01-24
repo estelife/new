@@ -22,15 +22,15 @@
 		<label for="direction">Направление</label>
 		<select name="direction" id="direction">
 			<option value="">--</option>
+			<option value="14"<!--if($filter.direction==14)!--> selected="true"<!--endif!-->>Аппаратная косметология</option>
+			<option value="10"<!--if($filter.direction==10)!--> selected="true"<!--endif!-->>Безоперационный лифтинг</option>
+			<option value="8"<!--if($filter.direction==8)!--> selected="true"<!--endif!-->>Биоревитализация</option>
 			<option value="5"<!--if($filter.direction==5)!--> selected="true"<!--endif!-->>Ботулинотерапия</option>
 			<option value="6"<!--if($filter.direction==6)!--> selected="true"<!--endif!-->>Контурная пластика</option>
-			<option value="7"<!--if($filter.direction==7)!--> selected="true"<!--endif!-->>Мезотерапия</option>
-			<option value="8"<!--if($filter.direction==8)!--> selected="true"<!--endif!-->>Биоревитализация</option>
-			<option value="9"<!--if($filter.direction==9)!--> selected="true"<!--endif!-->>Объемное моделирование</option>
-			<option value="10"<!--if($filter.direction==10)!--> selected="true"<!--endif!-->>Безоперационный лифтинг</option>
-			<option value="12"<!--if($filter.direction==12)!--> selected="true"<!--endif!-->>Пилинги</option>
 			<option value="13"<!--if($filter.direction==13)!--> selected="true"<!--endif!-->>Космецевтика</option>
-			<option value="14"<!--if($filter.direction==14)!--> selected="true"<!--endif!-->>Аппаратная косметология</option>
+			<option value="7"<!--if($filter.direction==7)!--> selected="true"<!--endif!-->>Мезотерапия</option>
+			<option value="9"<!--if($filter.direction==9)!--> selected="true"<!--endif!-->>Объемное моделирование</option>
+			<option value="12"<!--if($filter.direction==12)!--> selected="true"<!--endif!-->>Пилинги</option>
 		</select>
 		<span class="block"></span>
 	</div>

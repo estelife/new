@@ -20,12 +20,20 @@
 				</div>
 				<!--endif!-->
 				<div class="cols time">
-					<!--$detail.day_count!-->
-					<i></i>
-					<span>до <!--$detail.end_date!--></span>
+					<!--if($detail.end_date<$detail.now)!-->
+						<span class="old-promotion"><b>Акция завершена</b></span>
+					<!--else!-->
+						<!--$detail.day_count!-->
+						<i></i>
+						<span>до <!--$detail.end_date_format!--></span>
+					<!--endif!-->
 				</div>
-				<!--if($detail.more_information)!-->
-					<a href="<!--$detail.more_information!-->" target="_blank" class="more">Подробная информация и цены</a>
+				<!--if($detail.end_date<$detail.now)!-->
+					<a href="<!--$detail.clinic.link!-->" class="more">Действующие акции клиники<span></span></a>
+				<!--else!-->
+					<!--if($detail.more_information)!-->
+						<a href="<!--$detail.more_information!-->" target="_blank" class="more">Подробная информация и цены<span></span></a>
+					<!--endif!-->
 				<!--endif!-->
 			</div>
 		</div>

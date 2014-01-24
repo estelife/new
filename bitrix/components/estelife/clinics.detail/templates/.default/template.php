@@ -65,6 +65,8 @@
 					<p><?=$arResult['clinic']['detail_text']?></p>
 				</div>
 				<div class="tabs tab2 services none">
+					<span>Перечень услуг и цен является ориентировочным и содержит лишь часть полного комплекса процедур и операций, проводимых специалистами клиники.
+					Для получения более подробной информации, пожалуйста, позвоните по телефону, указанному в контактных данных.</span>
 					<?php foreach ($arResult['clinic']['specializations'] as $key=>$val):?>
 						<?php foreach ($arResult['clinic']['service'] as $k=>$v):?>
 							<?php if ($key == $v['s_id']):?>

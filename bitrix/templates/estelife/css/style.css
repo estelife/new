@@ -767,6 +767,10 @@ ul.stat .unlikes.active i {
 	right:0;
 	position: absolute;
 }
+.item.promotion .time .old-promotion{
+	font-size:16px;
+	color:#e50364;
+}
 .item.promotion .prices b i {
 	background-position: -89px -54px;
 	width:9px;
@@ -1088,7 +1092,7 @@ td.prices span {
 .item.article:hover a {
 	color:#e50364;
 }
-.item.article p span {
+.item.article p span, a.more span {
 	background:url('../images/small-arrow-art.png') 0 center no-repeat;
 	padding: 0 4px;
 	height: 8px;

@@ -198,19 +198,20 @@ $arResult['action']['old_price']=number_format($arResult['action']['base_old_pri
 
 $arResult['action']['day_count']=ceil(($arResult['action']['end_date']-time())/86400);
 $arResult['action']['day_count']=$arResult['action']['day_count'].' '.\core\types\VString::spellAmount($arResult['action']['day_count'],'день,дня,дней');
-$arResult['action']['end_date']=date('d.m.Y', $arResult['action']['end_date']);
+$arResult['action']['end_date_format']=date('d.m.Y', $arResult['action']['end_date']);
+$arResult['action']['now'] = time();
 
-$arResult['action']['clinics']['clinic_name'] = trim(strip_tags(html_entity_decode($arResult['action']['clinics']['clinic_name'], ENT_QUOTES, 'utf-8')));
-$arResult['action']['clinics']['seo_clinic_name'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['action']['clinics']['clinic_name']);
+$arResult['action']['clinic']['name'] = trim(strip_tags(html_entity_decode($arResult['action']['clinic']['name'], ENT_QUOTES, 'utf-8')));
+$arResult['action']['clinic']['seo_name'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['action']['clinic']['name']);
 
 $arResult['action']['preview_text'] = trim(strip_tags(html_entity_decode($arResult['action']['preview_text'], ENT_QUOTES, 'utf-8')));
 $arResult['action']['seo_preview_text'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['action']['preview_text']);
 
-if (!empty($arResult['action']['clinics']['city']))
-	$arCity = ' ('.$arResult['action']['clinics']['city'].')';
+if (!empty($arResult['action']['clinic']['city_name']))
+	$arCity = ' ('.$arResult['action']['clinic']['city_name'].')';
 else
 	$arCity = '';
-$APPLICATION->SetPageProperty("title", $arResult['action']['seo_preview_text'].' в '.$arResult['action']['clinics']['seo_clinic_name'].$arCity);
-$APPLICATION->SetPageProperty("description", 'Акция: '.$arResult['action']['seo_preview_text'].' в '.$arResult['action']['clinics']['seo_clinic_name'].$arCity);
+$APPLICATION->SetPageProperty("title", $arResult['action']['seo_preview_text'].' в '.$arResult['action']['clinic']['seo_name'].$arCity);
+$APPLICATION->SetPageProperty("description", 'Акция: '.$arResult['action']['seo_preview_text'].' в '.$arResult['action']['clinic']['seo_name'].$arCity);
 
 $this->IncludeComponentTemplate();

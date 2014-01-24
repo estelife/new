@@ -26,13 +26,21 @@
 					</div>
 				<?php endif; ?>
 				<div class="cols time">
-					<?=$arResult['action']['day_count']?>
-					<i></i>
-					<span>до <?=$arResult['action']['end_date']?></span>
+					<?if($arResult['action']['end_date']<$arResult['action']['now']):?>
+						<span class="old-promotion"><b>Акция завершена</b></span>
+					<?else:?>
+						<?=$arResult['action']['day_count']?>
+						<i></i>
+						<span>до <?=$arResult['action']['end_date_format']?></span>
+					<?endif?>
 				</div>
-				<?php if(!empty($arResult['action']['more_information'])): ?>
-					<a href="<?=$arResult['action']['more_information']?>" target="_blank" class="more">Подробная информация и цены</a>
-				<?php endif; ?>
+				<?if($arResult['action']['end_date']<$arResult['action']['now']):?>
+					<a href="<?=$arResult['action']['clinic']['link']?>" class="more">Действующие акции клиники<span></span></a>
+				<?else:?>
+					<?php if(!empty($arResult['action']['more_information'])): ?>
+						<a href="<?=$arResult['action']['more_information']?>" target="_blank" class="more">Подробная информация и цены<span></span></a>
+					<?php endif; ?>
+				<?endif?>
 			</div>
 		</div>
 
