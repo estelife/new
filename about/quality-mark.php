@@ -19,7 +19,7 @@ $APPLICATION->SetPageProperty("keywords", "Знак качества Estelife");
 				проводимых мероприятиях, специалистах.
 			</p>
 		</div>
-		<h2 class="show-quality-form active"><a href="#">Заявка на получение знака качества<i></i></a></h2>
+		<h2 class="show-quality-form"><a href="#">Заявка на получение знака качества<i></i></a></h2>
 		<?php $APPLICATION->IncludeComponent(
 			'estelife:clinics.request',
 			'',array()
