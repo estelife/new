@@ -14,6 +14,18 @@ if(isset($arResult['NAV_RESULT']) && is_object($arResult['NAV_RESULT'])){
 	$arResult['NAV']=$obNav->getAjaxNav();
 }
 
+if (isset($_GET['PAGEN_3'])){
+	$arDopSection = " - cтраница ".intval($_GET['PAGEN_3']);
+}elseif(isset($_GET['PAGEN_2'])){
+	$arDopSection = " - cтраница ".intval($_GET['PAGEN_2']);
+}elseif(isset($_GET['PAGEN_1'])){
+	$arDopSection = " - cтраница ".intval($_GET['PAGEN_1']);
+}
+$arSectionNameForSeo = $arResult['LAST_SECTION']['NAME'].$arDopSection;
+$APPLICATION->SetPageProperty("title", $arSectionNameForSeo);
+$APPLICATION->SetPageProperty("description", "Все статьи по теме ".$arSectionNameForSeo);
+$APPLICATION->SetPageProperty("keywords", "Estelife, ".$arResult['LAST_SECTION']['NAME']);
+
 if(isset($arResult['ITEMS'])){
 	foreach ($arResult["ITEMS"] as $arItem){
 		$arIds[] = $arItem['ID'];

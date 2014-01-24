@@ -243,7 +243,7 @@ if (!empty($arPhones)){
 
 $arTime = $arResult['event']['calendar']['first_period']['from'];
 if(!empty($arResult['event']['calendar']['first_period']['to'])){
-	$arTime.=' - '.$arResult['event']['calendar']['first_period']['to'];
+	$arTime.='-'.$arResult['event']['calendar']['first_period']['to'];
 }
 
 $arResult['event']['short_name'] = trim(strip_tags(html_entity_decode($arResult['event']['short_name'], ENT_QUOTES, 'utf-8')));

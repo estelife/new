@@ -9,7 +9,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 CModule::IncludeModule("iblock");
 CModule::IncludeModule("estelife");
 
-$obClinics = VDatabase::driver();
+$obDriver = VDatabase::driver();
 $obGet=new VArray($_GET);
 
 
@@ -18,20 +18,38 @@ if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 else
 	$arPageCount = 10;
 
-if ($obGet->blank('city') && $obGet->blank('country')){
-	if (isset($_COOKIE['estelife_city']))
-		$arResult['city'] = VGeo::getInstance()->getGeo();
-		$arResult['country']['COUNTRY_ID'] = $arResult['city']['COUNTRY_ID'];
-}else{
-	if(!$obGet->blank('city'))
-		$arResult['city']['ID'] = intval($obGet->one('city'));
+if ($obGet->blank('city') && $obGet->blank('country') && isset($_COOKIE['estelife_city'])){
+	$arResult['city'] = VGeo::getInstance()->getGeo();
+	$arResult['country']['ID']=$arResult['city']['COUNTRY_ID'];
+	$arResult['country']['NAME']=$arResult['city']['COUNTRY_NAME'];
 
-	if(!$obGet->blank('country'))
-		$arResult['country']['COUNTRY_ID'] = intval($obGet->one('country'));
+	unset($arResult['city']['COUNTRY_ID'],$arResult['city']['COUNTRY_NAME']);
+}else{
+	if(!$obGet->blank('city')){
+		$obQuery=$obDriver->createQuery();
+		$obQuery->builder()
+			->from('iblock_element')
+			->field('NAME')
+			->field('ID')
+			->filter()
+			->_eq('ID',intval($obGet->one('city')));
+		$arResult['city']=$obQuery->select()->assoc();
+	}
+
+	if(!$obGet->blank('country')){
+		$obQuery=$obDriver->createQuery();
+		$obQuery->builder()
+			->from('iblock_element')
+			->field('NAME')
+			->field('ID')
+			->filter()
+			->_eq('ID',intval($obGet->one('country')));
+		$arResult['country']=$obQuery->select()->assoc();
+	}
 }
 
 //Получение списка организаторов
-$obQuery = $obClinics->createQuery();
+$obQuery = $obDriver->createQuery();
 $obQuery->builder()->from('estelife_company_events', 'ece');
 $obJoin=$obQuery->builder()->join();
 $obJoin->_left()
@@ -102,7 +120,7 @@ if (!empty($arResult['city']) && $obGet->one('city')!=='all')
 	$obFilter->_eq('ecg.city_id', $arResult['city']['ID']);
 
 if (!empty($arResult['country']) && $obGet->one('country')!=='all')
-	$obFilter->_eq('ecg.country_id', $arResult['country']['COUNTRY_ID']);
+	$obFilter->_eq('ecg.country_id', $arResult['country']['ID']);
 
 if(!$obGet->blank('name'))
 	$obFilter->_like('ec.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
@@ -190,7 +208,23 @@ $arDescription=implode(', ',$arDescription);
 $arDescription = strip_tags(html_entity_decode(implode(", ", $arDescription), ENT_QUOTES, 'utf-8'));
 $arDescription = VString::pregStrSeo($arDescription);
 
-$APPLICATION->SetPageProperty("title", 'Организаторы');
+$sSeoTitle='Организаторы мероприятий в сфере красоты';
+$sSeoDescription='Подробная информация об организаторах выставок, форумов, семинаров и конгрессов в сфере эстетической медицины';
+$arSeoGeo=array();
+
+if(!empty($arResult['city']['NAME']))
+	$arSeoGeo[]=$arResult['city']['NAME'];
+
+if(!empty($arResult['country']['NAME']))
+	$arSeoGeo[]=$arResult['country']['NAME'];
+
+if(!empty($arSeoGeo))
+	$arSeoGeo=' - '.implode(', ',$arSeoGeo);
+
+$sSeoTitle.=$arSeoGeo;
+$sSeoDescription.=$arSeoGeo;
+
+$APPLICATION->SetPageProperty("title", $sSeoTitle);
 $APPLICATION->SetPageProperty("description", VString::truncate($arDescription, 160, ''));
 $APPLICATION->SetPageProperty("keywords", "Estelife, организаторы, ".$arDescription);
 
