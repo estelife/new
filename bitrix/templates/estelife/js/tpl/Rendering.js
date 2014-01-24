@@ -194,6 +194,7 @@ define(function(){
 						$.trim(matches[12]),
 						$.trim(matches[13])
 					);
+					console.log($.trim(matches[10]),res);
 					return res;
 				}
 
@@ -217,24 +218,23 @@ define(function(){
 					switch(expr){
 						case '==':
 						case '===':
-
-							result=(right_val && left_val==right_val);
+							result=(left_val==right_val);
 							break;
 						case '!=':
 						case '!==':
-							result=(right_val && left_val!=right_val);
+							result=(left_val!=right_val);
 							break;
 						case '<':
-							result=(right_val && left_val<right_val);
+							result=(left_val<right_val);
 							break;
 						case '>':
-							result=(right_val && left_val>right_val);
+							result=(left_val>right_val);
 							break;
 						case '<=':
-							result=(right_val && left_val<=right_val);
+							result=(left_val<=right_val);
 							break;
 						case '>=':
-							result=(right_val && left_val<=right_val);
+							result=(left_val<=right_val);
 							break;
 						case 'in':
 							result=(right_val && typeof right_val=='object') ?
