@@ -7,6 +7,6 @@ bitrix\ERESULT::$DATA[bitrix\ERESULT::$KEY]=array(
 	'first_section'=>$arResult['first_section'],
 	'MORE_TITLE'=>$arParams['MORE_TITLE'],
 	'SECTIONS_NAME'=>$arResult['SECTIONS_NAME'],
-	'iblock'=>array_values($arResult['iblock']),
+	'iblock'=>$arResult['iblock'],
 	'first'=>$arResult['first']
 );

@@ -1,4 +1,6 @@
 <?php
+use core\database\VDatabase;
+
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)
 	die();
 
@@ -13,9 +15,18 @@ if(isset($arResult['NAV_RESULT']) && is_object($arResult['NAV_RESULT'])){
 }
 
 if(isset($arResult['ITEMS'])){
-	$arAvai=array('SRC','NAME','PREVIEW_TEXT','DETAIL_PAGE_URL','ACTIVE_FROM');
+	foreach ($arResult["ITEMS"] as $arItem){
+		$arIds[] = $arItem['ID'];
+	}
+
+	if (!empty($arIds)){
+		$obLike = new \like\VLike(\like\VLike::ARTICLE);
+		$arNewLikes= $obLike->getOnlyLikes($arIds);
+	}
+	$arAvai=array('SRC','NAME','PREVIEW_TEXT','DETAIL_PAGE_URL','ACTIVE_FROM','LIKES');
 
 	foreach($arResult['ITEMS'] as &$arItem){
+		$arItem['LIKES'] = $arNewLikes[$arItem['ID']];
 		if (!empty($arItem['PROPERTIES']['SHORT_TEXT']['VALUE']['TEXT'])){
 			$arItem['PREVIEW_TEXT']=$arItem['PROPERTIES']['SHORT_TEXT']['VALUE']['TEXT'].'<span></span>';
 		}else{

@@ -1,11 +1,11 @@
 <div class="item detail big-font">
 	<h1><!--$detail.NAME!--></h1>
-	<ul class="stat notlike" data-elid="<!--$detail.likes.element_id!-->" data-type="<!--$detail.likes.type!-->">
+	<ul class="stat notlike" data-elid="<!--$detail.LIKES.element_id!-->" data-type="<!--$detail.LIKES.type!-->">
 		<!--if ($detail.ACTIVE_FROM)!-->
 			<li class="date"><!--$detail.ACTIVE_FROM!--></li>
 		<!--endif!-->
-		<li class="likes islike"><!--$detail.likes.countLike!--><!--if($detail.likes.typeLike==1)!--> и Ваш<!--endif!--><i></i></li>
-		<li class="unlikes islike"><!--$detail.likes.countDislike!--><!--if($detail.likes.typeLike==2)!--> и Ваш<!--endif!--><i></i></li>
+		<li class="likes islike"><!--$detail.LIKES.countLike!--><!--if($detail.LIKES.typeLike==1)!--> и Ваш<!--endif!--><i></i></li>
+		<li class="unlikes islike"><!--$detail.LIKES.countDislike!--><!--if($detail.LIKES.typeLike==2)!--> и Ваш<!--endif!--><i></i></li>
 	</ul>
 	<div class="announce">
 		<!--$detail.PREVIEW_TEXT!-->
@@ -20,9 +20,9 @@
 	</div>
 	<!--$detail.DETAIL_TEXT!-->
 	<div class="info">
-		<ul class="stat" data-elid="<!--$detail.likes.element_id!-->" data-type="<!--$detail.likes.type!-->">
-			<li><a href="#" class="likes islike<!--if($detail.likes.typeLike==1)!--> active<!--endif!-->" data-help="Нравится"><!--$detail.likes.countLike!--><!--if($detail.likes.typeLike==1)!--> и Ваш<!--endif!--><i></i></a></li>
-			<li><a href="#" class="unlikes islike<!--if($detail.likes.typeLike==2)!--> active<!--endif!-->" data-help="Не нравится"><!--$detail.likes.countDislike!--><!--if($detail.likes.typeLike==2)!--> и Ваш<!--endif!--><i></i></a></li>
+		<ul class="stat" data-elid="<!--$detail.LIKES.element_id!-->" data-type="<!--$detail.LIKES.type!-->">
+			<li><a href="#" class="likes islike<!--if($detail.LIKES.typeLike==1)!--> active<!--endif!-->" data-help="Нравится"><!--$detail.LIKES.countLike!--><!--if($detail.LIKES.typeLike==1)!--> и Ваш<!--endif!--><i></i></a></li>
+			<li><a href="#" class="unlikes islike<!--if($detail.LIKES.typeLike==2)!--> active<!--endif!-->" data-help="Не нравится"><!--$detail.LIKES.countDislike!--><!--if($detail.LIKES.typeLike==2)!--> и Ваш<!--endif!--><i></i></a></li>
 		</ul>
 		<div class="social cols repost">
 			<span>Поделиться: </span>
