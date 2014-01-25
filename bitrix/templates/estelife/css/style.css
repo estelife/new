@@ -2820,3 +2820,8 @@ form.quality .submit {
 .item.detail.expert .announce {
 	font-size:16px;
 }
+.ajax-filter {
+	min-height:100px;
+	float:right;
+	width:230px;
+}

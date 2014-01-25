@@ -163,7 +163,7 @@ define(['tpl/Template'],function(Template){
 	Views.DetailWithMap=Views.Detail.extend({
 		render:function(){
 			this.detailRender();
-			tempEvents.push({
+			Events.push({
 				target:this.$el,
 				type:'showMap'
 			});
@@ -307,15 +307,17 @@ define(['tpl/Template'],function(Template){
 					.addClass('ajax-filter')
 					.empty();
 
-				this.template.ready(function(){
-					ob.$el.append(ob.template.render(ob.data));
-					tempEvents.push({
-						'target':ob.$el.find('form'),
-						'type':'update'
-					})
-				});
-				return this;
+				setTimeout(function(){
+					ob.template.ready(function(){
+						ob.$el.append(ob.template.render(ob.data));
+						Events.push({
+							'target':ob.$el.find('form'),
+							'type':'update'
+						})
+					});
+				},0);
 			}
+			return this;
 		}
 	});
 
@@ -378,9 +380,8 @@ define(['tpl/Template'],function(Template){
 			if(this.data && this.data.hasOwnProperty('page')){
 				this.$el=$('<div></div>').addClass('static-page');
 
-				if(this.className){
+				if(this.className)
 					this.$el.addClass(this.className);
-				}
 
 				this.$el.append(this.data.page);
 				this.el=this.$el[0];
@@ -428,8 +429,6 @@ define(['tpl/Template'],function(Template){
 				_.each(this.views,function(view){
 					ob.$el.append(view.render().$el);
 				});
-				Events.push(tempEvents);
-				tempEvents=[];
 			}
 
 			return this;
