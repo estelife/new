@@ -350,7 +350,7 @@ define(['tpl/Template'],function(Template){
 						className+=' '+ob.className;
 
 					ob.$el.addClass(className);
-					ob.$el.append(ob.data);
+					ob.$el.empty().append(ob.data);
 				},100);
 			}
 
