@@ -1117,7 +1117,6 @@ td.prices span {
 .inner .item:nth-child(3n+3),
 .inner .item.last {
 	margin-right: 0 !important;
-	content: '<br />';
 }
 .inner .item:nth-child(3n+4),
 .inner .item.first {

@@ -93,7 +93,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 										new Views.Nav()
 									]
 								}),
-								new Views.Advert({
+								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
 								})
@@ -126,7 +126,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 											new Views.Nav()
 										]
 									}),
-									new Views.Advert({
+									new Views.AdvertDelay({
 										className:'adv adv-out right',
 										dataKey:'BANNER'
 									})
@@ -221,7 +221,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Filter({
 									template:'clinics_filter'
 								}),
-								new Views.Advert({
+								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
 								})
@@ -260,7 +260,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Filter({
 									template:'promotions_filter'
 								}),
-								new Views.Advert({
+								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
 								})
@@ -300,7 +300,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Filter({
 									template:'preparations_makers_filter'
 								}),
-								new Views.Advert({
+								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
 								})
@@ -340,7 +340,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Filter({
 									template:'apparatuses_makers_filter'
 								}),
-								new Views.Advert({
+								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
 								})
@@ -380,7 +380,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Filter({
 									template:'preparations_filter'
 								}),
-								new Views.Advert({
+								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
 								})
@@ -420,7 +420,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Filter({
 									template:'apparatuses_filter'
 								}),
-								new Views.Advert({
+								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
 								})
@@ -460,7 +460,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Filter({
 									template:'events_filter'
 								}),
-								new Views.Advert({
+								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
 								})
@@ -500,7 +500,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Filter({
 									template:'sponsors_filter'
 								}),
-								new Views.Advert({
+								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
 								})
@@ -540,7 +540,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Filter({
 									template:'training_centers_filter'
 								}),
-								new Views.Advert({
+								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
 								})
@@ -580,7 +580,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Filter({
 									template:'trainings_filter'
 								}),
-								new Views.Advert({
+								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
 								})
@@ -620,7 +620,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 										})
 									]
 								}),
-								new Views.Advert({
+								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
 								})
@@ -654,7 +654,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Filter({
 									template:'apparatuses_filter'
 								}),
-								new Views.Advert({
+								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
 								})
@@ -689,7 +689,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Filter({
 									template:'apparatuses_makers_filter'
 								}),
-								new Views.Advert({
+								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
 								})
@@ -724,7 +724,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Filter({
 									template:'clinics_filter'
 								}),
-								new Views.Advert({
+								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
 								})
@@ -759,7 +759,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Filter({
 									template:'events_filter'
 								}),
-								new Views.Advert({
+								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
 								})
@@ -794,7 +794,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Filter({
 									template:'preparations_filter'
 								}),
-								new Views.Advert({
+								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
 								})
@@ -829,7 +829,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Filter({
 									template:'preparations_makers_filter'
 								}),
-								new Views.Advert({
+								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
 								})
@@ -864,7 +864,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Filter({
 									template:'sponsors_filter'
 								}),
-								new Views.Advert({
+								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
 								})
@@ -899,7 +899,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Filter({
 									template:'promotions_filter'
 								}),
-								new Views.Advert({
+								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
 								})
@@ -934,7 +934,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Filter({
 									template:'training_centers_filter'
 								}),
-								new Views.Advert({
+								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
 								})
@@ -969,7 +969,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Filter({
 									template:'trainings_filter'
 								}),
-								new Views.Advert({
+								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
 								})

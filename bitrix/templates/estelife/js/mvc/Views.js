@@ -309,7 +309,7 @@ define(['tpl/Template'],function(Template){
 							.append(ob.template.render(ob.data));
 						Events.push({
 							'target':ob.$el.find('form'),
-							'type':'update'
+							'type':'updateFilter'
 						})
 					});
 				},0);
@@ -323,16 +323,33 @@ define(['tpl/Template'],function(Template){
 	 * @type {*}
 	 */
 	Views.Advert=Views.Default.extend({
-		el:document.createElement('div'),
+		el:null,
 		render:function(){
 			if(_.isString(this.data) && this.data!=null){
-				var ob=this;
+				this.$el=$('<div></div>').addClass('adv');
+
+				if(this.className)
+					this.$el.addClass(this.className);
+
+				this.$el.append(this.data);
+			}
+
+			return this;
+		}
+	});
+	Views.AdvertDelay=Views.Default.extend({
+		el:document.createElement('div'),
+		render:function(){
+			var ob=this;
+
+			if(_.isString(this.data) && this.data!=null){
 				setTimeout(function(){
-					ob.$el.addClass('adv');
+					var className='adv';
 
 					if(ob.className)
-						ob.$el.addClass(ob.className);
+						className+=' '+ob.className;
 
+					ob.$el.addClass(className);
 					ob.$el.append(ob.data);
 				},100);
 			}
