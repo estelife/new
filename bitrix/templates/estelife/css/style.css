@@ -1852,6 +1852,8 @@ td.prices span {
 	max-height:118px;
 }
 .item.product .img-in {
+	width:208px;
+	height:198px;
 	max-width:208px;
 	max-height:198px;
 }
