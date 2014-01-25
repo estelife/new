@@ -3,6 +3,18 @@ define(['tpl/Template'],function(Template){
 		Cache={},
 		Events=[];
 
+	function checkEvents(){
+		if(!_.isEmpty(Events)){
+			_.each(Events,function(event){
+				if(event.hasOwnProperty('target') && event.hasOwnProperty('type'))
+					event.target.trigger(event.type);
+			});
+			Events=[];
+		}
+		setTimeout(checkEvents,200);
+	}
+	checkEvents();
+
 	/**
 	 * Дефолтный view для реализации общих действий
 	 * @type {*}
@@ -399,14 +411,6 @@ define(['tpl/Template'],function(Template){
 				_.each(this.views,function(view){
 					ob.$el.append(view.render().$el);
 				});
-
-				if(!_.isEmpty(Events)){
-					_.each(Events,function(event){
-						if(event.hasOwnProperty('target') && event.hasOwnProperty('type'))
-							event.target.trigger(event.type);
-					});
-					Events=[];
-				}
 			}
 
 			return this;
