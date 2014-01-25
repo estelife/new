@@ -328,7 +328,6 @@ define(['tpl/Template'],function(Template){
 			if(_.isString(this.data) && this.data!=null){
 				var ob=this;
 				setTimeout(function(){
-					console.log('ok')
 					ob.$el.addClass('adv');
 
 					if(ob.className)
