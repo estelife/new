@@ -1,19 +1,36 @@
 define(['tpl/Template'],function(Template){
 	var Views={},
 		Cache={},
-		Events=[];
+		tempEvents=[];
 
-	function checkEvents(){
-		if(!_.isEmpty(Events)){
-			_.each(Events,function(event){
+	var Events=(function(){
+		var eventsCache=[];
+
+		(function fireEvents(){
+			if(eventsCache.length>0){
+				_.each(eventsCache,function(event){
+					if(event.hasOwnProperty('target') && event.hasOwnProperty('type'))
+						event.target.trigger(event.type);
+				});
+				eventsCache=[];
+			}
+			setTimeout(arguments.callee,100);
+		})();
+
+		return {
+			fromArray:function(ar){
+				if(ar instanceof Array && ar.length>0){
+					for(var i=0;i<ar.length; i++){
+						this.push(ar[i]);
+					}
+				}
+			},
+			push:function(event){
 				if(event.hasOwnProperty('target') && event.hasOwnProperty('type'))
-					event.target.trigger(event.type);
-			});
-			Events=[];
-		}
-		setTimeout(checkEvents,200);
-	}
-	checkEvents();
+					eventsCache.push(event);
+			}
+		};
+	})();
 
 	/**
 	 * Дефолтный view для реализации общих действий
@@ -146,7 +163,7 @@ define(['tpl/Template'],function(Template){
 	Views.DetailWithMap=Views.Detail.extend({
 		render:function(){
 			this.detailRender();
-			Events.push({
+			tempEvents.push({
 				target:this.$el,
 				type:'showMap'
 			});
@@ -292,7 +309,7 @@ define(['tpl/Template'],function(Template){
 
 				this.template.ready(function(){
 					ob.$el.append(ob.template.render(ob.data));
-					Events.push({
+					tempEvents.push({
 						'target':ob.$el.find('form'),
 						'type':'update'
 					})
@@ -411,6 +428,8 @@ define(['tpl/Template'],function(Template){
 				_.each(this.views,function(view){
 					ob.$el.append(view.render().$el);
 				});
+				Events.push(tempEvents);
+				tempEvents=[];
 			}
 
 			return this;
