@@ -1,7 +1,5 @@
 define(['tpl/Template'],function(Template){
-	var Views={},
-		Cache={},
-		tempEvents=[];
+	var Views={};
 
 	var Events=(function(){
 		var eventsCache=[];
@@ -303,13 +301,12 @@ define(['tpl/Template'],function(Template){
 		render:function(){
 			if(_.isObject(this.data)){
 				var ob=this;
-				this.$el
-					.addClass('ajax-filter')
-					.empty();
+				this.$el.addClass('ajax-filter');
 
 				setTimeout(function(){
 					ob.template.ready(function(){
-						ob.$el.append(ob.template.render(ob.data));
+						ob.$el.empty()
+							.append(ob.template.render(ob.data));
 						Events.push({
 							'target':ob.$el.find('form'),
 							'type':'update'
@@ -326,22 +323,22 @@ define(['tpl/Template'],function(Template){
 	 * @type {*}
 	 */
 	Views.Advert=Views.Default.extend({
-		el:null,
+		el:document.createElement('div'),
 		render:function(){
 			if(_.isString(this.data) && this.data!=null){
-				this.$el=$('<div></div>').addClass('adv');
+				var ob=this;
+				setTimeout(function(){
+					console.log('ok')
+					ob.$el.addClass('adv');
 
-				if(this.className)
-					this.$el.addClass(this.className);
+					if(ob.className)
+						ob.$el.addClass(ob.className);
 
-				this.$el.append(this.data);
-				this.el=this.$el[0];
-
-				Cache['advert']=this;
-				return this;
-			}else{
-				return Cache['advert'];
+					ob.$el.append(ob.data);
+				},100);
 			}
+
+			return this;
 		}
 	});
 
