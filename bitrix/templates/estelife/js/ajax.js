@@ -93,6 +93,11 @@ require([
 					target.attr('href') :
 					$(this).find('a:first').attr('href');
 
+			if(link=='#'){
+				e.preventDefault();
+				return;
+			}
+
 			if((currentTag!='A' && link && link.length>0) || ['H1','H2','H3'].inArray(parentTag)>-1){
 				Router.navigate(link,{trigger: true});
 				EL.goto($('.main_menu'),false,true);
