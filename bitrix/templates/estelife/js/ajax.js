@@ -95,7 +95,7 @@ require([
 
 			if((currentTag!='A' && link && link.length>0) || ['H1','H2','H3'].inArray(parentTag)>-1){
 				Router.navigate(link,{trigger: true});
-				EL.goto($('.main_menu'));
+				EL.goto($('.main_menu'),false,true);
 				e.preventDefault();
 			}
 		});
