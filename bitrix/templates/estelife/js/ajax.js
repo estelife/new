@@ -55,7 +55,7 @@ require([
 
 		Backbone.history.start({
 			'pushState':true,
-			'hashChange': false
+			'hashChange': true
 		});
 
 		//подписка
@@ -621,7 +621,6 @@ require([
 		});
 
 		body.on('updateFilter', 'form.filter', function(){
-			console.log('ok')
 			var form=$(this);
 			Functions.initFilter(form);
 		});
