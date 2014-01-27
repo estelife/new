@@ -212,6 +212,6 @@ if (!empty($arResult['action']['clinic']['city_name']))
 else
 	$arCity = '';
 $APPLICATION->SetPageProperty("title", trim($arResult['action']['seo_preview_text'].' - акция '.$arResult['action']['clinic']['seo_name']));
-$APPLICATION->SetPageProperty("description", trim($arResult['action']['clinic']['seo_name'].' предлагает новую акцию - '.$arResult['action']['seo_preview_text'].'. Узнайте больше и получите скидку уже сейчас об акции.'));
+$APPLICATION->SetPageProperty("description", trim($arResult['action']['clinic']['seo_name'].' предлагает новую акцию - '.$arResult['action']['seo_preview_text'].'. Узнайте больше и получите скидку уже сейчас.'));
 
 $this->IncludeComponentTemplate();
