@@ -2,6 +2,7 @@
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	die();
 
+global $APPLICATION;
 $sTitle='Аппараты';
 echo json_encode(array(
 	'list'=>array_values($arResult['apps']),
@@ -19,5 +20,10 @@ echo json_encode(array(
 			'link'=>'#'
 		)
 	),
-	'nav'=>$arResult['nav']
+	'nav'=>$arResult['nav'],
+	'seo'=>array(
+		'title'=>$APPLICATION->GetPageProperty('title'),
+		'description'=>$APPLICATION->GetPageProperty('description'),
+		'keywords'=>$APPLICATION->GetPageProperty('keywords')
+	)
 ));

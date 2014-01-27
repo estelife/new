@@ -191,6 +191,7 @@ while($arData=$obResult->Fetch()){
 
 $sPage=(isset($_GET['PAGEN_1']) && $_GET['PAGEN_1'] > 1) ?
 	' '.\core\types\VString::spellAmount($_GET['PAGEN_1'],'страница,страницы,страниц') : '';
+
 $APPLICATION->SetPageProperty("title", 'Учебные центры по косметологии и пластической хирургии'.$sPage);
 $APPLICATION->SetPageProperty("description", 'Список учебных центров в сфере косметологии и пластической хирургии. Все здесь.');
 

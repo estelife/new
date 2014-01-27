@@ -5,7 +5,31 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 <?php if(!isset($arResult['step']) || $arResult['step']==1): ?>
 	<form action="" method="post" name="add_request" class="quality">
 		<div class="quality-in">
-			<p>! Все поля обязательны к заполнению</p>
+			<div class="quality">
+				<p>Для получения знака качества Вам нужно просто сообщить нам об этом.</p>
+				<img src="/bitrix/templates/estelife/images/icons/quality/steps.png" class="steps" alt="Этапы присвоения знака качества" title="Этапы присвоения знака качества" />
+				<ul class="steps">
+					<li>
+						Отправьте нам заявку<br />
+						на получение знака качества
+					</li>
+					<li>
+						Заполните присланную<br />
+						нами в ответ анкету
+					</li>
+					<li>
+						Дождитесь окончания<br />
+						этапа проверки и<br />
+						согласования
+					</li>
+					<li>
+						Получите знак качества<br />
+						и персональную страницу<br />
+						на нашем сайте
+					</li>
+				</ul>
+			</div>
+			<h3>Заполните заявку</h3>
 			<div class="field<?=(isset($arResult['error']['user_name']) ? ' error' : '')?>">
 				<label for="user_name">Представьтесь, пожалуйста</label>
 				<input type="text" class="text" name="user_name" id="user_name" value="<?=(isset($arResult['user_name']) ? $arResult['user_name'] : '')?>" />
@@ -52,6 +76,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<?php endif; ?>
 			</div>
 			<input type="submit" class="submit" value="Отправить заявку" />
+			<p>! Все поля обязательны к заполнению</p>
 		</div>
 	</form>
 <?php elseif($arResult['step']==3): ?>

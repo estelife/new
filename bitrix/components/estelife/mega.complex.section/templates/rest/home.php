@@ -128,4 +128,9 @@ $APPLICATION->IncludeComponent(
 	)
 );
 
+bitrix\ERESULT::$DATA['seo']=array(
+	'title'=>'EsteLife.RU - информационный портал о косметологии и пластической хирургии',
+	'description'=>'EsteLife.RU - информационный портал о косметологии и пластической хирургии',
+	'keywords'=>'косметология, пластическая хирургия'
+);
 echo json_encode(bitrix\ERESULT::$DATA);

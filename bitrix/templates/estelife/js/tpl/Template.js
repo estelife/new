@@ -79,22 +79,23 @@ define(['tpl/Rendering'],function(Rendering){
 		})();
 
 		function checkLocalTemplate(callback){
-			var t=EL.storage().getItem(
+			var templateTime=EL.storage().getItem(
 					'tpl_time_'+settings.template,
 					true
 				),
+				template=EL.storage().getItem('tpl_'+settings.template),
 				now=((new Date()).getTime()/1000),
 				current=now-1200;
 
-			if(!t){
+			if(!templateTime || !template){
 				loadTemplate(callback);
-			}else if(t.check>current){
+			}else if(templateTime.check>current){
 				callback({
 					'template':EL.storage().getItem('tpl_'+settings.template)
 				},false);
 			}else{
 				loadTemplateTime(function(r){
-					if('time' in r && r.time==t.time){
+					if('time' in r && r.time==templateTime.time){
 						EL.storage().setItem(
 							'tpl_time_'+settings.template,
 							{
@@ -103,7 +104,7 @@ define(['tpl/Rendering'],function(Rendering){
 							}
 						);
 						callback({
-							'template':EL.storage().getItem('tpl_'+settings.template)
+							'template':template
 						},false);
 					}else
 						loadTemplate(callback);

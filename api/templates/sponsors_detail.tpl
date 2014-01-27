@@ -10,8 +10,8 @@
 		</div>
 		<div class="cols col1">
 			<span class="country big k<!--$detail.country_id!-->"></span>
-			<!--if($detail.address)!-->
-				<span><!--$detail.address!--></span>
+			<!--if($detail.location)!-->
+				<span><!--$detail.location!--></span>
 			<!--endif!-->
 			<!--if($detail.contacts.web)!-->
 				<a href="<!--$detail.contacts.web!-->" target="_blank"><!--$detail.contacts.web_short!--></a>

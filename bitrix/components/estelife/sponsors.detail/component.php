@@ -85,10 +85,7 @@ if(!empty($arResult['company']['country_name']))
 if(!empty($arResult['company']['city_name']))
 	$arAddress[]='г. '.$arResult['company']['city_name'];
 
-if(!empty($arResult['company']['address']))
-	$arAddress[]=$arResult['company']['address'];
-
-$arResult['company']['address']=implode(', ',$arAddress);
+$arResult['company']['location']=implode(', ',$arAddress);
 $arResult['company']['img'] = CFile::ShowImage($arResult['company']['logo_id'],200, 85, 'alt='.$arResult['company']['name']);
 
 if (!empty($arResult['company']['type_detail_text']))

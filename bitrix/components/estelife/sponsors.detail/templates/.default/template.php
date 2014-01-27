@@ -17,8 +17,8 @@
 			</div>
 			<div class="cols col1">
 				<span class="country big k<?=$arResult['company']['country_id']?>"></span>
-				<?php if (!empty($arResult['company']['address'])):?>
-					<span><?=$arResult['company']['address']?></span>
+				<?php if (!empty($arResult['company']['location'])):?>
+					<span><?=$arResult['company']['location']?></span>
 				<?php endif?>
 				<?php if (!empty($arResult['company']['contacts']['web'])):?>
 					<a href="<?=$arResult['company']['contacts']['web']?>" target="_blank"><?=$arResult['company']['contacts']['web_short']?></a>

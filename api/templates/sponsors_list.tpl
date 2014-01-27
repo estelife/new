@@ -6,7 +6,7 @@
 				<div class="item-in">
 					<div class="img">
 						<div class="img-in">
-							<!--if($val.logo_id)!-->
+							<!--if($val.img)!-->
 								<!--$val.img!-->
 							<!--endif!-->
 						</div>
