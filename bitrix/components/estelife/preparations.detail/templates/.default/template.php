@@ -86,7 +86,7 @@
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['undesired'])):?>
 					<div class="el-tab">
-						<h3><a href="#">Побочные действия</a></h3>
+						<h3><a href="#">Побочные эффекты</a></h3>
 						<p class="none"><?=$arResult['pill']['undesired']?></p>
 					</div>
 				<?php endif?>
