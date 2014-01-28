@@ -3,8 +3,8 @@
 	"bitrix:news.list",
 	"ajax",
 	Array(
-		"IBLOCK_TYPE"	=>	"news",
-		"IBLOCK_ID"	=>	"14",
+		"IBLOCK_TYPE"	=>	"podcasts",
+		"IBLOCK_ID"	=>	"37",
 		"NEWS_COUNT"	=>	"9",
 		"SORT_BY1"	=>	"ACTIVE_FROM",
 		"SORT_ORDER1"	=>	"DESC",
