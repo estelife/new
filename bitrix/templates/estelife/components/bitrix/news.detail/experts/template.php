@@ -81,7 +81,6 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 //			)
 //		);?>
 <!--	</div>-->
-
 	<?
 		GLOBAL $samefilter;
 		$samefilter = array("!=ID"=>$arResult['ID']);
