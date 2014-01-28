@@ -626,6 +626,11 @@ require([
 			});
 		});
 
+		body.on('update', 'form.filter', function(){
+			var form=$(this);
+			Functions.initFilter(form);
+		});
+		$('form.filter').trigger('update');
 		body.on('updateFilter', 'form.filter', function(){
 			var form=$(this);
 			Functions.initFilter(form);
@@ -680,7 +685,7 @@ require([
 
 		body.on('focus','.quality-in input', function(){
 			$(this).parent().addClass('half_error');
-		})
+		});
 
 		body.on('focus','input.preload', function(){
 			$(this).autocomplete({
@@ -767,10 +772,10 @@ require([
 			e.preventDefault();
 		});
 
-	body.on('mouseover mouseout click','[data-help]',function(e){
-		var target=$(this),
-			isSelect=(target.parents('.select:first').length>0),
-			fromTop=(isSelect && target.hasClass('has-value'));
+		body.on('mouseover mouseout click','[data-help]',function(e){
+			var target=$(this),
+				isSelect=(target.parents('.select:first').length>0),
+				fromTop=(isSelect && target.hasClass('has-value'));
 
 			if(isSelect && !fromTop)
 				return;
