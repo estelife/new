@@ -19,11 +19,11 @@
 				<a href="<!--$detail.web!-->"><!--$detail.web_short!--></a>
 			<!--endif!-->
 		</div>
-		<div class="menu menu_tab">
+		<div class="tabs-menu menu_tab">
 			<ul>
-				<li class="active t1"><a href="#"><span>О центре</span></a></li>
-				<li class="t2"><a href="#"><span>Текущие семинары</span></a></li>
-				<li class="t3"><a href="#"><span>Контакты</span></a></li>
+				<li class="active t1"><a href="#">О центре<i></i></a></li>
+				<li class="t2"><a href="#">Текущие семинары<i></i></a></li>
+				<li class="t3"><a href="#">Контакты<i></i></a></li>
 			</ul>
 		</div>
 		<div class="tabs tab1 ">
