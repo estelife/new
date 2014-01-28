@@ -2820,27 +2820,24 @@ form.quality .submit {
 	margin: 70px 0;
 	color: #c67195;
 	position: relative;
+	background: url('../images/bq-point.png') 0 center repeat-x;
+	overflow: hidden;
 	text-align: center;
 }
 .item.detail.expert blockquote q {
-	display: inline;
 	font-weight: bold;
 	font-size: 18px;
 	margin: 0;
-	position: relative;
 	background: #F0F0F0;
 	quotes: "\00ab..." "...\00bb";
 	padding: 0 10px;
 	z-index: 2;
 	line-height: 30px;
-}
-.item.detail.expert blockquote i {
-	display: block;
-	position: absolute;
-	background: #c67195;
-	height: 1px;
-	width: 100%;
-	top: 50%;
+	max-width: 538px;
+	display: -moz-inline-stack;
+	display: inline-block;
+	zoom: 1;
+	*display: inline;
 }
 .item.detail.expert .cor {
 	margin-top:50px;
