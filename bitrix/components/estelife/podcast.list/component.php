@@ -18,7 +18,8 @@ try{
 	$arFilter = array(
 		'IBLOCK_ID' => $arParams['IBLOCK_ID'],
 		'SECTION_ID' => $arParams['SECTION_ID'],
-		'<=UF_DATE_PUB_SECTION' => $sNow
+		'<=UF_DATE_PUB_SECTION' => $sNow,
+		'ACTIVE'=>'Y'
 
 	);
 	$arSelect = array('ID', 'NAME', 'UF_DATE_PUB_SECTION', 'UF_DATE_UPD_SECTION');

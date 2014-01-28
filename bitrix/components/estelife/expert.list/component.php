@@ -50,11 +50,10 @@ try{
 			$val['IMG']=$val['IMG']['SRC'];
 			//$val['ACTIVE_FROM'] = date('d.m.Y',strtotime($val['ACTIVE_FROM']));
 
-			unset($val['ID'],$val['CODE'],$val['ACTIVE_FROM']);
+			unset($val['CODE'],$val['ACTIVE_FROM']);
 			$arResult['iblock'][] = $val;
 		}
 	}
-
 }catch(VException $e){
 	echo $e->getMessage(), "\n";
 }

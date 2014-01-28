@@ -117,7 +117,7 @@ while($arData=$obResult->Fetch()){
 	$arData['link'] = '/cl'.$arData['id'].'/';
 
 	if(!empty($arData['logo_id'])){
-		$file=CFile::ShowImage($arData["logo_id"], 110, 90,'alt="'.$arData['name'].'"');
+		$file=CFile::ShowImage($arData["logo_id"], 160, 80,'alt="'.$arData['name'].'"');
 		$arData['logo']=$file;
 	}
 

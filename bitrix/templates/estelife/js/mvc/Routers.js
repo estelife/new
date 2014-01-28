@@ -31,6 +31,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			'pt:number/': 'podcastDetail',
 			'ar:number/': 'articlesDetail',
 			'ns:number/': 'newsDetail',
+			'ex:number/': 'expertsDetail',
 			'*path':  'defaultRoute'
 		},
 		defaultRoute:function(path){
@@ -630,6 +631,37 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				})
 			})).fetch();
 		},
+		expertsDetail:function(id,type){
+			type=(!type) ? 'ex' : type;
+			(new Models.Inner(null,{
+				pages:[
+					type+id+'/',
+					'banner/'
+				],
+				view:new Views.WrapContent({
+					views:[
+						new Views.SEO(),
+						new Views.Content({
+							views:[
+								new Views.Inner({
+									views:[
+										new Views.Crumb(),
+										new Views.Detail({
+											template:'experts_detail'
+										})
+									]
+								}),
+								new Views.Advert({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
+								})
+							]
+						})
+					]
+				})
+			})).fetch();
+		},
+
 
 		apparatusesDetail: function(id){
 			var model=new Models.Inner(null,{
