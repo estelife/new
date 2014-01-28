@@ -184,7 +184,7 @@ define(function(){
 				var matches;
 
 				if(matches=cond.match(/(!)?((\$?[\w\d\_\.]+)(([\-\/%\+]+)([\d]+))*)([\s]*([\!\=\<>]{1,3}|in)[\s]*((\$?[\w\d\._]+)(([\-\/%\+]+)([\d]+))*))*/i)){
-					var res=_checkExpr(
+					return _checkExpr(
 						matches[1],
 						$.trim(matches[3]),
 						$.trim(matches[5]),
@@ -194,7 +194,6 @@ define(function(){
 						$.trim(matches[12]),
 						$.trim(matches[13])
 					);
-					return res;
 				}
 
 				return false;
@@ -217,24 +216,23 @@ define(function(){
 					switch(expr){
 						case '==':
 						case '===':
-
-							result=(right_val && left_val==right_val);
+							result=(left_val==right_val);
 							break;
 						case '!=':
 						case '!==':
-							result=(right_val && left_val!=right_val);
+							result=(left_val!=right_val);
 							break;
 						case '<':
-							result=(right_val && left_val<right_val);
+							result=(left_val<right_val);
 							break;
 						case '>':
-							result=(right_val && left_val>right_val);
+							result=(left_val>right_val);
 							break;
 						case '<=':
-							result=(right_val && left_val<=right_val);
+							result=(left_val<=right_val);
 							break;
 						case '>=':
-							result=(right_val && left_val<=right_val);
+							result=(left_val<=right_val);
 							break;
 						case 'in':
 							result=(right_val && typeof right_val=='object') ?

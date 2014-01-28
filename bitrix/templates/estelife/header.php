@@ -3,13 +3,12 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=1024" />
+	<title><?$APPLICATION->ShowTitle()?></title>
 	<?$APPLICATION->ShowMeta("robots")?>
 	<?$APPLICATION->ShowMeta("keywords")?>
 	<?$APPLICATION->ShowMeta("description")?>
-	<title><?$APPLICATION->ShowTitle()?></title>
 	<script type="text/javascript" src="/bitrix/templates/estelife/js/libraries.js?<?=filemtime($_SERVER['DOCUMENT_ROOT']."/bitrix/templates/estelife/js/libraries.js")?>"></script>
 	<script type="text/javascript" src="/bitrix/templates/estelife/js/estelife.js"></script>
-	<script type="text/javascript" src="/bitrix/templates/estelife/app.js?v=<?=filemtime($_SERVER['DOCUMENT_ROOT']."/bitrix/templates/estelife/app.js")?>"></script>
 	<script type="text/javascript" data-main="/bitrix/templates/estelife/js/ajax" src="/bitrix/templates/estelife/js/require.js"></script>
 	<script type="text/javascript" src="/bitrix/js/estelife/vMapStyle.js"></script>
 	<script type="text/javascript" src="/bitrix/js/estelife/vMap.js"></script>

@@ -18,11 +18,12 @@ try{
 	$arFilter = array(
 		'IBLOCK_ID' => $arParams['IBLOCK_ID'],
 		'SECTION_ID' => $arParams['SECTION_ID'],
-		'<=UF_DATE_PUB_SECTION' => $sNowk
+		'<=UF_DATE_PUB_SECTION' => $sNow,
+		'ACTIVE'=>'Y'
 
 	);
-	$arSelect = array('ID', 'NAME', 'UF_DATE_PUB_SECT', 'UF_DATE_UPD_SECTION');
-	$obResult = CIBlockSection::GetList(Array('UF_DATE_PUB_SECT'=>'DESC'), $arFilter, false, $arSelect, array('nPageSize'=>1));
+	$arSelect = array('ID', 'NAME', 'UF_DATE_PUB_SECTION', 'UF_DATE_UPD_SECTION');
+	$obResult = CIBlockSection::GetList(Array('UF_DATE_PUB_SECTION'=>'DESC'), $arFilter, false, $arSelect, array('nPageSize'=>1));
 
 	while($asRes = $obResult->Fetch()){
 		$arSection = $asRes;
@@ -32,12 +33,12 @@ try{
 
 	//проверка на публикацию сегодня
 	$flag = 0;
-	$sSectionTime = date('d.m.Y', strtotime($arSection['UF_DATE_PUB_SECT']));
+	$sSectionTime = date('d.m.Y', strtotime($arSection['UF_DATE_UPD_SECTION']));
 	if (strtotime($sSectionTime.' 00:00:00') < $sDateNow){
 		$flag = 1;
 		$bs = new CIBlockSection;
 		$arFields = Array(
-			"UF_DATE_PUB_SECT" => $sNow,
+			"UF_DATE_UPD_SECTION" => $sNow,
 			"IBLOCK_ID" => $arParams['IBLOCK_ID'],
 		);
 		$res = $bs->Update($arSection['ID'], $arFields);

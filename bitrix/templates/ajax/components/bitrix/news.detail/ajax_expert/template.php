@@ -31,7 +31,7 @@ $APPLICATION->IncludeComponent(
 		"INCLUDE_IBLOCK_INTO_CHAIN" => "Y",
 		"ADD_SECTIONS_CHAIN" => "Y",
 		"HIDE_LINK_WHEN_NO_DETAIL" => "N",
-		"PARENT_SECTION" => $arResult['IBLOCK_SECTION_ID'],
+		"PARENT_SECTION" => $arResult['THEME'],
 		"PARENT_SECTION_CODE" => "",
 		"INCLUDE_SUBSECTIONS" => "Y",
 		"CACHE_TYPE" => "A",
@@ -49,11 +49,10 @@ $APPLICATION->IncludeComponent(
 		"AJAX_OPTION_JUMP" => "N",
 		"AJAX_OPTION_STYLE" => "Y",
 		"AJAX_OPTION_HISTORY" => "N",
-		"DETAIL_URL"	=>	$arParams['DETAIL_URL'],
+		"DETAIL_URL"	=>	'/pt#ELEMENT_ID#/'
 	)
 );
 
-$img = CFile::GetFileArray($arResult['PROPERTIES']['INSIDE']['VALUE']);
 echo json_encode(array(
 	'crumb'=>array(
 		array(
@@ -61,8 +60,8 @@ echo json_encode(array(
 			'link'=>'/'
 		),
 		array(
-			'name'=>$arResult['LAST_SECTION']['NAME'],
-			'link'=>$arResult['LAST_SECTION']['SECTION_PAGE_URL']
+			'name'=>'Экспертное мнение',
+			'link'=>''
 		),
 		array(
 			'name'=>$arResult["NAME"],
@@ -72,15 +71,18 @@ echo json_encode(array(
 	'detail'=>array(
 		'ID'=>$arResult['ID'],
 		'NAME'=>$arResult['NAME'],
-		'ACTIVE_FROM'=>(!empty($arResult['ACTIVE_FROM'])) ? date('d.m.Y',strtotime($arResult['ACTIVE_FROM'])) : '',
 		'IMG'=>array(
-			'SRC'=>$img['SRC'],
-			'DESCRIPTION'=>$img['DESCRIPTION']
+			'SRC'=>$arResult['IMG']['SRC'],
+			'DESCRIPTION'=>$arResult['IMG']['SRC']
 		),
+		'AUTOR'=>$arResult['AUTOR'],
+		'PROFESSION'=>$arResult['PROFESSION'],
+		'FIO'=>$arResult['FIO'],
+		'ABOUT'=>$arResult['ABOUT'],
+		'THEME'=>$arResult['THEME'],
 		'PREVIEW_TEXT'=>$arResult['PREVIEW_TEXT'],
 		'DETAIL_TEXT'=>$arResult['DETAIL_TEXT'],
-		'SOURCE'=>(!empty($arResult['PROPERTIES']['SOURCE']['VALUE'])) ? $arResult['PROPERTIES']['SOURCE']['VALUE'] : '',
-		'likes'=>$arResult['LIKES'],
+		'LIKES'=>$arResult['LIKES'],
 	),
 	'class'=>'article',
 	'same_data'=>(isset(bitrix\ERESULT::$DATA['SAME_ARTICLES'])) ?

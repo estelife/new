@@ -202,16 +202,16 @@ $arResult['action']['end_date_format']=date('d.m.Y', $arResult['action']['end_da
 $arResult['action']['now'] = time();
 
 $arResult['action']['clinic']['name'] = trim(strip_tags(html_entity_decode($arResult['action']['clinic']['name'], ENT_QUOTES, 'utf-8')));
-$arResult['action']['clinic']['seo_name'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['action']['clinic']['name']);
+$arResult['action']['clinic']['seo_name'] = \core\types\VString::pregStrSeo($arResult['action']['clinic']['name']);
 
 $arResult['action']['preview_text'] = trim(strip_tags(html_entity_decode($arResult['action']['preview_text'], ENT_QUOTES, 'utf-8')));
-$arResult['action']['seo_preview_text'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['action']['preview_text']);
+$arResult['action']['seo_preview_text'] = \core\types\VString::pregStrSeo($arResult['action']['preview_text']);
 
 if (!empty($arResult['action']['clinic']['city_name']))
 	$arCity = ' ('.$arResult['action']['clinic']['city_name'].')';
 else
 	$arCity = '';
-$APPLICATION->SetPageProperty("title", $arResult['action']['seo_preview_text'].' в '.$arResult['action']['clinic']['seo_name'].$arCity);
-$APPLICATION->SetPageProperty("description", 'Акция: '.$arResult['action']['seo_preview_text'].' в '.$arResult['action']['clinic']['seo_name'].$arCity);
+$APPLICATION->SetPageProperty("title", trim($arResult['action']['seo_preview_text'].' - акция '.$arResult['action']['clinic']['seo_name']));
+$APPLICATION->SetPageProperty("description", trim($arResult['action']['clinic']['seo_name'].' предлагает новую акцию - '.$arResult['action']['seo_preview_text'].'. Узнайте больше и получите скидку уже сейчас.'));
 
 $this->IncludeComponentTemplate();

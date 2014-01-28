@@ -30,11 +30,8 @@ $obCounties->sortByPriorities(array(357),'ID');
 $arResult['countries']=$obCounties->all();
 $obGet=new VArray($_GET);
 
-if (!$obGet->blank('country') || intval($_COOKIE['estelife_country'])>0){
-	$nCountry=intval($obGet->one(
-		'country',
-		$_COOKIE['estelife_country']
-	));
+if(!$obGet->blank('country')){
+	$nCountry=intval($obGet->one('country',0));
 	//получаем города по стране
 	$obCity=CIBlockElement::GetList(
 		array("NAME"=>"ASC"),
@@ -59,8 +56,8 @@ foreach($obGet->one('type',array()) as $nType)
 	$arTypes[]=intval($nType);
 
 $arResult['filter']=array(
-	'country'=>intval($obGet->one('country',$_COOKIE['estelife_country'])),
-	'city'=>intval($obGet->one('city',$_COOKIE['estelife_city'])),
+	'country'=>intval($obGet->one('country',0)),
+	'city'=>intval($obGet->one('city',0)),
 	'direction'=>$arDirections,
 	'type'=>$arTypes,
 	'date_from'=>$obGet->one('date_from', date('d.m.y',time())),

@@ -278,15 +278,16 @@ else
 	$arCity = '';
 
 $arResult['clinic']['name'] = trim(strip_tags(html_entity_decode($arResult['clinic']['name'], ENT_QUOTES, 'utf-8')));
-$arResult['clinic']['seo_name'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['clinic']['name']);
+$arResult['clinic']['seo_name'] = \core\types\VString::pregStrSeo($arResult['clinic']['name']);
 
 $sPrefix='Клиника ';
 
 if(preg_match('#(клиник)#ui',$arResult['clinic']['seo_name']))
 	$sPrefix='';
 
+
 $arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].$arCity.' - акции, цены, адреса';
-$arResult['clinic']['seo_description'] = 'Акции, а так же цены и адреса клиники '.$arResult['clinic']['seo_name'].$arCity.'. Смотрите здесь.';
+$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].$arCity.' - подробная информация, адреса, контакты и акции.';
 
 $APPLICATION->SetPageProperty("title", $arResult['clinic']['seo_title']);
 $APPLICATION->SetPageProperty("description", $arResult['clinic']['seo_description']);

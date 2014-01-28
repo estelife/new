@@ -42,8 +42,8 @@ $arResult['countries']=$obCounties->all();
 
 $obGet=new VArray($_GET);
 
-if (!$obGet->blank('country') || intval($_COOKIE['estelife_country'])>0){
-	$nCountry = intval($obGet->one('country',$_COOKIE['estelife_country']));
+if (!$obGet->blank('country')){
+	$nCountry = intval($obGet->one('country'));
 	//получаем города по стране
 	$arSelect = Array("ID", "NAME");
 	$arFilter = Array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "PROPERTY_COUNTRY" => $nCountry);
@@ -55,8 +55,8 @@ if (!$obGet->blank('country') || intval($_COOKIE['estelife_country'])>0){
 }
 
 $arResult['filter']=array(
-	'country'=>intval($obGet->one('country',$_COOKIE['estelife_country'])),
-	'city'=>intval($obGet->one('city',$_COOKIE['estelife_city'])),
+	'country'=>intval($obGet->one('country',0)),
+	'city'=>intval($obGet->one('city',0)),
 	'name'=>strip_tags(trim($obGet->one('name',''))),
 );
 

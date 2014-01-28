@@ -128,7 +128,7 @@ while($arData=$obResult->Fetch()){
 }
 
 $arDescription = strip_tags(html_entity_decode(implode(", ", $arDescription), ENT_QUOTES, 'utf-8'));
-$arDescription = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arDescription);
+$arDescription = VString::pregStrSeo($arDescription);
 
 $APPLICATION->SetPageProperty("title", 'Производители препаратов');
 $APPLICATION->SetPageProperty("description", VString::truncate($arDescription,160,''));

@@ -132,7 +132,7 @@ $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
 $arResult['nav']=$obNav->getNav();
 
 $arDescription = strip_tags(html_entity_decode(implode(", ", $arDescription), ENT_QUOTES, 'utf-8'));
-$arDescription = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arDescription);
+$arDescription = VString::pregStrSeo($arDescription);
 
 $APPLICATION->SetPageProperty("title", "Производители аппаратов");
 $APPLICATION->SetPageProperty("description", VString::truncate($arDescription,'160',''));

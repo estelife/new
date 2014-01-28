@@ -9,7 +9,7 @@
 				<i><!--$val.PROFESSION!--></i>
 			</div>
 			<div class="quote">
-				<h3><!--$val.NAME!--></h3>
+				<h3><a href="/ex<!--$val.ID!-->/"><!--$val.NAME!--></a></h3>
 				<p><!--$val.PREVIEW_TEXT!--></p>
 			</div>
 		</div>

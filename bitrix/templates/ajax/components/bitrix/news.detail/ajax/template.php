@@ -75,11 +75,12 @@ echo json_encode(array(
 		'ACTIVE_FROM'=>(!empty($arResult['ACTIVE_FROM'])) ? date('d.m.Y',strtotime($arResult['ACTIVE_FROM'])) : '',
 		'IMG'=>array(
 			'SRC'=>$img['SRC'],
-			'DESCRIPTION'=>(!empty($img['DESCRIPTION'])) ? $img['DESCRIPTION'] : $arResult['NAME']
+			'DESCRIPTION'=>$img['DESCRIPTION']
 		),
 		'PREVIEW_TEXT'=>$arResult['PREVIEW_TEXT'],
 		'DETAIL_TEXT'=>$arResult['DETAIL_TEXT'],
-		'SOURCE'=>(!empty($arResult['PROPERTIES']['SOURCE']['VALUE'])) ? $arResult['PROPERTIES']['SOURCE']['VALUE'] : ''
+		'SOURCE'=>(!empty($arResult['PROPERTIES']['SOURCE']['VALUE'])) ? $arResult['PROPERTIES']['SOURCE']['VALUE'] : '',
+		'LIKES'=>$arResult['LIKES'],
 	),
 	'class'=>'article',
 	'same_data'=>(isset(bitrix\ERESULT::$DATA['SAME_ARTICLES'])) ?

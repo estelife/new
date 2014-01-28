@@ -64,6 +64,7 @@ $APPLICATION->IncludeComponent(
 		"IMG" => 174,
 		"AUTOR"=> 172,
 		"PROFESSION" => 173,
+		"PREVIEW"=>178,
 		"PREFIX" => ""
 	)
 );
@@ -128,4 +129,9 @@ $APPLICATION->IncludeComponent(
 	)
 );
 
+bitrix\ERESULT::$DATA['seo']=array(
+	'title'=>'EsteLife.RU - информационный портал о косметологии и пластической хирургии',
+	'description'=>'EsteLife.RU - информационный портал о косметологии и пластической хирургии',
+	'keywords'=>'косметология, пластическая хирургия'
+);
 echo json_encode(bitrix\ERESULT::$DATA);

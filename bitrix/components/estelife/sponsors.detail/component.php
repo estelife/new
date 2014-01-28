@@ -85,10 +85,7 @@ if(!empty($arResult['company']['country_name']))
 if(!empty($arResult['company']['city_name']))
 	$arAddress[]='г. '.$arResult['company']['city_name'];
 
-if(!empty($arResult['company']['address']))
-	$arAddress[]=$arResult['company']['address'];
-
-$arResult['company']['address']=implode(', ',$arAddress);
+$arResult['company']['location']=implode(', ',$arAddress);
 $arResult['company']['img'] = CFile::ShowImage($arResult['company']['logo_id'],200, 85, 'alt='.$arResult['company']['name']);
 
 if (!empty($arResult['company']['type_detail_text']))
@@ -175,12 +172,12 @@ $arResult['company']['contacts']['fax'] = implode('<br />', $arResult['company']
 $arResult['company']['contacts']['email'] = implode('<br />', $arResult['company']['email']);
 
 $arResult['company']['seo_name'] = trim(strip_tags(html_entity_decode($arResult['company']['name'], ENT_QUOTES, 'utf-8')));
-$arResult['company']['seo_name'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['company']['seo_name']);
+$arResult['company']['seo_name'] = \core\types\VString::pregStrSeo($arResult['company']['seo_name']);
 $arResult['company']['seo_description'] = trim(strip_tags(html_entity_decode($arResult['company']['detail_text'], ENT_QUOTES, 'utf-8')));
-$arResult['company']['seo_description'] = preg_replace('#[^\w\d\s\.\,\-\(\)]+#iu',' ',$arResult['company']['seo_description']);
+$arResult['company']['seo_description'] = \core\types\VString::pregStrSeo($arResult['company']['seo_description']);
 
 $APPLICATION->SetPageProperty("title", $arResult['company']['seo_name']);
-$APPLICATION->SetPageProperty("description", \core\types\VString::truncate($arResult['company']['seo_name'].' - '.$arResult['company']['seo_description'],160,''));
+$APPLICATION->SetPageProperty("description", \core\types\VString::truncate($arResult['company']['seo_name'].' информация об организаторе и проводимых мероприятиях, а так же контактные данные. Смотрите здесь.',160,''));
 $APPLICATION->SetPageProperty("keywords", "Estelife, организаторы, ".mb_strtolower($arResult['company']['seo_name'],'utf-8'));
 
 $this->IncludeComponentTemplate();

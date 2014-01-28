@@ -47,6 +47,7 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 			"IMG" => 174,
 			"AUTOR"=> 172,
 			"PROFESSION" => 173,
+			"PREVIEW"=>178,
 			"PREFIX" => ""
 		)
 	)?>

@@ -8,10 +8,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<li><a href="/">Главная</a></li>
 			<li><a href="#"><?=$arResult['LAST_SECTION']['NAME']?></a></li>
 		</ul>
+		<div class="title">
+			<h2><?=$arResult['LAST_SECTION']['NAME']?></h2>
+		</div>
 		<?php if (!empty($arResult["ITEMS"])):?>
-			<div class="title">
-				<h2><?=$arResult['LAST_SECTION']['NAME']?></h2>
-			</div>
 			<div class="items">
 				<? foreach($arResult["ITEMS"] as $arItem):?>
 				<div class="item article">
@@ -33,8 +33,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 
 			</div>
 			<?=$arResult["NAV_STRING"]?>
-		</div>
-	<?php endif?>
+		<?php endif?>
+	</div>
 	<div class="adv adv-out right">
 		<?$APPLICATION->IncludeComponent("bitrix:advertising.banner","",Array(
 				"TYPE" => "main_right_1",

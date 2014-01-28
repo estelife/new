@@ -244,4 +244,16 @@ class VString {
 
 		return $sShort;
 	}
+
+	/**
+	 * Убирает ненужные символы для SEO
+	 * @param $sText
+	 * @return string
+	 */
+	public static function pregStrSeo($sText){
+		$sText = preg_replace('#[^\w\d\s\.\,\-\(\)\%]+#iu',' ',$sText);
+		return $sText;
+	}
+
+
 }
