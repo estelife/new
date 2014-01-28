@@ -311,7 +311,6 @@ input.text {
 	position: static;
 	text-transform: none;
 	font-weight: normal;
-	padding: 0 18px;
 }
 .head .menu li a:hover, .head .menu li.second_active a {
 	color:#e50264;
@@ -607,6 +606,11 @@ ul.stat .unlikes.active i {
 	text-decoration: none;
 	color:#2c2c2c;
 }
+
+.experts .quote a:hover{
+	color:#e60365;
+}
+
 .content .promotion h3, .content .promotion h3 a {
 	font-size:16px;
 }
@@ -700,7 +704,7 @@ ul.stat .unlikes.active i {
 	border-right:1px solid #d1d1d1;
 }
 .item.promotion:hover, .item.company:hover,
-.item.product:hover, .item.producer:hover, 
+.item.product:hover, .item.producer:hover,
 .item.training:hover, .item.event:hover {
 	border-color:#e50364;
 }
@@ -2628,13 +2632,13 @@ div.quality ul.steps li:last-child {
 }
 form.quality {
 	overflow: hidden;
-	height:0;
+	/*height:0;*/
 }
 form.quality div.quality {
 	margin-top:41px;
 }
 form.quality .quality-in {
-	height:740px;
+	height:371px;
 }
 h2.show-quality-form {
 	margin:158px 0 21px 0;
@@ -2829,9 +2833,9 @@ form.quality .submit {
 	margin-top:50px;
 	font-size:12px;
 }
-.item.detail.expert .stat {
-	margin: 34px 0 27px 0;
-}
+/*.item.detail.expert .stat {*/
+	/*margin: 34px 0 27px 0;*/
+/*}*/
 .item.detail.expert .announce {
 	font-size:16px;
 }

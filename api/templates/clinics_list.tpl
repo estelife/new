@@ -9,8 +9,6 @@
 				<div class="item-in">
 					<!--if($val.specialization)!-->
 						<p><!--$val.specialization!--></p>
-					<!--else!-->
-						<p>На текущий момент клиника не предоставила официальных данных</p>
 					<!--endif!-->
 					<div class="img">
 						<div class="img-in">

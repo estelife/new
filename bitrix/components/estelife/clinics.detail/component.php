@@ -285,8 +285,9 @@ $sPrefix='Клиника ';
 if(preg_match('#(клиник)#ui',$arResult['clinic']['seo_name']))
 	$sPrefix='';
 
+
 $arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].$arCity.' - акции, цены, адреса';
-$arResult['clinic']['seo_description'] = 'Клиника красоты '.$arResult['clinic']['seo_name'].$arCity.' - подробная информация, адреса, контакты и акции.';
+$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].$arCity.' - подробная информация, адреса, контакты и акции.';
 
 $APPLICATION->SetPageProperty("title", $arResult['clinic']['seo_title']);
 $APPLICATION->SetPageProperty("description", $arResult['clinic']['seo_description']);

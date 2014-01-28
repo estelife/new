@@ -16,6 +16,7 @@ final class VLike{
 	const APPARATUS = 9;
 	const PREP_MAKERS = 10;
 	const APP_MAKERS = 11;
+	const EXPERT = 12;
 	protected $type;
 	protected $elId;
 	protected $typeLike;

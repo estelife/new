@@ -21,7 +21,7 @@
 		<!--endif!-->
 	</div>
 	<div class="cols col2">
-		<!--$i=2!-->
+		<!--$i=1!-->
 		<!--foreach ($PODCASTS.ELEMENTS as $key=>$val)!-->
 		<div class="img">
 			<a href="<!--$val.DETAIL_URL!-->">

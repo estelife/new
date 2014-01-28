@@ -19,8 +19,6 @@
 					<div class="item-in">
 						<?if (!empty($arClinic['specialization'])):?>
 							<p><?=$arClinic['specialization']?></p>
-						<?else:?>
-							<p>На текущий момент клиника не предоставила официальных данных</p>
 						<?endif?>
 
 						<div class="img">

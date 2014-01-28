@@ -757,11 +757,10 @@ require([
 			e.preventDefault();
 		});
 
-
-		body.on('mouseover mouseout','[data-help]',function(e){
-			var target=$(this),
-				isSelect=(target.parents('.select:first').length>0),
-				fromTop=(isSelect && target.hasClass('has-value'));
+	body.on('mouseover mouseout click','[data-help]',function(e){
+		var target=$(this),
+			isSelect=(target.parents('.select:first').length>0),
+			fromTop=(isSelect && target.hasClass('has-value'));
 
 			if(isSelect && !fromTop)
 				return;

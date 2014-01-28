@@ -142,9 +142,15 @@ if (empty($_GET['type'])){
 	$arSEODescription = 'Вся информация по препаратам для процедуры '.$arTypes[$_GET['type']].'. Весь список с подробным описанием в нашей базе данных.';
 }
 
+if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
+	$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
+	$arSEOTitle.=' - '.$_GET['PAGEN_1'].' страница';
+	$arSEODescription.=' - '.$_GET['PAGEN_1'].' страница';
+}
+
 $APPLICATION->SetPageProperty("title", $arSEOTitle);
 $APPLICATION->SetPageProperty("description", VString::truncate($arSEODescription,'160', ''));
-$APPLICATION->SetPageProperty("keywords", "Препараты, ".$arDescription);
+$APPLICATION->SetPageProperty("keywords", "Препараты, ".$arSEODescription);
 
 $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
