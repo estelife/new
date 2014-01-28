@@ -141,7 +141,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 
 		homePage:function(){
 			(new Models.Inner(null,{
-				page:'home/',
+				page:'home/'+EL.query().toString(),
 				view:new Views.WrapContent({
 					views:[
 						new Views.SEO(),

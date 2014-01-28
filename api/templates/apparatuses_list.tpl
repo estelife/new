@@ -4,10 +4,10 @@
 			<div class="item-rel">
 				<div class="img">
 					<div class="img-in">
-						<!--if($val.logo_id)!-->
+						<!--if($val.logo)!-->
 							<!--$val.logo!-->
 						<!--else!-->
-							<img src="/img/icon/unlogo.png" />
+							<div class="default">Изображение отсутствует</div>
 						<!--endif!-->
 					</div>
 				</div>

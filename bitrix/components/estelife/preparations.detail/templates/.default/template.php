@@ -11,7 +11,11 @@
 			<div class="current">
 				<div class="img">
 					<div class="img-in">
-						<?=$arResult['pill']['img']?>
+						<?php if(!empty($arResult['pill']['img'])): ?>
+							<?=$arResult['pill']['img']?>
+						<?php else: ?>
+							<div class="default">Изображение отсутствует</div>
+						<?php endif; ?>
 					</div>
 				</div>
 				<ul>
@@ -162,8 +166,10 @@
 								<div class="img">
 									<div class="img-in">
 										<a href="<?=$arValue['link']?>">
-											<?php if(!empty($arValue["logo_id"])):?>
+											<?php if(!empty($arValue["img"])):?>
 												<?=$arValue["img"]?>
+											<?php else: ?>
+												<div class="default">Изображение отсутствует</div>
 											<?endif?>
 										</a>
 									</div>
