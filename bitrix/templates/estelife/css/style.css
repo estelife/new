@@ -50,7 +50,7 @@ body {
 .experts ul li, .item.promotion, .articles, .articles .menu li,.item.detail .menu li, .item.article, .media .item, .media .menu li, .footer .menu li,
 .crumb, .crumb li, .nav, .nav li, .inner, .item.detail .gallery, .similars, .item.producer .img, .item.product .img, .items .item.producer li,
 .inner .title .menu li, .search-founded .menu li, .inner .products .item.product, .item.training .img, .item.detail .user img, .item.event .img, .items .item.event ul.list1,
-.win-gallery-previews li, .quality ul.steps li{
+.win-gallery-previews li, .quality ul.steps li, .tabs-menu li, .tabs-menu {
 	float:left;
 	display: block;
 }
@@ -68,7 +68,7 @@ body {
 }
 .social a, .arrow i, ul.stat i, .promotion .time i, .promotion .prices i, .media .item span, .media .menu .first a,
 .promotion .time i, .promotion .prices i, .item.detail .clinic a.more i, .select .arrow, .item.company p i, .gallery .arrow i, td.prices i,
-.filter .date i, .win-close, .checked, .item.promotion .current .perc i,.checkbox.active i, .to-top i, h2.show-quality-form i,.help i{
+.filter .date i, .win-close, .checked, .item.promotion .current .perc i,.checkbox.active i, .to-top i, h2.show-quality-form i,.help i, .tabs-menu .active i{
 	background-image:url('../images/complex.png');
 	background-repeat: no-repeat;
 }
@@ -264,7 +264,7 @@ input.text {
 }
 .head .menu, .head .submenu, ul.menu, ul.stat, .cities ul, .crumb, .nav, .item.detail .tab-c ul,
 .items .item.producer ul, .items .item.product ul, .item.producer .current ul, .item.product .current ul,
-.items .item.event ul, .win-gallery-previews, .quality ul.steps, .item.detail .clinic ul{
+.items .item.event ul, .win-gallery-previews, .quality ul.steps, .item.detail .clinic ul, .tabs-menu ul{
 	list-style: none;
 	padding:0;
 	margin:0;
@@ -280,7 +280,7 @@ input.text {
 	height:40px;
 	margin:0;
 }
-.head .menu li a {
+.head .menu li a, .tabs-menu li a {
 	display: block;
 	padding: 0 18px;
 	font-size:14px;
@@ -313,7 +313,8 @@ input.text {
 	font-weight: normal;
 	padding: 0 18px;
 }
-.head .menu li a:hover, .head .menu li.second_active a {
+.head .menu li a:hover, .head .menu li.second_active a,
+.tabs-menu .active a, .tabs-menu li a:hover {
 	color:#e50264;
 }
 .head .submenu {
@@ -585,7 +586,7 @@ ul.stat .unlikes.active i {
 }
 .item.detail .menu a, .experts .quote,
 .inner .products .item.product .cols,
-.similars .item.product .cols {
+.similars .item.product .cols, .tabs-menu li a {
 	padding:0 17px;
 }
 .experts .user b {
@@ -766,6 +767,9 @@ ul.stat .unlikes.active i {
 	padding-right:15px;
 	display: block;
 	float:left;
+}
+.item.promotion .prices b.only-perc {
+	padding-right: 0;
 }
 .item.promotion .prices i, .item.promotion .time i, td.prices i, .item.promotion .current .perc i {
 	display: block;
@@ -979,7 +983,7 @@ td.prices span {
 	width:220px;
 }
 .promotions .cities h4, .promotions .cities a,
-.inner .title .menu a, .search-founded .menu a {
+.inner .title .menu a, .search-founded .menu a, .tabs-menu li a {
 	color:#2c2c2c;
 }
 .articles {
@@ -987,7 +991,8 @@ td.prices span {
 	margin-top:40px;
 }
 .articles .menu, .articles .menu li, .articles .menu a,
-.item.detail .menu, .item.detail .menu li, .item.detail .menu a{
+.item.detail .menu, .item.detail .menu li, .item.detail .menu a,
+.tabs-menu li, .tabs-menu li a{
 	height:35px;
 }
 .articles .menu, .item.detail .menu {
@@ -1930,6 +1935,7 @@ li.country, span.country {
 }
 .item.detail .tabs {
 	float:left;
+	margin-top:40px;
 }
 .item.detail .tab-c b, .item.detail .tab-c span, .item.detail .tab-c a {
 	display: block;
@@ -2792,23 +2798,30 @@ form.quality .submit {
 .item.detail.expert blockquote {
 	display: block;
 	width: 100%;
-	height:1px;
-	margin:70px 0;
-	color:#c67195;
-	background:#c67195;
+	margin: 70px 0;
+	color: #c67195;
 	position: relative;
 	text-align: center;
 }
-.item.detail.expert q {
+.item.detail.expert blockquote q {
 	display: inline;
 	font-weight: bold;
-	font-size:18px;
-	margin:0;
+	font-size: 18px;
+	margin: 0;
 	position: relative;
-	background:#F0F0F0;
+	background: #F0F0F0;
 	quotes: "\00ab..." "...\00bb";
-	top:-11px;
-	padding:0 10px;
+	padding: 0 10px;
+	z-index: 2;
+	line-height: 30px;
+}
+.item.detail.expert blockquote i {
+	display: block;
+	position: absolute;
+	background: #c67195;
+	height: 1px;
+	width: 100%;
+	top: 50%;
 }
 .item.detail.expert .cor {
 	margin-top:50px;
@@ -2819,4 +2832,30 @@ form.quality .submit {
 }
 .item.detail.expert .announce {
 	font-size:16px;
+}
+.tabs-menu .active a {
+	border: 1px solid #D1D1D1;
+	background: #F0F0F0;
+	border-bottom-color: #F0F0F0;
+	position: relative;
+	line-height: 37px;
+	padding:0 16px;
+}
+.tabs-menu .active a i {
+	display: block;
+	width:11px;
+	height:11px;
+	background-position:-142px -94px;
+	background-color:#F0F0F0;
+	position: absolute;
+	top:-1px;
+	right:-1px;
+}
+.tabs-menu {
+	border-bottom:1px solid #d1d1d1;
+	width:100%;
+	margin-top:36px;
+}
+.content .tabs-menu li {
+	padding:0;
 }

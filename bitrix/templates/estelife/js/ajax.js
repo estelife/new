@@ -52,7 +52,8 @@ require([
 	$(function(){
 		Backbone.history.start({
 			'pushState':true,
-			'hashChange': false
+			'hashChange': false,
+			'silent': true
 		});
 
 		//подписка
@@ -616,6 +617,7 @@ require([
 		var form=$(this);
 		Functions.initFilter(form);
 	});
+	$('form.filter').trigger('update');
 
 	body.on('submit','form[name=add_request]',function(e){
 		var form=$(this),

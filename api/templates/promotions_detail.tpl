@@ -11,14 +11,16 @@
 				<!--if($detail.view_type!=2)!-->
 					<span class="perc"><!--$detail.base_sale!-->%</span>
 				<!--endif!-->
-				<!--if($detail.view_type!=3)!-->
 				<div class="cols prices">
-					<b><!--$detail.new_price!--> <i></i></b>
-					<!--if($detail.view_type==1)!-->
-						<s><!--$detail.old_price!--> <i></i></s>
+					<!--if($detail.view_type!=3)!-->
+						<b><!--$detail.new_price!--> <i></i></b>
+						<!--if($detail.view_type==1)!-->
+							<s><!--$detail.old_price!--> <i></i></s>
+						<!--endif!-->
+					<!--else!-->
+						<b>скидка <!--$detail.base_sale!-->%</b>
 					<!--endif!-->
 				</div>
-				<!--endif!-->
 				<div class="cols time">
 					<!--if($detail.end_date<$detail.now)!-->
 						<span class="old-promotion"><b>Акция завершена</b></span>

@@ -10,13 +10,12 @@
 				</a>
 				<h3><a href="<!--$val.link!-->"><!--$val.name!--></a></h3>
 				<div class="cols prices">
-					<b>
-						<!--if($val.view_type==3)!-->
-						скидка <!--$val.sale!-->%
-						<!--else!-->
-						<!--$val.new_price!--> <i></i>
-						<!--endif!-->
-					</b>
+					<!--if($val.view_type==3)!-->
+						<b class="only-perc">скидка <!--$val.sale!-->%</b>
+					<!--else!-->
+						<b><!--$val.new_price!--> <i></i></b>
+					<!--endif!-->
+
 					<!--if($val.view_type==1)!-->
 					<s><!--$val.old_price!--> <i></i></s>
 					<!--endif!-->

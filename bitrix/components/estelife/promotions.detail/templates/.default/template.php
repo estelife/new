@@ -17,14 +17,16 @@
 						<?=$arResult['action']['base_sale']?>%
 					</span>
 				<?php endif; ?>
-				<?php if($arResult['action']['view_type']!=3): ?>
-					<div class="cols prices">
+				<div class="cols prices">
+					<?php if($arResult['action']['view_type']==3): ?>
+						<b>скидка <?=$arResult['action']['base_sale']?>%</b>
+					<?php else: ?>
 						<b><?=$arResult['action']['new_price']?> <i></i></b>
 						<?php if($arResult['action']['view_type']==1):?>
 							<s><?=$arResult['action']['old_price']?> <i></i></s>
 						<?php endif; ?>
-					</div>
-				<?php endif; ?>
+					<?php endif; ?>
+				</div>
 				<div class="cols time">
 					<?if($arResult['action']['end_date']<$arResult['action']['now']):?>
 						<span class="old-promotion"><b>Акция завершена</b></span>
