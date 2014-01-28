@@ -187,18 +187,25 @@ var Estelife=function(s){
 		}
 	};
 
-	this.goto=function(el,all){
-		var target=(this.browser().webkit) ? $('body') : $('html')
+	this.goto=function(toElement,fromAllPosition,noAnimated){
+		var target=(this.browser().webkit) ?
+			$('body') :
+			$('html');
 
-		if(el && el.length>0){
-			var top=el.offset().top,
-				scrl=target.scrollTop();
+		if(toElement && toElement.length>0){
+			var top=toElement.offset().top,
+				currentScroll=target.scrollTop();
 
-			if(all || scrl>top)
-				target.animate({'scrollTop':top+'px'},200);
-		}else
-			target.animate({'scrollTop':'0px'},200);
-
+			if(fromAllPosition || currentScroll>top){
+				(!noAnimated) ?
+					target.animate({'scrollTop':top+'px'},200) :
+					target.scrollTop(top);
+			}
+		}else{
+			(!noAnimated) ?
+				target.animate({'scrollTop':'0px'},200) :
+				target.scrollTop(0);
+		}
 	};
 
 	this.browser=function(){

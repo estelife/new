@@ -64,6 +64,7 @@ $APPLICATION->IncludeComponent(
 		"IMG" => 174,
 		"AUTOR"=> 172,
 		"PROFESSION" => 173,
+		"PREVIEW"=>178,
 		"PREFIX" => ""
 	)
 );

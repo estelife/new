@@ -1,7 +1,34 @@
 define(['tpl/Template'],function(Template){
-	var Views={},
-		Cache={},
-		Events=[];
+	var Views={};
+
+	var Events=(function(){
+		var eventsCache=[];
+
+		(function fireEvents(){
+			if(eventsCache.length>0){
+				_.each(eventsCache,function(event){
+					if(event.hasOwnProperty('target') && event.hasOwnProperty('type'))
+						event.target.trigger(event.type);
+				});
+				eventsCache=[];
+			}
+			setTimeout(arguments.callee,100);
+		})();
+
+		return {
+			fromArray:function(ar){
+				if(ar instanceof Array && ar.length>0){
+					for(var i=0;i<ar.length; i++){
+						this.push(ar[i]);
+					}
+				}
+			},
+			push:function(event){
+				if(event.hasOwnProperty('target') && event.hasOwnProperty('type'))
+					eventsCache.push(event);
+			}
+		};
+	})();
 
 	/**
 	 * Дефолтный view для реализации общих действий
@@ -274,19 +301,20 @@ define(['tpl/Template'],function(Template){
 		render:function(){
 			if(_.isObject(this.data)){
 				var ob=this;
-				this.$el
-					.addClass('ajax-filter')
-					.empty();
+				this.$el.addClass('ajax-filter');
 
-				this.template.ready(function(){
-					ob.$el.append(ob.template.render(ob.data));
-					Events.push({
-						'target':ob.$el.find('form'),
-						'type':'update'
-					})
-				});
-				return this;
+				setTimeout(function(){
+					ob.template.ready(function(){
+						ob.$el.empty()
+							.append(ob.template.render(ob.data));
+						Events.push({
+							'target':ob.$el.find('form'),
+							'type':'updateFilter'
+						})
+					});
+				},0);
 			}
+			return this;
 		}
 	});
 
@@ -304,13 +332,29 @@ define(['tpl/Template'],function(Template){
 					this.$el.addClass(this.className);
 
 				this.$el.append(this.data);
-				this.el=this.$el[0];
-
-				Cache['advert']=this;
-				return this;
-			}else{
-				return Cache['advert'];
 			}
+
+			return this;
+		}
+	});
+	Views.AdvertDelay=Views.Default.extend({
+		el:document.createElement('div'),
+		render:function(){
+			var ob=this;
+
+			if(_.isString(this.data) && this.data!=null){
+				setTimeout(function(){
+					var className='adv';
+
+					if(ob.className)
+						className+=' '+ob.className;
+
+					ob.$el.addClass(className);
+					ob.$el.empty().append(ob.data);
+				},100);
+			}
+
+			return this;
 		}
 	});
 
@@ -349,9 +393,8 @@ define(['tpl/Template'],function(Template){
 			if(this.data && this.data.hasOwnProperty('page')){
 				this.$el=$('<div></div>').addClass('static-page');
 
-				if(this.className){
+				if(this.className)
 					this.$el.addClass(this.className);
-				}
 
 				this.$el.append(this.data.page);
 				this.el=this.$el[0];
@@ -399,14 +442,6 @@ define(['tpl/Template'],function(Template){
 				_.each(this.views,function(view){
 					ob.$el.append(view.render().$el);
 				});
-
-				if(!_.isEmpty(Events)){
-					_.each(Events,function(event){
-						if(event.hasOwnProperty('target') && event.hasOwnProperty('type'))
-							event.target.trigger(event.type);
-					});
-					Events=[];
-				}
 			}
 
 			return this;

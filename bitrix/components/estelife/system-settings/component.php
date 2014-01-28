@@ -18,6 +18,7 @@ $arResult=array(
 		"ev" => "events",
 		"sp" => "sponsors",
 		"sh" => "search",
+		"ex" => "experts",
 	),
 	'current_city' => \geo\VGeo::getInstance()->getGeo()
 );

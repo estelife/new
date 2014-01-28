@@ -177,7 +177,7 @@ $arResult['company']['seo_description'] = trim(strip_tags(html_entity_decode($ar
 $arResult['company']['seo_description'] = \core\types\VString::pregStrSeo($arResult['company']['seo_description']);
 
 $APPLICATION->SetPageProperty("title", $arResult['company']['seo_name']);
-$APPLICATION->SetPageProperty("description", \core\types\VString::truncate($arResult['company']['seo_name'].' - '.$arResult['company']['seo_description'],160,''));
+$APPLICATION->SetPageProperty("description", \core\types\VString::truncate($arResult['company']['seo_name'].' информация об организаторе и проводимых мероприятиях, а так же контактные данные. Смотрите здесь.',160,''));
 $APPLICATION->SetPageProperty("keywords", "Estelife, организаторы, ".mb_strtolower($arResult['company']['seo_name'],'utf-8'));
 
 $this->IncludeComponentTemplate();
