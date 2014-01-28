@@ -1121,7 +1121,6 @@ td.prices span {
 .inner .item:nth-child(3n+3),
 .inner .item.last {
 	margin-right: 0 !important;
-	content: '<br />';
 }
 .inner .item:nth-child(3n+4),
 .inner .item.first {
@@ -1789,25 +1788,31 @@ td.prices span {
 .item.producer h1 {
 	margin-bottom:14px;
 }
-.item.company .img-in, .item.producer .img-in, .item.product .img-in, .item.training .img-in,
+.item.company .img-in, .item.producer .img-in,
+.item.product .img-in, .item.training .img-in,
 .item.event .img-in {
 	float: none;
 	position: static;
 	background:#fff;
 	width:210px;
 	height:100px;
+	max-width:210px;
+	max-height:100px;
 	text-align: center;
 }
 .item.detail.company .img-in, .item.detail.producer .img-in,
 .item.detail .company .img-in, .item.event .img-in{
 	width:227px;
 	height: 118px;
+	max-width:227px;
+	max-height: 118px;
 }
 .item.event .img {
 	margin:0 11px 28px 0;
 }
 .item.event .img-in {
 	width: 207px;
+	max-width: 207px;
 }
 .item.detail.company .col1 p {
 	margin:6px 0 22px 0;
@@ -1847,10 +1852,14 @@ td.prices span {
 .item.producer .img-in {
 	width:125px;
 	height:118px;
+	max-width:125px;
+	max-height:118px;
 }
 .item.product .img-in {
 	width:208px;
 	height:198px;
+	max-width:208px;
+	max-height:198px;
 }
 .items .item.producer ul, .item.producer .current ul, .items .item.product ul {
 	float:left;
@@ -1998,6 +2007,8 @@ li.country, span.country {
 	background:#fff;
 	height:158px;
 	width:227px;
+	max-height:158px;
+	max-width:227px;
 	text-align: center;
 }
 .inner .products .item.product .cols {
@@ -2069,6 +2080,8 @@ li.country, span.country {
 .item.detail.product .img-in {
 	width:227px;
 	height:218px;
+	max-width:227px;
+	max-height:218px;
 }
 .inner .title .menu {
 	float:right;
@@ -2148,6 +2161,8 @@ li.country, span.country {
 .item.detail.sponsor .img, .item.detail.sponsor .img-in {
 	height: 100px;
 	width: 209px;
+	max-height: 100px;
+	max-width: 209px;
 }
 .item.detail.sponsor h3 {
 	margin:60px 0 30px 0;
@@ -2824,4 +2839,8 @@ form.quality .submit {
 .item.detail.expert .announce {
 	font-size:16px;
 }
-
+.ajax-filter {
+	min-height:120px;
+	float:right;
+	width:230px;
+}

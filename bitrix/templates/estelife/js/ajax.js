@@ -5,10 +5,11 @@ require([
 	'modules/Media',
 	'modules/Functions'
 ],function(Routers,Template,Geo,Media,Functions){
-	var body=$('body'),
-		Router=new Routers.Default();
+	var Router=new Routers.Default();
 
 	$(function home(){
+		var body=$('body');
+
 		var timerID = 0,
 			timer2ID = 0;
 
@@ -50,9 +51,11 @@ require([
 
 	// BULLSHIT
 	$(function(){
+		var body=$('body');
+
 		Backbone.history.start({
 			'pushState':true,
-			'hashChange': false
+			'hashChange': true
 		});
 
 		//подписка
@@ -90,9 +93,14 @@ require([
 					target.attr('href') :
 					$(this).find('a:first').attr('href');
 
+			if(link=='#'){
+				e.preventDefault();
+				return;
+			}
+
 			if((currentTag!='A' && link && link.length>0) || ['H1','H2','H3'].inArray(parentTag)>-1){
 				Router.navigate(link,{trigger: true});
-				EL.goto($('.main_menu'));
+				EL.goto($('.main_menu'),false,true);
 				e.preventDefault();
 			}
 		});
@@ -484,6 +492,8 @@ require([
 
 	//Работа с Гео
 	$(function(){
+		var body=$('body');
+
 		Geo.addEventListener({
 			onCityChange:function(city){
 				$('.cities li').removeClass('active');
@@ -527,270 +537,275 @@ require([
 		});
 	});
 
-	body.on('click','.media .items .item',function(e){
-		Media.VideoDirect.start();
+	$(function other(){
+		var body=$('body');
 
-		var link=$(this),
-			id=link.attr('data-id'),
-			video=link.hasClass('video');
+		body.on('click','.media .items .item',function(e){
+			Media.VideoDirect.start();
 
-		if(!id)
-			return;
+			var link=$(this),
+				id=link.attr('data-id'),
+				video=link.hasClass('video');
 
-		$.post('/api/estelife_ajax.php',{
-			'action':'get_media_content',
-			'id':id,
-			'video':(video) ? 1 : 0
-		},function(r){
-			var m;
-			if('images' in r){
-				m=new Media.Gallery({
-					'title': r.gallery.name,
-					'description': r.gallery.description
-				});
-				$.map(r.images,function(item){
-					m.setImage(new Media.GalleryImage(
-						item.title,
-						item.small,
-						item.big
-					));
-				});
-				m.showImages();
-			}else if('video' in r){
-				m=new Media.Gallery();
-				m.setVideo(new Media.GalleryVideo(
-					r.video.title,
-					r.video.description,
-					r.video.video_id
-				));
-				m.showVideo();
-			}
-		},'json');
-
-		e.preventDefault();
-	});
-
-	var icons={
-		'default':'/bitrix/templates/estelife/images/icons/point.png'
-	};
-
-	body.on('showMap', '', function(){
-		$('.map',$(this)).each(function(){
-			var origin=$(this),
-				jmap=origin.clone(),
-				map=new VMap(),
-				lat=$('span.lat',jmap).html(),
-				lng=$('span.lng',jmap).html();
-
-			if(!lat || !lng){
-				jmap.hide();
+			if(!id)
 				return;
-			}
 
-			jmap.css({
-				'visibility':'hidden',
-				'position':'absolute',
-				'left':'-100000px'
-			});
-			body.append(jmap);
-
-			map.markers().icons(icons);
-			map.create(jmap,lat,lng);
-			map.zoom(16);
-
-			map.markers().add(new map.marker(lat,lng));
-			map.markers().draw();
-
-			map.load(function(){
-				jmap.css({
-					'visibility':'visible',
-					'position':'relative',
-					'left':0
-				});
-				origin.replaceWith(jmap);
-			});
-		});
-	});
-
-	body.on('update', 'form.filter', function(){
-		var form=$(this);
-		Functions.initFilter(form);
-	});
-
-	body.on('submit','form[name=add_request]',function(e){
-		var form=$(this),
-			data={
-				'action':'add_request'
-			};
-		form.find('.error')
-			.removeClass('error');
-		form.find('.half_error')
-			.removeClass('half_error');
-		form.find('i')
-			.remove();
-		form.find('input').each(function(){
-			var input=$(this);
-			data[input.attr('name')]=input.val();
-		});
-		$.post('/api/estelife_ajax.php',data,function(r){
-			if(r.hasOwnProperty('error')){
-				if(r.error.hasOwnProperty('message')){
-					alert(r.error.message);
-				}else{
-					var field;
-					for(f in r.error){
-						field=form.find('input[id='+f+']')
-							.parent();
-						field.addClass('error');
-						field.append('<i>'+ r.error[f]+'</i>');
-					}
+			$.post('/api/estelife_ajax.php',{
+				'action':'get_media_content',
+				'id':id,
+				'video':(video) ? 1 : 0
+			},function(r){
+				var m;
+				if('images' in r){
+					m=new Media.Gallery({
+						'title': r.gallery.name,
+						'description': r.gallery.description
+					});
+					$.map(r.images,function(item){
+						m.setImage(new Media.GalleryImage(
+							item.title,
+							item.small,
+							item.big
+						));
+					});
+					m.showImages();
+				}else if('video' in r){
+					m=new Media.Gallery();
+					m.setVideo(new Media.GalleryVideo(
+						r.video.title,
+						r.video.description,
+						r.video.video_id
+					));
+					m.showVideo();
 				}
-			}else if(r.hasOwnProperty('step')){
-				if(r.step==3){
-					form.replaceWith('<p>Спасибо. Заявка принята, в ближайшее время с Вами свяжется наш специалист.</p>');
-				}
-			}
-		},'json');
+			},'json');
 
-		e.preventDefault();
-	});
+			e.preventDefault();
+		});
 
-	body.on('focus','.quality-in input', function(){
-		$(this).parent().addClass('half_error');
-	})
+		var icons={
+			'default':'/bitrix/templates/estelife/images/icons/point.png'
+		};
 
-	body.on('focus','input.preload', function(){
-		$(this).autocomplete({
-			minLength:3,
-			source:function(request, response){
-				var action=$(this.element).attr('data-action');
+		body.on('showMap', '', function(){
+			$('.map',$(this)).each(function(){
+				var origin=$(this),
+					jmap=origin.clone(),
+					map=new VMap(),
+					lat=$('span.lat',jmap).html(),
+					lng=$('span.lng',jmap).html();
 
-				if(!action)
+				if(!lat || !lng){
+					jmap.hide();
 					return;
+				}
 
-				var data={
-					'action':action,
-					'term':request.term
+				jmap.css({
+					'visibility':'hidden',
+					'position':'absolute',
+					'left':'-100000px'
+				});
+				body.append(jmap);
+
+				map.markers().icons(icons);
+				map.create(jmap,lat,lng);
+				map.zoom(16);
+
+				map.markers().add(new map.marker(lat,lng));
+				map.markers().draw();
+
+				map.load(function(){
+					jmap.css({
+						'visibility':'visible',
+						'position':'relative',
+						'left':0
+					});
+					origin.replaceWith(jmap);
+				});
+			});
+		});
+
+		body.on('updateFilter', 'form.filter', function(){
+			var form=$(this);
+			Functions.initFilter(form);
+		});
+
+		body.on('submit','form[name=add_request]',function(e){
+			var form=$(this),
+				data={
+					'action':'add_request'
 				};
-				$.post('/api/estelife_ajax.php',data,function(result){
-					if(result.hasOwnProperty('list')){
-						response($.map(result.list,function( item ) {
-							return {
-								label: item.name,
-								value: item.name,
-								id: item.id
-							}
-						}));
-					}
-				},'json');
-			},
-			select:function(e,ui){
+			form.find('.error')
+				.removeClass('error');
+			form.find('.half_error')
+				.removeClass('half_error');
+			form.find('i')
+				.remove();
+			form.find('input').each(function(){
 				var input=$(this);
-				input.next('input[type=hidden]').val(ui.item.id);
-			},
-			open:function(e,ui){
-				var input=$(this),
-					width=input.data('auWidth');
-
-				if(!width){
-					width=input.width();
-					pLeft=parseInt(input.css('padding-left').replace(/[^0-9]+/,''));
-					pRight=parseInt(input.css('padding-right').replace(/[^0-9]+/,''));
-
-					if(pLeft)
-						width+=pLeft;
-
-					if(pRight)
-						width+=pRight;
-
-					input.data('auWidth',width);
+				data[input.attr('name')]=input.val();
+			});
+			$.post('/api/estelife_ajax.php',data,function(r){
+				if(r.hasOwnProperty('error')){
+					if(r.error.hasOwnProperty('message')){
+						alert(r.error.message);
+					}else{
+						var field;
+						for(f in r.error){
+							field=form.find('input[id='+f+']')
+								.parent();
+							field.addClass('error');
+							field.append('<i>'+ r.error[f]+'</i>');
+						}
+					}
+				}else if(r.hasOwnProperty('step')){
+					if(r.step==3){
+						form.replaceWith('<p>Спасибо. Заявка принята, в ближайшее время с Вами свяжется наш специалист.</p>');
+					}
 				}
+			},'json');
 
-				$('.ui-autocomplete').width(width);
-			}
+			e.preventDefault();
+		});
+
+		body.on('focus','.quality-in input', function(){
+			$(this).parent().addClass('half_error');
 		})
-	});
 
-	body.on('click','.repost a', function(e){
-		var href=$(this).attr('href'),
-			width=550,
-			height=400,
-			left=screen.availWidth/2-width/2,
-			top=screen.availHeight/2-height/2;
-		window.open(href,'repost',"menubar=no,location=no,status=no,width="+width+",height="+height+",left="+left+",top="+top);
-		e.preventDefault();
-	});
+		body.on('focus','input.preload', function(){
+			$(this).autocomplete({
+				minLength:3,
+				source:function(request, response){
+					var action=$(this.element).attr('data-action');
 
-	body.on('click','.show-quality-form',function(e){
-		var link=$(this),
-			form=link.next('form');
+					if(!action)
+						return;
 
-		if(link.hasClass('active')){
-			link.removeClass('active');
-			form.stop().animate({'height':'0px'},200);
-		}else{
-			link.addClass('active');
-			var height=form.find('.quality-in').height();
-			form.stop().animate(
-				{'height':height+'px'},
-				200,
-				'swing',
-				function(){
-					EL.goto(form,true);
+					var data={
+						'action':action,
+						'term':request.term
+					};
+					$.post('/api/estelife_ajax.php',data,function(result){
+						if(result.hasOwnProperty('list')){
+							response($.map(result.list,function( item ) {
+								return {
+									label: item.name,
+									value: item.name,
+									id: item.id
+								}
+							}));
+						}
+					},'json');
+				},
+				select:function(e,ui){
+					var input=$(this);
+					input.next('input[type=hidden]').val(ui.item.id);
+				},
+				open:function(e,ui){
+					var input=$(this),
+						width=input.data('auWidth');
+
+					if(!width){
+						width=input.width();
+						pLeft=parseInt(input.css('padding-left').replace(/[^0-9]+/,''));
+						pRight=parseInt(input.css('padding-right').replace(/[^0-9]+/,''));
+
+						if(pLeft)
+							width+=pLeft;
+
+						if(pRight)
+							width+=pRight;
+
+						input.data('auWidth',width);
+					}
+
+					$('.ui-autocomplete').width(width);
 				}
-			);
-		}
+			})
+		});
 
-		e.preventDefault();
-	});
+		body.on('click','.repost a', function(e){
+			var href=$(this).attr('href'),
+				width=550,
+				height=400,
+				left=screen.availWidth/2-width/2,
+				top=screen.availHeight/2-height/2;
+			window.open(href,'repost',"menubar=no,location=no,status=no,width="+width+",height="+height+",left="+left+",top="+top);
+			e.preventDefault();
+		});
 
+		body.on('click','.show-quality-form',function(e){
+			var link=$(this),
+				form=link.next('form');
+
+			if(link.hasClass('active')){
+				link.removeClass('active');
+				form.stop().animate({'height':'0px'},200);
+			}else{
+				link.addClass('active');
+				var height=form.find('.quality-in').height();
+				form.stop().animate(
+					{'height':height+'px'},
+					200,
+					'swing',
+					function(){
+						EL.goto(form,true);
+					}
+				);
+			}
+
+			e.preventDefault();
+		});
 
 	body.on('mouseover mouseout click','[data-help]',function(e){
 		var target=$(this),
 			isSelect=(target.parents('.select:first').length>0),
 			fromTop=(isSelect && target.hasClass('has-value'));
 
-		if(isSelect && !fromTop)
-			return;
+			if(isSelect && !fromTop)
+				return;
 
-		if(e.type=='mouseover'){
-			EL.help($(this),fromTop).show();
-		}else{
-			EL.help($(this),fromTop).hide();
-		}
+			if(e.type=='mouseover'){
+				EL.help($(this),fromTop).show();
+			}else{
+				EL.help($(this),fromTop).hide();
+			}
+		});
 	});
 
-	var toTop=$('.to-top'),
-		min=200,
-		max=1000;
+	$(function interfaces(){
+		var toTop=$('.to-top'),
+			min=200,
+			max=1000;
 
-	toTop.click(function(){
-		EL.goto();
-		return false;
-	});
+		toTop.click(function(){
+			EL.goto();
+			return false;
+		});
 
-	changeOpacityByScroll($(document).scrollTop());
-	$(document).scroll(function(){
-		changeOpacityByScroll($(this).scrollTop());
-	});
+		changeOpacityByScroll($(document).scrollTop());
+		$(document).scroll(function(){
+			changeOpacityByScroll($(this).scrollTop());
+		});
 
-	function changeOpacityByScroll(scroll){
-		if(scroll>=min && scroll<=max){
-			if(toTop.is(':hidden')){
+		function changeOpacityByScroll(scroll){
+			if(scroll>=min && scroll<=max){
+				if(toTop.is(':hidden')){
+					toTop.css({
+						'display':'block',
+						'opacity':0
+					});
+				}
+
+				if(scroll<max)
+					toTop.css('opacity',parseFloat(scroll/(max-min)).toFixed(1));
+			}else if(scroll>max){
 				toTop.css({
 					'display':'block',
-					'opacity':0
+					'opacity':1
 				});
-			}
-
-			if(scroll<max)
-				toTop.css('opacity',parseFloat(scroll/(max-min)).toFixed(1));
-		}else if(scroll>max){
-			toTop.css({
-				'display':'block',
-				'opacity':1
-			});
-		}else if(scroll<min && toTop.is(':visible'))
-			toTop.css('display','none');
-	}
+			}else if(scroll<min && toTop.is(':visible'))
+				toTop.css('display','none');
+		}
+	});
 });
