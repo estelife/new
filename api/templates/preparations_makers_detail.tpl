@@ -26,8 +26,10 @@
 							<div class="img">
 								<div class="img-in">
 									<a href="<!--$val.link!-->">
-										<!--if($val.logo_id)!-->
+										<!--if($val.img)!-->
 											<!--$val.img!-->
+										<!--else!-->
+											<div class="default">Изображение отсутствует</div>
 										<!--endif!-->
 									</a>
 								</div>

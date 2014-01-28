@@ -101,6 +101,7 @@ $arResult['akzii']=array();
 
 if(!empty($arCount)){
 	$arActions= $obResult->all();
+
 	foreach ($arActions as $val){
 		$val['src'] = CFile::GetFileArray($val["logo_id"]);
 		$val['src'] = $val['src']['SRC'];
@@ -111,6 +112,7 @@ if(!empty($arCount)){
 		$val['link'] = '/pr'.$val['id'].'/';
 		$arResult['akzii'][]=$val;
 	}
+
 	if (!empty($arResult['city']['ID'])){
 		$arResult['link'] = '/promotions/?city='.$arResult['city']['ID'];
 	}else{

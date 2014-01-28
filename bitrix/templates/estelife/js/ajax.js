@@ -506,7 +506,7 @@ require([
 				$('.change_city span').html(city.NAME).attr('class', 'city_'+city.ID);
 				$('.cities').addClass('none').removeClass('cities_open');
 
-				Functions.getPromotions(city.ID);
+				//Functions.getPromotions(city.ID);
 			}
 		});
 

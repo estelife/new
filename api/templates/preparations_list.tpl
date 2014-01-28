@@ -7,7 +7,7 @@
 						<!--if($val.logo_id)!-->
 							<!--$val.logo!-->
 						<!--else!-->
-							<img src="/img/icon/unlogo.png" />
+							<div class="default">Изображение отсутствует</div>
 						<!--endif!-->
 					</div>
 				</div>

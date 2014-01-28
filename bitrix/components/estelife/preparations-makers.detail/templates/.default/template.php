@@ -33,8 +33,10 @@
 								<div class="img">
 									<div class="img-in">
 										<a href="<?=$arValue['link']?>">
-											<?php if(!empty($arValue["logo_id"])):?>
+											<?php if(!empty($arValue["img"])): ?>
 												<?=$arValue["img"]?>
+											<?php else:?>
+												<div class="default">Изображение отсутствует</div>
 											<?endif?>
 										</a>
 									</div>

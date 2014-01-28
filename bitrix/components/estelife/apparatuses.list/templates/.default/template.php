@@ -17,7 +17,7 @@
 								<?php if(!empty($arApp["logo_id"])): ?>
 									<?=$arApp["logo"]?>
 								<?php else: ?>
-									<img src="/img/icon/unlogo.png" />
+									<div class="default">Изображение отсутствует</div>
 								<?endif?>
 							</div>
 						</div>
