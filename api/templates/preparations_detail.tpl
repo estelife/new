@@ -50,7 +50,7 @@
 			<!--if($detail.registration)!-->
 				<div class="el-tab">
 					<h3><a href="#">Регистрация</a></h3>
-					<p class="none"><!--$detail.registration'!--></p>
+					<p class="none"><!--$detail.registration!--></p>
 				</div>
 			<!--endif!-->
 			<!--if($detail.advantages)!-->
@@ -79,7 +79,7 @@
 			<!--endif!-->
 			<!--if($detail.undesired)!-->
 				<div class="el-tab">
-					<h3><a href="#">Побочные действия</a></h3>
+					<h3><a href="#">Побочные эффекты</a></h3>
 					<p class="none"><!--$detail.undesired!--></p>
 				</div>
 			<!--endif!-->

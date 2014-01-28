@@ -67,7 +67,7 @@
 			<!--endif!-->
 			<!--if($detail.undesired)!-->
 				<div class="el-tab">
-					<h3><a href="#">Побочные действие</a></h3>
+					<h3><a href="#">Побочные эффекты</a></h3>
 					<p class="none"><!--$detail.undesired!--></p>
 				</div>
 			<!--endif!-->
