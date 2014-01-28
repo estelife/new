@@ -171,6 +171,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			$obQueryAkzii->update();
 			$idAkzii = $ID;
 		}else{
+			$obQueryAkzii->builder()->value('date_create', time());
 			$idAkzii = $obQueryAkzii->insert()->insertId();
 		}
 

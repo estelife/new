@@ -16,4 +16,9 @@ $arResult['tz']=$obQuery
 	->select()
 	->all();
 
+//костыль для Ивора
+if (preg_match('#^\/(yvoire).*#',$_SERVER['REQUEST_URI'])){
+	$arResult['yvoire']=1;
+}
+
 $this->IncludeComponentTemplate();

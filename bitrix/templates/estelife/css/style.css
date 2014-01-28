@@ -1094,7 +1094,8 @@ td.prices span {
 	margin-right: 0;
 }
 .item.article h3, .item.article a,
-.inner .products .item.product h2, .inner .products .item.product h2 a {
+.inner .products .item.product h2, .inner .products .item.product h2 a,
+.item.company .items h3 {
 	display: block;
 	text-decoration: none;
 	margin: 23px 0;

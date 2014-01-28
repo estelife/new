@@ -85,13 +85,19 @@ $obQuery->builder()
 	->_eq('eca.clinic_id', $nClinicID);
 $arArticles = $obQuery->select()->all();
 
+$arResult['clinic']['articles'] = array();
 if (!empty($arArticles)){
 	foreach ($arArticles as $val){
-		$val['url'] = '/ar'.$val['ID'].'/';
+		$val['url'] = '/ar'.$val['id'].'/';
 		$val['img'] = CFile::GetFileArray($val['value']);
 		$val['img']=$val['img']['SRC'];
 		$val['preview'] = trim(\core\types\VString::truncate($val['preview'], 80, '...')).'<span></span>';
 		$val['date'] = date('d.m.Y',strtotime($val['date']));
+		if (empty($val['countLike']))
+			$val['countLike'] = 0;
+		if (empty($val['countDislike']))
+			$val['countDislike'] = 0;
+		$arResult['clinic']['articles'][]=$val;
 	}
 }
 

@@ -37,7 +37,10 @@
 						<li class="active t1"><a href="#">О клинике<i></i></a></li>
 						<li class="t3"><a href="#">Услуги и цены<i></i></a></li>
 						<li class="t2"><a href="#">Акции<i></i></a></li>
-						<li class="t4"><a href="#">Контакты<i></i></a></li>
+						<?php if (!empty($arResult['clinic']["articles"])):?>
+							<li class="t4"><a href="#">Статьи<i></i></a></li>
+						<?php endif?>
+						<li class="t5"><a href="#">Контакты<i></i></a></li>
 					</ul>
 				</div>
 				<div class="tabs tab1">
@@ -140,7 +143,27 @@
 						</div>
 					</div>
 				</div>
-				<div class="tabs tab-c tab4 none">
+				<div class="tabs tab4 none">
+					<?php if (!empty($arResult['clinic']['articles'])):?>
+						<div class="items ">
+						<?php foreach ($arResult['clinic']['articles'] as $val):?>
+
+								<div class="item article">
+									<img src="<?=$val['img']?>" alt="<?=$val['name']?>" title="<?=$val['name']?>">
+									<h3><a href="<?=$val['url']?>"><?=$val['name']?></a></h3>
+									<p><?=$val['preview']?></p>
+									<ul class="stat">
+										<li class="date"><?=$val['date']?></li>
+										<li class="likes"><?=$val['countLike']?><i></i></li>
+										<li class="unlikes"><?=$val['countDislike']?><i></i></li>
+									</ul>
+								</div>
+
+						<?php endforeach?>
+						</div>
+					<?php endif?>
+				</div>
+				<div class="tabs tab-c tab5 none">
 					<?php if (!empty($arResult['clinic']['contacts'])):?>
 						<?php foreach ($arResult['clinic']['contacts'] as $val):?>
 							<ul>

@@ -39,4 +39,14 @@
 			<li><a href="/apparatuses/" title="Аппараты">Аппараты</a></li>
 		</ul>
 	</li>
+	<?php if ($arResult['yvoire']==1):?>
+		<li class="last"><a href="/yvoire/" class="no-ajax">Yvoire</a>
+			<ul class="submenu">
+				<li><a href="/yvoire/about/" class="no-ajax" title="О компании">О компании</a></li>
+				<li><a href="/yvoire/products/" class="no-ajax" title="Продукция">Продукция</a></li>
+				<li><a href="/yvoire/opinions/" class="no-ajax" title="Мнение экспертов">Мнение экспертов</a></li>
+				<li><a href="/yvoire/events/" class="no-ajax" title="События">События</a></li>
+			</ul>
+		</li>
+	<?php endif?>
 </ul>

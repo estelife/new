@@ -302,6 +302,9 @@ require([
 				parent=link.parents('ul:first'),
 				menu=$('.main_menu');
 
+			if(link.hasClass('no-ajax'))
+				return;
+
 			if(href.length>0 && href!='#'){
 				Router.navigate(href,{trigger: true});
 				menu.find('.main,.active,.second_active')
@@ -626,11 +629,6 @@ require([
 			});
 		});
 
-		body.on('update', 'form.filter', function(){
-			var form=$(this);
-			Functions.initFilter(form);
-		});
-		$('form.filter').trigger('update');
 		body.on('updateFilter', 'form.filter', function(){
 			var form=$(this);
 			Functions.initFilter(form);
