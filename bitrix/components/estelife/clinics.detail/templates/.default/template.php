@@ -32,12 +32,12 @@
 				<?php endif?>
 			</div>
 			<?php if ($arResult['clinic']["recomended"] == 1):?>
-				<div class="menu menu_tab">
+				<div class="tabs-menu menu_tab">
 					<ul>
-						<li class="active t1"><a href="#"><span>О клинике</span></a></li>
-						<li class="t3"><a href="#"><span>Услуги и цены</span></a></li>
-						<li class="t2"><a href="#"><span>Акции</span></a></li>
-						<li class="t4"><a href="#"><span>Контакты</span></a></li>
+						<li class="active t1"><a href="#">О клинике<i></i></a></li>
+						<li class="t3"><a href="#">Услуги и цены<i></i></a></li>
+						<li class="t2"><a href="#">Акции<i></i></a></li>
+						<li class="t4"><a href="#">Контакты<i></i></a></li>
 					</ul>
 				</div>
 				<div class="tabs tab1">
