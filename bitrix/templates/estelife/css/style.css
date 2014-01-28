@@ -2645,13 +2645,13 @@ div.quality ul.steps li:last-child {
 }
 form.quality {
 	overflow: hidden;
-	/*height:0;*/
+	height:0;
 }
 form.quality div.quality {
 	margin-top:41px;
 }
 form.quality .quality-in {
-	height:371px;
+	height:735px;
 }
 h2.show-quality-form {
 	margin:158px 0 21px 0;
@@ -2682,6 +2682,7 @@ h2.show-quality-form.active a {
 h2.show-quality-form.active i {
 	background-position: -141px -76px;
 }
+
 form.quality p {
 	text-align: center;
 	float: left;
@@ -2734,7 +2735,7 @@ form.quality .submit {
 }
 .quality-result {
 	text-align: center;
-	margin-top: 50px;
+	margin-top:100px;
 }
 .field {
 	position: relative;

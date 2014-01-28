@@ -675,7 +675,7 @@ require([
 					}
 				}else if(r.hasOwnProperty('step')){
 					if(r.step==3){
-						form.replaceWith('<p>Спасибо. Заявка принята, в ближайшее время с Вами свяжется наш специалист.</p>');
+						form.replaceWith('<p class="quality-result">Спасибо. Заявка принята, в ближайшее время с Вами свяжется наш специалист.</p>');
 					}
 				}
 			},'json');
@@ -754,7 +754,7 @@ require([
 				form=link.next('form');
 
 			if(link.hasClass('active')){
-				linkeClass('active');
+				link.removeClass('active');
 				form.stop().animate({'height':'0px'},200);
 			}else{
 				link.addClass('active');
