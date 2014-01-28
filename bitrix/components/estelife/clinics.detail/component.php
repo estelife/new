@@ -58,6 +58,35 @@ $arResult['clinic']['main_contact'] = array(
 	'web'=>$arResult['clinic']['web']
 );
 
+//Получаем данные о статье
+$obQuery = $obClinics->createQuery();
+$obQuery->builder()->from('estelife_clinic_articles', 'eca');
+$obJoin=$obQuery->builder()->join();
+$obJoin->_left()
+	->_from('eca','article_id')
+	->_to('iblock_element','ID','ie')
+	->_cond()->_eq('ie.IBLOCK_ID',14);
+$obJoin->_left()
+	->_from('eca','article_id')
+	->_to('estelife_likes','element_id','el');
+$obJoin->_left()
+	->_from('eca','article_id')
+	->_to('iblock_element_property','IBLOCK_ELEMENT_ID','iep')
+	->_cond()->_eq('iep.IBLOCK_PROPERTY_ID', 151);
+$obQuery->builder()
+	->field('ie.NAME', 'name')
+	->field('ie.ID', 'id')
+	->field('ie.PREVIEW_TEXT', 'preview')
+	->field('ie.ACTIVE_FROM', 'date')
+	->field('el.countLike')
+	->field('el.countDislike')
+	->field('iep.VALUE', 'value')
+	->filter()
+	->_eq('eca.clinic_id', $nClinicID);
+$arArticles = $obQuery->select()->all();
+
+//VArray::prePrint($arArticles);
+
 //Получаем платежи
 $obQuery = $obClinics->createQuery();
 $obQuery->builder()->from('estelife_clinic_pays');

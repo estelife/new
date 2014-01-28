@@ -56,7 +56,9 @@
 								<?php endforeach?>
 							</div>
 							<div class="gallery-desc">
-								<?=$val['description']?>
+								<?php if (!empty($val['description'])):?>
+									<?=$val['description']?>
+								<?php endif?>
 							</div>
 							<a href="#" class="arrow left">Назад<i></i></a>
 							<a href="#" class="arrow right">Вперед<i></i></a>

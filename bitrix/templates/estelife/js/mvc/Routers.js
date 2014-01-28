@@ -748,7 +748,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Inner({
 									views:[
 										new Views.Crumb(),
-										new Views.DetailWithMap({
+										new Views.DetailWithMapAndGallery({
 											template:'clinics_detail'
 										})
 									]

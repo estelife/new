@@ -169,6 +169,21 @@ define(['tpl/Template'],function(Template){
 		}
 	});
 
+	Views.DetailWithMapAndGallery=Views.Detail.extend({
+		render:function(){
+			this.detailRender();
+			Events.push({
+				target:this.$el,
+				type:'showMap'
+			});
+			Events.push({
+				target:this.$el.find('.gallery'),
+				type:'updateGallery'
+			});
+			return this;
+		}
+	});
+
 	/**
 	 * Представление для постраничной навигации
 	 * @type {*}

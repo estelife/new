@@ -55,7 +55,8 @@ require([
 
 		Backbone.history.start({
 			'pushState':true,
-			'hashChange': true
+			'hashChange': true,
+			'silent': true
 		});
 
 		//подписка
@@ -629,6 +630,15 @@ require([
 			var form=$(this);
 			Functions.initFilter(form);
 		});
+		$('form.filter').trigger('updateFilter');
+
+		body.on('updateGallery', '.gallery', function(){
+			var gallery=$(this);
+			require(['modules/Slider'], function(Slider){
+				Slider($('.gallery-in .item',gallery));
+			});
+		});
+		$('.gallery').trigger('updateGallery');
 
 		body.on('submit','form[name=add_request]',function(e){
 			var form=$(this),
@@ -739,7 +749,7 @@ require([
 				form=link.next('form');
 
 			if(link.hasClass('active')){
-				link.removeClass('active');
+				linkeClass('active');
 				form.stop().animate({'height':'0px'},200);
 			}else{
 				link.addClass('active');

@@ -184,6 +184,22 @@ if(!empty($ID) || !empty($CLINIC_ID)){
 		->_eq('clinic_id',$arResult['clinic']['id']);
 	$obResult=$obQuery->select();
 	$arResult['clinic']['pays']=$obResult->all();
+
+
+	//Получение статей
+	$obQuery=$obClinics->createQuery();
+	$obQuery->builder()->from('estelife_clinic_articles', 'eca');
+	$obJoin=$obQuery->builder()->join();
+	$obJoin->_left()
+		->_from('eca','article_id')
+		->_to('iblock_element','ID','ie');
+	$obQuery->builder()
+		->field('ie.ID', 'article_id')
+		->field('ie.NAME', 'article_name')
+		->filter()
+		->_eq('clinic_id',$arResult['clinic']['id']);
+	$obResult=$obQuery->select();
+	$arResult['clinic']['articles']=$obResult->all();
 }
 
 if(empty($ID) || !empty($CLINIC_ID)){
@@ -349,12 +365,35 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			$obQuery->builder()->filter()->_eq('clinic_id',$idClinic);
 			$obQuery->delete();
 
+			$obQuery = $obClinics->createQuery();
+			$obQuery->builder()->from('estelife_clinic_articles');
+			$obQuery->builder()->filter()->_eq('clinic_id',$idClinic);
+			$obQuery->delete();
+
 			$obQuery=$obClinics->createQuery();
 			$obQuery->builder()
 				->from('estelife_clinic_pays')
 				->filter()
 				->_eq('clinic_id',$idClinic);
 			$obQuery->delete();
+		}
+
+		//Пишем ссылки на статьи
+		if($arArticles=$obPost->one('articles')){
+			$arArticles=$arArticles['article_id'];
+
+			foreach($arArticles as $nArticle){
+				$nArticle=intval($nArticle);
+
+				if(empty($nArticle))
+					continue;
+
+				$obQuery->builder()
+					->from('estelife_clinic_articles')
+					->value('article_id',$nArticle)
+					->value('clinic_id',$ID);
+				$obQuery->insert();
+			}
 		}
 
 
@@ -665,7 +704,8 @@ $aTabs = array(
 	array("DIV" => "edit5", "TAB" => GetMessage("ESTELIFE_T_BUSY_HOURS"), "ICON" => "estelife_r_base", "TITLE" => GetMessage("ESTELIFE_T_BUSY_HOURS")),
 	array("DIV" => "edit6", "TAB" => GetMessage("ESTELIFE_T_CONTACTS"), "ICON" => "estelife_r_base", "TITLE" => GetMessage("ESTELIFE_T_CONTACTS")),
 	array("DIV" => "edit8", "TAB" => GetMessage("ESTELIFE_T_GALLERIES"), "ICON" => "estelife_r_base", "TITLE" => GetMessage("ESTELIFE_T_GALLERIES")),
-	array("DIV" => "edit9", "TAB" => GetMessage("ESTELIFE_T_AKZII"), "ICON" => "estelife_r_base", "TITLE" => GetMessage("ESTELIFE_T_AKZII"))
+	array("DIV" => "edit9", "TAB" => GetMessage("ESTELIFE_T_AKZII"), "ICON" => "estelife_r_base", "TITLE" => GetMessage("ESTELIFE_T_AKZII")),
+	array("DIV" => "edit12", "TAB" => GetMessage("ESTELIFE_T_ARTICLES"), "ICON" => "estelife_r_base", "TITLE" => GetMessage("ESTELIFE_T_ARTICLES"))
 );
 
 if(empty($CLINIC_ID)){
@@ -1783,6 +1823,31 @@ if(!empty($arResult['error']['text'])){
 		</div>
 		<?php endif; ?>
 
+		<?
+		$tabControl->BeginNextTab()
+		?>
+		<div class="estelife-services one-list">
+			<?php if(!empty($arResult['clinic']['articles'])): ?>
+				<?php foreach($arResult['clinic']['articles'] as $val): ?>
+					<tr>
+						<td width="30%"><?=GetMessage("ESTELIFE_F_ARTICLES")?></td>
+						<td width="70%">
+							<input type="hidden" name="articles[article_id][]" value="<?=$val['article_id']?>" />
+							<input type="text" disabled="disabled" name="articles[article_name][]" data-input="article_id" class="estelife-need-clone" size="60" value="<?=$val['article_name']?>" />
+							<a href="#" class="estelife-more estelife-btn adm-btn adm-btn-delete estelife-delete"></a>
+						</td>
+					</tr>
+				<?php endforeach; ?>
+			<?php endif; ?>
+			<tr>
+				<td width="30%"><?=GetMessage("ESTELIFE_F_ARTICLES")?></td>
+				<td width="70%">
+					<input type="hidden" name="articles[article_id][]" value="" />
+					<input type="text" name="articles[article_name][]" data-input="article_id" class="estelife-need-clone" value=""size="60" />
+					<a href="#" class="estelife-more estelife-btn adm-btn adm-btn-save">&crarr;</a>
+				</td>
+			</tr>
+		</div>
 		<?
 		$tabControl->BeginNextTab()
 		?>

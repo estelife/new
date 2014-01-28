@@ -46,7 +46,9 @@
 							<!--endforeach!-->
 						</div>
 						<div class="gallery-desc">
-							<!--$val.description!-->
+							<!--if($val.description)!-->
+								<!--$val.description!-->
+							<!--endif!-->
 						</div>
 						<a href="#" class="arrow left">Назад<i></i></a>
 						<a href="#" class="arrow right">Вперед<i></i></a>
