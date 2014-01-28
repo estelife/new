@@ -85,7 +85,15 @@ $obQuery->builder()
 	->_eq('eca.clinic_id', $nClinicID);
 $arArticles = $obQuery->select()->all();
 
-//VArray::prePrint($arArticles);
+if (!empty($arArticles)){
+	foreach ($arArticles as $val){
+		$val['url'] = '/ar'.$val['ID'].'/';
+		$val['img'] = CFile::GetFileArray($val['value']);
+		$val['img']=$val['img']['SRC'];
+		$val['preview'] = trim(\core\types\VString::truncate($val['preview'], 80, '...')).'<span></span>';
+		$val['date'] = date('d.m.Y',strtotime($val['date']));
+	}
+}
 
 //Получаем платежи
 $obQuery = $obClinics->createQuery();
