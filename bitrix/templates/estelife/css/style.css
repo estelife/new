@@ -1090,6 +1090,9 @@ td.prices span {
 	position: relative;
 	width:229px;
 }
+.item.specialist {
+	height:440px;
+}
 .item.article .stat {
 	position: absolute;
 	bottom:0;
