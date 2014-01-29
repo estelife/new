@@ -86,23 +86,31 @@
 				<h2>Похожие акции</h2>
 			</div>
 			<div class="items">
-				<?php foreach ($arResult['action']['similar'] as $val):?>
+				<?php foreach ($arResult['action']['similar'] as $arValue):?>
 					<div class="item promotion">
 						<div class="item-rel">
-							<span class="perc"><?=$val["base_sale"]?>%</span>
-							<a href="<?=$val['link']?>">
-								<img src="<?=$val['src']?>" alt="<?=$val['name']?>" title="<?=$val['name']?>" />
+							<?php if($arValue['view_type']!=2): ?>
+								<span class="perc"><?=$arValue["base_sale"]?>%</span>
+							<?php endif; ?>
+							<a href="<?=$arValue['link']?>">
+								<img src="<?=$arValue['src']?>" alt="<?=$arValue['name']?>" title="<?=$arValue['name']?>" />
 							</a>
-							<h3><a href="<?=$val['link']?>"><?=$val['name']?></a></h3>
+							<h3><a href="<?=$arValue['link']?>"><?=$arValue['name']?></a></h3>
 							<div class="cols prices">
-								<b><?=$val['new_price']?> <i></i></b>
-								<s><?=$val['old_price']?> <i></i></s>
+								<?php if($arValue['view_type']==3): ?>
+									<b class="only-perc">скидка <?=$arValue["base_sale"]?>%</b>
+								<?php else: ?>
+									<b><?=$arValue['new_price']?> <i></i></b>
+								<?php endif; ?>
+								<?php if($arValue['view_type']==1): ?>
+									<s><?=$arValue['old_price']?> <i></i></s>
+								<?php endif; ?>
 							</div>
 							<div class="cols time">
-								<?=$val['time']?> <?=$val['day']?>
+								<?=$arValue['time']?> <?=$arValue['day']?>
 								<i></i>
 							</div>
-							<a href="/cl<?=$val['clinic_id']?>/" class="clinic-link"><?=$val['clinic_name']?></a>
+							<a href="/cl<?=$arValue['clinic_id']?>/" class="clinic-link"><?=$arValue['clinic_name']?></a>
 						</div>
 						<div class="border"></div>
 					</div>

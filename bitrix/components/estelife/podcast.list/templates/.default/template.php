@@ -22,11 +22,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<?php if($arResult["FIRST"]["PREVIEW_TEXT_B"]):?>
 					<a href="<?=$arResult["FIRST"]["DETAIL_URL"]?>" class="text"><?=$arResult["FIRST"]['PREVIEW_TEXT_B']?></a>
 				<?php endif?>
-				<!--					<ul class="stat">-->
-				<!--						<li class="comments"><i></i>0</li>-->
-				<!--						<li class="likes"><i></i>0</li>-->
-				<!--						<li class="unlikes"><i></i>0</li>-->
-				<!--					</ul>-->
+				<ul class="stat">
+					<li class="likes"><i></i><?=$arResult["FIRST"]['LIKES']['countLike']?></li>
+					<li class="unlikes"><i></i><?=$arResult["FIRST"]['LIKES']['countDislike']?></li>
+				</ul>
 			<?php endif?>
 		</div>
 		<div class="cols col2">
