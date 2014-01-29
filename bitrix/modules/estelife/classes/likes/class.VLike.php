@@ -64,27 +64,43 @@ final class VLike{
 		return $arLikes;
 	}
 
-	public function getOnlyLikes($elId){
+	public function getOnlyLikes(array $elId){
 		if (empty($elId))
 			throw new VException('Не указан Id записи');
 
 		$obLike=VDatabase::driver();
 		$obQuery=$obLike->createQuery();
 		$obQuery->builder()
-			->from('estelife_likes');
-		if (is_array($elId)){
-			$obQuery->builder()->filter()
-					->_in('element_id', $elId);
-		}
-		$obQuery->builder()->filter()->_eq('type', $this->type);
-		$arLikes = $obQuery->select()->all();
+			->from('estelife_likes')
+			->filter()
+			->_in('element_id', $elId)
+			->_eq('type', $this->type);
+
+		$arLikes=$obQuery
+			->select()
+			->all();
+
+		$arNewLikes=array();
+
 		if (!empty($arLikes)){
 			foreach ($arLikes as $val){
-				$arNewLikes[$val['element_id']] = $val;
+				$arNewLikes[$val['element_id']]=$val;
+				$nKey=array_search($val['element_id'],$elId);
+
+				if($nKey!==false)
+					unset($elId[$nKey]);
 			}
-			unset($arLikes);
 		}
 
+		if(!empty($elId)){
+			foreach($elId as $nId)
+				$arNewLikes[$nId]=array(
+					'countLike'=>0,
+					'countDislike'=>0
+				);
+		}
+
+		unset($arLikes,$elId,$obQuery,$obLike);
 		return $arNewLikes;
 	}
 

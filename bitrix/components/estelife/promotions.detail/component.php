@@ -150,9 +150,11 @@ if(!empty($arResult['action']['photos'])){
 
 $arNow = time();
 //Получение похожих акций
-$obQuery = $obActions->createQuery();
-$obQuery->builder()->from('estelife_akzii', 'ea');
-$obJoin=$obQuery->builder()
+$obQuery=$obActions->createQuery();
+$obBuilder=$obQuery->builder();
+$obJoin=$obBuilder
+	->from('estelife_akzii','ea')
+	->sort($obQuery->builder()->_rand())
 	->field('ea.*')
 	->field('ec.name','clinic_name')
 	->field('ec.id','clinic_id')
@@ -166,7 +168,7 @@ $obJoin->_left()
 $obJoin->_left()
 	->_from('ea', 'id')
 	->_to('estelife_akzii_types', 'akzii_id', 'eat');
-$obFilter=$obQuery->builder()
+$obFilter=$obBuilder
 	->slice(0,3)
 	->group('ea.id')
 	->filter()
@@ -177,7 +179,9 @@ $obFilter=$obQuery->builder()
 if(!empty($arResult['service']))
 	$obFilter->_in('eat.service_id',$arResult['service']);
 
-$arSimilar=$obQuery->select()->all();
+$arSimilar=$obQuery
+	->select()
+	->all();
 
 if (!empty($arSimilar)){
 	foreach ($arSimilar as $val){
@@ -211,6 +215,7 @@ if (!empty($arResult['action']['clinic']['city_name']))
 	$arCity = ' ('.$arResult['action']['clinic']['city_name'].')';
 else
 	$arCity = '';
+
 $APPLICATION->SetPageProperty("title", trim($arResult['action']['seo_preview_text'].' - акция '.$arResult['action']['clinic']['seo_name']));
 $APPLICATION->SetPageProperty("description", trim($arResult['action']['clinic']['seo_name'].' предлагает новую акцию - '.$arResult['action']['seo_preview_text'].'. Узнайте больше и получите скидку уже сейчас.'));
 

@@ -18,6 +18,10 @@
 			<!--if($PODCASTS.FIRST.PREVIEW_TEXT_B)!-->
 				<a href="<!--$PODCASTS.FIRST.DETAIL_URL!-->" class="text"><!--$PODCASTS.FIRST.PREVIEW_TEXT_B!--></a>
 			<!--endif!-->
+			<ul class="stat">
+				<li class="likes"><i></i><!--$PODCASTS.FIRST.LIKES.countLike!--></li>
+				<li class="unlikes"><i></i><!--$PODCASTS.FIRST.LIKES.countDislike!--></li>
+			</ul>
 		<!--endif!-->
 	</div>
 	<div class="cols col2">
