@@ -20,7 +20,6 @@ class VNavigationArray {
 	}
 
 	public function getNav(){
-
 		$this->NavPageNomer=$this->arData['page'];
 		$this->NavPageCount=$this->arData['pageCount'];
 		$this->NavNum=1;

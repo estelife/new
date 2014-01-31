@@ -1,0 +1,7 @@
+0 2 * * * indexer -c /home/www/sphinx.conf --rotate apparatuses
+10 2 * * * indexer -c /home/www/sphinx.conf --rotate articles
+20 2 * * * indexer -c /home/www/sphinx.conf --rotate clinics
+30 2 * * * indexer -c /home/www/sphinx.conf --rotate companies
+40 2 * * * indexer -c /home/www/sphinx.conf --rotate events
+50 2 * * * indexer -c /home/www/sphinx.conf --rotate preparations
+0 3 * * * indexer -c /home/www/sphinx.conf --rotate promotions

@@ -42,7 +42,7 @@ $obJoin->_left()
 	->_to('estelife_services','id','service');
 $obJoin->_left()
 	->_from('promotion','service_concreate_id')
-	->_to('estelife_serivce_concreate','id','service_concreate');
+	->_to('estelife_service_concreate','id','service_concreate');
 $obJoin->_left()
 	->_from('promotion','id')
 	->_to('estelife_clinic_akzii','akzii_id','clinic_promotion');
@@ -53,8 +53,9 @@ $obJoin->_left()
 	->_from('clinic','city_id')
 	->_to('iblock_element','ID','city')
 	->_cond()->_eq('city.IBLOCK_ID',16);
-$obBuilder->filter()
-	->_gte('promotion.date_edit',time());
+// TODO: Раскоментировать после первого запуска
+//$obBuilder->filter()
+//	->_gte('promotion.date_edit',time());
 
 $arResult=$obQuery
 	->select()
@@ -89,21 +90,20 @@ foreach($arResult as $arValue){
 		continue;
 	}
 
-	$arValue['tags']=implode(',',array(
-		$arValue['specialization'],
-		$arValue['service'],
-		$arValue['service_concreate'],
-		$arValue['clinic']
-	));
+	$arValue['tags']=array();
+	$arValue['tags'][]=$arValue['specialization'];
+	$arValue['tags'][]=$arValue['service'];
+	$arValue['tags'][]=$arValue['service_concreate'];
+	$arValue['tags'][]=$arValue['clinic'];
 
 	$sResult.='
 		<sphinx:document id="'.$arValue['id'].'">
-			<search-name>'.trim($arValue['name']).'</search-name>
+			<search-name>'.trim(htmlspecialchars(strip_tags($arValue['name']),ENT_QUOTES,'utf-8')).'</search-name>
 			<search-category>Акции клиник '.trim($arValue['city']).'</search-category>
 			<search-preview><![CDATA[['.trim(strip_tags($arValue['preview_text'])).']]></search-preview>
 			<search-detail><![CDATA[['.trim(strip_tags($arValue['detail_text'])).']]></search-detail>
 			<search-tags>'.trim($arValue['tags']).'</search-tags>
-			<name>'.$arValue['name'].'</name>
+			<name>'.htmlspecialchars($arValue['name'],ENT_QUOTES,'utf-8').'</name>
 			<description>'.htmlspecialchars($arValue['preview_text'],ENT_QUOTES,'utf-8').'</description>
 			<tags>'.$arValue['tags'].'</tags>
 			<date_edit>'.strtotime($arValue['date_edit']).'</date_edit>

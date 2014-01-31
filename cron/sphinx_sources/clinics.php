@@ -34,8 +34,9 @@ $obJoin->_left()
 	->_from('clinic','city_id')
 	->_to('iblock_element','ID','city')
 	->_cond()->_eq('city.IBLOCK_ID',16);
-$obBuilder->filter()
-	->_gte('clinic.date_edit',time());
+// TODO: раскоментировать после 1-го  запуска
+//$obBuilder->filter()
+//	->_gte('clinic.date_edit',time());
 
 $arResult=$obQuery
 	->select()
@@ -132,12 +133,12 @@ foreach($arResult as $arValue){
 
 	$sResult.='
 		<sphinx:document id="'.$arValue['id'].'">
-			<search-name>'.trim($arValue['name']).'</search-name>
+			<search-name>'.trim(htmlspecialchars(strip_tags($arValue['name']),ENT_QUOTES,'utf-8')).'</search-name>
 			<search-category>Клиники '.trim($arValue['city']).'</search-category>
 			<search-preview><![CDATA[['.trim(strip_tags($arValue['preview_text'])).']]></search-preview>
 			<search-detail><![CDATA[['.trim(strip_tags($arValue['detail_text'])).']]></search-detail>
 			<search-tags>'.trim($arValue['tags']).'</search-tags>
-			<name>'.$arValue['name'].'</name>
+			<name>'.htmlspecialchars($arValue['name'],ENT_QUOTES,'utf-8').'</name>
 			<description>'.htmlspecialchars($arValue['preview_text'],ENT_QUOTES,'utf-8').'</description>
 			<tags>'.$arValue['tags'].'</tags>
 			<date_edit>'.strtotime($arValue['date_edit']).'</date_edit>

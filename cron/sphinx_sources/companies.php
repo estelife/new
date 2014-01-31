@@ -151,6 +151,7 @@ $sResult.='
 	<sphinx:attr name="date_edit" type="timestamp" />
 	<sphinx:attr name="id" type="int" bits="16" default="0" />
 	<sphinx:attr name="type" type="int" bits="16" default="1" />
+	<sphinx:attr name="city" type="int" bits="16" default="1" />
 </sphinx:schema>
 ';
 
@@ -222,14 +223,14 @@ function appendToResult(&$sResult,array $arValue){
 	$arValue['tags']=implode(', ',(!empty($arValue['tags']) ? $arValue['tags'] : array($arValue['city'],$arValue['category'])));
 	$sResult.='
 		<sphinx:document id="'.$arValue['id'].'">
-			<search-name>'.trim($arValue['name']).'</search-name>
+			<search-name>'.trim(htmlspecialchars(strip_tags($arValue['name']),ENT_QUOTES,'utf-8')).'</search-name>
 			<search-category>'.$arValue['category'].' '.trim($arValue['city']).'</search-category>
 			<search-preview><![CDATA[['.trim(strip_tags($arValue['preview_text'])).']]></search-preview>
 			<search-detail><![CDATA[['.trim(strip_tags($arValue['detail_text'])).']]></search-detail>
-			<search-tags>'.trim($arValue['tags']).'</search-tags>
-			<name>'.$arValue['name'].'</name>
+			<search-tags>'.trim(strip_tags($arValue['tags'])).'</search-tags>
+			<name>'.htmlspecialchars($arValue['name'],ENT_QUOTES,'utf-8').'</name>
 			<description>'.htmlspecialchars($arValue['preview_text'],ENT_QUOTES,'utf-8').'</description>
-			<tags>'.$arValue['tags'].'</tags>
+			<tags>'.htmlspecialchars($arValue['tags'],ENT_QUOTES,'utf-8').'</tags>
 			<date_edit>'.strtotime($arValue['date_edit']).'</date_edit>
 			<id>'.$arValue['id'].'</id>
 			<type>'.$arValue['type'].'</type>

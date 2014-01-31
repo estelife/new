@@ -25,5 +25,5 @@ echo json_encode(array(
 			'link'=>'#'
 		)
 	),
-	'nav'=>$arResult['nav'],
+	'nav'=>(isset($arResult['nav'])) ? $arResult['nav'] : array(),
 ));

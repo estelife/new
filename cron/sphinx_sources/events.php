@@ -63,8 +63,9 @@ $obJoin->_left()
 	->_from('company_link','company_id')
 	->_to('estelife_companies','id','company');
 
-$obBuilder->filter()
-	->_gte('activity.date_edit',$nTime);
+// TODO:Раскоментировать после первого запуска
+//$obBuilder->filter()
+//	->_gte('activity.date_edit',$nTime);
 
 $arResult=$obQuery
 	->select()
@@ -108,12 +109,12 @@ foreach($arResult as $arValue){
 
 	$sResult.='
 		<sphinx:document id="'.$arValue['id'].'">
-			<search-name>'.trim($arValue['name']).'</search-name>
+			<search-name>'.trim(htmlspecialchars(strip_tags($arValue['name']),ENT_QUOTES,'utf-8')).'</search-name>
 			<search-category>'.$sCategory.' '.trim($arValue['city']).'</search-category>
 			<search-preview><![CDATA[['.trim(strip_tags($arValue['preview_text'])).']]></search-preview>
 			<search-detail><![CDATA[['.trim(strip_tags($arValue['detail_text'])).']]></search-detail>
 			<search-tags>'.trim($arValue['tags']).'</search-tags>
-			<name>'.$arValue['name'].'</name>
+			<name>'.htmlspecialchars($arValue['name'],ENT_QUOTES,'utf-8').'</name>
 			<description>'.htmlspecialchars($arValue['preview_text'],ENT_QUOTES,'utf-8').'</description>
 			<tags>'.$arValue['tags'].'</tags>
 			<date_edit>'.strtotime($arValue['date_edit']).'</date_edit>
