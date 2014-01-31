@@ -6,10 +6,10 @@ define(function(){
 			'first':null
 		};
 		var flag = false,
-			desc
+			desc;
 
 		function init(){
-			var min = 5555;
+			var min = 55555;
 			settings.first = 0;
 			list.eq(0).css('z-index', 10);
 			list.each(function(i){
@@ -53,7 +53,7 @@ define(function(){
 						500,
 						function(){
 							list.each(function(){
-								$(this).css('z-index', 1)
+								$(this).css('z-index', 1);
 								$(this).css('right', '')
 							});
 							if (next < list.length){
@@ -104,7 +104,7 @@ define(function(){
 					500,
 					function(){
 						list.each(function(){
-							$(this).css('z-index', 1)
+							$(this).css('z-index', 1);
 							$(this).css('left', '')
 						});
 						if (prev >= 0){

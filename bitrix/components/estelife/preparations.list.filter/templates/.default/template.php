@@ -17,6 +17,8 @@
 			<option value="3" <?if($arResult['filter']['type'] === 3) echo " selected";?>>Биоревитализация</option>
 			<option value="2" <?if($arResult['filter']['type'] === 2) echo " selected";?>>Ботулинотерапия</option>
 			<option value="4" <?if($arResult['filter']['type'] === 4) echo " selected";?>>Контурная пластика</option>
+			<option value="5" <?if($arResult['filter']['type'] === 5) echo " selected";?>>Имплантаты</option>
+			<option value="6" <?if($arResult['filter']['type'] === 6) echo " selected";?>>Нити</option>
 		</select>
 
 		<span class="block"></span>

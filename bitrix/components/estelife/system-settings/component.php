@@ -20,7 +20,6 @@ $arResult=array(
 		"sh" => "search",
 		"ex" => "experts",
 	),
-	'current_city' => \geo\VGeo::getInstance()->getGeo(),
 	'types' => array(
 		1=>"ns",
 		2=>"pt",
@@ -37,7 +36,8 @@ $arResult=array(
 		13=>"sp",
 		14=>"sh",
 		15=>"ex",
-	)
+	),
+	'current_city' => \geo\VGeo::getInstance()->getGeo()
 );
 
 if(isset($arParams['filter'])){

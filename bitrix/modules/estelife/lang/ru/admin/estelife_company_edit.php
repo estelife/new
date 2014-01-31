@@ -25,6 +25,7 @@ $MESS ['ESTELIFE_F_PHONE'] = 'Телефон';
 $MESS ['ESTELIFE_F_EMAIL'] = 'E-mail';
 $MESS ['ESTELIFE_F_FAX'] = 'Факс';
 $MESS ['ESTELIFE_F_FILIAL'] = 'Компания (если это филиал)';
+$MESS ['ESTELIFE_F_GALLERY'] = 'Галерея';
 $MESS ['ESTELIFE_SELECT_FILIAL'] = 'Выберите компанию';
 $MESS['NAME_NOT_FILL']='Не указано название';
 $MESS['CITY_NOT_FILL']='Не выбран город';

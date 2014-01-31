@@ -143,6 +143,10 @@ if (!empty($arTypes)){
 			$arResult['pill']['types'][] = 'Биоревитализация';
 		}elseif ($val['type_id'] == 4){
 			$arResult['pill']['types'][] = 'Филлеры';
+		}elseif ($val['type_id'] == 5){
+			$arResult['pill']['types'][] = 'Имплантаты';
+		}elseif ($val['type_id'] == 6){
+			$arResult['pill']['types'][] = 'Нити';
 		}
 	}
 }

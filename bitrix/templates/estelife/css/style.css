@@ -1090,6 +1090,9 @@ td.prices span {
 	position: relative;
 	width:229px;
 }
+.item.specialist {
+	height:440px;
+}
 .item.article .stat {
 	position: absolute;
 	bottom:0;
@@ -1779,12 +1782,12 @@ td.prices span {
 	font-size: 14px;
 	line-height: 14px;
 }
-.item.company .col1 a, .item.detail .tab-c a, h1 a:hover, h2 a:hover,h3 a:hover, .items .item:hover h1 a, .items .item:hover h2 a, .items .item:hover h3 a, .items .item.search a {
+.item.company .col1 a, .item.detail .tab-c a, h1 a:hover, h2 a:hover,h3 a:hover, .items .item:hover h1 a, .items .item:hover h2 a, .items .item:hover h3 a {
 	color:#e60365;
 	text-decoration: none;
 	margin-bottom:0;
 }
-.item.company .col1 a:hover, .item.detail .tab-c a:hover, .item.search a:hover,
+.item.company .col1 a:hover, .item.detail .tab-c a:hover,
 .item.product ul a:hover, .item.training a.link:hover, .item.producer ul a:hover {
 	text-decoration: underline !important;
 }
@@ -1957,6 +1960,7 @@ li.country, span.country {
 .item.detail .tabs {
 	float:left;
 	margin-top:40px;
+	width:100%;
 }
 .item.detail .tab-c b, .item.detail .tab-c span, .item.detail .tab-c a {
 	display: block;
@@ -2483,7 +2487,7 @@ form.search .submit {
 	color:#2c2c2c;
 }
 body {
-	background:#ddd url('../images/bg.jpg') 0 0 repeat;
+	background:#ddd url('') 0 0 repeat;
 	background-attachment: fixed;
 }
 .home-img {

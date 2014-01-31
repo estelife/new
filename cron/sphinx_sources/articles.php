@@ -50,10 +50,11 @@ $obJoin->_left()
 	->_to('iblock_section','ID','isection_top');
 
 $obBuilder->filter()
+//TODO: Раскомментировать после первой индексации
+//	->_gte('TIMESTAMP_X',date('Y-m-d H:i:s'))
 	->_in('ielement.IBLOCK_ID',array(
 		3,36,35,14
-	))
-	->_gte('TIMESTAMP_X',date('Y-m-d H:i:s'));
+	));
 
 $arResult=$obQuery
 	->select()
@@ -105,7 +106,7 @@ foreach($arResult as $arValue){
 			<search-detail><![CDATA[['.trim(strip_tags($arValue['detail_text'])).']]></search-detail>
 			<search-tags>'.trim($arValue['tags']).'</search-tags>
 			<name>'.$arValue['name'].'</name>
-			<description>'.$arValue['preview_text'].'</description>
+			<description>'.htmlspecialchars($arValue['preview_text'],ENT_QUOTES,'utf-8').'</description>
 			<tags>'.$arValue['tags'].'</tags>
 			<date_edit>'.strtotime($arValue['date_edit']).'</date_edit>
 			<id>'.$arValue['id'].'</id>

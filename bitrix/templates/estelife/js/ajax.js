@@ -628,6 +628,7 @@ require([
 				});
 			});
 		});
+		$('.map').trigger('showMap');
 
 		body.on('updateFilter', 'form.filter', function(){
 			var form=$(this);

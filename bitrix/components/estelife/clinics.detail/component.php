@@ -335,5 +335,4 @@ $arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'
 $APPLICATION->SetPageProperty("title", $arResult['clinic']['seo_title']);
 $APPLICATION->SetPageProperty("description", $arResult['clinic']['seo_description']);
 
-
 $this->IncludeComponentTemplate();

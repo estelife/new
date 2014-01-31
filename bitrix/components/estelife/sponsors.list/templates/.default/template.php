@@ -16,7 +16,7 @@
 						<div class="item-in">
 							<div class="img">
 								<div class="img-in">
-									<?php if(!empty($arOrg["logo_id"])):?>
+									<?php if(!empty($arOrg["img"])):?>
 										<?=$arOrg['img']?>
 									<?endif?>
 								</div>

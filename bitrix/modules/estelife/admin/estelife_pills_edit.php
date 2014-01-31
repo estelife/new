@@ -107,10 +107,13 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			$arTranslit = $obPost->one('translit');
 		}
 
-		//Добавление компании
+		$nTime=time();
+
+		//Добавление препарата
 		$obQuery = $obPills->createQuery();
 		$obQuery->builder()->from('estelife_pills')
 			->value('name', trim(htmlentities($obPost->one('name'),ENT_QUOTES,'utf-8')))
+			->value('date_edit', $nTime)
 			->value('translit', trim($arTranslit))
 			->value('company_id', intval($obPost->one('company_id')))
 			->value('type_id', intval($obPost->one('type_id')))
@@ -158,6 +161,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 				->_eq('pill_id', $idPill);
 			$obQuery->delete();
 		}else{
+			$obQuery->builder()->value('date_create', $nTime);
 			$idPill = $obQuery->insert()->insertId();
 		}
 
