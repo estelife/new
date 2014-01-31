@@ -20,6 +20,23 @@ $arResult=array(
 		"sh" => "search",
 		"ex" => "experts",
 	),
+	'types' => array(
+		1=>"ns",
+		2=>"pt",
+		3=>"ar",
+		4=>"pr",
+		5=>"cl",
+		6=>"am",
+		7=>"pm",
+		8=>"ap",
+		9=>"ps",
+		10=>"tc",
+		11=>"tr",
+		12=>"ev",
+		13=>"sp",
+		14=>"sh",
+		15=>"ex",
+	),
 	'current_city' => \geo\VGeo::getInstance()->getGeo()
 );
 

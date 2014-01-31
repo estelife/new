@@ -65,6 +65,7 @@ CModule::AddAutoloadClasses(
 
 		//bitrix
 		'bitrix\VNavigation'=>"classes/bitrix/class.VNavigation.php",
+		'bitrix\VNavigationArray'=>"classes/bitrix/class.VNavigationArray.php",
 		'bitrix\ERESULT'=>"classes/bitrix/class.ERESULT.php",
 
 		//request

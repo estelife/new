@@ -286,6 +286,22 @@ if (!empty($arIds)){
 
 }
 
+//Получение галереи
+$obQuery=$obCompanies->createQuery();
+$obQuery->builder()
+	->from('estelife_company_photos')
+	->filter()
+		->_eq('company_id', $arCompanyID)
+		->_eq('type', 4);
+$arResult['company']['gallery']=$obQuery->select()->all();
+
+if(!empty($arResult['company']['gallery'])){
+	foreach($arResult['company']['gallery'] as &$arGallery){
+		$file=CFile::GetFileArray($arGallery['original']);
+		$arGallery['original']=$file['SRC'];
+	}
+}
+
 $mCity=$arResult['company']['city_name'];
 
 if (!empty($arResult['company']['city_id'])){

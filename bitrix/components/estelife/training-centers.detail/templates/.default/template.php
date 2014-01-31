@@ -34,6 +34,29 @@
 				</ul>
 			</div>
 			<div class="tabs tab1 ">
+				<?php if (!empty($arResult['company']['gallery'])):?>
+					<div class="gallery">
+						<div class="gallery-in">
+							<?php foreach ($arResult['company']['gallery'] as $val):?>
+								<div class="item">
+									<div class="img">
+										<img src="<?=$val['original']?>" alt="<?=$val['description']?>" title="<?=$val['description']?>" />
+									</div>
+									<div class="desc">
+										<?=$val['description']?>
+									</div>
+								</div>
+							<?php endforeach?>
+						</div>
+						<div class="gallery-desc">
+							<?php if (!empty($val['description'])):?>
+								<?=$val['description']?>
+							<?php endif?>
+						</div>
+						<a href="#" class="arrow left">Назад<i></i></a>
+						<a href="#" class="arrow right">Вперед<i></i></a>
+					</div>
+				<?php endif?>
 				<p><?=$arResult['company']['detail_text']?></p>
 			</div>
 			<div class="tabs tab2 none">

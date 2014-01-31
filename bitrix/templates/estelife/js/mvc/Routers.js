@@ -120,9 +120,9 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 										views:[
 											new Views.Crumb(),
 											new Views.Title(),
-											new Views.Component({
-												template:'search_page',
-												dataKey:'SEARCH_PAGE'
+											new Views.List({
+												template:'search_page'
+//												dataKey:'SEARCH_PAGE'
 											}),
 											new Views.Nav()
 										]
@@ -958,7 +958,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.Inner({
 									views:[
 										new Views.Crumb(),
-										new Views.DetailWithMap({
+										new Views.DetailWithMapAndGallery({
 											template:'training_centers_detail'
 										})
 									]

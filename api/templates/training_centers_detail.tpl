@@ -27,6 +27,29 @@
 			</ul>
 		</div>
 		<div class="tabs tab1 ">
+			<!--if($detail.gallery)!-->
+				<div class="gallery">
+					<div class="gallery-in">
+						<!--foreach($detail.gallery as $key=>$val)!-->
+							<div class="item">
+								<div class="img">
+									<img src="<!--$val.original!-->" alt="<!--$val.description!-->" title="<!--$val.description!-->" />
+								</div>
+								<div class="desc">
+									<!--$val.description!-->
+								</div>
+							</div>
+						<!--endforeach!-->
+					</div>
+					<div class="gallery-desc">
+						<!--if($val.description)!-->
+							<!--$val.description!-->
+						<!--endif!-->
+					</div>
+					<a href="#" class="arrow left">Назад<i></i></a>
+					<a href="#" class="arrow right">Вперед<i></i></a>
+				</div>
+			<!--endif!-->
 			<p><!--$detail.detail_text!--></p>
 		</div>
 		<div class="tabs tab2 none">
