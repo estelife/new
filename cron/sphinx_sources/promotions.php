@@ -16,49 +16,50 @@ $arTypes=$arData=$APPLICATION->IncludeComponent(
 );
 $arTypes=array_flip($arTypes);
 
-$arTypes=array(
-	3=>$arTypes['ns'],
-	36=>$arTypes['pt'],
-	35=>$arTypes['ex'],
-	14=>$arTypes['ar']
-);
-
-$obQuery=\core\database\VDatabase::driver()->createQuery();
+$obDriver=\core\database\VDatabase::driver();
+$obQuery=$obDriver->createQuery();
 $obBuilder=$obQuery->builder();
 $obJoin=$obBuilder
-	->from('iblock_element','ielement')
-	->field('ielement.ID','id')
-	->field('ielement.IBLOCK_ID','iblock_id')
-	->field('ielement.NAME','name')
-	->field('ielement.PREVIEW_TEXT','preview_text')
-	->field('ielement.DETAIL_TEXT','detail_text')
-	->field('ielement.TIMESTAMP_X','date_edit')
-	->field('ielement.TAGS','tags')
-	->field('ielement.ACTIVE','active')
-	->field('ielement.ACTIVE_FROM','active_from')
-	->field('ielement.ACTIVE_TO','active_to')
-	->field('isection.NAME','section_name')
-	->field('isection.ACTIVE','section_active')
-	->field('isection_top.NAME','section_top_name')
-	->field('isection_top.ACTIVE','section_top_active')
+	->from('b_estelife_akzii','promotion')
+	->field('promotion.id','id')
+	->field('promotion.name','name')
+	->field('promotion.preview_text','preview_text')
+	->field('promotion.detail_text','detail_text')
+	->field('promotion.date_edit','date_edit')
+	->field('promotion.active','active')
+	->field('specialization.name','specialization')
+	->field('service.name','service')
+	->field('service_concreate.name','service_concreate')
+	->field('clinic.name','clinic')
+	->field('city.NAME','city')
+	->field('city.ID','city_id')
 	->join();
 $obJoin->_left()
-	->_from('ielement','IBLOCK_SECTION_ID')
-	->_to('iblock_section','ID','isection');
+	->_from('promotion','specialization_id')
+	->_to('estelife_specializations','id','specialization');
 $obJoin->_left()
-	->_from('isection','IBLOCK_SECTION_ID')
-	->_to('iblock_section','ID','isection_top');
-
+	->_from('promotion','service_id')
+	->_to('estelife_services','id','service');
+$obJoin->_left()
+	->_from('promotion','service_concreate_id')
+	->_to('estelife_serivce_concreate','id','service_concreate');
+$obJoin->_left()
+	->_from('promotion','id')
+	->_to('estelife_clinic_akzii','akzii_id','clinic_promotion');
+$obJoin->_left()
+	->_from('clinic_promotion','clinic_id')
+	->_to('estelife_clinics','id','clinic');
+$obJoin->_left()
+	->_from('clinic','city_id')
+	->_to('iblock_element','ID','city')
+	->_cond()->_eq('city.IBLOCK_ID',16);
 $obBuilder->filter()
-//TODO: Раскомментировать после первой индексации
-//	->_gte('TIMESTAMP_X',date('Y-m-d H:i:s'))
-	->_in('ielement.IBLOCK_ID',array(
-		3,36,35,14
-	));
+	->_gte('promotion.date_edit',time());
 
 $arResult=$obQuery
 	->select()
 	->all();
+
 $arKillList=array();
 
 $sResult='<?xml version="1.0" encoding="utf-8"?>';
@@ -72,10 +73,10 @@ $sResult.='
 	<sphinx:field name="search-tags"/>
 	<sphinx:attr name="name" type="string" />
 	<sphinx:attr name="description" type="string" />
-	<sphinx:attr name="tags" type="string" default=:: />
+	<sphinx:attr name="tags" type="string" default="" />
 	<sphinx:attr name="date_edit" type="timestamp" />
 	<sphinx:attr name="id" type="int" bits="16" default="0" />
-	<sphinx:attr name="type" type="int" bits="16" default="1" />
+	<sphinx:attr name="type" type="int" bits="16" default="0" />
 	<sphinx:attr name="city" type="int" bits="16" default="0" />
 </sphinx:schema>
 ';
@@ -83,25 +84,22 @@ $sResult.='
 $nTime=time();
 
 foreach($arResult as $arValue){
-	if((isset($arValue['section_active']) && $arValue['section_active']=='N')  ||
-		(isset($arValue['section__top_active']) && $arValue['section__top_active']=='N')){
+	if($arValue['active']!=1){
 		$arKillList[]=$arValue['id'];
 		continue;
 	}
 
-	$arValue['active_from']=(!empty($arValue['active_from'])) ? strtotime($arValue['active_from']) : false;
-	$arValue['active_to']=(!empty($arValue['active_to'])) ? strtotime($arValue['active_to']) : false;
-
-	if(($arValue['active_from'] && $arValue['active_from']>$nTime) ||
-		($arValue['active_to'] && $arValue['active_to']<$nTime) || $arValue['active']=='N'){
-		$arKillList[]=$arValue['id'];
-		continue;
-	}
+	$arValue['tags']=implode(',',array(
+		$arValue['specialization'],
+		$arValue['service'],
+		$arValue['service_concreate'],
+		$arValue['clinic']
+	));
 
 	$sResult.='
 		<sphinx:document id="'.$arValue['id'].'">
 			<search-name>'.trim($arValue['name']).'</search-name>
-			<search-category>'.trim($arValue['section_name']).' - '.trim($arValue['section_top_name']).'</search-category>
+			<search-category>Акции клиник '.trim($arValue['city']).'</search-category>
 			<search-preview><![CDATA[['.trim(strip_tags($arValue['preview_text'])).']]></search-preview>
 			<search-detail><![CDATA[['.trim(strip_tags($arValue['detail_text'])).']]></search-detail>
 			<search-tags>'.trim($arValue['tags']).'</search-tags>
@@ -110,8 +108,8 @@ foreach($arResult as $arValue){
 			<tags>'.$arValue['tags'].'</tags>
 			<date_edit>'.strtotime($arValue['date_edit']).'</date_edit>
 			<id>'.$arValue['id'].'</id>
-			<type>'.$arTypes[$arValue['iblock_id']].'</type>
-			<city>0</city>
+			<type>'.$arTypes['pr'].'</type>
+			<city>'.$arTypes['city_id'].'</city>
 		</sphinx:document>
 	';
 }

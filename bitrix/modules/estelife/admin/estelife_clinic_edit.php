@@ -300,8 +300,10 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		$obError->raise();
 
+		$nTime=time();
 		$obQueryClinic = $obClinics->createQuery();
-		$obQueryClinic->builder()->from('estelife_clinics')
+		$obQueryClinic->builder()
+			->from('estelife_clinics')
 			->value('name', trim(htmlentities($obPost->one('name'),ENT_QUOTES,'utf-8')))
 			->value('detail_text', htmlentities($obPost->one('detail_text'),ENT_QUOTES,'utf-8'))
 			->value('preview_text', htmlentities($obPost->one('preview_text'),ENT_QUOTES,'utf-8'))
@@ -313,7 +315,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			->value('address', htmlentities($obPost->one('address'),ENT_QUOTES,'utf-8'))
 			->value('latitude', doubleval($obPost->one('latitude')))
 			->value('longitude', doubleval($obPost->one('longitude')))
-			->value('clinic_id', intval($obPost->one('clinic_id',0)));
+			->value('clinic_id', intval($obPost->one('clinic_id',0)))
+			->value('date_edit',$nTime);
 
 		if(!empty($_FILES['logo'])){
 			$arImage=$_FILES['logo'];
@@ -328,18 +331,26 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			}
 		}
 
-
-		if (!empty($ID)){
-			$obQueryClinic->builder()->filter()
+		if(!empty($ID)){
+			$obQueryClinic
+				->builder()
+				->filter()
 				->_eq('id',$ID);
+
 			$obQueryClinic->update();
-			$idClinic = $ID;
+			$idClinic=$ID;
 		}else{
-			$idClinic = $obQueryClinic->insert()->insertId();
-			$ID =$idClinic;
+			$obQueryClinic
+				->builder()
+				->value('date_create',$nTime);
+
+			$idClinic=$obQueryClinic
+				->insert()
+				->insertId();
+
+			$ID=$idClinic;
 
 		}
-
 
 		setcookie('el_sel_city',$obPost->one('city_id'),time()+86400,'/');
 
