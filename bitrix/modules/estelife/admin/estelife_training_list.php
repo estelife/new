@@ -46,7 +46,7 @@ $arFilterData['countries']=$obQuery->select()->all();
 $headers = array(
 	array("id"=>"full_name", "content"=>GetMessage("ESTELIFE_F_FULL_NAME"), "sort"=>"full_name", "default"=>true),
 	array("id"=>"company_name", "content"=>GetMessage("ESTELIFE_F_COMPANY_NAME"), "sort"=>"company_name", "default"=>true),
-	array("id"=>"country", "content"=>GetMessage("ESTELIFE_F_COUNTRY"),"sort"=>"country_id","default"=>true),
+	array("id"=>"country", "content"=>GetMessage("ESTELIFE_F_COUNTRY"),"sort"=>"country","default"=>true),
 	array("id"=>"city", "content"=>GetMessage("ESTELIFE_F_CITY"),"sort"=>"city","default"=>true),
 	array("id"=>"id", "content"=>GetMessage("ESTELIFE_F_ID"), "sort"=>"id", "default"=>true)
 );
@@ -62,13 +62,6 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 		}
 	}
 }
-
-if($by=='country')
-	$by='ecn.'.$by;
-else if($by=='city')
-	$by='ect.'.$by;
-else
-	$by='ee.'.$by;
 
 $obQuery=\core\database\VDatabase::driver()->createQuery();
 $obJoin=$obQuery->builder()
@@ -98,6 +91,18 @@ $obJoin->_left()
 $obJoin->_left()
 	->_from('ee','id')
 	->_to('estelife_event_types','event_id','eet');
+
+if($by=='company_name'){
+	$obQuery->builder()->sort('ec.name',$order);
+}else if($by=='country')
+	$obQuery->builder()->sort('ecn.NAME',$order);
+else if($by=='city')
+	$obQuery->builder()->sort('ect.NAME',$order);
+else if($by=='full_name')
+	$obQuery->builder()->sort('ee.full_name',$order);
+else if($by=='id')
+	$obQuery->builder()->sort('ee.id',$order);
+
 $obFilter=$obQuery->builder()
 	->sort($by,$order)
 	->field('ee.id','id')

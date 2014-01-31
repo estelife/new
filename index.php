@@ -4,6 +4,8 @@ $APPLICATION->SetTitle("EsteLife.RU - информационный портал 
 $APPLICATION->SetPageProperty("description", "EsteLife.RU - информационный портал о косметологии и пластической хирургии");
 $APPLICATION->SetPageProperty("keywords", "косметология, пластическая хирургия");
 $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационный портал о косметологии и пластической хирургии");
+
+$obClient=new SphinxClient();
 ?>
 <div class="content">
 	<?$APPLICATION->IncludeComponent(
