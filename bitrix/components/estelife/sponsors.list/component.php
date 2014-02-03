@@ -209,13 +209,15 @@ if(!empty($arResult['country']['NAME']))
 
 if(!empty($arSeoGeo))
 	$arSeoGeo=' - '.implode(', ',$arSeoGeo);
+else
+	$arSeoGeo='';
 
 $sSeoTitle.=$arSeoGeo;
 $sSeoDescription.=$arSeoGeo;
 
 $APPLICATION->SetPageProperty("title", $sSeoTitle);
-$APPLICATION->SetPageProperty("description", VString::truncate($arDescription, 160, ''));
-$APPLICATION->SetPageProperty("keywords", "Estelife, организаторы, ".$arDescription);
+$APPLICATION->SetPageProperty("description", VString::truncate($sSeoDescription, 160, ''));
+$APPLICATION->SetPageProperty("keywords", "Estelife, организаторы, ".$sSeoDescription);
 
 //$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 $sTemplate=$this->getTemplateName();

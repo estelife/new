@@ -785,6 +785,21 @@ require([
 				EL.help($(this),fromTop).hide();
 			}
 		});
+
+		//Пишем в базу историю поиска
+		body.on('click', '.set_search_history', function(){
+			var term=$('input[data-action=get_search_history]').val();
+
+			if (term.length>0){
+				$.post('/api/estelife_ajax.php',{
+					'action':'set_search_history',
+					'term':term
+				},function(r){
+					if (!r.save)
+						alert('Ошибка сохранения запроса')
+				},'json');
+			}
+		})
 	});
 
 	$(function interfaces(){
@@ -822,4 +837,5 @@ require([
 				toTop.css('display','none');
 		}
 	});
+
 });

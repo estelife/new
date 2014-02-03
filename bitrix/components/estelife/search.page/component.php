@@ -103,21 +103,19 @@ if (!empty($sQuery)){
 				$val['tags']=explode(', ', $val['tags']);
 				$arResult['search']['result'][]=$val;
 			}
-			if (!empty($arResult['search'])){
-				$arNav=array(
-					'count'=>$nCount,
-					'page'=>$nPage,
-					'step'=>$nStep,
-					'pageCount'=>$nCountPages,
-					'pageWindow'=>5
-				);
-				$sTemplate=$this->getTemplateName();
-				$obNav=new \bitrix\VNavigationArray($arNav,($sTemplate=='ajax'));
-				$arResult['nav']=$obNav->getNav();
-			}
 		}
 	}
 }
+$arNav=array(
+	'count'=>$nCount,
+	'page'=>$nPage,
+	'step'=>$nStep,
+	'pageCount'=>$nCountPages,
+	'pageWindow'=>5
+);
+$sTemplate=$this->getTemplateName();
+$obNav=new \bitrix\VNavigationArray($arNav,($sTemplate=='ajax'));
+$arResult['nav']=$obNav->getNav();
 
 $APPLICATION->SetPageProperty("title", "Поиск");
 $APPLICATION->SetPageProperty("description", "Поиск");
