@@ -85,8 +85,12 @@ class VSpecialQuery implements db\VSpecialQuery {
 				if($this->checkTable($arMatches[1])){
 					$mTable=$arMatches[1];
 					$sAlias=$arMatches[1];
-				}else
+				}else{
 					$sAlias=$arMatches[1];
+
+					if(isset($mTable[$sAlias]))
+						$mTable=$mTable[$sAlias];
+				}
 			}
 
 			$sField=$arMatches[2];

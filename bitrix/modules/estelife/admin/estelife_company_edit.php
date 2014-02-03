@@ -267,15 +267,18 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			$arTranslit = VString::translit($obCompany->one('translit'));
 		}
 
+		$nTime=time();
 
 		//Добавление компании
 		$obQuery = $obCompanies->createQuery();
-		$obQuery->builder()->from('estelife_companies')
-		    ->value('name', trim($obCompany->one('name')))
-				->value('translit', trim($arTranslit))
-		    ->value('detail_text', htmlentities($obPost->one('company_detail_text'),ENT_QUOTES,'utf-8'))
-		    ->value('preview_text', htmlentities($obPost->one('company_preview_text'),ENT_QUOTES,'utf-8'))
-				->value('company_id', intval($obCompany->one('company_id')));
+		$obQuery->builder()
+			->from('estelife_companies')
+			->value('name', trim($obCompany->one('name')))
+			->value('translit', trim($arTranslit))
+			->value('detail_text', htmlentities($obPost->one('company_detail_text'),ENT_QUOTES,'utf-8'))
+			->value('preview_text', htmlentities($obPost->one('company_preview_text'),ENT_QUOTES,'utf-8'))
+			->value('company_id', intval($obCompany->one('company_id')))
+			->value('date_edit',$nTime);
 
 		if(!empty($_FILES['company_logo'])){
 		    $arImage=$_FILES['company_logo'];
@@ -315,7 +318,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			}
 
 		}else{
-		    $idCompany = $obQuery->insert()->insertId();
+			$obQuery->builder()->value('date_create',$nTime);
+			$idCompany=$obQuery->insert()
+			    ->insertId();
 		}
 
 		setcookie('el_sel_city',$obRecord['city_id'],time()+86400,'/');
@@ -328,9 +333,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		}
 
 		//Пишем ссылки на гео таблицу
-		if (!$obCompany->blank('country_id')){
-				$obCompaniesColl->addGeo($idCompany, $obCompany->all(), 'estelife_company_geo');
-		}
+		if (!$obCompany->blank('country_id'))
+			$obCompaniesColl->addGeo($idCompany, $obCompany->all(), 'estelife_company_geo');
 
 		//Пишем ссылки на контакты
 		$obCompaniesColl->addContacts($idCompany, $obCompany->all(), 'estelife_company_contacts');

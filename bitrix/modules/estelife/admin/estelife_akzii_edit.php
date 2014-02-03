@@ -124,6 +124,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		$obError->raise();
 
+		$nTime=time();
 		$obQueryAkzii = $obAkzii->createQuery();
 		$obQueryAkzii->builder()->from('estelife_akzii')
 			->value('name', trim(strip_tags($obPost->one('name'))))
@@ -136,7 +137,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			->value('start_date', strtotime($obPost->one('start_date')))
 			->value('end_date', strtotime($obPost->one('end_date')))
 			->value('view_type', intval($obPost->one('view_type')))
-			->value('more_information', strip_tags($obPost->one('more_information')));
+			->value('more_information', strip_tags($obPost->one('more_information')))
+			->value('date_edit',$nTime);
 
 		if(!empty($_FILES['small_photo'])){
 			$arImage=$_FILES['small_photo'];
@@ -171,7 +173,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			$obQueryAkzii->update();
 			$idAkzii = $ID;
 		}else{
-			$obQueryAkzii->builder()->value('date_create', time());
+			$obQueryAkzii->builder()
+				->value('date_create',$nTime);
 			$idAkzii = $obQueryAkzii->insert()->insertId();
 		}
 

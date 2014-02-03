@@ -10,70 +10,56 @@ require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_befo
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/estelife/prolog.php");
 
 CModule::IncludeModule('estelife');
-$arResult=array();
+$arTypes=$arData=$APPLICATION->IncludeComponent(
+	"estelife:system-settings","",
+	array('filter'=>'types')
+);
+$arTypes=array_flip($arTypes);
 
 $obDriver=\core\database\VDatabase::driver();
 $obQuery=$obDriver->createQuery();
 $obBuilder=$obQuery->builder();
 $obJoin=$obBuilder
-	->from('estelife_apparatus','ap')
-	->field('ap.id','id')
-	->field('ap.name','name')
-	->field('ap.preview_text', 'preview_text')
-	->field('ap.detail_text', 'detail_text')
-	->field('ap.date_edit', 'date_edit')
-	->field('ec.name', 'company_name')
+	->from('b_estelife_akzii','promotion')
+	->field('promotion.id','id')
+	->field('promotion.name','name')
+	->field('promotion.preview_text','preview_text')
+	->field('promotion.detail_text','detail_text')
+	->field('promotion.date_edit','date_edit')
+	->field('promotion.active','active')
+	->field('specialization.name','specialization')
+	->field('service.name','service')
+	->field('service_concreate.name','service_concreate')
+	->field('clinic.name','clinic')
+	->field('city.NAME','city')
+	->field('city.ID','city_id')
 	->join();
 $obJoin->_left()
-	->_from('ap', 'company_id')
-	->_to('estelife_companies', 'id', 'ec');
-//TODO: Раскомментировать после первой индексации
+	->_from('promotion','specialization_id')
+	->_to('estelife_specializations','id','specialization');
+$obJoin->_left()
+	->_from('promotion','service_id')
+	->_to('estelife_services','id','service');
+$obJoin->_left()
+	->_from('promotion','service_concreate_id')
+	->_to('estelife_service_concreate','id','service_concreate');
+$obJoin->_left()
+	->_from('promotion','id')
+	->_to('estelife_clinic_akzii','akzii_id','clinic_promotion');
+$obJoin->_left()
+	->_from('clinic_promotion','clinic_id')
+	->_to('estelife_clinics','id','clinic');
+$obJoin->_left()
+	->_from('clinic','city_id')
+	->_to('iblock_element','ID','city')
+	->_cond()->_eq('city.IBLOCK_ID',16);
+// TODO: Раскоментировать после первого запуска
 //$obBuilder->filter()
-//	->_gte('ap.date_edit',time())
+//	->_gte('promotion.date_edit',time());
 
-$arApparatuses=$obQuery
+$arResult=$obQuery
 	->select()
 	->all();
-
-
-if (!empty($arApparatuses)){
-	foreach ($arApparatuses as $key=>$val){
-		$val['type'][]=$val['company_name'];
-		$arResult[$val['id']]=$val;
-		$arIds[]=$val['id'];
-	}
-}
-
-if (!empty($arIds)){
-	$obQuery=$obDriver->createQuery();
-	$obQuery->builder()
-		->from('estelife_apparatus_type')
-		->field('type_id')
-		->field('apparatus_id')
-		->filter()
-			->_in('apparatus_id', $arIds);
-	$arTypes=$obQuery
-		->select()
-		->all();
-}
-
-$arTypesString=array(
-	'1'=>'Anti-Age терапия',
-	'2'=>'Коррекция фигуры',
-	'3'=>'Эпиляция',
-	'4'=>'Миостимуляция',
-	'5'=>'Микротоки',
-	'6'=>'Лазеры',
-	'7'=>'Диагностика',
-	'8'=>'Реабилитация',
-	'9'=>'Микропигментация',
-);
-
-if (!empty($arTypes)){
-	foreach ($arTypes as $val){
-		$arResult[$val['apparatus_id']]['type'][]=trim($arTypesString[$val['type_id']]);
-	}
-}
 
 $arKillList=array();
 
@@ -91,7 +77,7 @@ $sResult.='
 	<sphinx:attr name="tags" type="string" default="" />
 	<sphinx:attr name="date_edit" type="timestamp" />
 	<sphinx:attr name="id" type="int" bits="16" default="0" />
-	<sphinx:attr name="type" type="int" bits="16" default="1" />
+	<sphinx:attr name="type" type="int" bits="16" default="0" />
 	<sphinx:attr name="city" type="int" bits="16" default="0" />
 </sphinx:schema>
 ';
@@ -99,20 +85,31 @@ $sResult.='
 $nTime=time();
 
 foreach($arResult as $arValue){
+	if($arValue['active']!=1){
+		$arKillList[]=$arValue['id'];
+		continue;
+	}
+
+	$arValue['tags']=array();
+	$arValue['tags'][]=$arValue['specialization'];
+	$arValue['tags'][]=$arValue['service'];
+	$arValue['tags'][]=$arValue['service_concreate'];
+	$arValue['tags'][]=$arValue['clinic'];
+
 	$sResult.='
 		<sphinx:document id="'.$arValue['id'].'">
-			<search-name>'.trim(htmlspecialchars(strip_tags($arValue['name'])),ENT_QUOTES,'utf-8').'</search-name>
-			<search-category>Аппараты</search-category>
+			<search-name>'.trim(htmlspecialchars(strip_tags($arValue['name']),ENT_QUOTES,'utf-8')).'</search-name>
+			<search-category>Акции клиник '.trim($arValue['city']).'</search-category>
 			<search-preview><![CDATA[['.trim(strip_tags($arValue['preview_text'])).']]></search-preview>
 			<search-detail><![CDATA[['.trim(strip_tags($arValue['detail_text'])).']]></search-detail>
-			<search-tags>'.implode(', ',$arValue['tags']).'</search-tags>
+			<search-tags>'.trim($arValue['tags']).'</search-tags>
 			<name>'.htmlspecialchars($arValue['name'],ENT_QUOTES,'utf-8').'</name>
 			<description>'.htmlspecialchars($arValue['preview_text'],ENT_QUOTES,'utf-8').'</description>
-			<tags>'.implode(', ',$arValue['tags']).'</tags>
+			<tags>'.$arValue['tags'].'</tags>
 			<date_edit>'.strtotime($arValue['date_edit']).'</date_edit>
 			<id>'.$arValue['id'].'</id>
-			<type>ap</type>
-			<city>0</city>
+			<type>'.$arTypes['pr'].'</type>
+			<city>'.$arTypes['city_id'].'</city>
 		</sphinx:document>
 	';
 }

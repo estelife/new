@@ -15,50 +15,62 @@ $arTypes=$arData=$APPLICATION->IncludeComponent(
 	array('filter'=>'types')
 );
 $arTypes=array_flip($arTypes);
+$nTime=time();
 
-$arTypes=array(
-	3=>$arTypes['ns'],
-	36=>$arTypes['pt'],
-	35=>$arTypes['ex'],
-	14=>$arTypes['ar']
-);
-
-$obQuery=\core\database\VDatabase::driver()->createQuery();
+$obDriver=\core\database\VDatabase::driver();
+$obQuery=$obDriver->createQuery();
 $obBuilder=$obQuery->builder();
 $obJoin=$obBuilder
-	->from('iblock_element','ielement')
-	->field('ielement.ID','id')
-	->field('ielement.IBLOCK_ID','iblock_id')
-	->field('ielement.NAME','name')
-	->field('ielement.PREVIEW_TEXT','preview_text')
-	->field('ielement.DETAIL_TEXT','detail_text')
-	->field('ielement.TIMESTAMP_X','date_edit')
-	->field('ielement.TAGS','tags')
-	->field('ielement.ACTIVE','active')
-	->field('ielement.ACTIVE_FROM','active_from')
-	->field('ielement.ACTIVE_TO','active_to')
-	->field('isection.NAME','section_name')
-	->field('isection.ACTIVE','section_active')
-	->field('isection_top.NAME','section_top_name')
-	->field('isection_top.ACTIVE','section_top_active')
+	->from('estelife_events','activity')
+	->field('activity.id','id')
+	->field('activity.full_name','full_name')
+	->field('activity.preview_text','preview_text')
+	->field('activity.detail_text','detail_text')
+	->field('activity.date_edit','date_edit')
+	->field('training_type.id','is_training')
+	->field('city.NAME','city')
+	->field('city.ID','city_id')
+	->field('company.name','company')
+	->field('calendar.date','date_from')
 	->join();
-$obJoin->_left()
-	->_from('ielement','IBLOCK_SECTION_ID')
-	->_to('iblock_section','ID','isection');
-$obJoin->_left()
-	->_from('isection','IBLOCK_SECTION_ID')
-	->_to('iblock_section','ID','isection_top');
 
-$obBuilder->filter()
-//TODO: Раскомментировать после первой индексации
-//	->_gte('TIMESTAMP_X',date('Y-m-d H:i:s'))
-	->_in('ielement.IBLOCK_ID',array(
-		3,36,35,14
-	));
+$obJoin->_left()
+	->_from('activity', 'id')
+	->_to('estelife_calendar','event_id','calendar')
+	->_cond()
+	->_gte('calendar.date',$nTime);
+
+// Выясняем, является ли оно тренингом или событием
+$obJoin->_left()
+	->_from('activity','id')
+	->_to('estelife_event_types','event_id','training_type')
+	->_cond()
+	->_eq('training_type.type',3);
+
+// Город
+$obJoin->_left()
+	->_from('activity','city_id')
+	->_to('iblock_element','ID','city')
+	->_cond()->_eq('city.IBLOCK_ID',16);
+
+// Фигачим компанию
+$obJoin->_left()
+	->_from('activity','id')
+	->_to('estelife_company_events','event_id','company_link')
+	->_cond()
+	->_eq('company_link.is_owner',1);
+$obJoin->_left()
+	->_from('company_link','company_id')
+	->_to('estelife_companies','id','company');
+
+// TODO:Раскоментировать после первого запуска
+//$obBuilder->filter()
+//	->_gte('activity.date_edit',$nTime);
 
 $arResult=$obQuery
 	->select()
 	->all();
+
 $arKillList=array();
 
 $sResult='<?xml version="1.0" encoding="utf-8"?>';
@@ -72,46 +84,43 @@ $sResult.='
 	<sphinx:field name="search-tags"/>
 	<sphinx:attr name="name" type="string" />
 	<sphinx:attr name="description" type="string" />
-	<sphinx:attr name="tags" type="string" />
+	<sphinx:attr name="tags" type="string" default="" />
 	<sphinx:attr name="date_edit" type="timestamp" />
 	<sphinx:attr name="id" type="int" bits="16" default="0" />
-	<sphinx:attr name="type" type="int" bits="16" default="1" />
+	<sphinx:attr name="type" type="int" bits="16" default="0" />
 	<sphinx:attr name="city" type="int" bits="16" default="0" />
 </sphinx:schema>
 ';
 
-$nTime=time();
-
 foreach($arResult as $arValue){
-	if((isset($arValue['section_active']) && $arValue['section_active']=='N')  ||
-		(isset($arValue['section__top_active']) && $arValue['section__top_active']=='N')){
-		$arKillList[]=$arValue['id'];
+	if(empty($arValue['date_from'])){
+		$arKillList[]=$arValue['date_from'];
 		continue;
 	}
 
-	$arValue['active_from']=(!empty($arValue['active_from'])) ? strtotime($arValue['active_from']) : false;
-	$arValue['active_to']=(!empty($arValue['active_to'])) ? strtotime($arValue['active_to']) : false;
+	$sCategory=(!empty($arValue['is_training'])) ? 'Семинары' : 'События';
+	$nType=(!empty($arValue['is_training'])) ? $arTypes['tr'] : $arTypes['ev'];
 
-	if(($arValue['active_from'] && $arValue['active_from']>$nTime) ||
-		($arValue['active_to'] && $arValue['active_to']<$nTime) || $arValue['active']=='N'){
-		$arKillList[]=$arValue['id'];
-		continue;
-	}
+	$arValue['tags']=array(
+		$sCategory,
+		$arValue['company'],
+		$arValue['city']
+	);
 
 	$sResult.='
 		<sphinx:document id="'.$arValue['id'].'">
 			<search-name>'.trim(htmlspecialchars(strip_tags($arValue['name']),ENT_QUOTES,'utf-8')).'</search-name>
-			<search-category>'.trim($arValue['section_name']).' - '.trim($arValue['section_top_name']).'</search-category>
+			<search-category>'.$sCategory.' '.trim($arValue['city']).'</search-category>
 			<search-preview><![CDATA[['.trim(strip_tags($arValue['preview_text'])).']]></search-preview>
 			<search-detail><![CDATA[['.trim(strip_tags($arValue['detail_text'])).']]></search-detail>
-			<search-tags>'.trim(htmlspecialchars($arValue['tags'])).'</search-tags>
+			<search-tags>'.trim($arValue['tags']).'</search-tags>
 			<name>'.htmlspecialchars($arValue['name'],ENT_QUOTES,'utf-8').'</name>
 			<description>'.htmlspecialchars($arValue['preview_text'],ENT_QUOTES,'utf-8').'</description>
-			<tags>'.htmlspecialchars($arValue['tags'],ENT_QUOTES,'utf-8').'</tags>
+			<tags>'.$arValue['tags'].'</tags>
 			<date_edit>'.strtotime($arValue['date_edit']).'</date_edit>
 			<id>'.$arValue['id'].'</id>
-			<type>'.$arTypes[$arValue['iblock_id']].'</type>
-			<city>0</city>
+			<type>'.$nType.'</type>
+			<city>'.$arTypes['city_id'].'</city>
 		</sphinx:document>
 	';
 }

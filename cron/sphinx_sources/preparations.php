@@ -10,6 +10,7 @@ require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_befo
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/estelife/prolog.php");
 
 CModule::IncludeModule('estelife');
+$arResult=array();
 
 $obDriver=\core\database\VDatabase::driver();
 $obQuery=$obDriver->createQuery();
@@ -96,7 +97,7 @@ $nTime=time();
 foreach($arResult as $arValue){
 	$sResult.='
 		<sphinx:document id="'.$arValue['id'].'">
-			<search-name>'.trim($arValue['name']).'</search-name>
+			<search-name>'.trim(htmlspecialchars(strip_tags($arValue['name']),ENT_QUOTES,'utf-8')).'</search-name>
 			<search-category>Препараты</search-category>
 			<search-preview><![CDATA[['.trim(strip_tags($arValue['preview_text'])).']]></search-preview>
 			<search-detail><![CDATA[['.trim(strip_tags($arValue['detail_text'])).']]></search-detail>
