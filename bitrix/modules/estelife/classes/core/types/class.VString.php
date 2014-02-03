@@ -170,6 +170,7 @@ class VString {
 	 */
 	public static function truncate($sText,$nLimit,$sEnd='...',$sPoint=' '){
 		$nLength=strlen($sText);
+
 		if($nLength<=$nLimit)
 			return $sText;
 

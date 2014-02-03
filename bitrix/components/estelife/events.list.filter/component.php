@@ -11,19 +11,28 @@ CModule::IncludeModule("estelife");
 $obClinics = VDatabase::driver();
 
 //Получение списка стран
-$obQuery=VDatabase::driver()->createQuery();
+$obQuery=VDatabase::driver()
+	->createQuery();
+
 $obQuery->builder()
 	->from('estelife_events','ee')
 	->field('ct.NAME','NAME')
 	->field('ct.ID','ID')
 	->group('ct.ID')
+	->sort('ct.NAME','asc')
 	->join()
 	->_left()
 	->_from('ee','country_id')
 	->_to('iblock_element','ID','ct')
 	->_cond()->_eq('ct.IBLOCK_ID',15);
-$obQuery->builder()->filter()->_ne('ee.country_id',0);
-$arCountries=$obQuery->select()->all();
+
+$obQuery->builder()
+	->filter()
+	->_ne('ee.country_id',0);
+
+$arCountries=$obQuery
+	->select()
+	->all();
 
 $obCounties=new VArray($arCountries);
 $obCounties->sortByPriorities(array(357),'ID');
@@ -32,6 +41,7 @@ $obGet=new VArray($_GET);
 
 if(!$obGet->blank('country')){
 	$nCountry=intval($obGet->one('country',0));
+
 	//получаем города по стране
 	$obCity=CIBlockElement::GetList(
 		array("NAME"=>"ASC"),
