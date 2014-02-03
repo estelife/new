@@ -3,15 +3,21 @@
 CModule::IncludeModule("estelife");
 $obQuery=\core\database\VDatabase::driver()->createQuery();
 $obQuery->builder()
-	->from('iblock_section')
-	->field('CODE')
-	->field('NAME')
+	->from('iblock_section','section')
+	->field('section.CODE','CODE')
+	->field('section.NAME','NAME')
 	->slice(0,5)
-	->sort('DATE_CREATE','DESC')
+	->sort('section_prop.UF_DATE_PUB_SECTION','DESC')
 	->filter()
-	->_eq('ACTIVE','Y')
-	->_eq('IBLOCK_ID',14)
-	->_eq('IBLOCK_SECTION_ID',208);
+	->_eq('section.ACTIVE','Y')
+	->_eq('section.IBLOCK_ID',14)
+	->_eq('section.IBLOCK_SECTION_ID',208)
+	->_lte('section_prop.UF_DATE_PUB_SECTION',date('Y-m-d 00:00:00'));
+$obQuery->builder()
+	->join()
+	->_left()
+	->_from('section','ID')
+	->_to('uts_iblock_14_section','VALUE_ID','section_prop');
 $arResult['tz']=$obQuery
 	->select()
 	->all();
