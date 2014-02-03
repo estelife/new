@@ -6,8 +6,8 @@
 					<img src="<!--$detail.big_photo.src!-->" alt="<!--if($detail.big_photo.description)!--><!--$detail.big_photo.description!--><!--else!--><!--$detail.preview_text!--><!--endif!-->" title="" />
 			<!--endif!-->
 			<div class="current">
-				<h3><!--$detail.clinic.name!--></h3>
-				<span class="city">г. <!--$detail.clinic.city_name!--></span>
+				<h3><!--$detail.clinic.main.name!--></h3>
+				<span class="city">г. <!--$detail.clinic.main.city_name!--></span>
 				<!--if($detail.view_type!=2)!-->
 					<span class="perc"><!--$detail.base_sale!-->%</span>
 				<!--endif!-->
@@ -45,15 +45,15 @@
 		<div class="clinic">
 			<a href="<!--$detail.clinic.link!-->" class="more"><i></i></a>
 			<div class="about">
-				<h3><!--$detail.clinic.name!--></h3>
-				<span>г. <!--$detail.clinic.city_name!--></span>
-				<span><a href="<!--$detail.clinic.web!-->" target="_blank"><!--$detail.clinic.web_short!--></a></span>
+				<h3><!--$detail.clinic.main.name!--></h3>
+				<span>г. <!--$detail.clinic.main.city_name!--></span>
+				<span><a href="<!--$detail.clinic.main.web!-->" target="_blank"><!--$detail.clinic.main.web_short!--></a></span>
 			</div>
 			<h4>Акции проводятся по адресам:</h4>
 			<ul class="contacts">
 				<li>
-					<!--$detail.clinic.address!--><br />
-					<!--$detail.clinic.phone!-->
+					<!--$detail.clinic.main.address!--><br />
+					<!--$detail.clinic.main.phone!-->
 				</li>
 				<!--if($detail.clinic.offices)!-->
 					<!--foreach($detail.clinic.offices as $nKey=>$arOffice)!-->
@@ -65,8 +65,8 @@
 				<!--endif!-->
 			</ul>
 			<div class="map">
-				<span class="lat"><!--$detail.clinic.latitude!--></span>
-				<span class="lng"><!--$detail.clinic.longitude!--></span>
+				<span class="lat"><!--$detail.clinic.main.latitude!--></span>
+				<span class="lng"><!--$detail.clinic.main.longitude!--></span>
 			</div>
 		</div>
 

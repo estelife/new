@@ -19,6 +19,7 @@ $arResult=array(
 		"sp" => "sponsors",
 		"sh" => "search",
 		"ex" => "experts",
+		"au" => "auth"
 	),
 	'types' => array(
 		1=>"ns",

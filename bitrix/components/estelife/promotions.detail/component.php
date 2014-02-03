@@ -104,11 +104,13 @@ if (!empty($arClinics)){
 		$arClinic['web_short']=\core\types\VString::checkUrl($arClinic['web']);
 
 		if($arClinic['clinic_id']==0)
-			$arCurrent=$arClinic;
+			$arCurrent['main']=$arClinic;
 		else
 			$arOffices[]=$arClinic;
 	}
 
+	if (empty($arCurrent['main']))
+		$arCurrent['main']=array_shift($arOffices);
 	$arCurrent['offices']=$arOffices;
 	$arResult['action']['clinic']=$arCurrent;
 	unset($arCurrent,$arOffices,$arClinics);

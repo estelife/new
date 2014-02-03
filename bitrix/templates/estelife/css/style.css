@@ -48,7 +48,7 @@ body {
 .cols, .social span, .promotions, ul.stat li, .social a, .logo, .head form input.text, .head .menu, .head .menu li,
 .general-news .title h1, .general-news .title h2, .general-news, .general-news .col2 .img, .general-news .subscribe, .adv,
 .experts ul li, .item.promotion, .articles, .articles .menu li,.item.detail .menu li, .item.article, .media .item, .media .menu li, .footer .menu li,
-.crumb, .crumb li, .nav, .nav li, .inner, .item.detail .gallery, .similars, .item.producer .img, .item.product .img, .items .item.producer li,
+.crumb, .crumb li, .nav, .nav li, .inner, .similars, .item.producer .img, .item.product .img, .items .item.producer li,
 .inner .title .menu li, .search-founded .menu li, .inner .products .item.product, .item.training .img, .item.detail .user img, .item.event .img, .items .item.event ul.list1,
 .win-gallery-previews li, .quality ul.steps li, .tabs-menu li, .tabs-menu {
 	float:left;
@@ -700,7 +700,7 @@ ul.stat .unlikes.active i {
 .item.promotion .data {
 	margin:34px 0 26px 0;
 	padding-bottom:0;
-	float:left;
+	overflow:hidden;
 	width: 100%;
 	cursor:default;
 }

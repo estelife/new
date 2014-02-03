@@ -2,7 +2,7 @@
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="/">Главная</a></li>
-		<li><a href="/promotions/<?if ($arResult['action']['clinics']['city_id']==359):?>?city=359<?elseif($arResult['action']['clinics']['city_id']==358):?>?city=358<?endif?>">Акции <?if ($arResult['action']['clinics']['city_id']==359):?>Москвы<?elseif($arResult['action']['clinics']['city_id']==358):?>Санкт-Петербурга<?endif?></a></li>
+		<li><a href="/promotions/<?if ($arResult['action']['clinic']['main']['city_id']==359):?>?city=359<?elseif($arResult['action']['clinic']['main']['city_id']==358):?>?city=358<?endif?>">Акции <?if ($arResult['action']['clinic']['main']['city_id']==359):?>Москвы<?elseif($arResult['action']['clinic']['main']['city_id']==358):?>Санкт-Петербурга<?endif?></a></li>
 		<li><b><?=$arResult['action']['preview_text']?></b></li>
 	</ul>
 	<div class="item promotion detail">
@@ -10,8 +10,8 @@
 		<div class="data">
 			<img src="<?=$arResult['action']['big_photo']['src']?>" alt="<?=(!empty($arResult['action']['big_photo']['description']) ? $arResult['action']['big_photo']['description'] : $arResult['action']['preview_text'])?>" title="" />
 			<div class="current">
-				<h3><?=$arResult['action']['clinic']['name']?></h3>
-				<span class="city">г. <?=$arResult['action']['clinic']['city_name']?></span>
+				<h3><?=$arResult['action']['clinic']['main']['name']?></h3>
+				<span class="city">г. <?=$arResult['action']['clinic']['main']['city_name']?></span>
 				<?php if($arResult['action']['view_type']!=2): ?>
 					<span class="perc">
 						<?=$arResult['action']['base_sale']?>%
@@ -49,17 +49,17 @@
 		<?=$arResult['action']['detail_text']?>
 
 		<div class="clinic">
-			<a href="<?=$arResult['action']['clinic']['link']?>" class="more"><i></i></a>
+			<a href="<?=$arResult['action']['clinic']['main']['link']?>" class="more"><i></i></a>
 			<div class="about">
-				<h3><?=$arResult['action']['clinic']['name']?></h3>
-				<span>г. <?=$arResult['action']['clinic']['city_name']?></span>
-				<span><a href="<?=$arResult['action']['clinic']['web']?>" target="_blank"><?=$arResult['action']['clinic']['web_short']?></a></span>
+				<h3><?=$arResult['action']['clinic']['main']['name']?></h3>
+				<span>г. <?=$arResult['action']['clinic']['main']['city_name']?></span>
+				<span><a href="<?=$arResult['action']['clinic']['main']['web']?>" target="_blank"><?=$arResult['action']['clinic']['main']['web_short']?></a></span>
 			</div>
 			<h4>Акции проводятся по адресам:</h4>
 			<ul class="contacts">
 				<li>
-					<?=$arResult['action']['clinic']['address']?><br />
-					<?=$arResult['action']['clinic']['phone']?>
+					<?=$arResult['action']['clinic']['main']['address']?><br />
+					<?=$arResult['action']['clinic']['main']['phone']?>
 				</li>
 				<?php if(!empty($arResult['action']['clinic']['offices'])): ?>
 					<?php foreach($arResult['action']['clinic']['offices'] as $arOffice):?>
@@ -71,8 +71,8 @@
 				<?php endif; ?>
 			</ul>
 			<div class="map">
-				<span class="lat"><?=$arResult['action']['clinic']['latitude']?></span>
-				<span class="lng"><?=$arResult['action']['clinic']['longitude']?></span>
+				<span class="lat"><?=$arResult['action']['clinic']['main']['latitude']?></span>
+				<span class="lng"><?=$arResult['action']['clinic']['main']['longitude']?></span>
 			</div>
 		</div>
 
