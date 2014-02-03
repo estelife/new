@@ -24,7 +24,7 @@
 		<h3>Организаторы</h3>
 		<ul>
 			<!--foreach($detail.org as $key=>$val)!-->
-			<li><a href="/sp<!--$val.company_id!-->/" target="_blank"><!--$val.company_name!--></a></li>
+			<li><a href="/sp<!--$val.company_id!-->/"><!--$val.company_name!--></a></li>
 			<!--endforeach!-->
 		</ul>
 		<h3>Описание</h3>

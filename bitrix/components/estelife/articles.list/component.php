@@ -54,6 +54,7 @@ try{
 		}
 	$obQuery->builder()->slice(0,4);
 	$obQuery->builder()->sort('ie.ACTIVE_FROM', 'DESC');
+
 	foreach ($arParams['SECTIONS_ID'] as $val){
 		$obQuery->builder()->filter()
 			->_eq('ie.IBLOCK_ID', $arParams['IBLOCK_ID'])

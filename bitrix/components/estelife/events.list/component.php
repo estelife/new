@@ -206,9 +206,9 @@ if (!empty($arIds)){
 	$arTypes = $obQuery->select()->all();
 
 	$arTypesName = array(
-		'1'=>'Форум',
-		'2'=>'Выставка',
-		'4'=>'Тренинг',
+		'1'=>'форум',
+		'2'=>'выставка',
+		'4'=>'тренинг',
 	);
 
 	foreach ($arTypes as $key=>$val){

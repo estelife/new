@@ -68,7 +68,8 @@ body {
 }
 .social a, .arrow i, ul.stat i, .promotion .time i, .promotion .prices i, .media .item span, .media .menu .first a,
 .promotion .time i, .promotion .prices i, .item.detail .clinic a.more i, .select .arrow, .item.company p i, .gallery .arrow i, td.prices i,
-.filter .date i, .win-close, .checked, .item.promotion .current .perc i,.checkbox.active i, .to-top i, h2.show-quality-form i,.help i, .tabs-menu .active i{
+.filter .date i, .win-close, .checked, .item.promotion .current .perc i,.checkbox.active i, .to-top i, h2.show-quality-form i,.help i, .tabs-menu .active i,
+.auth .link.back i {
 	background-image:url('../images/complex.png');
 	background-repeat: no-repeat;
 }
@@ -1782,7 +1783,15 @@ td.prices span {
 	font-size: 14px;
 	line-height: 14px;
 }
-.item.company .col1 a, .item.detail .tab-c a, h1 a:hover, h2 a:hover,h3 a:hover, .items .item:hover h1 a, .items .item:hover h2 a, .items .item:hover h3 a {
+.item.company .col1 a,
+.item.detail .tab-c a,
+h1 a:hover,
+h2 a:hover,
+h3 a:hover,
+.items .item:hover h1 a,
+.items .item:hover h2 a,
+.items .item:hover h3 a,
+.auth .field a.remember:hover {
 	color:#e60365;
 	text-decoration: none;
 	margin-bottom:0;
@@ -2148,7 +2157,8 @@ li.country, span.country {
 	text-decoration: none;
 	color:#2c2c2c;
 }
-.item.detail .user h4 a:hover,.item.detail .company h4 a:hover {
+.item.detail .user h4 a:hover,
+.item.detail .company h4 a:hover {
 	color:#e60365;
 }
 .item.detail .user a {
@@ -2704,13 +2714,13 @@ form.quality .field {
 form.quality .field.phone,form.quality .field.city {
 	margin-right: 0;
 }
-form.quality label {
+form.quality label, .auth label {
 	font-size:14px;
 	color:#5f5f5f;
 	font-weight: normal;
 	margin-bottom:9px;
 }
-form.quality input {
+form.quality input, .auth input.text {
 	padding-top:9px;
 	padding-bottom:9px;
 	width:286px;
@@ -2731,7 +2741,7 @@ form.quality .phone input#phone_number {
 form.quality .clinic  input {
 	width: 618px;
 }
-form.quality .submit {
+form.quality .submit, .auth .submit {
 	height: 40px;
 	margin-top: 14px;
 	float: left;
@@ -2892,4 +2902,82 @@ form.quality .submit {
 	min-height:120px;
 	float:right;
 	width:230px;
+}
+.auth,.auth .logo {
+	width:769px;
+	margin:0 auto;
+}
+.auth  {
+	margin-top:103px;
+	background:url('../images/auth/gradient.png') center 0 no-repeat;
+}
+.auth .logo {
+	background:url('../images/auth/logo.png') center 0 no-repeat;
+	width:100%;
+	height:14px;
+	padding:74px 0 0 0;
+	text-align: center;
+	font-size:14px;
+	color:#2c2c2c;
+	float:none;
+}
+.auth .logo, .auth .submit {
+	float:none;
+}
+.auth form {
+	width:313px;
+	margin:114px auto 0 auto;
+}
+.auth .field {
+	margin-bottom:31px;
+	position: relative;
+}
+.auth .field a,
+.auth .link.back i {
+	position: absolute;
+}
+.auth .field a {
+	font-size:12px;
+	top: 40px;
+	left: 333px;
+	width: 100%;
+	color:#2c2c2c;
+}
+.auth .submit {
+	margin: 40px auto 0 auto;
+	width: 146px;
+}
+.auth .link {
+	display: block;
+	text-align: center;
+	margin-top:25px;
+	font-size:12px;
+}
+.auth .link.register {
+	padding-top:25px;
+	border-top:1px solid #c4c4c4;
+	text-transform: uppercase;
+	font-size:14px;
+}
+.auth .link.back {
+	width:100%;
+	margin-top:63px;
+	color:#2c2c2c;
+	text-decoration: none;
+}
+.auth .link.back span {
+	position: relative;
+}
+.auth .link.back i {
+	display: block;
+	left:-19px;
+	top:50%;
+	margin-top:-3px;
+	width:14px;
+	height:5px;
+	background-position: -168px -97px;
+}
+.auth .empty {
+	height:100px;
+	width:100%;
 }
