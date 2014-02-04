@@ -6,7 +6,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	<div class="general-news">
 		<div class="title">
 			<h1><?=$arResult['SECTION_NAME']?></h1>
-			<h2>Точка зрения</h2>
+			<h2>Тема дня</h2>
 		</div>
 		<div class="cols col1">
 			<?php if (!empty($arResult["FIRST"])):?>

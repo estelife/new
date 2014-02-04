@@ -27,11 +27,7 @@
 				<h3><a href="<!--$arItem.src!-->"><!--$arItem.name!--></a></h3>
 				<p><!--$arItem.description!--></p>
 				<span class="date">Изменен: <i><!--$arItem.date_edit!--></i></span>
-				<!--if($arItem.tags)!-->
-					<!--foreach($arItem.tags as $k=>$v)!-->
-						<!--if($k!=0)!-->, <!--endif!--><a href="<!--$list.tags_url!-->&amp;tags=<!--$v!-->"><!--$v!--></a>
-					<!--endforeach!-->
-				<!--endif!-->
+				<!--$arItem.tags!-->
 			</div>
 			<!--endforeach!-->
 		</div>

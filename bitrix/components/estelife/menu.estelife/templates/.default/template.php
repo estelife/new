@@ -1,6 +1,6 @@
 <?php if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
 <ul class="menu main_menu">
-	<li><a href="#" class="empty_link">Точка зрения</a>
+	<li><a href="#" class="empty_link">Тема дня</a>
 		<?php if (!empty($arResult['tz'])):?>
 			<ul class="submenu">
 				<?php foreach ($arResult['tz'] as $val):?>

@@ -2,7 +2,7 @@
 <div class="general-news">
 	<div class="title">
 		<h1><!--$PODCASTS.SECTION_NAME!--></h1>
-		<h2>Точка зрения</h2>
+		<h2>Тема дня</h2>
 	</div>
 	<div class="cols col1">
 		<!--if ($PODCASTS.FIRST)!-->

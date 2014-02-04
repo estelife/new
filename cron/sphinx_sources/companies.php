@@ -1,4 +1,6 @@
 <?php
+use core\types\VString;
+
 $_SERVER["DOCUMENT_ROOT"] = realpath(dirname(__FILE__).'/../../');
 $DOCUMENT_ROOT =$_SERVER["DOCUMENT_ROOT"];
 
@@ -31,24 +33,28 @@ $obJoin=$obBuilder
 	->field('company.date_edit','date_edit')
 	->field('company.active','active')
 	->field('company_geo.city_id','city_id')
+	->field('company_geo.address','address')
 	->field('company_city.NAME','city_name')
 
 	->field('sponsor.name','sponsor_name')
 	->field('sponsor.preview_text','sponsor_preview_text')
 	->field('sponsor.detail_text','sponsor_detail_text')
 	->field('sponsor_geo.city_id','sponsor_city_id')
+	->field('sponsor_geo.address','sponsor_address')
 	->field('sponsor_city.NAME','sponsor_city_name')
 
 	->field('producer.name','producer_name')
 	->field('producer.preview_text','producer_preview_text')
 	->field('producer.detail_text','producer_detail_text')
 	->field('producer_geo.city_id','producer_city_id')
+	->field('producer_geo.address','producer_address')
 	->field('producer_city.NAME','producer_city_name')
 
 	->field('school.name','school_name')
 	->field('school.preview_text','school_preview_text')
 	->field('school.detail_text','school_detail_text')
 	->field('school_geo.city_id','school_city_id')
+	->field('school_geo.address','school_address')
 	->field('school_city.NAME','school_city_name')
 
 	->field('qqevent.id','has_event')
@@ -166,6 +172,7 @@ foreach($arResult as $arValue){
 			'preview_text'=>(!empty($arValue['sponsor_preview_text'])) ? $arValue['sponsor_preview_text'] : $arValue['preview_text'],
 			'detail_text'=>(!empty($arValue['sponsor_detail_text'])) ? $arValue['sponsor_detail_text'] : $arValue['detail_text'],
 			'city_id'=>(!empty($arValue['sponsor_city_id'])) ? $arValue['sponsor_city_id'] : $arValue['city_id'],
+			'address'=>(!empty($arValue['sponsor_address'])) ? $arValue['sponsor_address'] : $arValue['address'],
 			'date_edit'=>$arValue['date_edit'],
 			'type'=>$arTypes['sp'],
 			'category'=>'Организаторы'
@@ -181,6 +188,7 @@ foreach($arResult as $arValue){
 			'preview_text'=>(!empty($arValue['producer_preview_text'])) ? $arValue['producer_preview_text'] : $arValue['preview_text'],
 			'detail_text'=>(!empty($arValue['producer_detail_text'])) ? $arValue['producer_detail_text'] : $arValue['detail_text'],
 			'city_id'=>(!empty($arValue['producer_city_id'])) ? $arValue['producer_city_id'] : $arValue['city_id'],
+			'address'=>(!empty($arValue['producer_address'])) ? $arValue['producer_address'] : $arValue['address'],
 			'date_edit'=>$arValue['date_edit'],
 			'type'=>$arTypes['pm'],
 			'category'=>'Производители'
@@ -196,6 +204,7 @@ foreach($arResult as $arValue){
 			'preview_text'=>(!empty($arValue['school_preview_text'])) ? $arValue['school_preview_text'] : $arValue['preview_text'],
 			'detail_text'=>(!empty($arValue['school_detail_text'])) ? $arValue['school_detail_text'] : $arValue['detail_text'],
 			'city_id'=>(!empty($arValue['school_city_id'])) ? $arValue['school_city_id'] : $arValue['city_id'],
+			'address'=>(!empty($arValue['school_address'])) ? $arValue['school_address'] : $arValue['address'],
 			'date_edit'=>$arValue['date_edit'],
 			'type'=>$arTypes['tc'],
 			'category'=>'Учебные центры'
@@ -221,17 +230,24 @@ echo $sResult;
 
 function appendToResult(&$sResult,array $arValue){
 	$arValue['tags']=implode(', ',(!empty($arValue['tags']) ? $arValue['tags'] : array($arValue['city'],$arValue['category'])));
+	$arValue['tags']=htmlspecialchars(trim(strip_tags($arValue['tags'])),ENT_QUOTES,'utf-8');
+	$sSearchTags=htmlspecialchars($arValue['tags'].', '.$arValue['city'].', '.$arValue['address'],ENT_QUOTES,'utf-8');
+
+	$sPreviewText=trim(htmlspecialchars(strip_tags($arValue['preview_text']),ENT_QUOTES,'utf-8'));
+	$sDetailText=trim(htmlspecialchars(strip_tags($arValue['detail_text']),ENT_QUOTES,'utf-8'));
+	$sDescription=!empty($sDetailText) ? VString::truncate($sDetailText,300) : $sPreviewText;
+
 	$sResult.='
 		<sphinx:document id="'.$arValue['id'].'">
 			<search-name>'.trim(htmlspecialchars(strip_tags($arValue['name']),ENT_QUOTES,'utf-8')).'</search-name>
 			<search-category>'.$arValue['category'].' '.trim($arValue['city']).'</search-category>
-			<search-preview><![CDATA[['.trim(strip_tags($arValue['preview_text'])).']]></search-preview>
-			<search-detail><![CDATA[['.trim(strip_tags($arValue['detail_text'])).']]></search-detail>
-			<search-tags>'.trim(strip_tags($arValue['tags'])).'</search-tags>
+			<search-preview><![CDATA[['.$sPreviewText.']]></search-preview>
+			<search-detail><![CDATA[['.$sDetailText.']]></search-detail>
+			<search-tags>'.$sSearchTags.'</search-tags>
 			<name>'.htmlspecialchars($arValue['name'],ENT_QUOTES,'utf-8').'</name>
-			<description>'.htmlspecialchars($arValue['preview_text'],ENT_QUOTES,'utf-8').'</description>
-			<tags>'.htmlspecialchars($arValue['tags'],ENT_QUOTES,'utf-8').'</tags>
-			<date_edit>'.strtotime($arValue['date_edit']).'</date_edit>
+			<description>'.$sDescription.'</description>
+			<tags>'.$arValue['tags'].'</tags>
+			<date_edit>'.$arValue['date_edit'].'</date_edit>
 			<id>'.$arValue['id'].'</id>
 			<type>'.$arValue['type'].'</type>
 			<city>'.$arValue['city_id'].'</city>
