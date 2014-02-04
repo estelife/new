@@ -20,11 +20,10 @@ function VMap(){
 		if(typeof mapElement!='object' || !(mapElement instanceof jQuery) || mapElement.length<=0)
 			return;
 
-		var center=new google.maps.LatLng(lat,lng),
-			options=VMapStyle.mapOptions(),
+		var options=VMapStyle.mapOptions(),
 			style=VMapStyle.mapStyle();
 
-		options.center=center;
+		options.center=new google.maps.LatLng(lat,lng);
 
 		var map=new google.maps.Map(mapElement.get(0),options),
 			mapType=new google.maps.StyledMapType(style,{

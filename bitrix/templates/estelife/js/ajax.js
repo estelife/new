@@ -613,7 +613,7 @@ require([
 
 				map.markers().icons(icons);
 				map.create(jmap,lat,lng);
-				map.zoom(16);
+				map.zoom(14);
 
 				map.markers().add(new map.marker(lat,lng));
 				map.markers().draw();
@@ -771,20 +771,7 @@ require([
 			e.preventDefault();
 		});
 
-		body.on('mouseover mouseout click','[data-help]',function(e){
-			var target=$(this),
-				isSelect=(target.parents('.select:first').length>0),
-				fromTop=(isSelect && target.hasClass('has-value'));
-
-			if(isSelect && !fromTop)
-				return;
-
-			if(e.type=='mouseover'){
-				EL.help($(this),fromTop).show();
-			}else{
-				EL.help($(this),fromTop).hide();
-			}
-		});
+		EL.helpMaker($('[data-help],[title]'));
 
 		//Пишем в базу историю поиска
 		body.on('click', '.set_search_history', function(){

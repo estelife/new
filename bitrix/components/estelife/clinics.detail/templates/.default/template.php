@@ -13,7 +13,11 @@
 			</h1>
 			<div class="img">
 				<div class="img-in">
-					<?=$arResult['clinic']['logo']?>
+					<?php if(!empty($arResult['clinic']['logo'])):?>
+						<?=$arResult['clinic']['logo']?>
+					<?php else: ?>
+						<div class="default">Изображение отсутствует</div>
+					<?php endif; ?>
 				</div>
 			</div>
 

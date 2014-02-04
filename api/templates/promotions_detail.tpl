@@ -54,20 +54,30 @@
 				<li>
 					<!--$detail.clinic.main.address!--><br />
 					<!--$detail.clinic.main.phone!-->
+
+					<!--if($detail.clinic.main.latitude)!-->
+					<div class="map">
+						<span class="lat"><!--$detail.clinic.main.latitude!--></span>
+						<span class="lng"><!--$detail.clinic.main.longitude!--></span>
+					</div>
+					<!--endif!-->
 				</li>
 				<!--if($detail.clinic.offices)!-->
 					<!--foreach($detail.clinic.offices as $nKey=>$arOffice)!-->
 					<li>
 						<!--$arOffice.address!--><br />
 						<!--$arOffice.phone!-->
+
+						<!--if($arOffice.latitude)!-->
+						<div class="map">
+							<span class="lat"><!--$arOffice.latitude!--></span>
+							<span class="lng"><!--$arOffice.longitude!--></span>
+						</div>
+						<!--endif!-->
 					</li>
 					<!--endforeach!-->
 				<!--endif!-->
 			</ul>
-			<div class="map">
-				<span class="lat"><!--$detail.clinic.main.latitude!--></span>
-				<span class="lng"><!--$detail.clinic.main.longitude!--></span>
-			</div>
 		</div>
 
 		<!--

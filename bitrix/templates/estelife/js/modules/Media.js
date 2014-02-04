@@ -173,6 +173,10 @@ define(function(){
 
 			preview.fadeTo(delay,0.3);
 			big.fadeTo(delay,1);
+
+			_gallery().parent
+				.parents('.win:first')
+				.animate({'scrollTop':'0px'},200);
 		}
 
 		function _prev(){

@@ -23,18 +23,16 @@
 
 						<div class="img">
 							<div class="img-in">
-								<a href="<?=$arClinic["link"]?>">
-									<?php if(!empty($arClinic["logo"])): ?>
-										<?=$arClinic["logo"]?>
-									<?php else: ?>
-										<img src="/img/icon/unlogo.png" />
-									<?endif?>
-								</a>
+								<?php if(!empty($arClinic["logo"])): ?>
+									<?=$arClinic["logo"]?>
+								<?php else: ?>
+									<div class="default">Изображение отсутствует</div>
+								<?endif?>
 							</div>
 						</div>
 
 						<div class="cols col1">
-							<span><?=$arClinic["address"]?></span>
+							<span>г. <?=$arClinic['city_name']?>, <?=$arClinic["address"]?></span>
 							<span><?=$arClinic['phone']?></span>
 							<a href="#"><a target='_blank' href="<?=$arClinic["web"]?>"><?=$arClinic["web_short"]?></a></a>
 						</div>

@@ -86,6 +86,7 @@ $obQuery->builder()
 $arArticles = $obQuery->select()->all();
 
 $arResult['clinic']['articles'] = array();
+
 if (!empty($arArticles)){
 	foreach ($arArticles as $val){
 		$val['url'] = '/ar'.$val['id'].'/';
@@ -187,49 +188,9 @@ if(!empty($arResult['clinic']['gallery'])){
 	}
 }
 
-//Получаем акции
-$obQuery = $obClinics->createQuery();
-$obQuery->builder()->from('estelife_clinic_akzii', 'ecs');
-$obJoin=$obQuery->builder()->join();
-$obJoin->_left()
-	->_from('ecs','akzii_id')
-	->_to('estelife_akzii','id','ea');
-
-$obQuery->builder()
-	->field('ea.id','id')
-	->field('ea.name','name')
-	->field('ea.end_date','end_date')
-	->field('ea.base_old_price','old_price')
-	->field('ea.base_new_price','new_price')
-	->field('ea.base_sale','sale')
-	->field('ea.small_photo','logo_id')
-	->field('ea.view_type','view_type');
-$obQuery->builder()->filter()
-	->_eq('ecs.clinic_id', $nClinicID)
-	->_eq('ea.active', 1)
-	->_gte('ea.end_date', time());
-
-$arActions = $obQuery->select()->all();
-
-
-
-$arNow = time();
-foreach ($arActions as $val){
-	$val['time'] = ceil(($val['end_date']-$arNow)/(60*60*24));
-	$val['day'] = \core\types\VString::spellAmount($val['time'], 'день,дня,дней');
-	$val['link'] = '/pr'.$val['id'].'/';
-	$val['new_price']=number_format($val['new_price'],0,'.',' ');
-	$val['old_price']=number_format($val['old_price'],0,'.',' ');
-
-	if(!empty($val['logo_id'])){
-		$file=CFile::GetFileArray($val["logo_id"]);
-		$val['logo']=$file['SRC'];
-	}
-
-	$arResult['clinic']['akzii'][]=$val;
-}
-
 //Получаем филиалы
+$arClinicIds=array($nClinicID);
+
 $obQuery = $obClinics->createQuery();
 $obQuery->builder()->from('estelife_clinics', 'ec');
 $obJoin=$obQuery->builder()->join();
@@ -267,13 +228,14 @@ $arResult['filial'] = $obQuery->select()->all();
 
 foreach ($arResult['filial'] as $val){
 	$arFilials[] = $val['id'];
+
 	if(!empty($val['phone']))
 		$val['phone']=\core\types\VString::formatPhone($val['phone']);
 
-	if(!empty($val['web'])){
+	if(!empty($val['web']))
 		$val['web_short']=\core\types\VString::checkUrl($val['web']);
-	}
 
+	$arClinicIds[]=$val['id'];
 	$arResult['clinic']['contacts'][$val['id']] = $val;
 }
 
@@ -298,6 +260,45 @@ if (!empty($arFilialsPays)){
 	}
 }
 
+//Получаем акции
+$obQuery = $obClinics->createQuery();
+$obQuery->builder()->from('estelife_clinic_akzii', 'ecs');
+$obJoin=$obQuery->builder()->join();
+$obJoin->_left()
+	->_from('ecs','akzii_id')
+	->_to('estelife_akzii','id','ea');
+
+$obQuery->builder()
+	->field('ea.id','id')
+	->field('ea.name','name')
+	->field('ea.end_date','end_date')
+	->field('ea.base_old_price','old_price')
+	->field('ea.base_new_price','new_price')
+	->field('ea.base_sale','sale')
+	->field('ea.small_photo','logo_id')
+	->field('ea.view_type','view_type');
+$obQuery->builder()->filter()
+	->_in('ecs.clinic_id', $arClinicIds)
+	->_eq('ea.active', 1)
+	->_gte('ea.end_date', time());
+
+$arActions = $obQuery->select()->all();
+
+$arNow = time();
+foreach ($arActions as $val){
+	$val['time'] = ceil(($val['end_date']-$arNow)/(60*60*24));
+	$val['day'] = \core\types\VString::spellAmount($val['time'], 'день,дня,дней');
+	$val['link'] = '/pr'.$val['id'].'/';
+	$val['new_price']=number_format($val['new_price'],0,'.',' ');
+	$val['old_price']=number_format($val['old_price'],0,'.',' ');
+
+	if(!empty($val['logo_id'])){
+		$file=CFile::GetFileArray($val["logo_id"]);
+		$val['logo']=$file['SRC'];
+	}
+
+	$arResult['clinic']['akzii'][]=$val;
+}
 
 if(!empty($arResult['clinic']['logo_id']))
 	$arResult['clinic']['logo']=CFile::ShowImage($arResult['clinic']['logo_id'],200,85);

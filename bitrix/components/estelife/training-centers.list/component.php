@@ -104,7 +104,6 @@ $obFilter = $obQuery->builder()->filter()
 	->_eq('eet.type', 3)
 	->_eq('ece.is_owner', 1);
 
-
 if (!empty($arResult['city']) && $obGet->one('name')!=='all'){
 	$obFilter->_or()
 		->_eq('ecg.city_id', $arResult['city']);
@@ -112,10 +111,8 @@ if (!empty($arResult['city']) && $obGet->one('name')!=='all'){
 		->_eq('ectd.city_id', $arResult['city']);
 }
 
-if(!$obGet->blank('name')){
+if(!$obGet->blank('name'))
 	$obFilter->_like('ec.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
-}
-
 
 $obIf=$obQuery->builder()->_if();
 $obIf->when(

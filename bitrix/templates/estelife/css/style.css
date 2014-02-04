@@ -359,12 +359,13 @@ img {
 .img img {
 	border:none;
 }
-.img .default {
+.content .img .default {
 	width:100%;
 	height: 100%;
 	background:#f0f0f0 url('../images/unlogo.png') center center no-repeat;
 	display: block;
 	text-indent:-10000px;
+	position: static;
 }
 .img a {
 	display: block;
@@ -752,6 +753,10 @@ ul.stat .unlikes.active i {
 	text-decoration: none;
 	margin: 18px 0 0 20px;
 	width:100%;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	width: 197px;
 }
 .item.promotion .clinic-link:hover {
 	text-decoration: underline;
@@ -1536,8 +1541,9 @@ td.prices span {
 }
 .item.detail .clinic li {
 	padding-left:0;
-	margin-bottom:10px;
+	margin-bottom:20px;
 	font-size:13px;
+	display: block;
 }
 .item.detail .clinic h4 {
 	margin:40px 0 20px 0;
@@ -1547,6 +1553,7 @@ td.prices span {
 	height:178px;
 	border:1px solid #d1d1d1;
 	margin-top:20px;
+	float:none;
 }
 .filter {
 	background:#e8e8e8;
@@ -2778,6 +2785,7 @@ form.quality .submit, .auth .submit {
 	position: absolute;
 	display: none;
 	z-index:1000;
+	max-width: 200px;
 }
 .help i {
 	display: block;

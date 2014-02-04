@@ -6,7 +6,11 @@
 		</h1>
 		<div class="img">
 			<div class="img-in">
-				<!--$detail.logo!-->
+				<!--if($detail.logo)!-->
+					<!--$detail.logo!-->
+				<!--else!-->
+					<div class="default">Изображение отсутствует</div>
+				<!--endif!-->
 			</div>
 		</div>
 		<div class="cols col1">
