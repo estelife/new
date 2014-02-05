@@ -320,6 +320,7 @@ var Estelife=function(s){
 	this.query=function(url){
 		var current=url||location.href,
 			query=current.split('?');
+
 		query=query[1]||'';
 
 		return {
