@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=1024" />
+	<meta name="format-detection" content="telephone=no">
 	<title><?$APPLICATION->ShowTitle()?></title>
 	<?$APPLICATION->ShowMeta("robots")?>
 	<?$APPLICATION->ShowMeta("keywords")?>

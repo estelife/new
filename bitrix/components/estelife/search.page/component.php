@@ -1,5 +1,6 @@
 <?php
 use core\types\VArray;
+require $_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/estelife/classes/search/sphinxapi.php';
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
@@ -53,29 +54,29 @@ $arResult['search']['sort_url']=$arResult['url'].(!empty($sTags)? "&amp;tags=".u
 
 if (!empty($sQuery)){
 	$obSph=new SphinxClient();
-	$obSph->setServer('localhost', 3312);
-	$obSph->setMaxQueryTime($nTime);
-	$obSph->setArrayResult(true);
-	$obSph->setMatchMode(SPH_MATCH_ALL);
+	$obSph->SetServer('localhost', 3312);
+	$obSph->SetMaxQueryTime($nTime);
+	$obSph->SetArrayResult(true);
+	$obSph->SetMatchMode(SPH_MATCH_ALL);
 
 	if (!empty($sSort))
-		$obSph->setSortMode(SPH_SORT_ATTR_DESC, $sSort);
+		$obSph->SetSortMode(SPH_SORT_ATTR_DESC, $sSort);
 
-	$obSph->setFieldWeights(array(
-		'search-name'=>'100',
-		'search-category'=>'80',
-		'search-preview'=>'60',
-		'search-detail'=>'70',
-		'search-tags'=>'90'
+	$obSph->SetFieldWeights(array(
+		'search-name'=>100,
+		'search-category'=>80,
+		'search-preview'=>60,
+		'search-detail'=>70,
+		'search-tags'=>90
 	));
-	$obSph->resetFilters();
+	$obSph->ResetFilters();
 //	$obSph->setFilter('city', array(0, intval($_COOKIE['city'])));
 
 	if (!empty($sTags)){
-		$obSph->setMatchMode(SPH_MATCH_EXTENDED);
+		$obSph->SetMatchMode(SPH_MATCH_EXTENDED);
 		$arAnswer=$obSph->query('@search-tags: '.$sTags);
 	}else
-		$arAnswer=$obSph->query($sQuery, '*');
+		$arAnswer=$obSph->Query($sQuery, '*');
 
 	if (!empty($arAnswer['matches'])){
 		$arAnswer=$arAnswer['matches'];

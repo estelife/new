@@ -30,14 +30,15 @@ html,body,textarea,input,a {
 	color:#2c2c2c;
 	line-height: 20px;
 }
+body {
+	background:#dddddd url('../images/bg.jpg') 0 0 repeat;
+	background-attachment: fixed;
+}
 a {
 	color:#E50364;
 }
 a:hover {
 	text-decoration: none;
-}
-body {
-	background:#dddddd;
 }
 .none {
 	display: none !important;
@@ -135,9 +136,6 @@ ul li:last-child, ul li.last-child {
 }
 .panel .arrow i {
 	top:1px;
-}
-.panel .col2 {
-	float:right;
 }
 .panel a.cols {
 	width:40px;
@@ -245,6 +243,7 @@ input.text {
 	text-decoration: none;
 	line-height: 26px;
 	font-size: 14px;
+	color:#2c2c2c;
 }
 .submit:hover, .win-close:hover {
 	background-color:#e50264;
@@ -383,7 +382,7 @@ h1, h2 {
 }
 .img div, .img span {
 	position: absolute;
-	top:0;
+	bottom:0;
 	left:0;
 	background:url('../images/shadow.png') 0 0 repeat;
 	color:#fff;
@@ -417,14 +416,16 @@ h1, h2 {
 	font-size: 14px;
 }
 .general-news {
-	margin-top:40px;
+	margin-top:37px;
 	height:400px;
 }
 .general-news .title h2 {
-	color:#a2a2a2;
-	font-size:18px;
+	color: #fff;
+	font-size: 12px;
 	line-height: 18px;
-	margin: 7px 0 0 15px;
+	margin: 4px 15px 0 0;
+	background: #a8a8a8;
+	padding: 2px 13px;
 }
 .general-news .img {
 	cursor:pointer;
@@ -446,6 +447,19 @@ h1, h2 {
 }
 .general-news .subscribe {
 	border-top:1px solid #5c5c5c;
+	float:right;
+	width: 147px;
+	margin:0;
+}
+.general-news .subscribe .submit {
+	float: right;
+	width: 38px;
+}
+.general-news .subscribe .text {
+	min-width: 0;
+	width: 80px;
+	float: left;
+	border-right: none;
 }
 .general-news .subscribe h3 {
 	text-transform: uppercase;
@@ -459,7 +473,7 @@ h1, h2 {
 	font-size:16px;
 	line-height: 20px;
 	text-decoration: none;
-	margin-top:26px;
+	margin-top:21px;
 	display: block;
 	color:#2c2c2c;
 }
@@ -506,7 +520,7 @@ ul.stat {
 .adv.top {
 	width:727px;
 	height:100px;
-	/*margin-top:40px;*/
+	margin-top:40px;
 }
 .adv.bottom {
 	width:100%;
@@ -569,7 +583,7 @@ ul.stat .unlikes.active i {
 }
 .experts {
 	width:227px;
-	/*margin-top:40px;*/
+	margin-top:40px;
 	border: 1px solid #D1D1D1;
 	text-align: center;
 	height:519px;
@@ -897,16 +911,24 @@ td.prices span {
 	width:100%;
 	height:20px;
 	margin-bottom:20px;
+	position: relative;
+}
+.general-news .title {
+	height: 29px;
+	margin-bottom: 15px;
 }
 .inner .title {
 	height:24px;
 }
 .articles .title {
 	margin-bottom:26px;
+	height: 39px;
 }
 .title h1, .title h2, .title a {
 	float:left;
 	letter-spacing: -0.6px;
+	z-index:2;
+	position: relative;
 }
 .title a {
 	font-size: 14px;
@@ -1005,7 +1027,7 @@ td.prices span {
 }
 .articles {
 	width:100%;
-	margin-top:40px;
+	margin-top:56px;
 }
 .articles .menu, .articles .menu li, .articles .menu a,
 .item.detail .menu, .item.detail .menu li, .item.detail .menu a,
@@ -1027,7 +1049,7 @@ td.prices span {
 }
 .articles .menu span, .media .menu a,
 .item.detail .menu span, .item.detail .menu a,
-.inner .title .menu a, .search-founded .menu a {
+.inner .title .menu a, .search-founded .menu a, .title .tabs-menu a span {
 	border-bottom:1px dotted #2C2C2C;
 	text-decoration: none;
 }
@@ -2503,15 +2525,11 @@ form.search .submit {
 	z-index: 2;
 	color:#2c2c2c;
 }
-body {
-	background:#ddd url('') 0 0 repeat;
-	background-attachment: fixed;
-}
 .home-img {
 	position: absolute;
 	opacity: 0.5;
 	top: 0;
-	left: -283px;
+	left: -35px;
 	width: 1920px;
 	max-height: initial;
 	max-width: initial;
@@ -2888,6 +2906,9 @@ form.quality .submit, .auth .submit {
 	line-height: 37px;
 	padding:0 16px;
 }
+.tabs-menu .active a span {
+	border:none;
+}
 .tabs-menu .active a i {
 	display: block;
 	width:11px;
@@ -2906,6 +2927,21 @@ form.quality .submit, .auth .submit {
 .content .tabs-menu li {
 	padding:0;
 }
+.title .tabs-menu {
+	float:right;
+	margin:0;
+	position: absolute;
+	padding:0;
+	z-index:1;
+}
+.title .tabs-menu li {
+	float:right;
+}
+.title .tabs-menu li a {
+	letter-spacing: 0;
+	margin:0;
+}
+
 .ajax-filter {
 	min-height:120px;
 	float:right;
