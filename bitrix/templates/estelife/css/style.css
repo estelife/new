@@ -136,9 +136,9 @@ ul li:last-child, ul li.last-child {
 .panel .arrow i {
 	top:1px;
 }
-.panel .col2 {
-	float:right;
-}
+/*.panel .col2 {*/
+	/*float:right;*/
+/*}*/
 .panel a.cols {
 	width:40px;
 }
@@ -1582,7 +1582,7 @@ td.prices span {
 	display: block;
 	margin-bottom:3px;
 }
-.filter input[type=checkbox] {
+form input[type=checkbox] {
 	visibility: hidden;
 	height: 17px;
 }
@@ -2756,7 +2756,7 @@ form.quality .submit, .auth .submit {
 	position: relative;
 }
 .field.error input {
-	background: rgb(240, 76, 24);
+	background: #ff5858;
 	color:#fff;
 }
 .field.error i {
@@ -2765,7 +2765,7 @@ form.quality .submit, .auth .submit {
 	display: block;
 	position: absolute;
 	bottom: -24px;
-	color: #E60365;
+	color: #dd3a3a;
 	left: 0;
 }
 .help {
@@ -2945,7 +2945,7 @@ form.quality .submit, .auth .submit {
 }
 .auth .submit {
 	margin: 40px auto 0 auto;
-	width: 146px;
+	width: 160px;
 }
 .auth .link {
 	display: block;
@@ -2972,7 +2972,7 @@ form.quality .submit, .auth .submit {
 	display: block;
 	left:-19px;
 	top:50%;
-	margin-top:-3px;
+	margin-top:-2px;
 	width:14px;
 	height:5px;
 	background-position: -168px -97px;
