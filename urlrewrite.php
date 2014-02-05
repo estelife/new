@@ -7,6 +7,12 @@ $arUrlRewrite = array(
 		"PATH" => "/yvoire/index.php",
 	),
 	array(
+		"CONDITION" => "#^/personal/([a-zA-Z0-9_-]+/)?#",
+		"RULE" => "",
+		"ID" => "estelife:mega.complex.personal",
+		"PATH" => "/personal/index.php",
+	),
+	array(
 		"CONDITION" => "#^/rest/[a-z]{2}[0-9]+/#",
 		"RULE" => "",
 		"ID" => "estelife:mega.complex.detail",

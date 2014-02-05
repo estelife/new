@@ -86,8 +86,6 @@ if ($nSpec>0 && $nService>0){
 	);
 }
 
-
-
 if($obMethod){
 	$obMethod->builder()->from('estelife_methods');
 	$arResult['methods']=$obMethod->select()->all();
@@ -106,9 +104,11 @@ $arResult['filter']=array(
 $arResult['count'] = \bitrix\ERESULT::$DATA['count'];
 
 $arResult['empty']=false;
+
 foreach ($arResult['filter'] as $val){
 	if (($val=='' && $val==0) || $val=='all')
 		continue;
 	$arResult['empty']=true;
 }
+
 $this->IncludeComponentTemplate();

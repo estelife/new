@@ -1,4 +1,6 @@
 <?php
+use core\types\VString;
+
 $_SERVER["DOCUMENT_ROOT"] = realpath(dirname(__FILE__).'/../../');
 $DOCUMENT_ROOT =$_SERVER["DOCUMENT_ROOT"];
 
@@ -27,6 +29,7 @@ $obJoin=$obBuilder
 $obJoin->_left()
 	->_from('ep', 'company_id')
 	->_to('estelife_companies', 'id', 'ec');
+
 //TODO: Раскомментировать после первой индексации
 //$obBuilder->filter()
 //	->_gte('ep.date_edit',time())
@@ -62,13 +65,12 @@ $arTypesString=array(
 	'3' =>'Биоревитализация',
 	'4' =>'Контурная пластика',
 	'5' =>'Имплантаты',
-	'6'=>'Нити',
+	'6'=>'Нити'
 );
 
 if (!empty($arTypes)){
-	foreach ($arTypes as $val){
-		$arResult[$val['pill_id']]['type'][]=trim($arTypesString[$val['type_id']]);
-	}
+	foreach ($arTypes as $val)
+		$arResult[$val['pill_id']]['tags'][]=trim($arTypesString[$val['type_id']]);
 }
 
 $arKillList=array();
@@ -95,17 +97,23 @@ $sResult.='
 $nTime=time();
 
 foreach($arResult as $arValue){
+	$sName=trim(htmlspecialchars(strip_tags($arValue['name']),ENT_QUOTES,'utf-8'));
+	$sPreviewText=trim(htmlspecialchars(strip_tags($arValue['preview_text']),ENT_QUOTES,'utf-8'));
+	$sDetailText=trim(htmlspecialchars(strip_tags($arValue['detail_text']),ENT_QUOTES,'utf-8'));
+	$sDescription=!empty($sDetailText) ? VString::truncate($sDetailText,300) : $sPreviewText;
+	$sTags=htmlspecialchars(implode(', ',$arValue['tags']),ENT_QUOTES,'utf-8');
+
 	$sResult.='
 		<sphinx:document id="'.$arValue['id'].'">
-			<search-name>'.trim(htmlspecialchars(strip_tags($arValue['name']),ENT_QUOTES,'utf-8')).'</search-name>
+			<search-name>'.$sName.'</search-name>
 			<search-category>Препараты</search-category>
-			<search-preview><![CDATA[['.trim(strip_tags($arValue['preview_text'])).']]></search-preview>
-			<search-detail><![CDATA[['.trim(strip_tags($arValue['detail_text'])).']]></search-detail>
-			<search-tags>'.implode(', ',$arValue['tags']).'</search-tags>
-			<name>'.$arValue['name'].'</name>
-			<description>'.htmlspecialchars($arValue['preview_text'],ENT_QUOTES,'utf-8').'</description>
-			<tags>'.implode(', ',$arValue['tags']).'</tags>
-			<date_edit>'.strtotime($arValue['date_edit']).'</date_edit>
+			<search-preview><![CDATA[['.$sPreviewText.']]></search-preview>
+			<search-detail><![CDATA[['.$sDetailText.']]></search-detail>
+			<search-tags>'.$sTags.'</search-tags>
+			<name>'.$sName.'</name>
+			<description>'.$sDescription.'</description>
+			<tags>'.$sTags.'</tags>
+			<date_edit>'.$arValue['date_edit'].'</date_edit>
 			<id>'.$arValue['id'].'</id>
 			<type>pr</type>
 			<city>0</city>

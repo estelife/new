@@ -3,18 +3,17 @@
 	<div class="articles ">
 		<div class="title">
 			<h2><?=$arParams['TITLE']?></h2>
-			<a href="<?=$arResult['first_section']?>"><?=$arParams['MORE_TITLE']?></a>
-		</div>
-		<ul class="menu">
-			<?php if (!empty($arResult['SECTIONS_NAME'])):?>
-				<?php $i=1;?>
-				<?php foreach ($arResult['SECTIONS_NAME'] as $key=>$val):?>
-					<li<?php if ($i==1):?> class="active"<?php endif?>><a href="#"><span><?=$val?></span></a></li>
-					<?php $i++?>
-				<?php endforeach?>
-			<?php endif;?>
+			<ul class="tabs-menu">
+				<?php if (!empty($arResult['SECTIONS_NAME'])):?>
+					<?php $i=1;?>
+					<?php foreach ($arResult['SECTIONS_NAME'] as $key=>$val):?>
+						<li<?php if ($i==1):?> class="active"<?php endif?>><a href="#"><span><?=$val?></span><i></i></a></li>
+						<?php $i++?>
+					<?php endforeach?>
+				<?php endif;?>
 
-		</ul>
+			</ul>
+		</div>
 		<?php foreach ($arResult['iblock'] as $key=>$arArticle):?>
 			<div class="items <?php if ($arResult['first']!=$key):?>none<?php endif?>" rel="<?=$arArticle['section']?>">
 				<?php foreach ($arArticle['articles'] as $key=>$val):?>

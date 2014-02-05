@@ -12,17 +12,15 @@
 					<!--endif!-->
 					<div class="img">
 						<div class="img-in">
-							<a href="<!--$val.link!-->">
-								<!--if($val.logo)!-->
-									<!--$val.logo!-->
-								<!--else!-->
-									<img src="/img/icon/unlogo.png" />
-								<!--endif!-->
-							</a>
+							<!--if($val.logo)!-->
+								<!--$val.logo!-->
+							<!--else!-->
+								<div class="default">Изображение отсутствует</div>
+							<!--endif!-->
 						</div>
 					</div>
 					<div class="cols col1">
-						<span><!--$val.address!--></span>
+						<span>г. <!--$val.city_name!-->, <!--$val.address!--></span>
 						<span><!--$val.phone!--></span>
 						<a href="#"><a target='_blank' href="<!--$val.web!-->"><!--$val.web_short!--></a></a>
 					</div>

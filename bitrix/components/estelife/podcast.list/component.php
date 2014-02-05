@@ -79,18 +79,9 @@ try{
 			$asRes['DETAIL_URL']='/'.$arParams['PREFIX'].$asRes['ID'].'/';
 
 			if($bFirst){
-				$asRes['PREVIEW_TEXT_B'] = trim(\core\types\VString::truncate($asRes['PROPERTY_SHORT_TEXT_VALUE']['TEXT'], 165, '...')).'<span></span>';
+				$asRes['PREVIEW_TEXT_B'] = $asRes['PROPERTY_SHORT_TEXT_VALUE']['TEXT'].'<span></span>';
 				$asRes['IMG_B'] = CFile::GetFileArray($asRes['PROPERTY_FRONTBIG_VALUE']);
 				$asRes['IMG_B']=$asRes['IMG_B']['SRC'];
-
-				$obLike = new \like\VLike(\like\VLike::ARTICLE);
-				$arNewLikes= $obLike->getOnlyLikes(array(
-					$asRes['ID']
-				));
-				$asRes['LIKES']=isset($arNewLikes[$asRes['ID']]) ?
-					$arNewLikes[$asRes['ID']] :
-					array();
-
 				$bFirst=false;
 			}
 

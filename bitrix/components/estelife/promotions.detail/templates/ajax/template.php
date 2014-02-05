@@ -10,8 +10,8 @@ echo json_encode(array(
 			'link'=>'/'
 		),
 		array(
-			'name'=>'Акции'.($arResult['action']['clinics']['city_id']==359 ? ' Москвы' : ($arResult['action']['clinics']['city_id']==358 ? ' Санкт-Петербурга' : '')),
-			'link'=>'/promotions/'.($arResult['action']['clinics']['city_id']==359 ? '?city=359' : ($arResult['action']['clinics']['city_id']==358 ? '?city=358' : ''))
+			'name'=>'Акции'.($arResult['action']['clinic']['main']['city_id']==359 ? ' Москвы' : ($arResult['action']['clinic']['main']['city_id']==358 ? ' Санкт-Петербурга' : '')),
+			'link'=>'/promotions/'.($arResult['action']['clinic']['main']['city_id']==359 ? '?city=359' : ($arResult['action']['clinic']['main']['city_id']==358 ? '?city=358' : ''))
 		),
 		array(
 			'name'=>$arResult['action']['preview_text'],

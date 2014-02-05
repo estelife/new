@@ -149,7 +149,7 @@ while($arData=$obResult->Fetch()){
 	if (!empty($arData['type_logo_id']))
 		$arData["logo_id"] = $arData["type_logo_id"];
 
-	$arData['img']=CFile::ShowImage($arData["logo_id"], 110, 90, 'alt='.$arData["name"]);
+	$arData['img']=CFile::ShowImage($arData["logo_id"], 190, 80, 'alt='.$arData["name"]);
 	$arData['short_web']=\core\types\VString::checkUrl($arData['web']);
 
 	if (!empty($arData['type_address']))
@@ -209,13 +209,15 @@ if(!empty($arResult['country']['NAME']))
 
 if(!empty($arSeoGeo))
 	$arSeoGeo=' - '.implode(', ',$arSeoGeo);
+else
+	$arSeoGeo='';
 
 $sSeoTitle.=$arSeoGeo;
 $sSeoDescription.=$arSeoGeo;
 
 $APPLICATION->SetPageProperty("title", $sSeoTitle);
-$APPLICATION->SetPageProperty("description", VString::truncate($arDescription, 160, ''));
-$APPLICATION->SetPageProperty("keywords", "Estelife, организаторы, ".$arDescription);
+$APPLICATION->SetPageProperty("description", VString::truncate($sSeoDescription, 160, ''));
+$APPLICATION->SetPageProperty("keywords", "Estelife, организаторы, ".$sSeoDescription);
 
 //$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 $sTemplate=$this->getTemplateName();

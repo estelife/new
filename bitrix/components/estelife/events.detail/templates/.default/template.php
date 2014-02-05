@@ -32,7 +32,7 @@
 			<h3>Организаторы</h3>
 			<ul>
 				<?php foreach ($arResult['event']['org'] as $val):?>
-					<li><a href="/sp<?=$val['company_id']?>/" target="_blank"><?=$val['company_name']?></a></li>
+					<li><a href="/sp<?=$val['company_id']?>/"><?=$val['company_name']?></a></li>
 				<?php endforeach?>
 			</ul>
 			<h3>Описание</h3>

@@ -34,13 +34,9 @@
 				<?foreach($arResult['search']["result"] as $val):?>
 					<div class="item search">
 						<h3><a href="<?=$val["src"]?>"><?=$val["name"]?></a></h3>
-						<p><?echo $val["description"]?></p>
+						<p><?=$val["description"]?></p>
 						<span class="date">Изменен: <i><?=$val["date_edit"]?></i></span>
-						<?php if (!empty($val["tags"])):?>
-							<?php foreach ($val["tags"] as $k=>$v):?>
-								<?php if ($k!=0):?>, <?endif?><a href="<?=$arResult['search']["tags_url"]?>&amp;tags=<?=$v?>"><?=$v?></a>
-							<?php endforeach;?>
-						<?php endif?>
+						<?=$val['tags']?>
 					</div>
 				<?endforeach;?>
 			</div>

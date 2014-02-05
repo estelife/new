@@ -1,4 +1,6 @@
 <?php
+use core\types\VString;
+
 $_SERVER["DOCUMENT_ROOT"] = realpath(dirname(__FILE__).'/../../');
 $DOCUMENT_ROOT =$_SERVER["DOCUMENT_ROOT"];
 
@@ -27,7 +29,9 @@ $obJoin=$obBuilder
 	->field('activity.preview_text','preview_text')
 	->field('activity.detail_text','detail_text')
 	->field('activity.date_edit','date_edit')
+	->field('activity.address','address')
 	->field('training_type.id','is_training')
+	->field('country.NAME','country')
 	->field('city.NAME','city')
 	->field('city.ID','city_id')
 	->field('company.name','company')
@@ -47,6 +51,11 @@ $obJoin->_left()
 	->_cond()
 	->_eq('training_type.type',3);
 
+$obJoin->_left()
+	->_from('activity','country_id')
+	->_to('iblock_element','ID','country')
+	->_cond()->_eq('country.IBLOCK_ID',15);
+
 // Город
 $obJoin->_left()
 	->_from('activity','city_id')
@@ -59,6 +68,7 @@ $obJoin->_left()
 	->_to('estelife_company_events','event_id','company_link')
 	->_cond()
 	->_eq('company_link.is_owner',1);
+
 $obJoin->_left()
 	->_from('company_link','company_id')
 	->_to('estelife_companies','id','company');
@@ -104,20 +114,34 @@ foreach($arResult as $arValue){
 	$arValue['tags']=array(
 		$sCategory,
 		$arValue['company'],
-		$arValue['city']
 	);
+
+	if(!empty($arValue['country']))
+		$arValue['tags'][]=$arValue['country'];
+
+	if(!empty($arValue['city']))
+		$arValue['tags'][]=$arValue['city'];
+
+	$arValue['tags']=implode(',',$arValue['tags']);
+	$arValue['tags']=htmlspecialchars($arValue['tags'],ENT_QUOTES,'utf-8');
+	$sSearchTags=$arValue['tags'].(!empty($arValue['address']) ? ', '.$arValue['address'] : '');
+
+	$sName=trim(htmlspecialchars(strip_tags($arValue['name']),ENT_QUOTES,'utf-8'));
+	$sPreviewText=trim(htmlspecialchars(strip_tags($arValue['preview_text']),ENT_QUOTES,'utf-8'));
+	$sDetailText=trim(htmlspecialchars(strip_tags($arValue['detail_text']),ENT_QUOTES,'utf-8'));
+	$sDescription=!empty($sDetailText) ? VString::truncate($sDetailText,300) : $sPreviewText;
 
 	$sResult.='
 		<sphinx:document id="'.$arValue['id'].'">
-			<search-name>'.trim(htmlspecialchars(strip_tags($arValue['name']),ENT_QUOTES,'utf-8')).'</search-name>
+			<search-name>'.$sName.'</search-name>
 			<search-category>'.$sCategory.' '.trim($arValue['city']).'</search-category>
-			<search-preview><![CDATA[['.trim(strip_tags($arValue['preview_text'])).']]></search-preview>
-			<search-detail><![CDATA[['.trim(strip_tags($arValue['detail_text'])).']]></search-detail>
-			<search-tags>'.trim($arValue['tags']).'</search-tags>
-			<name>'.htmlspecialchars($arValue['name'],ENT_QUOTES,'utf-8').'</name>
-			<description>'.htmlspecialchars($arValue['preview_text'],ENT_QUOTES,'utf-8').'</description>
+			<search-preview><![CDATA[['.$sPreviewText.']]></search-preview>
+			<search-detail><![CDATA[['.$sDetailText.']]></search-detail>
+			<search-tags>'.$sSearchTags.'</search-tags>
+			<name>'.$sName.'</name>
+			<description>'.$sDescription.'</description>
 			<tags>'.$arValue['tags'].'</tags>
-			<date_edit>'.strtotime($arValue['date_edit']).'</date_edit>
+			<date_edit>'.$arValue['date_edit'].'</date_edit>
 			<id>'.$arValue['id'].'</id>
 			<type>'.$nType.'</type>
 			<city>'.$arTypes['city_id'].'</city>
