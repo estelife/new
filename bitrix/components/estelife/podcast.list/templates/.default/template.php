@@ -5,8 +5,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 <?php if (!empty($arResult["ELEMENTS"])):?>
 	<div class="general-news">
 		<div class="title">
+			<h2>Тема недели</h2>
 			<h1><?=$arResult['SECTION_NAME']?></h1>
-			<h2>Тема дня</h2>
 		</div>
 		<div class="cols col1">
 			<?php if (!empty($arResult["FIRST"])):?>
@@ -22,10 +22,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				<?php if($arResult["FIRST"]["PREVIEW_TEXT_B"]):?>
 					<a href="<?=$arResult["FIRST"]["DETAIL_URL"]?>" class="text"><?=$arResult["FIRST"]['PREVIEW_TEXT_B']?></a>
 				<?php endif?>
-				<ul class="stat">
-					<li class="likes"><i></i><?=$arResult["FIRST"]['LIKES']['countLike']?></li>
-					<li class="unlikes"><i></i><?=$arResult["FIRST"]['LIKES']['countDislike']?></li>
-				</ul>
 			<?php endif?>
 		</div>
 		<div class="cols col2">
@@ -42,10 +38,11 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</div>
 				<?$i++;?>
 			<?php endforeach?>
-<!--			<div class="subscribe">-->
-<!--				<h3>Хотите всегда быть в курсе?</h3>-->
-<!--				<a href="#" class="submit">Подпишитесь</a>-->
-<!--			</div>-->
+			<form action="" method="post" class="subscribe">
+				<h3>Хотите всегда быть в курсе?</h3>
+				<input type="text" name="email" class="text" placeholder="Ваш e-mail...">
+				<input name="go" value="OK" class="submit" />
+			</form>
 		</div>
 	</div>
 <?php endif?>

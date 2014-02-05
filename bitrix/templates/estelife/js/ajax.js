@@ -222,12 +222,12 @@ require([
 
 
 		//Переключение между вкладками
-		body.on('click','.articles .menu li', function(){
+		body.on('click','.articles .tabs-menu li', function(){
 			var prnt = $(this).parents('.articles:first'),
-				col = $('.menu li',prnt),
+				col = $('li',prnt),
 				index = col.index($(this));
 
-			$('.menu li',prnt).removeClass('active').eq(index).addClass('active');
+			$('li',prnt).removeClass('active').eq(index).addClass('active');
 			$('.items' ,prnt).addClass('none').eq(index).removeClass('none');
 
 			var section_url = $('.items' ,prnt).eq(index).attr('rel');
@@ -333,7 +333,7 @@ require([
 			}
 		});
 
-		body.on('click','.nav a, .articles .title a, .crumb a, .search_page a', function(e){
+		body.on('click','.nav a, .crumb a, .search_page a', function(e){
 			var lnk=$(this),
 				href=lnk.attr('href'),
 				crumb=lnk.parents('.crumb:first');

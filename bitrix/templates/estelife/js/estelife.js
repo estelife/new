@@ -551,7 +551,15 @@ Estelife.prototype.help=function(fromTop){
 		});
 
 		var mousePosition=_getMousePosition(),
-			left=mousePosition.x-helpWidth/2;
+			left=mousePosition.x-helpWidth/ 2,
+			right=left+helpWidth,
+			winWidth=$(window).width();
+
+		if(right>=winWidth){
+			left=left-(right-winWidth-marginTop);
+		}else if(left<marginTop){
+			left=marginTop;
+		}
 
 		if(fromTop){
 			startTop=(mousePosition.y-helpHeight*2)-marginTop;

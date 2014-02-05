@@ -214,8 +214,13 @@ if (!empty($arData)){
 $obQuery = $obData->createQuery();
 $obQuery->builder()
 	->from('estelife_clinics')
-	->field('id');
-$arData = $obQuery->select()->all();
+	->field('id')
+	->filter()
+	->_eq('clinic_id',0);
+$arData = $obQuery
+	->select()
+	->all();
+
 if (!empty($arData)){
 	foreach ($arData as $val){
 		$arUrl[] = 'http://estelife.ru/cl'.$val['id'].'/';
