@@ -1,4 +1,6 @@
 <?php
+use core\types\VString;
+
 $_SERVER["DOCUMENT_ROOT"] = realpath(dirname(__FILE__).'/../../');
 $DOCUMENT_ROOT =$_SERVER["DOCUMENT_ROOT"];
 
@@ -27,15 +29,18 @@ $obJoin=$obBuilder
 	->field('clinic.detail_text','detail_text')
 	->field('clinic.date_edit','date_edit')
 	->field('clinic.active','active')
+	->field('clinic.address','address')
 	->field('city.NAME','city')
 	->field('city.ID','city_id')
 	->join();
 $obJoin->_left()
 	->_from('clinic','city_id')
 	->_to('iblock_element','ID','city')
-	->_cond()->_eq('city.IBLOCK_ID',16);
+	->_cond()
+	->_eq('city.IBLOCK_ID',16);
 // TODO: раскоментировать после 1-го  запуска
-//$obBuilder->filter()
+$obBuilder->filter()
+	->_eq('clinic.clinic_id',0);
 //	->_gte('clinic.date_edit',time());
 
 $arResult=$obQuery
@@ -45,9 +50,12 @@ $arResult=$obQuery
 if(!empty($arResult)){
 	$arTemp=array();
 
-	foreach($arResult as $arValue)
+	foreach($arResult as &$arValue){
+		$arValue['address']=array($arValue['city'].', '.$arValue['address']);
 		$arTemp[]=$arValue['id'];
+	}
 
+	// Получаем список специализаций
 	$obQuery=$obDriver->createQuery();
 	$obBuilder=$obQuery->builder();
 	$obJoin=$obBuilder
@@ -97,7 +105,37 @@ if(!empty($arResult)){
 				$arResult[$nClinicKey]['tags'][]=$arSpec['service_concreate_name'];
 		}
 	}
+
+	// Получаем список филлиалов
+	$obDriver=\core\database\VDatabase::driver();
+	$obQuery=$obDriver->createQuery();
+	$obBuilder=$obQuery->builder();
+	$obJoin=$obBuilder
+		->from('estelife_clinics','clinic')
+		->field('clinic.address','address')
+		->field('city.NAME','city')
+		->field('clinic.clinic_id','clinic_id')
+		->join();
+	$obJoin->_left()
+		->_from('clinic','city_id')
+		->_to('iblock_element','ID','city')
+		->_cond()->_eq('city.IBLOCK_ID',16);
+	$obBuilder->filter()
+		->_eq('clinic.active',1)
+		->_in('clinic.clinic_id',$arTemp);
+
+	$arOffices=$obQuery
+		->select()
+		->all();
+
+	if(!empty($arOffices)){
+		foreach($arOffices as $arOffice){
+			$nClinicKey=array_search($arOffice['clinic_id'],$arTemp);
+			$arResult[$nClinicKey]['address'][]=$arOffice['city'].', '.$arOffice['address'];
+		}
+	}
 }
+
 
 $arKillList=array();
 
@@ -130,16 +168,28 @@ foreach($arResult as $arValue){
 
 	$arValue['tags']=(isset($arValue['tags'])) ?
 		implode(',',$arValue['tags']) : '';
+	$sSearchTags=trim($arValue['tags'].(!empty($arValue['address']) ? ', '.implode(',',$arValue['address']) : ''));
+	$sSearchTags=htmlspecialchars($sSearchTags,ENT_QUOTES,'utf-8');
+	$arValue['tags']=htmlspecialchars($arValue['tags'],ENT_QUOTES,'utf-8');
+
+	$sPreviewText=!empty($arValue['detail_text']) ?
+		$arValue['detail_text'] :
+		$arValue['preview_text'];
+	$sPreviewText=trim(strip_tags(htmlspecialchars_decode($sPreviewText),ENT_QUOTES,'utf-8'));
+	$sPreviewText=htmlspecialchars($sPreviewText,ENT_QUOTES,'utf-8');
+	$sDescription=(!empty($sPreviewText)) ?
+		VString::truncate($sPreviewText,300) :
+		'К сожалению, на данный момент клиника не предоставила нам официальные данные об оказываемых услугах и проводимых акциях.';
 
 	$sResult.='
 		<sphinx:document id="'.$arValue['id'].'">
-			<search-name>'.trim(htmlspecialchars(strip_tags($arValue['name']),ENT_QUOTES,'utf-8')).'</search-name>
+			<search-name><![CDATA[['.trim(htmlspecialchars(strip_tags($arValue['name']),ENT_QUOTES,'utf-8')).']]></search-name>
 			<search-category>Клиники '.trim($arValue['city']).'</search-category>
-			<search-preview><![CDATA[['.trim(strip_tags($arValue['preview_text'])).']]></search-preview>
-			<search-detail><![CDATA[['.trim(strip_tags($arValue['detail_text'])).']]></search-detail>
-			<search-tags>'.trim($arValue['tags']).'</search-tags>
+			<search-preview></search-preview>
+			<search-detail><![CDATA[['.$sPreviewText.']]></search-detail>
+			<search-tags><![CDATA[['.$sSearchTags.']]></search-tags>
 			<name>'.htmlspecialchars($arValue['name'],ENT_QUOTES,'utf-8').'</name>
-			<description>'.htmlspecialchars($arValue['preview_text'],ENT_QUOTES,'utf-8').'</description>
+			<description>'.$sDescription.'</description>
 			<tags>'.$arValue['tags'].'</tags>
 			<date_edit>'.strtotime($arValue['date_edit']).'</date_edit>
 			<id>'.$arValue['id'].'</id>

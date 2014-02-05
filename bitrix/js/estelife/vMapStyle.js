@@ -11,7 +11,7 @@ var VMapStyle=(function(){
 			return {
 				zoom: 11,
 				minZoom: 5,
-				maxZoom: 16,
+				maxZoom: 20,
 				scrollwheel: true,
 				navigationControl: true,
 				mapTypeControl: false,

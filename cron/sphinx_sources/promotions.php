@@ -1,4 +1,6 @@
 <?php
+use core\types\VString;
+
 $_SERVER["DOCUMENT_ROOT"] = realpath(dirname(__FILE__).'/../../');
 $DOCUMENT_ROOT =$_SERVER["DOCUMENT_ROOT"];
 
@@ -27,10 +29,14 @@ $obJoin=$obBuilder
 	->field('promotion.detail_text','detail_text')
 	->field('promotion.date_edit','date_edit')
 	->field('promotion.active','active')
+	->field('promotion.start_date','start_date')
+	->field('promotion.end_date','end_date')
 	->field('specialization.name','specialization')
 	->field('service.name','service')
 	->field('service_concreate.name','service_concreate')
 	->field('clinic.name','clinic')
+	->field('clinic.address','address')
+	->field('clinic.id','clinic_id')
 	->field('city.NAME','city')
 	->field('city.ID','city_id')
 	->join();
@@ -52,14 +58,58 @@ $obJoin->_left()
 $obJoin->_left()
 	->_from('clinic','city_id')
 	->_to('iblock_element','ID','city')
-	->_cond()->_eq('city.IBLOCK_ID',16);
+	->_cond()
+	->_eq('city.IBLOCK_ID',16);
+
 // TODO: Раскоментировать после первого запуска
 //$obBuilder->filter()
 //	->_gte('promotion.date_edit',time());
 
+$nTime=time();
 $arResult=$obQuery
 	->select()
 	->all();
+
+if(!empty($arResult)){
+	$arTemp=array();
+
+	foreach($arResult as &$arValue){
+		$arValue['address']=array($arValue['city'].', '.$arValue['address']);
+		$arTemp[]=$arValue['clinic_id'];
+	}
+
+	// Получаем список филлиалов
+	$obDriver=\core\database\VDatabase::driver();
+	$obQuery=$obDriver->createQuery();
+	$obBuilder=$obQuery->builder();
+	$obJoin=$obBuilder
+		->from('estelife_clinics','clinic')
+		->field('clinic.address','address')
+		->field('city.NAME','city')
+		->field('clinic.clinic_id','clinic_id')
+		->join();
+	$obJoin->_left()
+		->_from('clinic','city_id')
+		->_to('iblock_element','ID','city')
+		->_cond()->_eq('city.IBLOCK_ID',16);
+	$obBuilder->filter()
+		->_eq('clinic.active',1)
+		->_in('clinic.clinic_id',$arTemp);
+
+	$arOffices=$obQuery
+		->select()
+		->all();
+
+	$arResult['clinic']['address']=array($arResult['city'].', '.$arResult['address']);
+
+	if(!empty($arOffices)){
+		foreach($arOffices as $arOffice){
+			$nKey=array_search($arOffice['clinic_id'],$arTemp);
+			$arResult[$nKey]['address'][]=$arOffice['city'].', '.$arOffice['address'];
+		}
+	}
+
+}
 
 $arKillList=array();
 
@@ -85,26 +135,47 @@ $sResult.='
 $nTime=time();
 
 foreach($arResult as $arValue){
-	if($arValue['active']!=1){
+	if($arValue['active']!=1 || $arValue['start_date']>$nTime || $arValue['end_date']<$nTime){
 		$arKillList[]=$arValue['id'];
 		continue;
 	}
 
 	$arValue['tags']=array();
-	$arValue['tags'][]=$arValue['specialization'];
-	$arValue['tags'][]=$arValue['service'];
-	$arValue['tags'][]=$arValue['service_concreate'];
+
+	if(!empty($arValue['specialization']))
+		$arValue['tags'][]=$arValue['specialization'];
+
+	if(!empty($arValue['service']))
+		$arValue['tags'][]=$arValue['service'];
+
+	if(!empty($arValue['service_concreate']))
+		$arValue['tags'][]=$arValue['service_concreate'];
+
 	$arValue['tags'][]=$arValue['clinic'];
+	$arValue['tags']=implode(', ',$arValue['tags']);
+	$sSearchTags=$arValue['tags'];
+
+	if(!empty($arValue['address']))
+		$sSearchTags.=', '.implode(',',$arValue['address']);
+
+	$sPreviewText=!empty($arValue['detail_text']) ?
+		$arValue['detail_text'] :
+		$arValue['preview_text'];
+
+	$sPreviewText=trim(strip_tags(html_entity_decode($sPreviewText,ENT_QUOTES,'utf-8')));
+	$sPreviewText=htmlspecialchars($sPreviewText,ENT_QUOTES,'utf-8');
+	$sDescription=VString::truncate($sPreviewText,300);
+	$sName=trim(htmlspecialchars(strip_tags($arValue['name']),ENT_QUOTES,'utf-8'));
 
 	$sResult.='
 		<sphinx:document id="'.$arValue['id'].'">
-			<search-name>'.trim(htmlspecialchars(strip_tags($arValue['name']),ENT_QUOTES,'utf-8')).'</search-name>
-			<search-category>Акции клиник '.trim($arValue['city']).'</search-category>
-			<search-preview><![CDATA[['.trim(strip_tags($arValue['preview_text'])).']]></search-preview>
-			<search-detail><![CDATA[['.trim(strip_tags($arValue['detail_text'])).']]></search-detail>
-			<search-tags>'.trim($arValue['tags']).'</search-tags>
-			<name>'.htmlspecialchars($arValue['name'],ENT_QUOTES,'utf-8').'</name>
-			<description>'.htmlspecialchars($arValue['preview_text'],ENT_QUOTES,'utf-8').'</description>
+			<search-name>'.$sName.'</search-name>
+			<search-category>Акции '.trim($arValue['city']).'</search-category>
+			<search-preview></search-preview>
+			<search-detail>'.$sPreviewText.'</search-detail>
+			<search-tags>'.trim(htmlspecialchars(strip_tags($sSearchTags))).'</search-tags>
+			<name>'.$sName.'</name>
+			<description>'.$sDescription.'</description>
 			<tags>'.$arValue['tags'].'</tags>
 			<date_edit>'.strtotime($arValue['date_edit']).'</date_edit>
 			<id>'.$arValue['id'].'</id>

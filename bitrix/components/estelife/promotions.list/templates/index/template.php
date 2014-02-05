@@ -19,13 +19,11 @@
 						</a>
 						<h3><a href="<?=$arValue['link']?>"><?=$arValue['name']?></a></h3>
 						<div class="cols prices">
-							<b>
-								<?php if($arValue['view_type']==3): ?>
-									скидка <?=$arValue["sale"]?>%
-								<?php else: ?>
-									<?=$arValue['new_price']?> <i></i>
-								<?php endif; ?>
-							</b>
+							<?php if($arValue['view_type']==3): ?>
+								<b class="only-perc">скидка <?=$arValue["sale"]?>%</b>
+							<?php else: ?>
+								<b><?=$arValue['new_price']?> <i></i></b>
+							<?php endif; ?>
 							<?php if($arValue['view_type']==1): ?>
 								<s><?=$arValue['old_price']?> <i></i></s>
 							<?php endif; ?>

@@ -14,8 +14,9 @@ $arCompanyID =  (isset($arParams['ID'])) ?
 
 //Получаем данные по организаторам
 $obQuery = $obCompanies->createQuery();
-$obQuery->builder()->from('estelife_companies', 'ec');
-$obJoin=$obQuery->builder()->join();
+$obJoin=$obQuery->builder()
+	->from('estelife_companies', 'ec')
+	->join();
 $obJoin->_left()
 	->_from('ec', 'id')
 	->_to('estelife_company_geo', 'company_id', 'ecg');
@@ -186,7 +187,6 @@ $arResult['company']['contacts']['email'] = implode(', ', $arResult['company']['
 $arResult['company']['contacts']['lat'] = $arResult['company']['lat'];
 $arResult['company']['contacts']['lng'] = $arResult['company']['lng'];
 
-
 //получение мероприятий компании
 $obQuery = $obCompanies->createQuery();
 $obQuery->builder()->from('estelife_events', 'ee');
@@ -208,13 +208,16 @@ $obQuery->builder()
 	->field('ee.preview_text', 'preview_text');
 $obFilter=$obQuery->builder()->filter()
 	->_eq('eet.type', 3)
-	->_eq('ece.company_id', $arResult['company']['id']);
+	->_eq('ece.company_id',$arResult['company']['id']);
 
 $nDateFrom=\core\types\VDate::dateToTime(date('d.m.Y', time()).' 00:00');
 $obFilter->_gte('ecal.date',$nDateFrom);
-$obQuery->builder()->sort('ecal.date','asc');
-$obQuery->builder()->group('ee.id');
-$obQuery->builder()->slice(0,10);
+
+$obQuery->builder()
+	->sort('ecal.date','asc')
+	->group('ee.id')
+	->slice(0,10);
+
 $arEvents = $obQuery->select()->all();
 
 foreach ($arEvents as $val){
@@ -233,13 +236,11 @@ if (!empty($arIds)){
 		->sort('date','asc')
 		->filter()
 		->_in('event_id', $arIds);
-//		->_gte('date',$nDateFrom);
 
 	$arCalendar=$obQuery->select()->all();
 
 	foreach ($arCalendar as $val)
 		$arResult['company']['events'][$val['event_id']]['calendar'][]=$val['date'];
-
 
 	$nNow=time();
 

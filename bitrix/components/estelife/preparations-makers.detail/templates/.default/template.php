@@ -32,17 +32,15 @@
 							<div class="item-rel">
 								<div class="img">
 									<div class="img-in">
-										<a href="<?=$arValue['link']?>">
-											<?php if(!empty($arValue["img"])): ?>
-												<?=$arValue["img"]?>
-											<?php else:?>
-												<div class="default">Изображение отсутствует</div>
-											<?endif?>
-										</a>
+										<?php if(!empty($arValue["img"])): ?>
+											<?=$arValue["img"]?>
+										<?php else:?>
+											<div class="default">Изображение отсутствует</div>
+										<?endif?>
 									</div>
 								</div>
 								<div class="cols">
-									<h4><?=$arValue["name"]?></h4>
+									<h4><a href="<?=$arValue['link']?>"><?=$arValue["name"]?></a></h4>
 									<p><?=$arValue["preview_text"]?></p>
 								</div>
 							</div>

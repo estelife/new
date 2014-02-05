@@ -2,18 +2,17 @@
 <div class="articles ">
 	<div class="title">
 		<h2><!--$ARTICLES.TITLE!--></h2>
-		<a href="<!--$ARTICLES.first_section!-->"><!--$ARTICLES.MORE_TITLE!--></a>
-	</div>
-	<ul class="menu">
-		<!--if($ARTICLES.SECTIONS_NAME!--)!-->
+		<ul class="tabs-menu">
+			<!--if($ARTICLES.SECTIONS_NAME!--)!-->
 			<!--$i=0!-->
 			<!--foreach ($ARTICLES.SECTIONS_NAME as $key=>$val)!-->
-				<li<!--if ($i==1)!--> class="active"<!--endif!-->><a href="#"><span><!--$val!--></span></a></li>
+			<li<!--if ($i==1)!--> class="active"<!--endif!-->><a href="#"><span><!--$val!--></span><i></i></a></li>
 			<!--$i++!-->
 			<!--endforeach!-->
-		<!--endif!-->
+			<!--endif!-->
 
-	</ul>
+		</ul>
+	</div>
 	<!--foreach ($ARTICLES.iblock as $key=>$arArticle)!-->
 	<div class="items<!--if ($ARTICLES.first!=$key)!--> none<!--endif!-->" rel="<!--$arArticle.section!-->">
 		<!--foreach ($arArticle.articles as $key=>$val)!-->

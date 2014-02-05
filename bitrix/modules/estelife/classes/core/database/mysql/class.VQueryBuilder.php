@@ -106,7 +106,7 @@ class VQueryBuilder extends db\VQueryBuilder {
 						$arField['field']=$arField['field']->make();
 					}else if(is_object($arField['field']) && $arField['field'] instanceof VQueryBuilder){
 						$arField['field']=$arField['field']->buildSelect();
-					}else if(!$this->obSpecialQuery->checkField(
+					}else if(!preg_match('#\.?\*#',$arField['field']) && !$this->obSpecialQuery->checkField(
 							$this->obQuery->getRegisteredTables(),
 							$arField['field']))
 						continue;

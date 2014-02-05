@@ -149,7 +149,7 @@ while($arData=$obResult->Fetch()){
 	if (!empty($arData['type_logo_id']))
 		$arData["logo_id"] = $arData["type_logo_id"];
 
-	$arData['img']=CFile::ShowImage($arData["logo_id"], 110, 90, 'alt='.$arData["name"]);
+	$arData['img']=CFile::ShowImage($arData["logo_id"], 190, 80, 'alt='.$arData["name"]);
 	$arData['short_web']=\core\types\VString::checkUrl($arData['web']);
 
 	if (!empty($arData['type_address']))

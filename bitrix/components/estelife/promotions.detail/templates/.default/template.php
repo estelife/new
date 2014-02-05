@@ -60,20 +60,30 @@
 				<li>
 					<?=$arResult['action']['clinic']['main']['address']?><br />
 					<?=$arResult['action']['clinic']['main']['phone']?>
+
+					<?php if(!empty($arResult['action']['clinic']['main']['latitude'])): ?>
+						<div class="map">
+							<span class="lat"><?=$arResult['action']['clinic']['main']['latitude']?></span>
+							<span class="lng"><?=$arResult['action']['clinic']['main']['longitude']?></span>
+						</div>
+					<?php endif; ?>
 				</li>
 				<?php if(!empty($arResult['action']['clinic']['offices'])): ?>
 					<?php foreach($arResult['action']['clinic']['offices'] as $arOffice):?>
 					<li>
 						<?=$arOffice['address']?><br />
 						<?=$arOffice['phone']?>
+
+						<?php if(!empty($arOffice['latitude'])): ?>
+							<div class="map">
+								<span class="lat"><?=$arOffice['latitude']?></span>
+								<span class="lng"><?=$arOffice['longitude']?></span>
+							</div>
+						<?php endif; ?>
 					</li>
 					<?php endforeach; ?>
 				<?php endif; ?>
 			</ul>
-			<div class="map">
-				<span class="lat"><?=$arResult['action']['clinic']['main']['latitude']?></span>
-				<span class="lng"><?=$arResult['action']['clinic']['main']['longitude']?></span>
-			</div>
 		</div>
 
 		<div class="info nobo">

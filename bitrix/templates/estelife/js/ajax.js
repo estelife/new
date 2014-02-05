@@ -59,6 +59,18 @@ require([
 			'silent': true
 		});
 
+		//подстановка в url авторизации backurl
+		body.on('click', '.goto-auth', function(e){
+			var link=location.href.replace(location.protocol+'//'+location.host,'');
+			var href='/personal/auth/?backurl='+encodeURIComponent(link);
+
+			if ($(this).hasClass('logout'))
+				href=hrerf+'&logout=yes';
+
+			location.href=href;
+			e.preventDefault()
+		});
+
 		//подписка
 		body.on('submit', 'form.subscribe', function(e){
 			var form=$('form.subscribe'),
@@ -210,12 +222,12 @@ require([
 
 
 		//Переключение между вкладками
-		body.on('click','.articles .menu li', function(){
+		body.on('click','.articles .tabs-menu li', function(){
 			var prnt = $(this).parents('.articles:first'),
-				col = $('.menu li',prnt),
+				col = $('li',prnt),
 				index = col.index($(this));
 
-			$('.menu li',prnt).removeClass('active').eq(index).addClass('active');
+			$('li',prnt).removeClass('active').eq(index).addClass('active');
 			$('.items' ,prnt).addClass('none').eq(index).removeClass('none');
 
 			var section_url = $('.items' ,prnt).eq(index).attr('rel');
@@ -321,7 +333,7 @@ require([
 			}
 		});
 
-		body.on('click','.nav a, .articles .title a, .crumb a, .search_page a', function(e){
+		body.on('click','.nav a, .crumb a, .search_page a', function(e){
 			var lnk=$(this),
 				href=lnk.attr('href'),
 				crumb=lnk.parents('.crumb:first');
@@ -390,13 +402,16 @@ require([
 //			);
 //			e.preventDefault();
 		}).on('click','.logo',function(e){
-			Router.navigate(
-				$(this).attr('href'),
-				{trigger: true}
-			);
-			$('.main_menu').find('.main,.active,.second_active')
-				.removeClass('main active second_active');
-			e.preventDefault();
+			if (!$(this).hasClass('no-ajax')){
+				Router.navigate(
+					$(this).attr('href'),
+					{trigger: true}
+				);
+
+				$('.main_menu').find('.main,.active,.second_active')
+					.removeClass('main active second_active');
+				e.preventDefault();
+			}
 		}).on('submit','form[name=search]',function(e){
 			var frm=$(this),
 				href=frm.attr('action'),
@@ -613,7 +628,7 @@ require([
 
 				map.markers().icons(icons);
 				map.create(jmap,lat,lng);
-				map.zoom(16);
+				map.zoom(14);
 
 				map.markers().add(new map.marker(lat,lng));
 				map.markers().draw();
@@ -635,6 +650,10 @@ require([
 			Functions.initFilter(form);
 		});
 		$('form.filter').trigger('updateFilter');
+
+		body.find('form:not(\'.filter\')').each(function(){
+			Functions.initFormFields($(this));
+		});
 
 		body.on('updateGallery', '.gallery', function(){
 			var gallery=$(this);
@@ -683,10 +702,14 @@ require([
 		});
 
 		body.on('focus','.quality-in input', function(){
-			$(this).parent().addClass('half_error');
+			var form=$(this).parent();
+			if (form.hasClass('error'))
+				form.removeClass('error').find('i:last').remove();
 		});
 
 		body.on('focus','input.preload', function(){
+
+
 			$(this).autocomplete({
 				minLength:3,
 				source:function(request, response){
@@ -771,20 +794,7 @@ require([
 			e.preventDefault();
 		});
 
-		body.on('mouseover mouseout click','[data-help]',function(e){
-			var target=$(this),
-				isSelect=(target.parents('.select:first').length>0),
-				fromTop=(isSelect && target.hasClass('has-value'));
-
-			if(isSelect && !fromTop)
-				return;
-
-			if(e.type=='mouseover'){
-				EL.help($(this),fromTop).show();
-			}else{
-				EL.help($(this),fromTop).hide();
-			}
-		});
+		EL.helpMaker($('[data-help],[title]'));
 
 		//Пишем в базу историю поиска
 		body.on('click', '.set_search_history', function(){

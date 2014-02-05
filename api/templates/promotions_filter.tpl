@@ -24,9 +24,9 @@
 		<select name="metro" id="metros">
 			<option value="">--</option>
 			<!--if($metro)!-->
-			<!--foreach ($metro as $key=>$val)!-->
-			<option value="<!--$val.ID!-->"<!--if($filter.metro==$val.ID)!--> selected="true"<!--endif!-->><!--$val.NAME!--></option>
-			<!--endforeach!-->
+				<!--foreach ($metro as $key=>$val)!-->
+					<option value="<!--$val.ID!-->"<!--if($filter.metro==$val.ID)!--> selected="true"<!--endif!-->><!--$val.NAME!--></option>
+				<!--endforeach!-->
 			<!--endif!-->
 		</select>
 		<span class="block"></span>
@@ -36,38 +36,38 @@
 		<select name="spec" id="specs" data-rules="get_service:select[name=service];get_method:select[name=method];get_concreate:select[name=concreate];">
 			<option value="">--</option>
 			<!--if($specializations)!-->
-			<!--foreach($specializations as $key=>$val)!-->
-			<option value="<!--$val.id!-->"<!--if($filter.spec==$val.id)!--> selected="true"<!--endif!-->><!--$val.name!--></option>
-			<!--endforeach!-->
+				<!--foreach($specializations as $key=>$val)!-->
+				<option value="<!--$val.id!-->"<!--if($filter.spec==$val.id)!--> selected="true"<!--endif!-->><!--$val.name!--></option>
+				<!--endforeach!-->
 			<!--endif!-->
 		</select>
 		<span class="block"></span>
 	</div>
-	<div class="field disabled">
+	<div class="field<!--if(!$service)!--> disabled<!--endif!-->">
 		<label for="service">Вид услуги</label>
 		<select name="service" id="service" data-rules="get_concreate:select[name=concreate];get_method:select[name=method]">
 			<option value="">--</option>
 			<!--if($service)!-->
-			<!--foreach ($service as $key=>$val)!-->
-			<option value="<!--$val.id!-->"<!--if($filter.service==$val.id)!--> selected="true"<!--endif!-->><!--$val.name!--></option>
-			<!--endforeach!-->
+				<!--foreach ($service as $key=>$val)!-->
+				<option value="<!--$val.id!-->"<!--if($filter.service==$val.id)!--> selected="true"<!--endif!-->><!--$val.name!--></option>
+				<!--endforeach!-->
 			<!--endif!-->
 		</select>
 		<span class="block"></span>
 	</div>
-	<div class="field disabled">
+	<div class="field<!--if(!$methods)!--> disabled<!--endif!-->">
 		<label for="method">Методика</label>
 		<select name="method" data-rules="get_concreate:select[name=concreate]">
 			<option value="">--</option>
 			<!--if($methods)!-->
-			<!--foreach ($methods as $key=>$val)!-->
-			<option value="<!--$val.id!-->"<!--if($filter.method==$val.id)!--> selected="true"<!--endif!-->><!--$val.name!--></option>
-			<!--endforeach!-->
+				<!--foreach ($methods as $key=>$val)!-->
+				<option value="<!--$val.id!-->"<!--if($filter.method==$val.id)!--> selected="true"<!--endif!-->><!--$val.name!--></option>
+				<!--endforeach!-->
 			<!--endif!-->
 		</select>
 		<span class="block"></span>
 	</div>
-	<div class="field disabled">
+	<div class="field<!--if(!$concreate)!--> disabled<!--endif!-->">
 		<label for="concreate">Тип услуги</label>
 		<select name="concreate">
 			<option value="">--</option>
