@@ -59,6 +59,18 @@ require([
 			'silent': true
 		});
 
+		//подстановка в url авторизации backurl
+		body.on('click', '.goto-auth', function(e){
+			var link=location.href.replace(location.protocol+'//'+location.host,'');
+			var href='/personal/auth/?backurl='+encodeURIComponent(link);
+
+			if ($(this).hasClass('logout'))
+				href=hrerf+'&logout=yes';
+
+			location.href=href;
+			e.preventDefault()
+		});
+
 		//подписка
 		body.on('submit', 'form.subscribe', function(e){
 			var form=$('form.subscribe'),
@@ -390,13 +402,16 @@ require([
 //			);
 //			e.preventDefault();
 		}).on('click','.logo',function(e){
-			Router.navigate(
-				$(this).attr('href'),
-				{trigger: true}
-			);
-			$('.main_menu').find('.main,.active,.second_active')
-				.removeClass('main active second_active');
-			e.preventDefault();
+			if (!$(this).hasClass('no-ajax')){
+				Router.navigate(
+					$(this).attr('href'),
+					{trigger: true}
+				);
+
+				$('.main_menu').find('.main,.active,.second_active')
+					.removeClass('main active second_active');
+				e.preventDefault();
+			}
 		}).on('submit','form[name=search]',function(e){
 			var frm=$(this),
 				href=frm.attr('action'),
@@ -636,6 +651,10 @@ require([
 		});
 		$('form.filter').trigger('updateFilter');
 
+		body.find('form:not(\'.filter\')').each(function(){
+			Functions.initFormFields($(this));
+		});
+
 		body.on('updateGallery', '.gallery', function(){
 			var gallery=$(this);
 			require(['modules/Slider'], function(Slider){
@@ -683,10 +702,14 @@ require([
 		});
 
 		body.on('focus','.quality-in input', function(){
-			$(this).parent().addClass('half_error');
+			var form=$(this).parent();
+			if (form.hasClass('error'))
+				form.removeClass('error').find('i:last').remove();
 		});
 
 		body.on('focus','input.preload', function(){
+
+
 			$(this).autocomplete({
 				minLength:3,
 				source:function(request, response){

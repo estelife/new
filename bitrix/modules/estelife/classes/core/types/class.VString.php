@@ -80,6 +80,15 @@ class VString {
 	}
 
 	/**
+	 * Проверяет корректность пароля
+	 * @param string $sPassword
+	 * @return boolean
+	 */
+	public static function isPassword($sPassword){
+		return preg_match('/^[a-z0-9]{6,255}$/i',$sPassword);
+	}
+
+	/**
 	 * Проверяет валидность номера телефона
 	 * @param string $sPhone
 	 * @return int
