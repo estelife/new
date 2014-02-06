@@ -11,7 +11,11 @@
 			<div class="current">
 				<div class="img">
 					<div class="img-in">
-						<?=$arResult['app']['img']?>
+						<?php if(!empty($arResult['app']['img'])):?>
+							<?=$arResult['app']['img']?>
+						<?php else: ?>
+							<div class="default">Изображение отсутствует</div>
+						<?php endif; ?>
 					</div>
 				</div>
 				<ul>
@@ -70,7 +74,7 @@
 				<?php endif?>
 				<?php if (!empty($arResult['app']['undesired'])):?>
 					<div class="el-tab">
-						<h3><a href="#">Побочные действие</a></h3>
+						<h3><a href="#">Побочные эффекты</a></h3>
 						<p class="none"><?=$arResult['app']['undesired']?></p>
 					</div>
 				<?php endif?>
@@ -139,8 +143,10 @@
 								<div class="img">
 									<div class="img-in">
 										<a href="<?=$arValue['link']?>">
-											<?php if(!empty($arValue["logo_id"])):?>
+											<?php if(!empty($arValue["img"])): ?>
 												<?=$arValue["img"]?>
+											<?php else: ?>
+												<div class="default">Изображение отсутствует</div>
 											<?endif?>
 										</a>
 									</div>

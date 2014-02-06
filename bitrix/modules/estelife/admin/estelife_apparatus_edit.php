@@ -117,11 +117,13 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			$arTranslit = $obPost->one('translit');
 		}
 
+		$nTime=time();
 		//Добавление компании
 		$obQuery = $obApp->createQuery();
 		$obQuery->builder()->from('estelife_apparatus')
 			->value('name', trim(htmlentities($obPost->one('name'),ENT_QUOTES,'utf-8')))
 			->value('translit', trim($arTranslit))
+			->value('date_edit', $nTime)
 			->value('company_id', intval($obPost->one('company_id')))
 			->value('type_id', intval($obPost->one('type_id')))
 			->value('preview_text', htmlentities($obPost->one('preview_text'),ENT_QUOTES,'utf-8'))
@@ -164,6 +166,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 				->_eq('apparatus_id', $idApp);
 			$obQuery->delete();
 		}else{
+			$obQuery->builder()->value('date_create', $nTime);
 			$idApp = $obQuery->insert()->insertId();
 		}
 

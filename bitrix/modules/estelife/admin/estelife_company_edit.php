@@ -165,6 +165,15 @@ if(!empty($ID)){
 		}
 	}
 
+	//Получений фотографий для учебных центров
+	$obQuery=$obCompanies->createQuery();
+	$obQuery->builder()->from('estelife_company_photos');
+	$obQuery->builder()->filter()
+		->_eq('company_id', $ID)
+		->_eq('type', 4);
+	$obResult=$obQuery->select();
+	$arResult['learning']['photos']=$obResult->all();
+
 }else{
 
     if (!empty($_COOKIE['el_sel_country'])){
@@ -258,15 +267,18 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			$arTranslit = VString::translit($obCompany->one('translit'));
 		}
 
+		$nTime=time();
 
 		//Добавление компании
 		$obQuery = $obCompanies->createQuery();
-		$obQuery->builder()->from('estelife_companies')
-		    ->value('name', trim($obCompany->one('name')))
-				->value('translit', trim($arTranslit))
-		    ->value('detail_text', htmlentities($obPost->one('company_detail_text'),ENT_QUOTES,'utf-8'))
-		    ->value('preview_text', htmlentities($obPost->one('company_preview_text'),ENT_QUOTES,'utf-8'))
-				->value('company_id', intval($obCompany->one('company_id')));
+		$obQuery->builder()
+			->from('estelife_companies')
+			->value('name', trim($obCompany->one('name')))
+			->value('translit', trim($arTranslit))
+			->value('detail_text', htmlentities($obPost->one('company_detail_text'),ENT_QUOTES,'utf-8'))
+			->value('preview_text', htmlentities($obPost->one('company_preview_text'),ENT_QUOTES,'utf-8'))
+			->value('company_id', intval($obCompany->one('company_id')))
+			->value('date_edit',$nTime);
 
 		if(!empty($_FILES['company_logo'])){
 		    $arImage=$_FILES['company_logo'];
@@ -306,7 +318,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			}
 
 		}else{
-		    $idCompany = $obQuery->insert()->insertId();
+			$obQuery->builder()->value('date_create',$nTime);
+			$idCompany=$obQuery->insert()
+			    ->insertId();
 		}
 
 		setcookie('el_sel_city',$obRecord['city_id'],time()+86400,'/');
@@ -319,9 +333,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		}
 
 		//Пишем ссылки на гео таблицу
-		if (!$obCompany->blank('country_id')){
-				$obCompaniesColl->addGeo($idCompany, $obCompany->all(), 'estelife_company_geo');
-		}
+		if (!$obCompany->blank('country_id'))
+			$obCompaniesColl->addGeo($idCompany, $obCompany->all(), 'estelife_company_geo');
 
 		//Пишем ссылки на контакты
 		$obCompaniesColl->addContacts($idCompany, $obCompany->all(), 'estelife_company_contacts');
@@ -543,6 +556,81 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			//Пишем ссылки на контакты
 			$obCompaniesColl->addContacts($idLearning, $obLearning->all(), 'estelife_company_type_contacts');
 
+		}
+
+		//Галерея для учебных центров
+		$arPost=$obPost->all();
+		foreach($arPost as $sKey=>$mValue){
+			if(preg_match('#^photo_descriptions_([0-9]+)$#i',$sKey,$arMatches)){
+				try{
+
+					$obQuery=$obCompanies->createQuery();
+					$obQuery->builder()->from('estelife_company_photos')
+						->filter()
+						->_eq('id', $arMatches[1]);
+					$arPhoto = $obQuery->select()->assoc();
+
+					$obQuery=$obCompanies->createQuery();
+					$obQuery->builder()->from('estelife_company_photos')
+						->value('description', htmlentities($mValue,ENT_QUOTES,'utf-8'));
+					$obQuery->builder()->filter()
+						->_eq('id',$arPhoto['id']);
+					$obQuery->update();
+
+				}catch(\core\database\exceptions\VCollectionException $e){}
+			}
+		}
+
+		if(!$obPost->blank('photo_deleted')){
+			$arDeleted=$obPost->one('photo_deleted');
+			foreach($arDeleted as $nDelete){
+				try{
+					$obQuery=$obCompanies->createQuery();
+					$obQuery->builder()->from('estelife_company_photos')
+						->filter()
+						->_eq('id',$nDelete);
+					$arPhoto = $obQuery->select()->assoc();
+					CFile::Delete($obPhoto['original']);
+
+					$obQuery=$obCompanies->createQuery();
+					$obQuery->builder()->from('estelife_company_photos');
+					$obQuery->builder()->filter()
+						->_eq('id',$arPhoto['id']);
+					$obQuery->delete();
+
+				}catch(\core\database\exceptions\VCollectionException $e){}
+			}
+		}
+
+		if(!empty($_FILES['gallery'])){
+			$arFiles=$_FILES['gallery'];
+			foreach($arFiles['name'] as $nKey=>$sName){
+				if(empty($arFiles['tmp_name'][$nKey]))
+					continue;
+
+				$arImage=array(
+					'name'=>$sName,
+					'tmp_name'=>$arFiles['tmp_name'][$nKey],
+					'type'=>$arFiles['type'][$nKey],
+					'error'=>$arFiles['error'][$nKey],
+					'size'=>$arFiles['size'][$nKey]
+				);
+
+				$nImageId=CFile::SaveFile($arImage, "estelife");
+				$nImageId=intval($nImageId);
+
+				if(empty($nImageId))
+					continue;
+
+
+				$obQuery=$obCompanies->createQuery();
+				$obQuery->builder()->from('estelife_company_photos')
+					->value('original', $nImageId)
+					->value('type', 4)
+					->value('company_id', $idCompany);
+				$idgalleryCompany=$obQuery->insert();
+
+			}
 		}
 
 		if(!$obPost->blank('save'))
@@ -1511,6 +1599,50 @@ if(!empty($arResult['error']['text'])){
 					"",
 					"ru"
 				);?>
+			</td>
+		</tr>
+		<tr>
+			<td width="40%"><?=GetMessage("ESTELIFE_F_GALLERY")?></td>
+			<td width="60%" >
+				<input type="file" name="gallery[]" id="gallery" />
+			</td>
+		</tr>
+		<tr>
+			<td width="40%"></td>
+			<td width="60%" >
+				<?php if(!empty($arResult['learning']['photos'])): ?>
+					<div class="estelife-photos">
+						<?php foreach($arResult['learning']['photos'] as $arPhoto): ?>
+								<div class="image">
+									<?=CFile::ShowImage($arPhoto['original'],300,300)?>
+								</div>
+								<div class="desc" id="tr_photo_descriptions_<?=$arPhoto['id']?>_editor" style="margin-bottom:15px;">
+									<label for="phdl<?=$arPhoto['id']?>"><input type="checkbox" id="phdl<?=$arPhoto['id']?>" name="photo_deleted[]" value="<?=$arPhoto['id']?>">Удалить</label>
+									<?CFileMan::AddHTMLEditorFrame(
+										"photo_descriptions_".$arPhoto['id'],
+										$arPhoto['description'],
+										"photo_descriptions_".$arPhoto['id'],
+										'',
+										array(
+											'height' => 200,
+											'width' => 200
+										),
+										"N",
+										0,
+										"",
+										"",
+										$arIBlock["LID"],
+										true,
+										false,
+										array(
+											'toolbarConfig' => CFileman::GetEditorToolbarConfig("iblock_".(defined('BX_PUBLIC_MODE') && BX_PUBLIC_MODE == 1 ? 'public' : 'admin')),
+											'saveEditorKey' => $IBLOCK_ID
+										)
+									);?>
+								</div>
+						<?php endforeach; ?>
+					</div>
+				<?php endif; ?>
 			</td>
 		</tr>
 		<?php

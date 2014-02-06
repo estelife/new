@@ -154,6 +154,9 @@ class VFunction implements db\VFunction {
 
 				return 'MD5('.$sField.')';
 				break;
+			case '_rand':
+				return 'RAND()';
+				break;
 		}
 
 		throw new db\exceptions\VQueryException('unsupported function');
@@ -165,10 +168,10 @@ class VFunction implements db\VFunction {
 	 * @return void
 	 */
 	public function checkFn(){
-		if(!in_array($this->sFn,array('_if','_min','_max','_count','_sum','_concat','_md5','_regexp','_substr')))
+		if(!in_array($this->sFn,array('_if','_min','_max','_count','_sum','_concat','_md5','_regexp','_substr','_rand')))
 			throw new db\exceptions\VQueryException('unsupported function');
 
-		if($this->sFn=='_if' || $this->sFn=='_concat')
+		if($this->sFn=='_if' || $this->sFn=='_concat' || $this->sFn=='_rand')
 			return;
 
 		if($this->obParams->blank('field'))

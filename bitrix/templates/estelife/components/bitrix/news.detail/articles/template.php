@@ -27,16 +27,18 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 			<div class="announce">
 				<?=$arResult["PREVIEW_TEXT"];?>
 			</div>
-			<div class="article-img">
-				<div class="article-img-in">
-					<img src="<?=$arResult['IMG']['SRC']?>" alt="<?=$arResult["NAME"]?>" title="<?=$arResult["NAME"]?>">
-				</div>
-				<?php if (!empty($arResult['IMG']['DESCRIPTION'])):?>
-					<div class="article-img-desc">
-						<?=$arResult['IMG']['DESCRIPTION']?>
+			<?php if(!empty($arResult['IMG']['SRC'])): ?>
+				<div class="article-img">
+					<div class="article-img-in">
+						<img src="<?=$arResult['IMG']['SRC']?>" alt="<?=$arResult["NAME"]?>" title="<?=$arResult["NAME"]?>">
 					</div>
-				<?php endif?>
-			</div>
+					<?php if (!empty($arResult['IMG']['DESCRIPTION'])):?>
+						<div class="article-img-desc">
+							<?=$arResult['IMG']['DESCRIPTION']?>
+						</div>
+					<?php endif?>
+				</div>
+			<?php endif; ?>
 			<?=$arResult["DETAIL_TEXT"];?>
 			<div class="info">
 				<ul class="stat" data-elid="<?=$arResult['LIKES']['element_id']?>" data-type="<?=$arResult['LIKES']['type']?>">

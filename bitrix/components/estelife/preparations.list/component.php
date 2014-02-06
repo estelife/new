@@ -135,21 +135,21 @@ $arTypes = array(
 );
 
 if (empty($_GET['type'])){
-	$arSEOTitle = 'Список и база данных препаратов в эстетической медицине.';
-	$arSEODescription = 'Большая база данных препаратов для процедур и различных видов терапий в эстетической медицине. Мы собрали для Вас всю информацию.';
+	$arSEOTitle = 'Список и база данных препаратов в эстетической медицине';
+	$arSEODescription = 'Большая база данных препаратов для процедур и различных видов терапий в эстетической медицине. Мы собрали для Вас всю информацию';
 }else{
-	$arSEOTitle = $arTypes[$_GET['type']].' - все препараты в нашей базе данных.';
-	$arSEODescription = 'Вся информация по препаратам для процедуры '.$arTypes[$_GET['type']].'. Весь список с подробным описанием в нашей базе данных.';
+	$arSEOTitle = $arTypes[$_GET['type']].' - все препараты в нашей базе данных';
+	$arSEODescription = 'Вся информация по препаратам для процедуры '.$arTypes[$_GET['type']].'. Весь список с подробным описанием в нашей базе данных';
 }
 
 if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
 	$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
 	$arSEOTitle.=' - '.$_GET['PAGEN_1'].' страница';
-	$arSEODescription.=' - '.$_GET['PAGEN_1'].' страница';
+	$arSEONav=' - '.$_GET['PAGEN_1'].' страница';
 }
 
 $APPLICATION->SetPageProperty("title", $arSEOTitle);
-$APPLICATION->SetPageProperty("description", VString::truncate($arSEODescription,'160', ''));
+$APPLICATION->SetPageProperty("description", VString::truncate($arSEODescription,'145', '').$arSEONav);
 $APPLICATION->SetPageProperty("keywords", "Препараты, ".$arSEODescription);
 
 $sTemplate=$this->getTemplateName();

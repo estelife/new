@@ -4,7 +4,11 @@
 		<div class="current">
 			<div class="img">
 				<div class="img-in">
-					<!--$detail.img!-->
+					<!--if($detail.img)!-->
+						<!--$detail.img!-->
+					<!--else!-->
+						<div class="default">Изображение отсутствует</div>
+					<!--endif!-->
 				</div>
 			</div>
 			<ul>
@@ -46,7 +50,7 @@
 			<!--if($detail.registration)!-->
 				<div class="el-tab">
 					<h3><a href="#">Регистрация</a></h3>
-					<p class="none"><!--$detail.registration'!--></p>
+					<p class="none"><!--$detail.registration!--></p>
 				</div>
 			<!--endif!-->
 			<!--if($detail.advantages)!-->
@@ -75,7 +79,7 @@
 			<!--endif!-->
 			<!--if($detail.undesired)!-->
 				<div class="el-tab">
-					<h3><a href="#">Побочные действия</a></h3>
+					<h3><a href="#">Побочные эффекты</a></h3>
 					<p class="none"><!--$detail.undesired!--></p>
 				</div>
 			<!--endif!-->
@@ -154,8 +158,10 @@
 						<div class="img">
 							<div class="img-in">
 								<a href="<!--$val.link!-->">
-									<!--if($val.logo_id)!-->
-									<!--$val.img!-->
+									<!--if($val.img)!-->
+										<!--$val.img!-->
+									<!--else!-->
+										<div class="default">Изображение отсутствует</div>
 									<!--endif!-->
 								</a>
 							</div>

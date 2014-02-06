@@ -19,14 +19,37 @@
 				<a href="<!--$detail.web!-->"><!--$detail.web_short!--></a>
 			<!--endif!-->
 		</div>
-		<div class="menu menu_tab">
+		<div class="tabs-menu menu_tab">
 			<ul>
-				<li class="active t1"><a href="#"><span>О центре</span></a></li>
-				<li class="t2"><a href="#"><span>Текущие семинары</span></a></li>
-				<li class="t3"><a href="#"><span>Контакты</span></a></li>
+				<li class="active t1"><a href="#">О центре<i></i></a></li>
+				<li class="t2"><a href="#">Текущие семинары<i></i></a></li>
+				<li class="t3"><a href="#">Контакты<i></i></a></li>
 			</ul>
 		</div>
 		<div class="tabs tab1 ">
+			<!--if($detail.gallery)!-->
+				<div class="gallery">
+					<div class="gallery-in">
+						<!--foreach($detail.gallery as $key=>$val)!-->
+							<div class="item">
+								<div class="img">
+									<img src="<!--$val.original!-->" alt="<!--$val.description!-->" title="<!--$val.description!-->" />
+								</div>
+								<div class="desc">
+									<!--$val.description!-->
+								</div>
+							</div>
+						<!--endforeach!-->
+					</div>
+					<div class="gallery-desc">
+						<!--if($val.description)!-->
+							<!--$val.description!-->
+						<!--endif!-->
+					</div>
+					<a href="#" class="arrow left">Назад<i></i></a>
+					<a href="#" class="arrow right">Вперед<i></i></a>
+				</div>
+			<!--endif!-->
 			<p><!--$detail.detail_text!--></p>
 		</div>
 		<div class="tabs tab2 none">
@@ -51,7 +74,7 @@
 					<div class="default">
 						<h3>Текущих семинаров нет</h3>
 						<p>На текущий момент учебный центр <!--$detail.name!--> не проводит семинаров.</p>
-						<p>Однако, Вы можете оставить нам свой e-mail, и мы с радостью сообщим Вам о запуске новых семинарах от данного учебного центра.</p>
+						<p>Однако, Вы можете оставить нам свой e-mail, и мы с радостью сообщим Вам о запуске новых семинаров от данного учебного центра.</p>
 						<form name="subscribe" method="post" action="" class="subscribe">
 							<div class="field">
 								<input type="text" name="email" class="text" placeholder="Ваш e-mail..." />

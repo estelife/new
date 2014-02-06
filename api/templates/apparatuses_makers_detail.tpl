@@ -25,15 +25,15 @@
 						<div class="item-rel">
 							<div class="img">
 								<div class="img-in">
-									<a href="<!--$val.link!-->">
-										<!--if($val.logo_id)!-->
-											<!--$val.img!-->
-										<!--endif!-->
-									</a>
+									<!--if($val.img)!-->
+										<!--$val.img!-->
+									<!--else!-->
+										<div class="default">Изображение отсутствует</div>
+									<!--endif!-->
 								</div>
 							</div>
 							<div class="cols">
-								<h4><!--$val.name!--></h4>
+								<h4><a href="<!--$val.link!-->"><!--$val.name!--></a></h4>
 								<p><!--$val.preview_text!--></p>
 							</div>
 						</div>

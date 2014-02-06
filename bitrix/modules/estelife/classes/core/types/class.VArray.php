@@ -174,6 +174,24 @@ class VArray implements \Countable,\Iterator,\ArrayAccess {
 	}
 
 	/**
+	 * Укарачивает массив на определенную длинну и переводит его в строку
+	 * @param array $arData
+	 * @param int $nLimit
+	 * @param string $sImplode
+	 * @param string $sEnd
+	 * @return string
+	 */
+	public static function toTruncatedString(array $arData,$nLimit,$sImplode=', ',$sEnd=' ...'){
+		$bToShort=false;
+
+		if($bToShort=($nLimit<sizeof($arData)))
+			$arData=array_slice($arData,0,$nLimit);
+
+		$sData=implode($sImplode,$arData);
+		return $bToShort ? $sData.$sEnd : $sData;
+	}
+
+	/**
 	 * Возвращает размер массива
 	 * @return int
 	 */

@@ -4,7 +4,11 @@
 		<div class="current">
 			<div class="img">
 				<div class="img-in">
-					<!--$detail.img!-->
+					<!--if($detail.img)!-->
+						<!--$detail.img!-->
+					<!--else!-->
+						<div class="default">Изображение отсутствует</div>
+					<!--endif!-->
 				</div>
 			</div>
 			<ul>
@@ -63,7 +67,7 @@
 			<!--endif!-->
 			<!--if($detail.undesired)!-->
 				<div class="el-tab">
-					<h3><a href="#">Побочные действие</a></h3>
+					<h3><a href="#">Побочные эффекты</a></h3>
 					<p class="none"><!--$detail.undesired!--></p>
 				</div>
 			<!--endif!-->
@@ -130,8 +134,10 @@
 							<div class="img">
 								<div class="img-in">
 									<a href="<!--$val.link!-->">
-										<!--if($val.logo_id)!-->
+										<!--if($val.img)!-->
 											<!--$val.img!-->
+										<!--else!-->
+											<div class="default">Изображение отсутствует</div>
 										<!--endif!-->
 									</a>
 								</div>

@@ -81,6 +81,7 @@ $obQuery->builder()->sort('ea.end_date', 'desc');
 
 if (!empty($arResult['city']) && $obGet->one('city')!=='all')
 	$obFilter->_eq('ec.city_id', $arResult['city']['ID']);
+
 if(!$obGet->blank('metro'))
 	$obFilter->_eq('ec.metro_id', intval($obGet->one('metro')));
 if(!$obGet->blank('spec'))
@@ -101,6 +102,7 @@ $arResult['akzii']=array();
 
 if(!empty($arCount)){
 	$arActions= $obResult->all();
+
 	foreach ($arActions as $val){
 		$val['src'] = CFile::GetFileArray($val["logo_id"]);
 		$val['src'] = $val['src']['SRC'];
@@ -111,6 +113,7 @@ if(!empty($arCount)){
 		$val['link'] = '/pr'.$val['id'].'/';
 		$arResult['akzii'][]=$val;
 	}
+
 	if (!empty($arResult['city']['ID'])){
 		$arResult['link'] = '/promotions/?city='.$arResult['city']['ID'];
 	}else{

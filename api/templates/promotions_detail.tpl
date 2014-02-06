@@ -6,19 +6,21 @@
 					<img src="<!--$detail.big_photo.src!-->" alt="<!--if($detail.big_photo.description)!--><!--$detail.big_photo.description!--><!--else!--><!--$detail.preview_text!--><!--endif!-->" title="" />
 			<!--endif!-->
 			<div class="current">
-				<h3><!--$detail.clinic.name!--></h3>
-				<span class="city">г. <!--$detail.clinic.city_name!--></span>
+				<h3><!--$detail.clinic.main.name!--></h3>
+				<span class="city">г. <!--$detail.clinic.main.city_name!--></span>
 				<!--if($detail.view_type!=2)!-->
 					<span class="perc"><!--$detail.base_sale!-->%</span>
 				<!--endif!-->
-				<!--if($detail.view_type!=3)!-->
 				<div class="cols prices">
-					<b><!--$detail.new_price!--> <i></i></b>
-					<!--if($detail.view_type==1)!-->
-						<s><!--$detail.old_price!--> <i></i></s>
+					<!--if($detail.view_type!=3)!-->
+						<b><!--$detail.new_price!--> <i></i></b>
+						<!--if($detail.view_type==1)!-->
+							<s><!--$detail.old_price!--> <i></i></s>
+						<!--endif!-->
+					<!--else!-->
+						<b>скидка <!--$detail.base_sale!-->%</b>
 					<!--endif!-->
 				</div>
-				<!--endif!-->
 				<div class="cols time">
 					<!--if($detail.end_date<$detail.now)!-->
 						<span class="old-promotion"><b>Акция завершена</b></span>
@@ -43,29 +45,39 @@
 		<div class="clinic">
 			<a href="<!--$detail.clinic.link!-->" class="more"><i></i></a>
 			<div class="about">
-				<h3><!--$detail.clinic.name!--></h3>
-				<span>г. <!--$detail.clinic.city_name!--></span>
-				<span><a href="<!--$detail.clinic.web!-->" target="_blank"><!--$detail.clinic.web_short!--></a></span>
+				<h3><!--$detail.clinic.main.name!--></h3>
+				<span>г. <!--$detail.clinic.main.city_name!--></span>
+				<span><a href="<!--$detail.clinic.main.web!-->" target="_blank"><!--$detail.clinic.main.web_short!--></a></span>
 			</div>
 			<h4>Акции проводятся по адресам:</h4>
 			<ul class="contacts">
 				<li>
-					<!--$detail.clinic.address!--><br />
-					<!--$detail.clinic.phone!-->
+					<!--$detail.clinic.main.address!--><br />
+					<!--$detail.clinic.main.phone!-->
+
+					<!--if($detail.clinic.main.latitude)!-->
+					<div class="map">
+						<span class="lat"><!--$detail.clinic.main.latitude!--></span>
+						<span class="lng"><!--$detail.clinic.main.longitude!--></span>
+					</div>
+					<!--endif!-->
 				</li>
 				<!--if($detail.clinic.offices)!-->
 					<!--foreach($detail.clinic.offices as $nKey=>$arOffice)!-->
 					<li>
 						<!--$arOffice.address!--><br />
 						<!--$arOffice.phone!-->
+
+						<!--if($arOffice.latitude)!-->
+						<div class="map">
+							<span class="lat"><!--$arOffice.latitude!--></span>
+							<span class="lng"><!--$arOffice.longitude!--></span>
+						</div>
+						<!--endif!-->
 					</li>
 					<!--endforeach!-->
 				<!--endif!-->
 			</ul>
-			<div class="map">
-				<span class="lat"><!--$detail.clinic.latitude!--></span>
-				<span class="lng"><!--$detail.clinic.longitude!--></span>
-			</div>
 		</div>
 
 		<!--
@@ -82,23 +94,31 @@
 			<h2>Похожие акции</h2>
 		</div>
 		<div class="items">
-			<!--foreach($detail.similar as $key=>$val)!-->
+			<!--foreach($detail.similar as $key=>$arValue)!-->
 			<div class="item promotion">
 				<div class="item-rel">
-					<span class="perc"><!--$val.base_sale!-->%</span>
-					<a href="<!--$val.link!-->">
-						<img src="<!--$val.src!-->" alt="<!--$val.name!-->" title="<!--$val.name!-->" />
+					<!--if($arValue.view_type!=2)!-->
+					<span class="perc"><!--$arValue.base_sale!-->%</span>
+					<!--endif!-->
+					<a href="<!--$arValue.link!-->">
+						<img src="<!--$arValue.src!-->" alt="<!--$arValue.name!-->" title="<!--$arValue.name!-->" />
 					</a>
-					<h3><a href="<!--$val.link!-->"><!--$val.name!--></a></h3>
+					<h3><a href="<!--$arValue.link!-->"><!--$arValue.name!--></a></h3>
 					<div class="cols prices">
-						<b><!--$val.new_price!--> <i></i></b>
-						<s><!--$val.old_price!--> <i></i></s>
+						<!--if($arValue.view_type==3)!-->
+						<b class="only-perc">скидка <!--$arValue.base_sale!-->%</b>
+						<!--else!-->
+						<b><!--$arValue.new_price!--> <i></i></b>
+						<!--endif!-->
+						<!--if($arValue.view_type==1)!-->
+						<s><!--$arValue.old_price!--> <i></i></s>
+						<!--endif!-->
 					</div>
 					<div class="cols time">
-						<!--$val.time!--> <!--$val.day!-->
+						<!--$arValue.time!--> <!--$arValue.day!-->
 						<i></i>
 					</div>
-					<a href="/cl<!--$val.clinic_id!-->/" class="clinic-link"><!--$val.clinic_name!--></a>
+					<a href="/cl<!--$arValue.clinic_id!-->/" class="clinic-link"><!--$arValue.clinic_name!--></a>
 				</div>
 				<div class="border"></div>
 			</div>

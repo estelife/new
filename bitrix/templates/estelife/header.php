@@ -3,6 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=1024" />
+	<meta name="format-detection" content="telephone=no">
 	<title><?$APPLICATION->ShowTitle()?></title>
 	<?$APPLICATION->ShowMeta("robots")?>
 	<?$APPLICATION->ShowMeta("keywords")?>
@@ -48,16 +49,22 @@
 				<a href="http://www.youtube.com/esteliferu" class="yt" target="_blank">Youtube</a>
 				<a href="https://plus.google.com/u/0/b/106608290098923557575/" class="gp" target="_blank">Google+</a>
 			</div>
-<!--			<a href="#" class="cols">Войти</a>-->
+			<?php
+			$APPLICATION->IncludeComponent(
+				"estelife:auth.top",
+				"",
+				array(),
+				false
+			);
+			?>
 		</div>
 	</div>
 	<div class="cities main_cities none"></div>
 	<div class="head">
-		<div class="el"></div>
 		<a href="/" class="logo">
 			Портал<br /> эстетической медицины
 		</a>
-		<? $APPLICATION->IncludeComponent("bitrix:search.form", "flat", Array(
+		<? $APPLICATION->IncludeComponent("estelife:search.form", "", Array(
 				"PAGE"	=>	"/search/"
 			)
 		);?>

@@ -49,11 +49,9 @@ final class VGeo{
 		$obJoin->_left()
 			->_from('ieps','PROPERTY_44')
 			->_to('iblock_element','ID','iec');
+		$bSetCookie=false;
 
-		$mCity=(empty($mCity) && isset($_COOKIE['estelife_city'])) ?
-			intval($_COOKIE['estelife_city']) : $mCity;
-
-		if (empty($mCity)){
+		if (empty($mCity) && !isset($_COOKIE['estelife_city'])){
 			$arCity=$this->geoBaseData(false);
 			$this->city=$arCity['city'];
 
@@ -64,26 +62,42 @@ final class VGeo{
 			$obQuery->builder()->filter()
 				->_eq('ie.IBLOCK_ID', 16)
 				->_like('ie.NAME',$arCity['city'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
-		}else if (is_numeric($mCity)){
 
+			$bSetCookie=true;
+		}else if(!empty($mCity)){
+			if(is_numeric($mCity)){
+				$obQuery->builder()->filter()
+					->_eq('ie.IBLOCK_ID', 16)
+					->_eq('ie.ID',intval($mCity));
+			}else{
+				$obQuery->builder()->filter()
+					->_eq('ie.IBLOCK_ID', 16)
+					->_like(
+						'ie.NAME',
+						trim(htmlspecialchars(strip_tags($mCity),ENT_QUOTES,'utf-8')),
+						VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER
+					);
+			}
+
+			$bSetCookie=true;
+		}else if(isset($_COOKIE['estelife_city'])){
 			$obQuery->builder()->filter()
 				->_eq('ie.IBLOCK_ID', 16)
-				->_eq('ie.ID',$mCity);
-		}else{
-			$obQuery->builder()->filter()
-				->_eq('ie.IBLOCK_ID', 16)
-				->_like('ie.NAME',$mCity,VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
-		}
+				->_eq('ie.ID',intval($_COOKIE['estelife_city']));
+		}else
+			throw new VException('city not found');
 
 		$arCities=$obQuery->select()->all();
 
 		if (!empty($arCities)){
 			$this->city = reset($arCities);
-			setcookie('estelife_city', $this->city['ID'], time() + 12*60*60*24*30, '/');
-			setcookie('estelife_country', $this->city['COUNTRY_ID'], time() + 12*60*60*24*30, '/');
-		}else{
+
+			if($bSetCookie){
+				setcookie('estelife_city', $this->city['ID'], time() + 12*60*60*24*30, '/');
+				setcookie('estelife_country', $this->city['COUNTRY_ID'], time() + 12*60*60*24*30, '/');
+			}
+		}else
 			throw new VException('city not found');
-		}
 
 		return $this->city;
 	}

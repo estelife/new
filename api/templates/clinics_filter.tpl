@@ -43,7 +43,7 @@
 		</select>
 		<span class="block"></span>
 	</div>
-	<div class="field disabled">
+	<div class="field<!--if(!$service)!--> disabled<!--endif!-->">
 		<label for="service">Вид услуги</label>
 		<select name="service" id="service" data-rules="get_concreate:select[name=concreate];get_method:select[name=method]">
 			<option value="">--</option>
@@ -55,7 +55,7 @@
 		</select>
 		<span class="block"></span>
 	</div>
-	<div class="field disabled">
+	<div class="field<!--if(!$methods)!--> disabled<!--endif!-->">
 		<label for="method">Методика</label>
 		<select name="method" data-rules="get_concreate:select[name=concreate]">
 			<option value="">--</option>
@@ -67,7 +67,7 @@
 		</select>
 		<span class="block"></span>
 	</div>
-	<div class="field disabled">
+	<div class="field<!--if(!$concreate)!--> disabled<!--endif!-->">
 		<label for="concreate">Тип услуги</label>
 		<select name="concreate">
 			<option value="">--</option>

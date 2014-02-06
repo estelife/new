@@ -423,6 +423,59 @@ try{
 			);
 			$arResult=false;
 			break;
+		case 'get_search_history':
+			$arResult['list']=array();
+
+			if(!empty($arData['term'])){
+				$obQuery=$obData->createQuery();
+				$obQuery->builder()
+					->from('estelife_search_history')
+					->sort('date','desc')
+					->field('text', 'name')
+					->field('id')
+					->filter()
+					->_like(
+						'text_search',
+						$arData['term'],
+						VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE
+					);
+
+				$arResult['list']=$obQuery
+					->select()
+					->all();
+			}
+			break;
+		case 'set_search_history':
+			$arResult['save']=true;
+
+			if(!empty($arData['term'])){
+				$arData['term']=trim(strip_tags($arData['term']));
+				$obQuery=$obData->createQuery();
+				$obQuery->builder()
+					->from('estelife_search_history')
+					->field('id')
+					->filter()
+					->_eq('text', $arData['term']);
+				$arSearchs=$obQuery
+					->select()
+					->assoc();
+
+				$obQuery=$obData->createQuery();
+				$obQuery->builder()
+					->from('estelife_search_history')
+					->value('text', $arData['term'])
+					->value('date', time());
+				if ($arSearchs['id']>0){
+					$obQuery->builder()->filter()
+						->_eq('id',$arSearchs['id']);
+					$obQuery->update();
+					$nId=$arSearchs['id'];
+				}else
+					$nId=$obQuery->insert()->insertId();
+				if (!$nId)
+					$arResult['save']=false;
+			}
+			break;
 		case 'get_cities_by_term':
 			$arResult['list']=array();
 

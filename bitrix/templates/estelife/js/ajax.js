@@ -55,7 +55,20 @@ require([
 
 		Backbone.history.start({
 			'pushState':true,
-			'hashChange': true
+			'hashChange': true,
+			'silent': true
+		});
+
+		//подстановка в url авторизации backurl
+		body.on('click', '.goto-auth', function(e){
+			var link=location.href.replace(location.protocol+'//'+location.host,'');
+			var href='/personal/auth/?backurl='+encodeURIComponent(link);
+
+			if ($(this).hasClass('logout'))
+				href=hrerf+'&logout=yes';
+
+			location.href=href;
+			e.preventDefault()
 		});
 
 		//подписка
@@ -74,8 +87,12 @@ require([
 				data,
 				function(r){
 				if (r.complete == 1){
-					alert('Вы успешно подписаны');
-					$('input[name=email]').val('');
+					if (form.hasClass('main')){
+						form.html('<h3>Вы успешно подписались на новые статьи!</h3>')
+					}else{
+						alert('Вы успешно подписаны');
+						$('input[name=email]').val('');
+					}
 				}else{
 					alert(r.error);
 				}
@@ -209,12 +226,12 @@ require([
 
 
 		//Переключение между вкладками
-		body.on('click','.articles .menu li', function(){
+		body.on('click','.articles .tabs-menu li', function(){
 			var prnt = $(this).parents('.articles:first'),
-				col = $('.menu li',prnt),
+				col = $('li',prnt),
 				index = col.index($(this));
 
-			$('.menu li',prnt).removeClass('active').eq(index).addClass('active');
+			$('li',prnt).removeClass('active').eq(index).addClass('active');
 			$('.items' ,prnt).addClass('none').eq(index).removeClass('none');
 
 			var section_url = $('.items' ,prnt).eq(index).attr('rel');
@@ -301,6 +318,9 @@ require([
 				parent=link.parents('ul:first'),
 				menu=$('.main_menu');
 
+			if(link.hasClass('no-ajax'))
+				return;
+
 			if(href.length>0 && href!='#'){
 				Router.navigate(href,{trigger: true});
 				menu.find('.main,.active,.second_active')
@@ -317,7 +337,7 @@ require([
 			}
 		});
 
-		body.on('click','.nav a, .articles .title a, .crumb a, .search_page a', function(e){
+		body.on('click','.nav a, .crumb a, .search_page a', function(e){
 			var lnk=$(this),
 				href=lnk.attr('href'),
 				crumb=lnk.parents('.crumb:first');
@@ -386,13 +406,16 @@ require([
 //			);
 //			e.preventDefault();
 		}).on('click','.logo',function(e){
-			Router.navigate(
-				$(this).attr('href'),
-				{trigger: true}
-			);
-			$('.main_menu').find('.main,.active,.second_active')
-				.removeClass('main active second_active');
-			e.preventDefault();
+			if (!$(this).hasClass('no-ajax')){
+				Router.navigate(
+					$(this).attr('href'),
+					{trigger: true}
+				);
+
+				$('.main_menu').find('.main,.active,.second_active')
+					.removeClass('main active second_active');
+				e.preventDefault();
+			}
 		}).on('submit','form[name=search]',function(e){
 			var frm=$(this),
 				href=frm.attr('action'),
@@ -502,7 +525,7 @@ require([
 				$('.change_city span').html(city.NAME).attr('class', 'city_'+city.ID);
 				$('.cities').addClass('none').removeClass('cities_open');
 
-				Functions.getPromotions(city.ID);
+				//Functions.getPromotions(city.ID);
 			}
 		});
 
@@ -609,7 +632,7 @@ require([
 
 				map.markers().icons(icons);
 				map.create(jmap,lat,lng);
-				map.zoom(16);
+				map.zoom(14);
 
 				map.markers().add(new map.marker(lat,lng));
 				map.markers().draw();
@@ -624,11 +647,25 @@ require([
 				});
 			});
 		});
+		$('.map').trigger('showMap');
 
 		body.on('updateFilter', 'form.filter', function(){
 			var form=$(this);
 			Functions.initFilter(form);
 		});
+		$('form.filter').trigger('updateFilter');
+
+		body.find('form:not(\'.filter\')').each(function(){
+			Functions.initFormFields($(this));
+		});
+
+		body.on('updateGallery', '.gallery', function(){
+			var gallery=$(this);
+			require(['modules/Slider'], function(Slider){
+				Slider($('.gallery-in .item',gallery));
+			});
+		});
+		$('.gallery').trigger('updateGallery');
 
 		body.on('submit','form[name=add_request]',function(e){
 			var form=$(this),
@@ -660,7 +697,7 @@ require([
 					}
 				}else if(r.hasOwnProperty('step')){
 					if(r.step==3){
-						form.replaceWith('<p>Спасибо. Заявка принята, в ближайшее время с Вами свяжется наш специалист.</p>');
+						form.replaceWith('<p class="quality-result">Спасибо. Заявка принята, в ближайшее время с Вами свяжется наш специалист.</p>');
 					}
 				}
 			},'json');
@@ -669,10 +706,14 @@ require([
 		});
 
 		body.on('focus','.quality-in input', function(){
-			$(this).parent().addClass('half_error');
-		})
+			var form=$(this).parent();
+			if (form.hasClass('error'))
+				form.removeClass('error').find('i:last').remove();
+		});
 
 		body.on('focus','input.preload', function(){
+
+
 			$(this).autocomplete({
 				minLength:3,
 				source:function(request, response){
@@ -757,20 +798,22 @@ require([
 			e.preventDefault();
 		});
 
-	body.on('mouseover mouseout click','[data-help]',function(e){
-		var target=$(this),
-			isSelect=(target.parents('.select:first').length>0),
-			fromTop=(isSelect && target.hasClass('has-value'));
+		EL.helpMaker($('[data-help],[title]'));
 
-			if(isSelect && !fromTop)
-				return;
+		//Пишем в базу историю поиска
+		body.on('click', '.set_search_history', function(){
+			var term=$('input[data-action=get_search_history]').val();
 
-			if(e.type=='mouseover'){
-				EL.help($(this),fromTop).show();
-			}else{
-				EL.help($(this),fromTop).hide();
+			if (term.length>0){
+				$.post('/api/estelife_ajax.php',{
+					'action':'set_search_history',
+					'term':term
+				},function(r){
+					if (!r.save)
+						alert('Ошибка сохранения запроса')
+				},'json');
 			}
-		});
+		})
 	});
 
 	$(function interfaces(){
@@ -808,4 +851,5 @@ require([
 				toTop.css('display','none');
 		}
 	});
+
 });

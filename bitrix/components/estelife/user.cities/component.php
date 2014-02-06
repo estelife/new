@@ -25,5 +25,4 @@ if (!empty($arCity)){
 	$arResult['city'] = $arCity['ID'];
 }
 
-
 $this->IncludeComponentTemplate();

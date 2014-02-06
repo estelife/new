@@ -11,17 +11,25 @@ try{
 
 	//Получение ID секции
 	$sNow = date('d.m.Y', time());
-	$sDateNow = strtotime($sNow.' 00:00:00');
+	$sDateNow =strtotime($sNow.' 00:00:00');
 
-	$arFilter = array(
-		'IBLOCK_ID' => $arParams['IBLOCK_ID'],
-		'SECTION_ID' => $arParams['SECTION_ID'],
-		'<=UF_DATE_PUB_SECTION' => $sNow,
-		'ACTIVE'=>'Y'
-
+	$obResult = CIBlockSection::GetList(
+		array('UF_DATE_PUB_SECTION'=>'DESC'),
+		array(
+			'IBLOCK_ID' => $arParams['IBLOCK_ID'],
+			'SECTION_ID' => $arParams['SECTION_ID'],
+			'<=UF_DATE_PUB_SECTION' => $sNow,
+			'ACTIVE'=>'Y'
+		),
+		false,
+		array(
+			'ID',
+			'NAME',
+			'UF_DATE_PUB_SECTION',
+			'UF_DATE_UPD_SECTION'
+		),
+		array('nPageSize'=>1)
 	);
-	$arSelect = array('ID', 'NAME', 'UF_DATE_PUB_SECTION', 'UF_DATE_UPD_SECTION');
-	$obResult = CIBlockSection::GetList(Array('UF_DATE_PUB_SECTION'=>'DESC'), $arFilter, false, $arSelect, array('nPageSize'=>1));
 
 	while($asRes = $obResult->Fetch()){
 		$arSection = $asRes;
@@ -45,20 +53,31 @@ try{
 
 	//Получение статей
 	if (!empty($arSection)){
-		$arFilter = array(
-			'IBLOCK_ID' => $arParams['IBLOCK_ID'],
-			'SECTION_ID' => $arSection['ID'],
-			'ACTIVE' => 'Y'
+		$obResult=CIBlockElement::GetList(
+			array('PROPERTY_COUNT'=>'ASC'),
+			array(
+				'IBLOCK_ID' => $arParams['IBLOCK_ID'],
+				'SECTION_ID' => $arSection['ID'],
+				'ACTIVE' => 'Y'
+			),
+			false,
+			array('nPageSize'=>$arParams['NEWS_COUNT']),
+			array(
+				'ID',
+				'NAME',
+				'PROPERTY_SHORT_TEXT',
+				'PROPERTY_COUNT',
+				'PROPERTY_FRONTRIGHT',
+				'PROPERTY_FRONTBIG'
+			)
 		);
-		$arSelect = array('ID', 'NAME', 'PREVIEW_TEXT', 'PROPERTY_COUNT', 'PROPERTY_FRONTRIGHT', 'PROPERTY_FRONTBIG');
-		$obResult = CIBlockElement::GetList(Array('PROPERTY_COUNT'=>'ASC'), $arFilter, false, array('nPageSize'=>$arParams['NEWS_COUNT']),$arSelect);
 		$bFirst=true;
 
 		while($asRes = $obResult->Fetch()){
-			$asRes['DETAIL_URL'] = '/'.$arParams['PREFIX'].$asRes['ID'].'/';
+			$asRes['DETAIL_URL']='/'.$arParams['PREFIX'].$asRes['ID'].'/';
 
 			if($bFirst){
-				$asRes['PREVIEW_TEXT_B'] = trim(\core\types\VString::truncate($asRes['PREVIEW_TEXT'], 165, '...')).'<span></span>';
+				$asRes['PREVIEW_TEXT_B'] = $asRes['PROPERTY_SHORT_TEXT_VALUE']['TEXT'].'<span></span>';
 				$asRes['IMG_B'] = CFile::GetFileArray($asRes['PROPERTY_FRONTBIG_VALUE']);
 				$asRes['IMG_B']=$asRes['IMG_B']['SRC'];
 				$bFirst=false;
@@ -69,7 +88,8 @@ try{
 			$asRes['IMG_S']=$asRes['IMG_S']['SRC'];
 
 			unset(
-				$asRes['PREVIEW_TEXT'],
+				$asRes['PROPERTY_SHORT_TEXT_VALUE'],
+				$asRes['PROPERTY_SHORT_TEXT_VALUE_ID'],
 				$asRes['PROPERTY_FRONTRIGHT_VALUE'],
 				$asRes['PROPERTY_FRONTBIG_VALUE'],
 				$asRes['PROPERTY_FRONTRIGHT_VALUE_ID'],
@@ -79,6 +99,7 @@ try{
 		}
 
 	}
+
 	$arResult['FIRST']=array_shift($arElements);
 	unset($arResult['FIRST']['IMG_S']);
 

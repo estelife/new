@@ -13,7 +13,11 @@
 			</h1>
 			<div class="img">
 				<div class="img-in">
-					<?=$arResult['clinic']['logo']?>
+					<?php if(!empty($arResult['clinic']['logo'])):?>
+						<?=$arResult['clinic']['logo']?>
+					<?php else: ?>
+						<div class="default">Изображение отсутствует</div>
+					<?php endif; ?>
 				</div>
 			</div>
 
@@ -32,12 +36,18 @@
 				<?php endif?>
 			</div>
 			<?php if ($arResult['clinic']["recomended"] == 1):?>
-				<div class="menu menu_tab">
+				<div class="tabs-menu menu_tab">
 					<ul>
-						<li class="active t1"><a href="#"><span>О клинике</span></a></li>
-						<li class="t3"><a href="#"><span>Услуги и цены</span></a></li>
-						<li class="t2"><a href="#"><span>Акции</span></a></li>
-						<li class="t4"><a href="#"><span>Контакты</span></a></li>
+						<li class="active t1"><a href="#">О клинике<i></i></a></li>
+						<li class="t3"><a href="#">Услуги и цены<i></i></a></li>
+						<li class="t2"><a href="#">Акции<i></i></a></li>
+						<?php if (!empty($arResult['clinic']["articles"])):?>
+							<li class="t4"><a href="#">Статьи<i></i></a></li>
+						<?php endif?>
+						<?php if ($arResult['clinic']["id"]==2):?>
+							<li class="t6"><a href="#">Специалисты<i></i></a></li>
+						<?php endif?>
+						<li class="t5"><a href="#">Контакты<i></i></a></li>
 					</ul>
 				</div>
 				<div class="tabs tab1">
@@ -56,7 +66,9 @@
 								<?php endforeach?>
 							</div>
 							<div class="gallery-desc">
-								<?=$val['description']?>
+								<?php if (!empty($val['description'])):?>
+									<?=$val['description']?>
+								<?php endif?>
 							</div>
 							<a href="#" class="arrow left">Назад<i></i></a>
 							<a href="#" class="arrow right">Вперед<i></i></a>
@@ -100,13 +112,12 @@
 											</a>
 											<h3><a href="<?=$arValue['link']?>"><?=$arValue['name']?></a></h3>
 											<div class="cols prices">
-												<b>
-													<?php if($arValue['view_type']==3): ?>
-														скидка <?=$arValue["sale"]?>%
-													<?php else: ?>
-														<?=$arValue['new_price']?> <i></i>
-													<?php endif; ?>
-												</b>
+												<?php if($arValue['view_type']==3): ?>
+													<b class="only-perc">скидка <?=$arValue["sale"]?>%</b>
+												<?php else: ?>
+													<b><?=$arValue['new_price']?> <i></i></b>
+												<?php endif; ?>
+
 												<?php if($arValue['view_type']==1): ?>
 													<s><?=$arValue['old_price']?> <i></i></s>
 												<?php endif; ?>
@@ -138,7 +149,63 @@
 						</div>
 					</div>
 				</div>
-				<div class="tabs tab-c tab4 none">
+				<?php if (!empty($arResult['clinic']['articles'])):?>
+					<div class="tabs tab4 none">
+						<div class="items ">
+							<?php foreach ($arResult['clinic']['articles'] as $val):?>
+
+									<div class="item article">
+										<img src="<?=$val['img']?>" alt="<?=$val['name']?>" title="<?=$val['name']?>">
+										<h3><a href="<?=$val['url']?>"><?=$val['name']?></a></h3>
+										<p><?=$val['preview']?></p>
+										<ul class="stat">
+											<li class="date"><?=$val['date']?></li>
+											<li class="likes"><?=$val['countLike']?><i></i></li>
+											<li class="unlikes"><?=$val['countDislike']?><i></i></li>
+										</ul>
+									</div>
+
+							<?php endforeach?>
+						</div>
+					</div>
+				<?php endif?>
+				<?php if ($arResult['clinic']['id']==2):?>
+					<div class="tabs tab6 none">
+						<div class="items ">
+							<div class="item article specialist">
+								<img src="/bitrix/templates/estelife/images/spec/rib.jpg" alt="Рыбакин Артур Владимирович" title="Рыбакин Артур Владимирович">
+								<h3>Рыбакин Артур Владимирович</h3>
+								<p>Пластический хирург, главный врач Института красоты СПИК, заведующий отделением эстетической пластической хирургии Института красоты СПИК</p>
+							</div>
+							<div class="item article specialist">
+								<img src="/bitrix/templates/estelife/images/spec/and.jpg" alt="Андреищев Андрей Русланович" title="Андреищев Андрей Русланович">
+								<h3>Андреищев Андрей Русланович</h3>
+								<p>Пластический и челюстно-лицевой хирург, ортодонт</p>
+							</div>
+							<div class="item article specialist">
+								<img src="/bitrix/templates/estelife/images/spec/arb.jpg" alt="Арбатов Вячеслав Витальевич" title="Арбатов Вячеслав Витальевич">
+								<h3>Арбатов Вячеслав Витальевич</h3>
+								<p>Пластический хирург</p>
+							</div>
+							<div class="item article specialist">
+								<img src="/bitrix/templates/estelife/images/spec/sok.jpg" alt="Соколов Григорий Никитич" title="Соколов Григорий Никитич">
+								<h3>Соколов Григорий Никитич</h3>
+								<p>Дерматолог-онколог, зав.отделением лазерной косметологии, к.м.н</p>
+							</div>
+							<div class="item article specialist">
+								<img src="/bitrix/templates/estelife/images/spec/bag.jpg" alt="Багненко Елена Сергеевна" title="Багненко Елена Сергеевна">
+								<h3>Багненко Елена Сергеевна</h3>
+								<p>Врач дерматолог-косметолог, трихолог, к.м.н</p>
+							</div>
+							<div class="item article specialist">
+								<img src="/bitrix/templates/estelife/images/spec/gin.jpg" alt="Гинтовт Елизавета Алексеевна" title="Гинтовт Елизавета Алексеевна">
+								<h3>Гинтовт Елизавета Алексеевна</h3>
+								<p>Врач дерматолог-косметолог, к.м.н</p>
+							</div>
+						</div>
+					</div>
+				<?php endif?>
+				<div class="tabs tab-c tab5 none">
 					<?php if (!empty($arResult['clinic']['contacts'])):?>
 						<?php foreach ($arResult['clinic']['contacts'] as $val):?>
 							<ul>

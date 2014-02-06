@@ -30,14 +30,15 @@ html,body,textarea,input,a {
 	color:#2c2c2c;
 	line-height: 20px;
 }
+body {
+	background:#dddddd url('../images/bg.jpg') 0 0 repeat;
+	background-attachment: fixed;
+}
 a {
 	color:#E50364;
 }
 a:hover {
 	text-decoration: none;
-}
-body {
-	background:#dddddd;
 }
 .none {
 	display: none !important;
@@ -48,9 +49,9 @@ body {
 .cols, .social span, .promotions, ul.stat li, .social a, .logo, .head form input.text, .head .menu, .head .menu li,
 .general-news .title h1, .general-news .title h2, .general-news, .general-news .col2 .img, .general-news .subscribe, .adv,
 .experts ul li, .item.promotion, .articles, .articles .menu li,.item.detail .menu li, .item.article, .media .item, .media .menu li, .footer .menu li,
-.crumb, .crumb li, .nav, .nav li, .inner, .item.detail .gallery, .similars, .item.producer .img, .item.product .img, .items .item.producer li,
+.crumb, .crumb li, .nav, .nav li, .inner, .similars, .item.producer .img, .item.product .img, .items .item.producer li,
 .inner .title .menu li, .search-founded .menu li, .inner .products .item.product, .item.training .img, .item.detail .user img, .item.event .img, .items .item.event ul.list1,
-.win-gallery-previews li, .quality ul.steps li{
+.win-gallery-previews li, .quality ul.steps li, .tabs-menu li, .tabs-menu {
 	float:left;
 	display: block;
 }
@@ -68,7 +69,8 @@ body {
 }
 .social a, .arrow i, ul.stat i, .promotion .time i, .promotion .prices i, .media .item span, .media .menu .first a,
 .promotion .time i, .promotion .prices i, .item.detail .clinic a.more i, .select .arrow, .item.company p i, .gallery .arrow i, td.prices i,
-.filter .date i, .win-close, .checked, .item.promotion .current .perc i,.checkbox.active i, .to-top i, h2.show-quality-form i,.help i{
+.filter .date i, .win-close, .checked, .item.promotion .current .perc i,.checkbox.active i, .to-top i, h2.show-quality-form i,.help i, .tabs-menu .active i,
+.auth .link.back i {
 	background-image:url('../images/complex.png');
 	background-repeat: no-repeat;
 }
@@ -134,9 +136,6 @@ ul li:last-child, ul li.last-child {
 }
 .panel .arrow i {
 	top:1px;
-}
-.panel .col2 {
-	float:right;
 }
 .panel a.cols {
 	width:40px;
@@ -244,6 +243,7 @@ input.text {
 	text-decoration: none;
 	line-height: 26px;
 	font-size: 14px;
+	color:#2c2c2c;
 }
 .submit:hover, .win-close:hover {
 	background-color:#e50264;
@@ -264,7 +264,7 @@ input.text {
 }
 .head .menu, .head .submenu, ul.menu, ul.stat, .cities ul, .crumb, .nav, .item.detail .tab-c ul,
 .items .item.producer ul, .items .item.product ul, .item.producer .current ul, .item.product .current ul,
-.items .item.event ul, .win-gallery-previews, .quality ul.steps, .item.detail .clinic ul{
+.items .item.event ul, .win-gallery-previews, .quality ul.steps, .item.detail .clinic ul, .tabs-menu ul{
 	list-style: none;
 	padding:0;
 	margin:0;
@@ -280,7 +280,7 @@ input.text {
 	height:40px;
 	margin:0;
 }
-.head .menu li a {
+.head .menu li a, .tabs-menu li a {
 	display: block;
 	padding: 0 18px;
 	font-size:14px;
@@ -312,7 +312,8 @@ input.text {
 	text-transform: none;
 	font-weight: normal;
 }
-.head .menu li a:hover, .head .menu li.second_active a {
+.head .menu li a:hover, .head .menu li.second_active a,
+.tabs-menu .active a, .tabs-menu li a:hover {
 	color:#e50264;
 }
 .head .submenu {
@@ -357,6 +358,14 @@ img {
 .img img {
 	border:none;
 }
+.content .img .default {
+	width:100%;
+	height: 100%;
+	background:#f0f0f0 url('../images/unlogo.png') center center no-repeat;
+	display: block;
+	text-indent:-10000px;
+	position: static;
+}
 .img a {
 	display: block;
 }
@@ -373,7 +382,7 @@ h1, h2 {
 }
 .img div, .img span {
 	position: absolute;
-	top:0;
+	bottom:0;
 	left:0;
 	background:url('../images/shadow.png') 0 0 repeat;
 	color:#fff;
@@ -399,22 +408,23 @@ h1, h2 {
 	line-height: 17px;
 }
 .img span {
-	top:auto;
-	bottom:0;
+	top:0;
 	width: 20px;
 	height: 20px;
 	text-align: center;
 	font-size: 14px;
 }
 .general-news {
-	margin-top:40px;
+	margin-top:37px;
 	height:400px;
 }
 .general-news .title h2 {
-	color:#a2a2a2;
-	font-size:18px;
+	color: #fff;
+	font-size: 12px;
 	line-height: 18px;
-	margin: 7px 0 0 15px;
+	margin: 4px 15px 0 0;
+	background: #a8a8a8;
+	padding: 2px 13px;
 }
 .general-news .img {
 	cursor:pointer;
@@ -436,6 +446,20 @@ h1, h2 {
 }
 .general-news .subscribe {
 	border-top:1px solid #5c5c5c;
+	float:right;
+	width: 147px;
+	margin:0;
+}
+.general-news .subscribe .submit {
+	float: right;
+	width: 42px;
+	height: 30px;
+}
+.general-news .subscribe .text {
+	min-width: 0;
+	width: 80px;
+	float: left;
+	border-right: none;
 }
 .general-news .subscribe h3 {
 	text-transform: uppercase;
@@ -449,7 +473,7 @@ h1, h2 {
 	font-size:16px;
 	line-height: 20px;
 	text-decoration: none;
-	margin-top:26px;
+	margin-top:21px;
 	display: block;
 	color:#2c2c2c;
 }
@@ -496,7 +520,7 @@ ul.stat {
 .adv.top {
 	width:727px;
 	height:100px;
-	/*margin-top:40px;*/
+	margin-top:40px;
 }
 .adv.bottom {
 	width:100%;
@@ -559,7 +583,7 @@ ul.stat .unlikes.active i {
 }
 .experts {
 	width:227px;
-	/*margin-top:40px;*/
+	margin-top:40px;
 	border: 1px solid #D1D1D1;
 	text-align: center;
 	height:519px;
@@ -584,7 +608,7 @@ ul.stat .unlikes.active i {
 }
 .item.detail .menu a, .experts .quote,
 .inner .products .item.product .cols,
-.similars .item.product .cols {
+.similars .item.product .cols, .tabs-menu li a {
 	padding:0 17px;
 }
 .experts .user b {
@@ -692,7 +716,7 @@ ul.stat .unlikes.active i {
 .item.promotion .data {
 	margin:34px 0 26px 0;
 	padding-bottom:0;
-	float:left;
+	overflow:hidden;
 	width: 100%;
 	cursor:default;
 }
@@ -743,6 +767,10 @@ ul.stat .unlikes.active i {
 	text-decoration: none;
 	margin: 18px 0 0 20px;
 	width:100%;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	width: 197px;
 }
 .item.promotion .clinic-link:hover {
 	text-decoration: underline;
@@ -770,6 +798,9 @@ ul.stat .unlikes.active i {
 	padding-right:15px;
 	display: block;
 	float:left;
+}
+.item.promotion .prices b.only-perc {
+	padding-right: 0;
 }
 .item.promotion .prices i, .item.promotion .time i, td.prices i, .item.promotion .current .perc i {
 	display: block;
@@ -880,16 +911,24 @@ td.prices span {
 	width:100%;
 	height:20px;
 	margin-bottom:20px;
+	position: relative;
+}
+.general-news .title {
+	height: 29px;
+	margin-bottom: 15px;
 }
 .inner .title {
 	height:24px;
 }
 .articles .title {
 	margin-bottom:26px;
+	height: 39px;
 }
 .title h1, .title h2, .title a {
 	float:left;
 	letter-spacing: -0.6px;
+	z-index:2;
+	position: relative;
 }
 .title a {
 	font-size: 14px;
@@ -983,15 +1022,16 @@ td.prices span {
 	width:220px;
 }
 .promotions .cities h4, .promotions .cities a,
-.inner .title .menu a, .search-founded .menu a {
+.inner .title .menu a, .search-founded .menu a, .tabs-menu li a {
 	color:#2c2c2c;
 }
 .articles {
 	width:100%;
-	margin-top:40px;
+	margin-top:56px;
 }
 .articles .menu, .articles .menu li, .articles .menu a,
-.item.detail .menu, .item.detail .menu li, .item.detail .menu a{
+.item.detail .menu, .item.detail .menu li, .item.detail .menu a,
+.tabs-menu li, .tabs-menu li a{
 	height:35px;
 }
 .articles .menu, .item.detail .menu {
@@ -1009,7 +1049,7 @@ td.prices span {
 }
 .articles .menu span, .media .menu a,
 .item.detail .menu span, .item.detail .menu a,
-.inner .title .menu a, .search-founded .menu a {
+.inner .title .menu a, .search-founded .menu a, .title .tabs-menu a span {
 	border-bottom:1px dotted #2C2C2C;
 	text-decoration: none;
 }
@@ -1078,6 +1118,9 @@ td.prices span {
 	position: relative;
 	width:229px;
 }
+.item.specialist {
+	height:440px;
+}
 .item.article .stat {
 	position: absolute;
 	bottom:0;
@@ -1089,7 +1132,8 @@ td.prices span {
 	margin-right: 0;
 }
 .item.article h3, .item.article a,
-.inner .products .item.product h2, .inner .products .item.product h2 a {
+.inner .products .item.product h2, .inner .products .item.product h2 a,
+.item.company .items h3 {
 	display: block;
 	text-decoration: none;
 	margin: 23px 0;
@@ -1519,8 +1563,9 @@ td.prices span {
 }
 .item.detail .clinic li {
 	padding-left:0;
-	margin-bottom:10px;
+	margin-bottom:20px;
 	font-size:13px;
+	display: block;
 }
 .item.detail .clinic h4 {
 	margin:40px 0 20px 0;
@@ -1530,6 +1575,7 @@ td.prices span {
 	height:178px;
 	border:1px solid #d1d1d1;
 	margin-top:20px;
+	float:none;
 }
 .filter {
 	background:#e8e8e8;
@@ -1565,7 +1611,7 @@ td.prices span {
 	display: block;
 	margin-bottom:3px;
 }
-.filter input[type=checkbox] {
+form input[type=checkbox] {
 	visibility: hidden;
 	height: 17px;
 }
@@ -1766,12 +1812,20 @@ td.prices span {
 	font-size: 14px;
 	line-height: 14px;
 }
-.item.company .col1 a, .item.detail .tab-c a, h1 a:hover, h2 a:hover,h3 a:hover, .items .item:hover h1 a, .items .item:hover h2 a, .items .item:hover h3 a, .items .item.search a {
+.item.company .col1 a,
+.item.detail .tab-c a,
+h1 a:hover,
+h2 a:hover,
+h3 a:hover,
+.items .item:hover h1 a,
+.items .item:hover h2 a,
+.items .item:hover h3 a,
+.auth .field a.remember:hover {
 	color:#e60365;
 	text-decoration: none;
 	margin-bottom:0;
 }
-.item.company .col1 a:hover, .item.detail .tab-c a:hover, .item.search a:hover,
+.item.company .col1 a:hover, .item.detail .tab-c a:hover,
 .item.product ul a:hover, .item.training a.link:hover, .item.producer ul a:hover {
 	text-decoration: underline !important;
 }
@@ -1943,6 +1997,8 @@ li.country, span.country {
 }
 .item.detail .tabs {
 	float:left;
+	margin-top:40px;
+	width:100%;
 }
 .item.detail .tab-c b, .item.detail .tab-c span, .item.detail .tab-c a {
 	display: block;
@@ -2130,7 +2186,8 @@ li.country, span.country {
 	text-decoration: none;
 	color:#2c2c2c;
 }
-.item.detail .user h4 a:hover,.item.detail .company h4 a:hover {
+.item.detail .user h4 a:hover,
+.item.detail .company h4 a:hover {
 	color:#e60365;
 }
 .item.detail .user a {
@@ -2468,15 +2525,11 @@ form.search .submit {
 	z-index: 2;
 	color:#2c2c2c;
 }
-body {
-	background:#ddd url('../images/bg.jpg') 0 0 repeat;
-	background-attachment: fixed;
-}
 .home-img {
 	position: absolute;
 	opacity: 0.5;
 	top: 0;
-	left: -283px;
+	left: -35px;
 	width: 1920px;
 	max-height: initial;
 	max-width: initial;
@@ -2632,13 +2685,13 @@ div.quality ul.steps li:last-child {
 }
 form.quality {
 	overflow: hidden;
-	/*height:0;*/
+	height:0;
 }
 form.quality div.quality {
 	margin-top:41px;
 }
 form.quality .quality-in {
-	height:371px;
+	height:735px;
 }
 h2.show-quality-form {
 	margin:158px 0 21px 0;
@@ -2669,6 +2722,7 @@ h2.show-quality-form.active a {
 h2.show-quality-form.active i {
 	background-position: -141px -76px;
 }
+
 form.quality p {
 	text-align: center;
 	float: left;
@@ -2685,13 +2739,13 @@ form.quality .field {
 form.quality .field.phone,form.quality .field.city {
 	margin-right: 0;
 }
-form.quality label {
+form.quality label, .auth label {
 	font-size:14px;
 	color:#5f5f5f;
 	font-weight: normal;
 	margin-bottom:9px;
 }
-form.quality input {
+form.quality input, .auth input.text {
 	padding-top:9px;
 	padding-bottom:9px;
 	width:286px;
@@ -2712,7 +2766,7 @@ form.quality .phone input#phone_number {
 form.quality .clinic  input {
 	width: 618px;
 }
-form.quality .submit {
+form.quality .submit, .auth .submit {
 	height: 40px;
 	margin-top: 14px;
 	float: left;
@@ -2721,13 +2775,13 @@ form.quality .submit {
 }
 .quality-result {
 	text-align: center;
-	margin-top: 50px;
+	margin-top:100px;
 }
 .field {
 	position: relative;
 }
 .field.error input {
-	background: rgb(240, 76, 24);
+	background: #ff5858;
 	color:#fff;
 }
 .field.error i {
@@ -2736,7 +2790,7 @@ form.quality .submit {
 	display: block;
 	position: absolute;
 	bottom: -24px;
-	color: #E60365;
+	color: #dd3a3a;
 	left: 0;
 }
 .help {
@@ -2749,6 +2803,7 @@ form.quality .submit {
 	position: absolute;
 	display: none;
 	z-index:1000;
+	max-width: 200px;
 }
 .help i {
 	display: block;
@@ -2811,23 +2866,27 @@ form.quality .submit {
 .item.detail.expert blockquote {
 	display: block;
 	width: 100%;
-	height:1px;
-	margin:70px 0;
-	color:#c67195;
-	background:#c67195;
+	margin: 70px 0;
+	color: #c67195;
 	position: relative;
+	background: url('../images/bq-point.png') 0 center repeat-x;
+	overflow: hidden;
 	text-align: center;
 }
-.item.detail.expert q {
-	display: inline;
+.item.detail.expert blockquote q {
 	font-weight: bold;
-	font-size:18px;
-	margin:0;
-	position: relative;
-	background:#F0F0F0;
+	font-size: 18px;
+	margin: 0;
+	background: #F0F0F0;
 	quotes: "\00ab..." "...\00bb";
-	top:-11px;
-	padding:0 10px;
+	padding: 0 10px;
+	z-index: 2;
+	line-height: 30px;
+	max-width: 538px;
+	display: -moz-inline-stack;
+	display: inline-block;
+	zoom: 1;
+	*display: inline;
 }
 .item.detail.expert .cor {
 	margin-top:50px;
@@ -2839,8 +2898,130 @@ form.quality .submit {
 .item.detail.expert .announce {
 	font-size:16px;
 }
+.tabs-menu .active a {
+	border: 1px solid #D1D1D1;
+	background: #F0F0F0;
+	border-bottom-color: #F0F0F0;
+	position: relative;
+	line-height: 37px;
+	padding:0 16px;
+}
+.tabs-menu .active a span {
+	border:none;
+}
+.tabs-menu .active a i {
+	display: block;
+	width:11px;
+	height:11px;
+	background-position:-142px -94px;
+	background-color:#F0F0F0;
+	position: absolute;
+	top:-1px;
+	right:-1px;
+}
+.tabs-menu {
+	border-bottom:1px solid #d1d1d1;
+	width:100%;
+	margin-top:36px;
+}
+.content .tabs-menu li {
+	padding:0;
+}
+.title .tabs-menu {
+	float:right;
+	margin:0;
+	position: absolute;
+	padding:0;
+	z-index:1;
+}
+.title .tabs-menu li {
+	float:right;
+}
+.title .tabs-menu li a {
+	letter-spacing: 0;
+	margin:0;
+}
+
 .ajax-filter {
 	min-height:120px;
 	float:right;
 	width:230px;
+}
+.auth,.auth .logo {
+	width:769px;
+	margin:0 auto;
+}
+.auth  {
+	margin-top:103px;
+	background:url('../images/auth/gradient.png') center 0 no-repeat;
+}
+.auth .logo {
+	background:url('../images/auth/logo.png') center 0 no-repeat;
+	width:100%;
+	height:14px;
+	padding:74px 0 0 0;
+	text-align: center;
+	font-size:14px;
+	color:#2c2c2c;
+	float:none;
+}
+.auth .logo, .auth .submit {
+	float:none;
+}
+.auth form {
+	width:313px;
+	margin:114px auto 0 auto;
+}
+.auth .field {
+	margin-bottom:31px;
+	position: relative;
+}
+.auth .field a,
+.auth .link.back i {
+	position: absolute;
+}
+.auth .field a {
+	font-size:12px;
+	top: 40px;
+	left: 333px;
+	width: 100%;
+	color:#2c2c2c;
+}
+.auth .submit {
+	margin: 40px auto 0 auto;
+	width: 160px;
+}
+.auth .link {
+	display: block;
+	text-align: center;
+	margin-top:25px;
+	font-size:12px;
+}
+.auth .link.register {
+	padding-top:25px;
+	border-top:1px solid #c4c4c4;
+	text-transform: uppercase;
+	font-size:14px;
+}
+.auth .link.back {
+	width:100%;
+	margin-top:63px;
+	color:#2c2c2c;
+	text-decoration: none;
+}
+.auth .link.back span {
+	position: relative;
+}
+.auth .link.back i {
+	display: block;
+	left:-19px;
+	top:50%;
+	margin-top:-2px;
+	width:14px;
+	height:5px;
+	background-position: -168px -97px;
+}
+.auth .empty {
+	height:100px;
+	width:100%;
 }

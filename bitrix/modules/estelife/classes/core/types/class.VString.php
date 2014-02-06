@@ -80,6 +80,15 @@ class VString {
 	}
 
 	/**
+	 * Проверяет корректность пароля
+	 * @param string $sPassword
+	 * @return boolean
+	 */
+	public static function isPassword($sPassword){
+		return preg_match('/^[a-z0-9]{6,255}$/i',$sPassword);
+	}
+
+	/**
 	 * Проверяет валидность номера телефона
 	 * @param string $sPhone
 	 * @return int
@@ -170,6 +179,7 @@ class VString {
 	 */
 	public static function truncate($sText,$nLimit,$sEnd='...',$sPoint=' '){
 		$nLength=strlen($sText);
+
 		if($nLength<=$nLimit)
 			return $sText;
 
@@ -233,13 +243,14 @@ class VString {
 		$sUrl=trim($sUrl);
 		$sShort=$sUrl;
 
-		if(preg_match('#^(https?:\/\/)*([^\/]+)(\/.*)*#',$sUrl,$arMatches)){
-			$sUrl=((!empty($arMatches[1])) ? $arMatches[1] : 'http://').$arMatches[2].$arMatches[3];
-			$sShort=$arMatches[2];
-			$nLength=!empty($arMatches[3]) ? strlen($arMatches[3]) : 0;
+		if(preg_match('#^(https?:\/\/)?(www\.)?([^\/]+)(\/.*)*#',$sUrl,$arMatches)){
+			$sUrl=((!empty($arMatches[1])) ? $arMatches[1] : 'http://');
+			$sUrl.=$arMatches[2].$arMatches[3].$arMatches[4];
+			$sShort=(!empty($arMatches[2]) ? $arMatches[2] : 'www.').$arMatches[3];
 
+			$nLength=!empty($arMatches[4]) ? strlen($arMatches[4]) : 0;
 			if($bAppendTail && $nLength>1)
-				$sShort.=($nLength>10) ? substr($arMatches[3],0,10).'...' : $arMatches[3];
+				$sShort.=($nLength>10) ? substr($arMatches[4],0,10).'...' : $arMatches[4];
 		}
 
 		return $sShort;
@@ -251,8 +262,7 @@ class VString {
 	 * @return string
 	 */
 	public static function pregStrSeo($sText){
-		$sText = preg_replace('#[^\w\d\s\.\,\-\(\)\%]+#iu',' ',$sText);
-		return $sText;
+		return preg_replace('#[^a-zа-я0-9\s\.\,\-\(\)\%]+#iu',' ',$sText);
 	}
 
 

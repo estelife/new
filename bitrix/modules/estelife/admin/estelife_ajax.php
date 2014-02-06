@@ -130,6 +130,26 @@ try{
 				$arResult['list']=array();
 			}
 			break;
+		case 'articles':
+			if(!empty($arData['term'])){
+				$sName=trim(strip_tags($arData['term']));
+
+				$obApp= VDatabase::driver();
+
+				$obQuery = $obApp->CreateQuery();
+				$obFilter=$obQuery->builder()->from('iblock_element')
+					->field('NAME')
+					->field('ID')
+					->filter()
+					->_eq('IBLOCK_ID', 14)
+					->_eq('ACTIVE', 'Y')
+					->_like('NAME',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+
+				$arResult['list'] = $obQuery->select()->all();
+			}else{
+				$arResult['list']=array();
+			}
+			break;
 		case 'apparatus':
 			if(!empty($arData['term'])){
 				$arCompanyType=array();

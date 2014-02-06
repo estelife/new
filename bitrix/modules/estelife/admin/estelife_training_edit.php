@@ -222,6 +222,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		if($obPost->blank('translit'))
 			$obPost->set('translit',\core\types\VString::translit($obPost->one('short_name')));
 
+		$nTime=time();
 		$obQuery=\core\database\VDatabase::driver()->createQuery();
 		$obBuilder=$obQuery->builder();
 		$obBuilder->from('estelife_events')->
@@ -237,7 +238,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			value('detail_text',htmlentities($obPost->one('detail_text',''),ENT_QUOTES,'utf-8'))->
 			value('latitude',floatval($obPost->one('latitude')))->
 			value('longitude',floatval($obPost->one('longitude')))->
-			value('date_edit',time())->
+			value('date_edit',$nTime)->
 			value('logo_id',0);
 
 		if(!empty($ID)){
@@ -308,6 +309,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 			$obQuery->delete();
 		}else{
+			$obQuery->builder()->value('date_create',$nTime);
 			$obResult=$obQuery->insert();
 			$ID=$obResult->insertId();
 		}

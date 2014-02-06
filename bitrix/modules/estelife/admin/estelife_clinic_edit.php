@@ -184,6 +184,22 @@ if(!empty($ID) || !empty($CLINIC_ID)){
 		->_eq('clinic_id',$arResult['clinic']['id']);
 	$obResult=$obQuery->select();
 	$arResult['clinic']['pays']=$obResult->all();
+
+
+	//Получение статей
+	$obQuery=$obClinics->createQuery();
+	$obQuery->builder()->from('estelife_clinic_articles', 'eca');
+	$obJoin=$obQuery->builder()->join();
+	$obJoin->_left()
+		->_from('eca','article_id')
+		->_to('iblock_element','ID','ie');
+	$obQuery->builder()
+		->field('ie.ID', 'article_id')
+		->field('ie.NAME', 'article_name')
+		->filter()
+		->_eq('clinic_id',$arResult['clinic']['id']);
+	$obResult=$obQuery->select();
+	$arResult['clinic']['articles']=$obResult->all();
 }
 
 if(empty($ID) || !empty($CLINIC_ID)){
@@ -284,8 +300,10 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		$obError->raise();
 
+		$nTime=time();
 		$obQueryClinic = $obClinics->createQuery();
-		$obQueryClinic->builder()->from('estelife_clinics')
+		$obQueryClinic->builder()
+			->from('estelife_clinics')
 			->value('name', trim(htmlentities($obPost->one('name'),ENT_QUOTES,'utf-8')))
 			->value('detail_text', htmlentities($obPost->one('detail_text'),ENT_QUOTES,'utf-8'))
 			->value('preview_text', htmlentities($obPost->one('preview_text'),ENT_QUOTES,'utf-8'))
@@ -297,7 +315,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			->value('address', htmlentities($obPost->one('address'),ENT_QUOTES,'utf-8'))
 			->value('latitude', doubleval($obPost->one('latitude')))
 			->value('longitude', doubleval($obPost->one('longitude')))
-			->value('clinic_id', intval($obPost->one('clinic_id',0)));
+			->value('clinic_id', intval($obPost->one('clinic_id',0)))
+			->value('date_edit',$nTime);
 
 		if(!empty($_FILES['logo'])){
 			$arImage=$_FILES['logo'];
@@ -312,18 +331,26 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			}
 		}
 
-
-		if (!empty($ID)){
-			$obQueryClinic->builder()->filter()
+		if(!empty($ID)){
+			$obQueryClinic
+				->builder()
+				->filter()
 				->_eq('id',$ID);
+
 			$obQueryClinic->update();
-			$idClinic = $ID;
+			$idClinic=$ID;
 		}else{
-			$idClinic = $obQueryClinic->insert()->insertId();
-			$ID =$idClinic;
+			$obQueryClinic
+				->builder()
+				->value('date_create',$nTime);
+
+			$idClinic=$obQueryClinic
+				->insert()
+				->insertId();
+
+			$ID=$idClinic;
 
 		}
-
 
 		setcookie('el_sel_city',$obPost->one('city_id'),time()+86400,'/');
 
@@ -349,12 +376,35 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			$obQuery->builder()->filter()->_eq('clinic_id',$idClinic);
 			$obQuery->delete();
 
+			$obQuery = $obClinics->createQuery();
+			$obQuery->builder()->from('estelife_clinic_articles');
+			$obQuery->builder()->filter()->_eq('clinic_id',$idClinic);
+			$obQuery->delete();
+
 			$obQuery=$obClinics->createQuery();
 			$obQuery->builder()
 				->from('estelife_clinic_pays')
 				->filter()
 				->_eq('clinic_id',$idClinic);
 			$obQuery->delete();
+		}
+
+		//Пишем ссылки на статьи
+		if($arArticles=$obPost->one('articles')){
+			$arArticles=$arArticles['article_id'];
+
+			foreach($arArticles as $nArticle){
+				$nArticle=intval($nArticle);
+
+				if(empty($nArticle))
+					continue;
+
+				$obQuery->builder()
+					->from('estelife_clinic_articles')
+					->value('article_id',$nArticle)
+					->value('clinic_id',$ID);
+				$obQuery->insert();
+			}
 		}
 
 
@@ -665,7 +715,8 @@ $aTabs = array(
 	array("DIV" => "edit5", "TAB" => GetMessage("ESTELIFE_T_BUSY_HOURS"), "ICON" => "estelife_r_base", "TITLE" => GetMessage("ESTELIFE_T_BUSY_HOURS")),
 	array("DIV" => "edit6", "TAB" => GetMessage("ESTELIFE_T_CONTACTS"), "ICON" => "estelife_r_base", "TITLE" => GetMessage("ESTELIFE_T_CONTACTS")),
 	array("DIV" => "edit8", "TAB" => GetMessage("ESTELIFE_T_GALLERIES"), "ICON" => "estelife_r_base", "TITLE" => GetMessage("ESTELIFE_T_GALLERIES")),
-	array("DIV" => "edit9", "TAB" => GetMessage("ESTELIFE_T_AKZII"), "ICON" => "estelife_r_base", "TITLE" => GetMessage("ESTELIFE_T_AKZII"))
+	array("DIV" => "edit9", "TAB" => GetMessage("ESTELIFE_T_AKZII"), "ICON" => "estelife_r_base", "TITLE" => GetMessage("ESTELIFE_T_AKZII")),
+	array("DIV" => "edit12", "TAB" => GetMessage("ESTELIFE_T_ARTICLES"), "ICON" => "estelife_r_base", "TITLE" => GetMessage("ESTELIFE_T_ARTICLES"))
 );
 
 if(empty($CLINIC_ID)){
@@ -753,7 +804,7 @@ if(!empty($arResult['error']['text'])){
 			<td width="40%"><?=GetMessage("ESTELIFE_F_METRO")?></td>
 			<td width="60%">
 				<input type="hidden" name="metro_id" value="<?=$arResult['clinic']['metro_id']?>" />
-				<input type="text"<?=(empty($arResult['clinic']['metro_id']) ? ' readonly="readonly"' : '')?> name="metro_name" data-input="metro_id" value="<?=$arResult['clinic']['metro_name']?>" />
+				<input type="text"<?=(empty($arResult['clinic']['city_id']) ? ' readonly="readonly"' : '')?> name="metro_name" data-input="metro_id" value="<?=$arResult['clinic']['metro_name']?>" />
 			</td>
 		</tr>
 		<tr class="adm-detail-required-field">
@@ -953,228 +1004,6 @@ if(!empty($arResult['error']['text'])){
 
 		<tr>
 			<td colspan="2">
-				<!--<table class="estelife-busy-hours">
-					<thead>
-						<tr>
-							<th class="all">Все</th>
-							<th>00<sup>00</sup><br />01<sup>00</sup></th>
-							<th>01<sup>00</sup><br />02<sup>00</sup></th>
-							<th>02<sup>00</sup><br />03<sup>00</sup></th>
-							<th>03<sup>00</sup><br />04<sup>00</sup></th>
-							<th>04<sup>00</sup><br />05<sup>00</sup></th>
-							<th>05<sup>00</sup><br />06<sup>00</sup></th>
-							<th>06<sup>00</sup><br />07<sup>00</sup></th>
-							<th>07<sup>00</sup><br />08<sup>00</sup></th>
-							<th>08<sup>00</sup><br />09<sup>00</sup></th>
-							<th>09<sup>00</sup><br />10<sup>00</sup></th>
-							<th>10<sup>00</sup><br />11<sup>00</sup></th>
-							<th>11<sup>00</sup><br />12<sup>00</sup></th>
-							<th>12<sup>00</sup><br />13<sup>00</sup></th>
-							<th>13<sup>00</sup><br />14<sup>00</sup></th>
-							<th>14<sup>00</sup><br />15<sup>00</sup></th>
-							<th>15<sup>00</sup><br />16<sup>00</sup></th>
-							<th>16<sup>00</sup><br />17<sup>00</sup></th>
-							<th>17<sup>00</sup><br />18<sup>00</sup></th>
-							<th>18<sup>00</sup><br />19<sup>00</sup></th>
-							<th>19<sup>00</sup><br />20<sup>00</sup></th>
-							<th>20<sup>00</sup><br />21<sup>00</sup></th>
-							<th>21<sup>00</sup><br />22<sup>00</sup></th>
-							<th>22<sup>00</sup><br />23<sup>00</sup></th>
-							<th>23<sup>00</sup><br />00<sup>00</sup></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td class="h">Пн</td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(1,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="1" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(2,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="2" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(3,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="3" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(4,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="4" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(5,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="5" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(6,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="6" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(7,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="7" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(8,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="8" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(9,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="9" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(10,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="10" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(11,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="11" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(12,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="12" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(13,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="13" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(14,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="14" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(15,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="15" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(16,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="16" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(17,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="17" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(18,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="18" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(19,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="19" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(20,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="20" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(21,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="21" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(22,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="22" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(23,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="23" /></td>
-							<td><input type="checkbox" name="busy_hours[1][]"<?/*=(in_array(24,$arResult['clinic']['busy_hours'][1])) ? ' checked="checked"' : ''*/?> value="24" /></td>
-						</tr>
-						<tr>
-							<td class="h">Вт</td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(1,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="1" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(2,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="2" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(3,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="3" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(4,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="4" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(5,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="5" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(6,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="6" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(7,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="7" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(8,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="8" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(9,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="9" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(10,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="10" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(11,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="11" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(12,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="12" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(13,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="13" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(14,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="14" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(15,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="15" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(16,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="16" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(17,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="17" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(18,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="18" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(19,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="19" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(20,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="20" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(21,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="21" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(22,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="22" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(23,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="23" /></td>
-							<td><input type="checkbox" name="busy_hours[2][]"<?/*=(in_array(24,$arResult['clinic']['busy_hours'][2])) ? ' checked="checked"' : ''*/?> value="24" /></td>
-						</tr>
-						<tr>
-							<td class="h">Ср</td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(1,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="1" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(2,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="2" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(3,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="3" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(4,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="4" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(5,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="5" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(6,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="6" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(7,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="7" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(8,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="8" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(9,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="9" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(10,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="10" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(11,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="11" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(12,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="12" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(13,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="13" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(14,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="14" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(15,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="15" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(16,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="16" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(17,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="17" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(18,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="18" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(19,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="19" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(20,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="20" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(21,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="21" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(22,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="22" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(23,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="23" /></td>
-							<td><input type="checkbox" name="busy_hours[3][]"<?/*=(in_array(24,$arResult['clinic']['busy_hours'][3])) ? ' checked="checked"' : ''*/?> value="24" /></td>
-						</tr>
-						<tr>
-							<td class="h">Чт</td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(1,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="1" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(2,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="2" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(3,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="3" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(4,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="4" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(5,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="5" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(6,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="6" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(7,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="7" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(8,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="8" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(9,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="9" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(10,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="10" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(11,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="11" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(12,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="12" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(13,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="13" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(14,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="14" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(15,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="15" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(16,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="16" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(17,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="17" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(18,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="18" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(19,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="19" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(20,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="20" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(21,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="21" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(22,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="22" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(23,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="23" /></td>
-							<td><input type="checkbox" name="busy_hours[4][]"<?/*=(in_array(24,$arResult['clinic']['busy_hours'][4])) ? ' checked="checked"' : ''*/?> value="24" /></td>
-						</tr>
-						<tr>
-							<td class="h">Пт</td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(1,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="1" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(2,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="2" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(3,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="3" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(4,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="4" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(5,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="5" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(6,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="6" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(7,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="7" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(8,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="8" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(9,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="9" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(10,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="10" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(11,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="11" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(12,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="12" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(13,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="13" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(14,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="14" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(15,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="15" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(16,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="16" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(17,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="17" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(18,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="18" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(19,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="19" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(20,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="20" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(21,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="21" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(22,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="22" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(23,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="23" /></td>
-							<td><input type="checkbox" name="busy_hours[5][]"<?/*=(in_array(24,$arResult['clinic']['busy_hours'][5])) ? ' checked="checked"' : ''*/?> value="24" /></td>
-						</tr>
-						<tr>
-							<td class="h">Сб</td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(1,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="1" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(2,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="2" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(3,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="3" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(4,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="4" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(5,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="5" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(6,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="6" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(7,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="7" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(8,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="8" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(9,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="9" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(10,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="10" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(11,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="11" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(12,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="12" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(13,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="13" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(14,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="14" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(15,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="15" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(16,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="16" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(17,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="17" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(18,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="18" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(19,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="19" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(20,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="20" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(21,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="21" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(22,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="22" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(23,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="23" /></td>
-							<td><input type="checkbox" name="busy_hours[6][]"<?/*=(in_array(24,$arResult['clinic']['busy_hours'][6])) ? ' checked="checked"' : ''*/?> value="24" /></td>
-						</tr>
-						<tr>
-							<td class="h">Вс</td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(1,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="1" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(2,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="2" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(3,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="3" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(4,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="4" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(5,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="5" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(6,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="6" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(7,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="7" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(8,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="8" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(9,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="9" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(10,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="10" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(11,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="11" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(12,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="12" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(13,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="13" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(14,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="14" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(15,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="15" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(16,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="16" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(17,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="17" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(18,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="18" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(19,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="19" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(20,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="20" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(21,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="21" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(22,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="22" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(23,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="23" /></td>
-							<td><input type="checkbox" name="busy_hours[7][]"<?/*=(in_array(24,$arResult['clinic']['busy_hours'][7])) ? ' checked="checked"' : ''*/?> value="24" /></td>
-						</tr>
-					</tbody>
-				</table>-->
 				<table class="estelife-busy-hours">
 					<thead>
 						<tr>
@@ -1783,6 +1612,31 @@ if(!empty($arResult['error']['text'])){
 		</div>
 		<?php endif; ?>
 
+		<?
+		$tabControl->BeginNextTab()
+		?>
+		<div class="estelife-services one-list">
+			<?php if(!empty($arResult['clinic']['articles'])): ?>
+				<?php foreach($arResult['clinic']['articles'] as $val): ?>
+					<tr>
+						<td width="30%"><?=GetMessage("ESTELIFE_F_ARTICLES")?></td>
+						<td width="70%">
+							<input type="hidden" name="articles[article_id][]" value="<?=$val['article_id']?>" />
+							<input type="text" disabled="disabled" name="articles[article_name][]" data-input="article_id" class="estelife-need-clone" size="60" value="<?=$val['article_name']?>" />
+							<a href="#" class="estelife-more estelife-btn adm-btn adm-btn-delete estelife-delete"></a>
+						</td>
+					</tr>
+				<?php endforeach; ?>
+			<?php endif; ?>
+			<tr>
+				<td width="30%"><?=GetMessage("ESTELIFE_F_ARTICLES")?></td>
+				<td width="70%">
+					<input type="hidden" name="articles[article_id][]" value="" />
+					<input type="text" name="articles[article_name][]" data-input="article_id" class="estelife-need-clone" value=""size="60" />
+					<a href="#" class="estelife-more estelife-btn adm-btn adm-btn-save">&crarr;</a>
+				</td>
+			</tr>
+		</div>
 		<?
 		$tabControl->BeginNextTab()
 		?>
