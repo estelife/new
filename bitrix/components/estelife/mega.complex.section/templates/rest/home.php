@@ -7,11 +7,10 @@ $APPLICATION->IncludeComponent(
 	"estelife:podcast.list",
 	"home_ajax",
 	array(
-		"IBLOCK_ID"=>14,
+		"IBLOCK_ID"=>36,
 		"NEWS_COUNT" => 7,
 		"MAIN_URL" => "podcast",
 		"PREFIX" => "pt",
-		"SECTION_ID"=>208
 	)
 );
 

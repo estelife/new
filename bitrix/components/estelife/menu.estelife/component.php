@@ -10,14 +10,13 @@ $obQuery->builder()
 	->sort('section_prop.UF_DATE_PUB_SECTION','DESC')
 	->filter()
 	->_eq('section.ACTIVE','Y')
-	->_eq('section.IBLOCK_ID',14)
-	->_eq('section.IBLOCK_SECTION_ID',208)
+	->_eq('section.IBLOCK_ID',36)
 	->_lte('section_prop.UF_DATE_PUB_SECTION',date('Y-m-d 00:00:00'));
 $obQuery->builder()
 	->join()
 	->_left()
 	->_from('section','ID')
-	->_to('uts_iblock_14_section','VALUE_ID','section_prop');
+	->_to('uts_iblock_36_section','VALUE_ID','section_prop');
 $arResult['tz']=$obQuery
 	->select()
 	->all();

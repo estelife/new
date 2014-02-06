@@ -64,8 +64,11 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 }
 
 $obQuery=VDatabase::driver()->createQuery();
-$obQuery->builder()
-	->from('estelife_subscribe');
+$obQuery->builder()->from('estelife_subscribe_events', 'se');
+$obJoin=$obQuery->builder()->join();
+$obJoin->_left()
+	->_from('se','subscribe_user_id')
+	->_to('estelife_subscribe_user','user_id','su');
 
 $obFilter=$obQuery->builder()->filter();
 
@@ -75,7 +78,7 @@ if($_GET && $_GET['set_filter'] == 'Y'){
 if(!empty($arFilter['email']))
 	$obFilter->_like('email',$arFilter['email'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
 if($arFilter['active'] != 'all')
-	$obFilter->_eq('active',$arFilter['active']);
+	$obFilter->_eq('event_active',$arFilter['active']);
 if($arFilter['type'] != 'all')
 	$obFilter->_eq('type',$arFilter['type']);
 }
@@ -85,7 +88,7 @@ if($arFilter['type'] != 'all')
 if($by=='email')
 	$obQuery->builder()->sort('email',$order);
 elseif($by=='active')
-	$obQuery->builder()->sort('active',$order);
+	$obQuery->builder()->sort('event_active',$order);
 elseif($by=='type')
 	$obQuery->builder()->sort('type',$order);
 elseif($by=='date')
@@ -101,9 +104,6 @@ $obResult=new CAdminResult(
 
 
 
-
-
-
 $obResult->NavStart();
 $lAdmin->NavText($obResult->GetNavPrint(GetMessage('ESTELIFE_PAGES')));
 
@@ -116,7 +116,8 @@ while($arRecord=$obResult->Fetch()){
 	$f_ID=$arRecord['id'];
 	$row =& $lAdmin->AddRow($f_ID,$arRecord);
 
-	if($arRecord['active'] == 1){
+
+	if($arRecord['event_active'] == 1){
 		$active = "Да";
 	}else{
 		$active = "Нет";

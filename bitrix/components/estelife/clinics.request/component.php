@@ -98,6 +98,15 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			)
 		);
 
+
+			$arFields = array(
+				'EMAIL_TO'=>$sEmail,
+			);
+
+			CEvent::Send("GET_REQUEST_ADMIN", "s1", $arFields);
+			CEvent::Send("GET_REQUEST_USER", "s1", $arFields);
+
+
 		if(!$obRequest->create())
 			throw new \request\exceptions\VRequest('Не удалось создать заявку');
 

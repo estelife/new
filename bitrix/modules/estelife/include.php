@@ -72,6 +72,13 @@ CModule::AddAutoloadClasses(
 		'request\VRequest'=>"classes/request/class.VRequest.php",
 		'request\VCompany'=>"classes/request/class.VCompany.php",
 		'request\VUser'=>"classes/request/class.VUser.php",
-		'request\exceptions\VRequest'=>"classes/request/exceptions/class.VRequest.php"
+		'request\exceptions\VRequest'=>"classes/request/exceptions/class.VRequest.php",
+
+		//subscribe
+		'subscribe\VUser'=>"classes/subscribe/class.VUser.php",
+		'subscribe\VUserNotFound'=>"classes/subscribe/class.VUserNotFound.php",
+		'subscribe\ClinicFactory'=>"classes/subscribe/class.ClinicFactory.php",
+		'subscribe\TrainigsFactory'=>"classes/subscribe/class.TrainigsFactory.php",
+		'subscribe\VDirector'=>"classes/subscribe/class.VDirector.php"
 	)
 );
