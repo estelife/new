@@ -87,8 +87,12 @@ require([
 				data,
 				function(r){
 				if (r.complete == 1){
-					alert('Вы успешно подписаны');
-					$('input[name=email]').val('');
+					if (form.hasClass('main')){
+						form.html('<h3>Вы успешно подписались на новые статьи!</h3>')
+					}else{
+						alert('Вы успешно подписаны');
+						$('input[name=email]').val('');
+					}
 				}else{
 					alert(r.error);
 				}
