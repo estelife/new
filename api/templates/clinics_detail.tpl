@@ -134,6 +134,7 @@
 										<label for="always">Хочу узнавать обо всех новых акциях, размещаемых на портале</label>
 										<input type="hidden" name="type" value="1" />
 										<input type="hidden" name="params[id]" value="<!--$detail.id!-->" />
+										<input type="hidden" name="params[city_id]" value="<!--$detail.main_contact.city_id!-->" />
 									</div>
 									<input type="submit" class="submit" value="Оставить" />
 								</form>

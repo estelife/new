@@ -408,8 +408,7 @@ h1, h2 {
 	line-height: 17px;
 }
 .img span {
-	top:auto;
-	bottom:0;
+	top:0;
 	width: 20px;
 	height: 20px;
 	text-align: center;
@@ -453,7 +452,8 @@ h1, h2 {
 }
 .general-news .subscribe .submit {
 	float: right;
-	width: 38px;
+	width: 42px;
+	height: 30px;
 }
 .general-news .subscribe .text {
 	min-width: 0;

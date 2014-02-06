@@ -12,6 +12,11 @@ require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_befo
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/estelife/prolog.php");
 
 CModule::IncludeModule('estelife');
+$arTypes=$arData=$APPLICATION->IncludeComponent(
+	"estelife:system-settings","",
+	array('filter'=>'types')
+);
+$arTypes=array_flip($arTypes);
 $arResult=array();
 
 $obDriver=\core\database\VDatabase::driver();
@@ -54,7 +59,7 @@ if (!empty($arIds)){
 		->field('apparatus_id')
 		->filter()
 			->_in('apparatus_id', $arIds);
-	$arTypes=$obQuery
+	$arApparatusTypes=$obQuery
 		->select()
 		->all();
 }
@@ -71,10 +76,9 @@ $arTypesString=array(
 	'9'=>'Микропигментация',
 );
 
-if (!empty($arTypes)){
-	foreach ($arTypes as $val){
+if (!empty($arApparatusTypes)){
+	foreach ($arApparatusTypes as $val)
 		$arResult[$val['apparatus_id']]['tags'][]=trim($arTypesString[$val['type_id']]);
-	}
 }
 
 $arKillList=array();
@@ -108,7 +112,7 @@ foreach($arResult as $arValue){
 	$sTags=htmlspecialchars(implode(', ',$arValue['tags']),ENT_QUOTES,'utf-8');
 
 	$sResult.='
-		<sphinx:document id="'.$arValue['id'].'">
+		<sphinx:document id="'.$arTypes['ap'].$arValue['id'].'">
 			<search-name>'.$sName.'</search-name>
 			<search-category>Аппараты</search-category>
 			<search-preview><![CDATA[['.$sPreviewText.']]></search-preview>
@@ -119,7 +123,7 @@ foreach($arResult as $arValue){
 			<tags>'.$sTags.'</tags>
 			<date_edit>'.$arValue['date_edit'].'</date_edit>
 			<id>'.$arValue['id'].'</id>
-			<type>ap</type>
+			<type>'.$arTypes['ap'].'</type>
 			<city>0</city>
 		</sphinx:document>
 	';

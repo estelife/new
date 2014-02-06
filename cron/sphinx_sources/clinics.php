@@ -182,7 +182,7 @@ foreach($arResult as $arValue){
 		'К сожалению, на данный момент клиника не предоставила нам официальные данные об оказываемых услугах и проводимых акциях.';
 
 	$sResult.='
-		<sphinx:document id="'.$arValue['id'].'">
+		<sphinx:document id="'.$arTypes['cl'].$arValue['id'].'">
 			<search-name><![CDATA[['.trim(htmlspecialchars(strip_tags($arValue['name']),ENT_QUOTES,'utf-8')).']]></search-name>
 			<search-category>Клиники '.trim($arValue['city']).'</search-category>
 			<search-preview></search-preview>
@@ -191,7 +191,7 @@ foreach($arResult as $arValue){
 			<name>'.htmlspecialchars($arValue['name'],ENT_QUOTES,'utf-8').'</name>
 			<description>'.$sDescription.'</description>
 			<tags>'.$arValue['tags'].'</tags>
-			<date_edit>'.strtotime($arValue['date_edit']).'</date_edit>
+			<date_edit>'.$arValue['date_edit'].'</date_edit>
 			<id>'.$arValue['id'].'</id>
 			<type>'.$arTypes['cl'].'</type>
 			<city>'.$arTypes['city_id'].'</city>

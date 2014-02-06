@@ -84,6 +84,7 @@
 								<label for="always">Хочу узнавать обо всех новых семинарах, размещаемых на портале</label>
 								<input type="hidden" name="type" value="2" />
 								<input type="hidden" name="params[id]" value="<!--$detail.id!-->" />
+								<input type="hidden" name="params[city_id]" value="<!--$detail.city_id!-->" />
 							</div>
 							<input type="submit" class="submit" value="Оставить" />
 						</form>

@@ -86,7 +86,7 @@
 								"estelife:subscribe",
 								"",
 								array(
-									'params'=>array('id'=>$arResult['company']['id']),
+									'params'=>array('id'=>$arResult['company']['id'],'city_id'=>$arResult['city_id']),
 									'type'=>2,
 									'text'=>'Хочу узнавать обо всех новых семинарах, размещаемых на портале'
 								)
