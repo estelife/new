@@ -74,9 +74,9 @@ if (!empty($sQuery)){
 
 	if (!empty($sTags)){
 		$obSph->SetMatchMode(SPH_MATCH_EXTENDED);
-		$arAnswer=$obSph->query('@search-tags: '.$sTags);
+		$arAnswer=$obSph->Query('@search-tags: '.$sTags);
 	}else
-		$arAnswer=$obSph->query($sQuery.'*', '*');
+		$arAnswer=$obSph->Query($sQuery.'*','*');
 
 	if (!empty($arAnswer['matches'])){
 		$arAnswer=$arAnswer['matches'];
