@@ -132,7 +132,7 @@ foreach($arResult as $arValue){
 	$sDescription=!empty($sDetailText) ? VString::truncate($sDetailText,300) : $sPreviewText;
 
 	$sResult.='
-		<sphinx:document id="'.$arValue['id'].'">
+		<sphinx:document id="'.$nType.$arValue['id'].'">
 			<search-name>'.$sName.'</search-name>
 			<search-category>'.$sCategory.' '.trim($arValue['city']).'</search-category>
 			<search-preview><![CDATA[['.$sPreviewText.']]></search-preview>

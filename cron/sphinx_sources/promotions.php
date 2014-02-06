@@ -168,7 +168,7 @@ foreach($arResult as $arValue){
 	$sName=trim(htmlspecialchars(strip_tags($arValue['name']),ENT_QUOTES,'utf-8'));
 
 	$sResult.='
-		<sphinx:document id="'.$arValue['id'].'">
+		<sphinx:document id="'.$arTypes['pr'].$arValue['id'].'">
 			<search-name>'.$sName.'</search-name>
 			<search-category>Акции '.trim($arValue['city']).'</search-category>
 			<search-preview></search-preview>
