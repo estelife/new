@@ -99,7 +99,7 @@ foreach($arResult as $arValue){
 	}
 
 	$sResult.='
-		<sphinx:document id="'.$arValue['id'].'">
+		<sphinx:document id="'.$arTypes[$arValue['iblock_id']].$arValue['id'].'">
 			<search-name>'.trim(htmlspecialchars(strip_tags($arValue['name']),ENT_QUOTES,'utf-8')).'</search-name>
 			<search-category>'.trim($arValue['section_name']).' - '.trim($arValue['section_top_name']).'</search-category>
 			<search-preview><![CDATA[['.trim(strip_tags($arValue['preview_text'])).']]></search-preview>

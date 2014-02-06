@@ -238,7 +238,7 @@ function appendToResult(&$sResult,array $arValue){
 	$sDescription=!empty($sDetailText) ? VString::truncate($sDetailText,300) : $sPreviewText;
 
 	$sResult.='
-		<sphinx:document id="'.$arValue['id'].'">
+		<sphinx:document id="'.$arValue['type'].$arValue['id'].'">
 			<search-name>'.trim(htmlspecialchars(strip_tags($arValue['name']),ENT_QUOTES,'utf-8')).'</search-name>
 			<search-category>'.$arValue['category'].' '.trim($arValue['city']).'</search-category>
 			<search-preview><![CDATA[['.$sPreviewText.']]></search-preview>
