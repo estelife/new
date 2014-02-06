@@ -54,6 +54,9 @@ CModule::AddAutoloadClasses(
 		// likes
 		'like\VLike' => "classes/likes/class.VLike.php",
 
+		//notice
+		'notice\VNotice' => "classes/notice/class.VNotice.php",
+
 		// bitrix
 		'core\bx\VDatabaseAdapter' => "classes/core/bx/class.VDatabaseAdapter.php",
 
