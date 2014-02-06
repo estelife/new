@@ -387,72 +387,6 @@ var Estelife=function(s){
 			setCookie(name, null, -1)
 		}
 	};
-
-	this.notice=new function(){
-		var notice=null,
-			type=null,
-			message=null,
-			timeout=null;
-
-		$(function(){
-			if(!notice){
-				notice=$('<div class="notice"></div>');
-				type=$('<span></span>');
-				message=$('<div></div>');
-				notice.append($('<div class="message"></div>').append(type,message));
-				$('body').append(notice);
-
-				$('.notifies').each(function(){
-					var nf=$(this),
-						mess=nf.html();
-					(nf.hasClass('er')) ?
-						error(mess) :
-						complete(mess);
-					nf.remove()
-				});
-			}
-		});
-
-		function complete(m){
-			type.html('Успешно выполнено');
-			notice.removeClass('error');
-			message.html(m);
-			show();
-		}
-
-		function error(m){
-			type.html('Произошла ошибка');
-			notice.addClass('error');
-			message.html(m);
-			show();
-		}
-
-		function show(){
-			if(timeout){
-				clearTimeout(timeout);
-				timeout=null;
-			}
-
-			notice.show();
-			notice.animate({
-				'width':'250px'
-			},100);
-			timeout=setTimeout(function(){
-				hide();
-			},5000);
-		};
-
-		function hide(){
-			notice.animate({
-				'width':0
-			},100,'swing',function(){
-				notice.hide();
-			});
-		}
-
-		this.complete=complete;
-		this.error=error;
-	};
 };
 Estelife.prototype.profile=function(t){
 	var title=t||'profile:',
@@ -516,13 +450,15 @@ Estelife.prototype.help=function(fromTop){
 
 		$(document).mousemove(function(e){
 			event=e||window.event
+		}).click(function(){
+			_hide();
 		});
 	})();
 
 	function _getMousePosition(){
 		if (event.pageX == null && event.clientX != null ) {
 			var html = document.documentElement,
-				body = document.body
+				body = document.body;
 
 			event.pageX = event.clientX + (html && html.scrollLeft || body && body.scrollLeft || 0) - (html.clientLeft || 0)
 			event.pageY = event.clientY + (html && html.scrollTop || body && body.scrollTop || 0) - (html.clientTop || 0)
@@ -580,19 +516,7 @@ Estelife.prototype.help=function(fromTop){
 		},150);
 	}
 
-	this.show=function(text){
-		if(hideTimeout){
-			clearTimeout(hideTimeout);
-			return;
-		}
-
-		showTimeout=setTimeout(function(){
-			showTimeout=null;
-			_show(text);
-		},500);
-	};
-
-	this.hide=function(){
+	function _hide(){
 		if(showTimeout){
 			clearTimeout(showTimeout);
 			return;
@@ -606,6 +530,22 @@ Estelife.prototype.help=function(fromTop){
 		},80,'swing',function(){
 			help.hide();
 		});
+	}
+
+	this.show=function(text){
+		if(hideTimeout){
+			clearTimeout(hideTimeout);
+			return;
+		}
+
+		showTimeout=setTimeout(function(){
+			showTimeout=null;
+			_show(text);
+		},500);
+	};
+
+	this.hide=function(){
+		_hide();
 	};
 };
 
@@ -642,8 +582,68 @@ Estelife.prototype.helpMaker=function(elements){
 			helpObject.hide() :
 			helpObject.show(text);
 	});
-}
+};
 
+Estelife.prototype.notice=function(){
+	if(!this.noticeElement){
+		this.noticeElement=$('<div class="notice"><div class="notice-message"></div></div>');
+		this.noticeElement.click(function(){
+			return false;
+		});
+		$('body').append(this.noticeElement);
+		$(document).click(function(){
+			_hide();
+		});
+	}
+
+	var notice=this.noticeElement,
+		message=notice.find('.notice-message');
+
+	(function init(){
+		var notices=$('.notices');
+	})();
+
+	function _show(items){
+		if(!items)
+			throw 'empty items for notice';
+
+		message.empty();
+
+		if(items instanceof Array){
+			$.map(items,function(item){
+				message.append('<div class="notice-item">'+item+'</div>');
+			});
+		}else{
+			message.append('<div class="notice-item">'+items+'</div>');
+		}
+
+		notice.css({
+			display:'block',
+			visibility:'hidden'
+		});
+
+		var height=notice.outerHeight();
+		notice.css('margin-top','-'+(height/2)+'px');
+
+		notice.css({
+			display:'none',
+			visibility:'visible'
+		});
+
+		notice.show();
+		$('.wrap').addClass('blur');
+	}
+
+	function _hide(){
+		notice.hide();
+		$('.wrap').removeClass('blur');
+	}
+
+	return {
+		hide:_hide,
+		show:_show
+	}
+}
 
 var EL=new Estelife({
 	'path':'/bitrix/templates/estelife/js'

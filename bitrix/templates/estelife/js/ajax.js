@@ -88,7 +88,10 @@ require([
 				function(r){
 				if (r.complete == 1){
 					if (form.hasClass('main')){
-						form.html('<h3>Вы успешно подписались на новые статьи!</h3>')
+						var succesText=form.attr('data-success')||'Вы успешно подписались на новые статьи!',
+							succesTag=form.attr('data-success-tag')||'h3';
+
+						form.html('<'+succesTag+' class="req-success">'+succesText+'</'+succesTag+'>');
 					}else{
 						alert('Вы успешно подписаны');
 						$('input[name=email]').val('');
@@ -117,7 +120,6 @@ require([
 
 			if((currentTag!='A' && link && link.length>0) || ['H1','H2','H3'].inArray(parentTag)>-1){
 				Router.navigate(link,{trigger: true});
-				EL.goto($('.main_menu'),false,true);
 				e.preventDefault();
 			}
 		});
