@@ -44,8 +44,6 @@ if (isset($_GET['confirm_registration']) && $_GET['confirm_registration']=='yes'
 		if ($arUser['CONFIRM_CODE']!=$sConfirmCode)
 			throw new \request\exceptions\VRequest('Ссылка для подтверждения регистрации не действительна.');
 
-		$obError->raise();
-
 		if (!$USER->Update($arUser["ID"], array("ACTIVE" => "Y", "CONFIRM_CODE" => "")))
 			throw new \request\exceptions\VRequest('Ошибка подтверждения регистрации. Обратитесь к администратору.');
 		else{

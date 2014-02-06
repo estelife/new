@@ -453,7 +453,8 @@ h1, h2 {
 }
 .general-news .subscribe .submit {
 	float: right;
-	width: 38px;
+	width: 42px;
+	height: 30px;
 }
 .general-news .subscribe .text {
 	min-width: 0;
