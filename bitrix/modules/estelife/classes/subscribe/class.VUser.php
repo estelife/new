@@ -47,7 +47,7 @@ class VUser {
 			throw new \subscribe\VUserNotFound('user for this email not found');
 
 		return new self(
-			$arUser['user_id'],
+			$arUser['id'],
 			$arUser['email']
 		);
 	}
@@ -60,14 +60,14 @@ class VUser {
 		$obQuery->builder()->from('estelife_subscribe_user')
 			->filter()
 			->_eq('active',1)
-			->_eq('user_id', $user_id);
+			->_eq('id', $user_id);
 		$arUser = $obQuery->select()->assoc();
 
 		if(empty($arUser))
 			throw new \subscribe\VUserNotFound('user for this id not found');
 
 		return new self(
-			$arUser['user_id'],
+			$arUser['id'],
 			$arUser['email']
 		);
 	}
@@ -187,6 +187,8 @@ class VUser {
 	public static function setSubscribe($type, $email, $always, $filter){
 		$obSubscribe = VDatabase::driver();
 
+		echo 'ok';
+
 		//Проверка на существование пользователя
 		$obQuery=$obSubscribe->createQuery();
 		$obQuery->builder()->from('estelife_subscribe_user')
@@ -195,15 +197,15 @@ class VUser {
 		$arUser = $obQuery->select()->assoc();
 
 		if ($arUser>0){
-			$nUser = $arUser['user_id'];
+			$nUser = $arUser['id'];
 
 		}else{
 			$obQueryMaxUser=$obSubscribe->createQuery();
 			$obQueryMaxUser->builder()->from('estelife_subscribe_user');
-			$obQueryMaxUser->builder()->sort('user_id','desc');
+			$obQueryMaxUser->builder()->sort('id','desc');
 
 			$arQueryMaxUser = $obQueryMaxUser->select()->assoc();
-			$nUser = $arQueryMaxUser['user_id']+1;
+			$nUser = $arQueryMaxUser['id']+1;
 
 			$time = time();
 
@@ -223,7 +225,7 @@ class VUser {
 				'LINK'=>$sHashLink,
 			);
 
-			CEvent::Send("SEND_SUBSCRIBE_EMAIL", "s1", $arFields,"Y",59);
+			\CEvent::Send("SEND_SUBSCRIBE_EMAIL", "s1", $arFields,"Y",59);
 		}
 
 		$obQueryInsert=$obSubscribe->createQuery();

@@ -24,7 +24,7 @@ $arUsers = subscribe\VUser::getAllUsers();
 
 foreach($arUsers as $arUser){
 	$sUserEmail = $arUser['email'];
-	$nUserId = $arUser['user_id'];
+	$nUserId = $arUser['id'];
 
 	$arElements = subscribe\TrainigsFactory::getAll($arUser);
 	//$arElements = subscribe\ClinicFactory::getAll($arUser);
