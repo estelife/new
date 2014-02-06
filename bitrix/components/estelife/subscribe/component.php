@@ -18,7 +18,7 @@ if (isset($_REQUEST) && !empty($_REQUEST)){
 		throw new VException("Email введен некорректно");
 
 	if (isset($_POST['always']) && intval($_POST['always'])==1)
-		$arData['filter'] = '';
+		$arData['filter'] = serialize($_POST['params']['city_id']);
 	else{
 		if (!empty($_POST['params']))
 			$arData['filter'] = serialize($_POST['params']);
@@ -30,32 +30,11 @@ if (isset($_REQUEST) && !empty($_REQUEST)){
 	else
 		$arData['type'] = $_POST['type'];
 
-	$obSubscribe = VDatabase::driver();
 
-	//Проверка на существование подписки
-	$obQuery=$obSubscribe->createQuery();
-	$obQuery->builder()->from('estelife_subscribe')
-		->filter()
-			->_eq('email', $arData['email'])
-			->_eq('type', $arData['type']);
-	$arSubs = $obQuery->select()->assoc();
+			$nSubsInsert = subscribe\VUser::setSubscribe($_POST['type'],$_POST['email'],$_POST['always'],$arData['filter']);
 
-	$obQuery=$obSubscribe->createQuery();
-	$obQuery->builder()->from('estelife_subscribe')
-		->value('email', $arData['email'])
-		->value('type', $arData['type'])
-		->value('filter', $arData['filter'])
-		->value('active', $arData['active']);
-	if (!empty($arSubs) && $arSubs['id']>0){
-		$obQuery->builder()->filter()
-			->_eq('id',$arSubs['id']);
-		$obQuery->update();
-		$nSubs = $arSubs['id'];
-	}else{
-		$nSubs = $obQuery->insert()->insertId();
-	}
 
-	if ($nSubs>0)
+	if ($nSubsInsert>0)
 		$arResult['complete']=1;
 	else
 		$arResult['complete']=0;

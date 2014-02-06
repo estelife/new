@@ -281,6 +281,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			value('address',htmlentities(strip_tags($obPost->one('address','')),ENT_QUOTES, 'utf-8'))->
 			value('dop_address',htmlentities(strip_tags($obPost->one('dop_address','')),ENT_QUOTES, 'utf-8'))->
 			value('dop_web',strip_tags($obPost->one('dop_web','')))->
+			value('date_create',time())->
 			value('preview_text',htmlentities($obPost->one('preview_text',''),ENT_QUOTES,'utf-8'))->
 			value('detail_text',htmlentities($obPost->one('detail_text',''),ENT_QUOTES,'utf-8'))->
 			value('latitude',floatval($obPost->one('latitude')))->

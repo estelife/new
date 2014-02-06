@@ -4,7 +4,7 @@
 	"articles",
 	Array(
 		"IBLOCK_TYPE"	=>	"podcasts",
-		"IBLOCK_ID"	=>	"37",
+		"IBLOCK_ID"	=>	"36",
 		"NEWS_COUNT"	=>	"9",
 		"SORT_BY1"	=>	"ACTIVE_FROM",
 		"SORT_ORDER1"	=>	"DESC",
@@ -22,7 +22,7 @@
 		"CACHE_GROUPS" => "Y",
 		"DISPLAY_TOP_PAGER"	=>	"N",
 		"DISPLAY_BOTTOM_PAGER"	=>	"Y",
-		"PAGER_TITLE"	=>	"Подкасты",
+		"PAGER_TITLE"	=>	"Точка зрения",
 		"PAGER_TEMPLATE"	=>	"estelife",
 		"PAGER_SHOW_ALWAYS"	=>	"N",
 		"PAGER_DESC_NUMBERING"	=>	"N",

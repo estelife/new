@@ -128,7 +128,7 @@
 										"estelife:subscribe",
 										"",
 										array(
-											'params'=>array('id'=>$arResult['clinic']['id']),
+											'params'=>array('id'=>$arResult['clinic']['id'], 'city_id'=>$arResult['clinic']['main_contact']['city_id']),
 											'type'=>1,
 											'text'=>'Хочу узнавать обо всех новых акциях, размещаемых на портале'
 										)
