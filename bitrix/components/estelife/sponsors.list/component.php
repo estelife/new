@@ -215,6 +215,12 @@ else
 $sSeoTitle.=$arSeoGeo;
 $sSeoDescription.=$arSeoGeo;
 
+if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
+	$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
+	$sSeoTitle.=' - '.$_GET['PAGEN_1'].' страница';
+	$sSeoDescription.=' - '.$_GET['PAGEN_1'].' страница';
+}
+
 $APPLICATION->SetPageProperty("title", $sSeoTitle);
 $APPLICATION->SetPageProperty("description", VString::truncate($sSeoDescription, 160, ''));
 $APPLICATION->SetPageProperty("keywords", "Estelife, организаторы, ".$sSeoDescription);

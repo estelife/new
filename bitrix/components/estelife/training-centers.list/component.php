@@ -186,11 +186,17 @@ while($arData=$obResult->Fetch()){
 	$arResult['org'][]=$arData;
 }
 
-$sPage=(isset($_GET['PAGEN_1']) && $_GET['PAGEN_1'] > 1) ?
-	' '.\core\types\VString::spellAmount($_GET['PAGEN_1'],'страница,страницы,страниц') : '';
+$sTitle='Учебные центры по косметологии и пластической хирургии.';
+$sDescription='Список учебных центров в сфере косметологии и пластической хирургии. Все здесь.';
 
-$APPLICATION->SetPageProperty("title", 'Учебные центры по косметологии и пластической хирургии'.$sPage);
-$APPLICATION->SetPageProperty("description", 'Список учебных центров в сфере косметологии и пластической хирургии. Все здесь.');
+if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
+	$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
+	$sTitle.=' - '.$_GET['PAGEN_1'].' страница';
+	$sDescription.=' - '.$_GET['PAGEN_1'].' страница';
+}
+
+$APPLICATION->SetPageProperty("title", $sTitle);
+$APPLICATION->SetPageProperty("description", $sDescription);
 
 $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));

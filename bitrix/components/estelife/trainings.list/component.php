@@ -233,12 +233,18 @@ if (!empty($arIds)){
 
 }
 
-$sPage=(isset($_GET['PAGEN_1']) && $_GET['PAGEN_1'] > 1) ?
-	' '.\core\types\VString::spellAmount($_GET['PAGEN_1'],'страница,страницы,страниц') : '';
-$APPLICATION->SetPageProperty("title", 'Семинары, курсы и обучения - косметология и пластическая хирургия'.$sPage);
-$APPLICATION->SetPageProperty("description", 'Расписание семинаров, обучений и курсов в учебных центрах по косметологии и платисческой хирургии.');
+$sTitle='Семинары, курсы и обучения - косметология и пластическая хирургия.';
+$sDescription='Расписание семинаров, обучений и курсов в учебных центрах по косметологии и платисческой хирургии.';
 
-//$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
+if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
+	$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
+	$sTitle.=' - '.$_GET['PAGEN_1'].' страница';
+	$sDescription.=' - '.$_GET['PAGEN_1'].' страница';
+}
+
+$APPLICATION->SetPageProperty("title", $sTitle);
+$APPLICATION->SetPageProperty("description", $sDescription);
+
 $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
 $arResult['nav']=$obNav->getNav();

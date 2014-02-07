@@ -131,10 +131,17 @@ $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
 $arResult['nav']=$obNav->getNav();
 
-$arDescription = strip_tags(html_entity_decode(implode(", ", $arDescription), ENT_QUOTES, 'utf-8'));
-$arDescription = VString::pregStrSeo($arDescription);
+$arDescription=strip_tags(html_entity_decode(implode(", ", $arDescription), ENT_QUOTES, 'utf-8'));
+$arSEODescription=VString::pregStrSeo($arDescription);
+$arSEOTitle="Производители аппаратов";
 
-$APPLICATION->SetPageProperty("title", "Производители аппаратов");
-$APPLICATION->SetPageProperty("description", VString::truncate($arDescription,'160',''));
-$APPLICATION->SetPageProperty("keywords", "Estelife, Производители аппаратов, ". $arDescription);
+if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
+	$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
+	$arSEOTitle.=' - '.$_GET['PAGEN_1'].' страница';
+	$arSEODescription.=' - '.$_GET['PAGEN_1'].' страница';
+}
+
+$APPLICATION->SetPageProperty("title", $arSEOTitle);
+$APPLICATION->SetPageProperty("description", VString::truncate($arSEODescription,'160',''));
+$APPLICATION->SetPageProperty("keywords", "Estelife, Производители аппаратов, ". $arSEODescription);
 $this->IncludeComponentTemplate();

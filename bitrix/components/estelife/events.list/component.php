@@ -282,13 +282,15 @@ $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
 $arResult['nav']=$obNav->getNav();
 
-$arTitle = 'Календарь событий по косметологии и пластической хирургии';
-if (isset($_GET['PAGEN_1']) && $_GET['PAGEN_1']>0){
-	$arPage = intval(strip_tags($_GET['PAGEN_1']));
-	$arTitle .= ' ('.$arPage.' страница)';
-}
-$arDescription = 'Все важные события в мире косметологии и пластической хирургиив одном месте';
+$sTitle='Календарь событий по косметологии и пластической хирургии';
+$sDescription='Все важные события в мире косметологии и пластической хирургиив одном месте';
 
-$APPLICATION->SetPageProperty("title", $arTitle);
-$APPLICATION->SetPageProperty("description", $arDescription);
+if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
+	$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
+	$sTitle.=' - '.$_GET['PAGEN_1'].' страница';
+	$sDescription.=' - '.$_GET['PAGEN_1'].' страница';
+}
+
+$APPLICATION->SetPageProperty("title", $sTitle);
+$APPLICATION->SetPageProperty("description", $sDescription);
 $this->IncludeComponentTemplate();
