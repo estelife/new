@@ -30,6 +30,9 @@ html,body,textarea,input,a {
 	color:#2c2c2c;
 	line-height: 20px;
 }
+body.personal {
+	background:#dddddd url('') 0 0 repeat;
+}
 body {
 	background:#dddddd url('../images/bg.jpg') 0 0 repeat;
 	background-attachment: fixed;
@@ -218,16 +221,16 @@ ul li:last-child, ul li.last-child {
 input {
 	outline: none;
 }
-input.text, .select {
+input.text, .select, textarea {
 	background:#fff;
 	border-radius: 0;
 	border:1px solid #d1d1d1;
 }
-input.text, .select, .select a {
+input.text, .select, .select a, textarea {
 	font-size:14px;
 	text-decoration: none;
 }
-input.text {
+input.text, textarea {
 	padding: 4px 12px;
 	min-width: 164px;
 }
@@ -2529,7 +2532,7 @@ form.search .submit {
 	position: absolute;
 	opacity: 0.5;
 	top: 0;
-	left: -35px;
+	left: -284px;
 	width: 1920px;
 	max-height: initial;
 	max-width: initial;
@@ -2723,7 +2726,7 @@ h2.show-quality-form.active i {
 	background-position: -141px -76px;
 }
 
-form.quality p {
+form.quality p, .comments form p {
 	text-align: center;
 	float: left;
 	margin: 22px 0 0 60px;
@@ -2736,16 +2739,20 @@ form.quality .field {
 	float:left;
 	margin:0 20px 31px 0;
 }
-form.quality .field.phone,form.quality .field.city {
+form.quality .field.phone,
+form.quality .field.city {
 	margin-right: 0;
 }
-form.quality label, .auth label {
+form.quality label,
+.auth label,
+.comments form label {
 	font-size:14px;
 	color:#5f5f5f;
 	font-weight: normal;
 	margin-bottom:9px;
 }
-form.quality input, .auth input.text {
+form.quality input,
+.auth input.text {
 	padding-top:9px;
 	padding-bottom:9px;
 	width:286px;
@@ -2766,7 +2773,8 @@ form.quality .phone input#phone_number {
 form.quality .clinic  input {
 	width: 618px;
 }
-form.quality .submit, .auth .submit {
+form.quality .submit,
+.auth .submit {
 	height: 40px;
 	margin-top: 14px;
 	float: left;
@@ -2776,6 +2784,102 @@ form.quality .submit, .auth .submit {
 .quality-result {
 	text-align: center;
 	margin-top:100px;
+}
+.comments,
+.comments form {
+	float:left;
+	width:100%;
+	margin-top:30px;
+}
+.comments .form-in,
+.comments h2{
+	background:#e5e5e5;
+}
+.comments h2 {
+	font-size:18px;
+	font-weight: bold;
+	padding:9px 15px;
+}
+.comments b.stat,
+.comments .item i {
+	font-size:12px;
+	color:#9f9e9e;
+	font-weight: normal;
+	margin-top:10px;
+	display: block;
+}
+.comments .item {
+	margin:30px 0 0 0;
+	width: 100%;
+}
+.comments .item i,
+.comments .item p {
+	margin:5px 0 0 0;
+}
+.comments .item b {
+	font-size:14px;
+}
+.comments .more {
+	position: relative;
+	height:1px;
+	background:#e5e5e5;
+	margin-top:35px;
+}
+.comments .more a {
+	display: block;
+	position: absolute;
+	background:#F0F0F0;
+	color:#545454;
+	right:0;
+	top:-10px;
+	padding-left:11px;
+	text-decoration: none;
+	font-size:12px;
+}
+.comments .more a:hover {
+	color:#e60365;
+}
+.comments .more span {
+	border-bottom:1px dotted #545454;
+}
+.comments .more a:hover span {
+	border-color:#e60365;
+}
+.comments .form-in {
+	overflow: hidden;
+	padding:20px;
+}
+.comments form label {
+	margin-bottom:0
+}
+.comments form .col1 {
+	float:left;
+	width:209px;
+}
+.comments form .col1 input {
+	width:183px;
+}
+.comments form .col1 .field:first-child {
+	margin-bottom:10px;
+}
+.comments form .col2 {
+	float: right;
+	width:459px;
+}
+.comments form .col2 textarea {
+	width: 433px;
+	height: 80px;
+}
+.comments form .submit {
+	height:30px;
+	padding:0 10px;
+	margin-top:20px;
+	float:left;
+}
+.comments form p {
+	margin-left:32px;
+	font-style: italic;
+	font-size:12px;
 }
 .field {
 	position: relative;
@@ -3024,4 +3128,149 @@ form.quality .submit, .auth .submit {
 .auth .empty {
 	height:100px;
 	width:100%;
+}
+.blur {
+	filter: url(filter.svg#blur); /* FF, IE10 & Opera */
+	-webkit-filter: blur(2px);
+}
+.notice {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	background: #fff;
+	padding: 20px;
+	border: 2px #5c5c5c solid;
+	width: 400px;
+	margin-left: -220px;
+	display: none;
+}
+.education .top,
+.education .theme,
+.education .description,
+.education form{
+	float:left;
+	width:100%;
+}
+.education .top img,
+.education .top .about {
+	float:left;
+	border:none;
+}
+.education .top .about {
+	text-align: center;
+}
+.education .top img:first-child {
+	margin-right: 78px;
+	margin-top:16px;
+}
+.education .top img:last-child {
+	float: right;
+	margin-top:28px;
+}
+.content .education h1 {
+	text-transform: uppercase;
+}
+.education .top p {
+	font-size:18px;
+	margin:20px 0;
+	font-weight: bold;
+}
+.education .top p,
+.education .top li {
+	color:#858585;
+	padding:0;
+}
+.education .top ul {
+	list-style: none;
+	padding:0;
+	margin:0;
+}
+.education .top li {
+	float:left;
+	font-size:14px;
+}
+.education .top li:last-child {
+	float: right;
+}
+.education .theme {
+	margin-top:75px;
+}
+.content .education .user {
+	float:left;
+	width:450px;
+}
+.education .user .img {
+	float:left;
+	padding:10px;
+	background:#dddddd;
+	border:none;
+	margin-right: 18px;
+}
+.education .user .about {
+	float:left;
+	width:250px;
+}
+.education .theme .text,
+.education .user .about {
+	padding-top:24px;
+}
+.education .theme .text {
+	float: right;
+	width:479px;
+}
+.content .education .user img {
+	margin:0;
+}
+.education .theme b {
+	font-size:16px;
+}
+.education .user h3 {
+	margin:20px 0;
+	font-size:18px;
+	color:#e60365;
+}
+.education .user i {
+	font-size:14px;
+}
+.education .theme p {
+	font-size:18px;
+	margin:17px 0 0 0;
+	line-height: 30px;
+}
+.education .description {
+	text-align: center;
+	margin-top:61px;
+	font-size:16px;
+}
+.education .description p {
+	margin:21px 0 0 0;
+}
+.education form {
+	margin-top:100px;
+	text-align: center;
+}
+.content .education form p {
+	font-weight: bold;
+	font-size:16px;
+	margin:0 0 30px 0;
+}
+.education .form-in {
+	width:313px;
+	margin:0 auto;
+}
+.education form input {
+	float: left;
+	height: 30px;
+	width: 224px;
+}
+.education form input.text {
+	border-right:none;
+}
+.education form input.submit {
+	height:40px;
+	width:63px;
+}
+.content .education form .req-success {
+	color:#009b3a;
+	font-weight: normal;
 }

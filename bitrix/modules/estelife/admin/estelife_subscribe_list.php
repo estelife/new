@@ -65,36 +65,36 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 
 $obQuery=VDatabase::driver()->createQuery();
 $obQuery->builder()->from('estelife_subscribe_events', 'se');
-$obJoin=$obQuery->builder()->join();
+$obJoin=$obQuery
+	->builder()
+	->join();
 $obJoin->_left()
 	->_from('se','subscribe_user_id')
-	->_to('estelife_subscribe_user','id','su');
+	->_to('estelife_subscribe_user','user_id','su');
 
-$obFilter=$obQuery->builder()->filter();
-
+$obFilter=$obQuery
+	->builder()
+	->filter();
 
 if($_GET && $_GET['set_filter'] == 'Y'){
-
-if(!empty($arFilter['email']))
-	$obFilter->_like('email',$arFilter['email'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
-if($arFilter['active'] != 'all')
-	$obFilter->_eq('event_active',$arFilter['active']);
-if($arFilter['type'] != 'all')
-	$obFilter->_eq('type',$arFilter['type']);
+	if(!empty($arFilter['email']))
+		$obFilter->_like('su.email',$arFilter['email'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
+	if($arFilter['active'] != 'all')
+		$obFilter->_eq('se.event_active',$arFilter['active']);
+	if($arFilter['type'] != 'all')
+		$obFilter->_eq('se.type',$arFilter['type']);
 }
 
-
-
-/*if($by=='email')
-	$obQuery->builder()->sort('email',$order);
+if($by=='email')
+	$obQuery->builder()->sort('su.email',$order);
 elseif($by=='active')
-	$obQuery->builder()->sort('event_active',$order);
+	$obQuery->builder()->sort('se.event_active',$order);
 elseif($by=='type')
-	$obQuery->builder()->sort('type',$order);
+	$obQuery->builder()->sort('se.type',$order);
 elseif($by=='date')
-	$obQuery->builder()->sort('date_send',$order);
+	$obQuery->builder()->sort('su.date_send',$order);
 else
-	$obQuery->builder()->sort($by,$order);*/
+	$obQuery->builder()->sort('se.'.$by,$order);
 
 $obResult=$obQuery->select();
 $obResult=new CAdminResult(
@@ -109,8 +109,7 @@ $lAdmin->NavText($obResult->GetNavPrint(GetMessage('ESTELIFE_PAGES')));
 
 $types = array(
 	1=>'Клиники',
-	2=>'Учебные центры',
-	3=>'Статьи'
+	2=>'Учебные центры'
 );
 
 while($arRecord=$obResult->Fetch()){
