@@ -46,7 +46,6 @@ class ClinicFactory {
 			$date_send = $arEvent['date_send'];
 			$city_id = $filter;
 
-
 			$current_time = time();
 
 

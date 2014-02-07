@@ -79,6 +79,7 @@ CModule::AddAutoloadClasses(
 		'subscribe\VUserNotFound'=>"classes/subscribe/class.VUserNotFound.php",
 		'subscribe\ClinicFactory'=>"classes/subscribe/class.ClinicFactory.php",
 		'subscribe\TrainigsFactory'=>"classes/subscribe/class.TrainigsFactory.php",
-		'subscribe\VDirector'=>"classes/subscribe/class.VDirector.php"
+		'subscribe\VDirector'=>"classes/subscribe/class.VDirector.php",
+		'subscribe\VPostsFactory'=>"classes/subscribe/class.VPostsFactory.php"
 	)
 );

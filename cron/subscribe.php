@@ -26,21 +26,23 @@ foreach($arUsers as $arUser){
 	$sUserEmail = $arUser['email'];
 	$nUserId = $arUser['id'];
 
-	$arElements = subscribe\TrainigsFactory::getAll($arUser);
+	//$arElements = subscribe\TrainigsFactory::getAll($arUser);
 	//$arElements = subscribe\ClinicFactory::getAll($arUser);
+	$arElements = subscribe\VPostsFactory::getAll($arUser);
 
-	$arFields = subscribe\VDirector::TrainingsSend($arElements,$sUserEmail);
+	//$arFields = subscribe\VDirector::TrainingsSend($arElements,$sUserEmail);
 	//$arFields = subscribe\VDirector::ClinicSend($arElements,$sUserEmail);
+	//$arFields = subscribe\VDirector::PostsSend($arElements,$sUserEmail);
 
 
 	if(FIRST == 1){
 		if(!empty($arFields)){
-			CEvent::Send("SEND_SUBSCRIBE_TRAINING", "s1", $arFields,"Y",62);
+			//CEvent::Send("SEND_SUBSCRIBE_TRAINING", "s1", $arFields,"Y",62);
 			//CEvent::Send("SEND_SUBSCRIBE_CLINICS", "s1", $arFields,"Y",60);
 		}
 	}else{
 		if(!empty($arFields)){
-			CEvent::Send("SEND_SUBSCRIBE_TRAINING", "s1", $arFields,"Y",63);
+			//CEvent::Send("SEND_SUBSCRIBE_TRAINING", "s1", $arFields,"Y",63);
 			//CEvent::Send("SEND_SUBSCRIBE_CLINICS", "s1", $arFields,"Y",61);
 		}
 	}

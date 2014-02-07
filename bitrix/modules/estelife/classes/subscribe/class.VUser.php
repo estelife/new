@@ -183,11 +183,22 @@ class VUser {
 		return $arEvents;
 	}
 
+	public static function getAllPostEvents($nUserId){
+		$obSubscribe = \core\database\VDatabase::driver();
+
+		$obQuery=$obSubscribe->createQuery();
+		$obQuery->builder()->from('estelife_subscribe_events')
+			->filter()
+			->_eq('type', 3)
+			->_eq('subscribe_user_id',$nUserId);
+		$arEvents = $obQuery->select()->all();
+
+		return $arEvents;
+	}
+
 
 	public static function setSubscribe($type, $email, $always, $filter){
 		$obSubscribe = VDatabase::driver();
-
-		echo 'ok';
 
 		//Проверка на существование пользователя
 		$obQuery=$obSubscribe->createQuery();
@@ -256,28 +267,56 @@ class VUser {
 			}
 		}else{
 			//Проверка на существование одиночной подписки
-			$obQuerySub=$obSubscribe->createQuery();
-			$obQuerySub->builder()->from('estelife_subscribe_events')
-				->filter()
-				->_eq('subscribe_user_id', $nUser)
-				->_eq('total',0)
-				->_eq('type',$filter)
-				->_eq('filter',$filter);
-			$arSub = $obQuerySub->select()->assoc();
 
-			if($arSub >0){
+			if(!empty($filter)){
 
+				$obQuerySub=$obSubscribe->createQuery();
+				$obQuerySub->builder()->from('estelife_subscribe_events')
+					->filter()
+					->_eq('subscribe_user_id', $nUser)
+					->_eq('total',0)
+					//->_eq('type',$filter)
+					->_eq('filter',$filter);
+				$arSub = $obQuerySub->select()->assoc();
+
+				if($arSub >0){
+
+				}else{
+
+					$obQueryInsert->builder()->from('estelife_subscribe_events')
+						->value('type', $type)
+						->value('subscribe_user_id', $nUser)
+						->value('event_active', 1)
+						->value('filter', $filter)
+						->value('total', 0)
+						->value('date_send', time());
+					$nSubsInsert = $obQueryInsert->insert()->insertId();
+
+				}
 			}else{
+				$obQuerySub=$obSubscribe->createQuery();
+				$obQuerySub->builder()->from('estelife_subscribe_events')
+					->filter()
+					->_eq('subscribe_user_id', $nUser)
+					->_eq('total',0)
+					->_eq('type',3);
+					//->_eq('filter',$filter);
+				$arSub = $obQuerySub->select()->assoc();
 
-				$obQueryInsert->builder()->from('estelife_subscribe_events')
-					->value('type', $type)
-					->value('subscribe_user_id', $nUser)
-					->value('event_active', 1)
-					->value('filter', $filter)
-					->value('total', 0)
-					->value('date_send', time());
-				$nSubsInsert = $obQueryInsert->insert()->insertId();
+				if($arSub >0){
 
+				}else{
+
+					$obQueryInsert->builder()->from('estelife_subscribe_events')
+						->value('type', $type)
+						->value('subscribe_user_id', $nUser)
+						->value('event_active', 1)
+						->value('filter', $filter)
+						->value('total', 0)
+						->value('date_send', time());
+					$nSubsInsert = $obQueryInsert->insert()->insertId();
+
+				}
 			}
 		}
 		return $nSubsInsert;
