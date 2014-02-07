@@ -600,7 +600,16 @@ Estelife.prototype.notice=function(){
 		message=notice.find('.notice-message');
 
 	(function init(){
-		var notices=$('.notices');
+		var notices=$('.notices .item');
+
+		if(notices.length>0){
+			var items=[];
+			$.map(notices,function(item){
+				items.push(item);
+			});
+			_show(items);
+			$('.notices').remove();
+		}
 	})();
 
 	function _show(items){

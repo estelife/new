@@ -31,64 +31,6 @@ class VUser {
 		return $arEvents;
 	}
 
-	//Получение пользователя по email
-	public static function getByEmail($email){
-
-		$obSubscribe = \core\database\VDatabase::driver();
-
-		$obQuery=$obSubscribe->createQuery();
-		$obQuery->builder()->from('estelife_subscribe_user')
-			->filter()
-			->_eq('active',1)
-			->_eq('email', $email);
-		$arUser = $obQuery->select()->assoc();
-
-		if(empty($arUser))
-			throw new \subscribe\VUserNotFound('user for this email not found');
-
-		return new self(
-			$arUser['user_id'],
-			$arUser['email']
-		);
-	}
-
-	//Получение пользователя по Id
-	public static function getById($user_id){
-		$obSubscribe = \core\database\VDatabase::driver();
-
-		$obQuery=$obSubscribe->createQuery();
-		$obQuery->builder()->from('estelife_subscribe_user')
-			->filter()
-			->_eq('active',1)
-			->_eq('user_id', $user_id);
-		$arUser = $obQuery->select()->assoc();
-
-		if(empty($arUser))
-			throw new \subscribe\VUserNotFound('user for this id not found');
-
-		return new self(
-			$arUser['user_id'],
-			$arUser['email']
-		);
-	}
-
-	//получение всех пользователей из рассылки
-	public static function getAllUsers(){
-
-		$obSubscribe = \core\database\VDatabase::driver();
-
-		$obQuery=$obSubscribe->createQuery();
-		$obQuery->builder()->from('estelife_subscribe_user')
-			->filter()
-			->_eq('active',1);
-		$arUser = $obQuery->select()->all();
-
-		/*if(empty($arUser))
-			throw new \subscribe\VUserNotFound('users not found');*/
-
-		return $arUser;
-	}
-
 	public static function getAllEvents($nUserId){
 		$obSubscribe = \core\database\VDatabase::driver();
 
