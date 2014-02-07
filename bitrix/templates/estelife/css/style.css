@@ -315,9 +315,12 @@ input.text, textarea {
 	text-transform: none;
 	font-weight: normal;
 }
-.head .menu li a:hover, .head .menu li.second_active a,
-.tabs-menu .active a, .tabs-menu li a:hover {
+.head .menu li a:hover,
+.head .menu li.second_active a,
+.tabs-menu .active a,
+.tabs-menu li a:hover span {
 	color:#e50264;
+	border-color:#e50264;
 }
 .head .submenu {
 	position:absolute;
@@ -591,6 +594,7 @@ ul.stat .unlikes.active i {
 	text-align: center;
 	height:519px;
 	clear:right;
+	cursor: pointer;
 }
 .experts h2 {
 	font-size:18px;
@@ -609,9 +613,11 @@ ul.stat .unlikes.active i {
 .experts .user img {
 	border-right:none;
 }
-.item.detail .menu a, .experts .quote,
+.item.detail .menu a,
+.experts .quote,
 .inner .products .item.product .cols,
-.similars .item.product .cols, .tabs-menu li a {
+.similars .item.product .cols,
+.tabs-menu li a {
 	padding:0 17px;
 }
 .experts .user b {
@@ -626,9 +632,15 @@ ul.stat .unlikes.active i {
 .experts .quote {
 	height:165px;
 }
-.experts h3, .item.detail .clinic h3, .content .item h3, .content .item h3 a,
-.inner .products .item.product h2, .inner .products .item.product h2 a,
-.item.detail .product h2 a, .item.product h4,  .item.product h4 a{
+.experts h3,
+.item.detail .clinic h3,
+.content .item h3,
+.content .item h3 a,
+.inner .products .item.product h2,
+.inner .products .item.product h2 a,
+.item.detail .product h2 a,
+.item.product h4,
+.item.product h4 a{
 	font-size:18px;
 	text-decoration: none;
 	color:#2c2c2c;
@@ -638,7 +650,8 @@ ul.stat .unlikes.active i {
 	color:#e60365;
 }
 
-.content .promotion h3, .content .promotion h3 a {
+.content .promotion h3,
+.content .promotion h3 a {
 	font-size:16px;
 }
 .experts h3 {
@@ -660,7 +673,8 @@ ul.stat .unlikes.active i {
 	margin-right:10px;
 	position: relative;
 }
-.experts li a, .experts li i {
+.experts li a,
+.experts li i {
 	display: block;
 	width:100%;
 	height:100%;
@@ -689,7 +703,8 @@ ul.stat .unlikes.active i {
 	width:100%;
 	float:left;
 }
-.items .item, .inner .products .item.product {
+.items .item,
+.inner .products .item.product {
 	width:227px;
 	margin-right:20px;
 	cursor:pointer;
@@ -710,7 +725,8 @@ ul.stat .unlikes.active i {
 .similars {
 	margin-top:70px;
 }
-.item.promotion, .item.promotion .data {
+.item.promotion,
+.item.promotion .data {
 	position: relative;
 	border:1px solid #D1D1D1;
 	padding-bottom:15px;
@@ -730,12 +746,18 @@ ul.stat .unlikes.active i {
 	border-bottom:none;
 	border-right:1px solid #d1d1d1;
 }
-.item.promotion:hover, .item.company:hover,
-.item.product:hover, .item.producer:hover,
-.item.training:hover, .item.event:hover {
+.item.promotion:hover,
+.item.company:hover,
+.item.product:hover,
+.item.producer:hover,
+.item.training:hover,
+.item.event:hover {
 	border-color:#e50364;
 }
-.item .perc, .promotion .perc, .item.training .date, .item.event .date {
+.item .perc,
+.promotion .perc,
+.item.training .date,
+.item.event .date {
 	width:40px;
 	padding:23px 0 5px 0;
 	background:#e50364;
@@ -751,7 +773,8 @@ ul.stat .unlikes.active i {
 .promotion .perc {
 	width:45px;
 }
-.item.promotion.last, .item.promotion:last-child {
+.item.promotion.last,
+.item.promotion:last-child {
 	margin-right: 0;
 }
 .item.promotion h3 {
@@ -778,7 +801,8 @@ ul.stat .unlikes.active i {
 .item.promotion .clinic-link:hover {
 	text-decoration: underline;
 }
-.item.promotion img, .inner .products .item.product .img {
+.item.promotion img,
+.inner .products .item.product .img {
 	float:none !important;
 	border-top:none;
 	border-left:none;
@@ -789,8 +813,12 @@ ul.stat .unlikes.active i {
 	margin-left: 20px;
 	height:40px;
 }
-.item.promotion .prices b, .item.promotion .prices s, .item.promotion .time, td.prices span,
-.item.training .current, .item.promotion .current .perc span {
+.item.promotion .prices b,
+.item.promotion .prices s,
+.item.promotion .time,
+td.prices span,
+.item.training .current,
+.item.promotion .current .perc span {
 	position: relative;
 }
 .item.promotion .prices b {
@@ -805,7 +833,10 @@ ul.stat .unlikes.active i {
 .item.promotion .prices b.only-perc {
 	padding-right: 0;
 }
-.item.promotion .prices i, .item.promotion .time i, td.prices i, .item.promotion .current .perc i {
+.item.promotion .prices i,
+.item.promotion .time i,
+td.prices i,
+.item.promotion .current .perc i {
 	display: block;
 	top:0;
 	right:0;
@@ -817,7 +848,8 @@ ul.stat .unlikes.active i {
 	height:13px;
 	top:1px;
 }
-.item.promotion .prices s, td.prices span {
+.item.promotion .prices s,
+td.prices span {
 	padding-right: 12px;
 	clear: both;
 	float:left;
@@ -838,7 +870,8 @@ ul.stat .unlikes.active i {
 td.prices span {
 	padding-right:15px;
 }
-.item.promotion .prices s i, td.prices i {
+.item.promotion .prices s i,
+td.prices i {
 	background-position: -106px -56px;
 	width:10px;
 	height:9px;
@@ -1073,7 +1106,8 @@ td.prices span {
 .articles .menu a:hover span, .articles .menu li.active span,
 .item.detail .menu a:hover span, .item.detail .menu li.active span,
 .inner .title .menu a:hover, .inner .title .menu a.active, .arrow:hover, .arrow.active,
-.item.detail .properties h3 a:hover, .item.detail .properties h3 a.active, .search-founded .menu a:hover, .search-founded .menu a.active {
+.item.detail .properties h3 a:hover, .item.detail .properties h3 a.active, .search-founded .menu a:hover,
+.search-founded .menu a.active {
 	color:#e50364;
 	border-color:#e50364;
 }
@@ -1235,7 +1269,9 @@ td.prices span {
 	padding:20px 0;
 	margin-top:80px;
 }
-.media .content, .item.training {
+.media .content,
+.item.training,
+.experts {
 	position: relative;
 }
 .item.detail ul.list li {
@@ -1277,7 +1313,11 @@ td.prices span {
 .media .items {
 	overflow:inherit;
 }
-.media .item, .items .item, .media .item img, .items .item-rel {
+.media .item,
+.items .item,
+.media .item img,
+.items .item-rel,
+.experts .item-rel {
 	position: relative;
 	z-index: 2;
 }
@@ -1296,10 +1336,13 @@ td.prices span {
 	border:none;
 	z-index: 2;
 }
-.media .item span, .item .border {
+.media .item span,
+.item .border,
+.experts .border {
 	border:2px solid #e50364;
 }
-.item .border {
+.item .border,
+.experts .border {
 	position: absolute;
 	z-index:1;
 	height:100%;
@@ -1313,7 +1356,8 @@ td.prices span {
 	top:-3px;
 	left:-3px;
 }
-.media .item span, .media .item.video .border {
+.media .item span,
+.media .item.video .border {
 	border-color:#9f9f9f;
 	border-width: 8px;
 }
@@ -1322,7 +1366,8 @@ td.prices span {
 	left:-8px;
 	display: block;
 }
-.items .item:hover .border {
+.items .item:hover .border,
+.experts:hover .border {
 	display: block;
 }
 .media .item span {
@@ -1335,7 +1380,8 @@ td.prices span {
 	left:-8px;
 	z-index:3;
 }
-.media .item.video:hover .border, .media .item.video:hover span {
+.media .item.video:hover .border,
+.media .item.video:hover span {
 	border-color:#e50364;
 }
 .item.detail, .item.detail a {
@@ -1790,7 +1836,9 @@ form input[type=checkbox] {
 .item.producer {
 	padding-bottom:14px;
 }
-.item .item-in, .item.producer .item-rel, .item.product .item-rel {
+.item .item-in,
+.item.producer .item-rel,
+.item.product .item-rel {
 	width:100%;
 	overflow: hidden;
 }
@@ -1823,7 +1871,8 @@ h3 a:hover,
 .items .item:hover h1 a,
 .items .item:hover h2 a,
 .items .item:hover h3 a,
-.auth .field a.remember:hover {
+.auth .field a.remember:hover,
+.experts:hover h3 a {
 	color:#e60365;
 	text-decoration: none;
 	margin-bottom:0;
@@ -3131,18 +3180,28 @@ form.quality .submit,
 }
 .blur {
 	filter: url(filter.svg#blur); /* FF, IE10 & Opera */
-	-webkit-filter: blur(2px);
+	-webkit-filter: blur(5px);
 }
 .notice {
 	position: fixed;
 	top: 50%;
 	left: 50%;
-	background: #fff;
+	background: #f0f0f0;
 	padding: 20px;
-	border: 2px #5c5c5c solid;
-	width: 400px;
-	margin-left: -220px;
+	border: 10px #fff solid;
+	width: 458px;
+	margin-left: -259px;
+	box-shadow: 0 0 22px #888;
+	z-index:10;
 	display: none;
+}
+.notice-item {
+	font-size:14px;
+	text-align: center;
+}
+.notice-item .title {
+	color: #E50364;
+	font-weight: bold;
 }
 .education .top,
 .education .theme,

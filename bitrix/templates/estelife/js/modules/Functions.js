@@ -115,7 +115,7 @@ define(['tpl/Template','modules/Select'],function(Template,Select){
 				var sl=Select.make($(this));
 			});
 
-			$('input[type=checkbox]').each(function(){
+			$('input[type=checkbox]',form).each(function(){
 				var inpt=$(this),
 					form=$(this.form),
 					link=$('<a href="#"></a>'),

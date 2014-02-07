@@ -265,8 +265,11 @@ if (!empty($arFilialsPays)){
 
 //Получаем акции
 $obQuery = $obClinics->createQuery();
-$obQuery->builder()->from('estelife_clinic_akzii', 'ecs');
-$obJoin=$obQuery->builder()->join();
+$obJoin=$obQuery
+	->builder()
+	->from('estelife_clinic_akzii', 'ecs')
+	->group('ecs.akzii_id')
+	->join();
 $obJoin->_left()
 	->_from('ecs','akzii_id')
 	->_to('estelife_akzii','id','ea');
