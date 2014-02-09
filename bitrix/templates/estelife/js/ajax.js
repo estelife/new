@@ -87,8 +87,15 @@ require([
 				data,
 				function(r){
 				if (r.complete == 1){
-					alert('Вы успешно подписаны');
-					$('input[name=email]').val('');
+					if (form.hasClass('main')){
+						var succesText=form.attr('data-success')||'Вы успешно подписались на новые статьи!',
+							succesTag=form.attr('data-success-tag')||'h3';
+
+						form.html('<'+succesTag+' class="req-success">'+succesText+'</'+succesTag+'>');
+					}else{
+						alert('Вы успешно подписаны');
+						$('input[name=email]').val('');
+					}
 				}else{
 					alert(r.error);
 				}
@@ -113,7 +120,6 @@ require([
 
 			if((currentTag!='A' && link && link.length>0) || ['H1','H2','H3'].inArray(parentTag)>-1){
 				Router.navigate(link,{trigger: true});
-				EL.goto($('.main_menu'),false,true);
 				e.preventDefault();
 			}
 		});

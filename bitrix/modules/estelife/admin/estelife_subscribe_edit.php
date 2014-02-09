@@ -27,8 +27,11 @@ $obElements=new CIBlockElement();
 if(!empty($ID)){
 
 	$obQuery=$obSubscribes->createQuery();
-	$obQuery->builder()
-		->from('estelife_subscribe');
+	$obQuery->builder()->from('estelife_subscribe_events', 'se');
+	$obJoin=$obQuery->builder()->join();
+	$obJoin->_left()
+		->_from('se','subscribe_user_id')
+		->_to('estelife_subscribe_user','user_id','su');
 
 	$obQuery->builder()->filter()->_eq('id',$ID);
 
@@ -61,16 +64,36 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 
 		$obQuery = $obSubscribes->createQuery();
-		$obQuery->builder()->from('estelife_subscribe')
-			->value('email', trim(htmlentities($obPost->one('email'),ENT_QUOTES,'utf-8')))
-			->value('active', intval($obPost->one('active')))
+		$obQuery->builder()->from('estelife_subscribe_events')
+			//->value('email', trim(htmlentities($obPost->one('email'),ENT_QUOTES,'utf-8')))
+			->value('event_active', intval($obPost->one('active')))
 			->value('type', intval($obPost->one('type')));
 
 
+
+
+
 		if (!empty($ID)){
+
+			$obQueryUserId = $obSubscribes->createQuery();
+			$obQueryUserId->builder()->from('estelife_subscribe_events')
+				->filter()
+				->_eq('id', $ID);
+			$arUserId = $obQueryUserId->select()->assoc();
+
+			$nUserId = $arUserId['subscribe_user_id'];
+
+			$obQueryUser = $obSubscribes->createQuery();
+			$obQueryUser->builder()->from('estelife_subscribe_user')
+				->value('email', trim(htmlentities($obPost->one('email'),ENT_QUOTES,'utf-8')));
+
+			$obQueryUser->builder()->filter()
+				->_eq('user_id',$nUserId);
+
 			$obQuery->builder()->filter()
 				->_eq('id',$ID);
 			$obQuery->update();
+			$obQueryUser->update();
 			$idSub = $ID;
 		}else{
 			//$idPill = $obQuery->insert()->insertId();
@@ -131,7 +154,7 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_aft
 							<td width="40%" class="adm-detail-content-cell-l"><?=GetMessage("ESTELIFE_F_ACTIVE")?></td>
 							<td width="60%" class="adm-detail-content-cell-r">
 								<select name="active" value="">
-									<? if($arResult['active']== 0){ ?>
+									<? if($arResult['event_active']== 0){ ?>
 									<option value="0">Нет</option>
 									<option value="1">Да</option>
 									<? }else{ ?>

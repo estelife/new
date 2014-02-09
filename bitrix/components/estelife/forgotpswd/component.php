@@ -65,6 +65,7 @@ if(!$USER->IsAuthorized()){
 				if ($arUser = CUser::GetList($by='id', $order='desc', array('EMAIL'=>$sEmail))->Fetch()){
 					$arResult['values']['CHECKWORD']=md5($arUser['CHECKWORD'].$arUser['LOGIN'].'estelifefpswd'.$arUser['EMAIL']);
 					$arResult['values']['USER_ID']=$arUser['ID'];
+					$arResult['values']['BACKURL']=$arResult["backurl"];
 
 					if (CEvent::Send('USER_PASS_REQUEST', SITE_ID, $arResult['values'])){
 						$nTime=date('Y-m-d H:i:s',time());
@@ -95,6 +96,10 @@ if(!$USER->IsAuthorized()){
 
 				$USER = new CUser;
 				$USER->Update($arUser['ID'], $arResult['VALUES']);
+
+				if($USER->Authorize($arUser['ID']))
+					LocalRedirect($arResult["backurl"]);
+
 			}catch(VFormException $e){
 				$arResult['global_errors']=$e->getFieldErrors();
 			}

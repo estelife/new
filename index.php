@@ -10,11 +10,10 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 		"estelife:podcast.list",
 		"",
 		array(
-			"IBLOCK_ID"=>14,
+			"IBLOCK_ID"=>36,
 			"NEWS_COUNT" => 7,
 			"MAIN_URL" => "podcast",
 			"PREFIX" => "pt",
-			"SECTION_ID"=>208
 		)
 	)?>
 	<div class="adv adv-out right">

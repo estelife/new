@@ -38,11 +38,10 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 				</div>
 				<?$i++;?>
 			<?php endforeach?>
-			<form action="" method="post" class="subscribe">
-				<h3>Хотите всегда быть в курсе?</h3>
-				<input type="text" name="email" class="text" placeholder="Ваш e-mail...">
-				<input name="go" value="OK" class="submit" />
-			</form>
+			<?$APPLICATION->IncludeComponent("estelife:subscribe.bitrix",
+				"",
+				Array()
+			);?>
 		</div>
 	</div>
 <?php endif?>

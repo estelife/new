@@ -43,6 +43,9 @@ $obQuery->builder()->filter()
 	->_eq('ec.id', $nClinicID);
 $arResult['clinic'] = $obQuery->select()->assoc();
 
+if ($arResult['clinic']['clinic_id']>0)
+	$APPLICATION->AddHeadString('<link rel="canonical" href="http://www.estelife.ru/cl'.$arResult['clinic']['clinic_id'].'/" />',true);
+
 if (!empty($arResult['clinic']['preview_text'])){
 	$arResult['clinic']['name'] = $arResult['clinic']['preview_text'];
 }
@@ -262,8 +265,11 @@ if (!empty($arFilialsPays)){
 
 //Получаем акции
 $obQuery = $obClinics->createQuery();
-$obQuery->builder()->from('estelife_clinic_akzii', 'ecs');
-$obJoin=$obQuery->builder()->join();
+$obJoin=$obQuery
+	->builder()
+	->from('estelife_clinic_akzii', 'ecs')
+	->group('ecs.akzii_id')
+	->join();
 $obJoin->_left()
 	->_from('ecs','akzii_id')
 	->_to('estelife_akzii','id','ea');

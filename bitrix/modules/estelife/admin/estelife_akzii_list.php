@@ -48,6 +48,7 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 	foreach($arID as $ID){
 		if(($ID = IntVal($ID))>0 && $_REQUEST['action']=='delete'){
 			try{
+				$obQuery=$obAkzii->createQuery();
 				$obQuery->builder()->from('estelife_akzii')->filter()
 					->_eq('id', $ID);
 				$obQuery->delete();

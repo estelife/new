@@ -5,8 +5,6 @@ use core\exceptions\VException;
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 try{
-	if (empty($arParams['SECTION_ID']) )
-		throw new VException("Ошибка в задании параметров");
 
 	CModule::IncludeModule("iblock");
 	CModule::IncludeModule("estelife");

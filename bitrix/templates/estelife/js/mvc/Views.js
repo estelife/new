@@ -122,6 +122,7 @@ define(['tpl/Template'],function(Template){
 				this.template.ready(function(){
 					ob.template.set('list', ob.data.list);
 					ob.$el.append(ob.template.render());
+					EL.goto($('.main_menu'),false,true);
 				});
 			}
 
@@ -148,6 +149,7 @@ define(['tpl/Template'],function(Template){
 						ob.template.set('same_data',ob.data.same_data);
 
 					ob.$el.append(ob.template.render());
+					EL.goto($('.main_menu'),false,true);
 				});
 			}
 

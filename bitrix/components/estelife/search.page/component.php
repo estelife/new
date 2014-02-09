@@ -57,7 +57,7 @@ if (!empty($sQuery)){
 	$obSph->SetServer('localhost', 3312);
 	$obSph->SetMaxQueryTime($nTime);
 	$obSph->SetArrayResult(true);
-	$obSph->SetMatchMode(SPH_MATCH_ALL);
+	$obSph->SetMatchMode(SPH_MATCH_ANY);
 
 	if (!empty($sSort))
 		$obSph->SetSortMode(SPH_SORT_ATTR_DESC, $sSort);
@@ -74,9 +74,9 @@ if (!empty($sQuery)){
 
 	if (!empty($sTags)){
 		$obSph->SetMatchMode(SPH_MATCH_EXTENDED);
-		$arAnswer=$obSph->query('@search-tags: '.$sTags);
+		$arAnswer=$obSph->Query('@search-tags: '.$sTags);
 	}else
-		$arAnswer=$obSph->query($sQuery.'*', '*');
+		$arAnswer=$obSph->Query($sQuery.'*','estelife');
 
 	if (!empty($arAnswer['matches'])){
 		$arAnswer=$arAnswer['matches'];
