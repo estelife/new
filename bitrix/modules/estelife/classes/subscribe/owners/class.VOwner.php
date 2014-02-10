@@ -2,6 +2,8 @@
 namespace subscribe\owners;
 use core\database\VDatabase;
 use core\types\VString;
+use subscribe\aggregators\VAggregator;
+use subscribe\events\VEvent;
 use subscribe\exceptions as errors;
 
 /**
@@ -11,14 +13,16 @@ use subscribe\exceptions as errors;
 class VOwner {
 	protected $nOwnerId;
 	protected $sEmail;
+	private $sDateSend;
 
 	/**
 	 * Инициализация полей класса
 	 * @param $nOwnerId
 	 * @param $sEmail
+	 * @param $sDateSend
 	 * @throws \subscribe\exceptions\VOwnerEx
 	 */
-	public function __construct($nOwnerId,$sEmail){
+	public function __construct($nOwnerId,$sEmail,$sDateSend){
 		$nOwnerId=intval($nOwnerId);
 		$sEmail=_addslashes($sEmail);
 
@@ -30,78 +34,146 @@ class VOwner {
 
 		$this->nOwnerId=$nOwnerId;
 		$this->sEmail=$sEmail;
+		$this->sDateSend=$sDateSend;
+	}
+
+	/**
+	 * Отдает идентификатор владельца события
+	 * @return int
+	 */
+	public function getOwnerId(){
+		return $this->nOwnerId;
+	}
+
+	/**
+	 * Отдает email пользователя
+	 * @return mixed
+	 */
+	public function getEmail(){
+		return $this->sEmail;
+	}
+
+	/**
+	 * Отдает дату отправки
+	 * @return mixed
+	 */
+	public function getDateSend(){
+		return $this->sDateSend;
 	}
 
 	/**
 	 * Получение событий пользователя
-	 * @return array
+	 * @param \subscribe\aggregators\VAggregator $obAggregator
+	 * @return \subscribe\events\VEvent[]
 	 */
-	public function getEvents(){
-		$obSubscribe = \core\database\VDatabase::driver();
-
-		$obQuery=$obSubscribe->createQuery();
-		$obQuery->builder()->from('estelife_subscribe_events')
+	public function getEvents(VAggregator $obAggregator=null){
+		$obQuery = VDatabase::driver()
+			->createQuery();
+		$obQuery->builder()
+			->from('estelife_subscribe_events')
 			->filter()
-			->_eq('subscribe_user_id', $this->nSubscribeUserId);
+			->_eq('active',1)
+			->_eq('owner_id', $this->nOwnerId);
 		$arEvents = $obQuery->select()->all();
+
+		if(!empty($arEvents)){
+			$arTemp=array();
+
+			foreach($arEvents as $arEvent){
+				$obEvent=new VEvent(
+					$this,
+					$arEvent['type'],
+					$arEvent['element_id'],
+					$arEvent['filter']
+				);
+
+				if($obAggregator)
+					$obAggregator->aggregateItem($obEvent);
+
+				$arTemp[]=$obEvent;
+			}
+
+			$arEvents=$arTemp;
+			unset($arTemp);
+		}
 
 		return $arEvents;
 	}
 
-	public function setEvent($nType, $nTotal, array $arFilter=null){
-		$obSubscribe = VDatabase::driver();
-		$obQueryInsert=$obSubscribe->createQuery();
+	/**
+	 * Добавляет событие подписки для пользователя
+	 * @param $nType
+	 * @param $nElementId
+	 * @param array $arFilter
+	 * @throws \subscribe\exceptions\VOwnerEx
+	 * @internal param $nTotal
+	 * @return void
+	 */
+	public function setEvent($nType,$nElementId,array $arFilter=null){
+		$nType=abs(intval($nType));
+		$nElementId=abs(intval($nElementId));
 
-		if($nTotal==1){
+		if($nType==0)
+			throw new errors\VOwnerEx('try set event with type');
+
+		$bTotal=($nElementId>0);
+		$sFilter=(!empty($arFilter)) ? serialize($arFilter) : '';
+		$obQuery=VDatabase::driver()
+			->createQuery();
+
+		if($bTotal){
 			//Проверка на существование общей подписки
-			$obQuerySub=$obSubscribe->createQuery();
-			$obQuerySub->builder()->from('estelife_subscribe_events')
+			$obQuery->builder()
+				->from('estelife_subscribe_events')
 				->filter()
 				->_eq('owner_id', $this->nOwnerId)
-				->_eq('total',1)
-				->_eq('type',$type);
-			$arSub = $obQuerySub->select()->assoc();
+				->_eq('element_id',0)
+				->_eq('type',$nType);
+			$nCountTotal = $obQuery
+				->count();
 
-			if($arSub >0){
-
-			}else{
-
-				$obQueryInsert->builder()->from('estelife_subscribe_events')
-					->value('type', $type)
-					->value('subscribe_user_id', $nUser)
-					->value('filter', $filter)
-					->value('total', 1)
-					->value('event_active', 1)
-					->value('date_send', time());
-				$nSubsInsert = $obQueryInsert->insert()->insertId();
+			if($nCountTotal==0){
+				$obQuery->builder()
+					->from('estelife_subscribe_events')
+					->value('type', $nType)
+					->value('owner_id', $this->nOwnerId)
+					->value('filter', $sFilter)
+					->value('element_id', 0)
+					->value('active', 0);
+				$obQuery->insert()
+					->insertId();
 			}
 		}else{
 			//Проверка на существование одиночной подписки
-			$obQuerySub=$obSubscribe->createQuery();
-			$obQuerySub->builder()->from('estelife_subscribe_events')
+			$obQuery->builder()
+				->from('estelife_subscribe_events')
 				->filter()
-				->_eq('subscribe_user_id', $nUser)
-				->_eq('total',0)
-				->_eq('type',$filter)
-				->_eq('filter',$filter);
-			$arSub = $obQuerySub->select()->assoc();
+				->_eq('owner_id', $this->nOwnerId)
+				->_eq('element_id',$nElementId)
+				->_eq('type',$nType);
+			$arEvent = $obQuery
+				->select()
+				->assoc();
 
-			if($arSub >0){
+			$obQuery->builder()
+				->from('estelife_subscribe_events')
+				->value('type', $nType)
+				->value('subscribe_user_id', $this->nOwnerId)
+				->value('element_id', $nElementId)
+				->value('filter', $sFilter);
 
+			if(!empty($arEvent)){
+				$obQuery->builder()
+					->value('active', 0);
+				$obQuery->insert()
+					->insertId();
 			}else{
-
-				$obQueryInsert->builder()->from('estelife_subscribe_events')
-					->value('type', $type)
-					->value('subscribe_user_id', $nUser)
-					->value('event_active', 1)
-					->value('filter', $filter)
-					->value('total', 0)
-					->value('date_send', time());
-				$nSubsInsert = $obQueryInsert->insert()->insertId();
-
+				$obQuery->builder()
+					->filter()
+					->_eq('id',$arEvent['id']);
+				$obQuery->update();
 			}
 		}
-		return $nSubsInsert;
 	}
 
 }

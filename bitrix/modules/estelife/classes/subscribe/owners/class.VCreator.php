@@ -4,7 +4,7 @@ use core\database\VDatabase;
 use core\types\VString;
 use subscribe\aggregators\VOwner;
 use subscribe\exceptions as errors;
-use \subscribe\aggregators\VOwner as VOwnerAggregator;
+use \subscribe\aggregators\VAggregator;
 
 /**
  * Вероятно я забыл оставить описание файла. Обратитесь на мыло за уточнениями.
@@ -74,11 +74,11 @@ class VCreator {
 	/**
 	 * Получаем список пользователей
 	 * @param $nDateSend
-	 * @param VOwnerAggregator $obAggregator
+	 * @param \subscribe\aggregators\VAggregator $obAggregator
 	 * @throws \subscribe\exceptions\VOwnerCreatorEx
 	 * @return array
 	 */
-	public static function getByDateSend($nDateSend, VOwnerAggregator $obAggregator=null){
+	public static function getByDateSend($nDateSend, VAggregator $obAggregator=null){
 		$nDateSend=intval($nDateSend);
 
 		if($nDateSend<=0)

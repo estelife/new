@@ -7,11 +7,11 @@ $obQuery->builder()
 	->field('section.CODE','CODE')
 	->field('section.NAME','NAME')
 	->slice(0,5)
-	->sort('section_prop.UF_DATE_PUB_SECTION','DESC')
+	->sort('section_prop.UF_DATE_PUB_SECT','DESC')
 	->filter()
 	->_eq('section.ACTIVE','Y')
 	->_eq('section.IBLOCK_ID',36)
-	->_lte('section_prop.UF_DATE_PUB_SECTION',date('Y-m-d 00:00:00'));
+	->_lte('section_prop.UF_DATE_PUB_SECT',date('Y-m-d 00:00:00'));
 $obQuery->builder()
 	->join()
 	->_left()
