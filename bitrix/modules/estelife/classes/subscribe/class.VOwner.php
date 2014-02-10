@@ -1,22 +1,28 @@
 <?php
 namespace subscribe;
 use core\database\VDatabase;
+use core\types\VString;
+use subscribe\errors as errors;
 
 /**
  *
  * @author Maxim Shlemarev <shlemarev@gmail.com>
  * @since 30.01.14
  */
+class VOwner {
+	private $nOwnerId;
 
-class VUser {
+	public function __construct($nOwnerId,$sEmail){
+		$nOwnerId=intval($nOwnerId);
 
-	private function __construct($nSubscribeUserId,$sEmail){
-		$this->nSubscribeUserId=$nSubscribeUserId;
-		$this->sEmail=$sEmail;
+		if($nOwnerId<=0)
+			throw new errors\VOwnerEx('invalid owner id');
 
-		/*if(empty($nSubscribeUserId))
-			throw new Error('invalid userId');*/
+		if(!VString::isEmail($sEmail))
+			throw new errors\VOwnerEx('invalid owner email');
 
+		$this->nOwnerId=$nOwnerId;
+		$this->sEmail=addslashes($sEmail);
 	}
 	//Получение событий рассылки
 	public function getEvents(){
@@ -29,64 +35,6 @@ class VUser {
 		$arEvents = $obQuery->select()->all();
 
 		return $arEvents;
-	}
-
-	//Получение пользователя по email
-	public static function getByEmail($email){
-
-		$obSubscribe = \core\database\VDatabase::driver();
-
-		$obQuery=$obSubscribe->createQuery();
-		$obQuery->builder()->from('estelife_subscribe_user')
-			->filter()
-			->_eq('active',1)
-			->_eq('email', $email);
-		$arUser = $obQuery->select()->assoc();
-
-		if(empty($arUser))
-			throw new \subscribe\VUserNotFound('user for this email not found');
-
-		return new self(
-			$arUser['user_id'],
-			$arUser['email']
-		);
-	}
-
-	//Получение пользователя по Id
-	public static function getById($user_id){
-		$obSubscribe = \core\database\VDatabase::driver();
-
-		$obQuery=$obSubscribe->createQuery();
-		$obQuery->builder()->from('estelife_subscribe_user')
-			->filter()
-			->_eq('active',1)
-			->_eq('user_id', $user_id);
-		$arUser = $obQuery->select()->assoc();
-
-		if(empty($arUser))
-			throw new \subscribe\VUserNotFound('user for this id not found');
-
-		return new self(
-			$arUser['user_id'],
-			$arUser['email']
-		);
-	}
-
-	//получение всех пользователей из рассылки
-	public static function getAllUsers(){
-
-		$obSubscribe = \core\database\VDatabase::driver();
-
-		$obQuery=$obSubscribe->createQuery();
-		$obQuery->builder()->from('estelife_subscribe_user')
-			->filter()
-			->_eq('active',1);
-		$arUser = $obQuery->select()->all();
-
-		/*if(empty($arUser))
-			throw new \subscribe\VUserNotFound('users not found');*/
-
-		return $arUser;
 	}
 
 	public static function getAllEvents($nUserId){
