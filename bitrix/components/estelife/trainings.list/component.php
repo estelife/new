@@ -95,21 +95,40 @@ $obQuery->builder()
 $obFilter=$obQuery->builder()->filter();
 $obFilter->_eq('eet.type', 3);
 
-if (!empty($arResult['city']) && $obGet->one('direction')!='all'){
+$session = new \filters\VTrainingsFilter();
+$arFilterParams = $session->getParams();
+
+if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){
+	$obFilter->_or()
+		->_eq('ecg.city_id', $arFilterParams['city']);
+	$obFilter->_or()
+		->_eq('ee.city_id', $arFilterParams['city']);
+}else if (!empty($arResult['city']) && $obGet->one('direction')!='all'){
 	$obFilter->_or()
 		->_eq('ecg.city_id', $arResult['city']);
 	$obFilter->_or()
 		->_eq('ee.city_id', $arResult['city']);
 }
 
-if(!$obGet->blank('direction'))
+if(!$obGet->blank('direction')){
 	$obFilter->_eq('eed.type', intval($obGet->one('direction')));
+}else if(!empty($arFilterParams['direction'])){
+	$obFilter->_eq('eed.type', intval($arFilterParams['direction']));
+}
 
-$nDateFrom=preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$obGet->one('date_from'));
-$nDateFrom=\core\types\VDate::dateToTime($nDateFrom.' 00:00');
+if(!$obGet->blank('date_drom')){
+	$nDateFrom=preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$obGet->one('date_from'));
+	$nDateFrom=\core\types\VDate::dateToTime($nDateFrom.' 00:00');
+}else if(!empty($arFilterParams['date_from'])){
+	$nDateFrom=preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$arFilterParams['date_from']);
+	$nDateFrom=\core\types\VDate::dateToTime($nDateFrom.' 00:00');
+}
 
 if (!$obGet->blank('date_to')){
 	$nDateTo = preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$obGet->one('date_to'));
+	$nDateTo = \core\types\VDate::dateToTime($nDateTo. ' 23:59');
+}else if(!empty($arFilterParams['date_to'])){
+	$nDateTo = preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$arFilterParams['date_to']);
 	$nDateTo = \core\types\VDate::dateToTime($nDateTo. ' 23:59');
 }else{
 	$nDateTo = false;

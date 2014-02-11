@@ -27,7 +27,7 @@ $arFilterFields = Array(
 	"find_id_exact_match",
 	"find_name",
 	"find_name_exact_match",
-	"find_company_id"
+	"find_company_name"
 );
 $lAdmin->InitFilter($arFilterFields);
 
@@ -37,7 +37,7 @@ InitBVar($find_company_exact_match);
 $arFilter = Array(
 	"id"		=> $find_id,
 	"name"		=> $find_name,
-	"company"		=> $find_company_id,
+	"company"		=> $find_company_name,
 );
 
 //====== TABLE HEADERS =========
@@ -88,7 +88,11 @@ if(!empty($arFilter['id']))
 if(!empty($arFilter['name']))
 	$obFilter->_like('ep.name',$arFilter['name'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
 if(!empty($arFilter['company']))
-	$obFilter->_like('ep.company_id',$arFilter['company'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
+	$obFilter->_like('ec.name',$arFilter['company'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
+
+if($by == 'company_name'){
+	$obQuery->builder()->sort('ec.name',$order);
+}
 
 $obQuery->builder()->sort('ep.'.$by,$order);
 

@@ -27,7 +27,7 @@ $arFilterFields = Array(
 	"find_id_exact_match",
 	"find_name",
 	"find_name_exact_match",
-	"find_company_id"
+	"find_company_name"
 );
 $lAdmin->InitFilter($arFilterFields);
 
@@ -37,7 +37,7 @@ InitBVar($find_company_exact_match);
 $arFilter = Array(
 	"id"		=> $find_id,
 	"name"		=> $find_name,
-	"company"		=> $find_company_id,
+	"company"		=> $find_company_name,
 );
 
 //====== TABLE HEADERS =========
@@ -87,10 +87,16 @@ if(!empty($arFilter['id']))
 	$obFilter->_like('ep.id',$arFilter['id'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
 if(!empty($arFilter['name']))
 	$obFilter->_like('ep.name',$arFilter['name'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
-if(!empty($arFilter['company']))
-	$obFilter->_like('ep.company_id',$arFilter['company'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
+if(!empty($arFilter['company'])){
+	$obFilter->_like('ec.name',$arFilter['company'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
+}
 
+if($by == 'company_name'){
+	$obQuery->builder()->sort('ec.name',$order);
+}
 $obQuery->builder()->sort('ep.'.$by,$order);
+
+
 
 $obQuery->builder()->group('ep.id');
 $obResult=$obQuery->select();
@@ -194,7 +200,7 @@ require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_adm
 		<tr>
 			<td><b><?echo GetMessage("ESTELIFE_F_COMPANY")?></b></td>
 			<td>
-				<input type="hidden" name="find_company_id" value="<?echo htmlspecialcharsbx($find_company_id)?>" />
+				<!--<input type="hidden" name="find_company_id" value="<?/*echo htmlspecialcharsbx($find_company_id)*/?>" />-->
 				<input type="text" name="find_company_name" data-input="find_company_id" size="47" value="<?echo htmlspecialcharsbx($find_company_name)?>"><?=InputType("checkbox", "find_company_exact_match", "Y", $find_company_exact_match, false, "", "title='".GetMessage("ESTELIFE_EXACT_MATCH")."'")?>&nbsp;<?=ShowFilterLogicHelp()?>
 			</td>
 		</tr>

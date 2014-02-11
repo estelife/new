@@ -42,23 +42,39 @@ $arResult['countries']=$obCounties->all();
 
 $obGet=new VArray($_GET);
 
+$session = new \filters\VSponsorsFilter();
+$arFilterParams = $session->getParams();
+$obSession = new \filters\VSession('sponsors');
+
+
 if (!$obGet->blank('country')){
 	$nCountry = intval($obGet->one('country'));
-	//получаем города по стране
-	$arSelect = Array("ID", "NAME");
-	$arFilter = Array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "PROPERTY_COUNTRY" => $nCountry);
-	$obCity= CIBlockElement::GetList(Array("NAME"=>"ASC"), $arFilter, false, false, $arSelect);
-
-	while($res = $obCity->Fetch()) {
-		$arResult['cities'][] = $res;
-	}
+}else{
+	$nCountry = intval($arFilterParams['country']);
 }
 
-$arResult['filter']=array(
+$arSelect = Array("ID", "NAME");
+$arFilter = Array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "PROPERTY_COUNTRY" => $nCountry);
+$obCity= CIBlockElement::GetList(Array("NAME"=>"ASC"), $arFilter, false, false, $arSelect);
+
+while($res = $obCity->Fetch()) {
+	$arResult['cities'][] = $res;
+}
+
+/*$arResult['filter']=array(
 	'country'=>intval($obGet->one('country',0)),
 	'city'=>intval($obGet->one('city',0)),
 	'name'=>strip_tags(trim($obGet->one('name',''))),
-);
+);*/
+
+$arResult['filter'] = $arFilterParams;
+
+
+if(!isset($arResult['filter']['name'])){
+	$obSession->setParam('name','');
+	$arResult['filter']['name'] = '';
+}
+
 
 $arResult['count'] = \bitrix\ERESULT::$DATA['count'];
 

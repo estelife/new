@@ -70,7 +70,7 @@ $obJoin=$obQuery
 	->join();
 $obJoin->_left()
 	->_from('se','subscribe_user_id')
-	->_to('estelife_subscribe_user','user_id','su');
+	->_to('estelife_subscribe_user','id','su');
 
 $obFilter=$obQuery
 	->builder()
@@ -85,7 +85,7 @@ if($_GET && $_GET['set_filter'] == 'Y'){
 		$obFilter->_eq('se.type',$arFilter['type']);
 }
 
-if($by=='email')
+/*if($by=='email')
 	$obQuery->builder()->sort('su.email',$order);
 elseif($by=='active')
 	$obQuery->builder()->sort('se.event_active',$order);
@@ -94,7 +94,7 @@ elseif($by=='type')
 elseif($by=='date')
 	$obQuery->builder()->sort('su.date_send',$order);
 else
-	$obQuery->builder()->sort('se.'.$by,$order);
+	$obQuery->builder()->sort('se.'.$by,$order);*/
 
 $obResult=$obQuery->select();
 $obResult=new CAdminResult(
@@ -109,7 +109,8 @@ $lAdmin->NavText($obResult->GetNavPrint(GetMessage('ESTELIFE_PAGES')));
 
 $types = array(
 	1=>'Клиники',
-	2=>'Учебные центры'
+	2=>'Учебные центры',
+	3=>'Статьи'
 );
 
 while($arRecord=$obResult->Fetch()){

@@ -19,8 +19,11 @@ CModule::IncludeModule('iblock');
 
 const FIRST=1;
 
-$obData = \core\database\VDatabase::driver();
-$arUsers = subscribe\VUser::getAllUsers();
+$filter = \filters\VFilterFactory::createClinicFilter();
+
+
+/*$obData = \core\database\VDatabase::driver();
+$arUsers = subscribe\VUser::getAllUsers();*/
 
 foreach($arUsers as $arUser){
 	$sUserEmail = $arUser['email'];
@@ -28,7 +31,7 @@ foreach($arUsers as $arUser){
 
 	//$arElements = subscribe\TrainigsFactory::getAll($arUser);
 	//$arElements = subscribe\ClinicFactory::getAll($arUser);
-	$arElements = subscribe\VPostsFactory::getAll($arUser);
+	//$arElements = subscribe\VPostsFactory::getAll($arUser);
 
 	//$arFields = subscribe\VDirector::TrainingsSend($arElements,$sUserEmail);
 	//$arFields = subscribe\VDirector::ClinicSend($arElements,$sUserEmail);

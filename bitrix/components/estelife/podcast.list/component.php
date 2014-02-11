@@ -14,18 +14,18 @@ try{
 	$sDateNow =strtotime($sNow.' 00:00:00');
 
 	$obResult = CIBlockSection::GetList(
-		array('UF_DATE_PUB_SECTION'=>'DESC'),
+		array('UF_DATE_PUB_SECT'=>'DESC'),
 		array(
 			'IBLOCK_ID' => $arParams['IBLOCK_ID'],
 			'SECTION_ID' => $arParams['SECTION_ID'],
-			'<=UF_DATE_PUB_SECTION' => $sNow,
+			'<=UF_DATE_PUB_SECT' => $sNow,
 			'ACTIVE'=>'Y'
 		),
 		false,
 		array(
 			'ID',
 			'NAME',
-			'UF_DATE_PUB_SECTION',
+			'UF_DATE_PUB_SECT',
 			'UF_DATE_UPD_SECTION'
 		),
 		array('nPageSize'=>1)

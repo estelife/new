@@ -66,10 +66,16 @@ $obQuery->builder()
 	->field('ect.id','type_company_id');
 $obFilter = $obQuery->builder()->filter();
 
+$session = new \filters\VApparatusesFilter();
+$arFilterParams = $session->getParams();
+
 
 if(!$obGet->blank('country') && $obGet->one('country')!=='all'){
 	$obFilter->_or()->_eq('ecg.country_id', intval($obGet->one('country')));
 	$obFilter->_or()->_eq('ectg.country_id', intval($obGet->one('country')));
+}else if(!empty($arFilterParams['country']) && $arFilterParams['country'] !='all'){
+	$obFilter->_or()->_eq('ecg.country_id', intval($arFilterParams['country']));
+	$obFilter->_or()->_eq('ectg.country_id', intval($arFilterParams['country']));
 }
 
 if(!$obGet->blank('name')){
@@ -78,6 +84,8 @@ if(!$obGet->blank('name')){
 
 if(!$obGet->blank('type')){
 	$obFilter->_eq('apt.type_id', intval($obGet->one('type')));
+}else if(!empty($arFilterParams['type'])){
+	$obFilter->_eq('apt.type_id', intval($arFilterParams['type']));
 }
 $obQuery->builder()->group('ap.id');
 $obQuery->builder()->sort('ap.name', 'asc');

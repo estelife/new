@@ -71,8 +71,15 @@ $obQuery->builder()
 	->field('ect.logo_id','type_logo_id')
 	->field('ectc.value', 'type_web');
 $obFilter = $obQuery->builder()->filter();
+
+$session = new \filters\VApparatusesMakersFilter();
+$arFilterParams = $session->getParams();
+
+
 	if (!$obGet->blank('country') && $obGet->one('country')!=='all'){
 		$obFilter->_eq('ecg.country_id', intval($obGet->one('country')));
+	}else if(!empty($arFilterParams['country'])){
+		$obFilter->_eq('ecg.country_id', intval($arFilterParams['country']));
 	}
 	if (!$obGet->blank('name')){
 		$obFilter->_like('ec.name', $obGet->one('name'),VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);

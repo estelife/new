@@ -79,19 +79,41 @@ $obFilter->_eq('ea.active', 1);
 
 $obQuery->builder()->sort('ea.end_date', 'desc');
 
-if (!empty($arResult['city']) && $obGet->one('city')!=='all')
-	$obFilter->_eq('ec.city_id', $arResult['city']['ID']);
+$session = new \filters\VAktiiFilter();
+$arFilterParams = $session->getParams();
 
-if(!$obGet->blank('metro'))
+if(!empty($arFilterParams['city']) && $arFilterParams['city'] !=='all'){
+	$obFilter->_eq('ec.city_id', $arFilterParams['city']);
+}else if (!empty($arResult['city']) && $obGet->one('city')!=='all'){
+	$obFilter->_eq('ec.city_id', $arResult['city']['ID']);
+}
+
+if(!$obGet->blank('metro')){
 	$obFilter->_eq('ec.metro_id', intval($obGet->one('metro')));
-if(!$obGet->blank('spec'))
+}else if(!empty($arFilterParams['metro'])){
+	$obFilter->_eq('ec.metro_id', intval($arFilterParams['metro']));
+}
+if(!$obGet->blank('spec')){
 	$obFilter->_eq('eat.specialization_id', intval($obGet->one('spec')));
-if(!$obGet->blank('service'))
+}else if(!empty($arFilterParams['spec'])){
+	$obFilter->_eq('eat.specialization_id', intval($arFilterParams['spec']));
+}
+if(!$obGet->blank('service')){
 	$obFilter->_eq('eat.service_id', intval($obGet->one('service')));
-if(!$obGet->blank('concreate'))
+}else if(!empty($arFilterParams['sevice'])){
+	$obFilter->_eq('eat.service_id', intval($arFilterParams['sevice']));
+}
+if(!$obGet->blank('concreate')){
 	$obFilter->_eq('eat.service_concreate_id', intval($obGet->one('concreate')));
-if(!$obGet->blank('method'))
+}else if(!empty($arFilterParams['concreate'])){
+	$obFilter->_eq('eat.service_concreate_id', intval($arFilterParams['concreate']));
+}
+if(!$obGet->blank('method')){
 	$obFilter->_eq('eat.method_id', intval($obGet->one('method')));
+}else if(!empty($arFilterParams['method'])){
+	$obFilter->_eq('eat.method_id', intval($arFilterParams['method']));
+}
+
 
 if(!empty($arCount))
 	$obQuery->builder()->slice(0,$arCount);

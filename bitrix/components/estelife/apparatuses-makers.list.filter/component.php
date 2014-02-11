@@ -7,6 +7,10 @@ CModule::IncludeModule("iblock");
 CModule::IncludeModule("estelife");
 $obGet = new VArray($_GET);
 
+$session = new \filters\VApparatusesMakersFilter();
+$arFilterParams = $session->getParams();
+$obSession = new \filters\VSession('apparatuses_makers');
+
 //Получение списка стран
 $obCities = VDatabase::driver();
 $obQuery = $obCities->createQuery();
@@ -29,10 +33,17 @@ $obQuery->builder()->group('ct.ID');
 $obQuery->builder()->sort('ct.NAME', 'asc');
 $arResult['countries'] = $obQuery->select()->all();
 
-$arResult['filter']=array(
+/*$arResult['filter']=array(
 	'country'=>intval($obGet->one('country',0)),
 	'name'=>strip_tags(trim($obGet->one('name'))),
-);
+);*/
+
+$arResult['filter'] = $arFilterParams;
+
+if(!isset($arResult['filter']['name'])){
+	$obSession->setParam('name','');
+	$arResult['filter']['name'] = '';
+}
 
 $arResult['count'] = \bitrix\ERESULT::$DATA['count'];
 

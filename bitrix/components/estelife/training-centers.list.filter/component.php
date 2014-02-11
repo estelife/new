@@ -36,10 +36,23 @@ $obQuery->builder()->sort('ct.NAME', 'asc');
 $arResult['cities'] = $obQuery->select()->all();
 
 
-$arResult['filter']=array(
+$session = new \filters\VTrainingsCentersFilter();
+$arFilterParams = $session->getParams();
+
+/*$arResult['filter']=array(
 	'city'=>intval($obGet->one('city', $_COOKIE['estelife_city'])),
 	'name'=>strip_tags(trim($obGet->one('name',''))),
-);
+);*/
+
+$arResult['filter'] = $arFilterParams;
+
+$obSession = new \filters\VSession('trainigs_center');
+
+if(!isset($arResult['filter']['name'])){
+	$obSession->setParam('name','');
+	$arResult['filter']['name'] = '';
+}
+
 
 $arResult['count'] = \bitrix\ERESULT::$DATA['count'];
 

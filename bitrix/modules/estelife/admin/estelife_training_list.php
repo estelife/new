@@ -114,17 +114,18 @@ $obFilter=$obQuery->builder()
 
 $obFilter->_eq('eet.type',3);
 
+
 if(!empty($arFilter['id']))
 	$obFilter->_like('ee.id',$arFilter['id'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 
 if(!empty($arFilter['full_name']))
 	$obFilter->_like('ee.full_name',$arFilter['full_name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 
-if(!empty($arFilter['countr_id']))
-	$obFilter->_eq('ecn.country_id',$arFilter['country_id']);
+if(!empty($arFilter['country_id']))
+	$obFilter->_eq('ecn.ID',$arFilter['country_id']);
 
 if(!empty($arFilter['city_id']))
-	$obFilter->_eq('ect.city_id',$arFilter['city_id']);
+	$obFilter->_eq('ect.ID',$arFilter['city_id']);
 
 $obResult=$obQuery->select();
 $obResult=new CAdminResult(

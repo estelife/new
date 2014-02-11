@@ -83,6 +83,24 @@ CModule::AddAutoloadClasses(
 		'subscribe\ClinicFactory'=>"classes/subscribe/class.ClinicFactory.php",
 		'subscribe\TrainigsFactory'=>"classes/subscribe/class.TrainigsFactory.php",
 		'subscribe\VDirector'=>"classes/subscribe/class.VDirector.php",
-		'subscribe\VPostsFactory'=>"classes/subscribe/class.VPostsFactory.php"
+		'subscribe\VPostsFactory'=>"classes/subscribe/class.VPostsFactory.php",
+
+		//filters
+		'filters\VBase'=>'classes/filters/class.VBase.php',
+		'filters\VFilter'=>'classes/filters/class.VFilter.php',
+		'filters\VSession'=>'classes/filters/class.VSession.php',
+		'filters\VQuery'=>'classes/filters/class.VQuery.php',
+		'filters\VCreator'=>'classes/filters/class.VCreator.php',
+		'filters\VClinicsFilter'=>'classes/filters/class.VClinicsFilter.php',
+		'filters\VAktiiFilter'=>'classes/filters/class.VAktiiFilter.php',
+		'filters\VSponsorsFilter'=>'classes/filters/class.VSponsorsFilter.php',
+		'filters\VEventsFilter'=>'classes/filters/class.VEventsFilter.php',
+		'filters\VTrainingsCentersFilter'=>'classes/filters/class.VTrainingsCentersFilter.php',
+		'filters\VTrainingsFilter'=>'classes/filters/class.VTrainingsFilter.php',
+		'filters\VPreparationsMakersFilter'=>'classes/filters/class.VPreparationsMakersFilter.php',
+		'filters\VApparatusesMakersFilter'=>'classes/filters/class.VApparatusesMakersFilter.php',
+		'filters\VPreparationsFilter'=>'classes/filters/class.VPreparationsFilter.php',
+		'filters\VApparatusesFilter'=>'classes/filters/class.VApparatusesFilter.php',
+
 	)
 );
