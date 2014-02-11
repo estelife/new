@@ -39,9 +39,16 @@ $obCounties->sortByPriorities(array(357),'ID');
 $arResult['countries']=$obCounties->all();
 $obGet=new VArray($_GET);
 
+$session = new \filters\VEventsFilter();
+$arFilterParams = $session->getParams();
+$obSession = new \filters\VSession('events');
+
+
 if(!$obGet->blank('country')){
 	$nCountry=intval($obGet->one('country',0));
-
+}else{
+	$nCountry=intval($arFilterParams['country']);
+}
 	//получаем города по стране
 	$obCity=CIBlockElement::GetList(
 		array("NAME"=>"ASC"),
@@ -54,18 +61,18 @@ if(!$obGet->blank('country')){
 	while($res = $obCity->Fetch()) {
 		$arResult['cities'][] = $res;
 	}
-}
+
 
 $arDirections=array();
 $arTypes=array();
 
-foreach($obGet->one('direction',array()) as $nDirection)
+/*foreach($arFilterParams['direction'] as $nDirection)
 	$arDirections[]=intval($nDirection);
 
-foreach($obGet->one('type',array()) as $nType)
-	$arTypes[]=intval($nType);
+foreach($arFilterParams['type'] as $nType)
+	$arTypes[]=intval($nType);*/
 
-$arResult['filter']=array(
+/*$arResult['filter']=array(
 	'country'=>intval($obGet->one('country',0)),
 	'city'=>intval($obGet->one('city',0)),
 	'direction'=>$arDirections,
@@ -73,7 +80,14 @@ $arResult['filter']=array(
 	'date_from'=>$obGet->one('date_from', date('d.m.y',time())),
 	'date_to'=>$obGet->one('date_to',''),
 	'name'=>strip_tags(trim($obGet->one('name',''))),
-);
+);*/
+
+$arResult['filter'] = $arFilterParams;
+
+if(!isset($arResult['filter']['name'])){
+	$obSession->setParam('name','');
+	$arResult['filter']['name'] = '';
+}
 
 $arResult['count']=\bitrix\ERESULT::$DATA['count'];
 $arResult['empty']=false;

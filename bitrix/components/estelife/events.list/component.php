@@ -77,11 +77,20 @@ $obQuery->builder()
 $obFilter=$obQuery->builder()->filter();
 $obFilter->_ne('eet.type', 3);
 
-if (!empty($arResult['city']) && $obGet->one('city')!=='all')
-	$obFilter->_eq('ee.city_id', $arResult['city']['ID']);
+$session = new \filters\VEventsFilter();
+$arFilterParams = $session->getParams();
 
-if(!empty($arResult['country']) && $obGet->one('country')!=='all')
+if (!empty($arResult['city']) && $obGet->one('city')!=='all'){
+	$obFilter->_eq('ee.city_id', $arResult['city']['ID']);
+}else if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){
+	$obFilter->_eq('ee.city_id', $arFilterParams['city']);
+}
+
+if(!empty($arResult['country']) && $obGet->one('country')!=='all'){
 	$obFilter->_eq('ee.country_id', $arResult['country']['COUNTRY_ID']);
+}else if(!empty($arFilterParams['country'])&& $arFilterParams['country'] !='all'){
+	$obFilter->_eq('ee.country_id', $arFilterParams['country']);
+}
 
 if(!$obGet->blank('name'))
 	$obFilter->_like('ee.short_name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
@@ -100,6 +109,18 @@ if(!$obGet->blank('direction')){
 		$mDirections=intval($mDirections);
 		$obFilter->_eq('eed.type', $mDirections);
 	}
+}else if(!empty($arFilterParams['direction'])){
+	if(is_array($arFilterParams['direction'])){
+		foreach($arFilterParams['direction'] as $nKey=>$nValue){
+			$nValue=intval($nValue);
+			if($nValue<=0)
+				unset($arFilterParams['direction'][$nKey]);
+		}
+		$obFilter->_in('eed.type', $arFilterParams['direction']);
+	}else{
+		$mDirections=intval($arFilterParams['direction']);
+		$obFilter->_eq('eed.type', $arFilterParams['direction']);
+	}
 }
 
 if(!$obGet->blank('type')){
@@ -116,13 +137,34 @@ if(!$obGet->blank('type')){
 		$arTypes=intval($arTypes);
 		$obFilter->_eq('eet.type', $arTypes);
 	}
-}
+}else if($arFilterParams['type']){
 
-$nDateFrom=preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$obGet->one('date_from'));
-$nDateFrom=\core\types\VDate::dateToTime($nDateFrom.' 00:00');
+	if(is_array($arFilterParams['type'])){
+		foreach($arFilterParams['type'] as $nKey=>$nValue){
+			$nValue=intval($nValue);
+			if($nValue<=0)
+				unset($arFilterParams['type'][$nKey]);
+		}
+		$obFilter->_in('eet.type', $arFilterParams['type']);
+	}else{
+		$mDirections=intval($arFilterParams['type']);
+		$obFilter->_eq('eet.type', $arFilterParams['type']);
+	}
+
+}
+if(!$obGet->blank('date_from')){
+	$nDateFrom=preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$obGet->one('date_from'));
+	$nDateFrom=\core\types\VDate::dateToTime($nDateFrom.' 00:00');
+}else if(!empty($arFilterParams['date_from'])){
+	$nDateFrom=preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$arFilterParams['date_from']);
+	$nDateFrom=\core\types\VDate::dateToTime($nDateFrom.' 00:00');
+}
 
 if (!$obGet->blank('date_to')){
 	$nDateTo = preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$obGet->one('date_to'));
+	$nDateTo = \core\types\VDate::dateToTime($nDateTo. ' 23:59');
+}else if(!empty($arFilterParams['date_to'])){
+	$nDateTo = preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$arFilterParams['date_to']);
 	$nDateTo = \core\types\VDate::dateToTime($nDateTo. ' 23:59');
 }else{
 	$nDateTo = false;
@@ -130,8 +172,9 @@ if (!$obGet->blank('date_to')){
 
 $obFilter->_gte('ecal.date',$nDateFrom);
 
-if ($nDateTo)
+if ($nDateTo){
 	$obFilter->_lte('ecal.date',$nDateTo);
+}
 
 $obQuery->builder()->sort('ecal.date', 'asc');
 $obQuery->builder()->group('ee.id');
@@ -228,8 +271,9 @@ if (!empty($arIds)){
 		->_in('event_id', $arIds);
 //		->_gte('date',$nDateFrom);
 
-	if($nDateTo)
+	if($nDateTo){
 		$obFilter->_lte('date',$nDateTo);
+	}
 
 	$arCalendar = $obQuery->select()->all();
 

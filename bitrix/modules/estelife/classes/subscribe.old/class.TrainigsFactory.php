@@ -17,7 +17,7 @@ class TrainigsFactory {
 	//Выводит все акции из общей подписки
 	public function getComplex($arUser){
 
-		$nUserId = $arUser['user_id'];
+		$nUserId = $arUser['id'];
 		$nDateLastSend = $arUser['date_last_send'];
 
 		$obData = \core\database\VDatabase::driver();
@@ -112,7 +112,7 @@ class TrainigsFactory {
 	//Выводит все акции из индивидуальной подписки
 	public function getTarget($arUser){
 
-		$nUserId = $arUser['user_id'];
+		$nUserId = $arUser['id'];
 		$nDateLastSend = $arUser['date_last_send'];
 
 		$obData = \core\database\VDatabase::driver();
@@ -215,7 +215,7 @@ class TrainigsFactory {
 	//Выводит все акции из всевозможных подписок для текущего пользователя
 	public  function  getAll($arUser){
 
-		$nUserId = $arUser['user_id'];
+		$nUserId = $arUser['id'];
 		$nDateLastSend = $arUser['date_last_send'];
 
 		$obData = \core\database\VDatabase::driver();

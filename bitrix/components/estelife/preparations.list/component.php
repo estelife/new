@@ -68,9 +68,15 @@ $obQuery->builder()
 $obFilter = $obQuery->builder()->filter();
 
 
+$session = new \filters\VPreparationsFilter();
+$arFilterParams = $session->getParams();
+
 if(!$obGet->blank('country') && $obGet->one('country')!=='all'){
 	$obFilter->_or()->_eq('ecg.country_id', intval($obGet->one('country')));
 	$obFilter->_or()->_eq('ectg.country_id', intval($obGet->one('country')));
+}else if(!empty($arFilterParams['country']) && $arFilterParams['country'] !='all'){
+	$obFilter->_or()->_eq('ecg.country_id', intval($arFilterParams['country']));
+	$obFilter->_or()->_eq('ectg.country_id', intval($arFilterParams['country']));
 }
 
 if(!$obGet->blank('name')){
@@ -79,6 +85,8 @@ if(!$obGet->blank('name')){
 
 if(!$obGet->blank('type')){
 	$obFilter->_eq('ept.type_id', intval($obGet->one('type')));
+}else if(!empty($arFilterParams['type'])){
+	$obFilter->_eq('ept.type_id', intval($arFilterParams['type']));
 }
 $obQuery->builder()->group('ep.id');
 $obQuery->builder()->sort('ep.name', 'asc');

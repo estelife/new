@@ -87,11 +87,13 @@ $obJoin->_left()
 $obJoin->_left()
 	->_from('esc','specialization_id')
 	->_to('estelife_specializations','id','esp');
-$obQuery->builder()
+$obFilter = $obQuery->builder()
 	->field('esc.id','id')
 	->field('esc.name','name')
 	->field('esr.name','service')
-	->field('esp.name','specialization');
+	->field('esp.name','specialization')
+	->filter();
+
 
 if($by=='specialization')
 	$by='esp.name';
@@ -102,8 +104,8 @@ else
 
 $obQuery->builder()->sort($by,$order);
 
-if(!empty($find_id))
-	$obFilter->_like('esc.id',$find_id,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+if(!empty($arFilter['ID']))
+	$obFilter->_eq('esc.id',$arFilter['ID']);
 if(!empty($find_name))
 	$obFilter->_like('esc.name',$find_name,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 if(!empty($find_specialization_id))

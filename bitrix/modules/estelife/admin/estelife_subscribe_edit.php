@@ -31,9 +31,9 @@ if(!empty($ID)){
 	$obJoin=$obQuery->builder()->join();
 	$obJoin->_left()
 		->_from('se','subscribe_user_id')
-		->_to('estelife_subscribe_user','user_id','su');
+		->_to('estelife_subscribe_user','id','su');
 
-	$obQuery->builder()->filter()->_eq('id',$ID);
+	$obQuery->builder()->filter()->_eq('se.id',$ID);
 
 	$obResult=$obQuery->select();
 	$obResult=new CAdminResult(
@@ -44,6 +44,7 @@ if(!empty($ID)){
 	$arTypes = array(
 		1=>'Клиники',
 		2=>'Учебные центры',
+		3=>'Cтатьи',
 	);
 
 	$arResult=$obResult->Fetch();
@@ -88,7 +89,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 				->value('email', trim(htmlentities($obPost->one('email'),ENT_QUOTES,'utf-8')));
 
 			$obQueryUser->builder()->filter()
-				->_eq('user_id',$nUserId);
+				->_eq('id',$nUserId);
 
 			$obQuery->builder()->filter()
 				->_eq('id',$ID);
@@ -164,17 +165,17 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_aft
 								</select>
 							</td>
 						</tr>
-						<tr class="adm-detail-required-field">
-							<td width="40%" class="adm-detail-content-cell-l"><?=GetMessage("ESTELIFE_F_TYPE_SELECT")?></td>
+						<!--<tr class="adm-detail-required-field">
+							<td width="40%" class="adm-detail-content-cell-l"><?/*=GetMessage("ESTELIFE_F_TYPE_SELECT")*/?></td>
 							<td width="60%" class="adm-detail-content-cell-r">
 								<select name="type" value="">
-									<? foreach($arTypes as $key=>$value){ ?>
-										<option value="<?=$key;?>" <? if($arResult['type'] == $key){ ?>selected<? } ?>><?=$value;?></option>
-									<? } ?>
+									<?/* foreach($arTypes as $key=>$value){ */?>
+										<option value="<?/*=$key;*/?>" <?/* if($arResult['type'] == $key){ */?>selected<?/* } */?>><?/*=$value;*/?></option>
+									<?/* } */?>
 
 								</select>
 							</td>
-						</tr>
+						</tr>-->
 
 	<?php
 		$tabControl->EndTab();

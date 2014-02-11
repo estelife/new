@@ -77,27 +77,52 @@ $obFilter = $obQuery->builder()->filter();
 $obFilter->_eq('ec.active', 1);
 $obFilter->_eq('ec.clinic_id', 0);
 
-if(!empty($arResult['city']) && $obGet->one('city')!=='all')
+$session = new \filters\VClinicsFilter();
+$arFilterParams = $session->getParams();
+
+
+if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){
+	$obFilter->_eq('ec.city_id', $arFilterParams['city']);
+}else if(!empty($arResult['city']) && $obGet->one('city')!=='all'){
 	$obFilter->_eq('ec.city_id', $arResult['city']['ID']);
+}else
+
 
 if(!$obGet->blank('name')){
 	$obFilter->_like('ec.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+}else if(!empty($arFilterParams['name'])){
+	$obFilter->_like('ec.name',$arFilterParams['name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 }
 
-if(!$obGet->blank('metro'))
+if(!$obGet->blank('metro')){
 	$obFilter->_eq('ec.metro_id', intval($obGet->one('metro')));
+}else if(!empty($arFilterParams['metro'])){
+	$obFilter->_eq('ec.metro_id', intval($arFilterParams['metro']));
+}
 
-if(!$obGet->blank('spec'))
+if(!$obGet->blank('spec')){
 	$obFilter->_eq('ecs.specialization_id', intval($obGet->one('spec')));
+}else if(!empty($arFilterParams['spec'])){
+	$obFilter->_eq('ecs.specialization_id', intval($arFilterParams['spec']));
+}
 
-if(!$obGet->blank('service'))
+if(!$obGet->blank('service')){
 	$obFilter->_eq('ecs.service_id', intval($obGet->one('service')));
+}else if(!empty($arFilterParams['service'])){
+	$obFilter->_eq('ecs.service_id', intval($arFilterParams['service']));
+}
 
-if(!$obGet->blank('concreate'))
+if(!$obGet->blank('concreate')){
 	$obFilter->_eq('ecs.service_concreate_id', intval($obGet->one('concreate')));
+}else if(!empty($arFilterParams['concreate'])){
+	$obFilter->_eq('ecs.service_concreate_id', intval($arFilterParams['concreate']));
+}
 
-if(!$obGet->blank('method'))
+if(!$obGet->blank('method')){
 	$obFilter->_eq('ecs.method_id', intval($obGet->one('method')));
+}else if(!empty($arFilterParams['method'])){
+	$obFilter->_eq('ecs.method_id', intval($arFilterParams['method']));
+}
 
 $obQuery->builder()->group('ec.id');
 $obQuery->builder()->sort('ec.name', 'asc');

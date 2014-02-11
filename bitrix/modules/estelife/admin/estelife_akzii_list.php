@@ -96,6 +96,7 @@ foreach($arRecords as $arRecord){
 	$row =& $lAdmin->AddRow($f_ID,$arRecord);
 
 	$row->AddViewField("ID",$arRecord['id']);
+	$row->AddViewField("CLINIC",$arRecord['clinic']);
 	$row->AddViewField("NAME",$arRecord['name']);
 
 	$arActions = Array();

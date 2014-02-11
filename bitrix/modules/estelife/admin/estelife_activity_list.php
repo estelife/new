@@ -105,6 +105,12 @@ $obFilter->_or()
 $obFilter->_or()
 	->_isNull('eet.type');
 
+if($by=='contry_id'){
+	$obQuery->builder()->sort('ecn.ID',$order);
+}else if($by=='city')
+	$obQuery->builder()->sort('ect.NAME',$order);
+
+
 if(!empty($arFilter['id']))
 	$obFilter->_like('ee.id',$arFilter['id'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 
