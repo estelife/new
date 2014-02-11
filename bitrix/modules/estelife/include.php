@@ -77,14 +77,6 @@ CModule::AddAutoloadClasses(
 		'request\VUser'=>"classes/request/class.VUser.php",
 		'request\exceptions\VRequest'=>"classes/request/exceptions/class.VRequest.php",
 
-		//subscribe
-		'subscribe\VUser'=>"classes/subscribe/class.VUser.php",
-		'subscribe\VUserNotFound'=>"classes/subscribe/class.VUserNotFound.php",
-		'subscribe\ClinicFactory'=>"classes/subscribe/class.ClinicFactory.php",
-		'subscribe\TrainigsFactory'=>"classes/subscribe/class.TrainigsFactory.php",
-		'subscribe\VDirector'=>"classes/subscribe/class.VDirector.php",
-		'subscribe\VPostsFactory'=>"classes/subscribe/class.VPostsFactory.php",
-
 		//filters
 		'filters\VBase'=>'classes/filters/class.VBase.php',
 		'filters\VFilter'=>'classes/filters/class.VFilter.php',
@@ -102,5 +94,24 @@ CModule::AddAutoloadClasses(
 		'filters\VPreparationsFilter'=>'classes/filters/class.VPreparationsFilter.php',
 		'filters\VApparatusesFilter'=>'classes/filters/class.VApparatusesFilter.php',
 
+		//subscribe
+		'subscribe\owners\VOwner'=>'classes/subscribe/owners/class.VOwner.php',
+		'subscribe\owners\VCreator'=>'classes/subscribe/owners/class.VCreator.php',
+		'subscribe\owners\VOwnerCollection'=>'classes/subscribe/owners/class.VOwnerCollection.php',
+		'subscribe\owners\VOwnerEvents'=>'classes/subscribe/owners/interface.VOwnerEvents.php',
+		'subscribe\mailers\VMailer'=>'classes/subscribe/mailers/class.VMailer.php',
+		'subscribe\mailers\VPromotions'=>'classes/subscribe/mailers/class.VPromotions.php',
+		'subscribe\mailers\VTrainings'=>'classes/subscribe/mailers/class.VTrainings.php',
+		'subscribe\factories\VFactory'=>'classes/subscribe/factories/interface.VFactory.php',
+		'subscribe\factories\VPromotions'=>'classes/subscribe/factories/class.VPromotions.php',
+		'subscribe\factories\VTrainings'=>'classes/subscribe/factories/class.VTrainings.php',
+		'subscribe\exceptions\VEventEx'=>'classes/subscribe/exceptions/class.VEventEx.php',
+		'subscribe\exceptions\VFactoryEx'=>'classes/subscribe/exceptions/class.VFactoryEx.php',
+		'subscribe\exceptions\VOwnerCreatorEx'=>'classes/subscribe/exceptions/class.VOwnerCreatorEx.php',
+		'subscribe\exceptions\VOwnerEx'=>'classes/subscribe/exceptions/class.VOwnerEx.php',
+		'subscribe\events\VAggregator'=>'classes/subscribe/events/interface.VAggregator.php',
+		'subscribe\events\VPromotions'=>'classes/subscribe/events/class.VPromotions.php',
+		'subscribe\events\VTrainings'=>'classes/subscribe/events/class.VTrainings.php',
+		'subscribe\events\VEvent'=>'classes/subscribe/events/class.VEvent.php',
 	)
 );

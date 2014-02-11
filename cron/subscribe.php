@@ -1,9 +1,8 @@
-#!/usr/bin/php
 <?php
-$sFileAddr=dirname(__FILE__);
-$sFileAddr=str_replace('/cron','',$sFileAddr);
-$_SERVER["DOCUMENT_ROOT"] = $sFileAddr;
+use subscribe\owners\VCreator;
+use subscribe\events as events;
 
+$_SERVER["DOCUMENT_ROOT"] = realpath(__DIR__.'/../');
 $DOCUMENT_ROOT = $_SERVER["DOCUMENT_ROOT"];
 
 define("NO_KEEP_STATISTIC", true);
@@ -16,40 +15,19 @@ require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/estelife/prolog.php");
 CModule::IncludeModule('estelife');
 CModule::IncludeModule('iblock');
 
+$nDate=time()-86400*7;
+$sType=isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : '';
 
-const FIRST=1;
-
-$filter = \filters\VFilterFactory::createClinicFilter();
-
-
-/*$obData = \core\database\VDatabase::driver();
-$arUsers = subscribe\VUser::getAllUsers();*/
-
-foreach($arUsers as $arUser){
-	$sUserEmail = $arUser['email'];
-	$nUserId = $arUser['id'];
-
-	//$arElements = subscribe\TrainigsFactory::getAll($arUser);
-	//$arElements = subscribe\ClinicFactory::getAll($arUser);
-	//$arElements = subscribe\VPostsFactory::getAll($arUser);
-
-	//$arFields = subscribe\VDirector::TrainingsSend($arElements,$sUserEmail);
-	//$arFields = subscribe\VDirector::ClinicSend($arElements,$sUserEmail);
-	//$arFields = subscribe\VDirector::PostsSend($arElements,$sUserEmail);
-
-
-	if(FIRST == 1){
-		if(!empty($arFields)){
-			//CEvent::Send("SEND_SUBSCRIBE_TRAINING", "s1", $arFields,"Y",62);
-			//CEvent::Send("SEND_SUBSCRIBE_CLINICS", "s1", $arFields,"Y",60);
-		}
-	}else{
-		if(!empty($arFields)){
-			//CEvent::Send("SEND_SUBSCRIBE_TRAINING", "s1", $arFields,"Y",63);
-			//CEvent::Send("SEND_SUBSCRIBE_CLINICS", "s1", $arFields,"Y",61);
-		}
-	}
+switch($sType){
+	case 'promotions':
+		$obAggregator=new events\VPromotions();
+		break;
+	case 'training':
+		$obAggregator=new events\VTrainings();
+		break;
 }
 
+VCreator::getByDateSend($nDate)
+	->getEvents($obAggregator);
 
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/epilog_after.php");
