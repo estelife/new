@@ -12,10 +12,9 @@ class VEvent {
 	protected $nType;
 	protected $bTotal;
 	protected $arFilter;
-	protected $obOwner;
 	protected $nElementId;
 
-	public function __construct(VOwner $obOwner,$nType,$nElementId,$sFilter){
+	public function __construct($nType,$nElementId,$sFilter){
 		$nType=intval($nType);
 
 		if($nType<=0)
@@ -24,7 +23,6 @@ class VEvent {
 		$this->nType=$nType;
 		$this->bTotal=(!empty($nElementId));
 		$this->arFilter=(!empty($sFilter)) ? unserialize($sFilter) : array();
-		$this->obOwner=$obOwner;
 		$this->nElementId=intval($nElementId);
 	}
 
@@ -38,10 +36,6 @@ class VEvent {
 
 	public function getFilter(){
 		return $this->arFilter;
-	}
-
-	public function getOwner(){
-		return $this->obOwner;
 	}
 
 	public function getElementId(){

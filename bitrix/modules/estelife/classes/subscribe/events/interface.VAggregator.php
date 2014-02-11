@@ -1,11 +1,13 @@
 <?php
-namespace subscribe\aggregators;
+namespace subscribe\events;
+use subscribe\owners\VOwner;
 
 /**
  * Вероятно я забыл оставить описание файла. Обратитесь на мыло за уточнениями.
  * @author Dmitriy Konev <dnkonev@yandex.ru>
- * @since 10.02.14
+ * @since 11.02.14
  */
 interface VAggregator {
-	public function aggregateItem($obItem);
+	public function checkEvent(VEvent $obEvent);
+	public function aggregateEvent(VOwner $obOwner, VEvent $obEvent);
 }

@@ -70,7 +70,7 @@ $obJoin=$obQuery
 	->join();
 $obJoin->_left()
 	->_from('se','subscribe_user_id')
-	->_to('estelife_subscribe_user','user_id','su');
+	->_to('estelife_subscribe_owners','user_id','su');
 
 $obFilter=$obQuery
 	->builder()
