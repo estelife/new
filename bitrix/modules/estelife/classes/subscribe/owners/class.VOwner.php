@@ -2,7 +2,7 @@
 namespace subscribe\owners;
 use core\database\VDatabase;
 use core\types\VString;
-use subscribe\aggregators\VAggregator;
+use subscribe\events\VAggregator;
 use subscribe\events\VEvent;
 use subscribe\exceptions as errors;
 
@@ -10,10 +10,11 @@ use subscribe\exceptions as errors;
  * @author Maxim Shlemarev <shlemarev@gmail.com>
  * @since 30.01.14
  */
-class VOwner {
+class VOwner implements VOwnerEvents {
 	protected $nOwnerId;
 	protected $sEmail;
 	private $sDateSend;
+	private $bSends;
 
 	/**
 	 * Инициализация полей класса
@@ -24,7 +25,7 @@ class VOwner {
 	 */
 	public function __construct($nOwnerId,$sEmail,$sDateSend){
 		$nOwnerId=intval($nOwnerId);
-		$sEmail=_addslashes($sEmail);
+		$sEmail=addslashes($sEmail);
 
 		if(empty($nOwnerId))
 			throw new errors\VOwnerEx('invalid owner id');
@@ -61,9 +62,33 @@ class VOwner {
 		return $this->sDateSend;
 	}
 
+	public function getDateFromAsString(){
+		return preg_replace(
+			'#([0-9]{2}:?){3}$#',
+			'00:00:00',
+			$this->getDateSend()
+		);
+	}
+
+	public function getDateToAsString(){
+		return preg_replace(
+			'#([0-9]{2}:?){3}$#',
+			'23:59:59',
+			date('Y-m-d H:i:s')
+		);
+	}
+
+	public function getDateFromAsInteger(){
+		return strtotime($this->getDateFromAsString());
+	}
+
+	public function getDateToAsInteger(){
+		return strtotime($this->getDateToAsString());
+	}
+
 	/**
 	 * Получение событий пользователя
-	 * @param \subscribe\aggregators\VAggregator $obAggregator
+	 * @param \subscribe\events\VAggregator $obAggregator
 	 * @return \subscribe\events\VEvent[]
 	 */
 	public function getEvents(VAggregator $obAggregator=null){
@@ -87,8 +112,15 @@ class VOwner {
 					$arEvent['filter']
 				);
 
-				if($obAggregator)
-					$obAggregator->aggregateItem($obEvent);
+				if($obAggregator){
+					if(!$obAggregator->checkEvent($obEvent))
+						continue;
+
+					$obAggregator->aggregateEvent(
+						$this,
+						$obEvent
+					);
+				}
 
 				$arTemp[]=$obEvent;
 			}
@@ -116,10 +148,12 @@ class VOwner {
 		if($nType==0)
 			throw new errors\VOwnerEx('try set event with type');
 
-		$bTotal=($nElementId>0);
+		$bTotal=($nElementId<=0);
 		$sFilter=(!empty($arFilter)) ? serialize($arFilter) : '';
 		$obQuery=VDatabase::driver()
 			->createQuery();
+
+		$nEventId=0;
 
 		if($bTotal){
 			//Проверка на существование общей подписки
@@ -136,11 +170,11 @@ class VOwner {
 				$obQuery->builder()
 					->from('estelife_subscribe_events')
 					->value('type', $nType)
-					->value('owner_id', $this->nOwnerId)
+					->value('owner_id', $this->getOwnerId())
 					->value('filter', $sFilter)
 					->value('element_id', 0)
 					->value('active', 0);
-				$obQuery->insert()
+				$nEventId=$obQuery->insert()
 					->insertId();
 			}
 		}else{
@@ -165,14 +199,27 @@ class VOwner {
 			if(!empty($arEvent)){
 				$obQuery->builder()
 					->value('active', 0);
-				$obQuery->insert()
+				$nEventId=$obQuery->insert()
 					->insertId();
 			}else{
 				$obQuery->builder()
 					->filter()
 					->_eq('id',$arEvent['id']);
 				$obQuery->update();
+				$nEventId=$arEvent['id'];
 			}
+		}
+
+		if(!$this->bSends && $nEventId>0){
+			\CEvent::Send(
+				"SEND_SUBSCRIBE_EMAIL","s1",
+				array(
+					'EMAIL_TO'=>$this->getEmail(),
+					'LINK'=>md5($nEventId.$nType.$this->getOwnerId().$this->getEmail().'itsthesalt'),
+				),
+				"Y", 59
+			);
+			$this->bSends=true;
 		}
 	}
 

@@ -2,9 +2,7 @@
 namespace subscribe\owners;
 use core\database\VDatabase;
 use core\types\VString;
-use subscribe\aggregators\VOwner;
 use subscribe\exceptions as errors;
-use \subscribe\aggregators\VAggregator;
 
 /**
  * Вероятно я забыл оставить описание файла. Обратитесь на мыло за уточнениями.
@@ -24,7 +22,6 @@ class VCreator {
 		$obQuery->builder()
 			->from('estelife_subscribe_owners')
 			->filter()
-			->_eq('active',1)
 			->_eq('email', $sEmail);
 
 		$arUser=$obQuery
@@ -35,8 +32,9 @@ class VCreator {
 			return self::createFromEmail($sEmail);
 		}else{
 			return new VOwner(
-				$arUser['user_id'],
-				$arUser['email']
+				$arUser['id'],
+				$arUser['email'],
+				$arUser['date_send']
 			);
 		}
 	}
@@ -65,8 +63,9 @@ class VCreator {
 			return self::createFromUserId($nUserId);
 		}else{
 			return new VOwner(
-				$arUser['user_id'],
-				$arUser['email']
+				$arUser['id'],
+				$arUser['email'],
+				$arUser['date_send']
 			);
 		}
 	}
@@ -74,11 +73,10 @@ class VCreator {
 	/**
 	 * Получаем список пользователей
 	 * @param $nDateSend
-	 * @param \subscribe\aggregators\VAggregator $obAggregator
 	 * @throws \subscribe\exceptions\VOwnerCreatorEx
-	 * @return array
+	 * @return VOwnerCollection
 	 */
-	public static function getByDateSend($nDateSend, VAggregator $obAggregator=null){
+	public static function getByDateSend($nDateSend){
 		$nDateSend=intval($nDateSend);
 
 		if($nDateSend<=0)
@@ -90,33 +88,19 @@ class VCreator {
 		$obQuery->builder()
 			->from('estelife_subscribe_owners')
 			->filter()
-			->_lte('date_send',date('Y-m-d H:i:s'))
+			->_lte('date_send',date('Y-m-d H:i:s',$nDateSend))
 			->_eq('active',1);
 
 		$arOwners=$obQuery
 			->select()
 			->all();
 
-		if(!empty($arOwners)){
-			$arTemp=array();
+		$obCollection=null;
 
-			foreach($arOwners as $arOwner){
-				$obOwner=new VOwner(
-					$arOwner['id'],
-					$arOwner['email']
-				);
+		if(!empty($arOwners))
+			$obCollection=new VOwnerCollection($arOwners);
 
-				if($obAggregator)
-					$obAggregator->aggregateItem($obOwner);
-
-				$arTemp[]=$obOwner;
-			}
-
-			$arOwners=$arTemp;
-			unset($arTemp);
-		}
-
-		return $arOwners;
+		return $obCollection;
 	}
 
 	/**
@@ -149,7 +133,7 @@ class VCreator {
 			->createQuery();
 
 		$obQuery->builder()
-			->from('estelife_subscribe_user')
+			->from('estelife_subscribe_owners')
 			->value('email', $sEmail)
 			->value('user_id', $nUserId)
 			->value('active', 0)
@@ -158,15 +142,11 @@ class VCreator {
 			->insert()
 			->insertId();
 
-		CEvent::Send(
-			"SEND_SUBSCRIBE_EMAIL","s1",
-			array(
-				'EMAIL_TO'=>$sEmail,
-				'LINK'=>md5($nOwnerId.$sEmail.$nTime),
-			),
-			"Y", 59
+		return new VOwner(
+			$nOwnerId,
+			$sEmail,
+			''
 		);
-		return new VOwner($nOwnerId,$sEmail);
 	}
 
 	/**
@@ -200,7 +180,7 @@ class VCreator {
 			->createQuery();
 
 		$obQuery->builder()
-			->from('estelife_subscribe_user')
+			->from('estelife_subscribe_owners')
 			->value('email', $arUser['EMAIL'])
 			->value('user_id', $nUserId)
 			->value('active', 0)
@@ -209,14 +189,10 @@ class VCreator {
 			->insert()
 			->insertId();
 
-		CEvent::Send(
-			"SEND_SUBSCRIBE_EMAIL","s1",
-			array(
-				'EMAIL_TO'=>$arUser['EMAIL'],
-				'LINK'=>md5($nOwnerId.$arUser['EMAIL'].$nTime),
-			),
-			"Y", 59
+		return new VOwner(
+			$nOwnerId,
+			$arUser['EMAIL'],
+			''
 		);
-		return new VOwner($nOwnerId,$arUser['EMAIL']);
 	}
 }

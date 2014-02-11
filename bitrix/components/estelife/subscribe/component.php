@@ -1,48 +1,45 @@
 <?php
-use core\database\VDatabase;
 use core\exceptions\VException;
+use core\types\VArray;
 use core\types\VString;
+use subscribe\owners\VCreator;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
-$arData=array();
-if (isset($_REQUEST) && !empty($_REQUEST)){
-	CModule::IncludeModule("estelife");
+
+CModule::IncludeModule("estelife");
+$arResult=array();
+
+if ($_SERVER['REQUEST_METHOD']=='POST'){
 	try{
-	//обработка формы
-	if (empty($_POST['email']))
-		throw new VException("Укажите email");
-	else
-		$arData['email']=strip_tags(trim($_POST['email']));
+		$obPost=new VArray($_POST);
+		$obParams=new VArray($obPost->one('params',array()));
 
-	if (!VString::isEmail($arData['email']))
-		throw new VException("Email введен некорректно");
+		if ($obPost->blank('email'))
+			throw new VException("Укажите email");
 
-	if (isset($_POST['always']) && intval($_POST['always'])==1)
-		$arData['filter'] = serialize($_POST['params']['city_id']);
-	else{
-		if (!empty($_POST['params']))
-			$arData['filter'] = serialize($_POST['params']);
-	}
-	$arData['active'] = 1;
+		if (!VString::isEmail($obPost->one('email')))
+			throw new VException("Email введен некорректно");
 
-	if (empty($_POST['type']))
-		throw new VException("Тип не указан");
-	else
-		$arData['type'] = $_POST['type'];
+		if ($obPost->blank('type'))
+			throw new VException("Тип не указан");
 
+		$nElementId=$obParams->blank('always') ? intval($obParams->one('id')) : 0;
+		$sEmail=strip_tags(trim($obPost->one('email')));
+		$nType=intval($obPost->one('type'));
+		$arFilter=array();
 
-			$nSubsInsert = subscribe\VUser::setSubscribe($_POST['type'],$_POST['email'],$_POST['always'],$arData['filter']);
+		if(!$obParams->blank('city_id'))
+			$arFilter['city']=intval($obParams->one('city_id'));
 
+		$obOwner=VCreator::getByEmail($sEmail);
+		$obOwner->setEvent($nType,$nElementId,$arFilter);
 
-	if ($nSubsInsert>0)
 		$arResult['complete']=1;
-	else
-		$arResult['complete']=0;
-
-	$arResult['error']=null;
+		$arResult['error']=null;
 	}catch(VException $e){
-		$arResult['error'] = $e->getMessage();
+		$arResult['error'] = 'При оформлении подписки произошла ошибка';
 		$arResult['complete']=0;
 	}
 }
+
 $this->IncludeComponentTemplate();
