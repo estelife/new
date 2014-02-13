@@ -9,7 +9,6 @@ $obGet=new VArray($_GET);
 
 $session = new \filters\VPreparationsFilter();
 $arFilterParams = $session->getParams();
-$obSession = new \filters\VSession('preparations');
 
 if (isset($arParams['TYPE']) && $arParams['TYPE']>0)
 	$nType=intval($arParams['TYPE']);
@@ -80,11 +79,6 @@ $arResult['countries'] = $obQuery->select()->all();
 );*/
 
 $arResult['filter'] = $arFilterParams;
-
-if(!isset($arResult['filter']['name'])){
-	$obSession->setParam('name','');
-	$arResult['filter']['name'] = '';
-}
 
 $arResult['count'] = \bitrix\ERESULT::$DATA['count'];
 $arResult['empty']=false;

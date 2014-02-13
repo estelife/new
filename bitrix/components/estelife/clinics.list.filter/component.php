@@ -26,8 +26,6 @@ $obFilter=new VArray($_GET);
 
 $session = new \filters\VClinicsFilter();
 $arFilterParams = $session->getParams();
-$obSession = new \filters\VSession('clinics');
-//$arParams =$obSession->getAllParams();
 
 
 //получаем метро по городу
@@ -104,16 +102,6 @@ if($obMethod){
 
 
 $arResult['filter'] = $arFilterParams;
-
-if(empty($arResult['filter']['city']) && $obFilter->blank('city') !='all'){
-	$arResult['filter']['city'] = '358';
-	$obSession->setParam('city','358');
-}
-
-if(!isset($arResult['filter']['name'])){
-	$obSession->setParam('name','');
-	$arResult['filter']['name'] = '';
-}
 
 $arResult['empty']=false;
 foreach ($arResult['filter'] as $val){

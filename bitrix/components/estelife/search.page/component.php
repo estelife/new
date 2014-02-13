@@ -57,7 +57,8 @@ if (!empty($sQuery)){
 	$obSph->SetServer('localhost', 3312);
 	$obSph->SetMaxQueryTime($nTime);
 	$obSph->SetArrayResult(true);
-	$obSph->SetMatchMode(SPH_MATCH_ANY);
+	$obSph->SetMatchMode(SPH_MATCH_ALL);
+	$obSph->SetLimits(0,1000);
 
 	if (!empty($sSort))
 		$obSph->SetSortMode(SPH_SORT_ATTR_DESC, $sSort);
@@ -90,36 +91,43 @@ if (!empty($sQuery)){
 			$nPage=$nCountPages;
 
 		$nStart=$nStep*$nPage-$nStep;
-		$arAnswer=array_slice($arAnswer, $nStart, $nStep);
 
-		if (!empty($arAnswer)){
-			$arTypes=$APPLICATION->IncludeComponent(
-				'estelife:system-settings',
-				'',
-				array('filter'=>'types')
-			);
+		$arTypes=$APPLICATION->IncludeComponent(
+			'estelife:system-settings',
+			'',
+			array('filter'=>'types')
+		);
 
-			foreach ($arAnswer as $val){
-				$val=$val['attrs'];
-				$val['src']='/'.$arTypes[$val['type']].$val['id'].'/';
-				$val['date_edit']=date('d.m.Y', $val['date_edit']);
+		foreach ($arAnswer as $val){
+			$val=$val['attrs'];
+			$val['src']='/'.$arTypes[$val['type']].$val['id'].'/';
+			$val['date_edit']=date('d.m.Y', $val['date_edit']);
 
-				if(!empty($val['tags'])){
-					$val['tags']=explode(',', $val['tags']);
+			if(!empty($val['tags'])){
+				$val['tags']=explode(',', $val['tags']);
 
-					foreach($val['tags'] as &$sTag) {
-						$sTag=trim($sTag);
-						$sTag='<a href="'.$arResult['search']["tags_url"].'&tags='.$sTag.'?>">'.$sTag.'</a>';
-					}
-
-					$val['tags']=VArray::toTruncatedString($val['tags'],5);
+				foreach($val['tags'] as &$sTag) {
+					$sTag=trim($sTag);
+					$sTag='<a href="'.$arResult['search']["tags_url"].'&tags='.$sTag.'?>">'.$sTag.'</a>';
 				}
 
-				$arResult['search']['result'][]=$val;
+				$val['tags']=VArray::toTruncatedString($val['tags'],5);
 			}
+
+			$arTempResult[$val['type']][]=$val;
 		}
+		$arRelevant=array(21, 20, 8, 9, 6, 7, 5, 4, 12, 13, 15, 1, 2, 3, 4, 10, 11);
+
+		$arResult['search']['result']=array();
+		foreach ($arRelevant as $val){
+			if (!empty($arTempResult[$val]))
+				$arResult['search']['result']=array_merge($arResult['search']['result'], $arTempResult[$val]);
+		}
+		$arResult['search']['result']=array_slice($arResult['search']['result'], $nStart, $nStep);
 	}
 }
+
+
 $arNav=array(
 	'count'=>$nCount,
 	'page'=>$nPage,

@@ -26,7 +26,6 @@ $obGet=new VArray($_GET);
 
 $session = new \filters\VAktiiFilter();
 $arFilterParams = $session->getParams();
-$obSession = new \filters\VSession('aktii');
 
 //получаем метро по городу
 if (!$obGet->blank('city') || isset($_COOKIE['estelife_city'])){
@@ -112,16 +111,6 @@ if($obMethod){
 );*/
 
 $arResult['filter'] = $arFilterParams;
-
-if(!isset($arResult['filter']['name'])){
-	$obSession->setParam('name','');
-	$arResult['filter']['name'] = '';
-}
-
-if(empty($arResult['filter']['city']) && $obGet->blank('city') !='all'){
-	$arResult['filter']['city'] = '358';
-	$obSession->setParam('city','358');
-}
 
 $arResult['count'] = \bitrix\ERESULT::$DATA['count'];
 

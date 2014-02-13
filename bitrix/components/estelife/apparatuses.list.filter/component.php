@@ -9,7 +9,6 @@ $obGet=new VArray($_GET);
 
 $session = new \filters\VApparatusesFilter();
 $arFilterParams = $session->getParams();
-$obSession = new \filters\VSession('apparatuses');
 
 //получение стран, которые есть только в аппаратах
 $obCountries = VDatabase::driver();
@@ -44,12 +43,6 @@ $arResult['countries']=$obQuery->select()->all();
 );*/
 
 $arResult['filter'] = $arFilterParams;
-
-if(!isset($arResult['filter']['name'])){
-	$obSession->setParam('name','');
-	$arResult['filter']['name'] = '';
-}
-
 $arResult['count'] = \bitrix\ERESULT::$DATA['count'];
 
 $arResult['empty']=false;
