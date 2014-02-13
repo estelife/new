@@ -105,7 +105,7 @@ require([
 		});
 
 		//Переход на детальную страницу
-		body.on('click', '.items .item, .general-news .col1, .general-news .col2 .img', function(e){
+		body.on('click', '.items .item:not(.article), .items .article .item-in, .general-news .col1, .general-news .col2 .img', function(e){
 			var target=$(e.target),
 				currentTag=target[0].tagName,
 				parentTag=target.parent()[0].tagName,

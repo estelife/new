@@ -18,9 +18,11 @@
 			<div class="items <?php if ($arResult['first']!=$key):?>none<?php endif?>" rel="<?=$arArticle['section']?>">
 				<?php foreach ($arArticle['articles'] as $key=>$val):?>
 					<div class="item article">
-						<img src="<?=$val['IMG']?>" alt="<?=$val['NAME']?>" title="<?=$val['NAME']?>" />
-						<h3><a href="<?=$val['DETAIL_URL']?>"><?=$val['NAME']?></a></h3>
-						<p><?=$val['PREVIEW_TEXT']?></p>
+						<div class="item-in">
+							<img src="<?=$val['IMG']?>" alt="<?=$val['NAME']?>" title="<?=$val['NAME']?>" />
+							<h3><a href="<?=$val['DETAIL_URL']?>"><?=$val['NAME']?></a></h3>
+							<p><?=$val['PREVIEW_TEXT']?></p>
+						</div>
 						<ul class="stat">
 							<li class="date"><?=$val['ACTIVE_FROM']?></li>
 							<li class="likes"><?if ($val['LIKES']['countLike']>0):?><?=$val['LIKES']['countLike']?><?else:?>0<?endif?><i></i></li>

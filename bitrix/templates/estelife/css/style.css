@@ -709,6 +709,12 @@ ul.stat .unlikes.active i {
 	margin-right:20px;
 	cursor:pointer;
 }
+.item.article {
+	cursor:default;
+}
+.item.article .item-in {
+	cursor:pointer;
+}
 .promotions {
 	width:727px;
 	height:380px;
