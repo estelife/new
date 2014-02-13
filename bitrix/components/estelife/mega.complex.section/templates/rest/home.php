@@ -70,7 +70,7 @@ $APPLICATION->IncludeComponent(
 
 bitrix\ERESULT::$KEY='PROMOTIONS';
 $APPLICATION->IncludeComponent(
-	"estelife:promotions.list",
+	"estelife:promotions.clinics.main.list",
 	"home_ajax",
 	array(
 		"COUNT" => 3

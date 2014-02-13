@@ -111,16 +111,16 @@ $obFilter = $obQuery->builder()->filter()
 $session = new \filters\VSponsorsFilter();
 $arFilterParams = $session->getParams();
 
-if (!empty($arResult['city']) && $obGet->one('city')!=='all'){
-	$obFilter->_eq('ecg.city_id', $arResult['city']['ID']);
-}else if(!empty($arFilterParams['city'])&& $arFilterParams['city']!='all'){
+if(!empty($arFilterParams['city'])&& $arFilterParams['city']!='all'){
 	$obFilter->_eq('ecg.city_id', $arFilterParams['city']);
+}else if (!empty($arResult['city']) && $obGet->one('city')!=='all'){
+	$obFilter->_eq('ecg.city_id', $arResult['city']['ID']);
 }
 
-if (!empty($arResult['country']) && $obGet->one('country')!=='all'){
-	$obFilter->_eq('ecg.country_id', $arResult['country']['ID']);
-}else if(!empty($arFilterParams['country']) && $arFilterParams['country'] !='all'){
+if(!empty($arFilterParams['country']) && $arFilterParams['country'] !='all'){
 	$obFilter->_eq('ecg.country_id', $arFilterParams['country']);
+}else if (!empty($arResult['country']) && $obGet->one('country')!=='all'){
+	$obFilter->_eq('ecg.country_id', $arResult['country']['ID']);
 }
 
 if(!$obGet->blank('name'))

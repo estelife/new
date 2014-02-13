@@ -77,23 +77,30 @@ $obFilter = $obQuery->builder()->filter()->_eq('ep.type_id',$nType);
 $session = new \filters\VPreparationsFilter();
 $arFilterParams = $session->getParams();
 
-if(!$obGet->blank('country') && $obGet->one('country')!=='all'){
-	$obFilter->_or()->_eq('ecg.country_id', intval($obGet->one('country')));
-	$obFilter->_or()->_eq('ectg.country_id', intval($obGet->one('country')));
-}else if(!empty($arFilterParams['country']) && $arFilterParams['country'] !='all'){
+if(!empty($arFilterParams['country']) && $arFilterParams['country'] !='all'){
 	$obFilter->_or()->_eq('ecg.country_id', intval($arFilterParams['country']));
 	$obFilter->_or()->_eq('ectg.country_id', intval($arFilterParams['country']));
+}else if(!$obGet->blank('country') && $obGet->one('country')!=='all'){
+	$obFilter->_or()->_eq('ecg.country_id', intval($obGet->one('country')));
+	$obFilter->_or()->_eq('ectg.country_id', intval($obGet->one('country')));
 }
 
 if(!$obGet->blank('name')){
 	$obFilter->_like('ep.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 }
 
-if(!$obGet->blank('type')){
-	$obFilter->_eq('ept.type_id', intval($obGet->one('type')));
-}else if(!empty($arFilterParams['type'])){
-	$obFilter->_eq('ept.type_id', intval($arFilterParams['type']));
+if(!empty($arFilterParams['company_name'])){
+	$obFilter->_like('ec.company_name',$obGet->one('company_name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+}else if(!$obGet->blank('company_name')){
+	$obFilter->_like('ec.company_name',$obGet->one('company_name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 }
+
+if(!empty($arFilterParams['type'])){
+	$obFilter->_eq('ept.type_id', intval($arFilterParams['type']));
+}else if(!$obGet->blank('type')){
+	$obFilter->_eq('ept.type_id', intval($obGet->one('type')));
+}
+
 $obQuery->builder()->group('ep.id');
 $obQuery->builder()->sort('ep.name', 'asc');
 $obResult = $obQuery->select();

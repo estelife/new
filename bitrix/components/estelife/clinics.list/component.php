@@ -19,7 +19,13 @@ if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 else
 	$arPageCount = 10;
 
-if(!$obGet->blank('city')){
+
+$session = new \filters\VClinicsFilter();
+$arFilterParams = $session->getParams();
+
+if(!empty($arFilterParams['city'])){
+	$arResult['city']['ID'] = $arFilterParams['city'];
+}else if(!$obGet->blank('city')){
 	//Получаем имя города по его ID
 	$arSelect = Array("ID", "NAME");
 	$arFilter = Array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "ID" => intval($obGet->one('city')));
@@ -77,51 +83,47 @@ $obFilter = $obQuery->builder()->filter();
 $obFilter->_eq('ec.active', 1);
 $obFilter->_eq('ec.clinic_id', 0);
 
-$session = new \filters\VClinicsFilter();
-$arFilterParams = $session->getParams();
-
 
 if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){
 	$obFilter->_eq('ec.city_id', $arFilterParams['city']);
 }else if(!empty($arResult['city']) && $obGet->one('city')!=='all'){
 	$obFilter->_eq('ec.city_id', $arResult['city']['ID']);
-}else
+}
 
-
-if(!$obGet->blank('name')){
-	$obFilter->_like('ec.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
-}else if(!empty($arFilterParams['name'])){
+if(!empty($arFilterParams['name'])){
 	$obFilter->_like('ec.name',$arFilterParams['name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+}else if(!$obGet->blank('name')){
+	$obFilter->_like('ec.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 }
 
-if(!$obGet->blank('metro')){
-	$obFilter->_eq('ec.metro_id', intval($obGet->one('metro')));
-}else if(!empty($arFilterParams['metro'])){
+if(!empty($arFilterParams['metro'])){
 	$obFilter->_eq('ec.metro_id', intval($arFilterParams['metro']));
+}else if(!$obGet->blank('metro')){
+	$obFilter->_eq('ec.metro_id', intval($obGet->one('metro')));
 }
 
-if(!$obGet->blank('spec')){
-	$obFilter->_eq('ecs.specialization_id', intval($obGet->one('spec')));
-}else if(!empty($arFilterParams['spec'])){
+if(!empty($arFilterParams['spec'])){
 	$obFilter->_eq('ecs.specialization_id', intval($arFilterParams['spec']));
+}else if(!$obGet->blank('spec')){
+	$obFilter->_eq('ecs.specialization_id', intval($obGet->one('spec')));
 }
 
-if(!$obGet->blank('service')){
-	$obFilter->_eq('ecs.service_id', intval($obGet->one('service')));
-}else if(!empty($arFilterParams['service'])){
+if(!empty($arFilterParams['service'])){
 	$obFilter->_eq('ecs.service_id', intval($arFilterParams['service']));
+}else if(!$obGet->blank('service')){
+	$obFilter->_eq('ecs.service_id', intval($obGet->one('service')));
 }
 
-if(!$obGet->blank('concreate')){
-	$obFilter->_eq('ecs.service_concreate_id', intval($obGet->one('concreate')));
-}else if(!empty($arFilterParams['concreate'])){
+if(!empty($arFilterParams['concreate'])){
 	$obFilter->_eq('ecs.service_concreate_id', intval($arFilterParams['concreate']));
+}else if(!$obGet->blank('concreate')){
+	$obFilter->_eq('ecs.service_concreate_id', intval($obGet->one('concreate')));
 }
 
-if(!$obGet->blank('method')){
-	$obFilter->_eq('ecs.method_id', intval($obGet->one('method')));
-}else if(!empty($arFilterParams['method'])){
+if(!empty($arFilterParams['method'])){
 	$obFilter->_eq('ecs.method_id', intval($arFilterParams['method']));
+}else if(!$obGet->blank('method')){
+	$obFilter->_eq('ecs.method_id', intval($obGet->one('method')));
 }
 
 $obQuery->builder()->group('ec.id');

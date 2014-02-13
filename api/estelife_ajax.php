@@ -332,16 +332,17 @@ try{
 			);
 			$arResult=false;
 			break;
-		case 'promotions_list':
-			$_GET=array_merge($_GET,$arData);
-			$APPLICATION->IncludeComponent(
-				"estelife:promotions.list",
-				"ajax",
-				array("PAGE_COUNT"=>20),
-				false
-			);
-			$arResult=false;
-			break;
+// TODO: удалить через 2 недели после 13.02.2014
+//		case 'promotions_list':
+//			$_GET=array_merge($_GET,$arData);
+//			$APPLICATION->IncludeComponent(
+//				"estelife:promotions.list",
+//				"ajax",
+//				array("PAGE_COUNT"=>20),
+//				false
+//			);
+//			$arResult=false;
+//			break;
 		case 'subscribe':
 			$_GET=array_merge($_GET,$arData);
 			$APPLICATION->IncludeComponent(
@@ -369,7 +370,7 @@ try{
 		case 'get_promotions_index':
 			$_GET=array_merge($_GET,$arData);
 			$APPLICATION->IncludeComponent(
-				"estelife:promotions.list",
+				"estelife:promotions.clinics.main.list",
 				"ajax",
 				array(
 					"COUNT" => 3,

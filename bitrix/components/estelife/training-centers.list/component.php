@@ -107,16 +107,16 @@ $obFilter = $obQuery->builder()->filter()
 $session = new \filters\VTrainingsCentersFilter();
 $arFilterParams = $session->getParams();
 
-if ($obGet->one('city') && $obGet->one('city')!=='all'){
-	$obFilter->_or()
-		->_eq('ecg.city_id', $arResult['city']);
-	$obFilter->_or()
-		->_eq('ectd.city_id', $arResult['city']);
-}else if(!empty($arFilterParams['city']) && $arFilterParams['city'] !=='all'){
+if(!empty($arFilterParams['city']) && $arFilterParams['city'] !=='all'){
 	$obFilter->_or()
 		->_eq('ecg.city_id', $arFilterParams['city']);
 	$obFilter->_or()
 		->_eq('ectd.city_id', $arFilterParams['city']);
+}else if ($obGet->one('city') && $obGet->one('city')!=='all'){
+	$obFilter->_or()
+		->_eq('ecg.city_id', $arResult['city']);
+	$obFilter->_or()
+		->_eq('ectd.city_id', $arResult['city']);
 }
 
 if(!$obGet->blank('name'))

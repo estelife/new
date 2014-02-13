@@ -77,16 +77,16 @@ $session = new \filters\VPreparationsMakersFilter();
 $arFilterParams = $session->getParams();
 
 
-if (!$obGet->blank('country') && $obGet->one('country')!=='all'){
-	$obFilter->_eq('ecg.country_id', intval($obGet->one('country')));
-}else if(!empty($arFilterParams['country'])){
+if(!empty($arFilterParams['country'])){
 	$obFilter->_eq('ecg.country_id', intval($arFilterParams['country']));
+}else if (!$obGet->blank('country') && $obGet->one('country')!=='all'){
+	$obFilter->_eq('ecg.country_id', intval($obGet->one('country')));
 }
 
-if (!$obGet->blank('name')){
-	$obFilter->_like('ec.name', $obGet->one('name'),VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
-}else if(!empty($arFilterParams['name'])){
+if(!empty($arFilterParams['name'])){
 	$obFilter->_like('ec.name', $arFilterParams['name'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
+}else if (!$obGet->blank('name')){
+	$obFilter->_like('ec.name', $obGet->one('name'),VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
 }
 
 $obQuery->builder()->group('ec.id');

@@ -31,7 +31,6 @@ class VAktiiFilter implements VCreator{
 		if(!empty($_GET)){
 			$arParams = $obQuery->getAllParams();
 			$this->params = $arParams;
-
 		}else{
 			if(!empty($_SESSION['filter'])){
 				$arParams = $obSession->getAllParams();
@@ -78,16 +77,14 @@ class VAktiiFilter implements VCreator{
 						$obSession->setParam($sVal, $this->params[$sVal]);
 						$arParamsResult[$sVal] = $this->params[$sVal];
 					}else{
+						$obSession->setParam($sVal, '');
 						$arParamsResult[$sVal] = '';
 					}
 
 				}
 
 			}
-
-
 			return $arParamsResult;
-
 
 		}else{
 			return $arEmptyParams;
