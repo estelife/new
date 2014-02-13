@@ -14,7 +14,7 @@ $obGet=new VArray($_GET);
 $arNow=time();
 $nCityId=0;
 
-$session = new \filters\VAktiiFilter();
+$session = new \filters\VPromotionsFilter();
 $arFilterParams = $session->getParams();
 
 if (isset($arParams['COUNT']) && $arParams['COUNT']>0)
