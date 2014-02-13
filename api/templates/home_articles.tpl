@@ -14,7 +14,7 @@
 		</ul>
 	</div>
 	<!--foreach ($ARTICLES.iblock as $key=>$arArticle)!-->
-	<div class="items<!--if ($ARTICLES.first!=$key)!--> none<!--endif!-->" rel="<!--$arArticle.section!-->">
+	<div class="items<!--if ($ARTICLES.first!=$arArticle.section_id)!--> none<!--endif!-->" rel="<!--$arArticle.section!-->">
 		<!--foreach ($arArticle.articles as $key=>$val)!-->
 		<div class="item article">
 			<img src="<!--$val.IMG!-->" alt="<!--$val.NAME!-->" title="<!--$val.NAME!-->" />

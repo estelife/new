@@ -13,19 +13,31 @@ use core\exceptions\VException;
 final class VNotice{
 
 	//Регистрация ошибки
-	public static function registerError($sText){
-		if (empty($sText))
+	public static function registerError($sTitle, $sDescription){
+		if (empty($sTitle))
 			return false;
 
-		$_SESSION['noticeError'][]=$sText;
+		if (empty($sDescription))
+			return false;
+
+		$_SESSION['noticeError'][]=array(
+			'title'=>$sTitle,
+			'description'=>$sDescription
+		);
 	}
 
 	//Регистрация уведомления
-	public static function registerSuccess($sText){
-		if (empty($sText))
+	public static function registerSuccess($sTitle, $sDescription){
+		if (empty($sTitle))
 			return false;
 
-		$_SESSION['noticeSuccess'][]=$sText;
+		if (empty($sDescription))
+			return false;
+
+		$_SESSION['noticeSuccess'][]=array(
+			'title'=>$sTitle,
+			'description'=>$sDescription
+		);
 	}
 
 	//Получение ошибок

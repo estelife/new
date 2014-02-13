@@ -38,6 +38,15 @@ $MESS ['ESTELIFE_SUBSCRIBE_LIST']='Список подписок';
 $MESS ['ESTELIFE_REQUEST']='Заявки';
 $MESS ['ESTELIFE_REQUEST_TITLE']='Управление заявками';
 $MESS ['ESTELIFE_REQUEST_LIST']='Список заявок';
+$MESS ['ESTELIFE_COMMENTS']='Комментарии';
+$MESS ['ESTELIFE_COMMENTS_TITLE']='Управление комментариями';
+$MESS ['ESTELIFE_COMMENTS_LIST']='Список комментариев';
+$MESS ['ESTELIFE_THREADS']='Нити';
+$MESS ['ESTELIFE_THREADS_TITLE']='Управление нитями';
+$MESS ['ESTELIFE_THREADS_LIST']='Список нитей';
+$MESS ['ESTELIFE_IMPLANTS']='Имплантаты';
+$MESS ['ESTELIFE_IMPLANTS_TITLE']='Управление имплантатами';
+$MESS ['ESTELIFE_IMPLANTS_LIST']='Список имплантатов';
 
 
 

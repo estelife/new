@@ -2,7 +2,7 @@
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="/">Главная</a></li>
-		<li><a href="/preparations/">Препараты</a></li>
+		<li><a href="<?=$arResult['type_link']?>"><?=$arResult['type']?></a></li>
 		<li><b><?=$arResult['pill']['name']?></b></li>
 	</ul>
 	<div class="wrap_item">

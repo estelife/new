@@ -6,6 +6,7 @@
 		"",
 		array(
 			"PAGE_COUNT" => 10,
+			"TYPE"=>1
 		),
 		false
 	);
@@ -14,7 +15,9 @@
 	$APPLICATION->IncludeComponent(
 		"estelife:preparations.list.filter",
 		"",
-		array(),
+		array(
+			"TYPE"=>1
+		),
 		false
 	);
 	?>

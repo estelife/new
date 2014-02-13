@@ -10,8 +10,8 @@ echo json_encode(array(
 			'link'=>'/'
 		),
 		array(
-			'name'=>'Препараты',
-			'link'=>'/preparations/'
+			'name'=>$arResult['type'],
+			'link'=>$arResult['type_link']
 		),
 		array(
 			'name'=>$arResult['pill']['name'],

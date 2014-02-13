@@ -3,7 +3,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	die();
 
 global $APPLICATION;
-$sTitle='Препараты';
+$sTitle=$arResult['title'];
 echo json_encode(array(
 	'list'=>array_values($arResult['pills']),
 	'title'=>array(

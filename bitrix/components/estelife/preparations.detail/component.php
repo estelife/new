@@ -14,6 +14,20 @@ $nCompanyId=null;
 $nCompanyId =  (isset($arParams['ID'])) ?
 	intval($arParams['ID']) : 0;
 
+if ($arParams['PREFIX']=='ps'){
+	$nType=1;
+	$arResult['type']="Препараты";
+	$arResult['type_link']="/preparations/";
+}elseif ($arParams['PREFIX']=='th'){
+	$nType=2;
+	$arResult['type']="Нити";
+	$arResult['type_link']="/threads/";
+}else{
+	$nType=3;
+	$arResult['type']="Имплантаты";
+	$arResult['type_link']="/implants/";
+}
+
 //Получаем данные по препарату
 $obQuery = $obPills->createQuery();
 $obQuery->builder()->from('estelife_pills', 'ep');
@@ -128,29 +142,6 @@ if (!empty($arPhotos)){
 	}
 }
 
-//получение типов препаратов
-$obQuery = $obPills->createQuery();
-$obQuery->builder()->from('estelife_pills_type');
-$obQuery->builder()->filter()->_eq('pill_id', $arResult['pill']['id']);
-$arTypes = $obQuery->select()->all();
-if (!empty($arTypes)){
-	foreach ($arTypes as $val){
-		if ($val['type_id'] == 1){
-			$arResult['pill']['types'][] = 'Мезотерапия';
-		}elseif ($val['type_id'] == 2){
-			$arResult['pill']['types'][] = 'Ботулинотерапия';
-		}elseif ($val['type_id'] == 3){
-			$arResult['pill']['types'][] = 'Биоревитализация';
-		}elseif ($val['type_id'] == 4){
-			$arResult['pill']['types'][] = 'Филлеры';
-		}elseif ($val['type_id'] == 5){
-			$arResult['pill']['types'][] = 'Имплантаты';
-		}elseif ($val['type_id'] == 6){
-			$arResult['pill']['types'][] = 'Нити';
-		}
-	}
-}
-
 //Получение других препаратов для данной компании
 $obQuery = $obPills->createQuery();
 $obQuery->builder()->from('estelife_pills');
@@ -163,7 +154,7 @@ $arProductions = $obQuery->select()->all();
 foreach ($arProductions as $val){
 	$val['img'] = CFile::ShowImage($val['logo_id'],150, 140, 'alt='.$val['name']);
 	$val['preview_text'] = \core\types\VString::truncate($val['preview_text'], 100, '...');
-	$val['link'] = '/ps'.$val['id'].'/';
+	$val['link'] = '/'.$arParams['PREFIX'].$val['id'].'/';
 	$arResult['pill']['production'][] = $val;
 }
 

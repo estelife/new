@@ -18,7 +18,12 @@ if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 else
 	$arPageCount = 10;
 
-//Получение списка клиник
+if (isset($arParams['TYPE']) && $arParams['TYPE']>0)
+	$nType=intval($arParams['TYPE']);
+else
+	$nType=1;
+
+//Получение списка препаратов
 $obQuery = $obPills->createQuery();
 $obQuery->builder()->from('estelife_pills', 'ep');
 $obJoin=$obQuery->builder()->join();
@@ -53,6 +58,7 @@ $obQuery->builder()
 	->field('cttype.NAME','type_country_name')
 	->field('ep.id','id')
 	->field('ep.name','name')
+	->field('ep.type_id', 'type_id')
 	->field('ep.translit','translit')
 	->field('ep.logo_id','logo_id')
 	->field('ep.preview_text', 'preview_text')
@@ -65,7 +71,7 @@ $obQuery->builder()
 	->field('ect.translit','type_company_translit')
 	->field('ect.id','type_company_id');
 
-$obFilter = $obQuery->builder()->filter();
+$obFilter = $obQuery->builder()->filter()->_eq('ep.type_id',$nType);
 
 
 if(!$obGet->blank('country') && $obGet->one('country')!=='all'){
@@ -84,9 +90,44 @@ $obQuery->builder()->group('ep.id');
 $obQuery->builder()->sort('ep.name', 'asc');
 $obResult = $obQuery->select();
 
+
+
+
 $obResult = $obResult->bxResult();
 $nCount = $obResult->SelectedRowsCount();
-$arResult['count'] = 'Найден'.VString::spellAmount($nCount, ',о,о'). ' '.$nCount.' препарат'.VString::spellAmount($nCount, ',а,ов');
+
+$arTypes = array(
+	"1"=>"Мезотерапия",
+	"2"=>"Ботулинотерапия",
+	"3"=>"Биоревитализация",
+	"4"=>"Контурная пластика"
+);
+
+if ($nType==1){
+	$arResult['title']='Препараты';
+	$sPrefix='ps';
+	$arResult['count'] = 'Найден'.VString::spellAmount($nCount, ',о,о'). ' '.$nCount.' препарат'.VString::spellAmount($nCount, ',а,ов');
+
+	if (empty($_GET['type'])){
+		$arSEOTitle = 'Список и база данных препаратов в эстетической медицине';
+		$arSEODescription = 'Большая база данных препаратов для процедур и различных видов терапий в эстетической медицине. Мы собрали для Вас всю информацию';
+	}else{
+		$arSEOTitle = $arTypes[$_GET['type']].' - все препараты в нашей базе данных';
+		$arSEODescription = 'Вся информация по препаратам для процедуры '.$arTypes[$_GET['type']].'. Весь список с подробным описанием в нашей базе данных';
+	}
+}else if ($nType==2){
+	$arResult['title']='Нити';
+	$sPrefix='th';
+	$arResult['count'] = 'Найден'.VString::spellAmount($nCount, ',о,о'). ' '.$nCount.' нит'.VString::spellAmount($nCount, 'ь,и,ей');
+	$arSEOTitle = 'Список и база данных нитей в эстетической медицине';
+	$arSEODescription = 'Большая база данных нитей для процедур и различных видов терапий в эстетической медицине. Мы собрали для Вас всю информацию';
+}else{
+	$arResult['title']='Имплантаты';
+	$sPrefix='im';
+	$arResult['count'] = 'Найден'.VString::spellAmount($nCount, ',о,о'). ' '.$nCount.' имплантат'.VString::spellAmount($nCount, ',а,ов');
+	$arSEOTitle = 'Список и база данных имплантатов в эстетической медицине';
+	$arSEODescription = 'Большая база данных имплантатов для процедур и различных видов терапий в эстетической медицине. Мы собрали для Вас всю информацию';
+}
 \bitrix\ERESULT::$DATA['count'] = $arResult['count'];
 
 $obResult->NavStart($arPageCount);
@@ -94,7 +135,7 @@ $arResult['pills'] = array();
 $arDescription=array();
 
 while($arData=$obResult->Fetch()){
-	$arData['link'] = '/ps'.$arData['id'].'/';
+	$arData['link'] = '/'.$sPrefix.$arData['id'].'/';
 	$arData['preview_text'] = \core\types\VString::truncate(htmlspecialchars_decode($arData['preview_text'],ENT_NOQUOTES), 250, '...');
 
 	if(!empty($arData['logo_id'])){
@@ -127,20 +168,7 @@ while($arData=$obResult->Fetch()){
 	$arDescription[]=mb_strtolower($arData['name']);
 }
 
-$arTypes = array(
-	"1"=>"Мезотерапия",
-	"2"=>"Ботулинотерапия",
-	"3"=>"Биоревитализация",
-	"4"=>"Контурная пластика"
-);
 
-if (empty($_GET['type'])){
-	$arSEOTitle = 'Список и база данных препаратов в эстетической медицине';
-	$arSEODescription = 'Большая база данных препаратов для процедур и различных видов терапий в эстетической медицине. Мы собрали для Вас всю информацию';
-}else{
-	$arSEOTitle = $arTypes[$_GET['type']].' - все препараты в нашей базе данных';
-	$arSEODescription = 'Вся информация по препаратам для процедуры '.$arTypes[$_GET['type']].'. Весь список с подробным описанием в нашей базе данных';
-}
 
 if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
 	$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
@@ -150,7 +178,7 @@ if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
 
 $APPLICATION->SetPageProperty("title", $arSEOTitle);
 $APPLICATION->SetPageProperty("description", VString::truncate($arSEODescription,'145', '').$arSEONav);
-$APPLICATION->SetPageProperty("keywords", "Препараты, ".$arSEODescription);
+$APPLICATION->SetPageProperty("keywords", $arResult['title'].", ".$arSEODescription);
 
 $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));

@@ -34,6 +34,7 @@
 		"USE_SHARE" => "N",
 		"SHARE_HIDE" => $arParams["SHARE_HIDE"],
 		"DETAIL_URL"	=>	'/ex#ELEMENT_ID#/',
+		"LINK_CODE" => 'ex',
 		"SECTION_CODE"=>"experts"
 	),
 	$component

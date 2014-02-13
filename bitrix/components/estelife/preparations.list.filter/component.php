@@ -7,6 +7,43 @@ CModule::IncludeModule("iblock");
 CModule::IncludeModule("estelife");
 $obGet=new VArray($_GET);
 
+if (isset($arParams['TYPE']) && $arParams['TYPE']>0)
+	$nType=intval($arParams['TYPE']);
+
+if ($nType==1){
+	$arResult['link']='/preparations/';
+	$arResult['find_title']='Поиск препаратов';
+	$arResult['find']='Найти препарат';
+	$arResult['filter_access']=array(
+		'name'=>true,
+		'company_name'=>true,
+		'type'=>true,
+		'countries'=>true
+	);
+}elseif ($nType==2){
+	$arResult['link']='/threads/';
+	$arResult['find_title']='Поиск нитей';
+	$arResult['find']='Найти нить';
+	$arResult['filter_access']=array(
+		'name'=>true,
+		'company_name'=>true,
+		'type'=>false,
+		'countries'=>true
+	);
+}else{
+	$arResult['link']='/implants/';
+	$arResult['find_title']='Поиск имплантатов';
+	$arResult['find']='Найти имплантат';
+	$arResult['filter_access']=array(
+		'name'=>true,
+		'company_name'=>true,
+		'type'=>false,
+		'countries'=>true
+	);
+}
+
+
+
 //Получение списка стран, которые есть только в препаратах
 $obCountries = VDatabase::driver();
 $obQuery = $obCountries->createQuery();
@@ -25,14 +62,18 @@ $obJoin->_left()
 $obQuery->builder()
 	->field('ct.ID','ID')
 	->field('ct.NAME','NAME');
-$obQuery->builder()->group('ct.ID');
-$obQuery->builder()->sort('ct.NAME', 'asc');
+$obQuery->builder()
+	->sort('ct.NAME', 'asc')
+	->group('ct.ID')
+	->filter()
+		->_eq('type_id',$nType);
 $arResult['countries'] = $obQuery->select()->all();
 
 $arResult['filter']=array(
 	'country'=>intval($obGet->one('country',0)),
 	'type'=>intval($obGet->one('type',0)),
 	'name'=>strip_tags(trim($obGet->one('name',''))),
+	'company_name'=>strip_tags(trim($obGet->one('company_name',''))),
 );
 
 $arResult['count'] = \bitrix\ERESULT::$DATA['count'];

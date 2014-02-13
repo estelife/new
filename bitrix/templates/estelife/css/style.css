@@ -2751,6 +2751,9 @@ form.quality label,
 	font-weight: normal;
 	margin-bottom:9px;
 }
+.comments form label s{
+	text-decoration: none;
+}
 form.quality input,
 .auth input.text {
 	padding-top:9px;
@@ -2790,6 +2793,11 @@ form.quality .submit,
 	float:left;
 	width:100%;
 	margin-top:30px;
+}
+.comments .success {
+	float:left;
+	color:#009b3a;;
+	margin-top:20px;
 }
 .comments .form-in,
 .comments h2{
@@ -2852,6 +2860,10 @@ form.quality .submit,
 .comments form label {
 	margin-bottom:0
 }
+.comments form label span{
+	float:right;
+	font-size:11px;
+}
 .comments form .col1 {
 	float:left;
 	width:209px;
@@ -2884,7 +2896,7 @@ form.quality .submit,
 .field {
 	position: relative;
 }
-.field.error input {
+.field.error input, .field.error textarea {
 	background: #ff5858;
 	color:#fff;
 }
@@ -2896,6 +2908,9 @@ form.quality .submit,
 	bottom: -24px;
 	color: #dd3a3a;
 	left: 0;
+}
+.total_error.error {
+	color: #dd3a3a;
 }
 .help {
 	font-size: 12px;
