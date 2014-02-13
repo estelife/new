@@ -24,7 +24,7 @@ $arResult['specializations'] = $obQuery->select()->all();
 
 $obGet=new VArray($_GET);
 
-$session = new \filters\VAktiiFilter();
+$session = new \filters\VPromotionsFilter();
 $arFilterParams = $session->getParams();
 $obSession = new \filters\VSession('aktii');
 

@@ -7,7 +7,7 @@ namespace filters;
  * @since 30.01.14
  */
 
-class VAktiiFilter implements VCreator{
+class VPromotionsFilter implements VCreator{
 
 
 

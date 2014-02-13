@@ -84,7 +84,7 @@ CModule::AddAutoloadClasses(
 		'filters\VQuery'=>'classes/filters/class.VQuery.php',
 		'filters\VCreator'=>'classes/filters/class.VCreator.php',
 		'filters\VClinicsFilter'=>'classes/filters/class.VClinicsFilter.php',
-		'filters\VAktiiFilter'=>'classes/filters/class.VAktiiFilter.php',
+		'filters\VPromotionsFilter'=>'classes/filters/class.VPromotionsFilter.php',
 		'filters\VSponsorsFilter'=>'classes/filters/class.VSponsorsFilter.php',
 		'filters\VEventsFilter'=>'classes/filters/class.VEventsFilter.php',
 		'filters\VTrainingsCentersFilter'=>'classes/filters/class.VTrainingsCentersFilter.php',

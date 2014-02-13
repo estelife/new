@@ -1,7 +1,11 @@
 <!--if ($PROMOTIONS.list)!-->
 <div class="promotions announces">
 	<div class="title">
-		<h2>Акции клиник</h2>
+		<!--if($PROMOTIONS.list.active==1)!-->
+			<h2><!--$PROMOTIONS.city_t_name!--></h2>
+		<!--else!-->
+			<h2>Акции клиник</h2>
+		<!--endif!-->
 		<a href="<!--$PROMOTIONS.link!-->" class="more_promotions">Больше акций</a>
 		<a href="#" class="arrow black bottom change_city change_promotions_city"><span><!--$PROMOTIONS.city_name!--></span><i></i></a>
 		<div class="cities none promotions_city"></div>
