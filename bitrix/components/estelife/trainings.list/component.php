@@ -157,7 +157,7 @@ while($arData=$obResult->Fetch()){
 	$arData['company_link'] = '/tc'.$arData['company_id'].'/';
 
 	if(!empty($arData['logo_id'])){
-		$file = CFile::ShowImage($arData["logo_id"], 190, 100, 'alt="'.$arData['name'].'"');
+		$file = CFile::ShowImage($arData["logo_id"], 200, 90, 'alt="'.$arData['name'].'"');
 		$arData['logo']=$file;
 	}else{
 		$arData['logo']="<img src='/img/icon/unlogo.png' />";

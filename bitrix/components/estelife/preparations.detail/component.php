@@ -110,7 +110,7 @@ unset($arResult['pill']['type_company_id']);
 
 $arResult['pill']['company_link'] = '/pm'.$arResult['pill']['company_id'].'/';
 
-$arResult['pill']['img'] = CFile::ShowImage($arResult['pill']['logo_id'],200, 85, 'alt='.$arResult['pill']['name']);
+$arResult['pill']['img'] = CFile::ShowImage($arResult['pill']['logo_id'],180, 180, 'alt='.$arResult['pill']['name']);
 
 $arResult['pill']['detail_text'] = nl2br(htmlspecialchars_decode($arResult['pill']['detail_text'],ENT_NOQUOTES));
 $arResult['pill']['registration'] = nl2br(htmlspecialchars_decode($arResult['pill']['registration'],ENT_NOQUOTES));
