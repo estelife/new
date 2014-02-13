@@ -32,10 +32,10 @@ $MESS ['ESTELIFE_PILLS_TITLE']='Управление препаратами';
 $MESS ['ESTELIFE_APPARATUS_TITLE']='Управление аппаратами';
 $MESS ['ESTELIFE_METHODS']='Методики';
 $MESS ['ESTELIFE_METHODS_TITLE']='Управление методиками';
-$MESS ['ESTELIFE_SUBSCRIBE']='Подписка';
+
+$MESS ['ESTELIFE_SPECIAL']='Специальные разделы';
 $MESS ['ESTELIFE_SUBSCRIBE_TITLE']='Управление подпиской';
 $MESS ['ESTELIFE_SUBSCRIBE_LIST']='Список подписок';
-$MESS ['ESTELIFE_REQUEST']='Заявки';
 $MESS ['ESTELIFE_REQUEST_TITLE']='Управление заявками';
 $MESS ['ESTELIFE_REQUEST_LIST']='Список заявок';
 $MESS ['ESTELIFE_COMMENTS']='Комментарии';
