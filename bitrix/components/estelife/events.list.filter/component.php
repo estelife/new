@@ -41,7 +41,6 @@ $obGet=new VArray($_GET);
 
 $session = new \filters\VEventsFilter();
 $arFilterParams = $session->getParams();
-$obSession = new \filters\VSession('events');
 
 
 if(!$obGet->blank('country')){
@@ -83,18 +82,6 @@ foreach($arFilterParams['type'] as $nType)
 );*/
 
 $arResult['filter'] = $arFilterParams;
-
-if(!isset($arResult['filter']['name'])){
-	$obSession->setParam('name','');
-	$arResult['filter']['name'] = '';
-}
-
-if(empty($arResult['date_from']) && empty($arFilterParams['date_from'])){
-	$obSession->setParam('date_from',date('d.m.y',time()));
-	$arResult['filter']['date_from'] =date('d.m.y',time());
-	$obSession->setParam('date_to','');
-	$arResult['filter']['date_to'] = '';
-}
 
 $arResult['count']=\bitrix\ERESULT::$DATA['count'];
 $arResult['empty']=false;

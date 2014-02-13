@@ -2,7 +2,7 @@
 <?php if(!empty($arResult['clinics'])):?>
 	<div class="promotions announces">
 		<div class="title">
-			<h2>Клиники города</h2>
+			<h2><?=$arResult['city']['T_NAME'];?></h2>
 			<a href="<?=$arResult['clinics_link']?>" class="more_promotions">Больше клиник</a>
 			<a href="#" class="arrow black bottom change_city change_promotions_city"><span><?=$arResult['city']['NAME']?></span><i></i></a>
 			<div class="cities none promotions_city"></div>

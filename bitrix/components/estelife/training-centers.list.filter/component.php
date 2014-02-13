@@ -46,14 +46,6 @@ $arFilterParams = $session->getParams();
 
 $arResult['filter'] = $arFilterParams;
 
-$obSession = new \filters\VSession('trainigs_center');
-
-if(!isset($arResult['filter']['name'])){
-	$obSession->setParam('name','');
-	$arResult['filter']['name'] = '';
-}
-
-
 $arResult['count'] = \bitrix\ERESULT::$DATA['count'];
 
 $arResult['empty']=false;

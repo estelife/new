@@ -245,7 +245,7 @@ if($nCountElement < 3){
 	}
 
 }
-
+$arResult['city']['T_NAME'] = ($arResult['active']==0 ? 'Акции ' : 'Клиники ').(($arResult['city']['ID']==359) ? 'Москвы' : (($arResult['city']['ID']==358) ? 'Санкт-Петербурга' : ''));
 
 $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));

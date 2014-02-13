@@ -9,8 +9,6 @@ $obGet = new VArray($_GET);
 
 $session = new \filters\VPreparationsMakersFilter();
 $arFilterParams = $session->getParams();
-$obSession = new \filters\VSession('preparations_makers');
-
 
 //Получение списка стран
 $obCities = VDatabase::driver();
@@ -41,11 +39,6 @@ $arResult['countries'] = $obQuery->select()->all();
 
 
 $arResult['filter'] = $arFilterParams;
-
-if(!isset($arResult['filter']['name'])){
-	$obSession->setParam('name','');
-	$arResult['filter']['name'] = '';
-}
 
 $arResult['count'] = \bitrix\ERESULT::$DATA['count'];
 

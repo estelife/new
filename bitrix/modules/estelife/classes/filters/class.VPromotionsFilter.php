@@ -7,8 +7,12 @@ namespace filters;
  * @since 30.01.14
  */
 
-class VPromotionsFilter implements VDecorator{
+class VPromotionsFilter implements VCreator{
+
+
+
 	public function __construct(){
+
 		$this->fields = array(
 			'name'=>'name',
 			'city'=>'city',

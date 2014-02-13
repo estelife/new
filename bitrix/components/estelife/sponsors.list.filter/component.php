@@ -44,7 +44,6 @@ $obGet=new VArray($_GET);
 
 $session = new \filters\VSponsorsFilter();
 $arFilterParams = $session->getParams();
-$obSession = new \filters\VSession('sponsors');
 
 
 if (!$obGet->blank('country')){
@@ -68,13 +67,6 @@ while($res = $obCity->Fetch()) {
 );*/
 
 $arResult['filter'] = $arFilterParams;
-
-
-if(!isset($arResult['filter']['name'])){
-	$obSession->setParam('name','');
-	$arResult['filter']['name'] = '';
-}
-
 
 $arResult['count'] = \bitrix\ERESULT::$DATA['count'];
 
