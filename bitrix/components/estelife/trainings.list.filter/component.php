@@ -40,7 +40,6 @@ $obGet=new VArray($_GET);
 
 $session = new \filters\VTrainingsFilter();
 $arFilterParams = $session->getParams();
-$obSession = new \filters\VSession('trainigs');
 
 /*$arResult['filter']=array(
 	'city'=>intval($obGet->one('city', $_COOKIE['estelife_city'])),
@@ -50,16 +49,6 @@ $obSession = new \filters\VSession('trainigs');
 );*/
 
 $arResult['filter'] = $arFilterParams;
-
-if(!isset($arResult['filter']['date_from'])){
-	$obSession->setParam('date_from','');
-	$arResult['filter']['date_from'] = '';
-}
-
-if(!isset($arResult['filter']['date_to'])){
-	$obSession->setParam('date_to','');
-	$arResult['filter']['date_to'] = '';
-}
 
 $arResult['count'] = \bitrix\ERESULT::$DATA['count'];
 

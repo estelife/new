@@ -103,7 +103,7 @@ unset($arResult['company']['type_city_name']);
 
 $arResult['company']['address'] = 'г. '.$arResult['company']['city_name'].', '.$arResult['company']['address'];
 
-$arResult['company']['img'] = CFile::ShowImage($arResult['company']['logo_id'],200, 85, 'alt='.$arResult['company']['name']);
+$arResult['company']['img'] = CFile::ShowImage($arResult['company']['logo_id'],200, 90, 'alt='.$arResult['company']['name']);
 
 if (!empty($arResult['company']['type_detail_text'])){
 	$arResult['company']['detail_text'] = $arResult['company']['type_detail_text'];

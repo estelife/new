@@ -8,9 +8,7 @@ namespace filters;
  */
 
 class VFilterFactory{
-
 	public static function createClinicFilter(){
-
+		
 	}
-
 }

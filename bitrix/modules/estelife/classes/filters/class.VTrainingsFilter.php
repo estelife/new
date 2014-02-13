@@ -7,7 +7,7 @@ namespace filters;
  * @since 30.01.14
  */
 
-class VTrainingsFilter implements VCreator{
+class VTrainingsFilter implements VDecorator{
 
 
 	public function __construct(){

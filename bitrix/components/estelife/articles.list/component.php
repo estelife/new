@@ -92,6 +92,7 @@ try{
 
 			$nSectionId=$val['SECTION_ID'];
 			$arResult['iblock'][$nSectionId]['section'] = $val['SECTION_URL'];
+			$arResult['iblock'][$nSectionId]['section_id'] = $val['SECTION_ID'];
 
 			unset(
 				$val['CODE'],

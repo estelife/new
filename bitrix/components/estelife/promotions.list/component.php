@@ -177,18 +177,23 @@ if(!empty($arCount)){
 	$sTemplate=$this->getTemplateName();
 	$obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
 	$arResult['nav']=$obNav->getNav();
-//	$arResult['nav']=$obResult->GetNavPrint('', true,'akzii','/bitrix/templates/estelife/system/pagenav.php');
-
-	$sPage=(isset($_GET['PAGEN_1']) && $_GET['PAGEN_1'] > 1) ?
-		' '.\core\types\VString::spellAmount($_GET['PAGEN_1'],'страница,страницы,страниц') : '';
 
 	if (empty($arResult['city']['R_NAME']))
 		$arResult['city']['R_NAME'] = '';
 	else
 		$arResult['city']['R_NAME'] = ' в '.$arResult['city']['R_NAME'];
 
-	$APPLICATION->SetPageProperty("title", 'Клиники'.$arResult['city']['R_NAME'].' - акции, скидки, купоны'.$sPage);
-	$APPLICATION->SetPageProperty("description", 'Актуальные акции и скидки клиник'.$arResult['city']['R_NAME'].'.');
+	$sTitle='Клиники'.$arResult['city']['R_NAME'].' - акции, скидки, купоны.';
+	$sDescription='Актуальные акции и скидки клиник'.$arResult['city']['R_NAME'].'.';
+
+	if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
+		$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
+		$sTitle.=' - '.$_GET['PAGEN_1'].' страница';
+		$sDescription.=' - '.$_GET['PAGEN_1'].' страница';
+	}
+
+	$APPLICATION->SetPageProperty("title", $sTitle);
+	$APPLICATION->SetPageProperty("description", $sDescription);
 }
 
 $this->IncludeComponentTemplate();

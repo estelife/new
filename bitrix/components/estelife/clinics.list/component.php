@@ -194,30 +194,31 @@ $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
 $arResult['nav']=$obNav->getNav();//$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav'.$sTemplate.'.php');
 
-$arTitle = "Клиники косметологии и пластической хирургии";
+$sTitle = "Клиники косметологии и пластической хирургии";
 if ($arResult['city']['ID']==359){
-	$arCity = 'Москва';
-	$arCityR = 'в Москве';
+	$sCity = 'Москва';
+	$sCityR = 'в Москве';
 }elseif($arResult['city']['ID']==358){
-	$arCity = 'Санкт-Петербург';
-	$arCityR = 'в Санкт-Петербурге';
+	$sCity = 'Санкт-Петербург';
+	$sCityR = 'в Санкт-Петербурге';
 }
-if (!empty($arCity)){
-	$arTitle .= ' ('.$arCity.')';
+if (!empty($sCity)){
+	$sTitle .= ' ('.$sCity.')';
 }
 
-if (!empty($arCityR)){
-	$arDescription = 'Список всех клиник '.$arCityR.' по косметологии и пластической хирургии. Читайте здесь.';
+if (!empty($sCityR)){
+	$sDescription = 'Список всех клиник '.$sCityR.' по косметологии и пластической хирургии. Читайте здесь.';
 }else{
-	$arDescription = 'Список всех клиник по косметологии и пластической хирургии. Читайте здесь.';
+	$sDescription = 'Список всех клиник по косметологии и пластической хирургии. Читайте здесь.';
 }
 
-if (isset($_GET['PAGEN_1']) && $_GET['PAGEN_1']>0){
-	$arPage = intval(strip_tags($_GET['PAGEN_1']));
-	$arTitle .= ' - ('.$arPage.' страница)';
+if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
+	$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
+	$sTitle.=' - '.$_GET['PAGEN_1'].' страница';
+	$sDescription.=' - '.$_GET['PAGEN_1'].' страница';
 }
 
-$APPLICATION->SetPageProperty("title", $arTitle);
-$APPLICATION->SetPageProperty("description", $arDescription);
+$APPLICATION->SetPageProperty("title", $sTitle);
+$APPLICATION->SetPageProperty("description", $sDescription);
 
 $this->IncludeComponentTemplate();

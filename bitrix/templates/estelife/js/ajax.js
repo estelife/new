@@ -53,6 +53,8 @@ require([
 	$(function(){
 		var body=$('body');
 
+		EL.notice();
+
 		Backbone.history.start({
 			'pushState':true,
 			'hashChange': true,
@@ -105,7 +107,7 @@ require([
 		});
 
 		//Переход на детальную страницу
-		body.on('click', '.items .item, .general-news .col1, .general-news .col2 .img', function(e){
+		body.on('click', '.items .item:not(.article), .items .article .item-in, .general-news .col1, .general-news .col2 .img', function(e){
 			var target=$(e.target),
 				currentTag=target[0].tagName,
 				parentTag=target.parent()[0].tagName,
@@ -707,15 +709,20 @@ require([
 			e.preventDefault();
 		});
 
-		body.on('focus','.quality-in input', function(){
+		body.on('focus','.quality-in input, .quality-in textarea', function(){
 			var form=$(this).parent();
 			if (form.hasClass('error'))
 				form.removeClass('error').find('i:last').remove();
+
+			var total_form=$(this).parents('form'),
+				total_error=total_form.find('.total_error');
+			if (total_error.hasClass('error'))
+				total_error.removeClass('error');
+
+			$('.success').remove();
 		});
 
 		body.on('focus','input.preload', function(){
-
-
 			$(this).autocomplete({
 				minLength:3,
 				source:function(request, response){
@@ -815,7 +822,76 @@ require([
 						alert('Ошибка сохранения запроса')
 				},'json');
 			}
-		})
+		});
+
+		//комментарии
+		body.on('submit','form[name=comments]', function(){
+			var form=$(this);
+			require(['mvc/Models','mvc/Views'],function(Models,Views){
+				var data={};
+
+				form.find('input,textarea').each(function(){
+					var input=$(this);
+					data[input.attr('name')]=input.val();
+				});
+
+				$.post('/rest/comments/',data,function(r){
+					new Models.Static(r,{
+						view:new Views.Comments({
+							template:'comments_list'
+						})
+					});
+				},'json');
+			});
+
+			return false;
+		});
+
+		//Показать все комментарии
+		body.on('click', '.comments .more a span', function(){
+			var el=$(this);
+			require(['mvc/Models', 'mvc/Views'], function(Models,Views){
+				var data={},
+					form=el.parents('div.comments').find('form[name=comments]');
+
+				form.find('input').each(function(){
+					var input=$(this);
+					if (input.attr('name')=='id' || input.attr('name')=='type')
+						data[input.attr('name')]=input.val();
+				});
+
+				if (el.hasClass('hide')){
+					data['count']=5;
+				}else{
+					data['count']=0;
+				}
+
+				$.post('/rest/comments/',data,function(r){
+					new Models.Static(r,{
+						view:new Views.Comments({
+							template:'comments_list'
+						})
+					});
+				},'json');
+			});
+
+			return false;
+		});
+
+		//Количество символов в текстареа
+		body.on('keyup', 'form textarea', function(){
+			var prnt=$(this).parent().parent(),
+				item=prnt.find('label span s'),
+				maxchars=1000,
+				number=$(this).val().length;
+			if(number<=maxchars){
+				var count=maxchars-number;
+				item.html(count+' символ'+EL.spellAmount(count, ',а,ов'));
+			}
+			if(number==maxchars) {
+				$(this).attr({maxlength: maxchars});
+			}
+		});
 	});
 
 	$(function interfaces(){

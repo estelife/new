@@ -131,6 +131,33 @@ define(['tpl/Template'],function(Template){
 	});
 
 	/**
+	 * Представление для списка комментариев
+	 * @type {*}
+	 */
+	Views.Comments=Views.Default.extend({
+		el:'div.comments-ajax',
+		render:function(){
+			if(_.isObject(this.data) && 'comments' in this.data){
+				var ob=this;
+
+				if(this.$el.length==0){
+					this.$el=$('<div class="comments-ajax"></div>');
+					this.el=this.$el[0];
+				}
+
+				this.$el.empty();
+
+				this.template.ready(function(){
+					ob.template.set('comments', ob.data.comments);
+					ob.$el.append(ob.template.render());
+				});
+			}
+
+			return this;
+		}
+	});
+
+	/**
 	 * Представление для детальной страницы
 	 * @type {*}
 	 */
@@ -150,6 +177,14 @@ define(['tpl/Template'],function(Template){
 
 					ob.$el.append(ob.template.render());
 					EL.goto($('.main_menu'),false,true);
+
+					var commentsView=new Views.Comments({
+						template:'comments_list'
+					});
+					commentsView.setData(ob.data);
+					commentsView.render();
+					ob.$el.find('.comments-ajax')
+						.replaceWith(commentsView.$el);
 				});
 			}
 

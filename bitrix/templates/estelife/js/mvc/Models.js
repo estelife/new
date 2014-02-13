@@ -139,5 +139,35 @@ define(['mvc/Views'],function(Views){
 	 */
 	Models.Inner=Models.Complex.extend({});
 
+	/**
+	 * Модель для комментариев
+	 * @type {*}
+	 */
+	Models.Static=Backbone.Model.extend({
+		view:null,
+
+		initialize:function(data,params){
+			var view=params.view||null;
+
+			if(!(view instanceof Views.Comments))
+				throw 'invalid view';
+
+			this.view=view;
+			this.bind(
+				'change',
+				this.updateStateEvent,
+				this
+			);
+
+			if(_.isObject(data))
+				this.updateStateEvent();
+		},
+
+		updateStateEvent:function(){
+			this.view.setData(this.toJSON());
+			this.view.render();
+		}
+	});
+
 	return Models;
 });

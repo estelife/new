@@ -21,7 +21,10 @@ $arResult=array(
 		"ex" => "experts",
 		"au" => "auth",
 		"rg" => "register",
-		"fr" => "forgotpswd"
+		"fr" => "forgotpswd",
+		"cm" => "comments",
+		"th" => "threads",
+		"im" => "implants",
 	),
 	'types' => array(
 		1=>"ns",
@@ -39,6 +42,12 @@ $arResult=array(
 		13=>"sp",
 		14=>"sh",
 		15=>"ex",
+		16=>"au",
+		17=>"rg",
+		18=>"fr",
+		19=>"cm",
+		20=>"th",
+		21=>"im"
 	),
 	'current_city' => \geo\VGeo::getInstance()->getGeo()
 );

@@ -1,42 +1,53 @@
-<form name="preparations" class="filter" method="get" action="/preparations/" >
+<form name="preparations" class="filter" method="get" action="<!--$link!-->" >
 	<div class="title">
-		<h4>Поиск препарата</h4>
+		<h4><!--$find_title!--></h4>
 		<!--if($count)!-->
 			<span class="count-result"><!--$count!--></span>
 		<!--endif!-->
 	</div>
-	<div class="field">
-		<label for="name">Наименование</label>
-		<input name="name" type="text" value="<!--$filter.name!-->" class="text"/>
-		<span class="block"></span>
-	</div>
-	<div class="field">
-		<label for="type">Назначение</label>
-		<select name="type" >
-			<option value="">--</option>
-			<option value="1" <!--if($filter.type===1)!--> selected="true"<!--endif!-->>Мезотерапия</option>
-			<option value="3" <!--if($filter.type===3)!--> selected="true"<!--endif!-->>Биоревитализация</option>
-			<option value="2" <!--if($filter.type=== 2)!--> selected="true"<!--endif!-->>Ботулинотерапия</option>
-			<option value="4" <!--if($filter.type===4)!--> selected="true"<!--endif!-->>Контурная пластика</option>
-		</select>
-
-		<span class="block"></span>
-	</div>
-	<div class="field country">
-		<label for="country">Страна</label>
-		<select name="country" >
-			<option value="all">--</option>
-			<!--if($countries)!-->
-				<!--foreach($countries as $key=>$val)!-->
-					<option value="<!--$val.ID!-->" <!--if($filter.country===$val.ID)!--> selected="true"<!--endif!-->><!--$val.NAME!--></option>
-				<!--endforeach!-->
-			<!--endif!-->
-		</select>
-		<span class="block"></span>
-	</div>
-
-	<input type="submit" value="Найти препарат" class="submit">
+	<!--if($filter_access.name)!-->
+		<div class="field">
+			<label for="name">Наименование</label>
+			<input name="name" type="text" value="<!--$filter.name!-->" class="text"/>
+			<span class="block"></span>
+		</div>
+	<!--endif!-->
+	<!--if($filter_access.company_name)!-->
+		<div class="field">
+			<label for="company_name">Производитель</label>
+			<input name="company_name" type="text" value="<!--$filter.company_name!-->" class="text"/>
+			<span class="block"></span>
+		</div>
+	<!--endif!-->
+	<!--if($filter_access.type)!-->
+		<div class="field">
+			<label for="type">Назначение</label>
+			<select name="type" >
+				<option value="">--</option>
+				<option value="1" <!--if($filter.type===1)!--> selected="true"<!--endif!-->>Мезотерапия</option>
+				<option value="3" <!--if($filter.type===3)!--> selected="true"<!--endif!-->>Биоревитализация</option>
+				<option value="2" <!--if($filter.type=== 2)!--> selected="true"<!--endif!-->>Ботулинотерапия</option>
+				<option value="4" <!--if($filter.type===4)!--> selected="true"<!--endif!-->>Контурная пластика</option>
+			</select>
+			<span class="block"></span>
+		</div>
+	<!--endif!-->
+	<!--if($filter_access.countries)!-->
+		<div class="field country">
+			<label for="country">Страна</label>
+			<select name="country" >
+				<option value="all">--</option>
+				<!--if($countries)!-->
+					<!--foreach($countries as $key=>$val)!-->
+						<option value="<!--$val.ID!-->" <!--if($filter.country===$val.ID)!--> selected="true"<!--endif!-->><!--$val.NAME!--></option>
+					<!--endforeach!-->
+				<!--endif!-->
+			</select>
+			<span class="block"></span>
+		</div>
+	<!--endif!-->
+	<input type="submit" value="<!--$find!-->" class="submit">
 	<!--if($empty)!-->
-		<a href="/preparations/?country=all" class="clear">Сбросить фильтр</a>
+		<a href="<!--$link!-->?country=all" class="clear">Сбросить фильтр</a>
 	<!--endif!-->
 </form>

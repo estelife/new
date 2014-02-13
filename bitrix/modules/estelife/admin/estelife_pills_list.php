@@ -1,6 +1,4 @@
 <?php
-
-
 use core\database\mysql\VFilter;
 use core\database\VDatabase;
 
@@ -82,6 +80,7 @@ $obQuery->builder()
 	->field('ep.id','id')
 	->field('ep.name','name');
 $obFilter=$obQuery->builder()->filter();
+$obFilter->_eq('type_id',1);
 
 if(!empty($arFilter['id']))
 	$obFilter->_like('ep.id',$arFilter['id'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);

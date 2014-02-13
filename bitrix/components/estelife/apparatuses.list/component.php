@@ -66,7 +66,7 @@ $obQuery->builder()
 	->field('ect.id','type_company_id');
 $obFilter = $obQuery->builder()->filter();
 
-$session = new \filters\VApparatusesFilter();
+$session = new \filters\VApparatuses();
 $arFilterParams = $session->getParams();
 
 
@@ -106,7 +106,7 @@ while($arData=$obResult->Fetch()){
 	$arData['preview_text'] = \core\types\VString::truncate(nl2br(htmlspecialchars_decode($arData['preview_text'],ENT_NOQUOTES)), 250, '...');
 
 	if(!empty($arData['logo_id'])){
-		$file=CFile::ShowImage($arData["logo_id"], 110, 90,'alt="'.$arData['name'].'"');
+		$file=CFile::ShowImage($arData["logo_id"], 180, 180,'alt="'.$arData['name'].'"');
 		$arData['logo']=$file;
 	}
 

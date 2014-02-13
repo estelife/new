@@ -10,10 +10,12 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 		<div class="items ">
 			<? foreach($arResult["ITEMS"] as $arItem):?>
 				<div class="item article">
-					<?$img = CFile::GetFileArray($arItem['PROPERTIES']['LISTIMG']['VALUE']);?>
-					<img src="<?=$img['SRC']?>" alt="<?=$arItem['NAME']?>" title="<?=$arItem['NAME']?>" width="229" height="160" />
-					<h3><a href="<?=$arItem["DETAIL_PAGE_URL"]?>"><?=$arItem['NAME']?></a></h3>
-					<p><?=\core\types\VString::truncate($arItem['PREVIEW_TEXT'], 70, '...')?><span></span></p>
+					<div class="item-in">
+						<?$img = CFile::GetFileArray($arItem['PROPERTIES']['LISTIMG']['VALUE']);?>
+						<img src="<?=$img['SRC']?>" alt="<?=$arItem['NAME']?>" title="<?=$arItem['NAME']?>" width="229" height="160" />
+						<h3><a href="<?=$arItem["DETAIL_PAGE_URL"]?>"><?=$arItem['NAME']?></a></h3>
+						<p><?=\core\types\VString::truncate($arItem['PREVIEW_TEXT'], 70, '...')?><span></span></p>
+					</div>
 					<ul class="stat">
 
 						<?php if (!empty($arItem['ACTIVE_FROM'])):?>

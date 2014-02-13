@@ -7,7 +7,7 @@ namespace filters;
  * @since 30.01.14
  */
 
-class VClinicsFilter implements VCreator{
+class VClinicsFilter implements VDecorator{
 
 
 

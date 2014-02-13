@@ -6,10 +6,8 @@ namespace filters;
  * @author Maxim Shlemarev <shlemarev@gmail.com>
  * @since 30.01.14
  */
-
-class VQuery implements VBase{
-
-	private $sType;
+class VQuery implements VFilter, VChangeable {
+	private $type;
 
 	public function __construct($sType){
 		$this->type = $sType;
@@ -28,7 +26,11 @@ class VQuery implements VBase{
 		unset($this->params[$nKey]);
 	}
 
-	public  function getAllParams(){
+	public  function getParams(){
 		return $this->params;
+	}
+
+	public function clearParams(){
+		$this->params = array();
 	}
 }
