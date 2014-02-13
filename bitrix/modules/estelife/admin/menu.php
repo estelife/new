@@ -174,6 +174,28 @@ if($APPLICATION->GetGroupRight("estelife")>"D")
 							)
 						),
 						array(
+							"text" => GetMessage("ESTELIFE_THREADS"),
+							"dynamic" => true,
+							"module_id" => "estelife",
+							"title" => GetMessage("ESTELIFE_THREADS_TITLE"),
+							"items_id" => "menu_estelife_threads",
+							"url" => '/bitrix/admin/estelife_threads_list.php?lang='.LANGUAGE_ID,
+							'more_url'=>array(
+								'/bitrix/admin/estelife_threads_edit.php?lang='.LANGUAGE_ID,
+							)
+						),
+						array(
+							"text" => GetMessage("ESTELIFE_IMPLANTS"),
+							"dynamic" => true,
+							"module_id" => "estelife",
+							"title" => GetMessage("ESTELIFE_IMPLANTS_TITLE"),
+							"items_id" => "menu_estelife_implants",
+							"url" => '/bitrix/admin/estelife_implants_list.php?lang='.LANGUAGE_ID,
+							'more_url'=>array(
+								'/bitrix/admin/estelife_implants_edit.php?lang='.LANGUAGE_ID,
+							)
+						),
+						array(
 							"text" => GetMessage("ESTELIFE_APPARATUS"),
 							"dynamic" => true,
 							"module_id" => "estelife",
@@ -223,6 +245,23 @@ if($APPLICATION->GetGroupRight("estelife")>"D")
 							'more_url'=>array(
 								'/bitrix/admin/estelife_request_edit.php?lang='.LANGUAGE_ID,
 							)
+						),
+					)
+				),
+				array(
+					"text" => GetMessage("ESTELIFE_COMMENTS"),
+					"dynamic" => true,
+					"module_id" => "estelife",
+					"title" => GetMessage("ESTELIFE_COMMENTS_TITLE"),
+					"items_id" => "menu_estelife_comments",
+					"items" => array(
+						array(
+							"text" => GetMessage("ESTELIFE_COMMENTS_LIST"),
+							"dynamic" => true,
+							"module_id" => "estelife",
+							"title" => GetMessage("ESTELIFE_COMMENTS_LIST_TITLE"),
+							"items_id" => "menu_estelife_comments_list",
+							"url" => '/bitrix/admin/estelife_comments_list.php?lang='.LANGUAGE_ID,
 						),
 					)
 				),

@@ -2,10 +2,10 @@
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="/">Главная</a></li>
-		<li><b>Препараты</b></li>
+		<li><b><?=$arResult['title']?></b></li>
 	</ul>
 	<div class="title">
-		<h2>Препараты</h2>
+		<h2><?=$arResult['title']?></h2>
 	</div>
 	<div class="items">
 		<?php if (!empty($arResult['pills'])):?>
@@ -35,7 +35,7 @@
 			<?php endforeach?>
 		<?php endif?>
 	</div>
-	<div class="not-found<?=(!empty($arResult['pills']) ? ' none' : '')?>">Препараты не найдены ...</div>
+	<div class="not-found<?=(!empty($arResult['pills']) ? ' none' : '')?>"><?=$arResult['title']?> не найдены ...</div>
 	<?php if (!empty($arResult['nav'])):?>
 		<?=$arResult['nav']?>
 	<?php endif; ?>

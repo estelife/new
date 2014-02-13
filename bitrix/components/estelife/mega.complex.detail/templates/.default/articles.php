@@ -33,6 +33,7 @@
 		"ELEMENT_ID" => $arResult["ID"],
 		"USE_SHARE" => "N",
 		"SHARE_HIDE" => $arParams["SHARE_HIDE"],
+		"LINK_CODE" => $arResult["PREFIX"],
 		"DETAIL_URL"	=>	'/'.$arResult["PREFIX"].'#ELEMENT_ID#/',
 		"SECTION_CODE"=>"articles"
 	),

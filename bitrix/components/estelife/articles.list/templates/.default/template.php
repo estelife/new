@@ -15,7 +15,7 @@
 			</ul>
 		</div>
 		<?php foreach ($arResult['iblock'] as $key=>$arArticle):?>
-			<div class="items <?php if ($arResult['first']!=$key):?>none<?php endif?>" rel="<?=$arArticle['section']?>">
+			<div class="items <?php if ($arResult['first']!=$arArticle['section_id']):?>none<?php endif?>" rel="<?=$arArticle['section']?>">
 				<?php foreach ($arArticle['articles'] as $key=>$val):?>
 					<div class="item article">
 						<img src="<?=$val['IMG']?>" alt="<?=$val['NAME']?>" title="<?=$val['NAME']?>" />

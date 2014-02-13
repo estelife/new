@@ -112,11 +112,11 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		//Добавление препарата
 		$obQuery = $obPills->createQuery();
 		$obQuery->builder()->from('estelife_pills')
+			->value('type_id', 1)
 			->value('name', trim(htmlentities($obPost->one('name'),ENT_QUOTES,'utf-8')))
 			->value('date_edit', $nTime)
 			->value('translit', trim($arTranslit))
 			->value('company_id', intval($obPost->one('company_id')))
-			->value('type_id', intval($obPost->one('type_id')))
 			->value('preview_text', htmlentities($obPost->one('preview_text'),ENT_QUOTES,'utf-8'))
 			->value('detail_text', htmlentities($obPost->one('detail_text'),ENT_QUOTES,'utf-8'))
 			->value('action', htmlentities($obPost->one('action'),ENT_QUOTES,'utf-8'))
@@ -359,24 +359,7 @@ $arResult['types'] = $obQuery->select()->all();
 				<li>
 					<label for="format_4"><input type="checkbox" name="format[]" id="format_4" value="4"<?=(in_array(4,$arResult['pills']['format']) ? ' checked="true"' : '')?> />Контурная пластика</label>
 				</li>
-				<li>
-					<label for="format_5"><input type="checkbox" name="format[]" id="format_5" value="5"<?=(in_array(5,$arResult['pills']['format']) ? ' checked="true"' : '')?> />Имплантаты</label>
-				</li>
-				<li>
-					<label for="format_6"><input type="checkbox" name="format[]" id="format_6" value="6"<?=(in_array(6,$arResult['pills']['format']) ? ' checked="true"' : '')?> />Нити</label>
-				</li>
 			</ul>
-		</td>
-	</tr>
-	<tr class="adm-detail-required-field">
-		<td width="40%"><?=GetMessage("ESTELIFE_F_TYPE")?></td>
-		<td width="60%">
-			<select name="type_id">
-				<option value=""><?=GetMessage("ESTELIFE_F_TYPE_SELECT")?></option>
-				<?php foreach ($arResult['types'] as $val):?>
-					<option value="<?=$val['ID']?>" <?if ($val['ID'] == $arResult['pills']['type_id']):?>selected<?endif?>><?=$val['NAME']?></option>
-				<?php endforeach?>
-			</select>
 		</td>
 	</tr>
 	<tr>

@@ -112,7 +112,7 @@ while($arData=$obResult->Fetch()){
 	if (!empty($arData['type_logo_id'])){
 		$arData["logo_id"] = $arData["type_logo_id"];
 	}
-	$arData['img'] = CFile::ShowImage($arData["logo_id"], 110, 90, 'alt='.$arData["name"]);
+	$arData['img'] = CFile::ShowImage($arData["logo_id"], 110, 60, 'alt='.$arData["name"]);
 
 	if (!empty($arData['type_country_name'])){
 		$arData["country_name"] = $arData["type_country_name"];
@@ -135,12 +135,19 @@ while($arData=$obResult->Fetch()){
 	$arResult['pills'][]=$arData;
 }
 
-$arDescription = strip_tags(html_entity_decode(implode(", ", $arDescription), ENT_QUOTES, 'utf-8'));
-$arDescription = VString::pregStrSeo($arDescription);
+$sDescription=strip_tags(html_entity_decode(implode(", ", $arDescription), ENT_QUOTES, 'utf-8'));
+$sDescription=VString::pregStrSeo($sDescription);
+$sTitle='Производители препаратов';
 
-$APPLICATION->SetPageProperty("title", 'Производители препаратов');
-$APPLICATION->SetPageProperty("description", VString::truncate($arDescription,160,''));
-$APPLICATION->SetPageProperty("keywords", "Estelife, производители препаратов, ".$arDescription);
+if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
+	$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
+	$sTitle.=' - '.$_GET['PAGEN_1'].' страница';
+	$sDescription.=' - '.$_GET['PAGEN_1'].' страница';
+}
+
+$APPLICATION->SetPageProperty("title", $sTitle);
+$APPLICATION->SetPageProperty("description", VString::truncate($sDescription,160,''));
+$APPLICATION->SetPageProperty("keywords", "Estelife, производители препаратов, ".$sDescription);
 
 //$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 $sTemplate=$this->getTemplateName();

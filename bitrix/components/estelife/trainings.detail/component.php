@@ -60,7 +60,7 @@ else
 	$obFilter->_eq('ee.id', 0);
 
 $arResult['event'] = $obQuery->select()->assoc();
-$arResult['event']['img'] = CFile::ShowImage($arResult['event']['logo_id'],280, 110, 'alt='.$arResult['event']['name']);
+$arResult['event']['img'] = CFile::ShowImage($arResult['event']['logo_id'],200, 90, 'alt='.$arResult['event']['name']);
 $arResult['event']['detail_text'] = htmlspecialchars_decode($arResult['event']['detail_text'],ENT_NOQUOTES);
 $arResult['event']['company_link']='/tc'.$arResult['event']['company_id'].'/';
 

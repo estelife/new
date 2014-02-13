@@ -158,7 +158,7 @@ while($arData=$obResult->Fetch()){
 	if (!empty($arData['type_logo_id']))
 		$arData["logo_id"] = $arData["type_logo_id"];
 
-	$arData['img']=CFile::ShowImage($arData["logo_id"], 190, 80, 'alt='.$arData["name"]);
+	$arData['img']=CFile::ShowImage($arData["logo_id"], 190, 90, 'alt='.$arData["name"]);
 	$arData['short_web']=\core\types\VString::checkUrl($arData['web']);
 
 	if (!empty($arData['type_address']))
@@ -223,6 +223,12 @@ else
 
 $sSeoTitle.=$arSeoGeo;
 $sSeoDescription.=$arSeoGeo;
+
+if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
+	$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
+	$sSeoTitle.=' - '.$_GET['PAGEN_1'].' страница';
+	$sSeoDescription.=' - '.$_GET['PAGEN_1'].' страница';
+}
 
 $APPLICATION->SetPageProperty("title", $sSeoTitle);
 $APPLICATION->SetPageProperty("description", VString::truncate($sSeoDescription, 160, ''));

@@ -39,6 +39,9 @@
 		</div>
 	</div>
 </div>
+
+<div class="comments-ajax"></div>
+
 <!--if($same_data)!-->
 	<div class="articles">
 		<div class="title">

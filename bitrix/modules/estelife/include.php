@@ -57,6 +57,11 @@ CModule::AddAutoloadClasses(
 		//notice
 		'notice\VNotice' => "classes/notice/class.VNotice.php",
 
+		//comments
+		'comments\VComment' => "classes/comments/class.VComment.php",
+		//comments
+		'core\validate\VValidate' => "classes/core/validate/class.VValidate.php",
+
 		// bitrix
 		'core\bx\VDatabaseAdapter' => "classes/core/bx/class.VDatabaseAdapter.php",
 

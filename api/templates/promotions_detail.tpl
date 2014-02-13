@@ -49,7 +49,7 @@
 				<span>г. <!--$detail.clinic.main.city_name!--></span>
 				<span><a href="<!--$detail.clinic.main.web!-->" target="_blank"><!--$detail.clinic.main.web_short!--></a></span>
 			</div>
-			<h4>Акции проводятся по адресам:</h4>
+			<h4>Акция проводится по адресам:</h4>
 			<ul class="contacts">
 				<li>
 					<!--$detail.clinic.main.address!--><br />

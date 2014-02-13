@@ -13,6 +13,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			'preparations-makers/(.*)': 'preparationsMakersList',
 			'apparatuses-makers/(.*)': 'apparatusesMakersList',
 			'preparations/(.*)': 'preparationsList',
+			'implants/(.*)': 'implantsList',
+			'threads/(.*)': 'threadsList',
 			'apparatuses/(.*)': 'apparatusesList',
 			'events/(.*)': 'eventsList',
 			'sponsors/(.*)': 'sponsorsList',
@@ -23,6 +25,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			'cl:number/': 'clinicsDetail',
 			'ev:number/': 'eventsDetail',
 			'ps:number/': 'preparationsDetail',
+			'th:number/': 'threadsDetail',
+			'im:number/': 'implantsDetail',
 			'pm:number/': 'preparationsMakersDetail',
 			'sp:number/': 'sponsorsDetail',
 			'pr:number/': 'promotionsDetail',
@@ -358,7 +362,87 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				pages:this.getShortPages(
 					[
 						'preparations/'+EL.query().toString(),
-						'preparations_filter/'+EL.query().toString(),
+						'preparations_filter/'+EL.query().setParam('ptype',1).toString(),
+						'banner/'
+					],
+					[0,1]
+				),
+				view:new Views.WrapContent({
+					views:[
+						new Views.SEO(),
+						new Views.Content({
+							views:[
+								new Views.Inner({
+									views:[
+										new Views.Crumb(),
+										new Views.Title(),
+										new Views.List({
+											template:'preparations_list'
+										}),
+										new Views.Nav()
+									]
+								}),
+								new Views.Filter({
+									template:'preparations_filter'
+								}),
+								new Views.AdvertDelay({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
+								})
+							]
+						})
+					]
+				})
+			});
+			model.fetch();
+		},
+
+		implantsList: function(){
+			var model=new Models.Inner(null,{
+				pages:this.getShortPages(
+					[
+						'implants/'+EL.query().toString(),
+						'preparations_filter/'+EL.query().setParam('ptype',3).toString(),
+						'banner/'
+					],
+					[0,1]
+				),
+				view:new Views.WrapContent({
+					views:[
+						new Views.SEO(),
+						new Views.Content({
+							views:[
+								new Views.Inner({
+									views:[
+										new Views.Crumb(),
+										new Views.Title(),
+										new Views.List({
+											template:'preparations_list'
+										}),
+										new Views.Nav()
+									]
+								}),
+								new Views.Filter({
+									template:'preparations_filter'
+								}),
+								new Views.AdvertDelay({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
+								})
+							]
+						})
+					]
+				})
+			});
+			model.fetch();
+		},
+
+		threadsList: function(){
+			var model=new Models.Inner(null,{
+				pages:this.getShortPages(
+					[
+						'threads/'+EL.query().toString(),
+						'preparations_filter/'+EL.query().setParam('ptype',2).toString(),
 						'banner/'
 					],
 					[0,1]
@@ -606,7 +690,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			(new Models.Inner(null,{
 				pages:[
 					type+id+'/',
-					'banner/'
+					'banner/',
+					'comments/?id='+id+'&type='+type
 				],
 				view:new Views.WrapContent({
 					views:[
@@ -807,7 +892,77 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:[
 					'ps'+id+'/',
-					'preparations_filter/'+EL.query().toString(),
+					'preparations_filter/'+EL.query().setParam('ptype',1).toString(),
+					'banner/'
+				],
+				view:new Views.WrapContent({
+					views:[
+						new Views.SEO(),
+						new Views.Content({
+							views:[
+								new Views.Inner({
+									views:[
+										new Views.Crumb(),
+										new Views.Detail({
+											template:'preparations_detail'
+										})
+									]
+								}),
+								new Views.Filter({
+									template:'preparations_filter'
+								}),
+								new Views.AdvertDelay({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
+								})
+							]
+						})
+					]
+				})
+			});
+			model.fetch();
+		},
+
+		threadsDetail: function(id){
+			var model=new Models.Inner(null,{
+				pages:[
+					'th'+id+'/',
+					'preparations_filter/'+EL.query().setParam('ptype',2).toString(),
+					'banner/'
+				],
+				view:new Views.WrapContent({
+					views:[
+						new Views.SEO(),
+						new Views.Content({
+							views:[
+								new Views.Inner({
+									views:[
+										new Views.Crumb(),
+										new Views.Detail({
+											template:'preparations_detail'
+										})
+									]
+								}),
+								new Views.Filter({
+									template:'preparations_filter'
+								}),
+								new Views.AdvertDelay({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
+								})
+							]
+						})
+					]
+				})
+			});
+			model.fetch();
+		},
+
+		implantsDetail: function(id){
+			var model=new Models.Inner(null,{
+				pages:[
+					'im'+id+'/',
+					'preparations_filter/'+EL.query().setParam('ptype',3).toString(),
 					'banner/'
 				],
 				view:new Views.WrapContent({

@@ -55,7 +55,7 @@
 				<span>г. <?=$arResult['action']['clinic']['main']['city_name']?></span>
 				<span><a href="<?=$arResult['action']['clinic']['main']['web']?>" target="_blank"><?=$arResult['action']['clinic']['main']['web_short']?></a></span>
 			</div>
-			<h4>Акции проводятся по адресам:</h4>
+			<h4>Акция проводится по адресам:</h4>
 			<ul class="contacts">
 				<li>
 					<?=$arResult['action']['clinic']['main']['address']?><br />

@@ -96,7 +96,7 @@ unset($arResult['pill']['type_company_id']);
 
 $arResult['app']['company_link'] = '/am'.$arResult['app']['company_id'].'/';
 
-$arResult['app']['img'] = CFile::ShowImage($arResult['app']['logo_id'],200, 85, 'alt='.$arResult['app']['name']);
+$arResult['app']['img'] = CFile::ShowImage($arResult['app']['logo_id'],180, 180, 'alt='.$arResult['app']['name']);
 
 $arResult['app']['detail_text'] = nl2br(htmlspecialchars_decode($arResult['app']['detail_text'],ENT_NOQUOTES));
 $arResult['app']['registration'] = nl2br(htmlspecialchars_decode($arResult['app']['registration'],ENT_NOQUOTES));

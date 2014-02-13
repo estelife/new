@@ -34,9 +34,11 @@
 	</li>
 	<li><a href="#" class="empty_link">Справочник</a>
 		<ul class="submenu">
-			<li><a href="/preparations-makers/">Производители</a></li>
 			<li><a href="/preparations/">Препараты</a></li>
+			<li><a href="/threads/">Нити</a></li>
+			<li><a href="/implants/">Имплантаты</a></li>
 			<li><a href="/apparatuses/">Аппараты</a></li>
+			<li><a href="/preparations-makers/">Производители</a></li>
 		</ul>
 	</li>
 	<?php if ($arResult['yvoire']==1):?>
