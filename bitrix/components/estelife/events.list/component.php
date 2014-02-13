@@ -80,16 +80,16 @@ $obFilter->_ne('eet.type', 3);
 $session = new \filters\VEventsFilter();
 $arFilterParams = $session->getParams();
 
-if (!empty($arResult['city']) && $obGet->one('city')!=='all'){
-	$obFilter->_eq('ee.city_id', $arResult['city']['ID']);
-}else if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){
+if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){
 	$obFilter->_eq('ee.city_id', $arFilterParams['city']);
+}else if (!empty($arResult['city']) && $obGet->one('city')!=='all'){
+	$obFilter->_eq('ee.city_id', $arResult['city']['ID']);
 }
 
-if(!empty($arResult['country']) && $obGet->one('country')!=='all'){
-	$obFilter->_eq('ee.country_id', $arResult['country']['COUNTRY_ID']);
-}else if(!empty($arFilterParams['country'])&& $arFilterParams['country'] !='all'){
+if(!empty($arFilterParams['country'])&& $arFilterParams['country'] !='all'){
 	$obFilter->_eq('ee.country_id', $arFilterParams['country']);
+}else if(!empty($arResult['country']) && $obGet->one('country')!=='all'){
+	$obFilter->_eq('ee.country_id', $arResult['country']['COUNTRY_ID']);
 }
 
 if(!$obGet->blank('name'))

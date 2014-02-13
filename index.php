@@ -52,7 +52,7 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 	)?>
 	<?php
 		$APPLICATION->IncludeComponent(
-			"estelife:promotions.list",
+			"estelife:promotions.clinics.main.list",
 			"index",
 			array(
 				"COUNT" => 3

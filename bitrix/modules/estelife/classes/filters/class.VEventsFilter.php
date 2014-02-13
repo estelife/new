@@ -80,6 +80,7 @@ class VEventsFilter implements VCreator{
 						$obSession->setParam($sVal, $this->params[$sVal]);
 						$arParamsResult[$sVal] = $this->params[$sVal];
 					}else{
+						$obSession->setParam($sVal, '');
 						$arParamsResult[$sVal] = '';
 					}
 

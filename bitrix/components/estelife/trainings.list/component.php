@@ -110,10 +110,10 @@ if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){
 		->_eq('ee.city_id', $arResult['city']);
 }
 
-if(!$obGet->blank('direction')){
-	$obFilter->_eq('eed.type', intval($obGet->one('direction')));
-}else if(!empty($arFilterParams['direction'])){
+if(!empty($arFilterParams['direction'])){
 	$obFilter->_eq('eed.type', intval($arFilterParams['direction']));
+}else if(!$obGet->blank('direction')){
+	$obFilter->_eq('eed.type', intval($obGet->one('direction')));
 }
 
 if(!$obGet->blank('date_drom')){

@@ -70,22 +70,22 @@ $session = new \filters\VApparatusesFilter();
 $arFilterParams = $session->getParams();
 
 
-if(!$obGet->blank('country') && $obGet->one('country')!=='all'){
-	$obFilter->_or()->_eq('ecg.country_id', intval($obGet->one('country')));
-	$obFilter->_or()->_eq('ectg.country_id', intval($obGet->one('country')));
-}else if(!empty($arFilterParams['country']) && $arFilterParams['country'] !='all'){
+if(!empty($arFilterParams['country']) && $arFilterParams['country'] !='all'){
 	$obFilter->_or()->_eq('ecg.country_id', intval($arFilterParams['country']));
 	$obFilter->_or()->_eq('ectg.country_id', intval($arFilterParams['country']));
+}else if(!$obGet->blank('country') && $obGet->one('country')!=='all'){
+	$obFilter->_or()->_eq('ecg.country_id', intval($obGet->one('country')));
+	$obFilter->_or()->_eq('ectg.country_id', intval($obGet->one('country')));
 }
 
 if(!$obGet->blank('name')){
 	$obFilter->_like('ap.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 }
 
-if(!$obGet->blank('type')){
-	$obFilter->_eq('apt.type_id', intval($obGet->one('type')));
-}else if(!empty($arFilterParams['type'])){
+if(!empty($arFilterParams['type'])){
 	$obFilter->_eq('apt.type_id', intval($arFilterParams['type']));
+}else if(!$obGet->blank('type')){
+	$obFilter->_eq('apt.type_id', intval($obGet->one('type')));
 }
 $obQuery->builder()->group('ap.id');
 $obQuery->builder()->sort('ap.name', 'asc');

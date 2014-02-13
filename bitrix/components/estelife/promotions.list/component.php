@@ -2,6 +2,7 @@
 use core\database\VDatabase;
 use core\types\VArray;
 use core\types\VString;
+use core\database\mysql\VFilter;
 use geo\VGeo;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
@@ -13,6 +14,9 @@ $obGet=new VArray($_GET);
 $arNow=time();
 $nCityId=0;
 
+$session = new \filters\VAktiiFilter();
+$arFilterParams = $session->getParams();
+
 if (isset($arParams['COUNT']) && $arParams['COUNT']>0)
 	$arCount = $arParams['COUNT'];
 
@@ -21,7 +25,9 @@ if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 else
 	$arPageCount = 10;
 
-if(!$obGet->blank('city'))
+if(!empty($arFilterParams['city'])){
+	$arResult['city']['ID'] = $arFilterParams['city'];
+}else if(!$obGet->blank('city'))
 	$nCityId=intval($obGet->one('city'));
 elseif (isset($arParams['CITY_ID']) && $arParams['CITY_ID']>0)
 	$nCityId=intval($arParams['CITY_ID']);
@@ -79,39 +85,42 @@ $obFilter->_eq('ea.active', 1);
 
 $obQuery->builder()->sort('ea.end_date', 'desc');
 
-$session = new \filters\VAktiiFilter();
-$arFilterParams = $session->getParams();
+
+if(!empty($arFilterParams['name'])){
+	$obFilter->_like('ea.name',$arFilterParams['name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+}else if(!$obGet->blank('name')){
+	$obFilter->_like('ea.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+}
 
 if(!empty($arFilterParams['city']) && $arFilterParams['city'] !=='all'){
 	$obFilter->_eq('ec.city_id', $arFilterParams['city']);
-}else if (!empty($arResult['city']) && $obGet->one('city')!=='all'){
+}else if(!empty($arResult['city']) && $obGet->one('city')!=='all'){
 	$obFilter->_eq('ec.city_id', $arResult['city']['ID']);
 }
-
-if(!$obGet->blank('metro')){
-	$obFilter->_eq('ec.metro_id', intval($obGet->one('metro')));
-}else if(!empty($arFilterParams['metro'])){
+if(!empty($arFilterParams['metro'])){
 	$obFilter->_eq('ec.metro_id', intval($arFilterParams['metro']));
+}else if(!$obGet->blank('metro')){
+	$obFilter->_eq('ec.metro_id', intval($obGet->one('metro')));
 }
-if(!$obGet->blank('spec')){
-	$obFilter->_eq('eat.specialization_id', intval($obGet->one('spec')));
-}else if(!empty($arFilterParams['spec'])){
+if(!empty($arFilterParams['spec'])){
 	$obFilter->_eq('eat.specialization_id', intval($arFilterParams['spec']));
+}else if(!$obGet->blank('spec')){
+	$obFilter->_eq('eat.specialization_id', intval($obGet->one('spec')));
 }
-if(!$obGet->blank('service')){
-	$obFilter->_eq('eat.service_id', intval($obGet->one('service')));
-}else if(!empty($arFilterParams['sevice'])){
+if(!empty($arFilterParams['sevice'])){
 	$obFilter->_eq('eat.service_id', intval($arFilterParams['sevice']));
+}else if(!$obGet->blank('service')){
+	$obFilter->_eq('eat.service_id', intval($obGet->one('service')));
 }
-if(!$obGet->blank('concreate')){
-	$obFilter->_eq('eat.service_concreate_id', intval($obGet->one('concreate')));
-}else if(!empty($arFilterParams['concreate'])){
+if(!empty($arFilterParams['concreate'])){
 	$obFilter->_eq('eat.service_concreate_id', intval($arFilterParams['concreate']));
+}else if(!$obGet->blank('concreate')){
+	$obFilter->_eq('eat.service_concreate_id', intval($obGet->one('concreate')));
 }
-if(!$obGet->blank('method')){
-	$obFilter->_eq('eat.method_id', intval($obGet->one('method')));
-}else if(!empty($arFilterParams['method'])){
+if(!empty($arFilterParams['method'])){
 	$obFilter->_eq('eat.method_id', intval($arFilterParams['method']));
+}else if(!$obGet->blank('method')){
+	$obFilter->_eq('eat.method_id', intval($obGet->one('method')));
 }
 
 

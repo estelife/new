@@ -32,7 +32,13 @@ $obSession = new \filters\VSession('clinics');
 
 //получаем метро по городу
 if (!$obFilter->blank('city') || isset($_COOKIE['estelife_city'])){
-	$nCity=intval($obFilter->one('city',$_COOKIE['estelife_city']));
+
+	if(!empty($arFilterParams['city'])){
+		$nCity = $arFilterParams['city'];
+	}else{
+		$nCity=intval($obFilter->one('city',$_COOKIE['estelife_city']));
+	}
+
 	$obFilter->set('city',$nCity);
 
 	$arSelect=Array("ID", "NAME");
@@ -96,18 +102,13 @@ if($obMethod){
 	$arResult['methods']=$obMethod->select()->all();
 }
 
-/*$arResult['filter']=array(
-	'city'=>intval($obGet->one('city',0)),
-	'metro'=>intval($obGet->one('metro',0)),
-	'spec'=>intval($obGet->one('spec',0)),
-	'service'=>intval($obGet->one('service',0)),
-	'method'=>intval($obGet->one('method',0)),
-	'concreate'=>intval($obGet->one('concreate',0)),
-	'name'=>strip_tags(trim($obGet->one('name'))),
-);*/
-
 
 $arResult['filter'] = $arFilterParams;
+
+if(empty($arResult['filter']['city']) && $obFilter->blank('city') !='all'){
+	$arResult['filter']['city'] = '358';
+	$obSession->setParam('city','358');
+}
 
 if(!isset($arResult['filter']['name'])){
 	$obSession->setParam('name','');
