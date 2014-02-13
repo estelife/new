@@ -7,12 +7,8 @@ namespace filters;
  * @since 30.01.14
  */
 
-class VClinicsFilter implements VDecorator{
-
-
-
+class VPromotionsFilter implements VDecorator{
 	public function __construct(){
-
 		$this->fields = array(
 			'name'=>'name',
 			'city'=>'city',
@@ -25,13 +21,12 @@ class VClinicsFilter implements VDecorator{
 
 
 
-		$obQuery = new \filters\VQuery('clinics');
-		$obSession = new \filters\VSession('clinics');
+		$obQuery = new \filters\VQuery('aktii');
+		$obSession = new \filters\VSession('aktii');
 
 		if(!empty($_GET)){
 			$arParams = $obQuery->getAllParams();
 			$this->params = $arParams;
-
 		}else{
 			if(!empty($_SESSION['filter'])){
 				$arParams = $obSession->getAllParams();
@@ -45,8 +40,6 @@ class VClinicsFilter implements VDecorator{
 
 	public function getParams(){
 
-		$arResultParams = array();
-		$nApprove = 1;
 		$nCount = 0;
 
 		$arEmptyParams = array(
@@ -59,7 +52,7 @@ class VClinicsFilter implements VDecorator{
 			'concreate'=>'',
 		);
 
-		$obSession = new \filters\VSession('clinics');
+		$obSession = new \filters\VSession('aktii');
 
 
 		if(isset($this->params)){
@@ -69,7 +62,7 @@ class VClinicsFilter implements VDecorator{
 			}
 
 			if($nCount == 1 && isset($this->params['city']) && $this->params['city'] == 'all'){
-				unset($_SESSION['filter']['clinics']);
+				unset($_SESSION['filter']['aktii']);
 			}else{
 
 				$arParamsResult = array();
@@ -86,23 +79,8 @@ class VClinicsFilter implements VDecorator{
 
 				}
 
-				/*foreach($this->params as $kParam=>$sParam){
-
-					if(!array_key_exists($kParam, $this->fields)){
-						$nApprove = 0;
-					}else{
-						$obSession->setParam($kParam,$sParam);
-						$arResultParams[$kParam] = $sParam;
-					}
-				}*/
-				/*if(!isset($arResultParams['name'])){
-					$obSession->setParam('name','');
-					$arResultParams['name'] = '';
-				}*/
 			}
-
-
-				return $arParamsResult;
+			return $arParamsResult;
 
 		}else{
 			return $arEmptyParams;

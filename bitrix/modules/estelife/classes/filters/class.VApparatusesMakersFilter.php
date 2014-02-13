@@ -7,11 +7,8 @@ namespace filters;
  * @since 30.01.14
  */
 
-class VApparatusesMakersFilter implements VCreator{
-
-
+class VApparatusesMakersFilter implements VDecorator{
 	public function __construct(){
-
 		$this->fields = array(
 			'name'=>'name',
 			'country'=>'country',
@@ -23,13 +20,9 @@ class VApparatusesMakersFilter implements VCreator{
 		if(!empty($_GET)){
 			$arParams = $obQuery->getAllParams();
 			$this->params = $arParams;
-		}else{
-			if(!empty($_SESSION['filter'])){
-				$arParams = $obSession->getAllParams();
-				$this->params = $arParams;
-			}else{
-				//throw new Error('params not found!');
-			}
+		}elseif(!empty($_SESSION['filter'])){
+			$arParams = $obSession->getAllParams();
+			$this->params = $arParams;
 		}
 	}
 

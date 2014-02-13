@@ -7,7 +7,7 @@ namespace filters;
  * @since 30.01.14
  */
 
-class VEventsFilter implements VCreator{
+class VEventsFilter implements VDecorator{
 
 
 
