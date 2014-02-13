@@ -85,7 +85,7 @@ $APPLICATION->IncludeComponent(
 	array(
 		"IBLOCK_ID"=>3,
 		"SECTIONS_ID"=> array(177,176,173,172),
-		"SECTIONS_NAME"=> array("Обо всем","Косметика","Пластическая хирургия","Косметология"),
+		"SECTIONS_NAME"=> array("Обо всем","События","Пластическая хирургия","Косметология"),
 		"NEWS_COUNT" => 4,
 		"NEED_SECTION" => "N",
 		"MAIN_URL" => "novosti",

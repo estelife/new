@@ -7,8 +7,7 @@ namespace filters;
  * @since 30.01.14
  */
 
-class VFilterFactory{
-	public static function createClinicFilter(){
-		
-	}
+interface VFilter {
+	public function getParam($nKey);
+	public  function getParams();
 }

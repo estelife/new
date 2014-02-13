@@ -7,15 +7,11 @@ namespace filters;
  * @since 30.01.14
  */
 
-class VSession implements VBase{
-
-	private $nType;
+class VSession implements VFilter,VChangeable {
+	private $type;
 
 	public function __construct($nType){
 		$this->type = $nType;
-
-	/*	if(empty($nType))
-			throw new Error('invalid type');*/
 	}
 
 	public function setParam($nKey,$sParam){
@@ -30,7 +26,11 @@ class VSession implements VBase{
 		unset($_SESSION['filter'][$this->type][$nKey]);
 	}
 
-	public  function getAllParams(){
+	public  function getParams(){
 		return $_SESSION['filter'][$this->type];
+	}
+
+	public function clearParams(){
+		unset($_SESSION['filter'][$this->type]);
 	}
 }

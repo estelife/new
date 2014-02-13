@@ -7,7 +7,7 @@ CModule::IncludeModule("iblock");
 CModule::IncludeModule("estelife");
 $obGet=new VArray($_GET);
 
-$session = new \filters\VApparatusesFilter();
+$session = new \filters\VApparatuses();
 $arFilterParams = $session->getParams();
 $obSession = new \filters\VSession('apparatuses');
 
