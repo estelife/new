@@ -184,10 +184,13 @@ class VString {
 			return $sText;
 
 		$nPoint=strpos($sText,$sPoint,$nLimit);
+
 		if($nPoint==false || $nPoint>=$nLength)
 			return $sText;
 
-		return substr($sText,0,$nPoint).$sEnd;
+		$sText=substr($sText,0,$nPoint);
+		$sText=preg_replace('#[^a-zа-я0-9]$#iu','',$sText);
+		return trim($sText.$sEnd);
 	}
 
 	/**
