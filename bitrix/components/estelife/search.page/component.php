@@ -63,7 +63,6 @@ if (!empty($sQuery)){
 			$nPage=$nCountPages;
 
 		$nStart=$nStep*$nPage-$nStep;
-
 		$arTypes=$APPLICATION->IncludeComponent(
 			'estelife:system-settings',
 			'',
@@ -87,13 +86,15 @@ if (!empty($sQuery)){
 
 			$arTempResult[$val['type']][]=$val;
 		}
-		$arRelevant=array(21, 20, 8, 9, 6, 7, 5, 4, 12, 13, 15, 1, 2, 3, 4, 10, 11);
 
+		$arRelevant=array(21, 20, 8, 9, 6, 7, 5, 4, 12, 13, 15, 1, 2, 3, 4, 10, 11);
 		$arResult['search']['result']=array();
+
 		foreach ($arRelevant as $val){
 			if (!empty($arTempResult[$val]))
 				$arResult['search']['result']=array_merge($arResult['search']['result'], $arTempResult[$val]);
 		}
+
 		$arResult['search']['result']=array_slice($arResult['search']['result'], $nStart, $nStep);
 	}
 }
