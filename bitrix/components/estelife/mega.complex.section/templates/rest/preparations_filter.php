@@ -4,7 +4,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)
 
 $nType=1;
 
-if(!isset(bitrix\ERESULT::$DATA['PTYPE']))
+if(isset(bitrix\ERESULT::$DATA['PTYPE']))
 	$nType=intval(bitrix\ERESULT::$DATA['PTYPE']);
 
 //if (isset($_REQUEST['ptype']))
