@@ -690,8 +690,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			(new Models.Inner(null,{
 				pages:[
 					type+id+'/',
-					'banner/',
-					'comments/?id='+id+'&type='+type
+					'banner/'
+//					'comments/?id='+id+'&type='+type
 				],
 				view:new Views.WrapContent({
 					views:[

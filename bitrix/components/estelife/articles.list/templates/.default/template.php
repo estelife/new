@@ -5,10 +5,8 @@
 			<h2><?=$arParams['TITLE']?></h2>
 			<ul class="tabs-menu">
 				<?php if (!empty($arResult['SECTIONS_NAME'])):?>
-					<?php $i=1;?>
 					<?php foreach ($arResult['SECTIONS_NAME'] as $key=>$val):?>
-						<li<?php if ($i==1):?> class="active"<?php endif?>><a href="#"><span><?=$val?></span><i></i></a></li>
-						<?php $i++?>
+						<li<?php if ($arResult['first']==$val['key']):?> class="active"<?php endif?>><a href="#"><span><?=$val['value']?></span><i></i></a></li>
 					<?php endforeach?>
 				<?php endif;?>
 

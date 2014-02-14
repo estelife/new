@@ -112,7 +112,7 @@ while($arData=$obResult->Fetch()){
 	if (!empty($arData['type_logo_id'])){
 		$arData["logo_id"] = $arData["type_logo_id"];
 	}
-	$arData['img'] = CFile::ShowImage($arData["logo_id"], 110, 60, 'alt='.$arData["name"]);
+	$arData['img'] = CFile::ShowImage($arData["logo_id"], 105, 105, 'alt='.$arData["name"]);
 
 	if (!empty($arData['type_country_name'])){
 		$arData["country_name"] = $arData["type_country_name"];
