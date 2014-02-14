@@ -95,7 +95,7 @@ $obQuery->builder()
 $obFilter=$obQuery->builder()->filter();
 $obFilter->_eq('eet.type', 3);
 
-$session = new \filters\VTrainingsFilter();
+$session = new \filters\decorators\VTrainings();
 $arFilterParams = $session->getParams();
 
 if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){

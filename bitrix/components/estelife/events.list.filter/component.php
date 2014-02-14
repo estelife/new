@@ -39,7 +39,7 @@ $obCounties->sortByPriorities(array(357),'ID');
 $arResult['countries']=$obCounties->all();
 $obGet=new VArray($_GET);
 
-$session = new \filters\VEventsFilter();
+$session = new \filters\decorators\VEvents();
 $arFilterParams = $session->getParams();
 
 

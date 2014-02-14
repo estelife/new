@@ -108,7 +108,7 @@ $obQuery->builder()
 $obFilter = $obQuery->builder()->filter()
 	->_ne('eet.type', 3);
 
-$session = new \filters\VSponsorsFilter();
+$session = new \filters\decorators\VSponsors();
 $arFilterParams = $session->getParams();
 
 if(!empty($arFilterParams['city'])&& $arFilterParams['city']!='all'){

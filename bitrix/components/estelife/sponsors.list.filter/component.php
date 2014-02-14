@@ -42,7 +42,7 @@ $arResult['countries']=$obCounties->all();
 
 $obGet=new VArray($_GET);
 
-$session = new \filters\VSponsorsFilter();
+$session = new \filters\decorators\VSponsors();
 $arFilterParams = $session->getParams();
 
 

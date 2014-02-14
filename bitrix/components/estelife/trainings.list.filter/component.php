@@ -38,7 +38,7 @@ $arResult['cities'] = $obQuery->select()->all();
 
 $obGet=new VArray($_GET);
 
-$session = new \filters\VTrainingsFilter();
+$session = new \filters\decorators\VTrainings();
 $arFilterParams = $session->getParams();
 
 /*$arResult['filter']=array(

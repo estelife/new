@@ -2,17 +2,23 @@
 namespace filters\decorators;
 
 /**
- *
  * @author Maxim Shlemarev <shlemarev@gmail.com>
  * @since 30.01.14
  */
 
-class VApparatuses extends VDecorator {
+class VTrainingsCenters extends VDecorator {
 	public function __construct(){
-		parent::__construct('apparatuses');
+
+		$nSity = (!empty($_GET['city']) && $_GET['city'] !='all') ?
+			intval($_GET['city']) :
+			intval($_COOKIE['estelife_city']);
+
+		if($nSity ==0)
+			$nSity = 'all';
+
+		parent::__construct('trainings_centers');
 		parent::setDefaultField('name','');
-		parent::setDefaultField('type','');
-		parent::setDefaultField('country','');
+		parent::setDefaultField('city',$nSity);
 	}
 
 	public function getParams(){

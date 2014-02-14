@@ -73,7 +73,7 @@ $obQuery->builder()
 
 $obFilter=$obQuery->builder()->filter();
 
-$session = new \filters\VPreparationsMakersFilter();
+$session = new \filters\decorators\VPreparationsMakers();
 $arFilterParams = $session->getParams();
 
 

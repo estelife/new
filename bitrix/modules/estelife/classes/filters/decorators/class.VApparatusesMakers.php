@@ -7,11 +7,10 @@ namespace filters\decorators;
  * @since 30.01.14
  */
 
-class VApparatuses extends VDecorator {
+class VApparatusesMakers extends VDecorator {
 	public function __construct(){
-		parent::__construct('apparatuses');
+		parent::__construct('apparatuses_makers');
 		parent::setDefaultField('name','');
-		parent::setDefaultField('type','');
 		parent::setDefaultField('country','');
 	}
 

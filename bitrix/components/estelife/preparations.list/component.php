@@ -74,8 +74,16 @@ $obQuery->builder()
 $obFilter = $obQuery->builder()->filter()->_eq('ep.type_id',$nType);
 
 
-$session = new \filters\VPreparationsFilter();
-$arFilterParams = $session->getParams();
+if($nType == 1){
+	$session = new \filters\decorators\VPreparations();
+	$arFilterParams = $session->getParams();
+}else if($nType == 2){
+	$session = new \filters\decorators\VThreads();
+	$arFilterParams = $session->getParams();
+}else if($nType == 3){
+	$session = new \filters\decorators\VImplants();
+	$arFilterParams = $session->getParams();
+}
 
 if(!empty($arFilterParams['country']) && $arFilterParams['country'] !='all'){
 	$obFilter->_or()->_eq('ecg.country_id', intval($arFilterParams['country']));

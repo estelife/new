@@ -20,10 +20,11 @@ else
 	$arPageCount = 10;
 
 
-$session = new \filters\VClinicsFilter();
+$session = new \filters\decorators\VClinic();
 $arFilterParams = $session->getParams();
 
-if(!empty($arFilterParams['city'])){
+
+if(!empty($arFilterParams['city']) && $arFilterParams['city']!='all'){
 	$arResult['city']['ID'] = $arFilterParams['city'];
 }else if(!$obGet->blank('city')){
 	//Получаем имя города по его ID
@@ -85,7 +86,7 @@ $obFilter->_eq('ec.clinic_id', 0);
 
 
 if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){
-	$obFilter->_eq('ec.city_id', $arFilterParams['city']);
+	//$obFilter->_eq('ec.city_id', $arFilterParams['city']);
 }else if(!empty($arResult['city']) && $obGet->one('city')!=='all'){
 	$obFilter->_eq('ec.city_id', $arResult['city']['ID']);
 }

@@ -77,7 +77,7 @@ $obQuery->builder()
 $obFilter=$obQuery->builder()->filter();
 $obFilter->_ne('eet.type', 3);
 
-$session = new \filters\VEventsFilter();
+$session = new \filters\decorators\VEvents();
 $arFilterParams = $session->getParams();
 
 if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){

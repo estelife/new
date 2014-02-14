@@ -1,6 +1,6 @@
 <?php
 namespace filters\decorators;
-use core\database\mysql\VQuery;
+use filters\VQuery;
 use filters\VFilter;
 use filters\VSession;
 
@@ -15,13 +15,19 @@ class VDecorator implements VFilter {
 	protected $sType;
 	protected $arParams;
 
-	protected function __construct($sType){
-		$obFilter = !empty($_GET) ?
+	protected function __construct($sType,array $arExclude=null){
+		$arGet=$_GET;
+
+		if(!empty($arExclude))
+			foreach($arExclude as $sKey)
+				unset($arGet[$sKey]);
+
+		$obFilter = !empty($arGet) ?
 			new VQuery($sType) :
 			new VSession($sType);
 
-		$this->sType=$sType;
 		$this->arParams=$obFilter->getParams();
+		$this->sType=$sType;
 		$this->arFields = array();
 	}
 

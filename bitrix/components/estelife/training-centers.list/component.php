@@ -104,7 +104,7 @@ $obFilter = $obQuery->builder()->filter()
 	->_eq('eet.type', 3)
 	->_eq('ece.is_owner', 1);
 
-$session = new \filters\VTrainingsCentersFilter();
+$session = new \filters\decorators\VTrainingsCenters();
 $arFilterParams = $session->getParams();
 
 if(!empty($arFilterParams['city']) && $arFilterParams['city'] !=='all'){

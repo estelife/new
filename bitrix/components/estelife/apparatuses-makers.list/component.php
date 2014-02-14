@@ -72,7 +72,7 @@ $obQuery->builder()
 	->field('ectc.value', 'type_web');
 $obFilter = $obQuery->builder()->filter();
 
-$session = new \filters\VApparatusesMakersFilter();
+$session = new \filters\decorators\VApparatusesMakers();
 $arFilterParams = $session->getParams();
 
 
