@@ -21,21 +21,15 @@ $obQuery = $obDriver->createQuery();
 $obQuery->builder()->from('estelife_specializations');
 $arResult['specializations'] = $obQuery->select()->all();
 
-
-$obFilter=new VArray($_GET);
-
 $session = new \filters\decorators\VClinic();
 $arFilterParams = $session->getParams();
 
 
 //получаем метро по городу
-if (!empty($arFilterParams['city']) || isset($_COOKIE['estelife_city'])){
-
+if (!empty($arFilterParams['city'])){
 	if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){
 		$nCity = $arFilterParams['city'];
 	}
-
-	$obFilter->set('city',$nCity);
 
 	$arSelect=Array("ID", "NAME");
 	$arFilter=Array(
@@ -100,8 +94,8 @@ if($obMethod){
 
 
 $arResult['filter'] = $arFilterParams;
-
 $arResult['empty']=false;
+
 foreach ($arResult['filter'] as $val){
 	if (($val=='' && $val==0) || $val=='all')
 		continue;
