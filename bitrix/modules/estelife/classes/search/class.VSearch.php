@@ -17,7 +17,7 @@ class VSearch{
 		$this->obSph->SetServer('localhost', 3312);
 		$this->obSph->SetMaxQueryTime(20);
 		$this->obSph->SetArrayResult(true);
-		$this->obSph->SetMatchMode(SPH_MATCH_ANY);
+		$this->obSph->SetMatchMode(SPH_MATCH_ALL);
 		$this->obSph->SetLimits(0,1000);
 		$this->obSph->SetFieldWeights(array(
 			'search-name'=>100,
