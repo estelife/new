@@ -383,6 +383,7 @@ var Estelife=function(s){
 				return toObject;
 			},
 			setParam:function(field,value){
+
 				var temp=this.toObject();
 				temp[field]=value;
 				query=this.toString(temp).substr(1);
