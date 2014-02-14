@@ -108,6 +108,8 @@ if($obMethod){
 	'name'=>strip_tags(trim($obGet->one('name'))),
 );*/
 
+
+
 $arResult['filter'] = $arFilterParams;
 
 $arResult['count'] = \bitrix\ERESULT::$DATA['count'];

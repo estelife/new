@@ -13,8 +13,8 @@
 		<label for="cities">Город</label>
 		<select name="city" data-rules="get_metro:select[name=metro]">
 			<option value="all">--</option>
-			<option value="359"<?if($arResult['filter']['city'] === "359") echo ' selected="true"';?>>Москва</option>
-			<option value="358"<?if($arResult['filter']['city'] === "358") echo ' selected="true"';?>>Санкт-Петербург</option>
+			<option value="359"<?if($arResult['filter']['city'] == 359) echo ' selected="true"';?>>Москва</option>
+			<option value="358"<?if($arResult['filter']['city'] == 358) echo ' selected="true"';?>>Санкт-Петербург</option>
 		</select>
 
 		<span class="block"></span>
@@ -25,7 +25,7 @@
 			<option value="">--</option>
 			<?php if (!empty($arResult['metro'])):?>
 				<?php foreach ($arResult['metro'] as $val):?>
-					<option value="<?=$val['ID']?>" <?if($arResult['filter']['metro'] === $val['ID']) echo ' selected="true"';?>><?=$val['NAME']?></option>
+					<option value="<?=$val['ID']?>" <?if($arResult['filter']['metro'] == $val['ID']) echo ' selected="true"';?>><?=$val['NAME']?></option>
 				<?php endforeach?>
 			<?php endif?>
 		</select>
@@ -37,7 +37,7 @@
 			<option value=''>--</option>
 			<?php if (!empty($arResult['specializations'])):?>
 				<?php foreach ($arResult['specializations'] as $val):?>
-					<option value="<?=$val['id']?>" <?if($arResult['filter']['spec'] === $val['id']) echo ' selected="true"';?>><?=$val['name']?></option>
+					<option value="<?=$val['id']?>" <?if($arResult['filter']['spec'] == $val['id']) echo ' selected="true"';?>><?=$val['name']?></option>
 				<?php endforeach?>
 			<?php endif?>
 		</select>
@@ -49,7 +49,7 @@
 			<option value=''>--</option>
 			<?php if (!empty($arResult['service'])):?>
 				<?php foreach ($arResult['service'] as $val):?>
-					<option value="<?=$val['id']?>" <?if($arResult['filter']['service'] === $val['id']) echo ' selected="true"';?>><?=$val['name']?></option>
+					<option value="<?=$val['id']?>" <?if($arResult['filter']['service'] == $val['id']) echo ' selected="true"';?>><?=$val['name']?></option>
 				<?php endforeach?>
 			<?php endif?>
 		</select>
@@ -61,7 +61,7 @@
 			<option value=''>--</option>
 			<?php if(!empty($arResult['methods'])):?>
 				<?php foreach ($arResult['methods'] as $val):?>
-					<option value="<?=$val['id']?>" <?if($arResult['filter']['method'] === $val['id']) echo ' selected="true"';?>><?=$val['name']?></option>
+					<option value="<?=$val['id']?>" <?if($arResult['filter']['method'] == $val['id']) echo ' selected="true"';?>><?=$val['name']?></option>
 				<?php endforeach?>
 			<?php endif?>
 		</select><span class="block"></span>
@@ -72,7 +72,7 @@
 			<option value=''>--</option>
 			<?php if (!empty($arResult['concreate'])):?>
 				<?php foreach ($arResult['concreate'] as $val):?>
-					<option value="<?=$val['id']?>" <?if($arResult['filter']['concreate'] === $val['id']) echo ' selected="true"';?>><?=$val['name']?></option>
+					<option value="<?=$val['id']?>" <?if($arResult['filter']['concreate'] == $val['id']) echo ' selected="true"';?>><?=$val['name']?></option>
 				<?php endforeach?>
 			<?php endif?>
 		</select><span class="block"></span>
