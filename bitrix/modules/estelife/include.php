@@ -59,6 +59,7 @@ CModule::AddAutoloadClasses(
 
 		//search
 		'search\VSearch' => "classes/search/class.VSearch.php",
+		'SphinxClient' => "classes/search/sphinxapi.php",
 
 		//comments
 		'comments\VComment' => "classes/comments/class.VComment.php",
