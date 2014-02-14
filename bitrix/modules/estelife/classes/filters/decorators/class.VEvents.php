@@ -21,8 +21,8 @@ class VEvents extends VDecorator {
 
 		parent::__construct('events');
 		parent::setDefaultField('name','');
-		parent::setDefaultField('country','');
-		parent::setDefaultField('city',$nSity);
+		parent::setDefaultField('country','all');
+		parent::setDefaultField('city','all');
 		parent::setDefaultField('direction','');
 		parent::setDefaultField('type','');
 		parent::setDefaultField('date_from',$nDate);

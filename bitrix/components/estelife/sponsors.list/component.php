@@ -111,9 +111,10 @@ $obFilter = $obQuery->builder()->filter()
 $session = new \filters\decorators\VSponsors();
 $arFilterParams = $session->getParams();
 
+
 if(!empty($arFilterParams['city'])&& $arFilterParams['city']!='all'){
 	$obFilter->_eq('ecg.city_id', $arFilterParams['city']);
-}else if (!empty($arResult['city']) && $obGet->one('city')!=='all'){
+}else if (!empty($arResult['city']) && $obGet->one('city')!='all'){
 	$obFilter->_eq('ecg.city_id', $arResult['city']['ID']);
 }
 
