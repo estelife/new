@@ -28,13 +28,10 @@ $session = new \filters\decorators\VPromotions();
 $arFilterParams = $session->getParams();
 
 //получаем метро по городу
-if (!$obGet->blank('city') || isset($_COOKIE['estelife_city'])){
+if (!empty($arFilterParams['city'])){
 
 	if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){
 		$nCity = $arFilterParams['city'];
-	}else{
-		$nCity=intval($obGet->one('city',$_COOKIE['estelife_city']));
-		$arFilterParams['city'] = $nCity;
 	}
 
 	$obGet->set('city',$nCity);
