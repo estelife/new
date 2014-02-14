@@ -98,9 +98,9 @@ if(!$obGet->blank('name')){
 }
 
 if(!empty($arFilterParams['company_name'])){
-	$obFilter->_like('ec.company_name',$obGet->one('company_name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+	$obFilter->_like('ec.name',$arFilterParams['company_name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 }else if(!$obGet->blank('company_name')){
-	$obFilter->_like('ec.company_name',$obGet->one('company_name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+	$obFilter->_like('ec.name',$obGet->one('company_name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 }
 
 if(!empty($arFilterParams['type'])){

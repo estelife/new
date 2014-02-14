@@ -77,7 +77,7 @@ $session = new \filters\decorators\VPreparationsMakers();
 $arFilterParams = $session->getParams();
 
 
-if(!empty($arFilterParams['country'])){
+if(!empty($arFilterParams['country']) && $arFilterParams['country'] !='all'){
 	$obFilter->_eq('ecg.country_id', intval($arFilterParams['country']));
 }else if (!$obGet->blank('country') && $obGet->one('country')!=='all'){
 	$obFilter->_eq('ecg.country_id', intval($obGet->one('country')));
