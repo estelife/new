@@ -1,13 +1,6 @@
 <?php
 use core\types\VArray;
-require $_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/estelife/classes/search/sphinxapi.php';
-
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
-
-if (isset($arParams['MODE']) && !empty($arParams['MODE']))
-	$sMode=$arParams['MODE'];
-else
-	$sMode='SPH_MATCH_ALL';
 
 if (isset($arParams['NAV_COUNT']) && !empty($arParams['NAV_COUNT']))
 	$nStep=intval($arParams['NAV_COUNT']);
@@ -54,12 +47,12 @@ if (!empty($sQuery)){
 		$obSph->setSort($sSort);
 
 	if (!empty($sTags)){
-		$arAnswer=$obSph->searchByTags($sTags);
-	}else
+		$arAnswer=$obSph->search($sTags,'tags');
+	}else{
 		$arAnswer=$obSph->search($sQuery);
+	}
 
-	if (!empty($arAnswer['matches'])){
-		$arAnswer=$arAnswer['matches'];
+	if (!empty($arAnswer)){
 		$nCount=count($arAnswer);
 		$nCountPages=intval(($nCount-1)/abs($nStep))+1;
 
@@ -78,7 +71,6 @@ if (!empty($sQuery)){
 		);
 
 		foreach ($arAnswer as $val){
-			$val=$val['attrs'];
 			$val['src']='/'.$arTypes[$val['type']].$val['id'].'/';
 			$val['date_edit']=date('d.m.Y', $val['date_edit']);
 
