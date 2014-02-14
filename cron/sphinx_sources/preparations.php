@@ -30,6 +30,7 @@ $obJoin=$obBuilder
 	->field('ep.detail_text', 'detail_text')
 	->field('ep.date_edit', 'date_edit')
 	->field('ec.name', 'company_name')
+	->field('ep.type_id', 'type_id')
 	->join();
 $obJoin->_left()
 	->_from('ep', 'company_id')
@@ -68,9 +69,7 @@ $arTypesString=array(
 	'1'=>'Мезотерапия',
 	'2' =>'Ботулинотерапия',
 	'3' =>'Биоревитализация',
-	'4' =>'Контурная пластика',
-	'5' =>'Имплантаты',
-	'6'=>'Нити'
+	'4' =>'Контурная пластика'
 );
 
 if (!empty($arPreparationTypes)){
@@ -108,10 +107,21 @@ foreach($arResult as $arValue){
 	$sDescription=!empty($sDetailText) ? VString::truncate($sDetailText,300) : $sPreviewText;
 	$sTags=htmlspecialchars(implode(', ',$arValue['tags']),ENT_QUOTES,'utf-8');
 
+	if($arValue['type_id']==2){
+		$nType=$arTypes['th'];
+		$sCategory='Нити';
+	}else if($arValue['type_id']==3){
+		$nType=$arTypes['im'];
+		$sCategory='Имплантаты';
+	}else{
+		$nType=$arTypes['ps'];
+		$sCategory='Препараты';
+	}
+
 	$sResult.='
-		<sphinx:document id="'.$arTypes['ps'].$arValue['id'].'">
+		<sphinx:document id="'.$nType.$arValue['id'].'">
 			<search-name>'.$sName.'</search-name>
-			<search-category>Препараты</search-category>
+			<search-category>'.$sCategory.'</search-category>
 			<search-preview><![CDATA[['.$sPreviewText.']]></search-preview>
 			<search-detail><![CDATA[['.$sDetailText.']]></search-detail>
 			<search-tags>'.$sTags.'</search-tags>
@@ -120,7 +130,7 @@ foreach($arResult as $arValue){
 			<tags>'.$sTags.'</tags>
 			<date_edit>'.$arValue['date_edit'].'</date_edit>
 			<id>'.$arValue['id'].'</id>
-			<type>'.$arTypes['ps'].'</type>
+			<type>'.$nType.'</type>
 			<city>0</city>
 		</sphinx:document>
 	';
