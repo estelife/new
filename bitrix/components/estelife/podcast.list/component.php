@@ -1,6 +1,7 @@
 <?php
 use core\database\VDatabase;
 use core\exceptions\VException;
+use core\types\VString;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
@@ -65,6 +66,7 @@ try{
 			array(
 				'ID',
 				'NAME',
+				'PREVIEW_TEXT',
 				'PROPERTY_SHORT_TEXT',
 				'PROPERTY_COUNT',
 				'PROPERTY_FRONTRIGHT',
@@ -77,7 +79,7 @@ try{
 			$asRes['DETAIL_URL']='/'.$arParams['PREFIX'].$asRes['ID'].'/';
 
 			if($bFirst){
-				$asRes['PREVIEW_TEXT_B'] = $asRes['PROPERTY_SHORT_TEXT_VALUE']['TEXT'].'<span></span>';
+				$asRes['PREVIEW_TEXT_B'] = trim(VString::truncate($asRes['PREVIEW_TEXT'],400)).'<span></span>';
 				$asRes['IMG_B'] = CFile::GetFileArray($asRes['PROPERTY_FRONTBIG_VALUE']);
 				$asRes['IMG_B']=$asRes['IMG_B']['SRC'];
 				$bFirst=false;
