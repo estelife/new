@@ -79,14 +79,10 @@ $arFilterParams = $session->getParams();
 
 if(!empty($arFilterParams['country']) && $arFilterParams['country'] !='all'){
 	$obFilter->_eq('ecg.country_id', intval($arFilterParams['country']));
-}else if (!$obGet->blank('country') && $obGet->one('country')!=='all'){
-	$obFilter->_eq('ecg.country_id', intval($obGet->one('country')));
 }
 
 if(!empty($arFilterParams['name'])){
 	$obFilter->_like('ec.name', $arFilterParams['name'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
-}else if (!$obGet->blank('name')){
-	$obFilter->_like('ec.name', $obGet->one('name'),VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
 }
 
 $obQuery->builder()->group('ec.id');

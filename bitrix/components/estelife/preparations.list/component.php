@@ -93,20 +93,16 @@ if(!empty($arFilterParams['country']) && $arFilterParams['country'] !='all'){
 	$obFilter->_or()->_eq('ectg.country_id', intval($obGet->one('country')));
 }
 
-if(!$obGet->blank('name')){
-	$obFilter->_like('ep.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+if(!empty($arFilterParams['name'])){
+	$obFilter->_like('ep.name',$arFilterParams['name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 }
 
 if(!empty($arFilterParams['company_name'])){
 	$obFilter->_like('ec.name',$arFilterParams['company_name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
-}else if(!$obGet->blank('company_name')){
-	$obFilter->_like('ec.name',$obGet->one('company_name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 }
 
 if(!empty($arFilterParams['type'])){
 	$obFilter->_eq('ept.type_id', intval($arFilterParams['type']));
-}else if(!$obGet->blank('type')){
-	$obFilter->_eq('ept.type_id', intval($obGet->one('type')));
 }
 
 $obQuery->builder()->group('ep.id');
