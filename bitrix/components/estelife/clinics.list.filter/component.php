@@ -29,9 +29,9 @@ $arFilterParams = $session->getParams();
 
 
 //получаем метро по городу
-if (!empty($arFilterParams['city'])){
+if (!empty($arFilterParams['city']) || isset($_COOKIE['estelife_city'])){
 
-	if(!empty($arFilterParams['city']) && $arFilterParams['city'] = 'all'){
+	if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){
 		$nCity = $arFilterParams['city'];
 	}
 
