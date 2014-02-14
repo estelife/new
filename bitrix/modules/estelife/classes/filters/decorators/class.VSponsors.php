@@ -19,7 +19,7 @@ class VSponsors extends VDecorator {
 		parent::__construct('sponsors');
 		parent::setDefaultField('name','');
 		parent::setDefaultField('country','');
-		parent::setDefaultField('city',$nSity);
+		parent::setDefaultField('city','all');
 	}
 
 	public function getParams(){
