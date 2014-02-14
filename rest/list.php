@@ -12,6 +12,8 @@ $APPLICATION->IncludeComponent("estelife:mega.complex.section", "rest", array(
 			'preparations_makers_filter',
 			'apparatuses_makers_filter',
 			'preparations_filter',
+			'implants_filter',
+			'threads_filter',
 			'apparatuses_filter',
 			'events_filter',
 			'sponsors_filter',
