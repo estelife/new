@@ -368,7 +368,7 @@ var Estelife=function(s){
 
 				if(query.length>0){
 					var temp=null;
-					query=query[1].split('&');
+					query=query.split('&');
 
 					for(var i=0; i<query.length; i++){
 						temp=query[i].split('=');
@@ -383,6 +383,7 @@ var Estelife=function(s){
 				return toObject;
 			},
 			setParam:function(field,value){
+
 				var temp=this.toObject();
 				temp[field]=value;
 				query=this.toString(temp).substr(1);

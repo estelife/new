@@ -14,7 +14,7 @@ $obGet=new VArray($_GET);
 $arNow=time();
 $nCityId=0;
 
-$session = new \filters\VPromotionsFilter();
+$session = new \filters\decorators\VPromotions();
 $arFilterParams = $session->getParams();
 
 if (isset($arParams['COUNT']) && $arParams['COUNT']>0)
@@ -25,7 +25,7 @@ if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 else
 	$arPageCount = 10;
 
-if(!empty($arFilterParams['city'])){
+if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){
 	$arResult['city']['ID'] = $arFilterParams['city'];
 }else if(!$obGet->blank('city'))
 	$nCityId=intval($obGet->one('city'));

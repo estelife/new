@@ -36,7 +36,7 @@ $obQuery->builder()->sort('ct.NAME', 'asc');
 $arResult['cities'] = $obQuery->select()->all();
 
 
-$session = new \filters\VTrainingsCentersFilter();
+$session = new \filters\decorators\VTrainingsCenters();
 $arFilterParams = $session->getParams();
 
 /*$arResult['filter']=array(
@@ -44,7 +44,9 @@ $arFilterParams = $session->getParams();
 	'name'=>strip_tags(trim($obGet->one('name',''))),
 );*/
 
+
 $arResult['filter'] = $arFilterParams;
+
 
 $arResult['count'] = \bitrix\ERESULT::$DATA['count'];
 

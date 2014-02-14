@@ -7,8 +7,7 @@ CModule::IncludeModule("iblock");
 CModule::IncludeModule("estelife");
 $obGet=new VArray($_GET);
 
-$session = new \filters\VPreparationsFilter();
-$arFilterParams = $session->getParams();
+
 
 if (isset($arParams['TYPE']) && $arParams['TYPE']>0)
 	$nType=intval($arParams['TYPE']);
@@ -23,6 +22,10 @@ if ($nType==1){
 		'type'=>true,
 		'countries'=>true
 	);
+	$session = new \filters\decorators\VPreparations();
+	$arFilterParams = $session->getParams();
+
+
 }elseif ($nType==2){
 	$arResult['link']='/threads/';
 	$arResult['find_title']='Поиск нитей';
@@ -33,6 +36,8 @@ if ($nType==1){
 		'type'=>false,
 		'countries'=>true
 	);
+	$session = new \filters\decorators\VThreads();
+	$arFilterParams = $session->getParams();
 }else{
 	$arResult['link']='/implants/';
 	$arResult['find_title']='Поиск имплантатов';
@@ -43,6 +48,8 @@ if ($nType==1){
 		'type'=>false,
 		'countries'=>true
 	);
+	$session = new \filters\decorators\VImplants();
+	$arFilterParams = $session->getParams();
 }
 
 
