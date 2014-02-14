@@ -66,7 +66,7 @@ $obQuery->builder()
 	->field('ect.id','type_company_id');
 $obFilter = $obQuery->builder()->filter();
 
-$session = new \filters\VApparatuses();
+$session = new \filters\decorators\VApparatuses();
 $arFilterParams = $session->getParams();
 
 

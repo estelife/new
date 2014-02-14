@@ -7,7 +7,7 @@ CModule::IncludeModule("iblock");
 CModule::IncludeModule("estelife");
 $obGet = new VArray($_GET);
 
-$session = new \filters\VApparatusesMakersFilter();
+$session = new \filters\decorators\VApparatusesMakers();
 $arFilterParams = $session->getParams();
 
 //Получение списка стран
