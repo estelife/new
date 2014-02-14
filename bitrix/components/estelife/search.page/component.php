@@ -9,11 +9,6 @@ if (isset($arParams['MODE']) && !empty($arParams['MODE']))
 else
 	$sMode='SPH_MATCH_ALL';
 
-if (isset($arParams['QUERY_TIME']) && !empty($arParams['QUERY_TIME']))
-	$nTime=intval($arParams['QUERY_TIME']);
-else
-	$nTime=20;
-
 if (isset($arParams['NAV_COUNT']) && !empty($arParams['NAV_COUNT']))
 	$nStep=intval($arParams['NAV_COUNT']);
 else
@@ -53,31 +48,15 @@ $arResult['search']['tags_url']=$arResult['url'].(!empty($sHow)? "&amp;how=".url
 $arResult['search']['sort_url']=$arResult['url'].(!empty($sTags)? "&amp;tags=".urlencode($sTags): "");
 
 if (!empty($sQuery)){
-	$obSph=new SphinxClient();
-	$obSph->SetServer('localhost', 3312);
-	$obSph->SetMaxQueryTime($nTime);
-	$obSph->SetArrayResult(true);
-	$obSph->SetMatchMode(SPH_MATCH_ALL);
-	$obSph->SetLimits(0,1000);
+	$obSph=new \search\VSearch();
 
 	if (!empty($sSort))
-		$obSph->SetSortMode(SPH_SORT_ATTR_DESC, $sSort);
-
-	$obSph->SetFieldWeights(array(
-		'search-name'=>100,
-		'search-category'=>80,
-		'search-preview'=>60,
-		'search-detail'=>70,
-		'search-tags'=>90
-	));
-	$obSph->ResetFilters();
-//	$obSph->setFilter('city', array(0, intval($_COOKIE['city'])));
+		$obSph->setSort($sSort);
 
 	if (!empty($sTags)){
-		$obSph->SetMatchMode(SPH_MATCH_EXTENDED);
-		$arAnswer=$obSph->Query('@search-tags: '.$sTags);
+		$arAnswer=$obSph->searchByTags($sTags);
 	}else
-		$arAnswer=$obSph->Query($sQuery.'*','estelife');
+		$arAnswer=$obSph->search($sQuery);
 
 	if (!empty($arAnswer['matches'])){
 		$arAnswer=$arAnswer['matches'];
