@@ -197,7 +197,7 @@ foreach($arResult as $arValue){
 			<date_edit>'.$arValue['date_edit'].'</date_edit>
 			<id>'.$arValue['id'].'</id>
 			<type>'.$arTypes['cl'].'</type>
-			<city>'.$arTypes['city_id'].'</city>
+			<city>'.$arValue['city_id'].'</city>
 		</sphinx:document>
 	';
 }

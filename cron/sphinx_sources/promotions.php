@@ -180,7 +180,7 @@ foreach($arResult as $arValue){
 			<date_edit>'.strtotime($arValue['date_edit']).'</date_edit>
 			<id>'.$arValue['id'].'</id>
 			<type>'.$arTypes['pr'].'</type>
-			<city>'.$arTypes['city_id'].'</city>
+			<city>'.$arValue['city_id'].'</city>
 		</sphinx:document>
 	';
 }
