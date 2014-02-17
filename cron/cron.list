@@ -1,7 +1,7 @@
-0 2 * * *	indexer -c /var/www/estelife/data/www/estelife.ru/cron/indexer.php sphinx.conf apparatuses
-10 2 * * *	indexer -c /var/www/estelife/data/www/estelife.ru/cron/indexer.php sphinx.conf articles
-20 2 * * *	indexer -c /var/www/estelife/data/www/estelife.ru/cron/indexer.php sphinx.conf clinics
-30 2 * * *	indexer -c /var/www/estelife/data/www/estelife.ru/cron/indexer.php sphinx.conf companies
-40 2 * * *	indexer -c /var/www/estelife/data/www/estelife.ru/cron/indexer.php sphinx.conf events
-50 2 * * *	indexer -c /var/www/estelife/data/www/estelife.ru/cron/indexer.php sphinx.conf preparations
-0 3 * * *	indexer -c /var/www/estelife/data/www/estelife.ru/cron/indexer.php sphinx.conf promotions
+0 2 * * *	php -f /var/www/estelife/data/www/estelife.ru/cron/indexer.php sphinx.conf apparatuses
+10 2 * * *	php -f /var/www/estelife/data/www/estelife.ru/cron/indexer.php sphinx.conf articles
+20 2 * * *	php -f /var/www/estelife/data/www/estelife.ru/cron/indexer.php sphinx.conf clinics
+30 2 * * *	php -f /var/www/estelife/data/www/estelife.ru/cron/indexer.php sphinx.conf companies
+40 2 * * *	php -f /var/www/estelife/data/www/estelife.ru/cron/indexer.php sphinx.conf events
+50 2 * * *	php -f /var/www/estelife/data/www/estelife.ru/cron/indexer.php sphinx.conf preparations
+0 3 * * *	php -f /var/www/estelife/data/www/estelife.ru/cron/indexer.php sphinx.conf promotions

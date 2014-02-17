@@ -83,16 +83,36 @@ $obFilter=$obQuery->builder()->filter();
 $obFilter->_gte('ea.end_date', $arNow);
 $obFilter->_eq('ea.active', 1);
 
-$obQuery->builder()->sort('ea.end_date', 'desc');
+$obQuery->builder()
+	->sort('ea.end_date', 'desc');
+$bFilterByCity=false;
 
-
-if(!empty($arFilterParams['name'])){
-	$obFilter->_like('ea.name',$arFilterParams['name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
-}
-
-if(!empty($arFilterParams['city']) && $arFilterParams['city'] !=='all'){
+if($bFilterByCity=(!empty($arFilterParams['city']) && $arFilterParams['city'] !=='all')){
 	$obFilter->_eq('ec.city_id', $arFilterParams['city']);
 }
+
+if(!empty($arFilterParams['name'])){
+	$obSearch=new \search\VSearch();
+	$obSearch->setIndex('promotions');
+
+	if($bFilterByCity)
+		$obSearch->setFilter('city',array($arFilterParams['city']));
+
+	$arSearch=$obSearch->search($arFilterParams['name']);
+
+	if(!empty($arSearch)){
+		$arTemp=array();
+
+		foreach($arSearch as $arValue)
+			$arTemp[]=$arValue['id'];
+
+		$obFilter->_in('ea.id',$arTemp);
+	}else
+		$obFilter->_eq('ea.id',0);
+}else if(!$obGet->blank('name')){
+	$obFilter->_like('ea.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+}
+
 if(!empty($arFilterParams['metro'])){
 	$obFilter->_eq('ec.metro_id', intval($arFilterParams['metro']));
 }

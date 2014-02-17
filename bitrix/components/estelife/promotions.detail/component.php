@@ -43,19 +43,32 @@ if(!empty($arResult['action']['big_photo_name'])){
 $obQuery=$obActions->createQuery();
 $obQuery->builder()
 	->from('estelife_akzii_types')
-	->field('service_id', 'service_id')
+	->field('specialization_id')
+	->field('service_id')
+	->field('service_concreate_id')
 	->filter()
 	->_eq('akzii_id', $arResult['action']['id']);
+
 $arServices=$obQuery
 	->select()
 	->all();
 
 if (!empty($arServices)){
 	foreach ($arServices as $val){
-		$arResult['service'][] = $val['service_id'];
+		if(!empty($val['service_id']))
+			$arResult['service'][] = $val['service_id'];
+
+		if(!empty($val['specialization_id']))
+			$arResult['specialization'][] = $val['specialization_id'];
+
+		if(!empty($val['service_concreate_id']))
+			$arResult['service_concreate'][] = $val['service_concreate_id'];
 	}
 }
-$arResult['service'] = array_unique($arResult['service']);
+
+$arResult['specialization'] = array_values(array_unique($arResult['specialization']));
+$arResult['service'] = array_values(array_unique($arResult['service']));
+$arResult['service_concreate'] = array_values(array_unique($arResult['service_concreate']));
 
 //получение клиник
 $obQuery = $obActions->createQuery();
@@ -98,7 +111,9 @@ $obQuery->builder()
 	->filter()
 	->_eq('eca.akzii_id', $nActionID);
 
-$arClinics=$obQuery->select()->all();
+$arClinics=$obQuery
+	->select()
+	->all();
 
 if (!empty($arClinics)){
 	$arCurrent=array();
@@ -132,32 +147,8 @@ $obQuery->builder()->from('estelife_akzii_prices');
 $obQuery->builder()
 	->filter()
 	->_eq('akzii_id', $nActionID);
+
 $arResult['action']['prices']=$obQuery->select()->all();
-
-//Получение галереи
-/*
-$obQuery=$obActions->createQuery();
-$obQuery->builder()
-	->from('estelife_akzii_photos')
-	->filter()
-	->_eq('akzii_id', $nActionID);
-
-$arResult['action']['photos'] = $obQuery->select()->all();
-$arResult['action']['photos_count']=0;
-$arResult['action']['photo_desc']='';
-
-if(!empty($arResult['action']['photos'])){
-	foreach($arResult['action']['photos'] as $nKey=>&$arPhoto){
-		$arPhoto['original']=CFile::ShowImage($arPhoto['original'],624);
-		$arPhoto['description']=(!empty($arPhoto['description'])) ?
-			html_entity_decode($arPhoto['description'],ENT_QUOTES,'utf-8') : '';
-
-		if($nKey==0)
-			$arResult['action']['photo_desc']=$arPhoto['description'];
-	}
-
-	$arResult['action']['photos_count']=count($arResult['action']['photos']);
-}*/
 
 $arNow = time();
 
@@ -188,8 +179,12 @@ $obFilter=$obBuilder
 	->_ne('ea.id',$arResult['action']['id'])
 	->_gte('ea.end_date', time());
 
+if(!empty($arResult['service_concreate']))
+	$obFilter->_or()->_in('eat.service_concreate_id',$arResult['service']);
 if(!empty($arResult['service']))
-	$obFilter->_in('eat.service_id',$arResult['service']);
+	$obFilter->_or()->_in('eat.service_id',$arResult['service']);
+if(!empty($arResult['specialization']))
+	$obFilter->_or()->_in('eat.specialization_id',$arResult['specialization']);
 
 if(!empty($arResult['action']['clinic']['main']))
 	$obFilter->_eq('ec.city_id',$arResult['action']['clinic']['main']['city_id']);

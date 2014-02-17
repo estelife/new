@@ -4,10 +4,8 @@
 		<h2><!--$ARTICLES.TITLE!--></h2>
 		<ul class="tabs-menu">
 			<!--if($ARTICLES.SECTIONS_NAME!--)!-->
-			<!--$i=0!-->
 			<!--foreach ($ARTICLES.SECTIONS_NAME as $key=>$val)!-->
-			<li<!--if ($i==1)!--> class="active"<!--endif!-->><a href="#"><span><!--$val!--></span><i></i></a></li>
-			<!--$i++!-->
+			<li<!--if ($ARTICLES.first==$val.key)!--> class="active"<!--endif!-->><a href="#"><span><!--$val.value!--></span><i></i></a></li>
 			<!--endforeach!-->
 			<!--endif!-->
 

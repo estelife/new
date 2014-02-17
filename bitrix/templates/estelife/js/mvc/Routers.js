@@ -362,7 +362,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				pages:this.getShortPages(
 					[
 						'preparations/'+EL.query().toString(),
-						'preparations_filter/'+EL.query().setParam('ptype',1).toString(),
+						'preparations_filter/'+EL.query().toString(),
 						'banner/'
 					],
 					[0,1]
@@ -402,7 +402,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				pages:this.getShortPages(
 					[
 						'implants/'+EL.query().toString(),
-						'preparations_filter/'+EL.query().setParam('ptype',3).toString(),
+						'implants_filter/'+EL.query().toString(),
 						'banner/'
 					],
 					[0,1]
@@ -442,7 +442,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				pages:this.getShortPages(
 					[
 						'threads/'+EL.query().toString(),
-						'preparations_filter/'+EL.query().setParam('ptype',2).toString(),
+						'threads_filter/'+EL.query().toString(),
 						'banner/'
 					],
 					[0,1]
@@ -690,8 +690,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			(new Models.Inner(null,{
 				pages:[
 					type+id+'/',
-					'banner/',
-					'comments/?id='+id+'&type='+type
+					'banner/'
+//					'comments/?id='+id+'&type='+type
 				],
 				view:new Views.WrapContent({
 					views:[
@@ -892,7 +892,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:[
 					'ps'+id+'/',
-					'preparations_filter/'+EL.query().setParam('ptype',1).toString(),
+					'preparations_filter/'+EL.query().toString(),
 					'banner/'
 				],
 				view:new Views.WrapContent({
@@ -927,7 +927,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:[
 					'th'+id+'/',
-					'preparations_filter/'+EL.query().setParam('ptype',2).toString(),
+					'threads_filter/'+EL.query().toString(),
 					'banner/'
 				],
 				view:new Views.WrapContent({
@@ -962,7 +962,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:[
 					'im'+id+'/',
-					'preparations_filter/'+EL.query().setParam('ptype',3).toString(),
+					'implants_filter/'+EL.query().toString(),
 					'banner/'
 				],
 				view:new Views.WrapContent({

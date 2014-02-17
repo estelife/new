@@ -14,13 +14,14 @@ try{
 	CModule::IncludeModule("iblock");
 	CModule::IncludeModule("estelife");
 
-	$arResult['first'] = $arParams['SECTIONS_ID'][0];
+	$arResult['first'] = end($arParams['SECTIONS_ID']);
 	foreach ($arParams['SECTIONS_NAME'] as $key=>$val){
-		$arResult['SECTIONS_NAME'][$arParams['SECTIONS_ID'][$key]] = $val;
+		$arResult['SECTIONS_NAME'][$arParams['SECTIONS_ID'][$key]] = array(
+			'value'=>$val,
+			'key'=>$arParams['SECTIONS_ID'][$key]
+		);
 	}
 	$sNow = date('Y-m-d H:i:s',time());
-
-	$arResult['first'] = key($arResult['SECTIONS_NAME']);
 
 	$obIblock = VDatabase::driver();
 	$obQuery = $obIblock->createQuery();
