@@ -2,6 +2,7 @@
 use core\database\VDatabase;
 use core\types\VArray;
 use core\types\VString;
+use core\database\mysql\VFilter;
 use geo\VGeo;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
@@ -13,6 +14,9 @@ $obGet=new VArray($_GET);
 $arNow=time();
 $nCityId=0;
 
+$session = new \filters\decorators\VPromotions();
+$arFilterParams = $session->getParams();
+
 if (isset($arParams['COUNT']) && $arParams['COUNT']>0)
 	$arCount = $arParams['COUNT'];
 
@@ -21,7 +25,9 @@ if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 else
 	$arPageCount = 10;
 
-if(!$obGet->blank('city'))
+if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){
+	$arResult['city']['ID'] = $arFilterParams['city'];
+}else if(!$obGet->blank('city'))
 	$nCityId=intval($obGet->one('city'));
 elseif (isset($arParams['CITY_ID']) && $arParams['CITY_ID']>0)
 	$nCityId=intval($arParams['CITY_ID']);
@@ -77,21 +83,52 @@ $obFilter=$obQuery->builder()->filter();
 $obFilter->_gte('ea.end_date', $arNow);
 $obFilter->_eq('ea.active', 1);
 
-$obQuery->builder()->sort('ea.end_date', 'desc');
+$obQuery->builder()
+	->sort('ea.end_date', 'desc');
+$bFilterByCity=false;
 
-if (!empty($arResult['city']) && $obGet->one('city')!=='all')
-	$obFilter->_eq('ec.city_id', $arResult['city']['ID']);
+if($bFilterByCity=(!empty($arFilterParams['city']) && $arFilterParams['city'] !=='all')){
+	$obFilter->_eq('ec.city_id', $arFilterParams['city']);
+}
 
-if(!$obGet->blank('metro'))
-	$obFilter->_eq('ec.metro_id', intval($obGet->one('metro')));
-if(!$obGet->blank('spec'))
-	$obFilter->_eq('eat.specialization_id', intval($obGet->one('spec')));
-if(!$obGet->blank('service'))
-	$obFilter->_eq('eat.service_id', intval($obGet->one('service')));
-if(!$obGet->blank('concreate'))
-	$obFilter->_eq('eat.service_concreate_id', intval($obGet->one('concreate')));
-if(!$obGet->blank('method'))
-	$obFilter->_eq('eat.method_id', intval($obGet->one('method')));
+if(!empty($arFilterParams['name'])){
+	$obSearch=new \search\VSearch();
+	$obSearch->setIndex('promotions');
+
+	if($bFilterByCity)
+		$obSearch->setFilter('city',array($arFilterParams['city']));
+
+	$arSearch=$obSearch->search($arFilterParams['name']);
+
+	if(!empty($arSearch)){
+		$arTemp=array();
+
+		foreach($arSearch as $arValue)
+			$arTemp[]=$arValue['id'];
+
+		$obFilter->_in('ea.id',$arTemp);
+	}else
+		$obFilter->_eq('ea.id',0);
+}else if(!$obGet->blank('name')){
+	$obFilter->_like('ea.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+}
+
+if(!empty($arFilterParams['metro'])){
+	$obFilter->_eq('ec.metro_id', intval($arFilterParams['metro']));
+}
+if(!empty($arFilterParams['spec'])){
+	$obFilter->_eq('eat.specialization_id', intval($arFilterParams['spec']));
+}
+if(!empty($arFilterParams['sevice'])){
+	$obFilter->_eq('eat.service_id', intval($arFilterParams['sevice']));
+}
+if(!empty($arFilterParams['concreate'])){
+	$obFilter->_eq('eat.service_concreate_id', intval($arFilterParams['concreate']));
+}
+if(!empty($arFilterParams['method'])){
+	$obFilter->_eq('eat.method_id', intval($arFilterParams['method']));
+}
+
 
 if(!empty($arCount))
 	$obQuery->builder()->slice(0,$arCount);
@@ -146,18 +183,23 @@ if(!empty($arCount)){
 	$sTemplate=$this->getTemplateName();
 	$obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
 	$arResult['nav']=$obNav->getNav();
-//	$arResult['nav']=$obResult->GetNavPrint('', true,'akzii','/bitrix/templates/estelife/system/pagenav.php');
-
-	$sPage=(isset($_GET['PAGEN_1']) && $_GET['PAGEN_1'] > 1) ?
-		' '.\core\types\VString::spellAmount($_GET['PAGEN_1'],'страница,страницы,страниц') : '';
 
 	if (empty($arResult['city']['R_NAME']))
 		$arResult['city']['R_NAME'] = '';
 	else
 		$arResult['city']['R_NAME'] = ' в '.$arResult['city']['R_NAME'];
 
-	$APPLICATION->SetPageProperty("title", 'Клиники'.$arResult['city']['R_NAME'].' - акции, скидки, купоны'.$sPage);
-	$APPLICATION->SetPageProperty("description", 'Актуальные акции и скидки клиник'.$arResult['city']['R_NAME'].'.');
+	$sTitle='Клиники'.$arResult['city']['R_NAME'].' - акции, скидки, купоны.';
+	$sDescription='Актуальные акции и скидки клиник'.$arResult['city']['R_NAME'].'.';
+
+	if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
+		$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
+		$sTitle.=' - '.$_GET['PAGEN_1'].' страница';
+		$sDescription.=' - '.$_GET['PAGEN_1'].' страница';
+	}
+
+	$APPLICATION->SetPageProperty("title", $sTitle);
+	$APPLICATION->SetPageProperty("description", $sDescription);
 }
 
 $this->IncludeComponentTemplate();

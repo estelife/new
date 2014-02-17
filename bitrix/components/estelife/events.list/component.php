@@ -77,52 +77,56 @@ $obQuery->builder()
 $obFilter=$obQuery->builder()->filter();
 $obFilter->_ne('eet.type', 3);
 
-if (!empty($arResult['city']) && $obGet->one('city')!=='all')
-	$obFilter->_eq('ee.city_id', $arResult['city']['ID']);
+$session = new \filters\decorators\VEvents();
+$arFilterParams = $session->getParams();
 
-if(!empty($arResult['country']) && $obGet->one('country')!=='all')
-	$obFilter->_eq('ee.country_id', $arResult['country']['COUNTRY_ID']);
+if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){
+	$obFilter->_eq('ee.city_id', $arFilterParams['city']);
+}
 
-if(!$obGet->blank('name'))
-	$obFilter->_like('ee.short_name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+if(!empty($arFilterParams['country'])&& $arFilterParams['country'] !='all'){
+	$obFilter->_eq('ee.country_id', $arFilterParams['country']);
+}
 
-if(!$obGet->blank('direction')){
-	$mDirections=$obGet->one('direction');
+if(!empty($arFilterParams['name']))
+	$obFilter->_like('ee.short_name',$arFilterParams['name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 
-	if(is_array($mDirections)){
-		foreach($mDirections as $nKey=>$nValue){
+if(!empty($arFilterParams['direction'])){
+	if(is_array($arFilterParams['direction'])){
+		foreach($arFilterParams['direction'] as $nKey=>$nValue){
 			$nValue=intval($nValue);
 			if($nValue<=0)
-				unset($arDirections[$nKey]);
+				unset($arFilterParams['direction'][$nKey]);
 		}
-		$obFilter->_in('eed.type', $mDirections);
+		$obFilter->_in('eed.type', $arFilterParams['direction']);
 	}else{
-		$mDirections=intval($mDirections);
-		$obFilter->_eq('eed.type', $mDirections);
+		$mDirections=intval($arFilterParams['direction']);
+		$obFilter->_eq('eed.type', $arFilterParams['direction']);
 	}
 }
 
-if(!$obGet->blank('type')){
-	$arTypes=$obGet->one('type');
+if($arFilterParams['type']){
 
-	if(is_array($arTypes)){
-		foreach($arTypes as $nKey=>$nValue){
+	if(is_array($arFilterParams['type'])){
+		foreach($arFilterParams['type'] as $nKey=>$nValue){
 			$nValue=intval($nValue);
 			if($nValue<=0)
-				unset($arTypes[$nKey]);
+				unset($arFilterParams['type'][$nKey]);
 		}
-		$obFilter->_in('eet.type', $arTypes);
+		$obFilter->_in('eet.type', $arFilterParams['type']);
 	}else{
-		$arTypes=intval($arTypes);
-		$obFilter->_eq('eet.type', $arTypes);
+		$mDirections=intval($arFilterParams['type']);
+		$obFilter->_eq('eet.type', $arFilterParams['type']);
 	}
+
+}
+ if(!empty($arFilterParams['date_from'])){
+	$nDateFrom=preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$arFilterParams['date_from']);
+	$nDateFrom=\core\types\VDate::dateToTime($nDateFrom.' 00:00');
 }
 
-$nDateFrom=preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$obGet->one('date_from'));
-$nDateFrom=\core\types\VDate::dateToTime($nDateFrom.' 00:00');
-
-if (!$obGet->blank('date_to')){
-	$nDateTo = preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$obGet->one('date_to'));
+if(!empty($arFilterParams['date_to'])){
+	$nDateTo = preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$arFilterParams['date_to']);
 	$nDateTo = \core\types\VDate::dateToTime($nDateTo. ' 23:59');
 }else{
 	$nDateTo = false;
@@ -130,8 +134,9 @@ if (!$obGet->blank('date_to')){
 
 $obFilter->_gte('ecal.date',$nDateFrom);
 
-if ($nDateTo)
+if ($nDateTo){
 	$obFilter->_lte('ecal.date',$nDateTo);
+}
 
 $obQuery->builder()->sort('ecal.date', 'asc');
 $obQuery->builder()->group('ee.id');
@@ -228,8 +233,9 @@ if (!empty($arIds)){
 		->_in('event_id', $arIds);
 //		->_gte('date',$nDateFrom);
 
-	if($nDateTo)
+	if($nDateTo){
 		$obFilter->_lte('date',$nDateTo);
+	}
 
 	$arCalendar = $obQuery->select()->all();
 
@@ -282,13 +288,15 @@ $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
 $arResult['nav']=$obNav->getNav();
 
-$arTitle = 'Календарь событий по косметологии и пластической хирургии';
-if (isset($_GET['PAGEN_1']) && $_GET['PAGEN_1']>0){
-	$arPage = intval(strip_tags($_GET['PAGEN_1']));
-	$arTitle .= ' ('.$arPage.' страница)';
-}
-$arDescription = 'Все важные события в мире косметологии и пластической хирургиив одном месте';
+$sTitle='Календарь событий по косметологии и пластической хирургии';
+$sDescription='Все важные события в мире косметологии и пластической хирургиив одном месте';
 
-$APPLICATION->SetPageProperty("title", $arTitle);
-$APPLICATION->SetPageProperty("description", $arDescription);
+if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
+	$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
+	$sTitle.=' - '.$_GET['PAGEN_1'].' страница';
+	$sDescription.=' - '.$_GET['PAGEN_1'].' страница';
+}
+
+$APPLICATION->SetPageProperty("title", $sTitle);
+$APPLICATION->SetPageProperty("description", $sDescription);
 $this->IncludeComponentTemplate();

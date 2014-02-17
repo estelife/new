@@ -38,12 +38,17 @@ $arResult['cities'] = $obQuery->select()->all();
 
 $obGet=new VArray($_GET);
 
-$arResult['filter']=array(
+$session = new \filters\decorators\VTrainings();
+$arFilterParams = $session->getParams();
+
+/*$arResult['filter']=array(
 	'city'=>intval($obGet->one('city', $_COOKIE['estelife_city'])),
 	'direction'=>intval($obGet->one('direction',0)),
 	'date_from'=>$obGet->one('date_from', date('d.m.y',time())),
 	'date_to'=>$obGet->one('date_to','')
-);
+);*/
+
+$arResult['filter'] = $arFilterParams;
 
 $arResult['count'] = \bitrix\ERESULT::$DATA['count'];
 

@@ -181,20 +181,23 @@ foreach($arResult as $arValue){
 		VString::truncate($sPreviewText,300) :
 		'К сожалению, на данный момент клиника не предоставила нам официальные данные об оказываемых услугах и проводимых акциях.';
 
+	$sName=trim(htmlspecialchars(strip_tags($arValue['name']),ENT_QUOTES,'utf-8'));
+	$sSearchName=trim(preg_replace('/(клиник|clinic)[а-яa-z]*/iu','',$sName));
+
 	$sResult.='
 		<sphinx:document id="'.$arTypes['cl'].$arValue['id'].'">
-			<search-name><![CDATA[['.trim(htmlspecialchars(strip_tags($arValue['name']),ENT_QUOTES,'utf-8')).']]></search-name>
+			<search-name><![CDATA[['.$sSearchName.']]></search-name>
 			<search-category>Клиники '.trim($arValue['city']).'</search-category>
 			<search-preview></search-preview>
 			<search-detail><![CDATA[['.$sPreviewText.']]></search-detail>
 			<search-tags><![CDATA[['.$sSearchTags.']]></search-tags>
-			<name>'.htmlspecialchars($arValue['name'],ENT_QUOTES,'utf-8').'</name>
+			<name>'.$sName.'</name>
 			<description>'.$sDescription.'</description>
 			<tags>'.$arValue['tags'].'</tags>
 			<date_edit>'.$arValue['date_edit'].'</date_edit>
 			<id>'.$arValue['id'].'</id>
 			<type>'.$arTypes['cl'].'</type>
-			<city>'.$arTypes['city_id'].'</city>
+			<city>'.$arValue['city_id'].'</city>
 		</sphinx:document>
 	';
 }

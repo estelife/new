@@ -1339,6 +1339,13 @@ $(function(){
 		}
 	});
 
+	(function(){
+		bd.find('span.moderate').each(function(){
+			$(this).parent().parent().addClass('adm-table-row-active');
+		});
+		setTimeout(arguments.callee,150);
+	})();
+
 	bd.on('click','.estelife-checklist label:not(.adm-designed-checkbox-label)',function(){
 		var li=$(this),
 			inpt=li.find('input');

@@ -53,6 +53,8 @@ require([
 	$(function(){
 		var body=$('body');
 
+		EL.notice();
+
 		Backbone.history.start({
 			'pushState':true,
 			'hashChange': true,
@@ -105,7 +107,7 @@ require([
 		});
 
 		//Переход на детальную страницу
-		body.on('click', '.items .item, .general-news .col1, .general-news .col2 .img', function(e){
+		body.on('click', '.items .item:not(.article), .items .article .item-in, .general-news .col1, .general-news .col2 .img', function(e){
 			var target=$(e.target),
 				currentTag=target[0].tagName,
 				parentTag=target.parent()[0].tagName,
@@ -120,6 +122,7 @@ require([
 
 			if((currentTag!='A' && link && link.length>0) || ['H1','H2','H3'].inArray(parentTag)>-1){
 				Router.navigate(link,{trigger: true});
+				lightMenu();
 				e.preventDefault();
 			}
 		});
@@ -352,6 +355,7 @@ require([
 					href.replace(/^\/rest/,''),
 					{trigger: true}
 				);
+				lightMenu();
 
 				e.preventDefault();
 			}
@@ -399,6 +403,7 @@ require([
 				page+EL.query().toString(data),
 				{trigger: true}
 			);
+			lightMenu();
 			e.preventDefault();
 		}).on('click','form.filter a.clear',function(e){
 //			var href=$(this).attr('href');
@@ -413,7 +418,6 @@ require([
 					$(this).attr('href'),
 					{trigger: true}
 				);
-
 				$('.main_menu').find('.main,.active,.second_active')
 					.removeClass('main active second_active');
 				e.preventDefault();
@@ -440,80 +444,84 @@ require([
 	});
 
 	//меню
-	EL.SystemSettings.ready(function(s){
-		$(".main_menu a").each(function() {
-			var href = $(this).attr("href"),
-				path_name = document.location.pathname.split('/'),
-				reg,matches;
 
-			if(!_.isEmpty(path_name[1])){
-				reg=new RegExp('^.*'+path_name[1]+'.*$');
-				matches=href.match(reg);
-			}
+	function lightMenu(){
+		EL.SystemSettings.ready(function(s){
+			$(".main_menu a").each(function() {
+				var href = $(this).attr("href"),
+					path_name = document.location.pathname.split('/'),
+					reg,matches;
 
-			if (matches && !$(".main_menu>li.active").length) {
-				$(this).closest(".main_menu>li").addClass("active").addClass('main');
-				return false;
-			}else{
-				var mass = s.directions;
-				path_name = path_name[1];
-				reg=new RegExp('^([a-z]{2})[0-9]+$');
-				matches=path_name.match(reg);
+				if(!_.isEmpty(path_name[1])){
+					reg=new RegExp('^.*'+path_name[1]+'.*$');
+					matches=href.match(reg);
+				}
 
-				if (matches && mass[matches[1]].length>0){
-					reg=new RegExp('^.*'+mass[matches[1]]+'.*$');
-					var href_matches=href.match(reg);
+				if (matches && !$(".main_menu>li.active").length) {
+					$(this).closest(".main_menu>li").addClass("active").addClass('main');
+					return false;
+				}else{
+					var mass = s.directions;
+					path_name = path_name[1];
+					reg=new RegExp('^([a-z]{2})[0-9]+$');
+					matches=path_name.match(reg);
 
-					if (href_matches && !$(".main_menu>li.active").length){
-						$(this).closest(".main_menu>li").addClass("active").addClass('main');
-						return false;
+					if (matches && mass[matches[1]].length>0){
+						reg=new RegExp('^.*'+mass[matches[1]]+'.*$');
+						var href_matches=href.match(reg);
+
+						if (href_matches && !$(".main_menu>li.active").length){
+							$(this).closest(".main_menu>li").addClass("active").addClass('main');
+							return false;
+						}
 					}
 				}
-			}
-		});
+			});
 
-		//подсветка урлов второго уровня
-		$(".submenu a").each(function(){
-			var href = $(this).attr("href"),
-				reg=new RegExp('^('+href+')(\\?.*)?$'),
-				path_name = document.location.href.split('/').slice(3).join('/');
-			path_name = '/'+path_name;
-			matches =path_name.match(reg);
+			//подсветка урлов второго уровня
+			$(".submenu a").each(function(){
+				var href = $(this).attr("href"),
+					reg=new RegExp('^('+href+')(\\?.*)?$'),
+					path_name = document.location.href.split('/').slice(3).join('/');
+				path_name = '/'+path_name;
+				matches =path_name.match(reg);
 
-			if (matches || path_name == '/apparatuses-makers/') {
-				if (path_name == '/apparatuses-makers/'){
-					$('.submenu li a[href="/preparations-makers/"]').parent().addClass("second_active").parent().parent().addClass("active").addClass('main');
+				if (matches || path_name == '/apparatuses-makers/') {
+					if (path_name == '/apparatuses-makers/'){
+						$('.submenu li a[href="/preparations-makers/"]').parent().addClass("second_active").parent().parent().addClass("active").addClass('main');
+					}else{
+						$(this).closest(".submenu>li").addClass("second_active");
+					}
+					return false;
 				}else{
-					$(this).closest(".submenu>li").addClass("second_active");
-				}
-				return false;
-			}else{
 
-				var mass = s.directions,
-					reg=new RegExp('^([a-z]{2})[0-9]+$');
-				path_name = document.location.pathname.split('/').slice(1, -1).pop();
+					var mass = s.directions,
+						reg=new RegExp('^([a-z]{2})[0-9]+$');
+					path_name = document.location.pathname.split('/').slice(1, -1).pop();
 
-				if (path_name){
-					var matches=path_name.match(reg);
+					if (path_name){
+						var matches=path_name.match(reg);
 
-					if ((matches && mass[matches[1]].length>0) || (matches && matches[1]=='am')){
+						if ((matches && mass[matches[1]].length>0) || (matches && matches[1]=='am')){
 
-						if (matches[1]=='am'){
-							$('.submenu li a[href="/preparations-makers/"]').parent().addClass("second_active").parent().parent().addClass("active").addClass('main');
-						}else{
-							reg=new RegExp('^\/'+mass[matches[1]]+'\/$');
-							var href_matches=href.match(reg);
+							if (matches[1]=='am'){
+								$('.submenu li a[href="/preparations-makers/"]').parent().addClass("second_active").parent().parent().addClass("active").addClass('main');
+							}else{
+								reg=new RegExp('^\/'+mass[matches[1]]+'\/$');
+								var href_matches=href.match(reg);
 
-							if (href_matches){
-								$(this).closest(".submenu>li").addClass("second_active");
-								return false;
+								if (href_matches){
+									$(this).closest(".submenu>li").addClass("second_active");
+									return false;
+								}
 							}
 						}
 					}
 				}
-			}
+			});
 		});
-	});
+	};
+	lightMenu();
 
 	//Работа с Гео
 	$(function(){
@@ -707,15 +715,20 @@ require([
 			e.preventDefault();
 		});
 
-		body.on('focus','.quality-in input', function(){
+		body.on('focus','.quality-in input, .quality-in textarea', function(){
 			var form=$(this).parent();
 			if (form.hasClass('error'))
 				form.removeClass('error').find('i:last').remove();
+
+			var total_form=$(this).parents('form'),
+				total_error=total_form.find('.total_error');
+			if (total_error.hasClass('error'))
+				total_error.removeClass('error');
+
+			$('.success').remove();
 		});
 
 		body.on('focus','input.preload', function(){
-
-
 			$(this).autocomplete({
 				minLength:3,
 				source:function(request, response){
@@ -815,7 +828,76 @@ require([
 						alert('Ошибка сохранения запроса')
 				},'json');
 			}
-		})
+		});
+
+		//комментарии
+		body.on('submit','form[name=comments]', function(){
+			var form=$(this);
+			require(['mvc/Models','mvc/Views'],function(Models,Views){
+				var data={};
+
+				form.find('input,textarea').each(function(){
+					var input=$(this);
+					data[input.attr('name')]=input.val();
+				});
+
+				$.post('/rest/comments/',data,function(r){
+					new Models.Static(r,{
+						view:new Views.Comments({
+							template:'comments_list'
+						})
+					});
+				},'json');
+			});
+
+			return false;
+		});
+
+		//Показать все комментарии
+		body.on('click', '.comments .more a span', function(){
+			var el=$(this);
+			require(['mvc/Models', 'mvc/Views'], function(Models,Views){
+				var data={},
+					form=el.parents('div.comments').find('form[name=comments]');
+
+				form.find('input').each(function(){
+					var input=$(this);
+					if (input.attr('name')=='id' || input.attr('name')=='type')
+						data[input.attr('name')]=input.val();
+				});
+
+				if (el.hasClass('hide')){
+					data['count']=5;
+				}else{
+					data['count']=0;
+				}
+
+				$.post('/rest/comments/',data,function(r){
+					new Models.Static(r,{
+						view:new Views.Comments({
+							template:'comments_list'
+						})
+					});
+				},'json');
+			});
+
+			return false;
+		});
+
+		//Количество символов в текстареа
+		body.on('keyup', 'form textarea', function(){
+			var prnt=$(this).parent().parent(),
+				item=prnt.find('label span s'),
+				maxchars=1000,
+				number=$(this).val().length;
+			if(number<=maxchars){
+				var count=maxchars-number;
+				item.html(count+' символ'+EL.spellAmount(count, ',а,ов'));
+			}
+			if(number==maxchars) {
+				$(this).attr({maxlength: maxchars});
+			}
+		});
 	});
 
 	$(function interfaces(){

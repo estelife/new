@@ -24,9 +24,16 @@ $arResult['specializations'] = $obQuery->select()->all();
 
 $obGet=new VArray($_GET);
 
+$session = new \filters\decorators\VPromotions();
+$arFilterParams = $session->getParams();
+
 //получаем метро по городу
-if (!$obGet->blank('city') || isset($_COOKIE['estelife_city'])){
-	$nCity=intval($obGet->one('city',$_COOKIE['estelife_city']));
+if (!empty($arFilterParams['city'])){
+
+	if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){
+		$nCity = $arFilterParams['city'];
+	}
+
 	$obGet->set('city',$nCity);
 
 	$arSelect=Array("ID", "NAME");
@@ -50,8 +57,8 @@ if (!$obGet->blank('city') || isset($_COOKIE['estelife_city'])){
 }
 
 $obMethod=null;
-$nService=intval($obGet->one('service',0));
-$nSpec=intval($obGet->one('spec',0));
+$nService=intval($arFilterParams['service']);
+$nSpec=intval($arFilterParams['spec']);
 
 //Получение вида услуги
 if($nSpec>0){
@@ -91,7 +98,7 @@ if($obMethod){
 	$arResult['methods']=$obMethod->select()->all();
 }
 
-$arResult['filter']=array(
+/*$arResult['filter']=array(
 	'city'=>intval($obGet->one('city',0)),
 	'metro'=>intval($obGet->one('metro',0)),
 	'spec'=>intval($obGet->one('spec',0)),
@@ -99,7 +106,9 @@ $arResult['filter']=array(
 	'method'=>intval($obGet->one('method',0)),
 	'concreate'=>intval($obGet->one('concreate',0)),
 	'name'=>strip_tags(trim($obGet->one('name'))),
-);
+);*/
+
+$arResult['filter'] = $arFilterParams;
 
 $arResult['count'] = \bitrix\ERESULT::$DATA['count'];
 

@@ -108,14 +108,20 @@ $obQuery->builder()
 $obFilter = $obQuery->builder()->filter()
 	->_ne('eet.type', 3);
 
-if (!empty($arResult['city']) && $obGet->one('city')!=='all')
-	$obFilter->_eq('ecg.city_id', $arResult['city']['ID']);
+$session = new \filters\decorators\VSponsors();
+$arFilterParams = $session->getParams();
 
-if (!empty($arResult['country']) && $obGet->one('country')!=='all')
-	$obFilter->_eq('ecg.country_id', $arResult['country']['ID']);
 
-if(!$obGet->blank('name'))
-	$obFilter->_like('ec.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+if(!empty($arFilterParams['city'])&& $arFilterParams['city']!='all'){
+	$obFilter->_eq('ecg.city_id', $arFilterParams['city']);
+}
+
+if(!empty($arFilterParams['country']) && $arFilterParams['country'] !='all'){
+	$obFilter->_eq('ecg.country_id', $arFilterParams['country']);
+}
+
+if(!empty($arFilterParams['name']))
+	$obFilter->_like('ec.name',$arFilterParams['name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 
 $obIf=$obQuery->builder()->_if();
 $obIf->when(
@@ -149,7 +155,7 @@ while($arData=$obResult->Fetch()){
 	if (!empty($arData['type_logo_id']))
 		$arData["logo_id"] = $arData["type_logo_id"];
 
-	$arData['img']=CFile::ShowImage($arData["logo_id"], 190, 80, 'alt='.$arData["name"]);
+	$arData['img']=CFile::ShowImage($arData["logo_id"], 190, 90, 'alt='.$arData["name"]);
 	$arData['short_web']=\core\types\VString::checkUrl($arData['web']);
 
 	if (!empty($arData['type_address']))
@@ -214,6 +220,12 @@ else
 
 $sSeoTitle.=$arSeoGeo;
 $sSeoDescription.=$arSeoGeo;
+
+if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
+	$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
+	$sSeoTitle.=' - '.$_GET['PAGEN_1'].' страница';
+	$sSeoDescription.=' - '.$_GET['PAGEN_1'].' страница';
+}
 
 $APPLICATION->SetPageProperty("title", $sSeoTitle);
 $APPLICATION->SetPageProperty("description", VString::truncate($sSeoDescription, 160, ''));

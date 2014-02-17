@@ -35,6 +35,7 @@
 		"USE_SHARE" => "N",
 		"SHARE_HIDE" => $arParams["SHARE_HIDE"],
 		"DETAIL_URL"	=>	'/'.$arResult["PREFIX"].'#ELEMENT_ID#/',
+		"LINK_CODE" => $arResult["PREFIX"],
 	),
 	$component
 );?>

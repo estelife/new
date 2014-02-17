@@ -7,6 +7,9 @@ CModule::IncludeModule("iblock");
 CModule::IncludeModule("estelife");
 $obGet=new VArray($_GET);
 
+$session = new \filters\decorators\VApparatuses();
+$arFilterParams = $session->getParams();
+
 //получение стран, которые есть только в аппаратах
 $obCountries = VDatabase::driver();
 $obQuery = $obCountries->createQuery();
@@ -33,12 +36,13 @@ $obQuery->builder()->group('ct.ID');
 $obQuery->builder()->sort('ct.NAME', 'asc');
 $arResult['countries']=$obQuery->select()->all();
 
-$arResult['filter']=array(
+/*$arResult['filter']=array(
 	'country'=>intval($obGet->one('country',0)),
 	'type'=>intval($obGet->one('type',0)),
 	'name'=>strip_tags(trim($obGet->one('name'))),
-);
+);*/
 
+$arResult['filter'] = $arFilterParams;
 $arResult['count'] = \bitrix\ERESULT::$DATA['count'];
 
 $arResult['empty']=false;

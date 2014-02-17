@@ -104,15 +104,18 @@ $obFilter = $obQuery->builder()->filter()
 	->_eq('eet.type', 3)
 	->_eq('ece.is_owner', 1);
 
-if (!empty($arResult['city']) && $obGet->one('name')!=='all'){
+$session = new \filters\decorators\VTrainingsCenters();
+$arFilterParams = $session->getParams();
+
+if(!empty($arFilterParams['city']) && $arFilterParams['city'] !=='all'){
 	$obFilter->_or()
-		->_eq('ecg.city_id', $arResult['city']);
+		->_eq('ecg.city_id', $arFilterParams['city']);
 	$obFilter->_or()
-		->_eq('ectd.city_id', $arResult['city']);
+		->_eq('ectd.city_id', $arFilterParams['city']);
 }
 
-if(!$obGet->blank('name'))
-	$obFilter->_like('ec.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+if(!empty($arFilterParams['name']))
+	$obFilter->_like('ec.name',$arFilterParams['name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 
 $obIf=$obQuery->builder()->_if();
 $obIf->when(
@@ -145,7 +148,7 @@ while($arData=$obResult->Fetch()){
 	if (!empty($arData['type_logo_id'])){
 		$arData["logo_id"] = $arData["type_logo_id"];
 	}
-	$arData['img'] = CFile::ShowImage($arData["logo_id"], 190, 100, 'alt='.$arData["name"]);
+	$arData['img'] = CFile::ShowImage($arData["logo_id"], 200, 90, 'alt='.$arData["name"]);
 
 	if (!empty($arData['type_address'])){
 		$arData["address"] = $arData["type_address"];
@@ -186,11 +189,17 @@ while($arData=$obResult->Fetch()){
 	$arResult['org'][]=$arData;
 }
 
-$sPage=(isset($_GET['PAGEN_1']) && $_GET['PAGEN_1'] > 1) ?
-	' '.\core\types\VString::spellAmount($_GET['PAGEN_1'],'страница,страницы,страниц') : '';
+$sTitle='Учебные центры по косметологии и пластической хирургии.';
+$sDescription='Список учебных центров в сфере косметологии и пластической хирургии. Все здесь.';
 
-$APPLICATION->SetPageProperty("title", 'Учебные центры по косметологии и пластической хирургии'.$sPage);
-$APPLICATION->SetPageProperty("description", 'Список учебных центров в сфере косметологии и пластической хирургии. Все здесь.');
+if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
+	$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
+	$sTitle.=' - '.$_GET['PAGEN_1'].' страница';
+	$sDescription.=' - '.$_GET['PAGEN_1'].' страница';
+}
+
+$APPLICATION->SetPageProperty("title", $sTitle);
+$APPLICATION->SetPageProperty("description", $sDescription);
 
 $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));

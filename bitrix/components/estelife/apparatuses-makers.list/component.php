@@ -71,12 +71,17 @@ $obQuery->builder()
 	->field('ect.logo_id','type_logo_id')
 	->field('ectc.value', 'type_web');
 $obFilter = $obQuery->builder()->filter();
-	if (!$obGet->blank('country') && $obGet->one('country')!=='all'){
-		$obFilter->_eq('ecg.country_id', intval($obGet->one('country')));
-	}
-	if (!$obGet->blank('name')){
-		$obFilter->_like('ec.name', $obGet->one('name'),VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
-	}
+
+$session = new \filters\decorators\VApparatusesMakers();
+$arFilterParams = $session->getParams();
+
+
+if(!empty($arFilterParams['country']) && $arFilterParams['country'] !='all'){
+	$obFilter->_eq('ecg.country_id', intval($arFilterParams['country']));
+}
+if (!empty($arFilterParams['name'])){
+	$obFilter->_like('ec.name', $arFilterParams['name'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
+}
 $obQuery->builder()->group('ec.id');
 $obQuery->builder()->sort('ec.name', 'asc');
 $obResult = $obQuery->select();
@@ -100,7 +105,7 @@ while($arData=$obResult->Fetch()){
 	if (!empty($arData['type_logo_id'])){
 		$arData["logo_id"] = $arData["type_logo_id"];
 	}
-	$arData['img'] = CFile::ShowImage($arData["logo_id"], 110, 90, 'alt='.$arData["name"]);
+	$arData['img'] = CFile::ShowImage($arData["logo_id"], 105, 105, 'alt='.$arData["name"]);
 
 	if (!empty($arData['type_country_name'])){
 		$arData["country_name"] = $arData["type_country_name"];
@@ -131,10 +136,17 @@ $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
 $arResult['nav']=$obNav->getNav();
 
-$arDescription = strip_tags(html_entity_decode(implode(", ", $arDescription), ENT_QUOTES, 'utf-8'));
-$arDescription = VString::pregStrSeo($arDescription);
+$arDescription=strip_tags(html_entity_decode(implode(", ", $arDescription), ENT_QUOTES, 'utf-8'));
+$arSEODescription=VString::pregStrSeo($arDescription);
+$arSEOTitle="Производители аппаратов";
 
-$APPLICATION->SetPageProperty("title", "Производители аппаратов");
-$APPLICATION->SetPageProperty("description", VString::truncate($arDescription,'160',''));
-$APPLICATION->SetPageProperty("keywords", "Estelife, Производители аппаратов, ". $arDescription);
+if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
+	$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
+	$arSEOTitle.=' - '.$_GET['PAGEN_1'].' страница';
+	$arSEODescription.=' - '.$_GET['PAGEN_1'].' страница';
+}
+
+$APPLICATION->SetPageProperty("title", $arSEOTitle);
+$APPLICATION->SetPageProperty("description", VString::truncate($arSEODescription,'160',''));
+$APPLICATION->SetPageProperty("keywords", "Estelife, Производители аппаратов, ". $arSEODescription);
 $this->IncludeComponentTemplate();

@@ -1,6 +1,7 @@
 <?php
 use core\database\VDatabase;
 use core\exceptions\VException;
+use core\types\VString;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
@@ -14,18 +15,18 @@ try{
 	$sDateNow =strtotime($sNow.' 00:00:00');
 
 	$obResult = CIBlockSection::GetList(
-		array('UF_DATE_PUB_SECTION'=>'DESC'),
+		array('UF_DATE_PUB_SECT'=>'DESC'),
 		array(
 			'IBLOCK_ID' => $arParams['IBLOCK_ID'],
 			'SECTION_ID' => $arParams['SECTION_ID'],
-			'<=UF_DATE_PUB_SECTION' => $sNow,
+			'<=UF_DATE_PUB_SECT' => $sNow,
 			'ACTIVE'=>'Y'
 		),
 		false,
 		array(
 			'ID',
 			'NAME',
-			'UF_DATE_PUB_SECTION',
+			'UF_DATE_PUB_SECT',
 			'UF_DATE_UPD_SECTION'
 		),
 		array('nPageSize'=>1)
@@ -65,6 +66,7 @@ try{
 			array(
 				'ID',
 				'NAME',
+				'PREVIEW_TEXT',
 				'PROPERTY_SHORT_TEXT',
 				'PROPERTY_COUNT',
 				'PROPERTY_FRONTRIGHT',
@@ -77,7 +79,7 @@ try{
 			$asRes['DETAIL_URL']='/'.$arParams['PREFIX'].$asRes['ID'].'/';
 
 			if($bFirst){
-				$asRes['PREVIEW_TEXT_B'] = $asRes['PROPERTY_SHORT_TEXT_VALUE']['TEXT'].'<span></span>';
+				$asRes['PREVIEW_TEXT_B'] = trim(VString::truncate($asRes['PREVIEW_TEXT'],200)).'<span></span>';
 				$asRes['IMG_B'] = CFile::GetFileArray($asRes['PROPERTY_FRONTBIG_VALUE']);
 				$asRes['IMG_B']=$asRes['IMG_B']['SRC'];
 				$bFirst=false;

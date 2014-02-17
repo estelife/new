@@ -52,7 +52,7 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 	)?>
 	<?php
 		$APPLICATION->IncludeComponent(
-			"estelife:promotions.list",
+			"estelife:promotions.clinics.main.list",
 			"index",
 			array(
 				"COUNT" => 3
@@ -65,8 +65,8 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 		"",
 		array(
 			"IBLOCK_ID"=>3,
-			"SECTIONS_ID"=> array(172,173,176,177),
-			"SECTIONS_NAME"=> array("Косметология", "Пластическая хирургия", "Косметика", "Обо всем"),
+			"SECTIONS_ID"=> array(176,177,173,172),
+			"SECTIONS_NAME"=> array("События", "Обо всем","Пластическая хирургия","Косметология"),
 			"NEWS_COUNT" => 4,
 			"NEED_SECTION" => "N",
 			"MAIN_URL" => "novosti",
@@ -104,12 +104,12 @@ $APPLICATION->IncludeComponent(
 		"",
 		array(
 			"IBLOCK_ID"=>14,
-			"SECTIONS_ID"=> array(194,195,196,197),
-			"SECTIONS_NAME"=> array("Красивое лицо", "Идеальное тело", "Изящные ручки", "Прекрасные ножки"),
+			"SECTIONS_ID"=> array(212,197,196,195,194),
+			"SECTIONS_NAME"=> array("Разное","Прекрасные ножки","Изящные ручки","Идеальное тело","Красивое лицо"),
 			"NEWS_COUNT" => 4,
 			"NEED_SECTION" => "N",
 			"MAIN_URL" => "articles",
-			"TITLE"=>"Советы о красоте",
+			"TITLE"=>"О красоте",
 			"MORE_TITLE"=>"Больше советов о красоте",
 			"IMG_FIELD" => 151,
 			"ANONS_FIELD"=> 175,

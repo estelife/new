@@ -58,6 +58,16 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 				</div>
 			</div>
 		</div>
+		<div class="comments-ajax">
+		<?$APPLICATION->IncludeComponent("estelife:comments.list",
+			"",
+			array(
+				"element_id"=>$arResult["ID"],
+				"type"=>$arParams["LINK_CODE"],
+				"count"=>"5"
+			)
+		);?>
+		</div>
 	</div>
 	<div class="adv adv-out right">
 		<?$APPLICATION->IncludeComponent("bitrix:advertising.banner","",Array(

@@ -3,6 +3,7 @@ CModule::IncludeModule('estelife');
 use core\exceptions\VException;
 use core\exceptions\VFormException;
 use core\types\VString;
+use notice\VNotice;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 
@@ -24,6 +25,8 @@ if ($USER->IsAuthorized())
 
 //Конфирм регистарции
 if (isset($_GET['confirm_registration']) && $_GET['confirm_registration']=='yes'){
+	VNotice::registerSuccess('Добро пожаловать!','Регистрация прошла успешно.');
+	LocalRedirect('/');
 	try{
 		if ($_GET['confirm_user_id']>0)
 			$nUserId=intval($_GET['confirm_user_id']);
@@ -47,9 +50,10 @@ if (isset($_GET['confirm_registration']) && $_GET['confirm_registration']=='yes'
 		if (!$USER->Update($arUser["ID"], array("ACTIVE" => "Y", "CONFIRM_CODE" => "")))
 			throw new \request\exceptions\VRequest('Ошибка подтверждения регистрации. Обратитесь к администратору.');
 		else{
-			if($USER->Authorize($arUser["ID"]))
+			if($USER->Authorize($arUser["ID"])){
+				VNotice::registerSuccess('Добро пожаловать!','Регистрация прошла успешно.');
 				LocalRedirect($arResult["backurl"]);
-			else
+			}else
 				throw new \request\exceptions\VRequest('Ошибка авторизации пользователя после подтверждения регистрации. Обратитесь к администратору.');
 		}
 	}catch(VException $e){

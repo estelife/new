@@ -33,8 +33,9 @@ class VQuery implements db\VQuery {
 
 	public function count(){
 		$sSelect=$this->builder()->buildCount();
+		$this->obBuilder=null;
 
-		if(!($this->obDriver->connect()->query($sSelect)))
+		if(!($this->obQueryResult=$this->obDriver->connect()->query($sSelect)))
 			throw new db\exceptions\VQueryException(
 				$this->obDriver->connect()->error,
 				$this->obDriver->connect()->errno

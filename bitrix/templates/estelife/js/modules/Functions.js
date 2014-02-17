@@ -18,6 +18,7 @@ define(['tpl/Template','modules/Select'],function(Template,Select){
 						tpl.set('list',r.list);
 						var h = tpl.render();
 						if (h.length>0){
+							$('.promotions.announces h2').html(r.title.name);
 							$('.promotions.announces .items').html(h);
 							$('.more_promotions').attr('href','/promotions/?city='+city);
 						}else{

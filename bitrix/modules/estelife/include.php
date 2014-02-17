@@ -57,6 +57,15 @@ CModule::AddAutoloadClasses(
 		//notice
 		'notice\VNotice' => "classes/notice/class.VNotice.php",
 
+		//search
+		'search\VSearch' => "classes/search/class.VSearch.php",
+		'SphinxClient' => "classes/search/sphinxapi.php",
+
+		//comments
+		'comments\VComment' => "classes/comments/class.VComment.php",
+		//comments
+		'core\validate\VValidate' => "classes/core/validate/class.VValidate.php",
+
 		// bitrix
 		'core\bx\VDatabaseAdapter' => "classes/core/bx/class.VDatabaseAdapter.php",
 
@@ -77,11 +86,44 @@ CModule::AddAutoloadClasses(
 		'request\VUser'=>"classes/request/class.VUser.php",
 		'request\exceptions\VRequest'=>"classes/request/exceptions/class.VRequest.php",
 
+		//filters
+		'filters\decorators\VDecorator'=>'classes/filters/decorators/class.VDecorator.php',
+		'filters\VFilter'=>'classes/filters/interface.VFilter.php',
+		'filters\VChangeable'=>'classes/filters/interface.VChangeable.php',
+		'filters\VSession'=>'classes/filters/class.VSession.php',
+		'filters\VQuery'=>'classes/filters/class.VQuery.php',
+		'filters\VCreator'=>'classes/filters/class.VCreator.php',
+		'filters\decorators\VClinic'=>'classes/filters/decorators/class.VClinic.php',
+		'filters\decorators\VPromotions'=>'classes/filters/decorators/class.VPromotions.php',
+		'filters\decorators\VSponsors'=>'classes/filters/decorators/class.VSponsors.php',
+		'filters\decorators\VEvents'=>'classes/filters/decorators/class.VEvents.php',
+		'filters\decorators\VTrainingsCenters'=>'classes/filters/decorators/class.VTrainingsCenters.php',
+		'filters\decorators\VTrainings'=>'classes/filters/decorators/class.VTrainings.php',
+		'filters\decorators\VPreparationsMakers'=>'classes/filters/decorators/class.VPreparationsMakers.php',
+		'filters\decorators\VApparatuses'=>'classes/filters/decorators/class.VApparatuses.php',
+		'filters\decorators\VApparatusesMakers'=>'classes/filters/decorators/class.VApparatusesMakers.php',
+		'filters\decorators\VPreparations'=>'classes/filters/decorators/class.VPreparations.php',
+		'filters\decorators\VThreads'=>'classes/filters/decorators/class.VThreads.php',
+		'filters\decorators\VImplants'=>'classes/filters/decorators/class.VImplants.php',
+
 		//subscribe
-		'subscribe\VUser'=>"classes/subscribe/class.VUser.php",
-		'subscribe\VUserNotFound'=>"classes/subscribe/class.VUserNotFound.php",
-		'subscribe\ClinicFactory'=>"classes/subscribe/class.ClinicFactory.php",
-		'subscribe\TrainigsFactory'=>"classes/subscribe/class.TrainigsFactory.php",
-		'subscribe\VDirector'=>"classes/subscribe/class.VDirector.php"
+		'subscribe\owners\VOwner'=>'classes/subscribe/owners/class.VOwner.php',
+		'subscribe\owners\VCreator'=>'classes/subscribe/owners/class.VCreator.php',
+		'subscribe\owners\VOwnerCollection'=>'classes/subscribe/owners/class.VOwnerCollection.php',
+		'subscribe\owners\VOwnerEvents'=>'classes/subscribe/owners/interface.VOwnerEvents.php',
+		'subscribe\mailers\VMailer'=>'classes/subscribe/mailers/class.VMailer.php',
+		'subscribe\mailers\VPromotions'=>'classes/subscribe/mailers/class.VPromotions.php',
+		'subscribe\mailers\VTrainings'=>'classes/subscribe/mailers/class.VTrainings.php',
+		'subscribe\factories\VFactory'=>'classes/subscribe/factories/interface.VFactory.php',
+		'subscribe\factories\VPromotions'=>'classes/subscribe/factories/class.VPromotions.php',
+		'subscribe\factories\VTrainings'=>'classes/subscribe/factories/class.VTrainings.php',
+		'subscribe\exceptions\VEventEx'=>'classes/subscribe/exceptions/class.VEventEx.php',
+		'subscribe\exceptions\VFactoryEx'=>'classes/subscribe/exceptions/class.VFactoryEx.php',
+		'subscribe\exceptions\VOwnerCreatorEx'=>'classes/subscribe/exceptions/class.VOwnerCreatorEx.php',
+		'subscribe\exceptions\VOwnerEx'=>'classes/subscribe/exceptions/class.VOwnerEx.php',
+		'subscribe\events\VAggregator'=>'classes/subscribe/events/interface.VAggregator.php',
+		'subscribe\events\VPromotions'=>'classes/subscribe/events/class.VPromotions.php',
+		'subscribe\events\VTrainings'=>'classes/subscribe/events/class.VTrainings.php',
+		'subscribe\events\VEvent'=>'classes/subscribe/events/class.VEvent.php',
 	)
 );

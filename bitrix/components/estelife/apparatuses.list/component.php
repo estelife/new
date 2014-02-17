@@ -66,18 +66,21 @@ $obQuery->builder()
 	->field('ect.id','type_company_id');
 $obFilter = $obQuery->builder()->filter();
 
+$session = new \filters\decorators\VApparatuses();
+$arFilterParams = $session->getParams();
 
-if(!$obGet->blank('country') && $obGet->one('country')!=='all'){
-	$obFilter->_or()->_eq('ecg.country_id', intval($obGet->one('country')));
-	$obFilter->_or()->_eq('ectg.country_id', intval($obGet->one('country')));
+
+if(!empty($arFilterParams['country']) && $arFilterParams['country'] !='all'){
+	$obFilter->_or()->_eq('ecg.country_id', intval($arFilterParams['country']));
+	$obFilter->_or()->_eq('ectg.country_id', intval($arFilterParams['country']));
 }
 
-if(!$obGet->blank('name')){
-	$obFilter->_like('ap.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+if(!empty($arFilterParams['name'])){
+	$obFilter->_like('ap.name',$arFilterParams['name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 }
 
-if(!$obGet->blank('type')){
-	$obFilter->_eq('apt.type_id', intval($obGet->one('type')));
+if(!empty($arFilterParams['type'])){
+	$obFilter->_eq('apt.type_id', intval($arFilterParams['type']));
 }
 $obQuery->builder()->group('ap.id');
 $obQuery->builder()->sort('ap.name', 'asc');
@@ -98,7 +101,7 @@ while($arData=$obResult->Fetch()){
 	$arData['preview_text'] = \core\types\VString::truncate(nl2br(htmlspecialchars_decode($arData['preview_text'],ENT_NOQUOTES)), 250, '...');
 
 	if(!empty($arData['logo_id'])){
-		$file=CFile::ShowImage($arData["logo_id"], 110, 90,'alt="'.$arData['name'].'"');
+		$file=CFile::ShowImage($arData["logo_id"], 180, 180,'alt="'.$arData['name'].'"');
 		$arData['logo']=$file;
 	}
 

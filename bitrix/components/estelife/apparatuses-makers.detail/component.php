@@ -74,7 +74,7 @@ if (!empty($arResult['company']['type_logo_id'])){
 	$arResult['company']['logo_id'] = $arResult['company']['type_logo_id'];
 }
 unset($arResult['company']['type_logo_id']);
-$arResult['company']['img'] = CFile::ShowImage($arResult['company']['logo_id'],200, 85, 'alt='.$arResult['company']['name']);
+$arResult['company']['img'] = CFile::ShowImage($arResult['company']['logo_id'],180, 180, 'alt='.$arResult['company']['name']);
 
 if (!empty($arResult['company']['type_country_name'])){
 	$arResult['company']['country_name'] = $arResult['company']['type_country_name'];

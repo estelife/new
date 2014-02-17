@@ -95,21 +95,27 @@ $obQuery->builder()
 $obFilter=$obQuery->builder()->filter();
 $obFilter->_eq('eet.type', 3);
 
-if (!empty($arResult['city']) && $obGet->one('direction')!='all'){
+$session = new \filters\decorators\VTrainings();
+$arFilterParams = $session->getParams();
+
+if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){
 	$obFilter->_or()
-		->_eq('ecg.city_id', $arResult['city']);
+		->_eq('ecg.city_id', $arFilterParams['city']);
 	$obFilter->_or()
-		->_eq('ee.city_id', $arResult['city']);
+		->_eq('ee.city_id', $arFilterParams['city']);
 }
 
-if(!$obGet->blank('direction'))
-	$obFilter->_eq('eed.type', intval($obGet->one('direction')));
+if(!empty($arFilterParams['direction'])){
+	$obFilter->_eq('eed.type', intval($arFilterParams['direction']));
+}
 
-$nDateFrom=preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$obGet->one('date_from'));
-$nDateFrom=\core\types\VDate::dateToTime($nDateFrom.' 00:00');
+if(!empty($arFilterParams['date_from'])){
+	$nDateFrom=preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$arFilterParams['date_from']);
+	$nDateFrom=\core\types\VDate::dateToTime($nDateFrom.' 00:00');
+}
 
-if (!$obGet->blank('date_to')){
-	$nDateTo = preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$obGet->one('date_to'));
+if(!empty($arFilterParams['date_to'])){
+	$nDateTo = preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$arFilterParams['date_to']);
 	$nDateTo = \core\types\VDate::dateToTime($nDateTo. ' 23:59');
 }else{
 	$nDateTo = false;
@@ -157,7 +163,7 @@ while($arData=$obResult->Fetch()){
 	$arData['company_link'] = '/tc'.$arData['company_id'].'/';
 
 	if(!empty($arData['logo_id'])){
-		$file = CFile::ShowImage($arData["logo_id"], 190, 100, 'alt="'.$arData['name'].'"');
+		$file = CFile::ShowImage($arData["logo_id"], 200, 90, 'alt="'.$arData['name'].'"');
 		$arData['logo']=$file;
 	}else{
 		$arData['logo']="<img src='/img/icon/unlogo.png' />";
@@ -233,12 +239,18 @@ if (!empty($arIds)){
 
 }
 
-$sPage=(isset($_GET['PAGEN_1']) && $_GET['PAGEN_1'] > 1) ?
-	' '.\core\types\VString::spellAmount($_GET['PAGEN_1'],'страница,страницы,страниц') : '';
-$APPLICATION->SetPageProperty("title", 'Семинары, курсы и обучения - косметология и пластическая хирургия'.$sPage);
-$APPLICATION->SetPageProperty("description", 'Расписание семинаров, обучений и курсов в учебных центрах по косметологии и платисческой хирургии.');
+$sTitle='Семинары, курсы и обучения - косметология и пластическая хирургия.';
+$sDescription='Расписание семинаров, обучений и курсов в учебных центрах по косметологии и платисческой хирургии.';
 
-//$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
+if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
+	$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
+	$sTitle.=' - '.$_GET['PAGEN_1'].' страница';
+	$sDescription.=' - '.$_GET['PAGEN_1'].' страница';
+}
+
+$APPLICATION->SetPageProperty("title", $sTitle);
+$APPLICATION->SetPageProperty("description", $sDescription);
+
 $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
 $arResult['nav']=$obNav->getNav();

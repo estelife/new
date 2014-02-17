@@ -19,7 +19,14 @@ if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 else
 	$arPageCount = 10;
 
-if(!$obGet->blank('city')){
+
+$session = new \filters\decorators\VClinic();
+$arFilterParams = $session->getParams();
+
+
+if(!empty($arFilterParams['city'])){
+	$arResult['city']['ID'] = $arFilterParams['city'];
+}else if(!$obGet->blank('city')){
 	//Получаем имя города по его ID
 	$arSelect = Array("ID", "NAME");
 	$arFilter = Array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "ID" => intval($obGet->one('city')));
@@ -76,28 +83,51 @@ $obQuery->builder()
 $obFilter = $obQuery->builder()->filter();
 $obFilter->_eq('ec.active', 1);
 $obFilter->_eq('ec.clinic_id', 0);
+$bFilterByCity=false;
 
-if(!empty($arResult['city']) && $obGet->one('city')!=='all')
-	$obFilter->_eq('ec.city_id', $arResult['city']['ID']);
-
-if(!$obGet->blank('name')){
-	$obFilter->_like('ec.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+if($bFilterByCity=(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all')){
+	$obFilter->_eq('ec.city_id', $arFilterParams['city']);
 }
 
-if(!$obGet->blank('metro'))
-	$obFilter->_eq('ec.metro_id', intval($obGet->one('metro')));
+if(!empty($arFilterParams['name'])){
+	$obSearch=new \search\VSearch();
+	$obSearch->setIndex('clinics');
 
-if(!$obGet->blank('spec'))
-	$obFilter->_eq('ecs.specialization_id', intval($obGet->one('spec')));
+	if($bFilterByCity)
+		$obSearch->setFilter('city',array($arFilterParams['city']));
 
-if(!$obGet->blank('service'))
-	$obFilter->_eq('ecs.service_id', intval($obGet->one('service')));
+	$arSearch=$obSearch->search($arFilterParams['name']);
 
-if(!$obGet->blank('concreate'))
-	$obFilter->_eq('ecs.service_concreate_id', intval($obGet->one('concreate')));
+	if(!empty($arSearch)){
+		$arTemp=array();
 
-if(!$obGet->blank('method'))
-	$obFilter->_eq('ecs.method_id', intval($obGet->one('method')));
+		foreach($arSearch as $arValue)
+			$arTemp[]=$arValue['id'];
+
+		$obFilter->_in('ec.id',$arTemp);
+	}else
+		$obFilter->_eq('ec.id',0);
+}
+
+if(!empty($arFilterParams['metro'])){
+	$obFilter->_eq('ec.metro_id', intval($arFilterParams['metro']));
+}
+
+if(!empty($arFilterParams['spec'])){
+	$obFilter->_eq('ecs.specialization_id', intval($arFilterParams['spec']));
+}
+
+if(!empty($arFilterParams['service'])){
+	$obFilter->_eq('ecs.service_id', intval($arFilterParams['service']));
+}
+
+if(!empty($arFilterParams['concreate'])){
+	$obFilter->_eq('ecs.service_concreate_id', intval($arFilterParams['concreate']));
+}
+
+if(!empty($arFilterParams['method'])){
+	$obFilter->_eq('ecs.method_id', intval($arFilterParams['method']));
+}
 
 $obQuery->builder()->group('ec.id');
 $obQuery->builder()->sort('ec.name', 'asc');
@@ -167,30 +197,31 @@ $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
 $arResult['nav']=$obNav->getNav();//$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav'.$sTemplate.'.php');
 
-$arTitle = "Клиники косметологии и пластической хирургии";
+$sTitle = "Клиники косметологии и пластической хирургии";
 if ($arResult['city']['ID']==359){
-	$arCity = 'Москва';
-	$arCityR = 'в Москве';
+	$sCity = 'Москва';
+	$sCityR = 'в Москве';
 }elseif($arResult['city']['ID']==358){
-	$arCity = 'Санкт-Петербург';
-	$arCityR = 'в Санкт-Петербурге';
+	$sCity = 'Санкт-Петербург';
+	$sCityR = 'в Санкт-Петербурге';
 }
-if (!empty($arCity)){
-	$arTitle .= ' ('.$arCity.')';
+if (!empty($sCity)){
+	$sTitle .= ' ('.$sCity.')';
 }
 
-if (!empty($arCityR)){
-	$arDescription = 'Список всех клиник '.$arCityR.' по косметологии и пластической хирургии. Читайте здесь.';
+if (!empty($sCityR)){
+	$sDescription = 'Список всех клиник '.$sCityR.' по косметологии и пластической хирургии. Читайте здесь.';
 }else{
-	$arDescription = 'Список всех клиник по косметологии и пластической хирургии. Читайте здесь.';
+	$sDescription = 'Список всех клиник по косметологии и пластической хирургии. Читайте здесь.';
 }
 
-if (isset($_GET['PAGEN_1']) && $_GET['PAGEN_1']>0){
-	$arPage = intval(strip_tags($_GET['PAGEN_1']));
-	$arTitle .= ' - ('.$arPage.' страница)';
+if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
+	$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
+	$sTitle.=' - '.$_GET['PAGEN_1'].' страница';
+	$sDescription.=' - '.$_GET['PAGEN_1'].' страница';
 }
 
-$APPLICATION->SetPageProperty("title", $arTitle);
-$APPLICATION->SetPageProperty("description", $arDescription);
+$APPLICATION->SetPageProperty("title", $sTitle);
+$APPLICATION->SetPageProperty("description", $sDescription);
 
 $this->IncludeComponentTemplate();

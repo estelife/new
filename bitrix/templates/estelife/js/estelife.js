@@ -303,6 +303,45 @@ var Estelife=function(s){
 		};
 	};
 
+	this.spellAmount=function(val, sEnds){
+		var arEnds={
+			'1':'',
+			'2-5':'а',
+			'def':'ов'
+		};
+
+		if(typeof(sEnds)=='string')
+		{
+			var sEndsTmp=sEnds.split(',');
+			arEnds={
+				'1':sEndsTmp[0],
+				'2-5':sEndsTmp[1],
+				'def':sEndsTmp[2]
+			};
+		}
+		if(val>1000000) val=val%1000000;
+		if(val>100000) val=val%100000;
+		if(val>10000) val=val%10000;
+		if(val>1000) val=val%1000;
+		if(val>100) val=val%100;
+		if(val==0) return arEnds['def'];
+		if(val==1) return arEnds['1'];
+		if(val<20)
+		{
+			if(val<5) return arEnds['2-5'];
+			else return arEnds['def'];
+		}
+		else
+		{
+			var minor=val%10;
+			if(minor==1) return arEnds['1'];
+			if(minor==0) return arEnds['def'];
+			if(minor<5) return arEnds['2-5'];
+		}
+		return arEnds['def'];
+
+	}
+
 	this.geolocation = function(success, error){
 		if (!success || typeof success != 'function'){
 			throw 'Success in not function in geolocation';
@@ -329,7 +368,7 @@ var Estelife=function(s){
 
 				if(query.length>0){
 					var temp=null;
-					query=query[1].split('&');
+					query=query.split('&');
 
 					for(var i=0; i<query.length; i++){
 						temp=query[i].split('=');
@@ -342,6 +381,13 @@ var Estelife=function(s){
 				}
 
 				return toObject;
+			},
+			setParam:function(field,value){
+
+				var temp=this.toObject();
+				temp[field]=value;
+				query=this.toString(temp).substr(1);
+				return this;
 			},
 			toString:function(q){
 				var temp=query;
@@ -601,11 +647,10 @@ Estelife.prototype.notice=function(){
 
 	(function init(){
 		var notices=$('.notices .item');
-
 		if(notices.length>0){
 			var items=[];
-			$.map(notices,function(item){
-				items.push(item);
+			notices.each(function(){
+				items.push($(this).html());
 			});
 			_show(items);
 			$('.notices').remove();
