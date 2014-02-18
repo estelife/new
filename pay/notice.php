@@ -17,7 +17,7 @@ try {
 		throw new \pay\VReceiptEx('invalid secret key');
 
 	if(!$obProtocol->checkReceipt())
-		throw new \pay\VReceiptEx('invalid receipt');
+		throw new \core\exceptions\VException('receipt will be payed');
 
 	$obReceipt->setPaymentId($nPaymentId);
 	$obReceipt->updateStatus(\pay\VReceipt::COMPLETED);
@@ -31,6 +31,11 @@ try {
 	$sResponse = $obProtocol->createResponse(
 		$e->getMessage(),
 		false
+	);
+} catch (\core\exceptions\VException $e) {
+	$sResponse = $obProtocol->createResponse(
+		$e->getMessage(),
+		true
 	);
 }
 

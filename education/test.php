@@ -11,12 +11,10 @@ $APPLICATION->SetPageProperty("title", "Практический телемос�
 		<li><a href="/about/">О проекте</a></li>
 		<li><b>Практический телемост по ботулинотерапии</b></li>
 	</ul>
-	<div class="item detail education">
-		<?$APPLICATION->IncludeComponent("estelife:education.pay",
-			"",
-			Array()
-		);?>
-	</div>
+	<?$APPLICATION->IncludeComponent("estelife:education",
+		"",
+		Array()
+	);?>
 </div>
 <?php
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");

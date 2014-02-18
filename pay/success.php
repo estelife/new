@@ -3,6 +3,7 @@ use core\exceptions\VException;
 
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
 CModule::IncludeModule('estelife');
+global $USER;
 
 try {
 	$sError = 'Оплата успешно завершена. Нам не удалось в данный момент идентифицировать Вас – это связано с рядом технических особенностей, ';
@@ -13,7 +14,7 @@ try {
 
 	$obSecure = new \pay\VSecure();
 
-	if($obSecure->checkProtectedKey())
+	if(!$obSecure->checkProtectedKey())
 		throw new VException($sError);
 
 	$arUser = $obSecure->getUserBySecret();
@@ -21,15 +22,16 @@ try {
 	if(empty($arUser))
 		throw new VException($sError);
 
-	CUser::Update($arUser['ID'],array(
+	$USER->Update($arUser['ID'],array(
 		'ACTIVE' => 'Y'
 	));
-	CUser::Login($arUser['LOGIN'],$arUser['PASSWORD'],'Y','N');
+	$USER->Login($arUser['LOGIN'],$arUser['PASSWORD'],'Y','N');
 
+	$nService = 2;
 	$obReceipt = \pay\VReceipt::getByUserService($arUser['ID'],$nService);
 	$obReceipt->updateStatus(\pay\VReceipt::COMPLETED);
 
-	\notice\VNotice::registerError('Оплата прошла успешно!', $sComplete);
+	\notice\VNotice::registerSuccess('Оплата прошла успешно!', $sComplete);
 } catch(VException $e) {
 	\notice\VNotice::registerError('Ожидание оплаты!', $e->getMessage());
 }

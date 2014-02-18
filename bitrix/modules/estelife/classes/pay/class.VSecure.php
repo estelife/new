@@ -12,7 +12,7 @@ final class VSecure {
 	private $sSalt;
 
 	public function __construct(){
-		$this->sSalt = 'receipt-user-hash';
+		$this->sSalt = 'CP9Q21rrrzSf7gqc';
 	}
 
 	public function checkProtectedKey(){
@@ -21,12 +21,12 @@ final class VSecure {
 		$sIp = VGeo::getInstance()->getIp();
 
 		$sKey = crypt($sAgent.$sIp,$this->sSalt);
-		setcookie('rec-ush','',time()-86400);
-		return ($sKey != $sCookie);
+		setcookie('rec-ush','',time()-86400,'/');
+		return ($sKey == $sCookie);
 	}
 
 	public function getUserBySecret(){
-		$sUserHash = isset($_COOKIE['rec-ust']) ? $_COOKIE['rec_ust'] : '';
+		$sUserHash = isset($_COOKIE['rec-ust']) ? $_COOKIE['rec-ust'] : '';
 
 		if(empty($sUserHash))
 			return array();
@@ -37,19 +37,19 @@ final class VSecure {
 			->from('b_user')
 			->filter()
 			->_eq(
-				$obQuery->builder()->_md5('ID','DATE_REGISTER','EMAIL','NAME',$this->sSalt),
+				$obQuery->builder()->_md5('ID','EMAIL','NAME',$this->sSalt),
 				$sUserHash
 			);
 
-		setcookie('rec-ust','',time()-86400);
+		setcookie('rec-ust','',time()-86400,'/');
 		return $obQuery
 			->select()
 			->assoc();
 	}
 
-	public function createUserSecrete($nUserId,$sDateRegister,$sEmail,$sName){
-		$sUserSecrete = md5($nUserId.$sDateRegister.$sEmail.$sName.$this->sSalt);
-		setcookie('rec-ust', $sUserSecrete, 3600, '/', 'estelife.ru');
+	public function createUserSecrete($nUserId,$sEmail,$sName){
+		$sUserSecrete = md5($nUserId.$sEmail.$sName.$this->sSalt);
+		setcookie('rec-ust', $sUserSecrete, time()+3600, '/');
 	}
 
 	public function createProtectedKey(){
@@ -57,6 +57,6 @@ final class VSecure {
 		$sIp = VGeo::getInstance()->getIp();
 		$sProtectedKey = crypt($sAgent.$sIp, $this->sSalt);
 
-		setcookie('rec-ush', $sProtectedKey, 3600, '/', 'estelife.ru');
+		setcookie('rec-ush', $sProtectedKey, time()+3600, '/');
 	}
 }

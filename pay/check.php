@@ -19,6 +19,7 @@ try{
 
 	$obReceipt->updateStatus(\pay\VReceipt::PERFORMED);
 	$obReceipt->saveChanges();
+
 	$sResponse = $obProtocol->createResponse(
 		'receipt successfully tested',
 		true
