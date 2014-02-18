@@ -66,7 +66,7 @@ class VReceipt {
 		$this->nPaymentId = intval($nPaymentId);
 	}
 
-	public function __destruct(){
+	public function saveChanges(){
 		if($this->bChanged){
 			$obQuery = VDatabase::driver()->createQuery();
 			$obQuery->builder()

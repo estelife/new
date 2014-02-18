@@ -20,7 +20,7 @@ try {
 
 	$obReceipt->setPaymentId($nPaymentId);
 	$obReceipt->updateStatus(\pay\VReceipt::COMPLETED);
-
+	$obReceipt->saveChanges();
 	$sResponse = $obProtocol->createResponse(
 		'receipt status updated successfully',
 		true
