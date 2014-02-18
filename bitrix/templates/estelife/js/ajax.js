@@ -659,9 +659,10 @@ require([
 		});
 		$('form.filter').trigger('updateFilter');
 
-		body.find('form:not(\'.filter\')').each(function(){
+		body.on('updateForm','form:not(\'.filter\')',function(){
 			Functions.initFormFields($(this));
 		});
+		$('form:not(\'.filter\')').trigger('updateForm');
 
 		body.on('updateGallery', '.gallery', function(){
 			var gallery=$(this);

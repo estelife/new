@@ -42,8 +42,6 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 		<label for="mode_type">Способ оплаты</label>
 		<select name="mode_type" id="mode_type">
 			<option value="468">Банковская карта</option>
-			<option value="14">Qiwi кошелёк</option>
-			<option value="2">WebMoney (WMR)</option>
 		</select>
 	</div>
 

@@ -21,9 +21,6 @@ $obQuery = $obDriver->createQuery();
 $obQuery->builder()->from('estelife_specializations');
 $arResult['specializations'] = $obQuery->select()->all();
 
-
-$obFilter=new VArray($_GET);
-
 $session = new \filters\decorators\VClinic();
 $arFilterParams = $session->getParams();
 

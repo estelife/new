@@ -52,6 +52,6 @@
 		</li>
 	<?php endif?>
 	<li class="last">
-		<a href="/education/">Телемост</a>
+		<a href="/education/" class="no-ajax">Телемост</a>
 	</li>
 </ul>
