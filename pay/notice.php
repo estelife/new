@@ -4,7 +4,7 @@ CModule::IncludeModule('estelife');
 
 $nReceiptId = intval($_POST['userid']);
 $nPaymentId = intval($_POST['paymentid']);
-$fAmount = floatval($_POST['amount']);
+$fAmount = number_format(floatval($_POST['amount']),2,'.','');
 $sKey = trim($_POST['key']);
 $obProtocol = new \pay\VProtocol();
 
@@ -22,6 +22,7 @@ try {
 	$obReceipt->setPaymentId($nPaymentId);
 	$obReceipt->updateStatus(\pay\VReceipt::COMPLETED);
 	$obReceipt->saveChanges();
+
 	$sResponse = $obProtocol->createResponse(
 		'receipt status updated successfully',
 		true

@@ -21,6 +21,7 @@ final class VSecure {
 		$sIp = VGeo::getInstance()->getIp();
 
 		$sKey = crypt($sAgent.$sIp,$this->sSalt);
+		setcookie('rec-ush','',time()-86400);
 		return ($sKey != $sCookie);
 	}
 
@@ -40,6 +41,7 @@ final class VSecure {
 				$sUserHash
 			);
 
+		setcookie('rec-ust','',time()-86400);
 		return $obQuery
 			->select()
 			->assoc();
