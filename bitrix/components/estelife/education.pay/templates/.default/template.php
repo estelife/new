@@ -29,7 +29,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<?php endif; ?>
 		</div>
 	<?php else: ?>
-		<input type="hidden" name="nickname" value="<?=$arResult['nickname']?>" />
+		<input type="hidden" name="nickname" value="<?=$arResult['receipt_id']?>" />
 		<input type="hidden" name="amount" value="<?=$arResult['amount']?>" />
 	<?php endif; ?>
 

@@ -13,6 +13,9 @@ try {
 
 	$nUserid = $USER->GetID();
 	$obReceipt = \pay\VReceipt::getByUserService($nUserId,$arResult['service_id']);
+
+	if($obReceipt->getStatus() != \pay\VReceipt::COMPLETED)
+		throw new \core\exceptions\VException('Необходимо оплатить.');
 } catch(\pay\VReceiptEx $e) {
 	//\notice\VNotice::registerError('Доступ закрыт.','Необходимо произвести оплату');
 	$arResult['allow'] = false;

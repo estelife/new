@@ -25,7 +25,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		$obError=new VFormException();
 
 		if (isset($_POST['name']) && !empty($_POST['name']))
-			$arUser['USER_NAME']=trim(strip_tags($_POST['name']));
+			$arUser['NAME']=trim(strip_tags($_POST['name']));
 		else
 			$obError->setFieldError('Укажите ФИО.','name');
 
@@ -85,7 +85,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		$obSecure = new \pay\VSecure();
 		$obSecure->createProtectedKey();
-		$obSecure->createUserSecrete($arResult['nickname'],$arUser['EMAIL'],$arUser['USER_NAME']);
+		$obSecure->createUserSecrete($arResult['nickname'],$arUser['EMAIL'],$arUser['NAME']);
 
 		$arResult['user'] = $arUser;
 
@@ -109,8 +109,18 @@ if($arResult['is_login']){
 
 	try {
 		$obReceipt = \pay\VReceipt::getByUserService($arResult['nickname'],$arResult['service_id']);
-		LocalRedirect('/education/');
-	}catch(\pay\VReceiptEx $e){}
+		$arResult['receipt_id'] = $obReceipt->getReceiptId();
+
+		if($obReceipt->getStatus() == \pay\VReceipt::COMPLETED)
+			LocalRedirect('/education/');
+	}catch(\pay\VReceiptEx $e){
+		$obReceipt = \pay\VReceipt::create(
+			$arResult['nickname'],
+			$arResult['service_id'],
+			$arResult['amount']
+		);
+		$arResult['receipt_id'] = $obReceipt->getReceiptId();
+	}
 
 	$obSecure = new \pay\VSecure();
 	$obSecure->createProtectedKey();

@@ -2878,7 +2878,8 @@ form.quality .field.city {
 }
 form.quality label,
 .auth label,
-.comments form label {
+.comments form label,
+.p-form label {
 	font-size:14px;
 	color:#5f5f5f;
 	font-weight: normal;
@@ -2888,7 +2889,8 @@ form.quality label,
 	text-decoration: none;
 }
 form.quality input,
-.auth input.text {
+.auth input.text,
+.p-form input.text {
 	padding-top:9px;
 	padding-bottom:9px;
 	width:286px;
@@ -2910,7 +2912,8 @@ form.quality .clinic  input {
 	width: 618px;
 }
 form.quality .submit,
-.auth .submit {
+.auth .submit,
+.p-form .submit {
 	height: 40px;
 	margin-top: 14px;
 	float: left;
@@ -3430,5 +3433,55 @@ form.quality .submit,
 }
 .content .education form .req-success {
 	color:#009b3a;
+	font-weight: normal;
+}
+.content .p-form .submit {
+	width:auto;
+	padding:0 20px;
+}
+.p-form .field,
+.p-form .field input {
+	float:none;
+}
+.content .p-form .field {
+	margin-bottom:20px;
+	width:310px;
+}
+.content .p-form .field,
+.content .p-form .submit {
+	margin-left:335px;
+}
+.content .p-form label {
+	text-align: left;
+}
+.p-form .select {
+	width:310px;
+}
+.p-form .select .value {
+	height:38px;
+	line-height: 37px;
+}
+.p-form .select .arrow {
+	height: 36px;
+	width: 37px;
+	background:url('../images/icons/select_arrow_black.png') center center no-repeat;
+	top: -1px;
+	right: -1px;
+}
+.p-form .select .arrow:hover {
+	background:#e60365 url('../images/icons/short_arrow_white.png') center center no-repeat;
+}
+.p-form .select .arrow.active {
+	background:url('../images/icons/select_arrow_pink.png') center center no-repeat;
+}
+.p-form .select .items {
+	top:38px;
+}
+.content .p-form {
+	margin-top:30px;
+}
+.content .p-form h2 {
+	text-transform: uppercase;
+	margin-bottom: 30px;
 	font-weight: normal;
 }
