@@ -4,7 +4,8 @@ CModule::IncludeModule('estelife');
 
 $nReceiptId = intval($_POST['userid']);
 $nPaymentId = intval($_POST['paymentid']);
-$sKey = trim(htmlspecialchars($_POST['key']));
+$fAmount = floatval($_POST['amount']);
+$sKey = trim($_POST['key']);
 $obProtocol = new \pay\VProtocol();
 
 try {
@@ -12,7 +13,7 @@ try {
 	$obProtocol->setReceipt($obReceipt);
 	$obProtocol->setReceipt($obReceipt);
 
-	if(!$obProtocol->checkKey($sKey))
+	if(!$obProtocol->checkKey($fAmount,$nPaymentId,$sKey))
 		throw new \pay\VReceiptEx('invalid secret key');
 
 	if(!$obProtocol->checkReceipt())

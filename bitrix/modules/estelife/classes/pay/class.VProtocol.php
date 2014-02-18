@@ -35,11 +35,8 @@ final class VProtocol {
 		$this->obReceipt = $obReceipt;
 	}
 
-	public function checkKey($sKey){
-		$fAmount = $this->obReceipt->getAmount();
+	public function checkKey($fAmount,$nPaymentId,$sKey){
 		$nReceiptId = $this->obReceipt->getReceiptId();
-		$nPaymentId = $this->obReceipt->getPaymentId();
-
 		$sSalt = $fAmount.$nReceiptId.$nPaymentId.$this->sSecretKey;
 		return ($sKey == md5($sSalt));
 	}
