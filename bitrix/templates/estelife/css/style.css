@@ -3443,6 +3443,9 @@ form.quality .submit,
 .p-form .field input {
 	float:none;
 }
+.content .p-form .field input {
+	border: 1px solid #d1d1d1;
+}
 .content .p-form .field {
 	margin-bottom:20px;
 	width:310px;
@@ -3457,9 +3460,13 @@ form.quality .submit,
 .p-form .select {
 	width:310px;
 }
-.p-form .select .value {
+.content .p-form .select .value {
 	height:38px;
 	line-height: 37px;
+	text-align: left;
+}
+.content .p-form .select .item {
+	text-align: left;
 }
 .p-form .select .arrow {
 	height: 36px;
@@ -3483,5 +3490,13 @@ form.quality .submit,
 .content .p-form h2 {
 	text-transform: uppercase;
 	margin-bottom: 30px;
+	font-weight: normal;
+}
+.education .title {
+	margin-bottom: 30px;
+	height: 30px;
+}
+.education .title h1 {
+	text-transform: uppercase;
 	font-weight: normal;
 }

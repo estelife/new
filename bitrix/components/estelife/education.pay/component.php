@@ -89,11 +89,18 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		$arResult['user'] = $arUser;
 
+		$obReceipt = \pay\VReceipt::create(
+			$arResult['nickname'],
+			$arResult['service_id'],
+			$arResult['amount']
+		);
+		$arResult['receipt_id'] = $obReceipt->getReceiptId();
+
 		$arQuery = array(
 			'project'=>$arResult['project_id'],
 			'source'=>$arResult['source_id'],
 			'amount'=>$arResult['amount'],
-			'nickname'=>$arResult['nickname'],
+			'nickname'=>$arResult['receipt_id'],
 			'mode_type'=>$nModeType
 		);
 		LocalRedirect($arResult['form_action'].'?'.http_build_query($arQuery));
@@ -101,6 +108,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		$arResult['errors'] = $e->getFieldErrors();
 	} catch(\core\exceptions\VException $e){
 		\notice\VNotice::registerError('Ошибка регистрации', $e->getMessage());
+	} catch(\pay\VReceiptEx $e){
+		\notice\VNotice::registerError('Ошибка создания квитанции!', 'Пожалуйста, повторите попытку.');
 	}
 }
 

@@ -1,5 +1,8 @@
 <div class="item detail education">
 	<?php if($arResult['allow']): ?>
+		<div class="title">
+			<h1>Практический телемост по ботулинотерапии</h1>
+		</div>
 		<div id='player'></div>
 		<script type='text/javascript' src='http://www.aloha.cdnvideo.ru/aloha/jwplayer/js_for_embed/jwplayer.js'></script>
 		<script type='text/javascript'>

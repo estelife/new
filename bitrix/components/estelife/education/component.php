@@ -11,7 +11,7 @@ try {
 	if(!$arResult['is_login'])
 		throw new \core\exceptions\VException('Необходимо авторизоваться.');
 
-	$nUserid = $USER->GetID();
+	$nUserId = $USER->GetID();
 	$obReceipt = \pay\VReceipt::getByUserService($nUserId,$arResult['service_id']);
 
 	if($obReceipt->getStatus() != \pay\VReceipt::COMPLETED)

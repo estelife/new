@@ -6,6 +6,11 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 	<input type="hidden" name="project" value="<?=$arResult['project_id']?>" />
 	<input type="hidden" name="source" value="<?=$arResult['source_id']?>" />
 
+	<div class="field">
+		<label for="name">Стоимость</label>
+		<input type="text" class="text" name="name" id="name" value="<?=$arResult['amount']?>" disabled="disabled" />
+	</div>
+
 	<?php if(!$arResult['is_login']):?>
 		<div class="field <?=(isset($arResult['errors']['name']) ? ' error' : '')?>">
 			<label for="name">ФИО</label>
