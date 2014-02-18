@@ -450,6 +450,11 @@ define(['tpl/Template'],function(Template){
 
 				this.$el.append(this.data.page);
 				this.el=this.$el[0];
+
+				Events.push({
+					'target':this.$el.find('form'),
+					'type':'updateForm'
+				})
 			}
 			return this;
 		}

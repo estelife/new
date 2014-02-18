@@ -10,7 +10,6 @@ define("NOT_CHECK_PERMISSIONS", true);
 @set_time_limit(0);
 
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
-require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/estelife/prolog.php");
 
 CModule::IncludeModule('estelife');
 CModule::IncludeModule('iblock');

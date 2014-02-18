@@ -125,5 +125,11 @@ CModule::AddAutoloadClasses(
 		'subscribe\events\VPromotions'=>'classes/subscribe/events/class.VPromotions.php',
 		'subscribe\events\VTrainings'=>'classes/subscribe/events/class.VTrainings.php',
 		'subscribe\events\VEvent'=>'classes/subscribe/events/class.VEvent.php',
+
+		// pay
+		'pay\VProtocol'=>'classes/pay/class.VProtocol.php',
+		'pay\VReceipt'=>'classes/pay/class.VReceipt.php',
+		'pay\VReceiptEx'=>'classes/pay/class.VReceiptEx.php',
+		'pay\VSecure'=>'classes/pay/class.VSecure.php'
 	)
 );

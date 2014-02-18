@@ -233,8 +233,8 @@ function appendToResult(&$sResult,array $arValue){
 	$arValue['tags']=htmlspecialchars(trim(strip_tags($arValue['tags'])),ENT_QUOTES,'utf-8');
 	$sSearchTags=htmlspecialchars($arValue['tags'].', '.$arValue['city'].', '.$arValue['address'],ENT_QUOTES,'utf-8');
 
-	$sPreviewText=trim(htmlspecialchars(strip_tags($arValue['preview_text']),ENT_QUOTES,'utf-8'));
-	$sDetailText=trim(htmlspecialchars(strip_tags($arValue['detail_text']),ENT_QUOTES,'utf-8'));
+	$sPreviewText=trim(htmlspecialchars(strip_tags(html_entity_decode($arValue['preview_text'],ENT_QUOTES,'utf-8')),ENT_QUOTES,'utf-8'));
+	$sDetailText=trim(htmlspecialchars(strip_tags(html_entity_decode($arValue['detail_text'],ENT_QUOTES,'utf-8')),ENT_QUOTES,'utf-8'));
 	$sDescription=!empty($sDetailText) ? VString::truncate($sDetailText,300) : $sPreviewText;
 
 	$sResult.='
