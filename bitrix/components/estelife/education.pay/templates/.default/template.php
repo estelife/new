@@ -7,8 +7,8 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 	<input type="hidden" name="source" value="<?=$arResult['source_id']?>" />
 
 	<div class="field">
-		<label for="name">Стоимость</label>
-		<input type="text" class="text" name="name" id="name" value="<?=$arResult['amount']?>" disabled="disabled" />
+		<label for="empty">Стоимость</label>
+		<input type="text" class="text" name="empty" id="empty" value="<?=$arResult['amount']?> руб." disabled="disabled" />
 	</div>
 
 	<?php if(!$arResult['is_login']):?>

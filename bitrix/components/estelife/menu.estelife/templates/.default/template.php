@@ -42,7 +42,7 @@
 		</ul>
 	</li>
 	<?php if ($arResult['yvoire']==1):?>
-		<li class="last"><a href="/yvoire/" class="no-ajax">Yvoire</a>
+		<li><a href="/yvoire/" class="no-ajax">Yvoire</a>
 			<ul class="submenu">
 				<li><a href="/yvoire/about/" class="no-ajax">О компании</a></li>
 				<li><a href="/yvoire/products/" class="no-ajax">Продукция</a></li>
@@ -51,4 +51,7 @@
 			</ul>
 		</li>
 	<?php endif?>
+	<li class="last">
+		<a href="/education/">Телемост</a>
+	</li>
 </ul>

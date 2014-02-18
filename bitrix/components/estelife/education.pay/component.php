@@ -13,7 +13,7 @@ $arResult['is_login'] = $USER->IsAuthorized();
 $arResult['source_id'] = $obProtocol->getProjectId();
 $arResult['project_id'] = $obProtocol->getSourceId();
 $arResult['form_action'] = 'https://www.onlinedengi.ru/wmpaycheck.php';
-$arResult['amount'] = 1;
+$arResult['amount'] = 1000;
 
 if($_SERVER['REQUEST_METHOD']=='POST'){
 	try {
