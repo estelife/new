@@ -3363,6 +3363,9 @@ form.quality .submit,
 	float:left;
 	font-size:14px;
 }
+.education .top li b {
+	color:#2c2c2c;
+}
 .education .top li:last-child {
 	float: right;
 }
