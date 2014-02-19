@@ -3498,21 +3498,13 @@ form.quality .submit,
 	top:38px;
 }
 .content .p-form {
-	margin-top:30px;
+	margin-top:60px;
 }
 .content .p-form h2 {
 	text-transform: uppercase;
 	margin-bottom: 30px;
+	margin-top:10px;
 	font-weight: normal;
-}
-.content .p-form h2 a {
-	text-decoration: none;
-	color: #A5A5A5;
-	text-transform: none;
-	margin-left: 13px;
-}
-.content .p-form h2 a:hover {
-	color:#e60365;
 }
 .education .title {
 	margin-bottom: 30px;
