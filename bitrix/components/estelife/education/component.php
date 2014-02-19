@@ -9,6 +9,7 @@ $arResult['allow'] = true;
 
 try {
 	if(!$arResult['is_login']){
+//		throw new \core\exceptions\VException('Необходимо авторизоваться.');
 		$obSecure = new \pay\VSecure();
 
 		if(!$obSecure->checkProtectedKey())
@@ -35,9 +36,9 @@ try {
 			$arUser['PASSWORD'],
 			'Y','N'
 		);
-		$obReceipt->updateStatus(\pay\VReceipt::COMPLETED);
+//		$obReceipt->updateStatus(\pay\VReceipt::COMPLETED);
 
-		\notice\VNotice::registerSuccess('Оплата прошла успешно!', 'Теперь Вам открыт доступ к телемосту.');
+		\notice\VNotice::registerSuccess('Вы успешно авторизованы!', 'Не раньше, чем час назад, Вы совершили попытку оплатить доступ к телемосту. По какой-то причине процедура оплаты не была завершена. Вы можете повторить её снова или подождать, возможно еще не прошло 10 минут с момента совершения попытки оплаты.');
 		LocalRedirect('/education/');
 	}
 
