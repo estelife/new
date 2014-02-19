@@ -46,10 +46,8 @@ require([
 				$(".main_menu>li").removeClass("hover");
 			}
 		);
-
 	});
 
-	// BULLSHIT
 	$(function(){
 		var body=$('body');
 
