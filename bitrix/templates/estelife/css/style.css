@@ -3531,3 +3531,6 @@ form.quality .submit,
 	padding:10px;
 	border:1px solid #e60365;
 }
+.item.detail.text h1 {
+	margin-bottom:30px;
+}
