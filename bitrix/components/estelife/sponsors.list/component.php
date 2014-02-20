@@ -114,18 +114,14 @@ $arFilterParams = $session->getParams();
 
 if(!empty($arFilterParams['city'])&& $arFilterParams['city']!='all'){
 	$obFilter->_eq('ecg.city_id', $arFilterParams['city']);
-}else if (!empty($arResult['city']) && $obGet->one('city')!='all'){
-	$obFilter->_eq('ecg.city_id', $arResult['city']['ID']);
 }
 
 if(!empty($arFilterParams['country']) && $arFilterParams['country'] !='all'){
 	$obFilter->_eq('ecg.country_id', $arFilterParams['country']);
-}else if (!empty($arResult['country']) && $obGet->one('country')!=='all'){
-	$obFilter->_eq('ecg.country_id', $arResult['country']['ID']);
 }
 
-if(!$obGet->blank('name'))
-	$obFilter->_like('ec.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+if(!empty($arFilterParams['name']))
+	$obFilter->_like('ec.name',$arFilterParams['name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 
 $obIf=$obQuery->builder()->_if();
 $obIf->when(

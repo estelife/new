@@ -1,5 +1,6 @@
 <?php
 use core\exceptions\VFormException;
+use core\exceptions\VException;
 use core\types\VString;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
@@ -106,10 +107,10 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		LocalRedirect($arResult['form_action'].'?'.http_build_query($arQuery));
 	} catch(VFormException $e) {
 		$arResult['errors'] = $e->getFieldErrors();
-	} catch(\core\exceptions\VException $e){
-		\notice\VNotice::registerError('Ошибка регистрации', $e->getMessage());
 	} catch(\pay\VReceiptEx $e){
 		\notice\VNotice::registerError('Ошибка создания квитанции!', 'Пожалуйста, повторите попытку.');
+	} catch(\core\exceptions\VException $e){
+		\notice\VNotice::registerError('Ошибка регистрации', $e->getMessage());
 	}
 }
 

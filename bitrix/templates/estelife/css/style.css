@@ -30,6 +30,9 @@ html,body,textarea,input,a {
 	color:#2c2c2c;
 	line-height: 20px;
 }
+html, body {
+	height: 100%;
+}
 body.personal {
 	background:#dddddd url('') 0 0 repeat;
 }
@@ -77,6 +80,13 @@ a:hover {
 	max-width: 1280px;
 	margin:0 auto;
 	box-shadow: 0 0 10px #aaa;
+	height: auto !important; /* ie6 ignores !important, so this will be overridden below */
+	min-height: 100%; /* ie6 ignores min-height completely */
+	height: 100%;
+	position: relative;
+}
+.wrap-fix {
+	padding-bottom:150px;
 }
 .social a, .arrow i, ul.stat i, .promotion .time i, .promotion .prices i, .media .item span, .media .menu .first a,
 .promotion .time i, .promotion .prices i, .item.detail .clinic a.more i, .select .arrow, .item.company p i, .gallery .arrow i, td.prices i,
@@ -2447,7 +2457,10 @@ form.search .submit {
 }
 .footer {
 	clear: both;
-	padding-top:90px;
+	position: absolute;
+	bottom: 0; /* Sit it on the bottom */
+	left: 0;
+	width: 100%; /* As wide as it's allowed */
 }
 .footer-in {
 	height:60px;
@@ -3350,6 +3363,9 @@ form.quality .submit,
 	float:left;
 	font-size:14px;
 }
+.education .top li b {
+	color:#2c2c2c;
+}
 .education .top li:last-child {
 	float: right;
 }
@@ -3485,11 +3501,12 @@ form.quality .submit,
 	top:38px;
 }
 .content .p-form {
-	margin-top:30px;
+	margin-top:60px;
 }
 .content .p-form h2 {
 	text-transform: uppercase;
 	margin-bottom: 30px;
+	margin-top:10px;
 	font-weight: normal;
 }
 .education .title {
@@ -3499,4 +3516,12 @@ form.quality .submit,
 .education .title h1 {
 	text-transform: uppercase;
 	font-weight: normal;
+}
+.education .ed-notice {
+	color: #A5A5A5;
+}
+.education #player,
+.content .education .ed-notice,
+.education .title{
+	margin-left:30px;
 }

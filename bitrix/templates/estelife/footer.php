@@ -1,4 +1,6 @@
-	</div>
+		</div>
+		<div class="cl">
+	</div><!--wrap-fix!-->
 	<div class="footer">
 		<div class="footer-in">
 			<div class="content">

@@ -2,6 +2,7 @@
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 ?>
 <form action="<?=($arResult['is_login'] ? $arResult['form_action'] : '')?>" method="post" class="p-form">
+	<div><a href="/personal/auth/?backurl=%2Feducation%2F">Войти, если уже оплатил</a> или</div>
 	<h2>Регистрация и оплата</h2>
 	<input type="hidden" name="project" value="<?=$arResult['project_id']?>" />
 	<input type="hidden" name="source" value="<?=$arResult['source_id']?>" />
@@ -27,7 +28,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 			<?php endif; ?>
 		</div>
 		<div class="field <?=(isset($arResult['errors']['password']) ? ' error' : '')?>">
-			<label for="password">Пароль</label>
+			<label for="password">Придумайте пароль</label>
 			<input type="password" class="text" name="password" id="password" placeholder="..." />
 			<?php if(isset($arResult['errors']['password'])): ?>
 				<i><?=$arResult['errors']['password']?></i>

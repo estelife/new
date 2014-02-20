@@ -32,42 +32,43 @@
 </head>
 <body>
 <div class="wrap">
-	<div class="panel">
-		<div class="panel_in">
-			<?php
-			$APPLICATION->IncludeComponent(
-				"estelife:user.geo",
-				"",
-				array(),
-				false
-			);
-			?>
-			<div class="cols col2 social">
-				<span>Мы в соцсетях:</span>
-				<a href="http://vk.com/estelife_ru" class="vk" target="_blank">ВКонтакте</a>
-				<a href="https://www.facebook.com/EsteLife.RU" class="fb" target="_blank">Facebook</a>
-				<a href="http://www.youtube.com/esteliferu" class="yt" target="_blank">Youtube</a>
-				<a href="https://plus.google.com/u/0/b/106608290098923557575/" class="gp" target="_blank">Google+</a>
+	<div class="wrap-fix">
+		<div class="panel">
+			<div class="panel_in">
+				<?php
+				$APPLICATION->IncludeComponent(
+					"estelife:user.geo",
+					"",
+					array(),
+					false
+				);
+				?>
+				<div class="cols col2 social">
+					<span>Мы в соцсетях:</span>
+					<a href="http://vk.com/estelife_ru" class="vk" target="_blank">ВКонтакте</a>
+					<a href="https://www.facebook.com/EsteLife.RU" class="fb" target="_blank">Facebook</a>
+					<a href="http://www.youtube.com/esteliferu" class="yt" target="_blank">Youtube</a>
+					<a href="https://plus.google.com/u/0/b/106608290098923557575/" class="gp" target="_blank">Google+</a>
+				</div>
+				<?php
+				$APPLICATION->IncludeComponent(
+					"estelife:auth.top",
+					"",
+					array(),
+					false
+				);
+				?>
 			</div>
-			<?php
-			$APPLICATION->IncludeComponent(
-				"estelife:auth.top",
-				"",
-				array(),
-				false
-			);
-			?>
 		</div>
-	</div>
-	<div class="cities main_cities none"></div>
-	<div class="head">
-		<a href="/" class="logo">
-			Портал<br /> эстетической медицины
-		</a>
-		<? $APPLICATION->IncludeComponent("estelife:search.form", "", Array(
-				"PAGE"	=>	"/search/"
-			)
-		);?>
-		<?$APPLICATION->IncludeComponent('estelife:menu.estelife', '', array())?>
-	</div>
-	<div class="wrap-content">
+		<div class="cities main_cities none"></div>
+		<div class="head">
+			<a href="/" class="logo">
+				Портал<br /> эстетической медицины
+			</a>
+			<? $APPLICATION->IncludeComponent("estelife:search.form", "", Array(
+					"PAGE"	=>	"/search/"
+				)
+			);?>
+			<?$APPLICATION->IncludeComponent('estelife:menu.estelife', '', array())?>
+		</div>
+		<div class="wrap-content">

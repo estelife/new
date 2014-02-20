@@ -3,13 +3,14 @@
 		<div class="title">
 			<h1>Практический телемост по ботулинотерапии</h1>
 		</div>
-		<div id='player'></div>
+		<p class="ed-notice">* Если окно плеера не отобразилось перезагрузите страницу.<br />* Для начала трансляции нажмите play.</p>
+		<div id="player"></div>
 		<script type='text/javascript' src='http://www.aloha.cdnvideo.ru/aloha/jwplayer/js_for_embed/jwplayer.js'></script>
 		<script type='text/javascript'>
 			jwplayer('player').setup({
 				'id': 'player',
-				'width': '480',
-				'height': '320',
+				'width': '900',
+				'height': '600',
 				'provider': 'rtmp',
 				'streamer': 'rtmp://aloha.cdnvideo.ru/aloha',
 				'file': 'meddis.sdp',
@@ -35,7 +36,7 @@
 				<p>Совместный информационно-образовательный проект МООСБТ и «Меддиз»</p>
 				<ul>
 					<li>Формат:  Телемост</li>
-					<li>Дата проведения: 19.02.2014, 10:00 МСК</li>
+					<li>Дата проведения: <b>25.02.2014</b>, 10:00 МСК</li>
 				</ul>
 			</div>
 			<img src="/bitrix/templates/estelife/images/education/meddiz.png" />
@@ -68,4 +69,5 @@
 			Array()
 		);?>
 	<?php endif; ?>
+	<div class="cl"></div>
 </div>

@@ -22,13 +22,23 @@ try {
 	if(empty($arUser))
 		throw new VException($sError);
 
+	$nService = 2;
+	$obReceipt = \pay\VReceipt::getByUserService(
+		$arUser['ID'],
+		$nService
+	);
+
+	if($obReceipt->getStatus() != \pay\VReceipt::PERFORMED)
+		throw new VException($sError);
+
 	$USER->Update($arUser['ID'],array(
 		'ACTIVE' => 'Y'
 	));
-	$USER->Login($arUser['LOGIN'],$arUser['PASSWORD'],'Y','N');
-
-	$nService = 2;
-	$obReceipt = \pay\VReceipt::getByUserService($arUser['ID'],$nService);
+	$USER->Login(
+		$arUser['LOGIN'],
+		$arUser['PASSWORD'],
+		'Y','N'
+	);
 	$obReceipt->updateStatus(\pay\VReceipt::COMPLETED);
 
 	\notice\VNotice::registerSuccess('Оплата прошла успешно!', $sComplete);

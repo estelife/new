@@ -26,16 +26,10 @@ $arFilterParams = $session->getParams();
 
 
 //получаем метро по городу
-if (!$obFilter->blank('city') || isset($_COOKIE['estelife_city'])){
-
-	if(!empty($arFilterParams['city']) && $arFilterParams['city']!= 'all'){
+if (!empty($arFilterParams['city'])){
+	if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){
 		$nCity = $arFilterParams['city'];
-	}else{
-		$nCity=intval($obFilter->one('city',$_COOKIE['estelife_city']));
-		$arFilterParams['city'] = $nCity;
 	}
-
-	$obFilter->set('city',$nCity);
 
 	$arSelect=Array("ID", "NAME");
 	$arFilter=Array(
@@ -98,9 +92,10 @@ if($obMethod){
 	$arResult['methods']=$obMethod->select()->all();
 }
 
-$arResult['filter'] = $arFilterParams;
 
+$arResult['filter'] = $arFilterParams;
 $arResult['empty']=false;
+
 foreach ($arResult['filter'] as $val){
 	if (($val=='' && $val==0) || $val=='all')
 		continue;

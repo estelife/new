@@ -112,15 +112,10 @@ if(!empty($arFilterParams['city']) && $arFilterParams['city'] !=='all'){
 		->_eq('ecg.city_id', $arFilterParams['city']);
 	$obFilter->_or()
 		->_eq('ectd.city_id', $arFilterParams['city']);
-}else if ($obGet->one('city') && $obGet->one('city')!=='all'){
-	$obFilter->_or()
-		->_eq('ecg.city_id', $arResult['city']);
-	$obFilter->_or()
-		->_eq('ectd.city_id', $arResult['city']);
 }
 
-if(!$obGet->blank('name'))
-	$obFilter->_like('ec.name',$obGet->one('name'),VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+if(!empty($arFilterParams['name']))
+	$obFilter->_like('ec.name',$arFilterParams['name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 
 $obIf=$obQuery->builder()->_if();
 $obIf->when(
