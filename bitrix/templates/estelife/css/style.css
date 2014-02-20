@@ -3525,3 +3525,9 @@ form.quality .submit,
 .education .title{
 	margin-left:30px;
 }
+.utm {
+	color:#e60365;
+	font-weight:bold;
+	padding:10px;
+	border:1px solid #e60365;
+}

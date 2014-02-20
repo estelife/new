@@ -21,3 +21,15 @@ if ($arResult['ID']>0){
 	$obLikes=new \like\VLike(\like\VLike::ARTICLE);
 	$arResult['LIKES']=$obLikes->getLikes($arResult['ID']);
 }
+
+if(!empty($_GET['utm']) && $_GET['utm']=='arc'){
+	$arAvNums = array(2,4,6,8);
+	$arResult['utm'] = array();
+
+	for($i=0,$c=count($arAvNums); $i<$c; $i++) {
+		$nKey = array_rand($arAvNums,1);
+		$arResult['utm'][] = $arAvNums[$nKey];
+	}
+
+	$arResult['utm'] = implode('', $arResult['utm']);
+}
