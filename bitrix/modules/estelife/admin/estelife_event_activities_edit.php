@@ -30,18 +30,6 @@ $obQuery->builder()
 	->field('name');
 $arFilterData['types']=$obQuery->select()->all();
 
-$obQuery->builder()
-	->from('estelife_event_halls')
-	->field('id')
-	->field('name');
-$arFilterData['halls']=$obQuery->select()->all();
-
-$obQuery->builder()
-	->from('estelife_event_sections')
-	->field('id')
-	->field('name');
-$arFilterData['sections']=$obQuery->select()->all();
-
 
 if(!empty($ID)){
 
@@ -57,6 +45,9 @@ if(!empty($ID)){
 	$obJoin->_left()
 		->_from('ea','section_id')
 		->_to('estelife_event_sections', 'id', 'es');
+	$obJoin->_left()->
+		_from('ea','event_id')->
+		_to('estelife_events','id','ee');
 	$obQuery->builder()
 		->field('ea.id','id')
 		->field('ea.name','name')
@@ -72,7 +63,9 @@ if(!empty($ID)){
 		->field('eh.name','hall')
 		->field('eh.id','hall_id')
 		->field('es.name','section')
-		->field('es.id','section_id');
+		->field('ea.event_id','event_id')
+		->field('ee.short_name','event_name')
+		->field('es.id','section_id')->filter()->_eq('ea.id',$ID);;
 
 
 	$obResult=$obQuery->select();
@@ -82,6 +75,23 @@ if(!empty($ID)){
 	);
 
 	$arResult['activ']=$obResult->Fetch();
+
+
+	$nEventId = $arResult['activ']['event_id'];
+
+	$obQuery->builder()
+		->from('estelife_event_sections')
+		->field('id')
+		->field('name')->filter()->_eq('event_id',$nEventId);
+
+	$arFilterData['sections']=$obQuery->select()->all();
+
+
+	$obQuery->builder()
+		->from('estelife_event_halls')
+		->field('id')
+		->field('name')->filter()->_eq('event_id',$nEventId);;
+	$arFilterData['halls']=$obQuery->select()->all();
 
 	$nVideo = $arResult['activ']['video'];
 	$sDate = $arResult['activ']['date'];
@@ -101,7 +111,6 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 	$obError=new ex\VFormException();
 
 	try{
-		print_r($_POST);
 		if($obPost->blank('name'))
 			$obError->setFieldError('NOT_NAME','name');
 
@@ -119,6 +128,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		if($obPost->blank('time_to'))
 			$obError->setFieldError('NOT_TIME_TO','time_to');
+
+		if($obPost->blank('hall_id'))
+			$obError->setFieldError('NOT_HALL','hall_id');
 
 		$obError->raise();
 
@@ -139,6 +151,10 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		if(!$obPost->blank('section_id'))
 			$obQuery->builder()->value('section_id',intval($obPost->one('section_id')));
+
+		if(!$obPost->blank('event_id'))
+			$obQuery->builder()->value('event_id',intval($obPost->one('event_id')));
+
 
 		if (!empty($ID)){
 			$obQuery->builder()->filter()
@@ -273,25 +289,32 @@ if(!empty($arResult['error']['text'])){
 			</td>
 		</tr>
 		<tr class="adm-detail-required-field">
-			<td width="40%" class="adm-detail-content-cell-l"><?=GetMessage("ESTELIFE_F_HALL")?></td>
+			<td width="40%"><?=GetMessage("ESTELIFE_F_EVENT")?></td>
+			<td width="60%">
+				<input type="hidden" name="event_type_id" value="3" />
+				<input type="hidden" name="event_id" value="<?=$arResult['activ']['event_id']?>" />
+				<input type="text" name="event_name" size="30" data-input="event_id" value="<?=$arResult['activ']['event_name']?>" />
+			</td>
+		</tr>
+		<tr class="adm-detail-required-field">
+			<td width="40%" class="adm-detail-content-cell-l"><?=GetMessage("ESTELIFE_F_SECTION")?></td>
 			<td width="60%" class="adm-detail-content-cell-r">
-				<select name="hall_id">
-					<?php if(!empty($arFilterData['halls'])): ?>
-						<?php foreach($arFilterData['halls'] as $nKey=>$arHall): ?>
-							<option value="<?=$arHall['id']?>"<?=($arHall['id']==$nHall ? ' selected="true"' : '')?>><?=$arHall['name']?></option>
+				<select name="section_id" id="sections" style="width: 260px;">
+					<?php if(!empty($arFilterData['sections'])): ?>
+						<?php foreach($arFilterData['sections'] as $nKey=>$arSection): ?>
+							<option value="<?=$arSection['id']?>"<?=($arSection['id']==$nSection ? ' selected="true"' : '')?>><?=$arSection['name']?></option>
 						<?php endforeach; ?>
 					<?php endif; ?>
 				</select>
 			</td>
 		</tr>
 		<tr class="adm-detail-required-field">
-			<td width="40%" class="adm-detail-content-cell-l"><?=GetMessage("ESTELIFE_F_SECTION")?></td>
+			<td width="40%" class="adm-detail-content-cell-l"><?=GetMessage("ESTELIFE_F_HALL")?></td>
 			<td width="60%" class="adm-detail-content-cell-r">
-				<select name="section_id">
-					<option value=""></option>
-					<?php if(!empty($arFilterData['sections'])): ?>
-						<?php foreach($arFilterData['sections'] as $nKey=>$arSection): ?>
-							<option value="<?=$arSection['id']?>"<?=($arSection['id']==$nSection ? ' selected="true"' : '')?>><?=$arSection['name']?></option>
+				<select name="hall_id" id="halls">
+					<?php if(!empty($arFilterData['halls'])): ?>
+						<?php foreach($arFilterData['halls'] as $nKey=>$arHall): ?>
+							<option value="<?=$arHall['id']?>"<?=($arHall['id']==$nHall ? ' selected="true"' : '')?>><?=$arHall['name']?></option>
 						<?php endforeach; ?>
 					<?php endif; ?>
 				</select>

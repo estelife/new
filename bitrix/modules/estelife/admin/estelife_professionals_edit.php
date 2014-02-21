@@ -74,6 +74,13 @@ if(!empty($ID)){
 
 	$nUserId = $arResult['spec']['user_id'];
 
+	$obQuery->builder()
+		->from('user')
+		->field('NAME')->filter()->_eq('ID',$nUserId);
+	$arFilterData['user']=$obQuery->select()->Fetch();
+
+	$sUserName =$arFilterData['user']['NAME'];
+
 }
 
 
@@ -83,12 +90,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 	$obError=new ex\VFormException();
 
 	try{
-		if($obPost->blank('country_id'))
-			$obError->setFieldError('NOT_COUNTRY','contry_id');
-
-		if($obPost->blank('city_id'))
-			$obError->setFieldError('NOT_CITY','city_id');
-
+		if($obPost->blank('user_id'))
+			$obError->setFieldError('NOT_USER','user_id');
 
 		$obError->raise();
 
@@ -96,10 +99,14 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		$obQuery = $obSpec->createQuery();
 		$obQuery->builder()->from('estelife_professionals')
 			->value('user_id', $obPost->one('user_id'))
-			->value('country_id', $obPost->one('country_id'))
-			->value('city_id', $obPost->one('city_id'))
 			->value('short_description', trim(htmlentities($obPost->one('short_description'),ENT_QUOTES,'utf-8')))
 			->value('full_description', trim(htmlentities($obPost->one('full_description'),ENT_QUOTES,'utf-8')));
+
+		if(!$obPost->blank('country_id'))
+			$obQuery->builder()->value('country_id', intval($obPost->one('country_id',0)));
+
+		if(!$obPost->blank('city_id'))
+			$obQuery->builder()->value('city_id', intval($obPost->one('city_id',0)));
 
 
 		if (!empty($ID)){
@@ -180,15 +187,11 @@ if(!empty($arResult['error']['text'])){
 		?>
 
 		<tr class="adm-detail-required-field">
-			<td width="40%" class="adm-detail-content-cell-l"><?=GetMessage("ESTELIFE_F_USER_ID")?></td>
-			<td width="60%" class="adm-detail-content-cell-r">
-				<select name="user_id">
-					<?php if(!empty($arUsers)): ?>
-						<?php foreach($arUsers as $nKey=>$arUser): ?>
-							<option value="<?=$arUser['ID']?>"<?=($arUser['ID']==$nUserId ? ' selected="true"' : '')?>><?=$arUser['NAME']?></option>
-						<?php endforeach; ?>
-					<?php endif; ?>
-				</select>
+			<td width="40%"><?=GetMessage("ESTELIFE_F_USER_ID")?></td>
+			<td width="60%">
+				<input type="hidden" name="user_type_id" value="3" />
+				<input type="hidden" name="user_id" value="<?=$nUserId;?>" />
+				<input type="text" name="user_name" size="30" data-input="user_id" value="<?=$sUserName;?>" />
 			</td>
 		</tr>
 		<tr>
