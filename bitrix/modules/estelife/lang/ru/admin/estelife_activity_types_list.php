@@ -7,6 +7,6 @@
    $MESS ['ESTELIFE_DELETE'] = 'Удалить';
    $MESS ['ESTELIFE_DELETE_ALT'] = 'Удалить';
    $MESS ['ESTELIFE_CONFIRM_DELETE'] = 'Вы действительно хотите удалить эту запись?';
-   $MESS ['ESTELIFE_HEAD_TITLE']='Типы действий';
+   $MESS ['ESTELIFE_HEAD_TITLE']='Типы событий';
 
 

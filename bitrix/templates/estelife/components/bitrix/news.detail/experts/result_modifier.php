@@ -31,7 +31,7 @@ if ($arResult['ID']>0){
 	$arResult['LIKES']=$obLikes->getLikes($arResult['ID']);
 }
 
-if(!empty($_GET['utm']) && $_GET['utm']=='arc'){
+if(!empty($_GET['utm_source']) && $_GET['utm_source']=='arc'){
 	$arAvNums = array(2,4,6,8);
 	$arResult['utm'] = array();
 
