@@ -157,6 +157,70 @@ try{
 				$arResult['list']=array();
 			}
 			break;
+		case 'halls':
+			$arResult['list']=array();
+
+			if(!empty($arData['term'])){
+				$nId=trim(strip_tags($arData['term']));
+
+				//получение списка залов
+				$obHalls= VDatabase::driver();
+
+				$obQuery = $obHalls->CreateQuery();
+				$obFilter=$obQuery->builder()->from('estelife_event_halls')
+					->field('name')
+					->field('id')
+					->filter()
+					->_eq('event_id',$nId);
+
+				$arHalls= $obQuery->select()->all();
+
+
+				if (!empty($arHalls))
+					$arResult['list'] = $arHalls;
+			}
+			break;
+		case 'sections':
+			$arResult['list']=array();
+
+			if(!empty($arData['term'])){
+				$nId=trim(strip_tags($arData['term']));
+
+				//получение списка залов
+				$obHalls= VDatabase::driver();
+
+				$obQuery = $obHalls->CreateQuery();
+				$obFilter=$obQuery->builder()->from('estelife_event_sections')
+					->field('name')
+					->field('id')
+					->filter()
+					->_eq('event_id',$nId);
+
+				$arHalls= $obQuery->select()->all();
+
+
+				if (!empty($arHalls))
+					$arResult['list'] = $arHalls;
+			}
+			break;
+		case 'spec':
+			if(!empty($arData['term'])){
+				$sName=trim(strip_tags($arData['term']));
+
+				$obApp= VDatabase::driver();
+
+				$obQuery = $obApp->CreateQuery();
+				$obFilter=$obQuery->builder()->from('user')
+					->field('NAME')
+					->field('ID')
+					->filter()
+					->_like('NAME',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+
+				$arResult['list'] = $obQuery->select()->all();
+			}else{
+				$arResult['list']=array();
+			}
+			break;
 		case 'articles':
 			if(!empty($arData['term'])){
 				$sName=trim(strip_tags($arData['term']));

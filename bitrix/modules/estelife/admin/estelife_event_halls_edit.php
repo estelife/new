@@ -49,7 +49,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		if($obPost->blank('name'))
 			$obError->setFieldError('NAME_NOT_FILL','name');
 
-		if($obPost->blank('event_name'))
+		if($obPost->blank('event_id'))
 			$obError->setFieldError('NAME_NOT_FILL','event_name');
 
 		$obError->raise();

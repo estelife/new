@@ -26,18 +26,50 @@ $obSections= \core\database\VDatabase::driver();
 if(!empty($ID)){
 
 	$obQuery=$obSections->createQuery();
+
 	$obQuery->builder()
-		->from('estelife_event_sections');
+		->from('estelife_event_sections','es')
+		->field('es.name','name')
+		->field('ee.id','event_id')
+		->field('ee.short_name','event_name');
+	$obJoin=$obQuery->builder()->join();
+	$obJoin->_left()->
+		_from('es','event_id')->
+		_to('estelife_events','id','ee');
 
-	$obQuery->builder()->filter()->_eq('id',$ID);
+	$obQuery->builder()->filter()->_eq('es.id',$ID);
+	$arResult['section']=$obQuery->select()->assoc();
 
-	$obResult=$obQuery->select();
-	$obResult=new CAdminResult(
-		$obResult->bxResult(),
-		$sTableID
-	);
+	$nEventId = $arResult['section']['event_id'];
 
-	$arResult['section']=$obResult->Fetch();
+	$obQuery->builder()
+		->from('estelife_event_halls','eh')
+		->field('eh.id','hall_id')
+		->field('eh.name','hall_name');
+	$obJoin=$obQuery->builder()->join();
+
+	$obQuery->builder()->filter()->_eq('eh.event_id',$nEventId);
+	$arResult['halls_all']=$obQuery->select()->all();
+
+
+	foreach($arResult['halls_all'] as $nKey=>$val){
+		$nHallId = $val['hall_id'];
+
+		$obQuery->builder()
+			->from('estelife_event_section_halls');
+
+		$obQuery->builder()->filter()->_eq('section_id',$ID)->_eq('hall_id',$nHallId);
+
+		$active=$obQuery->select()->assoc();
+
+		if(!empty($active)){
+			$arResult['halls_all'][$nKey]['active'] = 1;
+		}else{
+			$arResult['halls_all'][$nKey]['active'] = 0;
+		}
+
+	}
+
 
 	$obQuery->builder()
 		->from('estelife_event_sections_dates');
@@ -59,6 +91,18 @@ if(!empty($ID)){
 
 	}
 
+	$obQuery=$obSections->createQuery();
+	$obQuery->builder()
+		->from('estelife_event_section_halls');
+
+	$obQuery->builder()->filter()->_eq('id',$ID);
+
+	$obResult=$obQuery->select();
+	$obResult=new CAdminResult(
+		$obResult->bxResult(),
+		$sTableID
+	);
+
 }
 
 if($_SERVER['REQUEST_METHOD']=='POST'){
@@ -68,14 +112,20 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 	try{
 		if($obPost->blank('name'))
 			$obError->setFieldError('NAME_NOT_FILL','name');
+		if($obPost->blank('event_id'))
+			$obError->setFieldError('NAME_NOT_EVENT','event_id');
 
 		$obError->raise();
 
 		$obQueryBase = $obSections->createQuery();
 		$obQueryDate = $obSections->createQuery();
+		$obQueryHalls = $obSections->createQuery();
 		$obQueryDateRemove = $obSections->createQuery();
 		$obQueryBase->builder()->from('estelife_event_sections')
-			->value('name', trim(htmlentities($obPost->one('name'),ENT_QUOTES,'utf-8')));
+			->value('name', trim(htmlentities($obPost->one('name'),ENT_QUOTES,'utf-8')))
+			->value('event_id', intval($obPost->one('event_id')));
+
+		$arPostHalls = $obPost->one('halls_id');
 
 		if (!empty($ID)){
 
@@ -92,6 +142,23 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			->_eq('section_id', $ID);
 
 		$obQueryDateRemove->delete();
+
+		$obQueryHalls->builder()
+			->from('estelife_event_section_halls')->filter()
+			->_eq('section_id', $ID);
+
+		$obQueryHalls->delete();
+
+		if(!empty($arPostHalls)){
+			foreach($arPostHalls as $nVal){
+				$obQueryHalls->builder()->from('estelife_event_section_halls')
+					->value('hall_id',$nVal)
+					->value('section_id',$ID);
+				$obQueryHalls->insert()->insertId();
+			}
+
+
+		}
 
 
 		if($arDates=$obPost->one('date')){
@@ -181,9 +248,29 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_aft
 
 	<tr class="adm-detail-required-field">
 		<td width="40%"><?=GetMessage("ESTELIFE_F_NAME")?></td>
-		<td width="60%"><input type="text" name="name" size="30" maxlength="255" value="<?=$arResult['section']['name']?>"></td>
+		<td width="60%"><input type="text" name="name" size="40" maxlength="255" value="<?=$arResult['section']['name']?>"></td>
+	</tr>
+	<tr class="adm-detail-required-field">
+		<td width="40%"><?=GetMessage("ESTELIFE_F_EVENT")?></td>
+		<td width="60%">
+			<input type="hidden" name="event_type_id" value="3" />
+			<input type="hidden" name="event_id" value="<?=$arResult['section']['event_id']?>" />
+			<input type="text" name="event_name" size="40" data-input="event_id" value="<?=$arResult['section']['event_name']?>" />
+		</td>
 	</tr>
 
+	<tr class="adm-detail-required-field">
+		<td width="40%" class="adm-detail-content-cell-l"><?=GetMessage("ESTELIFE_F_HALLS")?></td>
+		<td width="60%" class="adm-detail-content-cell-r">
+			<select name="halls_id[]" id="halls" style="width: 340px;" multiple>
+				<? if(!empty($arResult['halls_all'])){
+					foreach($arResult['halls_all'] as $val){ ?>
+					<option value="<?=$val['hall_id'];?>" <? if($val['active'] == 1){ ?>selected <?}?>><?=$val['hall_name'];?></option>
+				<?	}
+						} ?>
+			</select>
+		</td>
+	</tr>
 
 	<?
 	$tabControl->BeginNextTab()

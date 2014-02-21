@@ -17,3 +17,6 @@ $MESS ['NOT_DATE']='Дата';
 $MESS ['NOT_TIME_FROM']='Начало';
 $MESS ['NOT_TIME_TO']='Окончание';
 $MESS ['ESTELIFE_HEAD_TITLE']='Редактирование действия';
+$MESS ['ESTELIFE_F_HALLS']='Залы';
+$MESS ['ESTELIFE_F_EVENT']='Мероприятие';
+$MESS ['NOT_HALL']='Зал';

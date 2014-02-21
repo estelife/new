@@ -15,4 +15,4 @@ $MESS ['ESTELIFE_DELETE_ALT']='Удалить';
 $MESS ['ESTELIFE_DELETE']='Удалить';
 $MESS ['ESTELIFE_CONFIRM_DELETE']='Вы действительно хотите удалить это действие?';
 $MESS ['ESTELIFE_HEAD_TITLE']='Список действий';
-
+$MESS ['ESTELIFE_F_EVENT']='Мероприятие';

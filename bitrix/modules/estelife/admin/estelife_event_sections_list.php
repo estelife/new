@@ -41,6 +41,8 @@ $arFilter = Array(
 $headers = array(
 	array("id"=>"ID", "content"=>GetMessage("ESTELIFE_F_ID"), "sort"=>"id", "default"=>true),
 	array("id"=>"NAME", "content"=>GetMessage("ESTELIFE_F_NAME"), "sort"=>"name", "default"=>true),
+	array("id"=>"EVENT", "content"=>GetMessage("ESTELIFE_F_EVENT"), "sort"=>"events", "default"=>true),
+	array("id"=>"HALLS", "content"=>GetMessage("ESTELIFE_F_HALLS"), "sort"=>"halls", "default"=>true),
 );
 
 $lAdmin->AddHeaders($headers);
@@ -62,9 +64,18 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 
 
 $obQuery=VDatabase::driver()->createQuery();
-$obQuery->builder()
-	->from('estelife_event_sections');
 
+$obQuery->builder()->from('estelife_event_sections','es');
+$obJoin=$obQuery->builder()->join();
+$obJoin->_left()
+	->_from('es','event_id')
+	->_to('estelife_events', 'id', 'ee');
+$obQuery->builder()
+	->field('es.id','id')
+	->field('es.name','name')
+	->field('ee.short_name','event_name');
+
+$obQuery->builder()->group('es.id');
 $obFilter=$obQuery->builder()->filter();
 
 if($_GET && $_GET['set_filter'] == 'Y'){
@@ -100,8 +111,26 @@ while($arRecord=$obResult->Fetch()){
 	$f_ID=$arRecord['id'];
 	$row =& $lAdmin->AddRow($f_ID,$arRecord);
 
+	$obQuery->builder()->from('estelife_event_halls','eh');
+	$obJoin=$obQuery->builder()->join();
+	$obJoin->_left()
+		->_from('eh','id')
+		->_to('estelife_event_section_halls', 'hall_id', 'esh');
+	$obQuery->builder()
+		->field('eh.name','name')->filter()->_eq('esh.section_id',$f_ID);
+
+	$obQuery->builder()->group('eh.id');
+
+	$arHalls = $obQuery->select()->all();
+	$sHalls = '';
+	foreach($arHalls as $val){
+		$sHalls .=''.$val['name'].', ';
+	}
+
 	$row->AddViewField("ID",$arRecord['id']);
 	$row->AddViewField("NAME", $arRecord['name']);
+	$row->AddViewField("EVENT", $arRecord['event_name']);
+	$row->AddViewField("HALLS", $sHalls);
 
 	$arActions = Array();
 	$arActions[] = array("DEFAULT"=>"Y", "ICON"=>"edit", "TITLE"=>GetMessage("ESTELIFE_EDIT_ALT"), "ACTION"=>$lAdmin->ActionRedirect("estelife_event_sections_edit.php?lang=".LANGUAGE_ID."&ID=$f_ID"), "TEXT"=>GetMessage("ESTELIFE_EDIT"));

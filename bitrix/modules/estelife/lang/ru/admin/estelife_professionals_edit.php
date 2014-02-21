@@ -6,6 +6,7 @@ $MESS ['ESTELIFE_F_CITY']='Город';
 $MESS ['ESTELIFE_F_SHORT_DESCRIPTION']='Краткое описание';
 $MESS ['ESTELIFE_F_FULL_DESCRIPTION']='Подробное описание';
 $MESS ['NOT_COUNTRY']='Страна';
+$MESS['NOT_USER'] = 'Пользователь';
 $MESS ['NOT_CITY']='Город';
 $MESS ['ESTELIFE_HEAD_TITLE']='Редактирование специалиста';
 

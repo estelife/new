@@ -46,6 +46,7 @@ $arFilter = Array(
 $headers = array(
 	array("id"=>"NAME", "content"=>GetMessage("ESTELIFE_F_TITLE"), "sort"=>"name", "default"=>true),
 	array("id"=>"SHORT_DESCRIPTION", "content"=>GetMessage("ESTELIFE_F_SHORT_DESCRIPTION"), "sort"=>"short_description", "default"=>true),
+	array("id"=>"EVENT", "content"=>GetMessage("ESTELIFE_F_EVENT"), "sort"=>"event", "default"=>true),
 	array("id"=>"WITH_VIDEO", "content"=>GetMessage("ESTELIFE_F_WITH_VIDEO"), "sort"=>"with_video", "default"=>true),
 	array("id"=>"FROM_TIME", "content"=>GetMessage("ESTELIFE_F_FROM_TIME"), "sort"=>"from_time", "default"=>true),
 	array("id"=>"TO_TIME", "content"=>GetMessage("ESTELIFE_F_TO_TIME"), "sort"=>"to_time", "default"=>true),
@@ -104,6 +105,9 @@ $obJoin->_left()
 $obJoin->_left()
 	->_from('ea','section_id')
 	->_to('estelife_event_sections', 'id', 'es');
+$obJoin->_left()
+	->_from('ea','event_id')
+	->_to('estelife_events', 'id', 'ee');
 $obQuery->builder()
 	->field('ea.id','id')
 	->field('ea.name','name')
@@ -114,6 +118,7 @@ $obQuery->builder()
 	->field('ea.duration','duration')
 	->field('type.name','type')
 	->field('eh.name','hall')
+	->field('ee.short_name','event_name')
 	->field('es.name','section');
 
 $obFilter=$obQuery->builder()->filter();
@@ -178,6 +183,7 @@ while($arRecord=$obResult->GetNext()){
 	$row->AddViewField("ID",$arRecord['id']);
 	$row->AddViewField("NAME",$arRecord['name']);
 	$row->AddViewField("SHORT_DESCRIPTION",$arRecord['description']);
+	$row->AddViewField("EVENT",$arRecord['event_name']);
 	$row->AddViewField("WITH_VIDEO",$sVideo);
 	$row->AddViewField("FROM_TIME",$sTimeFrom);
 	$row->AddViewField("TO_TIME",$sTimeTo);
