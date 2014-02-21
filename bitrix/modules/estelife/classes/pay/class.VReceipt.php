@@ -73,6 +73,7 @@ class VReceipt {
 				->from('estelife_pay_receipts')
 				->value('status',$this->nStatus)
 				->value('payment_id',$this->nPaymentId)
+				->value('date_change',date('Y-m-d H:i:s'))
 				->filter()
 				->_eq('id',$this->nReceiptId);
 			$obQuery->update();
@@ -145,7 +146,8 @@ class VReceipt {
 			->value('user_id',$nUserId)
 			->value('service_id',$nServiceId)
 			->value('amount',$fAmount)
-			->value('status',self::CREATED);
+			->value('status',self::CREATED)
+			->value('date_create',date('Y-m-d H:i:s'));
 
 		$obResult = $obQuery->insert();
 		$nReceiptId = $obResult->insertId();

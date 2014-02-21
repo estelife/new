@@ -59,9 +59,7 @@ $MESS ['ESTELIFE_PROFESSIONALS_CLINICS_TITLE']='Специалисты';
 $MESS ['ESTELIFE_EVENT_ACTIVITIES']='События';
 $MESS ['ESTELIFE_EVENT_ACTIVITIES_TITLE']='События';
 
-
-
-
-
-
-
+$MESS ['ESTELIFE_EDUCATION'] = 'Онлайн обучения';
+$MESS ['ESTELIFE_EDUCATION_LIST'] = 'Список обучений';
+$MESS ['ESTELIFE_RECEIPT'] = 'Квитанции';
+$MESS ['ESTELIFE_RECEIPT_LIST'] = 'Квитанции';

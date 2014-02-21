@@ -103,38 +103,6 @@ if($APPLICATION->GetGroupRight("estelife")>"D")
 					)
 				),
 
-				/*array(
-					"text" => GetMessage("ESTELIFE_EVENTS"),
-					"dynamic" => true,
-					"module_id" => "estelife",
-					"title" => GetMessage("ESTELIFE_EVENTS_TITLE"),
-					"items_id" => "menu_estelife_events",
-					"items" => array(
-						array(
-							"text" => GetMessage("ESTELIFE_TRAINING"),
-							"dynamic" => true,
-							"module_id" => "estelife",
-							"title" => GetMessage("ESTELIFE_TRAINING_TITLE"),
-							"items_id" => "menu_estelife_training",
-							"url" => '/bitrix/admin/estelife_training_list.php?lang='.LANGUAGE_ID,
-							'more_url'=>array(
-								'/bitrix/admin/estelife_training_edit.php?lang='.LANGUAGE_ID,
-							)
-						),
-						array(
-							"text" => GetMessage("ESTELIFE_ACTIVITY"),
-							"dynamic" => true,
-							"module_id" => "estelife",
-							"title" => GetMessage("ESTELIFE_ACTIVITY_TITLE"),
-							"items_id" => "menu_estelife_activity",
-							"url" => '/bitrix/admin/estelife_activity_list.php?lang='.LANGUAGE_ID,
-							'more_url'=>array(
-								'/bitrix/admin/estelife_activity_edit.php?lang='.LANGUAGE_ID,
-							)
-						)
-					)
-				),*/
-
 				array(
 					"text" => GetMessage("ESTELIFE_TRAINING"),
 					"dynamic" => true,
@@ -335,6 +303,37 @@ if($APPLICATION->GetGroupRight("estelife")>"D")
 							"items_id" => "menu_estelife_comments_list",
 							"url" => '/bitrix/admin/estelife_comments_list.php?lang='.LANGUAGE_ID,
 						),
+					)
+				),
+				array(
+					"text" => GetMessage("ESTELIFE_EDUCATION"),
+					"dynamic" => true,
+					"module_id" => "estelife",
+					"title" => GetMessage("ESTELIFE_EDUCATION"),
+					"items_id" => "menu_estelife_education",
+					"items" => array(
+						array(
+							"text" => GetMessage("ESTELIFE_EDUCATION_LIST"),
+							"dynamic" => true,
+							"module_id" => "estelife",
+							"title" => GetMessage("ESTELIFE_EDUCATION_LIST"),
+							"items_id" => "menu_estelife_education_list",
+							"url" => '/bitrix/admin/estelife_education_list.php?lang='.LANGUAGE_ID,
+							'more_url'=>array(
+								'/bitrix/admin/estelife_education_edit.php?lang='.LANGUAGE_ID,
+							)
+						),
+						array(
+							"text" => GetMessage("ESTELIFE_RECEIPT_LIST"),
+							"dynamic" => true,
+							"module_id" => "estelife",
+							"title" => GetMessage("ESTELIFE_RECEIPT_LIST"),
+							"items_id" => "menu_estelife_receipt_list",
+							"url" => '/bitrix/admin/estelife_receipt_list.php?lang='.LANGUAGE_ID,
+							'more_url'=>array(
+								'/bitrix/admin/estelife_receipt_edit.php?lang='.LANGUAGE_ID,
+							)
+						)
 					)
 				),
 			)
