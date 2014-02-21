@@ -785,6 +785,72 @@ $(function(){
 			},'json');
 		});
 
+	//Получение мероприятий
+	$('input[name*=\'event_name\'],input[name=find_event_name]').autocomplete({
+		minLength:3,
+		source:function(request,response){
+			var inpt=this.element;
+			$.get('/bitrix/admin/estelife_ajax.php',{
+				'action':'activity',
+				'term':request.term
+			},function(r){
+				if('list' in r){
+					if(r.list.length==1){
+						var item= r.list.shift(),
+							prnt=inpt.parent();
+
+						inpt.val(item.name);
+						$('input[name*=\''+inpt.attr('data-input')+'\']',prnt).val(item.id);
+						response();
+
+						if(inpt.hasClass('estelife-need-clone')){
+							prnt.find('.estelife-more').click();
+						}
+					}else{
+						response($.map(r.list, function(item) {
+							return {
+								label: item.name,
+								value: item.name,
+								'id': item.id
+							}
+						}));
+					}
+				}
+			},'json');
+		},
+		select:function(e, ui){
+			var inpt=$(this),
+				prnt=inpt.parent();
+
+			$('input[name*=\''+inpt.attr('data-input')+'\']',inpt.parent()).val(ui.item.id);
+
+			if(inpt.hasClass('estelife-need-clone')){
+				prnt.find('.estelife-more').click();
+				prnt.parent().prev().find('input[type=text]').val(ui.item.value);
+			}
+		}
+	}).on('paste',function(e){
+			var inpt=$(this),
+				val=e.originalEvent.clipboardData.getData('Text'),
+				prnt=inpt.parent(),
+				type=prnt.find('input[name=company_type_id]').val();
+			$.get('/bitrix/admin/estelife_ajax.php',{
+				'action':'company',
+				'term':val,
+				'type_id': type
+			},function(r){
+				if('list' in r){
+					var item= r.list.shift();
+					inpt.val(item.name);
+					$('input[name*=\''+inpt.attr('data-input')+'\']',prnt).val(item.id);
+
+					if(inpt.hasClass('estelife-need-clone')){
+						prnt.find('.estelife-more').click();
+					}
+				}
+			},'json');
+		});
+
 
 	//Получение аппаратов
 	$('input[name*=\'apparatus_name\'],input[name=find_apparatus_name]').autocomplete({

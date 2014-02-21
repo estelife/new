@@ -103,7 +103,7 @@ if($APPLICATION->GetGroupRight("estelife")>"D")
 					)
 				),
 
-				array(
+				/*array(
 					"text" => GetMessage("ESTELIFE_EVENTS"),
 					"dynamic" => true,
 					"module_id" => "estelife",
@@ -130,6 +130,87 @@ if($APPLICATION->GetGroupRight("estelife")>"D")
 							"url" => '/bitrix/admin/estelife_activity_list.php?lang='.LANGUAGE_ID,
 							'more_url'=>array(
 								'/bitrix/admin/estelife_activity_edit.php?lang='.LANGUAGE_ID,
+							)
+						)
+					)
+				),*/
+
+				array(
+					"text" => GetMessage("ESTELIFE_TRAINING"),
+					"dynamic" => true,
+					"module_id" => "estelife",
+					"title" => GetMessage("ESTELIFE_TRAINING_TITLE"),
+					"items_id" => "menu_estelife_training",
+					"url" => '/bitrix/admin/estelife_training_list.php?lang='.LANGUAGE_ID,
+					'more_url'=>array(
+						'/bitrix/admin/estelife_training_edit.php?lang='.LANGUAGE_ID,
+					),
+				),
+
+				array(
+					"text" => GetMessage("ESTELIFE_ACTIVITY"),
+					"dynamic" => true,
+					"module_id" => "estelife",
+					"title" => GetMessage("ESTELIFE_ACTIVITY_TITLE"),
+					"items_id" => "menu_estelife_activity",
+					"url" => '/bitrix/admin/estelife_activity_list.php?lang='.LANGUAGE_ID,
+					'more_url'=>array(
+						'/bitrix/admin/estelife_activity_edit.php?lang='.LANGUAGE_ID,
+					),
+					"items" => array(
+						array(
+							"text" => GetMessage("ESTELIFE_ACTIVITY_TYPES"),
+							"dynamic" => true,
+							"module_id" => "estelife",
+							"title" => GetMessage("ESTELIFE_ACTIVITY_TYPES_TITLE"),
+							"items_id" => "menu_estelife_activity_types",
+							"url" => '/bitrix/admin/estelife_activity_types_list.php?lang='.LANGUAGE_ID,
+							'more_url'=>array(
+								'/bitrix/admin/estelife_activity_types_edit.php?lang='.LANGUAGE_ID,
+							)
+						),
+						array(
+							"text" => GetMessage("ESTELIFE_EVENT_HALLS"),
+							"dynamic" => true,
+							"module_id" => "estelife",
+							"title" => GetMessage("ESTELIFE_EVENT_HALLS_TITLE"),
+							"items_id" => "menu_estelife_event_halls",
+							"url" => '/bitrix/admin/estelife_event_halls_list.php?lang='.LANGUAGE_ID,
+							'more_url'=>array(
+								'/bitrix/admin/estelife_event_halls_edit.php?lang='.LANGUAGE_ID,
+							)
+						),
+						array(
+							"text" => GetMessage("ESTELIFE_EVENT_SECTIONS"),
+							"dynamic" => true,
+							"module_id" => "estelife",
+							"title" => GetMessage("ESTELIFE_EVENT_SECTIONS_TITLE"),
+							"items_id" => "menu_estelife_event_sections",
+							"url" => '/bitrix/admin/estelife_event_sections_list.php?lang='.LANGUAGE_ID,
+							'more_url'=>array(
+								'/bitrix/admin/estelife_event_sections_edit.php?lang='.LANGUAGE_ID,
+							)
+						),
+						array(
+							"text" => GetMessage("ESTELIFE_PROFESSIONALS_CLINICS"),
+							"dynamic" => true,
+							"module_id" => "estelife",
+							"title" => GetMessage("ESTELIFE_PROFESSIONALS_CLINICS_TITLE"),
+							"items_id" => "menu_estelife_professionals_clinics",
+							"url" => '/bitrix/admin/estelife_professionals_list.php?lang='.LANGUAGE_ID,
+							'more_url'=>array(
+								'/bitrix/admin/estelife_professionals_edit.php?lang='.LANGUAGE_ID,
+							)
+						),
+						array(
+							"text" => GetMessage("ESTELIFE_EVENT_ACTIVITIES"),
+							"dynamic" => true,
+							"module_id" => "estelife",
+							"title" => GetMessage("ESTELIFE_EVENT_ACTVITIES_TITLE"),
+							"items_id" => "menu_estelife_event_activities",
+							"url" => '/bitrix/admin/estelife_event_activities_list.php?lang='.LANGUAGE_ID,
+							'more_url'=>array(
+								'/bitrix/admin/estelife_event_activities_edit.php?lang='.LANGUAGE_ID,
 							)
 						)
 					)

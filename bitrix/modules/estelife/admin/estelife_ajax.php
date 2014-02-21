@@ -130,6 +130,33 @@ try{
 				$arResult['list']=array();
 			}
 			break;
+		case 'activity':
+			if(!empty($arData['term'])){
+				$sName=trim(strip_tags($arData['term']));
+
+				//получение списка типов компании
+				$obActivity= VDatabase::driver();
+
+				$obQuery = $obActivity->CreateQuery();
+				$obFilter=$obQuery->builder()->from('estelife_events')
+					->field('short_name')
+					->field('id')
+					->filter()
+					->_like('short_name',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+
+				$arActivity= $obQuery->select()->all();
+
+				if (!empty($arActivity)){
+					foreach ($arActivity as $val){
+						$val['name'] =  html_entity_decode($val['short_name'], ENT_QUOTES, 'utf-8');
+						$arResult['list'][] = $val;
+					}
+				}
+
+			}else{
+				$arResult['list']=array();
+			}
+			break;
 		case 'articles':
 			if(!empty($arData['term'])){
 				$sName=trim(strip_tags($arData['term']));
