@@ -5,6 +5,9 @@ $APPLICATION->IncludeComponent("estelife:mega.complex.section", "", array(
 		"SEF_FOLDER" => "/",
 		"SEF_URL_TEMPLATES" => array(
 
+		),
+		'DIRECTORIES'=>array(
+			'pro'
 		)
 	)
 );

@@ -14,7 +14,7 @@ if(isset($arParams['DIRECTORIES']) && is_array($arParams['DIRECTORIES']))
 
 $arDefaultUrlTemplates404 = array(
 	"articles" => "#CURRENT_CODE#/#DOP_CODE#/",
-	"sections" => "#CURRENT_CODE#/",
+	"sections" => "#CURRENT_CODE#/(.*)"
 );
 $arDefaultVariableAliases404 = array();
 $arDefaultVariableAliases = array();
@@ -27,7 +27,7 @@ $arComponentVariables = array(
 $arVariables = array();
 $arUrlTemplates = CComponentEngine::MakeComponentUrlTemplates($arDefaultUrlTemplates404, array());
 $arVariableAliases = CComponentEngine::MakeComponentVariableAliases($arDefaultVariableAliases404, $arParams["VARIABLE_ALIASES"]);
-$componentPage = CComponentEngine::ParseComponentPath(
+$sSectionName = CComponentEngine::ParseComponentPath(
 	$arParams["SEF_FOLDER"],
 	$arUrlTemplates,
 	$arVariables
