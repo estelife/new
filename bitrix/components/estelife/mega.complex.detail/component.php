@@ -36,19 +36,29 @@ if (!$arLink || empty($arDirectories[$matches[1]])){
 	$bNotFound = true;
 }else{
 	$componentPage = $arDirectories[$matches[1]];
+	$arIblockIds = array(
+		'ar'=>14,
+		'pt'=>36,
+		'ns'=>3
+	);
 
-	if(in_array($matches[1],array('ar','pt','ns'))){
-		$obQuery = \core\database\VDatabase::driver()->createQuery();
-		$obQuery->builder()
-			->from('iblock_element')
-			->filter()
-			->_eq('ID',intval($matches[2]));
+	if(isset($arIblockIds[$matches[1]])){
+		CModule::IncludeModule('iblock');
+		$obElement = new CIBlockElement();
+		$obResult = $obElement->GetList(
+			array('SORT'=>'ASC'),
+			array(
+				'ID'=>intval($matches[2]),
+				'ACTIVE'=>'Y',
+				'ACTIVE_DATE'=>'Y',
+				'IBLOCK_ID'=>$arIblockIds[$matches[1]]
+			)
+		);
 
-		if(!$obQuery->count()){
-			$componentPage='index';
+		if(!$obResult->SelectedRowsCount()){
+			$componentPage = 'index';
 			$bNotFound = true;
 		}
-
 	}
 }
 
