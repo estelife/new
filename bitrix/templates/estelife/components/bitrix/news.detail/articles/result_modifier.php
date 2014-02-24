@@ -33,3 +33,10 @@ if(!empty($_GET['utm_source']) && $_GET['utm_source']=='arc'){
 
 	$arResult['utm'] = implode('', $arResult['utm']);
 }
+
+$arIblockIds = array(
+	14 => 'ar',
+	36 => 'pt',
+	3 => 'ns'
+);
+$arResult['TYPE']=$arIblockIds[$arResult['IBLOCK_ID']];

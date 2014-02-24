@@ -42,3 +42,5 @@ if(!empty($_GET['utm_source']) && $_GET['utm_source']=='arc'){
 
 	$arResult['utm'] = implode('', $arResult['utm']);
 }
+
+$arResult['TYPE']='ex';

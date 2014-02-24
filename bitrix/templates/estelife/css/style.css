@@ -2131,12 +2131,24 @@ li.country, span.country {
 }
 .item.detail table {
 	border-collapse: collapse;
+	width:100%;
+	margin:20px 0;
+}
+.item.detail.company table {
 	width:560px;
+	margin-top:0;
 	margin-bottom: 34px;
 }
-.item.detail table td {
+.item.detail table td,
+.item.detail table th {
 	border:1px solid #d1d1d1;
-	padding: 5px 20px 4px 18px;
+	padding: 9px 13px 9px 13px;
+}
+.item.detail table th {
+	text-transform: uppercase;
+	text-align: left;
+	border-color:#b6b6b6;
+	background:#d1d1d1;
 }
 .item.detail table td.prices {
 	width:127px;
@@ -2677,8 +2689,8 @@ form.search .submit {
 .home-img {
 	position: absolute;
 	opacity: 0.5;
-	top: 0;
-	left: -284px;
+	top: 2846px;
+	left: -279px;
 	width: 1920px;
 	max-height: initial;
 	max-width: initial;

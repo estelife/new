@@ -27,3 +27,4 @@ if ($arResult['ID']>0){
 	$arResult['LIKES']=$obLikes->getLikes($arResult['ID']);
 }
 
+$arResult['TYPE']='ex';
