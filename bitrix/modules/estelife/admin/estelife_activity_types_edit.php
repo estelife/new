@@ -46,10 +46,10 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 	try{
 		if($obPost->blank('name'))
-			$obError->setFieldError('NAME_NOT_FILL','email');
+			$obError->setFieldError('NAME_NOT_NAME','name');
 
 		if($obPost->blank('description'))
-			$obError->setFieldError('NAME_NOT_FILL','phone');
+			$obError->setFieldError('NAME_NOT_DESCRIPTION','description');
 
 		$obError->raise();
 

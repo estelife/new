@@ -9,4 +9,6 @@ $MESS ['NOT_COUNTRY']='Страна';
 $MESS['NOT_USER'] = 'Пользователь';
 $MESS ['NOT_CITY']='Город';
 $MESS ['ESTELIFE_HEAD_TITLE']='Редактирование специалиста';
+$MESS ['ESTELIFE_F_PHOTO']='Фото';
+
 
