@@ -12,3 +12,5 @@ $MESS ["ESTELIFE_F_DATE_CREATE"] = 'Дата создания';
 $MESS ["ESTELIFE_F_DATE_CHANGE"] = 'Дата изменения';
 $MESS ["ESTELIFE_F_AMOUNT"] = 'Сумма';
 $MESS ['ESTELIFE_EDIT']='Изменить';
+$MESS ['ESTELIFE_CHANGE_IN_DEV']='Установить статус "в обработке"';
+$MESS ['ESTELIFE_CHANGE_COMPLETED']='Установить статус "выполнен"';

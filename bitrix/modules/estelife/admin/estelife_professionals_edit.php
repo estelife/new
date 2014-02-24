@@ -56,6 +56,7 @@ if(!empty($ID)){
 		->field('ep.id','id')
 		->field('ep.user_id','user_id')
 		->field('ep.country_id','country_id')
+		->field('ep.image_id','image_id')
 		->field('ecn.NAME','country')
 		->field('ep.city_id','city_id')
 		->field('ect.NAME','city')
@@ -102,6 +103,20 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			->value('short_description', trim(htmlentities($obPost->one('short_description'),ENT_QUOTES,'utf-8')))
 			->value('full_description', trim(htmlentities($obPost->one('full_description'),ENT_QUOTES,'utf-8')));
 
+
+		if(!empty($_FILES['photo'])){
+			$arImage=$_FILES['photo'];
+			$arImage['old_file']=$obRecord['photo'];
+			$arImage['module']='estelife';
+			$arImage['del']=$small_photo_del;
+
+			if(strlen($arImage["name"])>0 || strlen($arImage["del"])>0){
+				$nImageId=CFile::SaveFile($arImage,"estelife");
+				$obQuery->builder()
+					->value('image_id', intval($nImageId));
+			}
+		}
+
 		if(!$obPost->blank('country_id'))
 			$obQuery->builder()->value('country_id', intval($obPost->one('country_id',0)));
 
@@ -110,6 +125,11 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 
 		if (!empty($ID)){
+
+			if(isset($_POST['photo_del'])&& $_POST['photo_del'] == 'Y'){
+				$obQuery->builder()->value('image_id', intval(0));
+			}
+
 			$obQuery->builder()->filter()
 				->_eq('id',$ID);
 			$obQuery->update();
@@ -209,6 +229,35 @@ if(!empty($arResult['error']['text'])){
 				<input type="text" name="city_name" data-input="city_id" size="60" maxlength="255" value="<?=$arResult['spec']['city']?>">
 			</td>
 		</tr>
+
+		<tr>
+
+			<td width="30%"><?=GetMessage('ESTELIFE_F_PHOTO')?></td>
+			<td width="70%">
+				<?echo CFileInput::Show("photo", $arResult['spec']['image_id'],
+					array(
+						"IMAGE" => "Y",
+						"PATH" => "Y",
+						"FILE_SIZE" => "Y",
+						"DIMENSIONS" => "Y",
+						"IMAGE_POPUP" => "Y",
+						"MAX_SIZE" => array(
+							"W" => 100,
+							"H" => 100
+						)
+					), array(
+						'upload' => true,
+						'medialib' => true,
+						'file_dialog' => true,
+						'cloud' => true,
+						'del' => true,
+						'description' => false
+					)
+				);
+				?>
+			</td>
+		</tr>
+
 		<tr>
 			<td width="40%"><?=GetMessage("ESTELIFE_F_SHORT_DESCRIPTION")?></td>
 			<td width="60%">
@@ -227,5 +276,4 @@ if(!empty($arResult['error']['text'])){
 		$tabControl->End();
 		?>
 	</form>
-<?php
-require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/epilog_admin.php");
+<?php require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/epilog_admin.php");
