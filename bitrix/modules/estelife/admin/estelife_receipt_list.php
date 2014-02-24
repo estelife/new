@@ -11,7 +11,7 @@ $lAdmin = new CAdminList($sTableID, $oSort);
 ClearVars();
 $sModuleRight = $APPLICATION->GetGroupRight("estelife");
 
-if($sModuleRight<="D")
+if($sModuleRight<"F")
 	$APPLICATION->AuthForm(GetMessage("ACCESS_DENIED"));
 
 CModule::IncludeModule("estelife");
@@ -156,6 +156,8 @@ $obResult->NavStart();
 $lAdmin->NavText($obResult->GetNavPrint(GetMessage('ESTELIFE_PAGES')));
 
 while($arRecord=$obResult->GetNext()){
+	$f_ID = $arRecord['id'];
+
 	$arRecord['user_name'] = !empty($arRecord['user_name']) ?
 		$arRecord['user_name'] :
 		$arRecord['user_email'];
@@ -181,7 +183,36 @@ while($arRecord=$obResult->GetNext()){
 //		"ACTION"=>"javascript:if(confirm('".GetMessage("ESTELIFE_CONFIRM_DELETE")."')) window.location='?lang=".LANGUAGE_ID."&action=delete&ID=".$arRecord['id']."&".bitrix_sessid_get()."'",
 //		"TEXT"=>GetMessage("ESTELIFE_DELETE"));
 	$row->AddActions($arActions);
+
+	$arActions = Array();
+	$arActions[] = array(
+		"DEFAULT"=>"Y",
+		"TITLE"=>GetMessage("ESTELIFE_CHANGE_IN_DEV"),
+		"ACTION"=>$lAdmin->ActionRedirect("estelife_receipt_list.php?lang=".LANGUAGE_ID."&ID=$f_ID"."&STATUS=2"),
+		"TEXT"=>GetMessage("ESTELIFE_CHANGE_IN_DEV")
+	);
+	$arActions[] = array(
+		"DEFAULT"=>"Y",
+		"TITLE"=>GetMessage("ESTELIFE_CHANGE_COMPLETED"),
+		"ACTION"=>$lAdmin->ActionRedirect("estelife_receipt_list.php?lang=".LANGUAGE_ID."&ID=$f_ID"."&STATUS=3"),
+		"TEXT"=>GetMessage("ESTELIFE_CHANGE_COMPLETED")
+	);
+
+	$row->AddActions($arActions);
+
 }
+
+//Установка статуса
+if(isset($_GET['STATUS']) && isset($_GET['ID'])){
+	$obQuery->builder()->from('estelife_pay_receipts')
+		->value('status', intval($_GET['STATUS']));
+
+	$obQuery->builder()->filter()
+		->_eq('id',$_GET['ID']);
+	$obQuery->update();
+	LocalRedirect('/bitrix/admin/estelife_receipt_list.php?lang='.LANGUAGE_ID);
+}
+
 
 $lAdmin->AddFooter(
 	array(
@@ -189,9 +220,11 @@ $lAdmin->AddFooter(
 		array("counter"=>true, "title"=>GetMessage("MAIN_ADMIN_LIST_CHECKED"), "value"=>"0"),
 	)
 );
-$lAdmin->AddGroupActionTable(Array(
+/*$lAdmin->AddGroupActionTable(Array(
 	"delete"=>GetMessage("FORM_DELETE_L"),
-));
+));*/
+
+
 $lAdmin->CheckListMode();
 $APPLICATION->SetTitle(GetMessage("ESTELIFE_HEAD_TITLE"));
 
