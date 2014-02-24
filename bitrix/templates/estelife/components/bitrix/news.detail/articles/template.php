@@ -51,6 +51,11 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 					<a href="https://www.facebook.com/sharer.php?u=http://estelife.ru/ar<?=$arResult['ID']?>/" target="_blank" class="fb">Facebook</a>
 				</div>
 				<div class="author cols">
+					<?php if(!empty($arResult['utm'])): ?>
+						<div class="utm">
+							<?=$arResult['utm']?>
+						</div>
+					<?php endif; ?>
 					<?php if (!empty($arResult['PROPERTIES']['SOURCE']['VALUE'])):?>
 					Автор статьи
 					<b><?=$arResult['PROPERTIES']['SOURCE']['VALUE']?></b>

@@ -51,6 +51,13 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 					<a href="http://vkontakte.ru/share.php?url=http://estelife.ru/ex<?=$arResult['ID']?>/" target="_blank" class="vk">ВКонтакте</a>
 					<a href="https://www.facebook.com/sharer.php?u=http://estelife.ru/ex<?=$arResult['ID']?>/" target="_blank" class="fb">Facebook</a>
 				</div>
+				<div class="author cols">
+					<?php if(!empty($arResult['utm'])): ?>
+						<div class="utm">
+							<?=$arResult['utm']?>
+						</div>
+					<?php endif; ?>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -1,6 +1,6 @@
 <?php
 $MESS ['ESTELIFE_T_BASE']='Основное';
-$MESS ['ESTELIFE_CREATE_TITLE']='Редактирование действия';
+$MESS ['ESTELIFE_CREATE_TITLE']='Редактирование события';
 $MESS ['ESTELIFE_F_NAME']='Название';
 $MESS ['ESTELIFE_F_SHORT_DESCRIPTION']='Краткое описание';
 $MESS ['ESTELIFE_F_FULL_DESCRIPTION']='Полное описание';
@@ -16,7 +16,7 @@ $MESS ['NOT_FULL_DESC']='Полное описание';
 $MESS ['NOT_DATE']='Дата';
 $MESS ['NOT_TIME_FROM']='Начало';
 $MESS ['NOT_TIME_TO']='Окончание';
-$MESS ['ESTELIFE_HEAD_TITLE']='Редактирование действия';
+$MESS ['ESTELIFE_HEAD_TITLE']='Редактирование события';
 $MESS ['ESTELIFE_F_HALLS']='Залы';
 $MESS ['ESTELIFE_F_EVENT']='Мероприятие';
 $MESS ['NOT_HALL']='Зал';

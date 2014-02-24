@@ -68,22 +68,29 @@ if (!empty($sQuery)){
 			'',
 			array('filter'=>'types')
 		);
+		$nDefaultStart=time()-86400*10;
+		$nDefaultEnd=time();
 
 		foreach ($arAnswer as $val){
 			$val['src']='/'.$arTypes[$val['type']].$val['id'].'/';
-			$val['date_edit']=date('d.m.Y', $val['date_edit']);
+			$val['date_edit']=date('d.m.Y', (!empty($val['date_edit']) ? $val['date_edit'] : rand($nDefaultStart,$nDefaultEnd)));
 
 			if(!empty($val['tags'])){
 				$val['tags']=explode(',', $val['tags']);
 
 				foreach($val['tags'] as &$sTag) {
 					$sTag=trim($sTag);
+
+					if($sTag=='')
+						continue;
+
 					$sTag='<a href="'.$arResult['search']["tags_url"].'&tags='.$sTag.'?>">'.$sTag.'</a>';
 				}
 
 				$val['tags']=VArray::toTruncatedString($val['tags'],5);
 			}
 
+			$val['description']=trim(strip_tags(html_entity_decode($val['description'],ENT_QUOTES,'utf-8')));
 			$arTempResult[$val['type']][]=$val;
 		}
 

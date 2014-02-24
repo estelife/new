@@ -46,20 +46,31 @@ require([
 				$(".main_menu>li").removeClass("hover");
 			}
 		);
-
 	});
 
-	// BULLSHIT
 	$(function(){
 		var body=$('body');
 
 		EL.notice();
 
-		Backbone.history.start({
-			'pushState':true,
-			'hashChange': true,
-			'silent': true
-		});
+		if(Backbone.history && !Backbone.History.started) {
+			var historySettings;
+
+			if(!(window.history && history.pushState)) {
+				historySettings={
+					'pushState':false,
+					'hashChange': false,
+					'silent': true
+				};
+			}else {
+				historySettings={
+					'pushState':true,
+					'hashChange': true,
+					'silent': true
+				};
+			}
+			Backbone.history.start(historySettings);
+		}
 
 		//подстановка в url авторизации backurl
 		body.on('click', '.goto-auth', function(e){
@@ -665,9 +676,10 @@ require([
 		});
 		$('form.filter').trigger('updateFilter');
 
-		body.find('form:not(\'.filter\')').each(function(){
+		body.on('updateForm','form:not(\'.filter\')',function(){
 			Functions.initFormFields($(this));
 		});
+		$('form:not(\'.filter\')').trigger('updateForm');
 
 		body.on('updateGallery', '.gallery', function(){
 			var gallery=$(this);

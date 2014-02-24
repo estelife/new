@@ -84,8 +84,11 @@ final class VGeo{
 			$obQuery->builder()->filter()
 				->_eq('ie.IBLOCK_ID', 16)
 				->_eq('ie.ID',intval($_COOKIE['estelife_city']));
-		}else
-			throw new VException('city not found');
+		}else{
+			$obQuery->builder()->filter()
+				->_eq('ie.IBLOCK_ID', 16)
+				->_eq('ie.ID',359);
+		}
 
 		$arCities=$obQuery->select()->all();
 
@@ -96,8 +99,7 @@ final class VGeo{
 				setcookie('estelife_city', $this->city['ID'], time() + 12*60*60*24*30, '/');
 				setcookie('estelife_country', $this->city['COUNTRY_ID'], time() + 12*60*60*24*30, '/');
 			}
-		}else
-			throw new VException('city not found');
+		}
 
 		return $this->city;
 	}
