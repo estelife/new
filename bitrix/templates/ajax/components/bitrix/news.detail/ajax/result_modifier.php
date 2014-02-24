@@ -12,3 +12,10 @@ if ($arResult['ID']>0){
 	$obLikes=new \like\VLike(\like\VLike::ARTICLE);
 	$arResult['LIKES']=$obLikes->getLikes($arResult['ID']);
 }
+
+$arIblockIds = array(
+	14 => 'ar',
+	36 => 'pt',
+	3 => 'ns'
+);
+$arResult['TYPE']=$arIblockIds[$arResult['IBLOCK_ID']];
