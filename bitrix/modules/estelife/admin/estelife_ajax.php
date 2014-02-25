@@ -65,6 +65,34 @@ try{
 				$arResult['list']=array();
 			}
 			break;
+		case 'activity':
+			if(!empty($arData['term'])){
+				$sName=trim(strip_tags($arData['term']));
+				$obActivity=VDatabase::driver();
+				$obQuery=$obActivity->createQuery();
+				$obQuery->builder()
+					->from('estelife_event_activities');
+				$obQuery->builder()
+					->field('name')
+					->field('id')
+					->filter()
+					->_like('name',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+
+				$obRecords=$obQuery->select()->all();
+				$arResult['list']=array();
+
+				if(count($obRecords)>0){
+					foreach($obRecords as $obRecord){
+						$arRecord=$obRecord;
+
+						$arRecord['name']=html_entity_decode($arRecord['name'],ENT_QUOTES,'utf-8');
+						$arResult['list'][]=$arRecord;
+					}
+				}
+			}else{
+				$arResult['list']=array();
+			}
+			break;
 		case 'service_concreate':
 			if(!empty($arData['term'])){
 				$sTypeId=intval($arData['term']);
@@ -209,14 +237,27 @@ try{
 
 				$obApp= VDatabase::driver();
 
-				$obQuery = $obApp->CreateQuery();
-				$obFilter=$obQuery->builder()->from('user')
-					->field('NAME')
-					->field('ID')
-					->filter()
-					->_like('NAME',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+				$obQuery = $obApp->createQuery();
+				$obQuery->builder()->from('user', 'u');
+				$obJoin=$obQuery->builder()->join();
+				$obJoin->_left()
+					->_from('u','ID')
+					->_to('user_group','USER_ID','ug');
+				$obFilter = $obQuery->builder()
+					->field('u.ID','ID')
+					->field('u.NAME','NAME')
+					->field('u.LAST_NAME','LAST_NAME')
+					->_eq('ug.GROUP_ID',6);
+
+				$obFilter = $obQuery->builder()->filter();
+
+				$obFilter->_or()->_like('u.LAST_NAME',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+				$obFilter->_or()->_like('u.NAME',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+				$obFilter->_or()->_like('u.SECOND_NAME',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+				$obFilter->_eq('ug.GROUP_ID',6);
 
 				$arResult['list'] = $obQuery->select()->all();
+
 			}else{
 				$arResult['list']=array();
 			}

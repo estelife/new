@@ -77,10 +77,40 @@ if(!empty($ID)){
 
 	$obQuery->builder()
 		->from('user')
+		->field('LAST_NAME')
 		->field('NAME')->filter()->_eq('ID',$nUserId);
 	$arFilterData['user']=$obQuery->select()->Fetch();
 
-	$sUserName =$arFilterData['user']['NAME'];
+	$sUserName =''.$arFilterData['user']['NAME'].' '.$arFilterData['user']['LAST_NAME'].'';
+
+
+	//Получение клиник
+	$obQuery=$obSpec->createQuery();
+	$obQuery->builder()->from('estelife_professionals_clinics','epc');
+	$obJoin=$obQuery->builder()->join();
+	$obJoin->_left()
+		->_from('epc','clinic_id')
+		->_to('estelife_clinics','id','ec');
+	$obQuery->builder()
+		->field('ec.name','clinic_name')
+		->field('epc.professional_id','professional_id')
+		->field('ec.id','clinic_id');
+	$obQuery->builder()->filter()->_eq('epc.professional_id', $ID);
+	$arResult['spec']['clinic']=$obQuery->select()->all();
+
+	//Получение событий
+	$obQuery=$obSpec->createQuery();
+	$obQuery->builder()->from('estelife_professional_activity','epa');
+	$obJoin=$obQuery->builder()->join();
+	$obJoin->_left()
+		->_from('epa','activity_id')
+		->_to('estelife_event_activities','id','eea');
+	$obQuery->builder()
+		->field('eea.name','activity_name')
+		->field('epa.professional_id','professional_id')
+		->field('eea.id','activity_id');
+	$obQuery->builder()->filter()->_eq('epc.professional_id', $ID);
+	$arResult['spec']['activities']=$obQuery->select()->all();
 
 }
 
@@ -98,6 +128,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 
 		$obQuery = $obSpec->createQuery();
+		$obQueryClinics = $obSpec->createQuery();
+		$obQueryActivity = $obSpec->createQuery();
 		$obQuery->builder()->from('estelife_professionals')
 			->value('user_id', $obPost->one('user_id'))
 			->value('short_description', trim(htmlentities($obPost->one('short_description'),ENT_QUOTES,'utf-8')))
@@ -135,7 +167,49 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			$obQuery->update();
 			$idEntr = $ID;
 		}else{
-			$idPill = $obQuery->insert()->insertId();
+			$idEntr = $obQuery->insert()->insertId();
+		}
+
+
+		$obQueryClinics->builder()
+			->from('estelife_professionals_clinics')->filter()
+			->_eq('professional_id', $ID);
+
+		$obQueryClinics->delete();
+		$arPostClinics = $obPost->one('clinic_id');
+
+
+		if(!empty($arPostClinics)){
+			foreach($arPostClinics as $nVal){
+				if(!empty($nVal)){
+					$obQueryClinics->builder()->from('estelife_professionals_clinics')
+						->value('professional_id',$idEntr)
+						->value('clinic_id',$nVal);
+					$obQueryClinics->insert()->insertId();
+				}
+			}
+
+		}
+
+
+		$obQueryActivity->builder()
+			->from('estelife_professional_activity')->filter()
+			->_eq('professional_id', $ID);
+
+		$obQueryActivity->delete();
+		$arPostActivity = $obPost->one('activity_id');
+
+
+		if(!empty($arPostActivity)){
+			foreach($arPostActivity as $nVal){
+				if(!empty($nVal)){
+					$obQueryActivity->builder()->from('estelife_professional_activity')
+						->value('professional_id',$idEntr)
+						->value('activity_id',$nVal);
+					$obQueryActivity->insert()->insertId();
+				}
+			}
+
 		}
 
 
@@ -161,8 +235,12 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 $aTabs = array(
 	array("DIV" => "edit1", "TAB" => GetMessage("ESTELIFE_T_BASE"),/* "ICON" => "estelife_r_base", */"TITLE" => GetMessage("ESTELIFE_T_BASE")),
+	array("DIV" => "edit2", "TAB" => GetMessage("ESTELIFE_T_SHORT"),/* "ICON" => "estelife_r_base", */"TITLE" => GetMessage("ESTELIFE_T_SHORT")),
+	array("DIV" => "edit3", "TAB" => GetMessage("ESTELIFE_T_FULL"),/* "ICON" => "estelife_r_base", */"TITLE" => GetMessage("ESTELIFE_T_FULL")),
+	array("DIV" => "edit4", "TAB" => GetMessage("ESTELIFE_T_CLINICS"),/* "ICON" => "estelife_r_base", */"TITLE" => GetMessage("ESTELIFE_T_CLINICS")),
+	array("DIV" => "edit5", "TAB" => GetMessage("ESTELIFE_T_ACTIVITIES"),/* "ICON" => "estelife_r_base", */"TITLE" => GetMessage("ESTELIFE_T_ACTIVITIES")),
 );
-$tabControl = new CAdminTabControl("estelife_entry_concreate_".$ID, $aTabs, true, true);
+$tabControl = new CAdminTabControl("estelife_entry_concreate", $aTabs, true, true);
 
 //===== Тут будем делать сохрпанение и подготовку данных
 
@@ -257,23 +335,113 @@ if(!empty($arResult['error']['text'])){
 				?>
 			</td>
 		</tr>
+		<?
+		$tabControl->BeginNextTab()
+		?>
+		<tr id="tr_preview_text_editor">
+			<td colspan="2" align="center">
+				<?CFileMan::AddHTMLEditorFrame(
+					"short_description",
+					$arResult['spec']['short_description'],
+					"preview_text_type",
+					$str_preview_text_type,
+					array(
+						'height' => 450,
+						'width' => '100%'
+					),
+					"N",
+					0,
+					"",
+					"",
+					$arIBlock["LID"],
+					true,
+					false,
+					array(
+						'toolbarConfig' => CFileman::GetEditorToolbarConfig("iblock_".(defined('BX_PUBLIC_MODE') && BX_PUBLIC_MODE == 1 ? 'public' : 'admin')),
+						'saveEditorKey' => $IBLOCK_ID
+					)
+				);?>
+			</td>
+		</tr>
 
-		<tr>
-			<td width="40%"><?=GetMessage("ESTELIFE_F_SHORT_DESCRIPTION")?></td>
-			<td width="60%">
-				<input type="text" name="short_description" size="60" maxlength="255" value="<?=$arResult['spec']['short_description']?>">
+		<?
+		$tabControl->BeginNextTab()
+		?>
+
+		<tr id="tr_detail_text_editor">
+			<td colspan="2" align="center">
+				<?CFileMan::AddHTMLEditorFrame(
+					"full_description",
+					$arResult['spec']['full_description'],
+					"detail_text_type",
+					$str_detail_text_type,
+					array(
+						'height' => 450,
+						'width' => '100%'
+					),
+					"N",
+					0,
+					"",
+					"",
+					$arIBlock["LID"],
+					true,
+					false,
+					array(
+						'toolbarConfig' => CFileman::GetEditorToolbarConfig("iblock_".(defined('BX_PUBLIC_MODE') && BX_PUBLIC_MODE == 1 ? 'public' : 'admin')),
+						'saveEditorKey' => $IBLOCK_ID
+					)
+				);?>
 			</td>
 		</tr>
-		<tr>
-			<td width="40%"><?=GetMessage("ESTELIFE_F_FULL_DESCRIPTION")?></td>
-			<td width="60%">
-				<textarea cols="59" name="full_description" rows="10"><?=$arResult['spec']['full_description'];?></textarea>
+		<? $tabControl->BeginNextTab(); ?>
+		<?php if(!empty($arResult['spec']['clinic'])): ?>
+			<?php foreach($arResult['spec']['clinic'] as $arClinic): ?>
+				<tr class="adm-detail-required-field">
+					<td width="30%"><?=GetMessage("ESTELIFE_F_CLINIC")?></td>
+					<td width="70%">
+						<input type="hidden" name="clinic_id[]" value="<?=$arClinic['clinic_id']?>" />
+						<input type="text" disabled="disabled" name="clinic_name[]" data-input="clinic_id" class="estelife-need-clone" value="<?=$arClinic['clinic_name']?>" />
+						<a href="#" class="estelife-more estelife-btn adm-btn adm-btn-delete estelife-delete"></a>
+					</td>
+				</tr>
+			<?php endforeach; ?>
+		<?php endif; ?>
+		<tr class="adm-detail-required-field">
+			<td width="30%"><?=GetMessage("ESTELIFE_F_CLINIC")?></td>
+			<td width="70%">
+				<input type="hidden" name="clinic_id[]" value="" />
+				<input type="text" name="clinic_name[]" data-input="clinic_id" class="estelife-need-clone" value="" />
+				<a href="#" class="estelife-more estelife-btn adm-btn adm-btn-save">&crarr;</a>
 			</td>
 		</tr>
+		<? $tabControl->BeginNextTab(); ?>
+		<?php if(!empty($arResult['spec']['activities'])): ?>
+			<?php foreach($arResult['spec']['activities'] as $arClinic): ?>
+				<tr class="adm-detail-required-field">
+					<td width="30%"><?=GetMessage("ESTELIFE_F_CLINIC")?></td>
+					<td width="70%">
+						<input type="hidden" name="activity_id[]" value="<?=$arClinic['activity_id']?>" />
+						<input type="text" disabled="disabled" name="activity_name[]" data-input="activity_id" class="estelife-need-clone" value="<?=$arClinic['activity_name']?>" />
+						<a href="#" class="estelife-more estelife-btn adm-btn adm-btn-delete estelife-delete"></a>
+					</td>
+				</tr>
+			<?php endforeach; ?>
+		<?php endif; ?>
+		<tr class="adm-detail-required-field">
+			<td width="30%"><?=GetMessage("ESTELIFE_F_ACTIVITY")?></td>
+			<td width="70%">
+				<input type="hidden" name="activity_id[]" value="" />
+				<input type="text" name="activity_name[]" data-input="activity_id" class="estelife-need-clone" value="" />
+				<a href="#" class="estelife-more estelife-btn adm-btn adm-btn-save">&crarr;</a>
+			</td>
+		</tr>
+
+
 		<?php
 		$tabControl->EndTab();
 		$tabControl->Buttons(array("disabled"=>false, "back_url"=>(strlen($back_url) > 0 ? $back_url : "estelife_professionals_list.php?lang=".LANGUAGE_ID)));
 		$tabControl->End();
 		?>
 	</form>
-<?php require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/epilog_admin.php");
+<?php
+require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/epilog_admin.php");

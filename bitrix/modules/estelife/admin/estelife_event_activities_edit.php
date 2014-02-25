@@ -162,7 +162,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			$obQuery->update();
 			$idEntr = $ID;
 		}else{
-			$idPill = $obQuery->insert()->insertId();
+			$idEntr = $obQuery->insert()->insertId();
 		}
 
 

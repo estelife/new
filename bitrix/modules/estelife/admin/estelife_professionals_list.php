@@ -53,7 +53,8 @@ $arFilterData['countries']=$obQuery->select()->all();
 $obQuery->builder()
 	->from('user')
 	->field('ID')
-	->field('NAME');
+	->field('NAME')
+	->field('LAST_NAME');
 $arFilterData['users']=$obQuery->select()->all();
 
 //====== TABLE HEADERS =========
@@ -106,6 +107,7 @@ $obFilter=$obQuery->builder()
 	->field('ep.id','id')
 	->field('ep.user_id','user_id')
 	->field('u.NAME','user_name')
+	->field('u.LAST_NAME', 'last_name')
 	->field('ecn.NAME','country')
 	->field('ect.NAME','city')
 	->field('ep.short_description','short_description')
@@ -167,7 +169,7 @@ while($arRecord=$obResult->Fetch()){
 	$row =& $lAdmin->AddRow($f_ID,$arRecord);
 
 	$row->AddViewField("ID",$arRecord['id']);
-	$row->AddViewField("USER_ID", $arRecord['user_name']);
+	$row->AddViewField("USER_ID", ''.$arRecord['user_name'].' '.$arRecord['last_name'].'');
 	$row->AddViewField("COUNTRY", $arRecord['country']);
 	$row->AddViewField("CITY", $arRecord['city']);
 	$row->AddViewField("SHORT_DESCRIPTION", $arRecord['short_description']);
@@ -252,7 +254,7 @@ require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_adm
 					<option value="0"><?echo GetMessage("ESTELIFE_NOT_IMPORTANT")?></option>
 					<?php if(!empty($arFilterData['users'])): ?>
 						<?php foreach($arFilterData['users'] as $arUser): ?>
-							<option value="<?=$arUser['ID']?>"<?=($arUser['ID']==$find_user_id ? ' selected="true"' : '')?>><?=$arUser['NAME']?></option>
+							<option value="<?=$arUser['ID']?>"<?=($arUser['ID']==$find_user_id ? ' selected="true"' : '')?>><?=''.$arUser['NAME'].' '.$arUser['LAST_NAME'].''?></option>
 						<?php endforeach; ?>
 					<?php endif; ?>
 				</select>
