@@ -65,7 +65,7 @@ try{
 				$arResult['list']=array();
 			}
 			break;
-		case 'activity':
+		case 'activities':
 			if(!empty($arData['term'])){
 				$sName=trim(strip_tags($arData['term']));
 				$obActivity=VDatabase::driver();

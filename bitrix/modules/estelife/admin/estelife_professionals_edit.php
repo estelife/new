@@ -79,7 +79,7 @@ if(!empty($ID)){
 		->from('user')
 		->field('LAST_NAME')
 		->field('NAME')->filter()->_eq('ID',$nUserId);
-	$arFilterData['user']=$obQuery->select()->Fetch();
+	$arFilterData['user']=$obQuery->select()->assoc();
 
 	$sUserName =''.$arFilterData['user']['NAME'].' '.$arFilterData['user']['LAST_NAME'].'';
 
@@ -109,7 +109,7 @@ if(!empty($ID)){
 		->field('eea.name','activity_name')
 		->field('epa.professional_id','professional_id')
 		->field('eea.id','activity_id');
-	$obQuery->builder()->filter()->_eq('epc.professional_id', $ID);
+	$obQuery->builder()->filter()->_eq('epa.professional_id', $ID);
 	$arResult['spec']['activities']=$obQuery->select()->all();
 
 }
@@ -157,7 +157,6 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 
 		if (!empty($ID)){
-
 			if(isset($_POST['photo_del'])&& $_POST['photo_del'] == 'Y'){
 				$obQuery->builder()->value('image_id', intval(0));
 			}
@@ -173,31 +172,32 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		$obQueryClinics->builder()
 			->from('estelife_professionals_clinics')->filter()
-			->_eq('professional_id', $ID);
+			->_eq('professional_id', $idEntr);
 
 		$obQueryClinics->delete();
 		$arPostClinics = $obPost->one('clinic_id');
 
-
 		if(!empty($arPostClinics)){
 			foreach($arPostClinics as $nVal){
+				$nVal = intval($nVal);
+
 				if(!empty($nVal)){
-					$obQueryClinics->builder()->from('estelife_professionals_clinics')
+					$obQueryClinics->builder()
+						->from('estelife_professionals_clinics')
 						->value('professional_id',$idEntr)
 						->value('clinic_id',$nVal);
-					$obQueryClinics->insert()->insertId();
+					$obQueryClinics->insert();
 				}
 			}
 
 		}
 
-
 		$obQueryActivity->builder()
 			->from('estelife_professional_activity')->filter()
-			->_eq('professional_id', $ID);
+			->_eq('professional_id', $idEntr);
 
 		$obQueryActivity->delete();
-		$arPostActivity = $obPost->one('activity_id');
+		$arPostActivity = $obPost->one('activities_id');
 
 
 		if(!empty($arPostActivity)){
@@ -416,12 +416,12 @@ if(!empty($arResult['error']['text'])){
 		</tr>
 		<? $tabControl->BeginNextTab(); ?>
 		<?php if(!empty($arResult['spec']['activities'])): ?>
-			<?php foreach($arResult['spec']['activities'] as $arClinic): ?>
+			<?php foreach($arResult['spec']['activities'] as $arActivity): ?>
 				<tr class="adm-detail-required-field">
-					<td width="30%"><?=GetMessage("ESTELIFE_F_CLINIC")?></td>
+					<td width="30%"><?=GetMessage("ESTELIFE_F_ACTIVITY")?></td>
 					<td width="70%">
-						<input type="hidden" name="activity_id[]" value="<?=$arClinic['activity_id']?>" />
-						<input type="text" disabled="disabled" name="activity_name[]" data-input="activity_id" class="estelife-need-clone" value="<?=$arClinic['activity_name']?>" />
+						<input type="hidden" name="activities_id[]" value="<?=$arActivity['activity_id']?>" />
+						<input type="text" disabled="disabled" name="activity_name[]" data-input="activities_id" class="estelife-need-clone" value="<?=$arActivity['activity_name']?>" />
 						<a href="#" class="estelife-more estelife-btn adm-btn adm-btn-delete estelife-delete"></a>
 					</td>
 				</tr>
@@ -430,8 +430,8 @@ if(!empty($arResult['error']['text'])){
 		<tr class="adm-detail-required-field">
 			<td width="30%"><?=GetMessage("ESTELIFE_F_ACTIVITY")?></td>
 			<td width="70%">
-				<input type="hidden" name="activity_id[]" value="" />
-				<input type="text" name="activity_name[]" data-input="activity_id" class="estelife-need-clone" value="" />
+				<input type="hidden" name="activities_id[]" value="" />
+				<input type="text" name="activity_name[]" data-input="activities_id" class="estelife-need-clone" value="" />
 				<a href="#" class="estelife-more estelife-btn adm-btn adm-btn-save">&crarr;</a>
 			</td>
 		</tr>
