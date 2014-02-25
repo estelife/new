@@ -25,6 +25,7 @@ $arResult=array(
 		"cm" => "comments",
 		"th" => "threads",
 		"im" => "implants",
+		"pf" => "professionals",
 	),
 	'types' => array(
 		1=>"ns",
@@ -47,7 +48,8 @@ $arResult=array(
 		18=>"fr",
 		19=>"cm",
 		20=>"th",
-		21=>"im"
+		21=>"im",
+		22=>"pf",
 	),
 	'current_city' => \geo\VGeo::getInstance()->getGeo()
 );
