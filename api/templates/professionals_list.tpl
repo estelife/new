@@ -11,7 +11,9 @@
 				</div>
 			</div>
 			<h2><a href="<!--$val.link!-->"><!--$val.name!--></a></h2>
-			<span class="country c<!--$val.country_id!-->"><!--$val.country_name!--></span>
+			<!--if ($val.country_name)!-->
+				<span class="country c<!--$val.country_id!-->"><!--$val.country_name!--></span>
+			<!--endif!-->
 		</div>
 	<!--endforeach!-->
 <!--else!-->

@@ -35,14 +35,14 @@
 					<th>Тема доклада</th>
 					<th>Место</th>
 				</tr>
-				<!--foreach ($detail.activities as $val)!-->
+				<!--foreach ($detail.activities as $key=>$val)!-->
 					<tr>
 						<td><!--$val.date!--></td>
 						<td>
 							<b><!--$val.type_name!--></b>: <!--$val.description!-->
 						</td>
 						<td>
-							<a href="<!--$val.link_event!-->"><!--$val.name!--></a>
+							<a href="<!--$val.link_event!-->"><!--$val.event_name!--></a>
 						</td>
 					</tr>
 				<!--endforeach!-->
