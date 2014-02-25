@@ -2,36 +2,29 @@
 use core\types\VArray;
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
+$nStep=10;
+$sQuery='';
+$nPage=1;
+$sTags='';
+
 if (isset($arParams['NAV_COUNT']) && !empty($arParams['NAV_COUNT']))
 	$nStep=intval($arParams['NAV_COUNT']);
-else
-	$nStep=10;
 
 if (isset($_REQUEST['q']) && !empty($_REQUEST['q']))
 	$sQuery=trim(addslashes($_REQUEST['q']));
-else
-	$sQuery='';
-$arResult['search']['query']=$sQuery;
 
 if (isset($_REQUEST['PAGEN_1']) && !empty($_REQUEST['PAGEN_1']))
 	$nPage=intval($_REQUEST['PAGEN_1']);
-else
-	$nPage=1;
-
-
-//Работа с URL
-$arResult['url']='/search/'."?q=".urlencode($sQuery);
 
 if (isset($_REQUEST['tags']) && !empty($_REQUEST['tags']))
 	$sTags=trim(addslashes($_REQUEST['tags']));
-else
-	$sTags='';
 
-$arResult['search']['tags']=$tags;
-
-if (isset($_REQUEST['how']) && $_REQUEST['how']=='d'){
+if (isset($_REQUEST['how']) && $_REQUEST['how']=='d')
 	$sSort='date_edit';
-}
+
+$arResult['search']['query']=$sQuery;
+$arResult['url']='/search/'."?q=".urlencode($sQuery);
+$arResult['search']['tags']=$sTags;
 $sHow=trim(addslashes($_REQUEST['how']));
 $arResult['search']['how']=$sHow;
 

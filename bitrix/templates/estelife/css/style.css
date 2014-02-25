@@ -92,7 +92,7 @@ a:hover {
 .social a, .arrow i, ul.stat i, .promotion .time i, .promotion .prices i, .media .item span, .media .menu .first a,
 .promotion .time i, .promotion .prices i, .item.detail .clinic a.more i, .select .arrow, .item.company p i, .gallery .arrow i, td.prices i,
 .filter .date i, .win-close, .checked, .item.promotion .current .perc i,.checkbox.active i, .to-top i, h2.show-quality-form i,.help i, .tabs-menu .active i,
-.auth .link.back i, .item.specialist .work i, .activity .dates .active i {
+.auth .link.back i, .item.specialist .work i, .activity .dates .active i, .hall .date i {
 	background-image:url('../images/complex.png');
 	background-repeat: no-repeat;
 }
@@ -687,9 +687,6 @@ ul.stat .unlikes.active i {
 .experts ul {
 	height:22px;
 	margin:25px 0 0 0;
-	display: inline-block;
-	zoom:1;
-	*display:inline;
 }
 .experts li {
 	width:22px;
@@ -1171,10 +1168,6 @@ td.prices i {
 	margin: 0;
 	width: auto;
 	height: 37px;
-	display: -moz-inline-stack;
-	display: inline-block;
-	zoom: 1;
-	*display: inline;
 }
 .item.detail .menu li, .item.detail .menu a {
 	width:auto;
@@ -1473,7 +1466,8 @@ td.prices i {
 .item.training .img-in,
 .item.event .img-in,
 .item.specialist .img-in,
-.activity .item-in {
+.activity .item-in,
+.hall .user .about {
 	display: table-cell;
 	vertical-align: middle;
 	position:static;
@@ -1804,6 +1798,10 @@ form input[type=checkbox] {
 .item.specialist .work a {
 	color:#e50364;
 }
+.content .item.specialist .default,
+.hall .user .default {
+	background:#F0F0F0 url('../images/unlogo2.png') center center no-repeat;
+}
 .select .items .item {
 	width:100%;
 }
@@ -1858,7 +1856,8 @@ form input[type=checkbox] {
 .item.product h2 a,
 .item.training h2 a,
 .item.event h2 a,
-.activity h2 {
+.activity h2,
+.hall h2 {
 	font-size:24px;
 	text-decoration: none;
 	color:#2c2c2c;
@@ -1872,7 +1871,8 @@ form input[type=checkbox] {
 .item.training h2,
 .item.event h2,
 .item.specialist h2,
-.activity h2 {
+.activity h2,
+.hall h2{
 	margin:0 0 10px 0;
 	text-transform: none;
 	font-weight: bold;
@@ -1939,9 +1939,6 @@ form input[type=checkbox] {
 .item.specialist tr td:last-child a:hover,
 .item.specialist .work a:hover {
 	text-decoration: underline;
-}
-.activity {
-
 }
 .item.company .services h2 {
 	font-weight: normal;
@@ -2190,7 +2187,7 @@ h3 a:hover,
 .content li.country, .content .current li.country,
 span.country, .country .select .has-value, .country.big {
 	display: block;
-	padding-left:32px;
+	padding-left:26px;
 	background-position: 0 center;
 	background-repeat: no-repeat;
 	margin-bottom: 0;
@@ -2789,14 +2786,13 @@ form.search .submit {
 	position: absolute;
 	opacity: 0.5;
 	top: 0;
-	left: -279px;
+	left: -283px;
 	width: 1920px;
 	max-height: initial;
 	max-width: initial;
 	border: none;
 	z-index:10;
 }
-
 .item.detail .default {
 	float: left;
 	width: 100%;
@@ -3264,7 +3260,10 @@ form.quality .submit,
 	max-width: 538px;
 }
 .item.detail.expert blockquote q,
-.activity .item ul {
+.activity .item ul,
+.hall .user .about-in,
+.item.detail .menu ul,
+.experts ul {
 	display: -moz-inline-stack;
 	display: inline-block;
 	zoom: 1;
@@ -3276,7 +3275,7 @@ form.quality .submit,
 	font-size:12px;
 }
 /*.item.detail.expert .stat {*/
-/*margin: 34px 0 27px 0;*/
+	/*margin: 34px 0 27px 0;*/
 /*}*/
 .item.detail.expert .announce {
 	font-size:16px;
@@ -3491,7 +3490,8 @@ form.quality .submit,
 	float:left;
 	width:450px;
 }
-.education .user .img {
+.education .user .img,
+.hall .user .img {
 	float:left;
 	padding:10px;
 	background:#dddddd;
@@ -3649,17 +3649,20 @@ form.quality .submit,
 .item.detail.text h1 {
 	margin-bottom:30px;
 }
-.activity h2 {
+.activity h2,
+.hall h2 {
 	margin:16px 0 0 0;
 }
-.activity .dates {
+.activity .dates,
+.hall .title {
 	margin-top:54px;
 }
 .activity .dates li {
 	float:left;
 	margin-right: 20px;
 }
-.activity .dates a {
+.activity .dates a,
+.hall .date {
 	display: block;
 	width:61px;
 	padding: 9px 0;
@@ -3675,37 +3678,48 @@ form.quality .submit,
 	font-weight: bold;
 	display: block;
 }
-.activity .dates .active {
-	background:#d4005c;
-	border-color:#d4005c;
+.activity .dates .active,
+.hall .date {
+	background:#e50364;
+	border-color:#e50364;
 	color:#fff;
 	position: relative;
 }
-.activity .dates .active i {
+.activity .dates .active i,
+.hall .date i {
 	display: block;
-	width:14px;
-	height:8px;
-	background-position: -141px -76px;
+	width:9px;
+	height:5px;
+	background-position: -239px -77px;
 	position: absolute;
-	bottom:-8px;
+	bottom:-5px;
 	left:50%;
-	margin-left: -7px;
+	margin-left: -4px;
 }
-.activity .item {
+.activity .item,
+.hall .items {
 	border:1px solid #d1d1d1;
 	margin-top:20px;
 	cursor:default;
 }
-.content .activity h3 {
-	line-height:39px;
-	border-bottom:1px solid #d1d1d1;
+.content .activity h3,
+.hall .h {
 	background:#e8e8e8;
-	font-size:21px;
 	text-align: center;
 	margin:0;
 }
-.activity .item span,
+.content .activity h3,
+.hall .item,
+.hall .h {
+	border-bottom:1px solid #d1d1d1;
+}
 .content .activity h3 {
+	line-height:39px;
+	font-size:21px;
+}
+.activity .item span,
+.content .activity h3,
+.content .hall .h h3 {
 	color:#e50364;
 	font-weight:bold;
 }
@@ -3725,7 +3739,9 @@ form.quality .submit,
 .activity .item li:last-child {
 	margin-bottom:0;
 }
-.activity .item a {
+.activity .item a,
+.activity .item p{
+	margin:0;
 	color:#2C2C2C;
 	text-decoration: none;
 	display: block;
@@ -3747,4 +3763,89 @@ form.quality .submit,
 	height:16px;
 	background:url('../images/icons/with-video.png') center center no-repeat;
 	margin:10px auto 0 auto;
+}
+.hall .date {
+	width:143px;
+	font-size:18px;
+	font-weight: bold;
+	float:left;
+	margin-right: 20px;
+}
+.hall .title {
+	margin-top: 29px;
+	height: 40px;
+}
+.hall .title a {
+	color:#e50364;
+	margin-left:0;
+	font-size:16px;
+}
+.hall h1 {
+	text-transform: none;
+	font-weight: bold;
+}
+.hall .items {
+	margin-top:28px;
+}
+.hall .h {
+	text-align: left;
+	padding:11px 20px 16px 20px;
+	font-size: 18px;
+}
+.hall .h b {
+	background:url('../images/icons/group-big.png') 0 center no-repeat;
+	padding-left:30px;
+}
+.hall .h span {
+	color:#e50364;
+	font-size:16px;
+	margin-left: 3px;
+}
+.content .hall .h h3 {
+	font-size:21px;
+	font-weight: normal;
+	margin:19px 0 0 0;
+}
+.hall .items .item:last-child {
+	border-bottom:none;
+}
+.hall .item {
+	padding:14px 20px 30px 20px;
+	float:none;
+	width:auto;
+	overflow: hidden;
+}
+.hall .item,
+.hall a {
+	font-size:14px;
+}
+.hall h4 {
+	width:100%;
+	margin:0;
+	font-size:16px;
+}
+.hall .user {
+	margin-top:15px;
+}
+.hall .user .img {
+	padding:6px;
+	margin-right: 15px;
+}
+.hall .user a {
+	text-decoration: none;
+	font-weight: bold;
+}
+.hall .user a:hover {
+	text-decoration: underline;
+}
+.hall p {
+	margin:0;
+}
+.hall .user .about {
+	height:80px;
+	vertical-align: bottom;
+}
+.hall .user .default {
+	width:72px;
+	height:68px;
 }
