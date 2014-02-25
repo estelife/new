@@ -276,4 +276,5 @@ if(!empty($arResult['error']['text'])){
 		$tabControl->End();
 		?>
 	</form>
-<?php require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/epilog_admin.php");
+<?php
+require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/epilog_admin.php");
