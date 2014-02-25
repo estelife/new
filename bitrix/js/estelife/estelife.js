@@ -871,7 +871,7 @@ $(function(){
 						var item= r.list.shift(),
 							prnt=inpt.parent();
 
-						inpt.val(item.NAME);
+						inpt.val(item.NAME +' '+ item.LAST_NAME);
 						$('input[name*=\''+inpt.attr('data-input')+'\']',prnt).val(item.ID);
 						response();
 
@@ -881,8 +881,8 @@ $(function(){
 					}else{
 						response($.map(r.list, function(item) {
 							return {
-								label: item.NAME,
-								value: item.NAME,
+								label: item.NAME +' '+ item.LAST_NAME,
+								value: item.NAME +' '+ item.LAST_NAME,
 								'id': item.ID
 							}
 						}));
@@ -1285,6 +1285,39 @@ $(function(){
 		source: function(request,response) {
 			$.get('/bitrix/admin/estelife_ajax.php',{
 				'action':'clinic',
+				'term':request.term
+			},function(r){
+				if('list' in r){
+					response($.map(r.list, function(item) {
+						return {
+							label: item.name,
+							value: item.name,
+							id: item.id
+						}
+					}));
+				}
+			},'json');
+
+			return true;
+		},
+		select:function(e, ui) {
+			var inpt=$(this),
+				prnt=inpt.parent();
+
+			$('input[name*=\''+inpt.attr('data-input')+'\']',inpt.parent()).val(ui.item.id);
+
+			if(inpt.hasClass('estelife-need-clone')){
+				prnt.find('.estelife-more').click();
+				prnt.parent().prev().find('input[type=text]').val(ui.item.value);
+			}
+		}
+	});
+
+	$('input[name*=\'activity_name\']').autocomplete({
+		minLength:3,
+		source: function(request,response) {
+			$.get('/bitrix/admin/estelife_ajax.php',{
+				'action':'activity',
 				'term':request.term
 			},function(r){
 				if('list' in r){
