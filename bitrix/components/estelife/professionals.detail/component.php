@@ -42,7 +42,7 @@ else
 	$obFilter->_eq('ep.id', 0);
 
 $arResult['professional'] = $obQuery->select()->assoc();
-$arResult['professional']['img'] = CFile::ShowImage($arResult['professional']['image_id'],180, 180, 'alt='.$arResult['professional']['name']);
+$arResult['professional']['img'] = CFile::ShowImage($arResult['professional']['image_id'],227, 158, 'alt='.$arResult['professional']['name']);
 $arResult['professional']['short_text'] = htmlspecialchars_decode($arResult['professional']['short_description'],ENT_NOQUOTES);
 $arResult['professional']['detail_text'] = htmlspecialchars_decode($arResult['professional']['full_description'],ENT_NOQUOTES);
 if (!empty($arResult['professional']['last_name']))

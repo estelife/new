@@ -21,7 +21,9 @@
 						</div>
 					</div>
 					<h2><a href="<?=$arProf["link"]?>"><?=$arProf["name"]?></a></h2>
-					<span class="country c<?=$arProf["country_id"]?>"><?=$arProf["country_name"]?></span>
+					<?php if (!empty($arProf["country_name"])):?>
+						<span class="country c<?=$arProf["country_id"]?>"><?=$arProf["country_name"]?></span>
+					<?php endif?>
 				</div>
 			<?php endforeach?>
 		<?php endif?>

@@ -72,8 +72,11 @@ while($arData=$obResult->Fetch()){
 	else
 		$arData['name']=VString::brForName($arData['last_name'].' '.$arData['name'].' '.$arData['second_name']);
 
+	if (empty($val['country_name']))
+		$val['country_name']='';
+
 	if(!empty($arData['image_id'])){
-		$file=CFile::ShowImage($arData["image_id"], 180, 180,'alt="'.$arData['name'].'"');
+		$file=CFile::ShowImage($arData["image_id"], 227, 158,'alt="'.$arData['name'].'"');
 		$arData['logo']=$file;
 	}
 	$arResult['prof'][]=$arData;
