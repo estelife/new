@@ -23,7 +23,7 @@ if (isset($arParams['COUNT']) && $arParams['COUNT']>0)
 if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 	$arPageCount = $arParams['PAGE_COUNT'];
 else
-	$arPageCount = 10;
+	$arPageCount = 12;
 
 if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){
 	$arResult['city']['ID'] = $arFilterParams['city'];

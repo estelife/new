@@ -105,6 +105,7 @@ CModule::AddAutoloadClasses(
 		'filters\decorators\VPreparations'=>'classes/filters/decorators/class.VPreparations.php',
 		'filters\decorators\VThreads'=>'classes/filters/decorators/class.VThreads.php',
 		'filters\decorators\VImplants'=>'classes/filters/decorators/class.VImplants.php',
+		'filters\decorators\VProfessionals'=>'classes/filters/decorators/class.VProfessionals.php',
 
 		//subscribe
 		'subscribe\owners\VOwner'=>'classes/subscribe/owners/class.VOwner.php',

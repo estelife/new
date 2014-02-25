@@ -5,8 +5,16 @@
 		"estelife:professionals.list",
 		"",
 		array(
-			"PAGE_COUNT" => 10,
+			"PAGE_COUNT" => 12,
 		),
+		false
+	);
+	?>
+	<?php
+	$APPLICATION->IncludeComponent(
+		"estelife:professionals.list.filter",
+		"",
+		array(),
 		false
 	);
 	?>

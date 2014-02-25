@@ -16,26 +16,42 @@ $obGet=new VArray($_GET);
 if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 	$arPageCount = $arParams['PAGE_COUNT'];
 else
-	$arPageCount = 10;
+	$arPageCount = 12;
 
 //Получение списка специалистов
 $obQuery=$obProfessionals->createQuery();
-$obQuery->builder()->from('b_user', 'u');
+$obQuery->builder()->from('estelife_professionals', 'ep');
 $obJoin=$obQuery->builder()->join();
 $obJoin->_left()
-	->_from('u', 'ID')
-	->_to('estelife_professionals', 'user_id', 'ep');
+	->_from('ep', 'user_id')
+	->_to('user', 'ID', 'u');
 $obJoin->_left()
 	->_from('ep', 'country_id')
 	->_to('iblock_element','ID','ct')
 	->_cond()->_eq('ct.IBLOCK_ID',15);
 $obQuery->builder()
-	->field('u.ID','id')
+	->field('ep.id','id')
 	->field('u.NAME','name')
 	->field('u.LAST_NAME', 'last_name')
+	->field('u.SECOND_NAME', 'second_name')
 	->field('ep.country_id', 'country_id')
 	->field('ep.image_id', 'image_id')
 	->field('ct.NAME', 'country_name');
+
+$obFilter = $obQuery->builder()->filter();
+
+$session = new \filters\decorators\VProfessionals();
+$arFilterParams = $session->getParams();
+
+if(!empty($arFilterParams['country']) && $arFilterParams['country'] !='all'){
+	$obFilter->_eq('ep.country_id', intval($arFilterParams['country']));
+}
+
+if(!empty($arFilterParams['name'])){
+	$obFilter->_or()->_like('u.LAST_NAME',$arFilterParams['name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+	$obFilter->_or()->_like('u.NAME',$arFilterParams['name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+	$obFilter->_or()->_like('u.SECOND_NAME',$arFilterParams['name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+}
 
 $obQuery->builder()->sort('u.NAME', 'asc');
 $obResult = $obQuery->select();
@@ -50,7 +66,11 @@ $obResult->NavStart($arPageCount);
 
 $arResult['prof'] = array();
 while($arData=$obResult->Fetch()){
-	$arData['link'] = '/pf'.$arData['id'].'/';
+	$arData['link']='/pf'.$arData['id'].'/';
+	if (empty($arData['last_name']))
+		$arData['name']=VString::brForName($arData['name']);
+	else
+		$arData['name']=VString::brForName($arData['last_name'].' '.$arData['name'].' '.$arData['second_name']);
 
 	if(!empty($arData['image_id'])){
 		$file=CFile::ShowImage($arData["image_id"], 180, 180,'alt="'.$arData['name'].'"');
@@ -60,15 +80,14 @@ while($arData=$obResult->Fetch()){
 }
 
 
-$arSEOTitle = $arTypes[$_GET['type']].' - все аппараты в нашей базе данных.';
-$arSEODescription = 'Вся информация по аппаратам для процедуры '.$arTypes[$_GET['type']].'. Весь список с подробным описанием в нашей базе данных.';
+$arSEOTitle = 'Специалисты';
+$arSEODescription = 'Инфомарция о специалистах';
 
 if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
 	$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
 	$arSEOTitle.=' - '.$_GET['PAGEN_1'].' страница';
 	$arSEODescription.=' - '.$_GET['PAGEN_1'].' страница';
 }
-
 
 $APPLICATION->SetPageProperty("title", $arSEOTitle);
 $APPLICATION->SetPageProperty("description", VString::truncate($arSEODescription, 160, ''));

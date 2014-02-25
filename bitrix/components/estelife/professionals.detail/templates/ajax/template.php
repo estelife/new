@@ -14,9 +14,8 @@ echo json_encode(array(
 			'link'=>'/professionals/',
 		),
 		array(
-			'name'=>$arResult['professionals']['name'],
+			'name'=>$arResult['professional']['name'],
 			'link'=>'#'
 		)
 	),
-	'class'=>'professionals'
 ));

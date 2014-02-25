@@ -14,6 +14,14 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)
 		false
 	);
 	?>
+	<?php
+	$APPLICATION->IncludeComponent(
+		"estelife:professionals.list.filter",
+		"",
+		array(),
+		false
+	);
+	?>
 	<div class="adv adv-out right">
 		<?$APPLICATION->IncludeComponent("bitrix:advertising.banner","",Array(
 				"TYPE" => "main_right_1",

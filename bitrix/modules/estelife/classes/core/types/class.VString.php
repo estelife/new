@@ -62,6 +62,15 @@ class VString {
 	}
 
 	/**
+	 * Делает перенос для первого пробела
+	 * @param $sString
+	 * @return string
+	 */
+	public static function brForName($sString){
+		return preg_replace('/([^\s]+)\s(.*)/', '$1<br />$2', $sString);
+	}
+
+	/**
 	 * Осуществляет проверку страки на соответствие идентификатору
 	 * @param $sTranslit
 	 * @return int

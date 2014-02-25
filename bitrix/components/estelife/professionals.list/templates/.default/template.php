@@ -2,40 +2,31 @@
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="/">Главная</a></li>
-		<li><b>Аппараты</b></li>
+		<li><b>Специалисты</b></li>
 	</ul>
 	<div class="title">
-		<h1>Аппараты</h1>
+		<h1>Специалисты</h1>
 	</div>
 	<div class="items">
-		<?php if (!empty($arResult['apps'])):?>
-			<?php foreach ($arResult['apps'] as $arApp):?>
-				<div class="item product">
-					<div class="item-rel">
-						<div class="img">
-							<div class="img-in">
-								<?php if(!empty($arApp["logo_id"])): ?>
-									<?=$arApp["logo"]?>
-								<?php else: ?>
-									<div class="default">Изображение отсутствует</div>
-								<?endif?>
-							</div>
-						</div>
-						<div class="cols">
-							<h2><a href="<?=$arApp["link"]?>"><?=$arApp["name"]?></a></h2>
-							<ul>
-								<li class="country c<?=$arApp["country_id"]?>"><?=$arApp["country_name"]?></li>
-								<li>Производитель: <a href="<?=$arApp["company_link"]?>"><?=$arApp["company_name"]?></a></li>
-							</ul>
-							<p><?=$arApp['preview_text']?></p>
+		<?php if (!empty($arResult['prof'])):?>
+			<?php foreach ($arResult['prof'] as $arProf):?>
+				<div class="item specialist">
+					<div class="img">
+						<div class="img-in">
+							<?php if(!empty($arProf["logo"])): ?>
+								<?=$arProf["logo"]?>
+							<?php else: ?>
+								<div class="default">Изображение отсутствует</div>
+							<?endif?>
 						</div>
 					</div>
-					<div class="border"></div>
+					<h2><a href="<?=$arProf["link"]?>"><?=$arProf["name"]?></a></h2>
+					<span class="country c<?=$arProf["country_id"]?>"><?=$arProf["country_name"]?></span>
 				</div>
 			<?php endforeach?>
 		<?php endif?>
 	</div>
-	<div class="not-found<?=(!empty($arResult['apps']) ? ' none' : '')?>">Аппараты не найдены ...</div>
+	<div class="not-found<?=(!empty($arResult['prof']) ? ' none' : '')?>">Специалисты не найдены ...</div>
 	<?php if (!empty($arResult['nav'])):?>
 		<?=$arResult['nav']?>
 	<?php endif; ?>
