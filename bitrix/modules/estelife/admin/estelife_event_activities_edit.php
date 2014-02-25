@@ -102,6 +102,7 @@ if(!empty($ID)){
 	$nSection = $arResult['activ']['section_id'];
 	$sTimeFrom = date('H:i',strtotime($arResult['activ']['time_from']));
 	$sTimeTo = date('H:i',strtotime($arResult['activ']['time_to']));
+
 }
 
 
@@ -111,6 +112,22 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 	$obError=new ex\VFormException();
 
 	try{
+
+		if(!empty($_POST)){
+			$arResult['activ']['name'] = $_POST['name'];
+			$arResult['activ']['short_description'] = $_POST['short_description'];
+			$arResult['activ']['full_description'] = $_POST['full_description'];
+			$nVideo = $_POST['video'];
+			$sDate = $_POST['date'];
+			$sTimeFrom = $_POST['time_from'];
+			$sTimeTo = $_POST['time_to'];
+			$arResult['activ']['duration'] = $_POST['duration'];
+			$nType = $_POST['type_id'];
+			$arResult['activ']['event_id'] = $_POST['event_id'];
+			$nSection = $_POST['section_id'];
+			$nHall = $_POST['hall_id'];
+		}
+
 		if($obPost->blank('name'))
 			$obError->setFieldError('NOT_NAME','name');
 
@@ -132,6 +149,20 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		if($obPost->blank('hall_id'))
 			$obError->setFieldError('NOT_HALL','hall_id');
 
+		$sPostTimeFrom =  $obPost->one('time_from');
+		$sPostTimeTo =  $obPost->one('time_to');
+
+		$isPointsFrom = strpos($sPostTimeFrom, ':');
+		$isPointsTo = strpos($sPostTimeTo, ':');
+
+		if(empty($isPointsFrom)){
+			$sPostTimeFrom = ''.$sPostTimeFrom.':00';
+		}
+
+		if(empty($isPointsTo)){
+			$sPostTimeTo = ''.$sPostTimeTo.':00';
+		}
+
 		$obError->raise();
 
 		$sPostDate = date('Y-m-d',strtotime(str_replace('.','-',$obPost->one('date'))));
@@ -143,8 +174,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			->value('full_description', trim(htmlentities($obPost->one('full_description'),ENT_QUOTES,'utf-8')))
 			->value('with_video', intval($obPost->one('video')))
 			->value('date', $sPostDate)
-			->value('time_from',$obPost->one('time_from'))
-			->value('time_to',$obPost->one('time_to'))
+			->value('time_from',$sPostTimeFrom)
+			->value('time_to',$sPostTimeTo)
 			->value('duration',intval($obPost->one('duration')))
 			->value('type_id',intval($obPost->one('type_id')))
 			->value('hall_id',intval($obPost->one('hall_id')));
