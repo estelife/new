@@ -35,7 +35,7 @@
 					<th>Тема доклада</th>
 					<th>Место</th>
 				</tr>
-				<!--foreach ($detail.activities as $val)!-->
+				<!--foreach ($detail.activities as $key=>$val)!-->
 					<tr>
 						<td><!--$val.date!--></td>
 						<td>

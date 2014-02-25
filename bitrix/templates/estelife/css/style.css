@@ -57,7 +57,8 @@ a:hover {
 .experts ul li, .item.promotion, .articles, .articles .menu li,.item.detail .menu li, .item.article, .media .item, .media .menu li, .footer .menu li,
 .crumb, .crumb li, .nav, .nav li, .inner, .similars, .item.producer .img, .item.product .img, .items .item.producer li,
 .inner .title .menu li, .search-founded .menu li, .inner .products .item.product, .item.training .img, .item.detail .user img, .item.event .img, .items .item.event ul.list1,
-.win-gallery-previews li, .quality ul.steps li, .tabs-menu li, .tabs-menu, .promotions .item.company, .items .item.specialist {
+.win-gallery-previews li, .quality ul.steps li, .tabs-menu li, .tabs-menu, .promotions .item.company, .items .item.specialist,
+.activity .item {
 	float:left;
 	display: block;
 }
@@ -91,7 +92,7 @@ a:hover {
 .social a, .arrow i, ul.stat i, .promotion .time i, .promotion .prices i, .media .item span, .media .menu .first a,
 .promotion .time i, .promotion .prices i, .item.detail .clinic a.more i, .select .arrow, .item.company p i, .gallery .arrow i, td.prices i,
 .filter .date i, .win-close, .checked, .item.promotion .current .perc i,.checkbox.active i, .to-top i, h2.show-quality-form i,.help i, .tabs-menu .active i,
-.auth .link.back i, .item.specialist .work i {
+.auth .link.back i, .item.specialist .work i, .activity .dates .active i {
 	background-image:url('../images/complex.png');
 	background-repeat: no-repeat;
 }
@@ -286,7 +287,7 @@ input.text, textarea {
 .head .menu, .head .submenu, ul.menu, ul.stat, .cities ul, .crumb, .nav, .item.detail .tab-c ul,
 .items .item.producer ul, .items .item.product ul, .item.producer .current ul, .item.product .current ul,
 .items .item.event ul, .win-gallery-previews, .quality ul.steps, .item.detail .clinic ul, .tabs-menu ul,
-.item.specialist .work ul {
+.item.specialist .work ul, .activity ul {
 	list-style: none;
 	padding:0;
 	margin:0;
@@ -1232,11 +1233,15 @@ td.prices i {
 	margin-bottom:19px;
 }
 .inner .item:nth-child(3n+3),
-.inner .item.last {
+.activity .item:nth-child(4n+4),
+.inner .item.last,
+.activity .item.last {
 	margin-right: 0 !important;
 }
 .inner .item:nth-child(3n+4),
-.inner .item.first {
+.activity .item:nth-child(4n+5),
+.inner .item.first,
+.activity .item.first {
 	clear:left;
 }
 .crumb, .nav {
@@ -1459,17 +1464,26 @@ td.prices i {
 .item.detail .gallery-in .item .desc {
 	display: none;
 }
-.item.detail .gallery-in .img, .item.detail .article-img-in, .inner .products .item.product .img,
-.item.company .img-in, .item.producer .img-in, .item.product .img-in, .item.training .img-in, .item.event .img-in,
-.item.specialist .img-in {
+.item.detail .gallery-in .img,
+.item.detail .article-img-in,
+.inner .products .item.product .img,
+.item.company .img-in,
+.item.producer .img-in,
+.item.product .img-in,
+.item.training .img-in,
+.item.event .img-in,
+.item.specialist .img-in,
+.activity .item-in {
 	display: table-cell;
 	vertical-align: middle;
-	position: static;
+	position:static;
 }
-.item.detail .gallery-in .img, .item.detail .article-img-in {
+.item.detail .gallery-in .img,
+.item.detail .article-img-in {
 	border:none;
 }
-.item.detail .gallery-in img, .item.detail .gallery-in .img {
+.item.detail .gallery-in img,
+.item.detail .gallery-in .img {
 	float:none;
 }
 .item.detail .article-img img {
@@ -1839,9 +1853,12 @@ form input[type=checkbox] {
 	width: 90px;
 	margin: 20px auto 0 auto;
 }
-.item.company h2 a, .item.producer h2 a,
-.item.product h2 a, .item.training h2 a,
-.item.event h2 a {
+.item.company h2 a,
+.item.producer h2 a,
+.item.product h2 a,
+.item.training h2 a,
+.item.event h2 a,
+.activity h2 {
 	font-size:24px;
 	text-decoration: none;
 	color:#2c2c2c;
@@ -1854,7 +1871,8 @@ form input[type=checkbox] {
 .item.product h2,
 .item.training h2,
 .item.event h2,
-.item.specialist h2 {
+.item.specialist h2,
+.activity h2 {
 	margin:0 0 10px 0;
 	text-transform: none;
 	font-weight: bold;
@@ -1921,6 +1939,9 @@ form input[type=checkbox] {
 .item.specialist tr td:last-child a:hover,
 .item.specialist .work a:hover {
 	text-decoration: underline;
+}
+.activity {
+
 }
 .item.company .services h2 {
 	font-weight: normal;
@@ -2767,7 +2788,7 @@ form.search .submit {
 .home-img {
 	position: absolute;
 	opacity: 0.5;
-	top: 2846px;
+	top: 0;
 	left: -279px;
 	width: 1920px;
 	max-height: initial;
@@ -3241,11 +3262,15 @@ form.quality .submit,
 	z-index: 2;
 	line-height: 30px;
 	max-width: 538px;
+}
+.item.detail.expert blockquote q,
+.activity .item ul {
 	display: -moz-inline-stack;
 	display: inline-block;
 	zoom: 1;
 	*display: inline;
 }
+
 .item.detail.expert .cor {
 	margin-top:50px;
 	font-size:12px;
@@ -3623,4 +3648,103 @@ form.quality .submit,
 }
 .item.detail.text h1 {
 	margin-bottom:30px;
+}
+.activity h2 {
+	margin:16px 0 0 0;
+}
+.activity .dates {
+	margin-top:54px;
+}
+.activity .dates li {
+	float:left;
+	margin-right: 20px;
+}
+.activity .dates a {
+	display: block;
+	width:61px;
+	padding: 9px 0;
+	background:#d1d1d1;
+	border:1px solid #b6b6b6;
+	text-align: center;
+	font-size:14px;
+	color:#2c2c2c;
+	text-decoration: none;
+}
+.activity .dates span {
+	font-size:24px;
+	font-weight: bold;
+	display: block;
+}
+.activity .dates .active {
+	background:#d4005c;
+	border-color:#d4005c;
+	color:#fff;
+	position: relative;
+}
+.activity .dates .active i {
+	display: block;
+	width:14px;
+	height:8px;
+	background-position: -141px -76px;
+	position: absolute;
+	bottom:-8px;
+	left:50%;
+	margin-left: -7px;
+}
+.activity .item {
+	border:1px solid #d1d1d1;
+	margin-top:20px;
+	cursor:default;
+}
+.content .activity h3 {
+	line-height:39px;
+	border-bottom:1px solid #d1d1d1;
+	background:#e8e8e8;
+	font-size:21px;
+	text-align: center;
+	margin:0;
+}
+.activity .item span,
+.content .activity h3 {
+	color:#e50364;
+	font-weight:bold;
+}
+.activity .item span {
+	font-size:12px;
+	display: block;
+}
+.activity .item ul {
+	padding: 6px 20px;
+	text-align: center;
+	width: 187px;
+}
+.activity .item li {
+	margin:0 0 20px 0;
+	font-size:14px;
+}
+.activity .item li:last-child {
+	margin-bottom:0;
+}
+.activity .item a {
+	color:#2C2C2C;
+	text-decoration: none;
+	display: block;
+}
+.activity .item a:hover {
+	color:#e50364;
+}
+.activity .group b {
+	background:url('../images/icons/group.png') 0 center no-repeat;
+	padding-left:20px;
+}
+.activity .one b {
+	background:url('../images/icons/one.png') 0 center no-repeat;
+	padding-left:15px;
+}
+.activity .with-video {
+	display: block;
+	width:20px;
+	height:16px;
+	background:url('../images/icons/with-video.png') center center no-repeat;
+	margin:10px auto 0 auto;
 }
