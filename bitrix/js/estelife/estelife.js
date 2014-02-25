@@ -1317,7 +1317,7 @@ $(function(){
 		minLength:3,
 		source: function(request,response) {
 			$.get('/bitrix/admin/estelife_ajax.php',{
-				'action':'activity',
+				'action':'activities',
 				'term':request.term
 			},function(r){
 				if('list' in r){
