@@ -26,23 +26,25 @@ $arResult['event_id']=$nEventId;
 
 //Получение секций по холу о событию
 $obQuery=$obEvent->createQuery();
-$obQuery->builder()
-	->from('estelife_event_section_halls', 'esh');
-$obJoin=$obQuery->builder()->join();
-$obJoin->_left()
-	->_from('esh','section_id')
-	->_to('estelife_event_sections','id','es');
-$obJoin->_left()
-	->_from('esh','hall_id')
-	->_to('estelife_event_halls','id','eh');
+$obJoin=$obQuery->builder()
+	->from('estelife_event_sections','es')
+	->join();
+
 $obJoin->_left()
 	->_from('es','id')
 	->_to('estelife_event_sections_dates','section_id','esd');
+
+$obJoin->_left()
+	->_from('esd','hall_id')
+	->_to('estelife_event_halls','id','eh');
+
 $obJoin->_left()
 	->_from('es','event_id')
 	->_to('estelife_events','id','ee');
+
 $obQuery->builder()
 	->field('es.name', 'section_name')
+	->field('es.theme', 'section_theme')
 	->field('ee.full_name', 'event_name')
 	->field('es.id', 'section_id')
 	->field('es.number', 'number')
@@ -54,9 +56,11 @@ $obQuery->builder()
 	->filter()
 	->_eq('eh.translit',$sHall)
 	->_eq('esd.date', date('Y-m-d', $nDate));
+
 $arSections=$obQuery->select()->all();
 
 $arIds=array();
+
 if (!empty($arSections)){
 	foreach ($arSections as $val){
 		$nHallId=$val['hall_id'];
@@ -65,8 +69,14 @@ if (!empty($arSections)){
 		$arResult['hall_id']=$val['hall_id'];
 		$arResult['hall']=$val['hall_name'];
 		$arResult['date']=\core\types\VDate::date($nDate, 'j F');
-		$val['time_to']=preg_replace('/(.*)\:[0-9]{2}$/','$1',$val['time_to']);
-		$val['time_from']=preg_replace('/(.*)\:[0-9]{2}$/','$1',$val['time_from']);
+
+		if(!preg_match('#^00:00:00$#',$val['time_from'])){
+			$val['time'] = array(
+				'to'=>preg_replace('/(.*)\:[0-9]{2}$/','$1',$val['time_to']),
+				'from'=>preg_replace('/(.*)\:[0-9]{2}$/','$1',$val['time_from'])
+			);
+		}
+
 		$arResult['sections'][$val['section_id']]=$val;
 	}
 }

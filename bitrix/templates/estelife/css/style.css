@@ -452,7 +452,8 @@ h1, h2 {
 	background: #a8a8a8;
 	padding: 2px 13px;
 }
-.general-news .img {
+.general-news .img,
+.activity .item-rel {
 	cursor:pointer;
 }
 .general-news .col1 {
@@ -3715,8 +3716,10 @@ form.quality .submit,
 	border-bottom:1px solid #d1d1d1;
 }
 .content .activity h3 {
-	line-height:39px;
 	font-size:21px;
+}
+.content .activity h3 a {
+	line-height:39px;
 }
 .activity .item span,
 .content .activity h3,

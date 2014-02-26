@@ -18,9 +18,11 @@
 			<div class="items">
 				<?php if ($key>0):?>
 					<div class="h">
-						<b>Секция <?=$val['number']?></b>
-						<span><?=$val['time_from']?> - <?=$val['time_to']?></span>
-						<h3><?=$val['section_name']?></h3>
+						<b><?=$val['section_name']?></b>
+						<?php if(isset($val['time'])): ?>
+							<span><?=$val['time']['from']?> - <?=$val['time']['to']?></span>
+						<?php endif; ?>
+						<h3><?=$val['section_theme']?></h3>
 					</div>
 				<?php endif?>
 				<?php if (!empty($val['activities'])):?>

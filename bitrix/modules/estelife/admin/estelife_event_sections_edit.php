@@ -30,6 +30,7 @@ if(!empty($ID)){
 	$obQuery->builder()
 		->from('estelife_event_sections','es')
 		->field('es.name','name')
+		->field('es.theme','theme')
 		->field('ee.id','event_id')
 		->field('ee.short_name','event_name');
 	$obJoin=$obQuery
@@ -116,8 +117,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		$obQueryHalls = $obSections->createQuery();
 		$obQueryDateRemove = $obSections->createQuery();
 		$obQueryBase->builder()->from('estelife_event_sections')
+			->value('theme', trim(htmlentities($obPost->one('theme'),ENT_QUOTES,'utf-8')))
 			->value('name', trim(htmlentities($obPost->one('name'),ENT_QUOTES,'utf-8')))
-			->value('number', intval($obPost->one('number'),ENT_QUOTES,'utf-8'))
 			->value('event_id', intval($obPost->one('event_id')));
 
 		if (!empty($ID)) {
@@ -239,16 +240,16 @@ if(!empty($arResult['error']['text'])){
 	$tabControl->Begin();
 	$tabControl->BeginNextTab()
 	?>
-	<tr class="adm-detail-required-field">
+	<tr>
 		<td width="40%"><?=GetMessage("ESTELIFE_F_NAME")?></td>
-		<td width="60%"><input type="text" name="name" size="40" maxlength="255" value="<?=$arResult['section']['name']?>"></td>
+		<td width="60%">
+			<input type="text" name="name" size="40" value="<?=$arResult['section']['name']?>" />
+		</td>
 	</tr>
 
-	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_NUMBER")?></td>
-		<td width="60%">
-			<input type="text" name="number" size="40" value="<?=$arResult['section']['number']?>" />
-		</td>
+	<tr class="adm-detail-required-field">
+		<td width="40%"><?=GetMessage("ESTELIFE_F_THEME")?></td>
+		<td width="60%"><input type="text" name="theme" size="40" maxlength="255" value="<?=$arResult['section']['theme']?>"></td>
 	</tr>
 
 	<tr class="adm-detail-required-field">

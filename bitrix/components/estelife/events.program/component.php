@@ -1,7 +1,8 @@
 <?php
 use core\exceptions\VException;
 
-if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
+if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
+	die();
 
 global $APPLICATION;
 
@@ -11,10 +12,10 @@ try {
 	$obQuery = \core\database\VDatabase::driver()
 		->createQuery();
 
-	if($nEventId==0)
+	if ($nEventId==0)
 		throw new VException('event id not found', 404);
 
-	if($sDate !='' && !preg_match('#^([0-9]{2})\.([0-9]{2})$#', $sDate))
+	if ($sDate !='' && !preg_match('#^([0-9]{2})\.([0-9]{2})$#', $sDate))
 		throw new VException('invalid date', 404);
 
 	$obQuery->builder()
@@ -26,9 +27,9 @@ try {
 
 	$arEvent = $obQuery
 		->select()
-		->all();
+		->assoc();
 
-	if(empty($arEvent))
+	if (empty($arEvent))
 		throw new VException('event not found', 404);
 
 	$obQuery->builder()
@@ -37,6 +38,7 @@ try {
 		->sort('date','asc')
 		->group('date')
 		->union();
+
 	$obQuery->builder()
 		->from('estelife_event_activities', 'activity')
 		->field('date')
@@ -49,7 +51,7 @@ try {
 
 	$arDates = array();
 
-	foreach($arTemp as $arDate){
+	foreach ($arTemp as $arDate) {
 		if(isset($arDates[$arDate['date']]))
 			continue;
 
@@ -57,14 +59,14 @@ try {
 		$arValue = explode(' ', \core\types\VDate::date($nDate, 'j F'));
 		$arDate['day'] = $arValue[0];
 		$arDate['month'] = mb_substr($arValue[1],0,3,'utf-8');
-		$arDate['date'] = date('d.m', $nDate);
+		$arDate['format'] = date('d.m', $nDate);
 
-		$arDates[$nDate] = $arDate;
+		$arDates[] = $arDate;
 	}
 
 	ksort($arDate,SORT_NUMERIC);
 
-	if($sDate == ''){
+	if ($sDate == '') {
 		$arDate = reset($arDates);
 		$sDate = $arDate['date'];
 	}
@@ -73,68 +75,49 @@ try {
 
 	$obBuilder = $obQuery
 		->builder()
-		->from('estelife_event_halls');
+		->from('estelife_event_halls')
+		->filter()
+		->_eq('event_id', $nEventId);
 
 	$arTemp = $obQuery
 		->select()
 		->all();
 
-	if(empty($arTemp))
+	if (empty($arTemp))
 		throw new VException('halls not found');
 
 	$arHalls = array();
 
-	foreach($arTemp as $arHall)
+	foreach ($arTemp as $arHall)
 		$arHalls[$arHall['id']] = $arHall;
 
 	$obBuilder = $obQuery->builder();
 	$obBuilder->from('estelife_event_sections', 'section')
 		->field('section.id', 'id')
 		->field('section.name', 'name')
+		->field('section.theme', 'theme')
 		->field('section.number', 'number')
-		->field('section.time_from', 'time_from')
-		->field('section.time_to', 'time_to')
+		->field('dates.time_from', 'time_from')
+		->field('dates.time_to', 'time_to')
+		->field('dates.hall_id', 'hall_id')
 		->filter()
 		->_eq('section.event_id', $nEventId)
-		->_eq('section.date', $sDate);
+		->_eq('dates.date', $sDate);
 
 	$obBuilder->join()
 		->_left()
 		->_from('section', 'id')
-		->_to('estelife_event_sections_dates', 'section_id');
+		->_to('estelife_event_sections_dates', 'section_id','dates');
 
 	$arSections = $obQuery
 		->select()
 		->all();
 
 	if (!empty($arSections)) {
-		$arSectionIds = array();
-
 		foreach ($arSections as &$arSection) {
 			$arSection['group'] = 1;
-			$arSection['with_video'] = 0;
-			$arSectionIds[] = $arSection['id'];
-		}
-
-		$obQuery->builder()
-			->from('estelife_event_section_halls')
-			->field('hall_id')
-			->field('section_id')
-			->filter()
-			->_in('section_id', $arSectionIds);
-
-		$arSectionHalls = $obQuery
-			->select()
-			->all();
-
-		if (!empty($arSectionHalls)) {
-			foreach($arSectionHalls as $arHall){
-				if(!isset($arHalls[$arHall['id']]))
-					continue;
-
-				$nKey = array_search($arHall['section_id'], $arSectionIds);
-				$arHalls[$arHall['hall_id']]['activities'][$arSections[$nKey]['time_from']] = $arSections[$nKey];
-			}
+			$arSection['with_video'] = 0;;
+			$arHalls[$arSection['hall_id']]['activities'][$arSection['time_from']] = $arSection;
 		}
 	}
 
@@ -161,7 +144,7 @@ try {
 		->select()
 		->all();
 
-	foreach($arActivities as &$arActivity){
+	foreach ($arActivities as &$arActivity){
 		$arActivity['group'] = 0;
 		$arHalls[$arActivity['hall_id']]['activities'][$arActivity['time_from']] = $arActivity;
 	}
@@ -169,10 +152,14 @@ try {
 	$arResult['event'] = $arEvent;
 	$arResult['dates'] = $arDates;
 	$arResult['halls'] = $arHalls;
-} catch(VException $e){
+	$arResult['current'] = array(
+		'date' => $sDate,
+		'format' => date('d.m', strtotime($sDate))
+	);
+} catch(VException $e) {
 	var_dump($e->getMessage());
 
-	if($e->getCode()==404){
+	if ($e->getCode()==404) {
 		$APPLICATION->SetTitle("404 Not Found");
 		CHTTP::SetStatus("404 Not Found");
 	}

@@ -935,7 +935,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		eventsProgram: function(id){
 			var model=new Models.Inner(null,{
 				pages:[
-					'ev'+id+'/program/'
+					'ev'+id+'/program/'+EL.query().toString()
 				],
 				view:new Views.WrapContent({
 					views:[

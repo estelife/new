@@ -16,29 +16,29 @@ if($sEventHall == 1){
 ?>
 
 <div class="content">
-<?php
-if($sEventHall == 1){
-	$APPLICATION->IncludeComponent(
-		"estelife:events.hall",
-		"",
-		array(
-			"HALL"=>$mathcesHall[1][0],
-			'DATE'=>$sHallDate,
-			'EVENT_ID'=>$mathcesEvent[2],
-		),
-		false
-	);
-}else{
-	$APPLICATION->IncludeComponent(
-		"estelife:events.program",
-		"",
-		array(
-			'ID'=>$mathcesEvent[2],
-		),
-		false
-	);
-}
-?>
+	<?php
+	if($sEventHall == 1){
+		$APPLICATION->IncludeComponent(
+			"estelife:events.hall",
+			"",
+			array(
+				"HALL"=>$mathcesHall[1][0],
+				'DATE'=>$sHallDate,
+				'EVENT_ID'=>$arResult['ID'],
+			),
+			false
+		);
+	}else{
+		$APPLICATION->IncludeComponent(
+			"estelife:events.program",
+			"",
+			array(
+				'EVENT_ID'=>$arResult['ID']
+			),
+			false
+		);
+	}
+	?>
 	<!--<div class="adv adv-out right">
 		<?/*$APPLICATION->IncludeComponent("bitrix:advertising.banner","",Array(
 				"TYPE" => "main_right_1",

@@ -289,8 +289,8 @@ define(function(){
 							return value*data;
 							break;
 					}
-				}else if(typeof value=='string'){
-					var v=parseInt(value);
+				}else if(jQuery.isNumeric(value)){
+					var v = parseInt(value);
 
 					if(!isNaN(v))
 						value=v;
