@@ -11,13 +11,13 @@
 				<div class="items">
 					<!--if($key>0)!-->
 						<div class="h">
-							<b>Секция <!--$val.number!--></b>
+							<b>Секция<!--$val.number!--></b>
 							<span><!--$val.time_from!--> - <!--$val.time_to!--></span>
 							<h3><!--$val.section_name!--></h3>
 						</div>
 					<!--endif!-->
 					<!--if ($val.activities)!-->
-						<div class="item">
+						<div class="item activity">
 							<h4><!--$val.activities.activity_name!--></h4>
 							<!--if($val.activities.events)!-->
 								<!--foreach($val.activities.events as $k=>$v)!-->
@@ -34,7 +34,9 @@
 										<div class="about">
 											<div class="about-in">
 												<a href="<!--$v.link!-->"><!--$v.name!--></a>
+												<!--if($v.country_name)!-->
 												<span class="country c<!--$v.country_id!-->"><!--$v.country_name!--></span>
+												<!--endif!-->
 												<p><!--$v.description!--></p>
 											</div>
 										</div>
