@@ -95,8 +95,13 @@ if(!empty($ID)){
 
 	$nVideo = $arResult['activ']['video'];
 	$sDate = $arResult['activ']['date'];
-	$sDate = date('d-m-Y',strtotime($sDate));
-	$sDate = str_replace('-','.',$sDate);
+
+	if(!preg_match('#0000-00-00#',$sDate)){
+		$sDate = date('d-m-Y',strtotime($sDate));
+		$sDate = str_replace('-','.',$sDate);
+	}else
+		$sDate = '';
+
 	$nType = $arResult['activ']['type_id'];
 	$nHall = $arResult['activ']['hall_id'];
 	$nSection = $arResult['activ']['section_id'];
@@ -131,20 +136,20 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		if($obPost->blank('name'))
 			$obError->setFieldError('NOT_NAME','name');
 
-		if($obPost->blank('short_description'))
+		/*if($obPost->blank('short_description'))
 			$obError->setFieldError('NOT_SHORT_DESC','short_description');
 
 		if($obPost->blank('full_description'))
-			$obError->setFieldError('NOT_FULL_DESC','full_description');
+			$obError->setFieldError('NOT_FULL_DESC','full_description');*/
 
-		if($obPost->blank('date'))
-			$obError->setFieldError('NOT_DATE','date');
+		/*if($obPost->blank('date'))
+			$obError->setFieldError('NOT_DATE','date');*/
 
-		if($obPost->blank('time_from'))
+		/*if($obPost->blank('time_from'))
 			$obError->setFieldError('NOT_TIME_FROM','time_from');
 
 		if($obPost->blank('time_to'))
-			$obError->setFieldError('NOT_TIME_TO','time_to');
+			$obError->setFieldError('NOT_TIME_TO','time_to');*/
 
 		if($obPost->blank('hall_id'))
 			$obError->setFieldError('NOT_HALL','hall_id');
@@ -165,7 +170,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		$obError->raise();
 
-		$sPostDate = date('Y-m-d',strtotime(str_replace('.','-',$obPost->one('date'))));
+		$sPostDate = !$obPost->blank('date') ?
+			date('Y-m-d',strtotime(str_replace('.','-',$obPost->one('date')))) :
+			'NULL';
 
 		$obQuery = $obActiv->createQuery();
 		$obQuery->builder()->from('estelife_event_activities')
@@ -264,7 +271,7 @@ if(!empty($arResult['error']['text'])){
 			$tabControl->BeginNextTab();
 		?>
 
-		<tr>
+		<tr  class="adm-detail-required-field">
 			<td width="40%"><?=GetMessage("ESTELIFE_F_NAME")?></td>
 			<td width="60%">
 				<input type="text" name="name" size="60" maxlength="255" value="<?=$arResult['activ']['name']?>">
@@ -285,7 +292,7 @@ if(!empty($arResult['error']['text'])){
 			</td>
 		</tr>
 
-		<tr class="adm-detail-required-field">
+		<tr>
 			<td width="40%" class="adm-detail-content-cell-l"><?=GetMessage("ESTELIFE_F_VIDEO")?></td>
 			<td width="60%" class="adm-detail-content-cell-r">
 				<select name="video">
@@ -295,7 +302,7 @@ if(!empty($arResult['error']['text'])){
 			</td>
 		</tr>
 
-		<tr class="adm-detail-required-field">
+		<tr>
 			<td width="40%"><?=GetMessage("ESTELIFE_F_DATE")?></td>
 			<td width="60%"><div class="event-dates"><?echo CAdminCalendar::CalendarDate("date", $sDate, 19, false)?> c <input type="text" value="<?=$sTimeFrom;?>" name="time_from" class="time" size="5" /> по <input type="text" class="time" size="5" name="time_to" value="<?=$sTimeTo;?>" /></div></td>
 		</tr>
@@ -327,7 +334,7 @@ if(!empty($arResult['error']['text'])){
 				<input type="text" name="event_name" size="30" data-input="event_id" value="<?=$arResult['activ']['event_name']?>" />
 			</td>
 		</tr>
-		<tr class="adm-detail-required-field">
+		<tr>
 			<td width="40%" class="adm-detail-content-cell-l"><?=GetMessage("ESTELIFE_F_SECTION")?></td>
 			<td width="60%" class="adm-detail-content-cell-r">
 				<select name="section_id" id="sections" style="width: 260px;">

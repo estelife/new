@@ -6,14 +6,21 @@ $arDirectories=$APPLICATION->IncludeComponent(
 	'',
 	array('filter'=>'directions')
 );
+
+
 $arDefaultUrlTemplates404 = array(
-	"articles" => "#CURRENT_CODE#/",
+	"articles" => "#CURRENT_CODE#/(.*)"
 );
+
 $arDefaultVariableAliases404 = array();
+
 $arDefaultVariableAliases = array();
+
 $arComponentVariables = array(
 	"CURRENT_CODE",
 );
+
+
 $arVariables = array();
 
 $arUrlTemplates = CComponentEngine::MakeComponentUrlTemplates($arDefaultUrlTemplates404, array());
@@ -28,41 +35,12 @@ $componentPage = CComponentEngine::ParseComponentPath(
 //разбираем $arVariables
 CModule::IncludeModule('estelife');
 $sCode=htmlspecialchars($arVariables['CURRENT_CODE'],ENT_QUOTES,'utf-8');
-$arLink = preg_match('/^([a-z]{2})([0-9]+)$/', $sCode, $matches);
-$bNotFound = false;
+$arPath = array();
+$arLink = preg_match('/^([a-z]{2})([0-9]+)$/', $sCode, $mathces);
 
-if (!$arLink || empty($arDirectories[$matches[1]])){
+if (!$arLink || empty($arDirectories[$mathces[1]]))
+{
 	$componentPage='index';
-	$bNotFound = true;
-}else{
-	$componentPage = $arDirectories[$matches[1]];
-	$arIblockIds = array(
-		'ar'=>14,
-		'pt'=>36,
-		'ns'=>3
-	);
-
-	if(isset($arIblockIds[$matches[1]])){
-		CModule::IncludeModule('iblock');
-		$obElement = new CIBlockElement();
-		$obResult = $obElement->GetList(
-			array('SORT'=>'ASC'),
-			array(
-				'ID'=>intval($matches[2]),
-				'ACTIVE'=>'Y',
-				'ACTIVE_DATE'=>'Y',
-				'IBLOCK_ID'=>$arIblockIds[$matches[1]]
-			)
-		);
-
-		if(!$obResult->SelectedRowsCount()){
-			$componentPage = 'index';
-			$bNotFound = true;
-		}
-	}
-}
-
-if($bNotFound){
 	$folder404 = str_replace("\\", "/", $arParams["SEF_FOLDER"]);
 	if ($folder404 != "/")
 		$folder404 = "/".trim($folder404, "/ \t\n\r\0\x0B")."/";
@@ -75,6 +53,14 @@ if($bNotFound){
 		$APPLICATION->SetTitle("404 Not Found");
 		CHTTP::SetStatus("404 Not Found");
 	}
+}else{
+	$componentPage = $arDirectories[$mathces[1]];
+	$sPath = preg_replace('#^\/rest#','',GetPagePath());
+	$arPath = explode('/', $sPath);
+	$arPath = array_splice($arPath, 2, -1);
+
+	if(!empty($arPath))
+		$componentPage .= '-deep';
 }
 
 CComponentEngine::InitComponentVariables($componentPage, $arComponentVariables, $arVariableAliases, $arVariables);
@@ -84,8 +70,9 @@ $arResult = array(
 	"URL_TEMPLATES" => $arUrlTemplates,
 	"VARIABLES" => $arVariables,
 	"ALIASES" => $arVariableAliases,
-	"ID" => $matches[2],
-	"PREFIX" => $matches[1],
+	"ID" => $mathces[2],
+	"PREFIX" => $mathces[1],
+	'DEEP_PATHES' => $arPath
 );
 
 $this->IncludeComponentTemplate($componentPage);

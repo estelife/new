@@ -1467,7 +1467,8 @@ td.prices i {
 .item.event .img-in,
 .item.specialist .img-in,
 .activity .item-in,
-.hall .user .about {
+.hall .user .about,
+.hall .user .img-in {
 	display: table-cell;
 	vertical-align: middle;
 	position:static;
@@ -3764,12 +3765,17 @@ form.quality .submit,
 	background:url('../images/icons/with-video.png') center center no-repeat;
 	margin:10px auto 0 auto;
 }
+.hall {
+	overflow: hidden;
+	width:100%;
+}
 .hall .date {
-	width:143px;
-	font-size:18px;
+	width: auto;
+	font-size: 18px;
 	font-weight: bold;
-	float:left;
+	float: left;
 	margin-right: 20px;
+	padding: 9px 10px;
 }
 .hall .title {
 	margin-top: 29px;
@@ -3786,6 +3792,7 @@ form.quality .submit,
 }
 .hall .items {
 	margin-top:28px;
+	width:974px;
 }
 .hall .h {
 	text-align: left;
@@ -3830,6 +3837,11 @@ form.quality .submit,
 .hall .user .img {
 	padding:6px;
 	margin-right: 15px;
+}
+.hall .user .img-in {
+	width:72px;
+	height:68px;
+	background: #ddd;
 }
 .hall .user a {
 	text-decoration: none;

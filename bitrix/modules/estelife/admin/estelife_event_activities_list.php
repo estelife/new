@@ -25,6 +25,7 @@ IncludeModuleLangFile(__FILE__);
 $arFilterFields = Array(
 	"find_name",
 	"find_description",
+	"find_event_name",
 	"find_with_video",
 	"find_type_id",
 	"find_hall_id",
@@ -36,6 +37,7 @@ $lAdmin->InitFilter($arFilterFields);
 $arFilter = Array(
 	"name"			=> $find_name,
 	"description"	=> $find_description,
+	"event"			=> $find_event_name,
 	"video"			=>$find_with_video,
 	"type"			=>$find_type_id,
 	"hall"			=>$find_hall_id,
@@ -141,6 +143,9 @@ if(!empty($arFilter['hall'])){
 if(!empty($arFilter['section'])){
 	$obFilter->_eq('ea.section_id',$arFilter['section']);
 }
+if(!empty($arFilter['event'])){
+	$obFilter->_like('ee.short_name',$arFilter['event'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
+}
 
 
 if($by=='name')
@@ -244,6 +249,9 @@ $APPLICATION->SetTitle(GetMessage("ESTELIFE_HEAD_TITLE"));
 
 require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_after.php");
 ?>
+	<script type="text/javascript" src="/bitrix/js/estelife/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="/bitrix/js/estelife/jquery-ui-1.10.3.custom.min.js"></script>
+	<script type="text/javascript" src="/bitrix/js/estelife/estelife.js"></script>
 
 	<a name="tb"></a>
 	<form name="form1" method="GET" action="<?=$APPLICATION->GetCurPage()?>?">
@@ -253,6 +261,7 @@ require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_adm
 			array(
 				GetMessage("ESTELIFE_F_TITLE"),
 				GetMessage("ESTELIFE_F_SHORT_DESCRIPTION"),
+				GetMessage("ESTELIFE_F_EVENT"),
 				GetMessage("ESTELIFE_F_WITH_VIDEO"),
 				GetMessage("ESTELIFE_F_TYPE"),
 				GetMessage("ESTELIFE_F_HALL"),
@@ -268,6 +277,13 @@ require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_adm
 		<tr>
 			<td><b><?echo GetMessage("ESTELIFE_F_SHORT_DESCRIPTION")?></b></td>
 			<td><input type="text" name="find_description" size="47" value="<?echo htmlspecialcharsbx($find_description)?>"></td>
+		</tr>
+		<tr>
+			<td><b><?echo GetMessage("ESTELIFE_F_EVENT")?></b></td>
+			<td>
+				<!--<input type="hidden" name="find_company_id" value="<?/*echo htmlspecialcharsbx($find_company_id)*/?>" />-->
+				<input type="text" name="find_event_name" data-input="find_event_id" size="47" value="<?echo htmlspecialcharsbx($find_event_name)?>"><?=InputType("checkbox", "find_event_exact_match", "Y", $find_event_exact_match, false, "", "title='".GetMessage("ESTELIFE_EXACT_MATCH")."'")?>&nbsp;<?=ShowFilterLogicHelp()?>
+			</td>
 		</tr>
 		<tr>
 			<td><?echo GetMessage("ESTELIFE_F_WITH_VIDEO")?></td>
