@@ -32,13 +32,19 @@ if(!empty($ID)){
 		->field('es.name','name')
 		->field('ee.id','event_id')
 		->field('ee.short_name','event_name');
-	$obJoin=$obQuery->builder()->join();
+	$obJoin=$obQuery
+		->builder()
+		->join();
 	$obJoin->_left()->
 		_from('es','event_id')->
 		_to('estelife_events','id','ee');
 
-	$obQuery->builder()->filter()->_eq('es.id',$ID);
-	$arResult['section']=$obQuery->select()->assoc();
+	$obQuery->builder()
+		->filter()
+		->_eq('es.id',$ID);
+	$arResult['section']=$obQuery
+		->select()
+		->assoc();
 
 	$nEventId = $arResult['section']['event_id'];
 
@@ -46,35 +52,22 @@ if(!empty($ID)){
 		->from('estelife_event_halls','eh')
 		->field('eh.id','hall_id')
 		->field('eh.name','hall_name');
-	$obJoin=$obQuery->builder()->join();
+	$obJoin=$obQuery
+		->builder()
+		->join();
 
-	$obQuery->builder()->filter()->_eq('eh.event_id',$nEventId);
-	$arResult['halls_all']=$obQuery->select()->all();
-
-
-	foreach($arResult['halls_all'] as $nKey=>$val){
-		$nHallId = $val['hall_id'];
-
-		$obQuery->builder()
-			->from('estelife_event_section_halls');
-
-		$obQuery->builder()->filter()->_eq('section_id',$ID)->_eq('hall_id',$nHallId);
-
-		$active=$obQuery->select()->assoc();
-
-		if(!empty($active)){
-			$arResult['halls_all'][$nKey]['active'] = 1;
-		}else{
-			$arResult['halls_all'][$nKey]['active'] = 0;
-		}
-
-	}
-
+	$obQuery->builder()
+		->filter()
+		->_eq('eh.event_id',$nEventId);
+	$arResult['halls_all']=$obQuery
+		->select()
+		->all();
 
 	$obQuery->builder()
 		->from('estelife_event_sections_dates');
-	$obQuery->builder()->filter()->_eq('section_id',$ID);
-
+	$obQuery->builder()
+		->filter()
+		->_eq('section_id',$ID);
 
 	$arResult['section']['dates']=$obQuery->select()->all();
 
@@ -88,7 +81,7 @@ if(!empty($ID)){
 
 		$arResult['section']['dates'][$nKey]['time_from'] = $sFromDate;
 		$arResult['section']['dates'][$nKey]['time_to'] = $sToDate;
-
+		$arResult['section']['dates'][$nKey]['hall_id'] = $sDate['hall_id'];
 	}
 
 	$obQuery=$obSections->createQuery();
@@ -116,9 +109,6 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		if($obPost->blank('event_id'))
 			$obError->setFieldError('EVENT_NOT_FILL','event_id');
 
-		if($obPost->blank('halls_id'))
-			$obError->setFieldError('HALL_NOT_FILL','event_id');
-
 		$obError->raise();
 
 		$obQueryBase = $obSections->createQuery();
@@ -129,8 +119,6 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			->value('name', trim(htmlentities($obPost->one('name'),ENT_QUOTES,'utf-8')))
 			->value('number', intval($obPost->one('number'),ENT_QUOTES,'utf-8'))
 			->value('event_id', intval($obPost->one('event_id')));
-
-		$arPostHalls = $obPost->one('halls_id');
 
 		if (!empty($ID)) {
 			$obQueryBase->builder()->filter()
@@ -147,29 +135,13 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		$obQueryDateRemove->delete();
 
-		$obQueryHalls->builder()
-			->from('estelife_event_section_halls')->filter()
-			->_eq('section_id', $ID);
-
-		$obQueryHalls->delete();
-
-		if (!empty($arPostHalls)) {
-			foreach($arPostHalls as $nVal){
-				$obQueryHalls->builder()->from('estelife_event_section_halls')
-					->value('hall_id',$nVal)
-					->value('section_id',$ID);
-				$obQueryHalls->insert()->insertId();
-			}
-		}
-
-
 		if($arDates=$obPost->one('date')){
 			$arTimeFrom=$obPost->one('time_from',array());
 			$arTimeTo=$obPost->one('time_to',array());
+			$arHalls = $obPost->one('hall_id',array());
 
 
 			foreach($arDates as $nKey=>$sDate){
-
 				if(empty($sDate))
 					continue;
 
@@ -185,10 +157,17 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 
 				if(!empty($arTimeFrom[$nKey]))
-					$obQueryDate->builder()->value('time_from',$arTimeFrom[$nKey]);
+					$obQueryDate
+						->builder()
+						->value('time_from',$arTimeFrom[$nKey]);
 
 				if(!empty($arTimeTo[$nKey]))
-					$obQueryDate->builder()->value('time_to',$arTimeTo[$nKey]);
+					$obQueryDate->builder()
+						->value('time_to',$arTimeTo[$nKey]);
+
+				if(!empty($arHalls[$nKey]))
+					$obQueryDate->builder()
+						->value('hall_id',intval($arHalls[$nKey]));
 
 				$obQueryDate->insert()->affected();
 			}
@@ -281,19 +260,6 @@ if(!empty($arResult['error']['text'])){
 		</td>
 	</tr>
 
-	<tr class="adm-detail-required-field">
-		<td width="40%" class="adm-detail-content-cell-l"><?=GetMessage("ESTELIFE_F_HALLS")?></td>
-		<td width="60%" class="adm-detail-content-cell-r">
-			<select name="halls_id[]" id="halls" style="width: 340px;" multiple>
-				<? if(!empty($arResult['halls_all'])){
-					foreach($arResult['halls_all'] as $val){ ?>
-					<option value="<?=$val['hall_id'];?>" <? if($val['active'] == 1){ ?>selected <?}?>><?=$val['hall_name'];?></option>
-				<?	}
-						} ?>
-			</select>
-		</td>
-	</tr>
-
 	<?
 	$tabControl->BeginNextTab()
 	?>
@@ -305,13 +271,33 @@ if(!empty($arResult['error']['text'])){
 					<?php if(!empty($arResult['section']['dates'])):?>
 						<?php foreach($arResult['section']['dates'] as $arValue): ?>
 							<li>
-								<input type="text" name="date[]" value="<?=$arValue['date']?>" class="date_select" /> c <input type="text" value="<?=$arValue['time_from']?>" name="time_from[]" class="time" size="5" /> по <input type="text" class="time" size="5" name="time_to[]" value="<?=$arValue['time_to']?>" />
+								<input type="text" name="date[]" value="<?=$arValue['date']?>" size="7" class="date_select" /> c
+								<input type="text" value="<?=$arValue['time_from']?>" name="time_from[]" class="time" size="3" /> по
+								<input type="text" class="time" size="3" name="time_to[]" value="<?=$arValue['time_to']?>" />
+								<select name="hall_id[]" style="width:110px;">
+									<option value="0">Укажите зал</option>
+									<?php if(!empty($arResult['halls_all'])):?>
+										<?php foreach($arResult['halls_all'] as $arHall): ?>
+											<option value="<?=$arHall['hall_id'];?>"<?=($arValue['hall_id'] == $arHall['hall_id'] ? ' selected': '')?>><?=$arHall['hall_name'];?></option>
+										<?php endforeach; ?>
+									<?php endif; ?>
+								</select>
 								<a href="#" class="estelife-btn adm-btn adm-btn-delete estelife-delete"></a>
 							</li>
 						<?php endforeach; ?>
 					<?php endif;?>
 					<li>
-						<input type="text" name="date[]" value="" class="date_select" /> c <input type="text" value="" name="time_from[]" class="time" size="5" /> по <input type="text" class="time" size="5" name="time_to[]" value="" />
+						<input type="text" name="date[]" value="" class="date_select" size="7" /> c
+						<input type="text" value="" name="time_from[]" class="time" size="3" /> по
+						<input type="text" class="time" size="3" name="time_to[]" value="" />
+						<select name="hall_id[]" style="width:110px;">
+							<option value="0">Укажите зал</option>
+							<?php if(!empty($arResult['halls_all'])):?>
+								<?php foreach($arResult['halls_all'] as $arHall): ?>
+									<option value="<?=$arHall['hall_id'];?>"><?=$arHall['hall_name'];?></option>
+								<?php endforeach; ?>
+							<?php endif; ?>
+						</select>
 						<a href="#" class="estelife-btn adm-btn adm-btn-save">&crarr;</a>
 					</li>
 				</ul>

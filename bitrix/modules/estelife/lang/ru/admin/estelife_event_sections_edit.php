@@ -1,6 +1,6 @@
 <?php
 $MESS ['ESTELIFE_T_BASE']='Основное';
-$MESS ['ESTELIFE_T_CALENDAR']='Время';
+$MESS ['ESTELIFE_T_CALENDAR']='Даты, время, залы';
 $MESS ['ESTELIFE_F_NAME']='Название';
 $MESS ['ESTELIFE_CREATE_TITLE']='Редактирование секции';
 $MESS ['ESTELIFE_F_EVENT']='Мероприятие';
