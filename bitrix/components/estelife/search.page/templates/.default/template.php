@@ -10,8 +10,8 @@
 	<div class="search_page">
 		<form name="search" class="search" action="/search/" method="get">
 			<input type="hidden" name="tags" value="<?echo $arResult['search']["tags"]?>" />
-			<input type="text" class="text" name="q" value="<?=$arResult['search']["query"]?>" placeholder="Поиск по сайту">
-			<input type="submit" class="submit" name="go" value="Найти">
+			<input type="text" class="text" data-action="get_search_history" name="q" value="<?=$arResult['search']["query"]?>" placeholder="Поиск по сайту">
+			<input type="submit" class="submit set_search_history" name="go" value="Найти">
 			<input type="hidden" name="how" value="<?echo $arResult['search']["how"]=="d"? "d": "r"?>" />
 		</form>
 

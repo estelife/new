@@ -1,92 +1,108 @@
 <?php
 use core\database\VDatabase;
-use core\types\VArray;
 use core\types\VString;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 CModule::IncludeModule("iblock");
 CModule::IncludeModule("estelife");
 
-$obProffesional=VDatabase::driver();
+$obProfessional=VDatabase::driver();
 $sProfessionalName=null;
 $nProfessionalId=null;
 
 $nProfessionalId =  (isset($arParams['ID'])) ?
 	intval($arParams['ID']) : 0;
 
+
 //Получаем данные по мероприятию
-$obQuery = $obProffesional->createQuery();
+$obQuery = $obProfessional->createQuery();
 $obQuery->builder()->from('estelife_professionals', 'ep');
 $obJoin=$obQuery->builder()->join();
+$obJoin->_left()
+	->_from('ep','user_id')
+	->_to('user','ID','u');
 $obJoin->_left()
 	->_from('ep','country_id')
 	->_to('iblock_element','ID','ct')
 	->_cond()->_eq('ct.IBLOCK_ID',15);
-$obJoin->_left()
-	->_from('ep','city_id')
-	->_to('iblock_element','ID','cty')
-	->_cond()->_eq('cty.IBLOCK_ID',16);
 $obQuery->builder()
 	->field('ep.short_description','short_description')
 	->field('ep.full_description','full_description')
 	->field('ep.image_id','image_id')
+	->field('ep.country_id','country_id')
 	->field('ct.NAME','country_name')
-	->field('cty.NAME','city_name');
+	->field('u.NAME', 'name')
+	->field('u.LAST_NAME', 'last_name')
+	->field('u.SECOND_NAME', 'second_name');
 
 $obFilter = $obQuery->builder()->filter();
-
-if(!is_null($nProfessionalId))
-	$obFilter->_eq('ee.id', $nProfessionalId);
+if(!empty($nProfessionalId))
+	$obFilter->_eq('ep.id', $nProfessionalId);
 else
-	$obFilter->_eq('ee.id', 0);
+	$obFilter->_eq('ep.id', 0);
 
 $arResult['professional'] = $obQuery->select()->assoc();
-$arResult['professional']['img'] = CFile::ShowImage($arResult['professional']['image_id'],280, 120, 'alt='.$arResult['professional']['name']);
+$arResult['professional']['img'] = CFile::ShowImage($arResult['professional']['image_id'],227, 158, 'alt='.$arResult['professional']['name']);
 $arResult['professional']['short_text'] = htmlspecialchars_decode($arResult['professional']['short_description'],ENT_NOQUOTES);
 $arResult['professional']['detail_text'] = htmlspecialchars_decode($arResult['professional']['full_description'],ENT_NOQUOTES);
+if (!empty($arResult['professional']['last_name']))
+	$arResult['professional']['name']=$arResult['professional']['last_name'].' '.$arResult['professional']['name'].' '.$arResult['professional']['second_name'];
 
 //Получение клиник
-$obQuery = $obProffesional->createQuery();
+$obQuery = $obProfessional->createQuery();
 $obQuery->builder()->from('estelife_professionals_clinics', 'epc');
 $obJoin=$obQuery->builder()->join();
 $obJoin->_left()
 	->_from('epc','clinic_id')
 	->_to('estelife_clinics','id','ec');
 $obQuery->builder()
-	->field('ec.id','clinic_id')
-	->field('ec.name','clinic_name');
-
-$obFilter = $obQuery->builder()->filter();
-
-
+	->field('ec.id','id')
+	->field('ec.name','name');
 $obFilter->_eq('epc.professional_id', $nProfessionalId);
 
-$arResult['clinics'] = $obQuery->select()->all();
-
+$arClinics=$obQuery->select()->all();
+if (!empty($arClinics)){
+	foreach ($arClinics as $val){
+		$val['link']='/cl'.$val['id'].'/';
+		$arResult['professional']['clinics'][]=$val;
+	}
+}
+unset($arClinics);
 
 //Получение мероприятий
-$obQuery = $obProffesional->createQuery();
+$obQuery = $obProfessional->createQuery();
 $obQuery->builder()->from('estelife_professional_activity', 'epa');
 $obJoin=$obQuery->builder()->join();
 $obJoin->_left()
 	->_from('epa','activity_id')
 	->_to('estelife_event_activities','id','eea');
+$obJoin->_left()
+	->_from('eea','type_id')
+	->_to('estelife_activity_types','id','eat');
+$obJoin->_left()
+	->_from('eea','event_id')
+	->_to('estelife_events','id','ee');
 $obQuery->builder()
-	->field('eea.id','activity_id')
-	->field('eea.short_description','activity_short_description')
-	->field('eea.short_description','activity_short_description')
-	->field('eea.date','activity_date');
-
+	->field('eea.id','id')
+	->field('eat.name', 'type_name')
+	->field('eea.full_description','description')
+	->field('eea.date','date')
+	->field('ee.id', 'event_id')
+	->field('ee.full_name', 'event_name');
 $obFilter = $obQuery->builder()->filter();
-
 $obFilter->_eq('epa.professional_id', $nProfessionalId);
+$arActivities=$obQuery->select()->all();
+if (!empty($arActivities)){
+	foreach ($arActivities as $val){
+		$val['date']=date('d.m.Y', strtotime($val['date']));
+		$val['description']=htmlspecialchars_decode($val['description'],ENT_NOQUOTES);
+		$val['link_event']='/ev'.$val['event_id'].'/';
+		$arResult['professional']['activities'][]=$val;
+	}
+}
+unset($arActivities);
 
-$arResult['activities'] = $obQuery->select()->all();
-
-
-/*$APPLICATION->SetPageProperty("title", $arResult['event']['seo_title']);
-$APPLICATION->SetPageProperty("description", $arResult['event']['seo_description']);*/
+$APPLICATION->SetPageProperty("title", $arResult['professional']['name']);
+$APPLICATION->SetPageProperty("description", 'Специалист '.$arResult['professional']['name'].'. Подробная информация.');
 
 $this->IncludeComponentTemplate();
-
-
