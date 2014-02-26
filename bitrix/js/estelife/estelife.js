@@ -785,6 +785,218 @@ $(function(){
 			},'json');
 		});
 
+	//Получение мероприятий
+	$('input[name*=\'event_name\'],input[name=find_event_name]').autocomplete({
+		minLength:3,
+		source:function(request,response){
+			var inpt=this.element;
+			$.get('/bitrix/admin/estelife_ajax.php',{
+				'action':'activity',
+				'term':request.term
+			},function(r){
+				if('list' in r){
+					if(r.list.length==1){
+						var item= r.list.shift(),
+							prnt=inpt.parent();
+
+						inpt.val(item.name);
+						$('input[name*=\''+inpt.attr('data-input')+'\']',prnt).val(item.id);
+						response();
+
+						if(inpt.hasClass('estelife-need-clone')){
+							prnt.find('.estelife-more').click();
+						}
+					}else{
+						response($.map(r.list, function(item) {
+							return {
+								label: item.name,
+								value: item.name,
+								'id': item.id
+							}
+						}));
+					}
+				}
+			},'json');
+		},
+		select:function(e, ui){
+
+			show_select_halls(ui.item.id);
+			show_select_sections(ui.item.id);
+
+			var inpt=$(this),
+				prnt=inpt.parent();
+
+			$('input[name*=\''+inpt.attr('data-input')+'\']',inpt.parent()).val(ui.item.id);
+
+			if(inpt.hasClass('estelife-need-clone')){
+				prnt.find('.estelife-more').click();
+				prnt.parent().prev().find('input[type=text]').val(ui.item.value);
+			}
+		}
+	}).on('paste',function(e){
+			var inpt=$(this),
+				val=e.originalEvent.clipboardData.getData('Text'),
+				prnt=inpt.parent(),
+				type=prnt.find('input[name=company_type_id]').val();
+			$.get('/bitrix/admin/estelife_ajax.php',{
+				'action':'company',
+				'term':val,
+				'type_id': type
+			},function(r){
+				if('list' in r){
+					var item= r.list.shift();
+					inpt.val(item.name);
+					$('input[name*=\''+inpt.attr('data-input')+'\']',prnt).val(item.id);
+
+					if(inpt.hasClass('estelife-need-clone')){
+						prnt.find('.estelife-more').click();
+					}
+				}
+			},'json');
+		});
+
+
+	//Получение специалистов
+	$('input[name*=\'user_name\'],input[name=find_user_name]').autocomplete({
+		minLength:3,
+		source:function(request,response){
+			var inpt=this.element;
+			$.get('/bitrix/admin/estelife_ajax.php',{
+				'action':'spec',
+				'term':request.term
+			},function(r){
+				console.log(r);
+				if('list' in r){
+					if(r.list.length==1){
+						var item= r.list.shift(),
+							prnt=inpt.parent();
+
+						inpt.val(item.NAME +' '+ item.LAST_NAME);
+						$('input[name*=\''+inpt.attr('data-input')+'\']',prnt).val(item.ID);
+						response();
+
+						if(inpt.hasClass('estelife-need-clone')){
+							prnt.find('.estelife-more').click();
+						}
+					}else{
+						response($.map(r.list, function(item) {
+							return {
+								label: item.NAME +' '+ item.LAST_NAME,
+								value: item.NAME +' '+ item.LAST_NAME,
+								'id': item.ID
+							}
+						}));
+					}
+				}
+			},'json');
+		},
+		select:function(e, ui){
+
+			var inpt=$(this),
+				prnt=inpt.parent();
+
+			$('input[name*=\''+inpt.attr('data-input')+'\']',inpt.parent()).val(ui.item.id);
+
+			if(inpt.hasClass('estelife-need-clone')){
+				prnt.find('.estelife-more').click();
+				prnt.parent().prev().find('input[type=text]').val(ui.item.value);
+			}
+		}
+	}).on('paste',function(e){
+			var inpt=$(this),
+				val=e.originalEvent.clipboardData.getData('Text'),
+				prnt=inpt.parent(),
+				type=prnt.find('input[name=company_type_id]').val();
+			$.get('/bitrix/admin/estelife_ajax.php',{
+				'action':'company',
+				'term':val,
+				'type_id': type
+			},function(r){
+				if('list' in r){
+					var item= r.list.shift();
+					inpt.val(item.name);
+					$('input[name*=\''+inpt.attr('data-input')+'\']',prnt).val(item.id);
+
+					if(inpt.hasClass('estelife-need-clone')){
+						prnt.find('.estelife-more').click();
+					}
+				}
+			},'json');
+		});
+
+	function show_select_halls(id){
+
+		$.get('/bitrix/admin/estelife_ajax.php',{
+			'action':'halls',
+			'term':id
+		},function(r){
+			if(r.hasOwnProperty('list')){
+				var halls = $('#halls');
+				halls.empty();
+
+				for(var i=0; i< r.list.length; i++)
+					halls.append('<option value="'+r.list[i].id+'">'+ r.list[i].name+'</option>');
+
+				/*if(r.list.length==1){
+					var item= r.list.shift(),
+						prnt=inpt.parent();
+
+					inpt.val(item.name);
+					$('input[name*=\''+inpt.attr('data-input')+'\']',prnt).val(item.id);
+					response();
+
+					if(inpt.hasClass('estelife-need-clone')){
+						prnt.find('.estelife-more').click();
+					}
+				}else{
+					response($.map(r.list, function(item) {
+						return {
+							label: item.name,
+							value: item.name,
+							'id': item.id
+						}
+					}));
+				}*/
+			}
+		},'json');
+	}
+
+
+	function show_select_sections(id){
+		$.get('/bitrix/admin/estelife_ajax.php',{
+			'action':'sections',
+			'term':id
+		},function(r){
+			if(r.hasOwnProperty('list')){
+				var halls = $('#sections');
+				halls.empty();
+
+				for(var i=0; i< r.list.length; i++)
+					halls.append('<option value="'+r.list[i].id+'">'+ r.list[i].name+'</option>');
+
+				/*if(r.list.length==1){
+				 var item= r.list.shift(),
+				 prnt=inpt.parent();
+
+				 inpt.val(item.name);
+				 $('input[name*=\''+inpt.attr('data-input')+'\']',prnt).val(item.id);
+				 response();
+
+				 if(inpt.hasClass('estelife-need-clone')){
+				 prnt.find('.estelife-more').click();
+				 }
+				 }else{
+				 response($.map(r.list, function(item) {
+				 return {
+				 label: item.name,
+				 value: item.name,
+				 'id': item.id
+				 }
+				 }));
+				 }*/
+			}
+		},'json');
+	}
 
 	//Получение аппаратов
 	$('input[name*=\'apparatus_name\'],input[name=find_apparatus_name]').autocomplete({
@@ -1073,6 +1285,39 @@ $(function(){
 		source: function(request,response) {
 			$.get('/bitrix/admin/estelife_ajax.php',{
 				'action':'clinic',
+				'term':request.term
+			},function(r){
+				if('list' in r){
+					response($.map(r.list, function(item) {
+						return {
+							label: item.name,
+							value: item.name,
+							id: item.id
+						}
+					}));
+				}
+			},'json');
+
+			return true;
+		},
+		select:function(e, ui) {
+			var inpt=$(this),
+				prnt=inpt.parent();
+
+			$('input[name*=\''+inpt.attr('data-input')+'\']',inpt.parent()).val(ui.item.id);
+
+			if(inpt.hasClass('estelife-need-clone')){
+				prnt.find('.estelife-more').click();
+				prnt.parent().prev().find('input[type=text]').val(ui.item.value);
+			}
+		}
+	});
+
+	$('input[name*=\'activity_name\']').autocomplete({
+		minLength:3,
+		source: function(request,response) {
+			$.get('/bitrix/admin/estelife_ajax.php',{
+				'action':'activities',
 				'term':request.term
 			},function(r){
 				if('list' in r){
@@ -1482,6 +1727,39 @@ $(function(){
 
 		return false;
 	});
+
+	bd.on('keyup', '[data-translit]', function() {
+		var input = $(this),
+			transField = $('input[name='+input.attr('data-translit')+']');
+
+		var value = input.val();
+
+		if(value.length==0){
+			transField.val('');
+		}else{
+			transField.val(translit(value));
+		}
+	});
+
+	function translit(cirilic){
+		var lettersRu=['а','б','в','г','д','е','ё','ж','з','и','й','к','л','м','н','о','п','р','с','т','у','ф','х','ц','ч','ш','щ','ь','ы','ъ','э','ю','я'],
+			lettersEn=['a','b','v','g','d','e','yo','zh','z','i','ji','k','l','m','n','o','p','r','s','t','u','f','h','ts','ch','sh','sch','','y','','e','yu','ya'];
+
+		cirilic = cirilic.toLowerCase().replace(/([^а-яa-z0-9\s\-]+)/ig,'');
+		cirilic = cirilic.toLowerCase().replace(/[\-_\s]+/g,'-');
+		var key,letters = cirilic.split('');
+
+		for(var i=0; i<letters.length; i++){
+			key = lettersRu.inArray(letters[i]);
+
+			if(key==-1)
+				continue;
+
+			letters[i]=lettersEn[key];
+		}
+
+		return letters.join('');
+	}
 });
 
 function dropCallbacks(){
@@ -1671,4 +1949,18 @@ function dropUploader(c,u,o){
 	};
 
 	init();
+};
+Array.prototype.inArray=function(needle,strict) {
+	var key,found = -1,
+		haystack=this;
+	strict = !!strict;
+
+	for (key in haystack) {
+		if ((strict && haystack[key] === needle) || (!strict && haystack[key] == needle)) {
+			found=key;
+			break;
+		}
+	}
+
+	return found;
 };

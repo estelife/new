@@ -47,10 +47,15 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 				</ul>
 				<div class="social cols repost">
 					<span>Поделиться: </span>
-					<a href="http://vkontakte.ru/share.php?url=http://estelife.ru/ar<?=$arResult['ID']?>/" target="_blank" class="vk">ВКонтакте</a>
-					<a href="https://www.facebook.com/sharer.php?u=http://estelife.ru/ar<?=$arResult['ID']?>/" target="_blank" class="fb">Facebook</a>
+					<a href="http://vkontakte.ru/share.php?url=http://estelife.ru/<?=$arResult['TYPE']?><?=$arResult['ID']?>/" target="_blank" class="vk">ВКонтакте</a>
+					<a href="https://www.facebook.com/sharer.php?u=http://estelife.ru/<?=$arResult['TYPE']?><?=$arResult['ID']?>/" target="_blank" class="fb">Facebook</a>
 				</div>
 				<div class="author cols">
+					<?php if(!empty($arResult['utm'])): ?>
+						<div class="utm">
+							<?=$arResult['utm']?>
+						</div>
+					<?php endif; ?>
 					<?php if (!empty($arResult['PROPERTIES']['SOURCE']['VALUE'])):?>
 					Автор статьи
 					<b><?=$arResult['PROPERTIES']['SOURCE']['VALUE']?></b>

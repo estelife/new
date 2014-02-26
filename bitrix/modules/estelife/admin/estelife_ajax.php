@@ -65,6 +65,34 @@ try{
 				$arResult['list']=array();
 			}
 			break;
+		case 'activities':
+			if(!empty($arData['term'])){
+				$sName=trim(strip_tags($arData['term']));
+				$obActivity=VDatabase::driver();
+				$obQuery=$obActivity->createQuery();
+				$obQuery->builder()
+					->from('estelife_event_activities');
+				$obQuery->builder()
+					->field('name')
+					->field('id')
+					->filter()
+					->_like('name',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+
+				$obRecords=$obQuery->select()->all();
+				$arResult['list']=array();
+
+				if(count($obRecords)>0){
+					foreach($obRecords as $obRecord){
+						$arRecord=$obRecord;
+
+						$arRecord['name']=html_entity_decode($arRecord['name'],ENT_QUOTES,'utf-8');
+						$arResult['list'][]=$arRecord;
+					}
+				}
+			}else{
+				$arResult['list']=array();
+			}
+			break;
 		case 'service_concreate':
 			if(!empty($arData['term'])){
 				$sTypeId=intval($arData['term']);
@@ -126,6 +154,110 @@ try{
 						$arResult['list'][] = $val;
 					}
 				}
+			}else{
+				$arResult['list']=array();
+			}
+			break;
+		case 'activity':
+			if(!empty($arData['term'])){
+				$sName=trim(strip_tags($arData['term']));
+
+				//получение списка типов компании
+				$obActivity= VDatabase::driver();
+
+				$obQuery = $obActivity->CreateQuery();
+				$obFilter=$obQuery->builder()->from('estelife_events')
+					->field('short_name')
+					->field('id')
+					->filter()
+					->_like('short_name',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+
+				$arActivity= $obQuery->select()->all();
+
+				if (!empty($arActivity)){
+					foreach ($arActivity as $val){
+						$val['name'] =  html_entity_decode($val['short_name'], ENT_QUOTES, 'utf-8');
+						$arResult['list'][] = $val;
+					}
+				}
+
+			}else{
+				$arResult['list']=array();
+			}
+			break;
+		case 'halls':
+			$arResult['list']=array();
+
+			if(!empty($arData['term'])){
+				$nId=trim(strip_tags($arData['term']));
+
+				//получение списка залов
+				$obHalls= VDatabase::driver();
+
+				$obQuery = $obHalls->CreateQuery();
+				$obFilter=$obQuery->builder()->from('estelife_event_halls')
+					->field('name')
+					->field('id')
+					->filter()
+					->_eq('event_id',$nId);
+
+				$arHalls= $obQuery->select()->all();
+
+
+				if (!empty($arHalls))
+					$arResult['list'] = $arHalls;
+			}
+			break;
+		case 'sections':
+			$arResult['list']=array();
+
+			if(!empty($arData['term'])){
+				$nId=trim(strip_tags($arData['term']));
+
+				//получение списка залов
+				$obHalls= VDatabase::driver();
+
+				$obQuery = $obHalls->CreateQuery();
+				$obFilter=$obQuery->builder()->from('estelife_event_sections')
+					->field('name')
+					->field('id')
+					->filter()
+					->_eq('event_id',$nId);
+
+				$arHalls= $obQuery->select()->all();
+
+
+				if (!empty($arHalls))
+					$arResult['list'] = $arHalls;
+			}
+			break;
+		case 'spec':
+			if(!empty($arData['term'])){
+				$sName=trim(strip_tags($arData['term']));
+
+				$obApp= VDatabase::driver();
+
+				$obQuery = $obApp->createQuery();
+				$obQuery->builder()->from('user', 'u');
+				$obJoin=$obQuery->builder()->join();
+				$obJoin->_left()
+					->_from('u','ID')
+					->_to('user_group','USER_ID','ug');
+				$obFilter = $obQuery->builder()
+					->field('u.ID','ID')
+					->field('u.NAME','NAME')
+					->field('u.LAST_NAME','LAST_NAME')
+					->_eq('ug.GROUP_ID',6);
+
+				$obFilter = $obQuery->builder()->filter();
+
+				$obFilter->_or()->_like('u.LAST_NAME',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+				$obFilter->_or()->_like('u.NAME',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+				$obFilter->_or()->_like('u.SECOND_NAME',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+				$obFilter->_eq('ug.GROUP_ID',6);
+
+				$arResult['list'] = $obQuery->select()->all();
+
 			}else{
 				$arResult['list']=array();
 			}

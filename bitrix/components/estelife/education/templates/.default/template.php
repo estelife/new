@@ -4,7 +4,7 @@
 			<h1>Практический телемост по ботулинотерапии</h1>
 		</div>
 		<p class="ed-notice">* Если окно плеера не отобразилось перезагрузите страницу.<br />* Для начала трансляции нажмите play.</p>
-		<div id="player"></div>
+		<div id='player'></div>
 		<script type='text/javascript' src='http://www.aloha.cdnvideo.ru/aloha/jwplayer/js_for_embed/jwplayer.js'></script>
 		<script type='text/javascript'>
 			jwplayer('player').setup({
@@ -12,7 +12,7 @@
 				'width': '900',
 				'height': '600',
 				'provider': 'rtmp',
-				'streamer': 'rtmp://aloha.cdnvideo.ru/aloha',
+				'streamer': 'rtmp://meddis.cdnvideo.ru/meddis',
 				'file': 'meddis.sdp',
 				'src': 'http://www.aloha.cdnvideo.ru/aloha/jwplayer/mediaplayer-viral/player-viral.swf',
 				'autoplay': 'false',
@@ -21,7 +21,7 @@
 					{
 						type: 'html5',
 						config: {
-							'file': 'http://aloha.cdnvideo.ru/aloha/meddis.sdp/playlist.m3u8',
+							'file': 'http://meddis.cdnvideo.ru/meddis/meddis.sdp/playlist.m3u8',
 							'provider': 'video'
 						}
 					}

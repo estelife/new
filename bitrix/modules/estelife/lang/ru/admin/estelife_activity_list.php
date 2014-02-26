@@ -13,3 +13,4 @@ $MESS ['ESTELIFE_CONFIRM_DELETE']='Вы дейсвтительно хотите 
 $MESS ['ESTELIFE_EDIT']='Изменить';
 $MESS ['ESTELIFE_DELETE']='Удалить';
 $MESS ['ESTELIFE_NOT_IMPORTANT']='Не важно';
+

@@ -14,7 +14,7 @@
 				<div class="item-rel">
 					<h2>
 						<a href="<?=$arClinic["link"]?>" class="el-get-detail"><?=$arClinic["name"]?></a>
-						<?php if ($arClinic["recomended"] == 1):?><a href="/about/quality-mark.php" class="checked">Знак качества Estelife</a><?php endif?>
+						<?php if ($arClinic["recomended"] == 1):?><span class="checked">Знак качества Estelife</span><?php endif?>
 					</h2>
 					<div class="item-in">
 						<?if (!empty($arClinic['specialization'])):?>
