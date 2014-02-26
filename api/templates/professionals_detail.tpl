@@ -10,7 +10,9 @@
 					<!--endif!-->
 				</div>
 			</div>
+			<!--if($detail.country_name)!-->
 			<span class="country c<!--$detail.country_id!-->">Страна: <!--$detail.country_name!--></span>
+			<!--endif!-->
 			<!--if($detail.clinics)!-->
 				<div class="work">
 					<h2>Место работы:</h2>

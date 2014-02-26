@@ -5,7 +5,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)
 $arPath = explode('/', GetPagePath());
 $arPath = array_splice($arPath, 1, -1);
 
-preg_match('/^([a-z]{2})([0-9]+)$/',$arPath[0], $mathcesEvent);
 $sEventHall =  preg_match_all('/(.*)-(.*)/', $arPath[1], $mathcesHall);
 
 if($sEventHall == 1){
@@ -24,7 +23,7 @@ if($sEventHall == 1){
 		array(
 			"HALL"=>$mathcesHall[1][0],
 			'DATE'=>$sHallDate,
-			'EVENT_ID'=>$mathcesEvent[2],
+			'EVENT_ID'=>$arResult['ID'],
 		),
 		false
 	);

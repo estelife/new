@@ -24,7 +24,7 @@
 					</div>
 				<?php endif?>
 				<?php if (!empty($val['activities'])):?>
-					<div class="item">
+					<div class="item activity">
 						<h4><?=$val['activities']['activity_name']?></h4>
 						<?php if (!empty($val['activities']['events'])):?>
 							<?php foreach ($val['activities']['events'] as $v):?>
