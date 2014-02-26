@@ -38,6 +38,8 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			'ns:number/': 'newsDetail',
 			'ex:number/': 'expertsDetail',
 			'pf:number/': 'professionalsDetail',
+			'ev:number/program/': 'eventsProgram',
+			'ev:number/(:param)/': 'eventsHall',
 			'*path':  'defaultRoute'
 		},
 		defaultRoute:function(path){
@@ -921,6 +923,58 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								new Views.AdvertDelay({
 									className:'adv adv-out right',
 									dataKey:'BANNER'
+								})
+							]
+						})
+					]
+				})
+			});
+			model.fetch();
+		},
+
+		eventsProgram: function(id){
+			var model=new Models.Inner(null,{
+				pages:[
+					'ev'+id+'/program/'
+				],
+				view:new Views.WrapContent({
+					views:[
+						new Views.SEO(),
+						new Views.Content({
+							views:[
+								new Views.Inner({
+									views:[
+										new Views.Crumb(),
+										new Views.Detail({
+											template:'events_program'
+										})
+									]
+								})
+							]
+						})
+					]
+				})
+			});
+			model.fetch();
+		},
+
+		eventsHall: function(id, param){
+			var model=new Models.Inner(null,{
+				pages:[
+					'ev'+id+'/'+param+'/'
+				],
+				view:new Views.WrapContent({
+					views:[
+						new Views.SEO(),
+						new Views.Content({
+							views:[
+								new Views.Inner({
+									views:[
+										new Views.Crumb(),
+										new Views.Detail({
+											template:'events_hall'
+										})
+									]
 								})
 							]
 						})
