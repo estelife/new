@@ -1727,6 +1727,39 @@ $(function(){
 
 		return false;
 	});
+
+	bd.on('keyup', '[data-translit]', function() {
+		var input = $(this),
+			transField = $('input[name='+input.attr('data-translit')+']');
+
+		var value = input.val();
+
+		if(value.length==0){
+			transField.val('');
+		}else{
+			transField.val(translit(value));
+		}
+	});
+
+	function translit(cirilic){
+		var lettersRu=['а','б','в','г','д','е','ё','ж','з','и','й','к','л','м','н','о','п','р','с','т','у','ф','х','ц','ч','ш','щ','ь','ы','ъ','э','ю','я'],
+			lettersEn=['a','b','v','g','d','e','yo','zh','z','i','ji','k','l','m','n','o','p','r','s','t','u','f','h','ts','ch','sh','sch','','y','','e','yu','ya'];
+
+		cirilic = cirilic.toLowerCase().replace(/([^а-яa-z0-9\s\-]+)/ig,'');
+		cirilic = cirilic.toLowerCase().replace(/[\-_\s]+/g,'-');
+		var key,letters = cirilic.split('');
+
+		for(var i=0; i<letters.length; i++){
+			key = lettersRu.inArray(letters[i]);
+
+			if(key==-1)
+				continue;
+
+			letters[i]=lettersEn[key];
+		}
+
+		return letters.join('');
+	}
 });
 
 function dropCallbacks(){
@@ -1916,4 +1949,18 @@ function dropUploader(c,u,o){
 	};
 
 	init();
+};
+Array.prototype.inArray=function(needle,strict) {
+	var key,found = -1,
+		haystack=this;
+	strict = !!strict;
+
+	for (key in haystack) {
+		if ((strict && haystack[key] === needle) || (!strict && haystack[key] == needle)) {
+			found=key;
+			break;
+		}
+	}
+
+	return found;
 };

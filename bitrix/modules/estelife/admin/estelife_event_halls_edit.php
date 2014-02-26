@@ -28,6 +28,7 @@ if(!empty($ID)){
 	$obQuery->builder()
 		->from('estelife_event_halls','eh')
 		->field('eh.name','name')
+		->field('eh.translit','translit')
 		->field('ee.short_name','event_name')
 		->field('ee.id','event_id');
 	$obJoin=$obQuery->builder()->join();
@@ -54,9 +55,15 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		$obError->raise();
 
+		$sName = $obPost->one('name');
+		$sTranslit = $obPost->blank('translit') ?
+			VString::translit($sName) :
+			$obPost->one('translit');
+
 		$obQuery= \core\database\VDatabase::driver()->createQuery();
 		$obQuery->builder()->from('estelife_event_halls')
-			->value('name', trim(htmlentities($obPost->one('name'),ENT_QUOTES,'utf-8')))
+			->value('name', trim(htmlentities($sName,ENT_QUOTES,'utf-8')))
+			->value('translit', $sTranslit)
 			->value('event_id', intval($obPost->one('event_id')));
 
 
@@ -66,7 +73,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			$obQuery->update();
 			$idEntr = $ID;
 		}else{
-			$idPill = $obQuery->insert()->insertId();
+			$idEntr = $obQuery->insert()->insertId();
 		}
 
 
@@ -100,6 +107,24 @@ $tabControl = new CAdminTabControl("estelife_entry_concreate_".$ID, $aTabs, true
 $APPLICATION->SetTitle(GetMessage('ESTELIFE_CREATE_TITLE'));
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_after.php");
 
+if(!empty($arResult['error']['text'])){
+	$arMessages=array(
+		$arResult['error']['text'].' ['.$arResult['error']['code'].']'
+	);
+
+	if(isset($arResult['error']['fields'])){
+		foreach($arResult['error']['fields'] as $sField=>$sError)
+			$arMessages[]=GetMessage('ERROR_FIELD_FILL').': '.GetMessage($sError);
+	}
+
+	CAdminMessage::ShowOldStyleError(implode('<br />',$arMessages));
+
+	if(!empty($_POST)){
+		foreach($_POST as $sKey=>$sValue)
+			$arResult['hall'][$sKey]=$sValue;
+	}
+
+}
 ?>
 
 	<script type="text/javascript" src="/bitrix/js/estelife/jquery-1.10.2.min.js"></script>
@@ -117,7 +142,12 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_aft
 
 		<tr class="adm-detail-required-field">
 			<td width="40%"><?=GetMessage("ESTELIFE_F_NAME")?></td>
-			<td width="60%"><input type="text" name="name" size="20" maxlength="255" value="<?=$arResult['hall']['name']?>"></td>
+			<td width="60%"><input type="text" name="name" data-translit="translit" size="40" maxlength="255" value="<?=$arResult['hall']['name']?>"></td>
+		</tr>
+
+		<tr>
+			<td width="40%"><?=GetMessage("ESTELIFE_F_TRANSLIT")?></td>
+			<td width="60%"><input type="text" name="translit" size="40" maxlength="255" value="<?=$arResult['hall']['translit']?>"></td>
 		</tr>
 
 		<tr class="adm-detail-required-field">

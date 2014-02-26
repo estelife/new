@@ -226,6 +226,25 @@ $tabControl = new CAdminTabControl("estelife_event_sections_".$ID, $aTabs, true,
 $APPLICATION->SetTitle(GetMessage('ESTELIFE_CREATE_TITLE'));
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_after.php");
 
+if(!empty($arResult['error']['text'])){
+	$arMessages=array(
+		$arResult['error']['text'].' ['.$arResult['error']['code'].']'
+	);
+
+	if(isset($arResult['error']['fields'])){
+		foreach($arResult['error']['fields'] as $sField=>$sError)
+			$arMessages[]=GetMessage('ERROR_FIELD_FILL').': '.GetMessage($sError);
+	}
+
+	CAdminMessage::ShowOldStyleError(implode('<br />',$arMessages));
+
+	if(!empty($_POST)){
+		foreach($_POST as $sKey=>$sValue)
+			$arResult['section'][$sKey]=$sValue;
+	}
+
+}
+
 ?>
 
 	<script type="text/javascript" src="/bitrix/js/estelife/jquery-1.10.2.min.js"></script>

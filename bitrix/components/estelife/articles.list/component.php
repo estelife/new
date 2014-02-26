@@ -30,10 +30,12 @@ try{
 	$obJoin->_left()
 		->_from('ie','IBLOCK_SECTION_ID')
 		->_to('iblock_section','ID','ic');
+
 	$obJoin->_left()
 		->_from('ie','ID')
 		->_to('iblock_element_property','IBLOCK_ELEMENT_ID','iep')
 		->_cond()->_eq('iep.IBLOCK_PROPERTY_ID', $arParams['IMG_FIELD']);
+
 	if (!empty($arParams['ANONS_FIELD'])){
 		$obJoin->_left()
 			->_from('ie','ID')

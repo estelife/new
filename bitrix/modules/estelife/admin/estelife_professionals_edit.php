@@ -261,7 +261,7 @@ if(!empty($arResult['error']['text'])){
 
 	if(!empty($_POST)){
 		foreach($_POST as $sKey=>$sValue)
-			$arResult['event'][$sKey]=$sValue;
+			$arResult['spec'][$sKey]=$sValue;
 	}
 
 }
