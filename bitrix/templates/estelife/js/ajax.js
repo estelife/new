@@ -138,13 +138,18 @@ require([
 			}
 		});
 
-
 		var intId;
 		//переключение между пунктами меню в эксперном мнении
 		body.on('click touch','.experts .menu li',function(){
 			clearInterval(intId);
 			showNextExpert($(this));
 			expertClick();
+			return false;
+		});
+
+		body.on('click touch', '.activity .dates a', function(e){
+			var link = $(this).attr('href');
+			Router.navigate(link,{trigger: true});
 			return false;
 		});
 
@@ -689,6 +694,29 @@ require([
 		});
 		$('.gallery').trigger('updateGallery');
 
+		body.on('updateContent', function(){
+			var activity = $('.activity');
+
+			if(activity.length>0){
+				var height,maxHeight = 0,
+					items = activity.find('.item');
+
+				items.each(function(i){
+					height = $(this).height();
+
+					if(maxHeight<=height)
+						maxHeight = height;
+
+					if(i%4){
+						for(var y = i-4; y<i; y++)
+							items.eq(y).height(maxHeight);
+
+						maxHeight=0;
+					}
+				});
+			}
+		}).trigger('updateContent');
+
 		body.on('submit','form[name=add_request]',function(e){
 			var form=$(this),
 				data={
@@ -938,6 +966,7 @@ require([
 				$(this).attr({maxlength: maxchars});
 			}
 		});
+
 	});
 
 	$(function interfaces(){

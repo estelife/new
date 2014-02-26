@@ -19,7 +19,7 @@ if($sEventHall == 1){
 		array(
 			"HALL"=>$mathcesHall[1][0],
 			'DATE'=>$sHallDate,
-			'EVENT_ID'=>$mathcesEvent[2],
+			'EVENT_ID'=>$arResult['ID'],
 		),
 		false
 	);
@@ -29,7 +29,7 @@ if($sEventHall == 1){
 		"estelife:events.program",
 		"ajax",
 		array(
-			'ID'=>$mathcesEvent[2],
+			'EVENT_ID'=>$arResult['ID'],
 		),
 		false
 	);

@@ -1,5 +1,6 @@
 <?php
 $MESS ['ESTELIFE_F_ID']='ID';
+$MESS ['ESTELIFE_F_THEME']='Тема';
 $MESS ['ESTELIFE_F_NAME']='Название';
 $MESS ['ESTELIFE_EDIT_ALT']='Изменить';
 $MESS ['ESTELIFE_EDIT']='Изменить';

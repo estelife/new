@@ -39,10 +39,11 @@ $arFilter = Array(
 
 //====== TABLE HEADERS =========
 $headers = array(
-	array("id"=>"ID", "content"=>GetMessage("ESTELIFE_F_ID"), "sort"=>"id", "default"=>true),
 	array("id"=>"NAME", "content"=>GetMessage("ESTELIFE_F_NAME"), "sort"=>"name", "default"=>true),
+	array("id"=>"THEME", "content"=>GetMessage("ESTELIFE_F_THEME"), "sort"=>"name", "default"=>true),
 	array("id"=>"EVENT", "content"=>GetMessage("ESTELIFE_F_EVENT"), "sort"=>"events", "default"=>true),
 	array("id"=>"HALLS", "content"=>GetMessage("ESTELIFE_F_HALLS"), "sort"=>"halls", "default"=>true),
+	array("id"=>"ID", "content"=>GetMessage("ESTELIFE_F_ID"), "sort"=>"id", "default"=>true),
 );
 
 $lAdmin->AddHeaders($headers);
@@ -73,6 +74,7 @@ $obJoin->_left()
 $obQuery->builder()
 	->field('es.id','id')
 	->field('es.name','name')
+	->field('es.theme','theme')
 	->field('ee.short_name','event_name');
 
 $obQuery->builder()->group('es.id');
@@ -129,6 +131,7 @@ while($arRecord=$obResult->Fetch()){
 
 	$row->AddViewField("ID",$arRecord['id']);
 	$row->AddViewField("NAME", $arRecord['name']);
+	$row->AddViewField("THEME", $arRecord['theme']);
 	$row->AddViewField("EVENT", $arRecord['event_name']);
 	$row->AddViewField("HALLS", $sHalls);
 
