@@ -842,6 +842,34 @@ require([
 			}
 		});
 
+		//Автокомплит поиска
+		body.on('focus','input[data-action=get_search_history]', function(){
+			$(this).autocomplete({
+				minLength:3,
+				width:260,
+				source:function(request, response){
+					var data={
+						'action':'get_search_history',
+						'term':request.term
+					};
+					$.post('/api/estelife_ajax.php',data,function(result){
+						if(result.hasOwnProperty('list')){
+							response($.map(result.list,function( item ) {
+								return {
+									label: item.name,
+									value: item.name,
+									id: item.id
+								}
+							}));
+						}
+					},'json');
+				},
+				select:function(e,ui){
+					$('input[data-action=get_search_history]').val(ui.item.name);
+				}
+			})
+		});
+
 		//комментарии
 		body.on('submit','form[name=comments]', function(){
 			var form=$(this);

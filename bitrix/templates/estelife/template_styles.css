@@ -11,6 +11,11 @@
 	color:#e50264;
 }
 
+.ui-autocomplete {
+	width: 469px;
+	z-index: 11;
+}
+
 form .success{
 	position:absolute;
 	top:230px;
