@@ -942,13 +942,9 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						new Views.SEO(),
 						new Views.Content({
 							views:[
-								new Views.Inner({
-									views:[
-										new Views.Crumb(),
-										new Views.Detail({
-											template:'events_program'
-										})
-									]
+								new Views.Crumb(),
+								new Views.Detail({
+									template:'events_program'
 								})
 							]
 						})
@@ -968,13 +964,9 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						new Views.SEO(),
 						new Views.Content({
 							views:[
-								new Views.Inner({
-									views:[
-										new Views.Crumb(),
-										new Views.Detail({
-											template:'events_hall'
-										})
-									]
+								new Views.Crumb(),
+								new Views.Detail({
+									template:'events_hall'
 								})
 							]
 						})

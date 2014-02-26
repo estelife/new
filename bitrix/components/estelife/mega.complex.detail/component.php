@@ -55,7 +55,8 @@ if (!$arLink || empty($arDirectories[$mathces[1]]))
 	}
 }else{
 	$componentPage = $arDirectories[$mathces[1]];
-	$arPath = explode('/', GetPagePath());
+	$sPath = preg_replace('#^\/rest#','',GetPagePath());
+	$arPath = explode('/', $sPath);
 	$arPath = array_splice($arPath, 2, -1);
 
 	if(!empty($arPath))

@@ -5,8 +5,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)
 $arPath = explode('/', GetPagePath());
 $arPath = array_splice($arPath, 1, -1);
 
-preg_match('/^([a-z]{2})([0-9]+)$/',$arPath[0], $mathcesEvent);
-$sEventHall =  preg_match_all('/(.*)-(.*)/', $arPath[1], $mathcesHall);
+preg_match('/^([a-z]{2})([0-9]+)$/',$arPath[1], $mathcesEvent);
+$sEventHall =  preg_match_all('/(.*)-(.*)/', $arPath[2], $mathcesHall);
 
 if($sEventHall == 1){
 	$sHallDate = $mathcesHall[2][0];
@@ -15,7 +15,7 @@ if($sEventHall == 1){
 
 	$APPLICATION->IncludeComponent(
 		"estelife:events.hall",
-		"",
+		"ajax",
 		array(
 			"HALL"=>$mathcesHall[1][0],
 			'DATE'=>$sHallDate,
@@ -27,7 +27,7 @@ if($sEventHall == 1){
 }else{
 	$APPLICATION->IncludeComponent(
 		"estelife:events.program",
-		"",
+		"ajax",
 		array(
 			'ID'=>$mathcesEvent[2],
 		),

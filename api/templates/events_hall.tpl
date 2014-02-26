@@ -9,7 +9,7 @@
 		<!--if($detail.sections)!-->
 			<!--foreach($detail.sections as $key=>$val)!-->
 				<div class="items">
-					<!--if $key>0)!-->
+					<!--if($key>0)!-->
 						<div class="h">
 							<b>Секция <!--$val.number!--></b>
 							<span><!--$val.time_from!--> - <!--$val.time_to!--></span>

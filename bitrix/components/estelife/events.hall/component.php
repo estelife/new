@@ -17,7 +17,7 @@ $nEventId =  (isset($arParams['EVENT_ID'])) ?
 	intval($arParams['EVENT_ID']) : 0;
 
 $sHall =  (isset($arParams['HALL'])) ?
-	$arParams['HALL'] : '';
+	trim(strip_tags($arParams['HALL'])) : '';
 
 $nDate =  (isset($arParams['DATE'])) ?
 	strtotime($arParams['DATE']) : '';
