@@ -112,8 +112,12 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 	try{
 		if($obPost->blank('name'))
 			$obError->setFieldError('NAME_NOT_FILL','name');
+
 		if($obPost->blank('event_id'))
-			$obError->setFieldError('NAME_NOT_EVENT','event_id');
+			$obError->setFieldError('EVENT_NOT_FILL','event_id');
+
+		if($obPost->blank('halls_id'))
+			$obError->setFieldError('HALL_NOT_FILL','event_id');
 
 		$obError->raise();
 
@@ -123,17 +127,17 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		$obQueryDateRemove = $obSections->createQuery();
 		$obQueryBase->builder()->from('estelife_event_sections')
 			->value('name', trim(htmlentities($obPost->one('name'),ENT_QUOTES,'utf-8')))
+			->value('number', intval($obPost->one('number'),ENT_QUOTES,'utf-8'))
 			->value('event_id', intval($obPost->one('event_id')));
 
 		$arPostHalls = $obPost->one('halls_id');
 
-		if (!empty($ID)){
-
+		if (!empty($ID)) {
 			$obQueryBase->builder()->filter()
 				->_eq('id',$ID);
 			$obQueryBase->update();
 			$idEntr = $ID;
-		}else{
+		} else {
 			$ID = $obQueryBase->insert()->insertId();
 		}
 
@@ -149,20 +153,17 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		$obQueryHalls->delete();
 
-		if(!empty($arPostHalls)){
+		if (!empty($arPostHalls)) {
 			foreach($arPostHalls as $nVal){
 				$obQueryHalls->builder()->from('estelife_event_section_halls')
 					->value('hall_id',$nVal)
 					->value('section_id',$ID);
 				$obQueryHalls->insert()->insertId();
 			}
-
-
 		}
 
 
 		if($arDates=$obPost->one('date')){
-
 			$arTimeFrom=$obPost->one('time_from',array());
 			$arTimeTo=$obPost->one('time_to',array());
 
@@ -240,16 +241,18 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_aft
 	$tabControl->Begin();
 	$tabControl->BeginNextTab()
 	?>
-	<tr>
-		<td colspan="2" class="estelife-sep">
-			<span><?=GetMessage("ESTELIFE_H_BASE")?></span>
-		</td>
-	</tr>
-
 	<tr class="adm-detail-required-field">
 		<td width="40%"><?=GetMessage("ESTELIFE_F_NAME")?></td>
 		<td width="60%"><input type="text" name="name" size="40" maxlength="255" value="<?=$arResult['section']['name']?>"></td>
 	</tr>
+
+	<tr>
+		<td width="40%"><?=GetMessage("ESTELIFE_F_NUMBER")?></td>
+		<td width="60%">
+			<input type="text" name="number" size="40" value="<?=$arResult['section']['number']?>" />
+		</td>
+	</tr>
+
 	<tr class="adm-detail-required-field">
 		<td width="40%"><?=GetMessage("ESTELIFE_F_EVENT")?></td>
 		<td width="60%">
