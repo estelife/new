@@ -34,7 +34,7 @@ if ($TRANS_RIGHT>="W") :
 			}
 
 		}
-	
+
 		$Update = $Update.$Apply;
 		ob_start();
 		require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/admin/group_rights.php");

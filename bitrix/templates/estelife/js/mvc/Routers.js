@@ -20,6 +20,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			'sponsors/(.*)': 'sponsorsList',
 			'training-centers/(.*)': 'trainingCentersList',
 			'trainings/(.*)': 'trainingsList',
+			'professionals/(.*)': 'professionalsList',
 			'ap:number/': 'apparatusesDetail',
 			'am:number/': 'apparatusesMakersDetail',
 			'cl:number/': 'clinicsDetail',
@@ -36,6 +37,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			'ar:number/': 'articlesDetail',
 			'ns:number/': 'newsDetail',
 			'ex:number/': 'expertsDetail',
+			'pf:number/': 'professionalsDetail',
 			'*path':  'defaultRoute'
 		},
 		defaultRoute:function(path){
@@ -677,6 +679,46 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			model.fetch();
 		},
 
+		professionalsList: function(){
+			var model=new Models.Inner(null,{
+				pages:this.getShortPages(
+					[
+						'professionals/'+EL.query().toString(),
+						'professionals_filter/'+EL.query().toString(),
+						'banner/'
+					],
+					[0,1]
+				),
+				view:new Views.WrapContent({
+					views:[
+						new Views.SEO(),
+						new Views.Content({
+							views:[
+								new Views.Inner({
+									views:[
+										new Views.Crumb(),
+										new Views.Title(),
+										new Views.List({
+											template:'professionals_list'
+										}),
+										new Views.Nav()
+									]
+								}),
+								new Views.Filter({
+									template:'professionals_filter'
+								}),
+								new Views.AdvertDelay({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
+								})
+							]
+						})
+					]
+				})
+			});
+			model.fetch();
+		},
+
 		newsDetail:function(id){
 			this.articlesDetail(id,'ns');
 		},
@@ -1155,6 +1197,41 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'trainings_filter'
+								}),
+								new Views.AdvertDelay({
+									className:'adv adv-out right',
+									dataKey:'BANNER'
+								})
+							]
+						})
+					]
+				})
+			});
+			model.fetch();
+		},
+
+		professionalsDetail: function(id){
+			var model=new Models.Inner(null,{
+				pages:[
+					'pf'+id+'/',
+					'professionals_filter/'+EL.query().toString(),
+					'banner/'
+				],
+				view:new Views.WrapContent({
+					views:[
+						new Views.SEO(),
+						new Views.Content({
+							views:[
+								new Views.Inner({
+									views:[
+										new Views.Crumb(),
+										new Views.DetailWithMap({
+											template:'professionals_detail'
+										})
+									]
+								}),
+								new Views.Filter({
+									template:'professionals_filter'
 								}),
 								new Views.AdvertDelay({
 									className:'adv adv-out right',

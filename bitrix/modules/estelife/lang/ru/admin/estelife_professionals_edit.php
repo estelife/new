@@ -10,5 +10,10 @@ $MESS['NOT_USER'] = 'Пользователь';
 $MESS ['NOT_CITY']='Город';
 $MESS ['ESTELIFE_HEAD_TITLE']='Редактирование специалиста';
 $MESS ['ESTELIFE_F_PHOTO']='Фото';
-
+$MESS ['ESTELIFE_T_CLINICS']='Клиники';
+$MESS ['ESTELIFE_T_ACTIVITIES']='События';
+$MESS ['ESTELIFE_F_CLINIC']='Название клиники';
+$MESS ['ESTELIFE_F_ACTIVITY']='Название события';
+$MESS ['ESTELIFE_T_SHORT']='Кратко';
+$MESS ['ESTELIFE_T_FULL']='Подробно';
 
