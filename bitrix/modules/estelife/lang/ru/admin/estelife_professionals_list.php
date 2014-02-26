@@ -11,4 +11,5 @@ $MESS ['ESTELIFE_DELETE_ALT']='Удалить';
 $MESS ['ESTELIFE_DELETE']='Удалить';
 $MESS ['ESTELIFE_CONFIRM_DELETE']='Вы действительно хотите удалить этого специалиста?';
 $MESS ['ESTELIFE_HEAD_TITLE']='Специалисты';
-
+$MESS ['ESTELIFE_F_CLINIC']='Клиника';
+$MESS ['ESTELIFE_F_ACTIVITY']='Событие';

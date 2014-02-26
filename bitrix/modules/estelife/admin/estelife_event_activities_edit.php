@@ -285,7 +285,7 @@ if(!empty($arResult['error']['text'])){
 			</td>
 		</tr>
 
-		<tr class="adm-detail-required-field">
+		<tr>
 			<td width="40%" class="adm-detail-content-cell-l"><?=GetMessage("ESTELIFE_F_VIDEO")?></td>
 			<td width="60%" class="adm-detail-content-cell-r">
 				<select name="video">
@@ -327,7 +327,7 @@ if(!empty($arResult['error']['text'])){
 				<input type="text" name="event_name" size="30" data-input="event_id" value="<?=$arResult['activ']['event_name']?>" />
 			</td>
 		</tr>
-		<tr class="adm-detail-required-field">
+		<tr>
 			<td width="40%" class="adm-detail-content-cell-l"><?=GetMessage("ESTELIFE_F_SECTION")?></td>
 			<td width="60%" class="adm-detail-content-cell-r">
 				<select name="section_id" id="sections" style="width: 260px;">

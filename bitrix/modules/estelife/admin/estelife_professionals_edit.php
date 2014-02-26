@@ -209,7 +209,6 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 					$obQueryActivity->insert()->insertId();
 				}
 			}
-
 		}
 
 
@@ -396,7 +395,7 @@ if(!empty($arResult['error']['text'])){
 		<? $tabControl->BeginNextTab(); ?>
 		<?php if(!empty($arResult['spec']['clinic'])): ?>
 			<?php foreach($arResult['spec']['clinic'] as $arClinic): ?>
-				<tr class="adm-detail-required-field">
+				<tr>
 					<td width="30%"><?=GetMessage("ESTELIFE_F_CLINIC")?></td>
 					<td width="70%">
 						<input type="hidden" name="clinic_id[]" value="<?=$arClinic['clinic_id']?>" />
@@ -406,7 +405,7 @@ if(!empty($arResult['error']['text'])){
 				</tr>
 			<?php endforeach; ?>
 		<?php endif; ?>
-		<tr class="adm-detail-required-field">
+		<tr>
 			<td width="30%"><?=GetMessage("ESTELIFE_F_CLINIC")?></td>
 			<td width="70%">
 				<input type="hidden" name="clinic_id[]" value="" />
@@ -427,7 +426,7 @@ if(!empty($arResult['error']['text'])){
 				</tr>
 			<?php endforeach; ?>
 		<?php endif; ?>
-		<tr class="adm-detail-required-field">
+		<tr>
 			<td width="30%"><?=GetMessage("ESTELIFE_F_ACTIVITY")?></td>
 			<td width="70%">
 				<input type="hidden" name="activities_id[]" value="" />

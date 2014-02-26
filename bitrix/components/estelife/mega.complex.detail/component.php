@@ -9,7 +9,7 @@ $arDirectories=$APPLICATION->IncludeComponent(
 
 
 $arDefaultUrlTemplates404 = array(
-	"articles" => "#CURRENT_CODE#/",
+	"articles" => "#CURRENT_CODE#/(.*)"
 );
 
 $arDefaultVariableAliases404 = array();
@@ -35,8 +35,8 @@ $componentPage = CComponentEngine::ParseComponentPath(
 //разбираем $arVariables
 CModule::IncludeModule('estelife');
 $sCode=htmlspecialchars($arVariables['CURRENT_CODE'],ENT_QUOTES,'utf-8');
+$arPath = array();
 $arLink = preg_match('/^([a-z]{2})([0-9]+)$/', $sCode, $mathces);
-
 
 if (!$arLink || empty($arDirectories[$mathces[1]]))
 {
@@ -55,8 +55,12 @@ if (!$arLink || empty($arDirectories[$mathces[1]]))
 	}
 }else{
 	$componentPage = $arDirectories[$mathces[1]];
-}
+	$arPath = explode('/', GetPagePath());
+	$arPath = array_splice($arPath, 2, -1);
 
+	if(!empty($arPath))
+		$componentPage .= '-deep';
+}
 
 CComponentEngine::InitComponentVariables($componentPage, $arComponentVariables, $arVariableAliases, $arVariables);
 
@@ -67,6 +71,7 @@ $arResult = array(
 	"ALIASES" => $arVariableAliases,
 	"ID" => $mathces[2],
 	"PREFIX" => $mathces[1],
+	'DEEP_PATHES' => $arPath
 );
 
 $this->IncludeComponentTemplate($componentPage);

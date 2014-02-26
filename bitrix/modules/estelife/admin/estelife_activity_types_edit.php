@@ -35,7 +35,6 @@ if(!empty($ID)){
 		$obResult->bxResult(),
 		$sTableID
 	);
-
 	$arResult=$obResult->Fetch();
 }
 
@@ -53,7 +52,6 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		$obError->raise();
 
-
 		$obQuery = $obTypes->createQuery();
 		$obQuery->builder()->from('estelife_activity_types')
 			->value('name', trim(htmlentities($obPost->one('name'),ENT_QUOTES,'utf-8')))
@@ -68,7 +66,6 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		}else{
 			$idPill = $obQuery->insert()->insertId();
 		}
-
 
 		if(!$obPost->blank('save'))
 			LocalRedirect('/bitrix/admin/estelife_activity_types_list.php?lang='.LANGUAGE_ID);
@@ -94,13 +91,10 @@ $aTabs = array(
 );
 $tabControl = new CAdminTabControl("estelife_entry_concreate_".$ID, $aTabs, true, true);
 
-
 //===== Тут будем делать сохрпанение и подготовку данных
 
 $APPLICATION->SetTitle(GetMessage('ESTELIFE_HEAD_TITLE'));
-require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_after.php");
-
-?>
+require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_after.php"); ?>
 
 	<script type="text/javascript" src="/bitrix/js/estelife/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="/bitrix/js/estelife/jquery-ui-1.10.3.custom.min.js"></script>
@@ -114,7 +108,6 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_aft
 		$tabControl->Begin();
 		$tabControl->BeginNextTab();
 		?>
-
 		<tr class="adm-detail-required-field">
 			<td width="40%" class="adm-detail-content-cell-l"><?=GetMessage("ESTELIFE_F_NAME")?></td>
 			<td width="60%" class="adm-detail-content-cell-r"><input type="text" name="name" size="20" maxlength="50" value="<?=$arResult['name'];?>"></td>
@@ -123,7 +116,6 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_aft
 			<td width="40%" class="adm-detail-content-cell-l"><?=GetMessage("ESTELIFE_F_DESRIPTION")?></td>
 			<td width="60%" class="adm-detail-content-cell-r"><textarea name="description"  cols="39" rows="5"><?=$arResult['description'];?></textarea></td>
 		</tr>
-
 		<?php
 		$tabControl->EndTab();
 		$tabControl->Buttons(array("disabled"=>false, "back_url"=>(strlen($back_url) > 0 ? $back_url : "estelife_activity_types_list.php?lang=".LANGUAGE_ID)));

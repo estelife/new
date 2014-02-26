@@ -27,7 +27,9 @@ $arFilterFields = Array(
 	"find_user_id",
 	"find_country_id",
 	"find_city_id",
-	"find_short_description"
+	"find_short_description",
+	"find_clinic",
+	"find_activity",
 );
 $lAdmin->InitFilter($arFilterFields);
 
@@ -37,6 +39,8 @@ $arFilter = Array(
 	"country_id"	=> $find_country_id,
 	"city_id"		=> $find_city_id,
 	"description"	=> $find_short_description,
+	"clinic"		=>$find_clinic,
+	"activity"		=>$find_activity,
 );
 
 
@@ -89,6 +93,18 @@ $obJoin=$obQuery->builder()
 	->from('estelife_professionals','ep')
 	->join();
 $obJoin->_left()
+	->_from('ep','id')
+	->_to('estelife_professionals_clinics','professional_id','epc');
+$obJoin->_left()
+	->_from('ep','id')
+	->_to('estelife_professional_activity','professional_id','epa');
+$obJoin->_left()
+	->_from('epc','clinic_id')
+	->_to('estelife_clinics','id','ec');
+$obJoin->_left()
+	->_from('epa','activity_id')
+	->_to('estelife_event_activities','id','eea');
+$obJoin->_left()
 	->_from('ep','country_id')
 	->_to('iblock_element','ID','ecn')
 	->_cond()
@@ -129,6 +145,10 @@ if($_GET && $_GET['set_filter'] == 'Y'){
 		$obFilter->_eq('ect.ID',$arFilter['city_id']);
 	if(!empty($arFilter['description']))
 		$obFilter->_like('ep.short_description',$arFilter['description'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+	if(!empty($arFilter['clinic']))
+		$obFilter->_like('ec.name',$arFilter['clinic'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+	if(!empty($arFilter['activity']))
+		$obFilter->_like('eea.name',$arFilter['activity'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 }
 
 
@@ -237,6 +257,8 @@ require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_adm
 				GetMessage("ESTELIFE_F_USER_ID"),
 				GetMessage("ESTELIFE_F_COUNTRY"),
 				GetMessage("ESTELIFE_F_CITY"),
+				GetMessage("ESTELIFE_F_CLINIC"),
+				GetMessage("ESTELIFE_F_ACTIVITY"),
 				GetMessage("ESTELIFE_F_DESCRIPTION"),
 			)
 		);
@@ -285,6 +307,14 @@ require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_adm
 					<?php endif; ?>
 				</select>
 			</td>
+		</tr>
+		<tr>
+			<td><?echo GetMessage("ESTELIFE_F_CLINIC")?></td>
+			<td><input type="text" name="find_clinic" size="47" value="<?echo htmlspecialcharsbx($find_clinic)?>" /></td>
+		</tr>
+		<tr>
+			<td><?echo GetMessage("ESTELIFE_F_ACTIVITY")?></td>
+			<td><input type="text" name="find_activity" size="47" value="<?echo htmlspecialcharsbx($find_activity)?>" /></td>
 		</tr>
 		<tr>
 			<td><?echo GetMessage("ESTELIFE_F_DESCRIPTION")?></td>

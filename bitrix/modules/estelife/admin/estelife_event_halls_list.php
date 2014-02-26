@@ -123,7 +123,6 @@ while($arRecord=$obResult->Fetch()){
 
 }
 
-
 $lAdmin->AddFooter(
 	array(
 		array("title"=>GetMessage("MAIN_ADMIN_LIST_SELECTED"), "value"=>1),
@@ -188,7 +187,6 @@ require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_adm
 				<input type="text" name="find_event_name" data-input="find_event_id" size="47" value="<?echo htmlspecialcharsbx($find_event_name)?>"><?=InputType("checkbox", "find_event_exact_match", "Y", $find_event_exact_match, false, "", "title='".GetMessage("ESTELIFE_EXACT_MATCH")."'")?>&nbsp;<?=ShowFilterLogicHelp()?>
 			</td>
 		</tr>
-
 		<?
 		$oFilter->Buttons(array("table_id"=>$sTableID, "url"=>$APPLICATION->GetCurPage()));
 		$oFilter->End();
