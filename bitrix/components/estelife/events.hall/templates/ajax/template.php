@@ -15,11 +15,11 @@ echo json_encode(array(
 		),
 		array(
 			'name'=>$arResult['event'],
-			'link'=>'/events/ev'.$arResult['event_id'].'/',
+			'link'=>'/ev'.$arResult['event_id'].'/',
 		),
 		array(
 			'name'=>'Программа',
-			'link'=>'/events/ev'.$arResult['event_id'].'/program/'
+			'link'=>'/ev'.$arResult['event_id'].'/program/'
 		),
 		array(
 			'name'=>$arResult['hall'],

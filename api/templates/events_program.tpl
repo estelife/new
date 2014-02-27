@@ -6,7 +6,7 @@
 		<ul class="dates">
 			<!--foreach($detail.dates as $nKey=>$arDate)!-->
 			<li>
-				<a href="/ev<!--$detail.event.id!-->/program/?date=<!--$arDate.format!-->"<!--if($arDate.date==$detail.current.date)!--> class="active"<!--endif!-->>
+				<a href="/ev<!--$detail.event.id!-->/program/?date=<!--$arDate.format!-->" class="ax-support <!--if($arDate.date==$detail.current.date)!--> active<!--endif!-->">
 					<span><!--$arDate.day!--></span> <!--$arDate.month!-->
 					<i></i>
 				</a>

@@ -219,7 +219,10 @@ try{
 
 				$obQuery = $obHalls->CreateQuery();
 				$obFilter=$obQuery->builder()->from('estelife_event_sections')
-					->field('name')
+					->field(
+						$obQuery->builder()->_concat('name', '. ', 'theme'),
+						'name'
+					)
 					->field('id')
 					->filter()
 					->_eq('event_id',$nId);

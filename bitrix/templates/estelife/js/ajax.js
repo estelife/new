@@ -147,7 +147,7 @@ require([
 			return false;
 		});
 
-		body.on('click touch', '.activity .dates a', function(e){
+		body.on('click touch', '.ax-support', function(e){
 			var link = $(this).attr('href');
 			Router.navigate(link,{trigger: true});
 			return false;
@@ -358,7 +358,7 @@ require([
 			}
 		});
 
-		body.on('click touch','.nav a, .crumb a, .search_page a', function(e){
+		body.on('click touch','.nav a, .crumb a:not(.no-ajax), .search_page a', function(e){
 			var lnk=$(this),
 				href=lnk.attr('href'),
 				crumb=lnk.parents('.crumb:first');
@@ -698,8 +698,9 @@ require([
 			var activity = $('.activity');
 
 			if(activity.length>0){
-				var height,maxHeight = 0,
-					items = activity.find('.item');
+				var end,height,maxHeight = 0,
+					items = activity.find('.item'),
+					lastItemIndex = 0;
 
 				items.each(function(i){
 					height = $(this).height();
@@ -707,10 +708,13 @@ require([
 					if(maxHeight<=height)
 						maxHeight = height;
 
-					if(i%4){
-						for(var y = i-4; y<i; y++)
+					if((i>0 && i%4==0) || i+1==items.length){
+						end = (i%4 == 0) ? i : items.length;
+
+						for(var y = lastItemIndex; y<end; y++)
 							items.eq(y).height(maxHeight);
 
+						lastItemIndex = y;
 						maxHeight=0;
 					}
 				});

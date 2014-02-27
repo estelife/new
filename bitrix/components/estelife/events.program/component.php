@@ -117,7 +117,19 @@ try {
 		foreach ($arSections as &$arSection) {
 			$arSection['group'] = 1;
 			$arSection['with_video'] = 0;;
-			$arHalls[$arSection['hall_id']]['activities'][$arSection['time_from']] = $arSection;
+
+			if(!preg_match('#^00:00:00$#',$arSection['time_from'])){
+				$arSection['time'] = array(
+					'to'=>preg_replace('/(.*)\:[0-9]{2}$/','$1',$arSection['time_to']),
+					'from'=>preg_replace('/(.*)\:[0-9]{2}$/','$1',$arSection['time_from'])
+				);
+				unset(
+					$arSection['time_to'],
+					$arSection['time_from']
+				);
+			}
+
+			$arHalls[$arSection['hall_id']]['activities'][] = $arSection;
 		}
 	}
 
@@ -146,7 +158,19 @@ try {
 
 	foreach ($arActivities as &$arActivity){
 		$arActivity['group'] = 0;
-		$arHalls[$arActivity['hall_id']]['activities'][$arActivity['time_from']] = $arActivity;
+
+		if(!preg_match('#^00:00:00$#',$arActivity['time_from'])){
+			$arActivity['time'] = array(
+				'to'=>preg_replace('/(.*)\:[0-9]{2}$/','$1',$arActivity['time_to']),
+				'from'=>preg_replace('/(.*)\:[0-9]{2}$/','$1',$arActivity['time_from'])
+			);
+			unset(
+				$arActivity['time_to'],
+				$arActivity['time_from']
+			);
+		}
+
+		$arHalls[$arActivity['hall_id']]['activities'][] = $arActivity;
 	}
 
 	$arResult['event'] = $arEvent;

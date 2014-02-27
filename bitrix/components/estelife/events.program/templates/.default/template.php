@@ -16,7 +16,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 	<ul class="dates">
 		<?php foreach($arResult['dates'] as $arDate): ?>
 			<li>
-				<a href="/ev<?=$arResult['event']['id']?>/program/?date=<?=$arDate['format']?>"<?=($arDate['date']==$arResult['current']['date'] ? ' class="active"' : '')?>>
+				<a href="/ev<?=$arResult['event']['id']?>/program/?date=<?=$arDate['format']?>" class="ax-support <?=($arDate['date']==$arResult['current']['date'] ? ' active' : '')?>">
 					<span><?=$arDate['day']?></span> <?=$arDate['month']?>
 					<i></i>
 				</a>

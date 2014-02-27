@@ -82,7 +82,12 @@ if(!empty($ID)){
 	$obQuery->builder()
 		->from('estelife_event_sections')
 		->field('id')
-		->field('name')->filter()->_eq('event_id',$nEventId);
+		->field(
+			$obQuery->builder()->_concat('name', '. ', 'theme'),
+			'name'
+		)
+		->filter()
+		->_eq('event_id',$nEventId);
 
 	$arFilterData['sections']=$obQuery->select()->all();
 

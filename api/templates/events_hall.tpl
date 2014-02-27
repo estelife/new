@@ -4,13 +4,13 @@
 		<h2>Программа мероприятия</h2>
 		<div class="title">
 			<div class="date"><!--$detail.date!-->. <!--$detail.hall!--><i></i></div>
-			<a href="/events/ev<!--$detail.event_id!-->/program/">Полная программа конгресса</a>
+			<a href="/ev<!--$detail.event_id!-->/program/">Полная программа конгресса</a>
 		</div>
 		<!--if($detail.sections)!-->
 			<!--foreach($detail.sections as $key=>$val)!-->
 				<div class="items">
 					<!--if($key>0)!-->
-						<div class="h">
+						<div class="h<!--if(!$val.activities)!--> no-bo<!--endif!-->">
 							<b><!--$val.section_name!--></b>
 							<!--if($val.time)!-->
 								<span><!--$val.time.from!--> - <!--$val.time.to!--></span>
@@ -19,10 +19,12 @@
 						</div>
 					<!--endif!-->
 					<!--if ($val.activities)!-->
+						<!--foreach($val.activities as $nKey=>$arActivity)!-->
 						<div class="item activity">
-							<h4><!--$val.activities.activity_name!--></h4>
-							<!--if($val.activities.events)!-->
-								<!--foreach($val.activities.events as $k=>$v)!-->
+							<h4><!--$arActivity.activity_name!--></h4>
+
+							<!--if($arActivity.events)!-->
+								<!--foreach($arActivity.events as $k=>$v)!-->
 									<div class="user">
 										<div class="img">
 											<div class="img-in">
@@ -46,6 +48,7 @@
 								<!--endforeach!-->
 							<!--endif!-->
 						</div>
+						<!--endforeach!-->
 					<!--endif!-->
 				</div>
 			<!--endforeach!-->

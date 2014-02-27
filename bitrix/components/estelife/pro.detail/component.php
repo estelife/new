@@ -37,10 +37,14 @@ if($obResult->SelectedRowsCount() > 0){
 		$arSeoProperties['ELEMENT_META_KEYWORDS'] :
 		$sSeoDescription;
 
+	$arResult['PATH'] = '/pro'.$sPath;
+
 	$APPLICATION->SetPageProperty("title", $sSeoTitle);
 	$APPLICATION->SetPageProperty("description", $sSeoDescription);
 	$APPLICATION->SetPageProperty("keywords", $sSeoKeywords);
+} else {
+	$APPLICATION->SetPageProperty("title", 'Библиотека специалиста');
+	$APPLICATION->SetPageProperty("description", 'Библиотека специалиста');
+	$APPLICATION->SetPageProperty("keywords", 'Библиотека специалиста');
+	$this->IncludeComponentTemplate('section');
 }
-
-$arResult['PATH'] = '/pro'.$sPath;
-$this->IncludeComponentTemplate();

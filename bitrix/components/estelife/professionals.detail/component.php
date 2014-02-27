@@ -43,8 +43,10 @@ else
 
 $arResult['professional'] = $obQuery->select()->assoc();
 $arResult['professional']['img'] = CFile::ShowImage($arResult['professional']['image_id'],227, 158, 'alt='.$arResult['professional']['name']);
-$arResult['professional']['short_text'] = htmlspecialchars_decode($arResult['professional']['short_description'],ENT_NOQUOTES);
-$arResult['professional']['detail_text'] = htmlspecialchars_decode($arResult['professional']['full_description'],ENT_NOQUOTES);
+
+$arResult['professional']['short_description'] = html_entity_decode($arResult['professional']['short_description'],ENT_QUOTES);
+$arResult['professional']['full_description'] = html_entity_decode($arResult['professional']['full_description'],ENT_QUOTES);
+
 if (!empty($arResult['professional']['last_name']))
 	$arResult['professional']['name']=$arResult['professional']['last_name'].' '.$arResult['professional']['name'].' '.$arResult['professional']['second_name'];
 
@@ -89,13 +91,18 @@ $obQuery->builder()
 	->field('eea.date','date')
 	->field('ee.id', 'event_id')
 	->field('ee.full_name', 'event_name');
+
 $obFilter = $obQuery->builder()->filter();
 $obFilter->_eq('epa.professional_id', $nProfessionalId);
 $arActivities=$obQuery->select()->all();
+
 if (!empty($arActivities)){
 	foreach ($arActivities as $val){
-		$val['date']=date('d.m.Y', strtotime($val['date']));
-		$val['description']=htmlspecialchars_decode($val['description'],ENT_NOQUOTES);
+		$val['date'] = ($sDate = \core\types\VDate::getDbDate($val['date'])) ?
+			$sDate :
+			'Уточняется';
+
+		$val['description']=htmlspecialchars_decode($val['event_name'],ENT_NOQUOTES);
 		$val['link_event']='/ev'.$val['event_id'].'/';
 		$arResult['professional']['activities'][]=$val;
 	}

@@ -57,14 +57,14 @@ $obQuery->builder()
 	->_eq('eh.translit',$sHall)
 	->_eq('esd.date', date('Y-m-d', $nDate));
 
-$arSections=$obQuery->select()->all();
+$arTemp = $obQuery->select()->all();
+$arSections = array();
+$arActivities = array();
+$nHallId = 0;
 
-$arIds=array();
-
-if (!empty($arSections)){
-	foreach ($arSections as $val){
-		$nHallId=$val['hall_id'];
-		$arIds[]=$val['section_id'];
+if (!empty($arTemp)){
+	foreach ($arTemp as $val){
+		$nHallId = $val['hall_id'];
 		$arResult['event']=$val['event_name'];
 		$arResult['hall_id']=$val['hall_id'];
 		$arResult['hall']=$val['hall_name'];
@@ -75,90 +75,90 @@ if (!empty($arSections)){
 				'to'=>preg_replace('/(.*)\:[0-9]{2}$/','$1',$val['time_to']),
 				'from'=>preg_replace('/(.*)\:[0-9]{2}$/','$1',$val['time_from'])
 			);
+			unset(
+				$val['time_to'],
+				$val['time_from']
+			);
 		}
 
-		$arResult['sections'][$val['section_id']]=$val;
+		$arSections[$val['section_id']]=$val;
 	}
 }
 
 //получение событий для секции
-if (!empty($arIds)){
-	$obQuery=$obEvent->createQuery();
-	$obQuery->builder()
-		->from('estelife_event_activities', 'ea');
-	$obFilter=$obQuery->builder()
-		->field('ea.section_id', 'section_id')
-		->field('ea.name', 'activity_name')
-		->field('ea.id', 'id')
-		->filter()
-			->_eq('ea.hall_id',$nHallId)
-			->_eq('ea.event_id', $nEventId);
-	$obFilter->_or()->_in('ea.section_id', $arIds);
-	$obFilter->_or()->_isNull('ea.section_id');
-	$arActivities=$obQuery->select()->all();
+$obQuery=$obEvent->createQuery();
+$obQuery->builder()
+	->from('estelife_event_activities', 'ea');
+
+$obFilter=$obQuery->builder()
+	->field('ea.section_id', 'section_id')
+	->field('ea.name', 'activity_name')
+	->field('ea.id', 'id')
+	->filter()
+		->_eq('ea.hall_id',$nHallId)
+		->_eq('ea.event_id', $nEventId);
+
+$obFilter->_or()->_in('ea.section_id', array_keys($arSections));
+$obFilter->_or()->_isNull('ea.section_id');
+
+$arTemp=$obQuery->select()->all();
+
+if (!empty($arTemp)){
+	foreach ($arTemp as $val)
+		$arActivities[$val['id']]=$val;
 }
 
-$arIdEvents=array();
-$arNewActivities=array();
-if (!empty($arActivities)){
-	foreach ($arActivities as $val){
-		$arIdEvents[]=$val['id'];
-		$arNewActivities[$val['id']]=$val;
-	}
-}
+$obQuery=$obEvent->createQuery();
+$obQuery->builder()
+	->from('estelife_professional_activity', 'epa');
+$obJoin=$obQuery->builder()->join();
+$obJoin->_left()
+	->_from('epa','professional_id')
+	->_to('estelife_professionals','id','ep');
+$obJoin->_left()
+	->_from('ep','user_id')
+	->_to('user','ID','u');
+$obJoin->_left()
+	->_from('ep','country_id')
+	->_to('iblock_element','ID','ct')
+	->_cond()->_eq('ct.IBLOCK_ID',15);
+$obFilter=$obQuery->builder()
+	->field('u.NAME', 'name')
+	->field('u.LAST_NAME', 'last_name')
+	->field('u.SECOND_NAME', 'second_name')
+	->field('ct.NAME','country_name')
+	->field('ct.ID','country_id')
+	->field('ep.image_id', 'image_id')
+	->field('ep.id', 'professional_id')
+	->field('ep.short_description', 'description')
+	->field('epa.activity_id', 'activity_id')
+	->filter()
+		->_in('epa.activity_id',array_keys($arActivities));
 
-if (!empty($arIdEvents)){
-	$obQuery=$obEvent->createQuery();
-	$obQuery->builder()
-		->from('estelife_professional_activity', 'epa');
-	$obJoin=$obQuery->builder()->join();
-	$obJoin->_left()
-		->_from('epa','professional_id')
-		->_to('estelife_professionals','id','ep');
-	$obJoin->_left()
-		->_from('ep','user_id')
-		->_to('user','ID','u');
-	$obJoin->_left()
-		->_from('ep','country_id')
-		->_to('iblock_element','ID','ct')
-		->_cond()->_eq('ct.IBLOCK_ID',15);
-	$obFilter=$obQuery->builder()
-		->field('u.NAME', 'name')
-		->field('u.LAST_NAME', 'last_name')
-		->field('u.SECOND_NAME', 'second_name')
-		->field('ct.NAME','country_name')
-		->field('ct.ID','country_id')
-		->field('ep.image_id', 'image_id')
-		->field('ep.id', 'professional_id')
-		->field('ep.short_description', 'description')
-		->field('epa.activity_id', 'activity_id')
-		->filter()
-			->_in('epa.activity_id',$arIdEvents);
-	$arProfessionals=$obQuery->select()->all();
-}
+$arProfessionals=$obQuery->select()->all();
 
 if (!empty($arProfessionals)){
 	foreach ($arProfessionals as $val){
 		if(!empty($val['image_id'])){
-			$file=CFile::ShowImage($val["image_id"], 84, 80,'alt="'.$val['name'].'"');
+			$file=CFile::ShowImage($val["image_id"], 72, 68,'alt="'.$val['name'].'"');
 			$val['logo']=$file;
 		}
+
 		if (!empty($val['last_name']))
 			$val['name']=$val['last_name'].' '.$val['name'].' '.$val['second_name'];
 
 		$val['link']='/pf'.$val['professional_id'].'/';
-		$arNewActivities[$val['activity_id']]['events'][]=$val;
+		$arActivities[$val['activity_id']]['events'][]=$val;
 	}
 }
 
-if (!empty($arNewActivities)){
-	foreach ($arNewActivities as $val){
-		if (empty($val['section_id']))
-			$val['section_id']=0;
+foreach ($arActivities as $val){
+	if (empty($val['section_id']))
+		$val['section_id']=0;
 
-		$arResult['sections'][$val['section_id']]['activities']=$val;
-	}
+	$arSections[$val['section_id']]['activities'][]=$val;
 }
-unset($arActivities, $arNewActivities, $arProfessionals);
 
+$arResult['sections'] = $arSections;
+unset($arActivities, $arNewActivities, $arProfessionals, $arSections);
 $this->IncludeComponentTemplate();
