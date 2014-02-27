@@ -66,7 +66,7 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 		array(
 			"IBLOCK_ID"=>3,
 			"SECTIONS_ID"=> array(176,177,173,172),
-			"SECTIONS_NAME"=> array("События", "Обо всем","Пластическая хирургия","Косметология"),
+			"SECTIONS_NAME"=> array("Косметология","Обо всем","Пластическая хирургия","События"),
 			"NEWS_COUNT" => 4,
 			"NEED_SECTION" => "N",
 			"MAIN_URL" => "novosti",
