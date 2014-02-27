@@ -699,7 +699,7 @@ require([
 
 			if(activity.length>0){
 				var end,height,maxHeight = 0,
-					items = activity.find('.item'),
+					items = activity.find('.item-in'),
 					lastItemIndex = 0;
 
 				items.each(function(i){
