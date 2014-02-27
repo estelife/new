@@ -30,7 +30,9 @@
 				<?php endif?>
 			</div>
 			<h1><?=$arResult['professional']['name']?></h1>
-			<p><?=$arResult['professional']['full_description']?></p>
+			<div class="about">
+				<p><?=$arResult['professional']['full_description']?></p>
+			</div>
 			<div class="cl"></div>
 			<?php if (!empty($arResult['professional']['activities'])):?>
 				<h2>Участие в общественных мероприятиях</h2>

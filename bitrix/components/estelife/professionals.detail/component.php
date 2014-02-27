@@ -86,6 +86,7 @@ $obJoin->_left()
 	->_to('estelife_events','id','ee');
 $obQuery->builder()
 	->field('eea.id','id')
+	->field('eea.name','name')
 	->field('eat.name', 'type_name')
 	->field('eea.full_description','description')
 	->field('eea.date','date')
@@ -102,7 +103,7 @@ if (!empty($arActivities)){
 			$sDate :
 			'Уточняется';
 
-		$val['description']=htmlspecialchars_decode($val['event_name'],ENT_NOQUOTES);
+		$val['description']=htmlspecialchars_decode($val['name'],ENT_NOQUOTES);
 		$val['link_event']='/ev'.$val['event_id'].'/';
 		$arResult['professional']['activities'][]=$val;
 	}

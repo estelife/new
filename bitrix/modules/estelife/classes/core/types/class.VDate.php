@@ -159,9 +159,9 @@ class VDate {
 	 * @return bool|null|string
 	 */
 	public static function getDbDate($sDate, $sFormat='d.m.Y'){
-		if(($nDate = strtotime($sDate)) == 0)
+		if(preg_match('#^0000-00-00#', $sDate))
 			return null;
 
-		return date($sFormat, $nDate);
+		return date($sFormat, strtotime($sDate));
 	}
 }

@@ -106,57 +106,57 @@ $arTemp=$obQuery->select()->all();
 if (!empty($arTemp)){
 	foreach ($arTemp as $val)
 		$arActivities[$val['id']]=$val;
-}
 
-$obQuery=$obEvent->createQuery();
-$obQuery->builder()
-	->from('estelife_professional_activity', 'epa');
-$obJoin=$obQuery->builder()->join();
-$obJoin->_left()
-	->_from('epa','professional_id')
-	->_to('estelife_professionals','id','ep');
-$obJoin->_left()
-	->_from('ep','user_id')
-	->_to('user','ID','u');
-$obJoin->_left()
-	->_from('ep','country_id')
-	->_to('iblock_element','ID','ct')
-	->_cond()->_eq('ct.IBLOCK_ID',15);
-$obFilter=$obQuery->builder()
-	->field('u.NAME', 'name')
-	->field('u.LAST_NAME', 'last_name')
-	->field('u.SECOND_NAME', 'second_name')
-	->field('ct.NAME','country_name')
-	->field('ct.ID','country_id')
-	->field('ep.image_id', 'image_id')
-	->field('ep.id', 'professional_id')
-	->field('ep.short_description', 'description')
-	->field('epa.activity_id', 'activity_id')
-	->filter()
-		->_in('epa.activity_id',array_keys($arActivities));
+	$obQuery=$obEvent->createQuery();
+	$obQuery->builder()
+		->from('estelife_professional_activity', 'epa');
+	$obJoin=$obQuery->builder()->join();
+	$obJoin->_left()
+		->_from('epa','professional_id')
+		->_to('estelife_professionals','id','ep');
+	$obJoin->_left()
+		->_from('ep','user_id')
+		->_to('user','ID','u');
+	$obJoin->_left()
+		->_from('ep','country_id')
+		->_to('iblock_element','ID','ct')
+		->_cond()->_eq('ct.IBLOCK_ID',15);
+	$obFilter=$obQuery->builder()
+		->field('u.NAME', 'name')
+		->field('u.LAST_NAME', 'last_name')
+		->field('u.SECOND_NAME', 'second_name')
+		->field('ct.NAME','country_name')
+		->field('ct.ID','country_id')
+		->field('ep.image_id', 'image_id')
+		->field('ep.id', 'professional_id')
+		->field('ep.short_description', 'description')
+		->field('epa.activity_id', 'activity_id')
+		->filter()
+			->_in('epa.activity_id',array_keys($arActivities));
 
-$arProfessionals=$obQuery->select()->all();
+	$arProfessionals=$obQuery->select()->all();
 
-if (!empty($arProfessionals)){
-	foreach ($arProfessionals as $val){
-		if(!empty($val['image_id'])){
-			$file=CFile::ShowImage($val["image_id"], 72, 68,'alt="'.$val['name'].'"');
-			$val['logo']=$file;
+	if (!empty($arProfessionals)){
+		foreach ($arProfessionals as $val){
+			if(!empty($val['image_id'])){
+				$file=CFile::ShowImage($val["image_id"], 72, 68,'alt="'.$val['name'].'"');
+				$val['logo']=$file;
+			}
+
+			if (!empty($val['last_name']))
+				$val['name']=$val['last_name'].' '.$val['name'].' '.$val['second_name'];
+
+			$val['link']='/pf'.$val['professional_id'].'/';
+			$arActivities[$val['activity_id']]['events'][]=$val;
 		}
-
-		if (!empty($val['last_name']))
-			$val['name']=$val['last_name'].' '.$val['name'].' '.$val['second_name'];
-
-		$val['link']='/pf'.$val['professional_id'].'/';
-		$arActivities[$val['activity_id']]['events'][]=$val;
 	}
-}
 
-foreach ($arActivities as $val){
-	if (empty($val['section_id']))
-		$val['section_id']=0;
+	foreach ($arActivities as $val){
+		if (empty($val['section_id']))
+			$val['section_id']=0;
 
-	$arSections[$val['section_id']]['activities'][]=$val;
+		$arSections[$val['section_id']]['activities'][]=$val;
+	}
 }
 
 $arResult['sections'] = $arSections;

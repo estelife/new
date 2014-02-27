@@ -42,6 +42,8 @@ if($obResult->SelectedRowsCount() > 0){
 	$APPLICATION->SetPageProperty("title", $sSeoTitle);
 	$APPLICATION->SetPageProperty("description", $sSeoDescription);
 	$APPLICATION->SetPageProperty("keywords", $sSeoKeywords);
+
+	$this->IncludeComponentTemplate();
 } else {
 	$APPLICATION->SetPageProperty("title", 'Библиотека специалиста');
 	$APPLICATION->SetPageProperty("description", 'Библиотека специалиста');

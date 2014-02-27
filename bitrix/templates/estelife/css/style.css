@@ -1944,7 +1944,7 @@ form input[type=checkbox] {
 .item.specialist .work li {
 	margin-bottom:6px;
 }
-.item.specialist.detail p {
+.item.specialist.detail .description {
 	margin-top:48px;
 }
 .item.specialist .work a {
