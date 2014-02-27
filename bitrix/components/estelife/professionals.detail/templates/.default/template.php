@@ -48,7 +48,7 @@
 						<tr>
 							<td><?=$val['date']?></td>
 							<td>
-								<b><?=$val['type_name']?></b>: <?=$val['description']?>
+								<?=$val['description']?>
 							</td>
 							<td>
 								<a href="<?=$val['link_event']?>"><?=$val['event_name']?></a>

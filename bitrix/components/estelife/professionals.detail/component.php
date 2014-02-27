@@ -101,7 +101,7 @@ if (!empty($arActivities)){
 	foreach ($arActivities as $val){
 		$val['date'] = ($sDate = \core\types\VDate::getDbDate($val['date'])) ?
 			$sDate :
-			'Уточняется';
+			'-';
 
 		$val['description']=htmlspecialchars_decode($val['name'],ENT_NOQUOTES);
 		$val['link_event']='/ev'.$val['event_id'].'/';

@@ -5,7 +5,7 @@
 		<span class="count-result"><?=$arResult['count']?></span>
 	</div>
 	<div class="field">
-		<label for="name">Наименование</label>
+		<label for="name">ФИО</label>
 		<input name="name" type="text" value="<?=$arResult['filter']['name']?>" class="text" />
 		<span class="block"></span>
 	</div>
