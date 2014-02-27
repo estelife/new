@@ -29,9 +29,11 @@
 					</div>
 				<?php endif?>
 			</div>
-			<h1><?=$arResult['professional']['name']?></h1>
-			<div class="about">
-				<p><?=$arResult['professional']['full_description']?></p>
+			<div class="right">
+				<h1><?=$arResult['professional']['name']?></h1>
+				<div class="about">
+					<p><?=$arResult['professional']['full_description']?></p>
+				</div>
 			</div>
 			<div class="cl"></div>
 			<?php if (!empty($arResult['professional']['activities'])):?>

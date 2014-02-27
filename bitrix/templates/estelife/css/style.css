@@ -1920,8 +1920,11 @@ form input[type=checkbox] {
 }
 .item.specialist .current {
 	float:left;
-	margin-right: 18px;
 	width:229px;
+}
+.item.specialist .right {
+	float:right;
+	width:480px;
 }
 .item.specialist.detail .country {
 	margin-top:10px;

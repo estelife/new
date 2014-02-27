@@ -24,8 +24,10 @@
 				</div>
 			<!--endif!-->
 		</div>
-		<h1><!--$detail.name!--></h1>
-		<p><!--$detail.full_description!--></p>
+		<div class="right">
+			<h1><!--$detail.name!--></h1>
+			<p><!--$detail.full_description!--></p>
+		</div>
 		<div class="cl"></div>
 		<!--if($detail.activities)!-->
 			<h2>Участие в общественных мероприятиях</h2>
