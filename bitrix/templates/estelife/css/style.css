@@ -119,7 +119,7 @@ ul li:last-child, ul li.last-child {
 	width:415px;
 }
 .panel .col1 a {
-	margin:6px 0 0 5px;
+	margin: 6px 11px 10px 23px;
 	float: left;
 	display: block;
 	line-height: 15px;
@@ -1033,11 +1033,9 @@ td.prices i {
 	font-weight: normal;
 }
 .cities .col1 {
-	width:250px;
+	width:165px;
 }
-.cities .col1 ul {
-	margin-top:30px;
-}
+
 .cities li {
 	display: block;
 	margin-bottom:5px;
@@ -1051,7 +1049,15 @@ td.prices i {
 	float:none;
 	margin:0;
 }
-.cities a:hover, .cities .active a {
+.cities a:hover {
+	text-decoration: underline;
+}
+.cities .active {
+	display: block;
+	padding-left: 10px;
+	background: url('../images/icons/arrow.png') left no-repeat;
+}
+.cities .active a {
 	color:#e50364 !important;
 }
 .cities .col2 h4, .cities .col2 ul {

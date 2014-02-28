@@ -2,7 +2,7 @@
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="/">Главная</a></li>
-		<li><a href="/promotions/<?if ($arResult['action']['clinic']['main']['city_id']==359):?>?city=359<?elseif($arResult['action']['clinic']['main']['city_id']==358):?>?city=358<?endif?>">Акции <?if ($arResult['action']['clinic']['main']['city_id']==359):?>Москвы<?elseif($arResult['action']['clinic']['main']['city_id']==358):?>Санкт-Петербурга<?endif?></a></li>
+		<li><a href="/promotions/?city=<?=$arResult['action']['clinic']['main']['city_id']?>">Акции <?=$arResult['action']['city_name']?></a></li>
 		<li><b><?=$arResult['action']['preview_text']?></b></li>
 	</ul>
 	<div class="item promotion detail">

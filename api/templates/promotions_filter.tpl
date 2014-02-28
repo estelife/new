@@ -14,8 +14,11 @@
 		<label for="cities">Город</label>
 		<select name="city" data-rules="get_metro:select[name=metro]">
 			<option value="all">--</option>
-			<option value="359"<!--if($filter.city===359)!--> selected="true"<!--endif!-->>Москва</option>
-			<option value="358"<!--if($filter.city===358)!--> selected="true"<!--endif!-->>Санкт-Петербург</option>
+			<!--if($cities)!-->
+				<!--foreach($cities as $key=>$val)!-->
+					<option value="<!--$val.id!-->"<!--if($filter.city===$val.id)!--> selected="true"<!--endif!-->><!--$val.name!--></option>
+				<!--endforeach!-->
+			<!--endif!-->
 		</select>
 		<span class="block"></span>
 	</div>

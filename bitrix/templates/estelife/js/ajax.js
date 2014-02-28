@@ -73,7 +73,7 @@ require([
 		}
 
 		//подстановка в url авторизации backurl
-		body.on('click touch', '.goto-auth', function(e){
+		body.on('click touchstart', '.goto-auth', function(e){
 			var link=location.href.replace(location.protocol+'//'+location.host,'');
 			var href='/personal/auth/?backurl='+encodeURIComponent(link);
 
@@ -118,7 +118,7 @@ require([
 		});
 
 		//Переход на детальную страницу
-		body.on('click touch', '.items .item:not(.article), .items .article .item-in, .general-news .col1, .general-news .col2 .img', function(e){
+		body.on('click touchstart', '.items .item:not(.article,.activity), .items .article .item-in, .item.activity .user, .general-news .col1, .general-news .col2 .img', function(e){
 			var target=$(e.target),
 				currentTag=target[0].tagName,
 				parentTag=target.parent()[0].tagName,
@@ -138,13 +138,18 @@ require([
 			}
 		});
 
-
 		var intId;
 		//переключение между пунктами меню в эксперном мнении
-		body.on('click touch','.experts .menu li',function(){
+		body.on('click touchstart','.experts .menu li',function(){
 			clearInterval(intId);
 			showNextExpert($(this));
 			expertClick();
+			return false;
+		});
+
+		body.on('click touchstart', '.ax-support', function(e){
+			var link = $(this).attr('href');
+			Router.navigate(link,{trigger: true});
 			return false;
 		});
 
@@ -178,7 +183,7 @@ require([
 		expertClick();
 
 		//Лайки
-		body.on('click touch', '.stat .likes', function(){
+		body.on('click touchstart', '.stat .likes', function(){
 			var prnt = $(this).parent().parent(),
 				act = $(this).hasClass('active'),
 				md5 = EL.storage().getItem('like_'+prnt.attr('data-elid')+ prnt.attr('data-type'));
@@ -209,7 +214,7 @@ require([
 			return false;
 		});
 
-		body.on('click touch', '.stat .unlikes', function(){
+		body.on('click touchstart', '.stat .unlikes', function(){
 			var prnt = $(this).parent().parent(),
 				act = $(this).hasClass('active'),
 				md5 = EL.storage().getItem('like_'+prnt.attr('data-elid')+ prnt.attr('data-type'));
@@ -242,7 +247,7 @@ require([
 
 
 		//Переключение между вкладками
-		body.on('click touch','.articles .tabs-menu li', function(){
+		body.on('click touchstart','.articles .tabs-menu li', function(){
 			var prnt = $(this).parents('.articles:first'),
 				col = $('li',prnt),
 				index = col.index($(this));
@@ -257,7 +262,7 @@ require([
 		});
 
 		//табы для раскрытия информации
-		body.on('click touch', '.el-tab h3', function(){
+		body.on('click touchstart', '.el-tab h3', function(){
 			var prnt = $(this).parent(),
 				el = $('a',$(this));
 
@@ -273,7 +278,7 @@ require([
 		});
 
 		//Переключение между табами
-		body.on('click touch','.menu_tab ul li',function(){
+		body.on('click touchstart','.menu_tab ul li',function(){
 			var col = $('.menu_tab ul li'),
 				index = col.index($(this));
 
@@ -286,7 +291,7 @@ require([
 		});
 
 		//переключения между табами в галереи
-		body.on('click touch', '.media .menu a', function(){
+		body.on('click touchstart', '.media .menu a', function(){
 			var lnk=$(this),
 				rel=lnk.attr('rel');
 
@@ -353,7 +358,7 @@ require([
 			}
 		});
 
-		body.on('click touch','.nav a, .crumb a, .search_page a', function(e){
+		body.on('click touchstart','.nav a, .crumb a:not(.no-ajax), .search_page a', function(e){
 			var lnk=$(this),
 				href=lnk.attr('href'),
 				crumb=lnk.parents('.crumb:first');
@@ -416,14 +421,14 @@ require([
 			);
 			lightMenu();
 			e.preventDefault();
-		}).on('click touch','form.filter a.clear',function(e){
+		}).on('click touchstart','form.filter a.clear',function(e){
 //			var href=$(this).attr('href');
 //			Router.navigate(
 //				href,
 //				{trigger: true}
 //			);
 //			e.preventDefault();
-		}).on('click touch','.logo',function(e){
+		}).on('click touchstart','.logo',function(e){
 			if (!$(this).hasClass('no-ajax')){
 				Router.navigate(
 					$(this).attr('href'),
@@ -551,7 +556,7 @@ require([
 		});
 
 		//Вывод списка городов в шапке
-		body.on('click touch','.change_main_city', function(){
+		body.on('click touchstart','.change_main_city', function(){
 			var lnk=$(this);
 
 			if(lnk.hasClass('active'))
@@ -566,7 +571,7 @@ require([
 		});
 
 		//Вывод списка городов для акций
-		body.on('click touch','.change_promotions_city', function(){
+		body.on('click touchstart','.change_promotions_city', function(){
 			var lnk=$(this);
 
 			if(lnk.hasClass('active'))
@@ -584,7 +589,7 @@ require([
 	$(function other(){
 		var body=$('body');
 
-		body.on('click touch','.media .items .item',function(e){
+		body.on('click touchstart','.media .items .item',function(e){
 			Media.VideoDirect.start();
 
 			var link=$(this),
@@ -689,6 +694,33 @@ require([
 		});
 		$('.gallery').trigger('updateGallery');
 
+		body.on('updateContent', function(){
+			var activity = $('.activity');
+
+			if(activity.length>0){
+				var end,height,maxHeight = 0,
+					items = activity.find('.item-in'),
+					lastItemIndex = 0;
+
+				items.each(function(i){
+					height = $(this).height();
+
+					if(maxHeight<=height)
+						maxHeight = height;
+
+					if((i>0 && i%4==0) || i+1==items.length){
+						end = (i%4 == 0) ? i : items.length;
+
+						for(var y = lastItemIndex; y<end; y++)
+							items.eq(y).height(maxHeight);
+
+						lastItemIndex = y;
+						maxHeight=0;
+					}
+				});
+			}
+		}).trigger('updateContent');
+
 		body.on('submit','form[name=add_request]',function(e){
 			var form=$(this),
 				data={
@@ -792,7 +824,7 @@ require([
 			})
 		});
 
-		body.on('click touch','.repost a', function(e){
+		body.on('click touchstart','.repost a', function(e){
 			var href=$(this).attr('href'),
 				width=550,
 				height=400,
@@ -802,7 +834,7 @@ require([
 			e.preventDefault();
 		});
 
-		body.on('click touch','.show-quality-form',function(e){
+		body.on('click touchstart','.show-quality-form',function(e){
 			var link=$(this),
 				form=link.next('form');
 
@@ -828,7 +860,7 @@ require([
 		EL.helpMaker($('[data-help],[title]'));
 
 		//Пишем в базу историю поиска
-		body.on('click touch', '.set_search_history', function(){
+		body.on('click touchstart', '.set_search_history', function(){
 			var term=$('input[data-action=get_search_history]').val();
 
 			if (term.length>0){
@@ -894,7 +926,7 @@ require([
 		});
 
 		//Показать все комментарии
-		body.on('click touch', '.comments .more a span', function(){
+		body.on('click touchstart', '.comments .more a span', function(){
 			var el=$(this);
 			require(['mvc/Models', 'mvc/Views'], function(Models,Views){
 				var data={},
@@ -938,6 +970,7 @@ require([
 				$(this).attr({maxlength: maxchars});
 			}
 		});
+
 	});
 
 	$(function interfaces(){

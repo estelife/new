@@ -221,8 +221,19 @@ $arResult['action']['clinic']['seo_name'] = \core\types\VString::pregStrSeo($arR
 $arResult['action']['preview_text'] = trim(strip_tags(html_entity_decode($arResult['action']['preview_text'], ENT_QUOTES, 'utf-8')));
 $arResult['action']['seo_preview_text'] = \core\types\VString::pregStrSeo($arResult['action']['preview_text']);
 
-if (!empty($arResult['action']['clinic']['city_name']))
-	$arCity = ' ('.$arResult['action']['clinic']['city_name'].')';
+//получение города в родительском патеже
+if (!empty($arResult['action']['clinic']['main']['city_id'])){
+	$obRes = CIBlockElement::GetList(Array(), array("IBLOCK_ID"=>16,"ID"=>$arResult['action']['clinic']['main']['city_id']), false, false, array("PROPERTY_CITY"));
+	$arCity = $obRes->Fetch();
+	if (!empty($arCity['PROPERTY_CITY_VALUE'])){
+		$arResult['action']['city_name']=$arCity = $arCity['PROPERTY_CITY_VALUE'];
+	}else{
+		$arResult['action']['city_name']=$arCity = $arResult['action']['clinic']['main']['city_name'];
+	}
+}
+
+if (!empty($arResult['action']['city_name']))
+	$arCity = ' ('.$arResult['action']['city_name'].')';
 else
 	$arCity = '';
 

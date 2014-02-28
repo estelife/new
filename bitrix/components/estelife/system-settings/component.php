@@ -51,7 +51,69 @@ $arResult=array(
 		21=>"im",
 		22=>"pf",
 	),
-	'current_city' => \geo\VGeo::getInstance()->getGeo()
+	'current_city' => \geo\VGeo::getInstance()->getGeo(),
+	'cities'=>array(
+		0=>array(
+			'id'=>359,
+			'name'=>'Москва'
+		),
+		1=>array(
+			'id'=>358,
+			'name'=>'Санкт-Петербург'
+		),
+		2=>array(
+			'id'=>1512,
+			'name'=>'Новосибирск'
+		),
+		3=>array(
+			'id'=>1497,
+			'name'=>'Екатеринбург'
+		),
+		4=>array(
+			'id'=>1498,
+			'name'=>'Нижний Новгород'
+		),
+		5=>array(
+			'id'=>1493,
+			'name'=>'Казань'
+		),
+		6=>array(
+			'id'=>1502,
+			'name'=>'Самара'
+		),
+		7=>array(
+			'id'=>1496,
+			'name'=>'Омск'
+		),
+		8=>array(
+			'id'=>2587,
+			'name'=>'Челябинск'
+		),
+		9=>array(
+			'id'=>1501,
+			'name'=>'Ростов-на-Дону'
+		),
+		10=>array(
+			'id'=>1494,
+			'name'=>'Уфа'
+		),
+		11=>array(
+			'id'=>1507,
+			'name'=>'Волгоград'
+		),
+		12=>array(
+			'id'=>1510,
+			'name'=>'Красноярск'
+		),
+		13=>array(
+			'id'=>1488,
+			'name'=>'Пермь'
+		),
+		14=>array(
+			'id'=>1491,
+			'name'=>'Воронеж'
+		)
+	)
 );
 
 if(isset($arParams['filter'])){

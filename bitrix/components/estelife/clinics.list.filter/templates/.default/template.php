@@ -13,8 +13,11 @@
 		<label for="cities">Город</label>
 		<select name="city" data-rules="get_metro:select[name=metro]">
 			<option value="all">--</option>
-			<option value="359"<?if($arResult['filter']['city'] == 359) echo ' selected="true"';?>>Москва</option>
-			<option value="358"<?if($arResult['filter']['city'] == 358) echo ' selected="true"';?>>Санкт-Петербург</option>
+			<?php if (!empty($arResult['cities'])):?>
+				<?php foreach ($arResult['cities'] as $val):?>
+					<option value="<?=$val['id']?>"<?if($arResult['filter']['city'] == $val['id']) echo ' selected="true"';?>><?=$val['name']?></option>
+				<?php endforeach?>
+			<?php endif?>
 		</select>
 
 		<span class="block"></span>

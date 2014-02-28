@@ -28,18 +28,25 @@ if(!empty($arFilterParams['city'])){
 	$arResult['city']['ID'] = $arFilterParams['city'];
 }else if(!$obGet->blank('city')){
 	//Получаем имя города по его ID
-	$arSelect = Array("ID", "NAME");
+	$arSelect = Array("ID", "NAME", "PROPERTY_CITY");
 	$arFilter = Array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "ID" => intval($obGet->one('city')));
 	$obCity = CIBlockElement::GetList(Array("NAME"=>"ASC"), $arFilter, false, false, $arSelect);
 	$arResult['city'] = $obCity->Fetch();
 }elseif (isset($arParams['CITY_CODE']) && !empty($arParams['CITY_CODE'])){
 	//Получаем ID города по его коду
-	$arSelect = Array("ID", "NAME");
+	$arSelect = Array("ID", "NAME","PROPERTY_CITY");
 	$arFilter = Array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "CODE" => $arParams['CITY_CODE']);
 	$obCity = CIBlockElement::GetList(Array("NAME"=>"ASC"), $arFilter, false, false, $arSelect);
 	$arResult['city'] = $obCity->Fetch();
 }elseif(isset($_COOKIE['estelife_city'])){
 	$arResult['city'] = VGeo::getInstance()->getGeo();
+}
+
+if (empty($arResult['city']['NAME'])){
+	$arSelect = Array("ID", "NAME","PROPERTY_CITY");
+	$arFilter = Array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "ID" => $arResult['city']['ID']);
+	$obCity = CIBlockElement::GetList(Array("NAME"=>"ASC"), $arFilter, false, false, $arSelect);
+	$arResult['city'] = $obCity->Fetch();
 }
 
 //Получение списка клиник
@@ -198,19 +205,13 @@ $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
 $arResult['nav']=$obNav->getNav();//$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav'.$sTemplate.'.php');
 
 $sTitle = "Клиники косметологии и пластической хирургии";
-if ($arResult['city']['ID']==359){
-	$sCity = 'Москва';
-	$sCityR = 'в Москве';
-}elseif($arResult['city']['ID']==358){
-	$sCity = 'Санкт-Петербург';
-	$sCityR = 'в Санкт-Петербурге';
-}
-if (!empty($sCity)){
-	$sTitle .= ' ('.$sCity.')';
+
+if (!empty($arResult['city']['NAME'])){
+	$sTitle .= ' ('.$arResult['city']['NAME'].')';
 }
 
-if (!empty($sCityR)){
-	$sDescription = 'Список всех клиник '.$sCityR.' по косметологии и пластической хирургии. Читайте здесь.';
+if (!empty($arResult['city']['PROPERTY_CITY_VALUE'])){
+	$sDescription = 'Список всех клиник '.$arResult['city']['PROPERTY_CITY_VALUE'].' по косметологии и пластической хирургии. Читайте здесь.';
 }else{
 	$sDescription = 'Список всех клиник по косметологии и пластической хирургии. Читайте здесь.';
 }

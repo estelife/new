@@ -3,7 +3,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	die();
 
 global $APPLICATION;
-$sTitle='Акции '.(($arResult['city']['ID']==359) ? 'Москвы' : (($arResult['city']['ID']==358) ? 'Санкт-Петербурга' : ''));
+$sTitle='Акции '.(!empty($arResult['city']['R_NAME']) ? $arResult['city']['R_NAME'] : '');
 echo json_encode(array(
 	'list'=>array_values($arResult['akzii']),
 	'title'=>array(

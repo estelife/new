@@ -20,7 +20,12 @@ define(['tpl/Template','modules/Select'],function(Template,Select){
 						if (h.length>0){
 							$('.promotions.announces h2').html(r.title.name);
 							$('.promotions.announces .items').html(h);
-							$('.more_promotions').attr('href','/promotions/?city='+city);
+							var th=$('.more_promotions');
+							if (r.list.active==1){
+								th.attr('href','/clinics/?city='+city).html('Больше клиник');
+							}else{
+								th.attr('href','/promotions/?city='+city).html('Больше акций');
+							}
 						}else{
 							console.log('Ошибка получения html')
 						}

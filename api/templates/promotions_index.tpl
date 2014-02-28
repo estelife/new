@@ -8,7 +8,7 @@
 				</h2>
 				<div class="item-in">
 					<!--if($arValue.specialization)!-->
-					<p><!--$arValue.specialization!--></p>
+						<p><!--$arValue.specialization!--></p>
 					<!--endif!-->
 					<div class="img">
 						<div class="img-in">
