@@ -2,6 +2,17 @@
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	die();
 
+if (!empty($arResult['action']['clinic']['main']['city_id']))
+	$sGet = '?='.$arResult['action']['clinic']['main']['city_id'];
+else
+	$sGet='';
+
+if (!empty($arResult['action']['city_name']))
+	$sGetTitle = ' '.$arResult['action']['city_name'];
+else
+	$sGetTitle='';
+
+
 echo json_encode(array(
 	'detail'=>$arResult['action'],
 	'crumb'=>array(
@@ -10,8 +21,8 @@ echo json_encode(array(
 			'link'=>'/'
 		),
 		array(
-			'name'=>'Акции'.($arResult['action']['clinic']['main']['city_id']==359 ? ' Москвы' : ($arResult['action']['clinic']['main']['city_id']==358 ? ' Санкт-Петербурга' : '')),
-			'link'=>'/promotions/'.($arResult['action']['clinic']['main']['city_id']==359 ? '?city=359' : ($arResult['action']['clinic']['main']['city_id']==358 ? '?city=358' : ''))
+			'name'=>'Акции '.$sGetTitle,
+			'link'=>'/promotions/'.$sGet
 		),
 		array(
 			'name'=>$arResult['action']['preview_text'],

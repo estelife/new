@@ -315,14 +315,14 @@ if (!empty($arResult['clinic']['city_id'])){
 	$obRes = CIBlockElement::GetList(Array(), array("IBLOCK_ID"=>16,"ID"=>$arResult['clinic']['city_id']), false, false, array("PROPERTY_CITY"));
 	$arCity = $obRes->Fetch();
 	if (!empty($arCity['PROPERTY_CITY_VALUE'])){
-		$arCity = $arCity['PROPERTY_CITY_VALUE'];
+		$arResult['clinic']['city_name']=$arCity = $arCity['PROPERTY_CITY_VALUE'];
 	}else{
-		$arCity = $arResult['clinic']['city'];
+		$arResult['clinic']['city_name']=$arCity = $arResult['clinic']['city'];
 	}
 }
 
 if (!empty($arCity))
-	$arCity = ' в '.$arCity;
+	$arCity = $arCity;
 else
 	$arCity = '';
 
@@ -335,8 +335,8 @@ if(preg_match('#(клиник)#ui',$arResult['clinic']['seo_name']))
 	$sPrefix='';
 
 
-$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].$arCity.' - акции, цены, адреса';
-$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].$arCity.' - подробная информация, адреса, контакты и акции.';
+$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' - акции, цены, адреса';
+$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' - подробная информация, адреса, контакты и акции.';
 
 $APPLICATION->SetPageProperty("title", $arResult['clinic']['seo_title']);
 $APPLICATION->SetPageProperty("description", $arResult['clinic']['seo_description']);

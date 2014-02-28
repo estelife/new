@@ -2,7 +2,7 @@
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="/">Главная</a></li>
-		<li><a href="/clinics/<?if ($arResult['clinic']['main_contact']['city_id']==359):?>?=359<?elseif($arResult['clinic']['main_contact']['city_id']==358):?>?=358<?endif?>">Клиники <?if ($arResult['clinic']['main_contact']['city_id']==359):?>Москвы<?elseif($arResult['clinic']['main_contact']['city_id']==358):?>Санкт-Петербурга<?endif?></a></li>
+		<li><a href="/clinics/?=<?=$arResult['clinic']['city_id']?>">Клиники <?=$arResult['clinic']['city_name']?></a></li>
 		<li><b><?=$arResult['clinic']['name']?></b></li>
 	</ul>
 	<div class="wrap_item">
