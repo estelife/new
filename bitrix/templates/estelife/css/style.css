@@ -87,7 +87,7 @@ a:hover {
 	position: relative;
 }
 .wrap-fix {
-	padding-bottom:150px;
+	padding-bottom:210px;
 }
 .social a, .arrow i, ul.stat i, .promotion .time i, .promotion .prices i, .media .item span, .media .menu .first a,
 .promotion .time i, .promotion .prices i, .item.detail .clinic a.more i, .select .arrow, .item.company p i, .gallery .arrow i, td.prices i,
@@ -1828,7 +1828,8 @@ form input[type=checkbox] {
 }
 .select a,
 .promotions .item.company .col1 span,
-.item.specialist .work a {
+.item.specialist .work a,
+.inner .products .item.product h4 {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
@@ -1926,8 +1927,11 @@ form input[type=checkbox] {
 }
 .item.specialist .current {
 	float:left;
-	margin-right: 18px;
 	width:229px;
+}
+.item.specialist .right {
+	float:right;
+	width:480px;
 }
 .item.specialist.detail .country {
 	margin-top:10px;
@@ -2615,7 +2619,7 @@ form.search .submit {
 	width: 100%; /* As wide as it's allowed */
 }
 .footer-in {
-	height:60px;
+	height:120px;
 	background:url('../images/bot_rep.png') 0 0 repeat-x;
 }
 .footer .content {
@@ -2623,18 +2627,18 @@ form.search .submit {
 	height:100%;
 }
 .footer .menu {
-	margin-top:30px;
+	margin-top:25px;
 }
 .footer .menu a {
 	color:#fff;
 	font-size:14px;
 }
 .footer .menu li {
-	margin:0 28px 0 0;
+	margin:0 23px 0 0;
 }
 .footer .social {
 	float:right;
-	margin-right: 49px;
+	margin-top: 20px;
 }
 .footer .social a.fb:hover {
 	background-position: -34px 0;
@@ -2680,10 +2684,8 @@ form.search .submit {
 	width:100%;
 	color:#fff;
 	font-size:12px;
-	position: absolute;
-	left:0;
-	top:15px;
 	line-height: 28px;
+	margin-top:22px;
 }
 .footer .copy span {
 	float:right;
@@ -2829,8 +2831,8 @@ form.search .submit {
 .home-img {
 	position: absolute;
 	opacity: 0.5;
-	top: -41px;
-	left: -163px;
+	top: -77px;
+	left: -320px;
 	width: 1918px;
 	max-height: initial;
 	max-width: initial;
@@ -2905,7 +2907,7 @@ form.search .submit {
 .to-top {
 	width:65px;
 	height:36px;
-	bottom:100px;
+	bottom:130px;
 	position: fixed;
 	color:#2c2c2c;
 	text-decoration: none;
