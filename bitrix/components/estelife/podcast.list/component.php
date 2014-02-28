@@ -67,7 +67,7 @@ try{
 				'ID',
 				'NAME',
 				'PREVIEW_TEXT',
-				'PROPERTY_SHORT_TEXT',
+				'PROPERTY_TEXT_IN_HOME',
 				'PROPERTY_COUNT',
 				'PROPERTY_FRONTRIGHT',
 				'PROPERTY_FRONTBIG'
@@ -79,7 +79,11 @@ try{
 			$asRes['DETAIL_URL']='/'.$arParams['PREFIX'].$asRes['ID'].'/';
 
 			if($bFirst){
-				$asRes['PREVIEW_TEXT_B'] = trim(VString::truncate($asRes['PREVIEW_TEXT'],200)).'<span></span>';
+				$sPreview = !empty($asRes['PROPERTY_TEXT_IN_HOME_VALUE']['TEXT']) ?
+					$asRes['PROPERTY_TEXT_IN_HOME_VALUE']['TEXT'] :
+					VString::truncate($asRes['PREVIEW_TEXT'],200);
+
+				$asRes['PREVIEW_TEXT_B'] = trim($sPreview).'<span></span>';
 				$asRes['IMG_B'] = CFile::GetFileArray($asRes['PROPERTY_FRONTBIG_VALUE']);
 				$asRes['IMG_B']=$asRes['IMG_B']['SRC'];
 				$bFirst=false;

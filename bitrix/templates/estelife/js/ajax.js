@@ -73,7 +73,8 @@ require([
 		}
 
 		//подстановка в url авторизации backurl
-		body.on('click touchstart', '.goto-auth', function(e){
+		body.on('click touchstart touchend', '.goto-auth', function(e){
+			if(e.type)
 			var link=location.href.replace(location.protocol+'//'+location.host,'');
 			var href='/personal/auth/?backurl='+encodeURIComponent(link);
 
@@ -118,40 +119,51 @@ require([
 		});
 
 		//Переход на детальную страницу
-		body.on('click touchstart', '.items .item:not(.article,.activity), .items .article .item-in, .item.activity .user, .general-news .col1, .general-news .col2 .img', function(e){
-			var target=$(e.target),
-				currentTag=target[0].tagName,
-				parentTag=target.parent()[0].tagName,
-				link=(currentTag=='A') ?
-					target.attr('href') :
-					$(this).find('a:first').attr('href');
+		body.on(
+			EL.touchEvent.eventTrigger,
+			'.items .item:not(.article,.activity), .items .article .item-in, .item.activity .user, .general-news .col1, .general-news .col2 .img',
+			EL.touchEvent.callback(function(event,target){
+				var currentTag=target[0].tagName,
+					parentTag=target.parent()[0].tagName,
+					link=(currentTag=='A') ?
+						target.attr('href') :
+						target.find('a:first').attr('href');
 
-			if(link=='#'){
-				e.preventDefault();
-				return;
-			}
+				if(link=='#'){
+					event.preventDefault();
+					return;
+				}
 
-			if((currentTag!='A' && link && link.length>0) || ['H1','H2','H3'].inArray(parentTag)>-1){
-				Router.navigate(link,{trigger: true});
-				lightMenu();
-				e.preventDefault();
-			}
-		});
+				if((currentTag!='A' && link && link.length>0) || ['H1','H2','H3'].inArray(parentTag)>-1){
+					Router.navigate(link,{trigger: true});
+					lightMenu();
+					event.preventDefault();
+				}
+			})
+		);
 
 		var intId;
 		//переключение между пунктами меню в эксперном мнении
-		body.on('click touchstart','.experts .menu li',function(){
-			clearInterval(intId);
-			showNextExpert($(this));
-			expertClick();
-			return false;
-		});
+		body.on(
+			EL.touchEvent.eventTrigger,
+			'.experts .menu li',
+			EL.touchEvent.callback(function(event, target){
+				clearInterval(intId);
+				showNextExpert(target);
+				expertClick();
+				event.preventDefault();
+			})
+		);
 
-		body.on('click touchstart', '.ax-support', function(e){
-			var link = $(this).attr('href');
-			Router.navigate(link,{trigger: true});
-			return false;
-		});
+		body.on(
+			EL.touchEvent.eventTrigger,
+			'.ax-support',
+			EL.touchEvent.callback(function(event, target){
+				var link = target.attr('href');
+				Router.navigate(link,{trigger: true});
+				event.preventDefault();
+			})
+		);
 
 		function showNextExpert(li){
 			var prnt = $('.experts'),
@@ -183,38 +195,41 @@ require([
 		expertClick();
 
 		//Лайки
-		body.on('click touchstart', '.stat .likes', function(){
-			var prnt = $(this).parent().parent(),
-				act = $(this).hasClass('active'),
-				md5 = EL.storage().getItem('like_'+prnt.attr('data-elid')+ prnt.attr('data-type'));
+		body.on(
+			'click',
+			'.stat .likes', function(){
+				var prnt = $(this).parent().parent(),
+					act = $(this).hasClass('active'),
+					md5 = EL.storage().getItem('like_'+prnt.attr('data-elid')+ prnt.attr('data-type'));
 
-			if ($(this).parent().hasClass('notlike'))
-				return false;
+				if ($(this).parent().hasClass('notlike'))
+					return false;
 
-			$.post('/api/estelife_ajax.php',{
-				'action':'set_likes',
-				'elementId': prnt.attr('data-elid'),
-				'type': prnt.attr('data-type'),
-				'typeLike': 1,
-				'md5': md5
-			},function(r){
-				if (r){
-					if (act == false){
-						$('.likes.islike').addClass('active').html(r.countLike+' и Ваш<i></i>');
+				$.post('/api/estelife_ajax.php',{
+					'action':'set_likes',
+					'elementId': prnt.attr('data-elid'),
+					'type': prnt.attr('data-type'),
+					'typeLike': 1,
+					'md5': md5
+				},function(r){
+					if (r){
+						if (act == false){
+							$('.likes.islike').addClass('active').html(r.countLike+' и Ваш<i></i>');
+						}else{
+							$('.likes.islike').removeClass('active').html(r.countLike+'<i></i>');
+						}
+						$('.unlikes.islike').removeClass('active').html(r.countDislike+'<i></i>');
+						EL.storage().setItem('like_'+r.element_id+ r.type, r.md5);
 					}else{
-						$('.likes.islike').removeClass('active').html(r.countLike+'<i></i>');
+						alert('Ошибка постановки лайков');
 					}
-					$('.unlikes.islike').removeClass('active').html(r.countDislike+'<i></i>');
-					EL.storage().setItem('like_'+r.element_id+ r.type, r.md5);
-				}else{
-					alert('Ошибка постановки лайков');
-				}
-			},'json');
+				},'json');
 
-			return false;
-		});
+				return false;
+			}
+		);
 
-		body.on('click touchstart', '.stat .unlikes', function(){
+		body.on('click', '.stat .unlikes', function(){
 			var prnt = $(this).parent().parent(),
 				act = $(this).hasClass('active'),
 				md5 = EL.storage().getItem('like_'+prnt.attr('data-elid')+ prnt.attr('data-type'));
@@ -247,7 +262,7 @@ require([
 
 
 		//Переключение между вкладками
-		body.on('click touchstart','.articles .tabs-menu li', function(){
+		body.on('click','.articles .tabs-menu li', function(){
 			var prnt = $(this).parents('.articles:first'),
 				col = $('li',prnt),
 				index = col.index($(this));
@@ -262,7 +277,7 @@ require([
 		});
 
 		//табы для раскрытия информации
-		body.on('click touchstart', '.el-tab h3', function(){
+		body.on('click', '.el-tab h3', function(){
 			var prnt = $(this).parent(),
 				el = $('a',$(this));
 
@@ -278,7 +293,7 @@ require([
 		});
 
 		//Переключение между табами
-		body.on('click touchstart','.menu_tab ul li',function(){
+		body.on('click','.menu_tab ul li',function(){
 			var col = $('.menu_tab ul li'),
 				index = col.index($(this));
 
