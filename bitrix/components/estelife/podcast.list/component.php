@@ -11,8 +11,8 @@ try{
 	CModule::IncludeModule("estelife");
 
 	//Получение ID секции
-	$sNow = date('d.m.Y', time());
-	$sDateNow =strtotime($sNow.' 00:00:00');
+	$sNow = date('d.m.Y H:i:s', time());
+	$sDateNow =strtotime(preg_replace('/([0-9]{2}\:?){3}$/', '00:00:00', $sNow));
 
 	$obResult = CIBlockSection::GetList(
 		array('UF_DATE_PUB_SECT'=>'DESC'),
@@ -32,15 +32,15 @@ try{
 		array('nPageSize'=>1)
 	);
 
-	while($asRes = $obResult->Fetch()){
+	while($asRes = $obResult->Fetch())
 		$arSection = $asRes;
-	}
 
 	$arResult['SECTION_NAME'] = $arSection['NAME'];
 
 	//проверка на публикацию сегодня
 	$flag = 0;
 	$sSectionTime = date('d.m.Y', strtotime($arSection['UF_DATE_UPD_SECTION']));
+
 	if (strtotime($sSectionTime.' 00:00:00') < $sDateNow){
 		$flag = 1;
 		$bs = new CIBlockSection;
