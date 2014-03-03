@@ -181,8 +181,6 @@ try {
 		'format' => date('d.m', strtotime($sDate))
 	);
 } catch(VException $e) {
-	var_dump($e->getMessage());
-
 	if ($e->getCode()==404) {
 		$APPLICATION->SetTitle("404 Not Found");
 		CHTTP::SetStatus("404 Not Found");
