@@ -134,7 +134,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			->value('protocol', htmlentities($obPost->one('protocol'),ENT_QUOTES,'utf-8'))
 			->value('form', htmlentities($obPost->one('form'),ENT_QUOTES,'utf-8'))
 			->value('storage', htmlentities($obPost->one('storage'),ENT_QUOTES,'utf-8'))
-			->value('undesired', htmlentities($obPost->one('undesired'),ENT_QUOTES,'utf-8'));
+			->value('undesired', htmlentities($obPost->one('undesired'),ENT_QUOTES,'utf-8'))
+			->value('specialist', htmlentities($obPost->one('specialist'),ENT_QUOTES,'utf-8'))
+			->value('patient', htmlentities($obPost->one('patient'),ENT_QUOTES,'utf-8'));
 
 		if(!empty($_FILES['logo_id'])){
 			$arImage=$_FILES['logo_id'];
@@ -276,11 +278,11 @@ if(!empty($arResult['error']['text'])){
 
 //Получение всех типов препаратов
 $obQuery = $obPills->createQuery();
-$obQuery->builder()->from('iblock_element');
-$obQuery->builder()
-	->field('ID')
-	->field('NAME');
-$obQuery->builder()->filter()->_eq('IBLOCK_ID', 28);
+$obQuery
+	->builder()
+	->from('estelife_pills_typename')
+	->filter()
+	->_eq('type', 1);
 $arResult['types'] = $obQuery->select()->all();
 ?>
 	<script type="text/javascript" src="/bitrix/js/estelife/jquery-1.10.2.min.js"></script>
@@ -343,25 +345,20 @@ $arResult['types'] = $obQuery->select()->all();
 			<?php endif?>
 		</td>
 	</tr>
-	<tr class="adm-detail-required-field">
-		<td width="40%"><?=GetMessage("ESTELIFE_F_FORMAT")?></td>
-		<td width="60%">
-			<ul class="estelife-checklist">
-				<li>
-					<label for="format_1"><input type="checkbox" name="format[]" id="format_1" value="1"<?=(in_array(1,$arResult['pills']['format']) ? ' checked="true"' : '')?> />Мезотерапия</label>
-				</li>
-				<li>
-					<label for="format_2"><input type="checkbox" name="format[]" id="format_2" value="2"<?=(in_array(2,$arResult['pills']['format']) ? ' checked="true"' : '')?> />Ботулинотерапия</label>
-				</li>
-				<li>
-					<label for="format_3"><input type="checkbox" name="format[]" id="format_3" value="3"<?=(in_array(3,$arResult['pills']['format']) ? ' checked="true"' : '')?> />Биоревитализация</label>
-				</li>
-				<li>
-					<label for="format_4"><input type="checkbox" name="format[]" id="format_4" value="4"<?=(in_array(4,$arResult['pills']['format']) ? ' checked="true"' : '')?> />Контурная пластика</label>
-				</li>
-			</ul>
-		</td>
-	</tr>
+	<?php if (!empty($arResult['types'])):?>
+		<tr class="adm-detail-required-field">
+			<td width="40%"><?=GetMessage("ESTELIFE_F_FORMAT")?></td>
+			<td width="60%">
+				<ul class="estelife-checklist">
+					<?php foreach ($arResult['types'] as $val):?>
+						<li>
+							<label for="format_<?=$val['id']?>"><input type="checkbox" name="format[]" id="format_<?=$val['id']?>" value="<?=$val['id']?>"<?=(in_array($val['id'],$arResult['pills']['format']) ? ' checked="true"' : '')?> /><?=$val['name']?></label>
+						</li>
+					<?php endforeach?>
+				</ul>
+			</td>
+		</tr>
+	<?php endif?>
 	<tr>
 		<td width="40%"><?=GetMessage("ESTELIFE_F_PREVIEW")?></td>
 		<td width="60%">
@@ -468,6 +465,18 @@ $arResult['types'] = $obQuery->select()->all();
 		<td width="40%"><?=GetMessage("ESTELIFE_F_STORAGE")?></td>
 		<td width="60%">
 			<textarea name="storage" rows="12" style="width:70%"><?=$arResult['pills']['storage']?></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td width="40%"><?=GetMessage("ESTELIFE_F_SPECIALIST")?></td>
+		<td width="60%">
+			<textarea name="specialist" rows="12" style="width:70%"><?=$arResult['pills']['specialist']?></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td width="40%"><?=GetMessage("ESTELIFE_F_PATIENT")?></td>
+		<td width="60%">
+			<textarea name="patient" rows="12" style="width:70%"><?=$arResult['pills']['patient']?></textarea>
 		</td>
 	</tr>
 
