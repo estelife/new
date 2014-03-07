@@ -63,3 +63,4 @@ $MESS ['ESTELIFE_EDUCATION'] = 'Онлайн обучения';
 $MESS ['ESTELIFE_EDUCATION_LIST'] = 'Список обучений';
 $MESS ['ESTELIFE_RECEIPT'] = 'Квитанции';
 $MESS ['ESTELIFE_RECEIPT_LIST'] = 'Квитанции';
+$MESS ['ESTELIFE_YANDEX_LIST'] = 'Yandex content';

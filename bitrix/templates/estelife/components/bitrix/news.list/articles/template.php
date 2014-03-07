@@ -22,7 +22,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 						<p><?=$arItem['PREVIEW_TEXT']?></p>
 					</div>
 					<ul class="stat notlike">
-
 						<?php if (!empty($arItem['ACTIVE_FROM'])):?>
 							<li class="date"><?=date('d.m.Y',strtotime($arItem['ACTIVE_FROM']))?></li>
 						<?php endif?>
@@ -32,7 +31,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 					</ul>
 				</div>
 				<?endforeach?>
-
 			</div>
 			<?=$arResult["NAV_STRING"]?>
 		<?php endif?>

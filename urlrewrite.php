@@ -36,4 +36,10 @@ $arUrlRewrite = array(
 		"ID" => "estelife:mega.complex.section",
 		"PATH" => "/system/list.php",
 	),
+	array(
+		"CONDITION" => "#^/[0-9A-Za-z-_]+/([a-zA-Z0-9_-]/)?#",
+		"RULE" => "",
+		"ID" => "estelife:mega.complex.section",
+		"PATH" => "/system/list.php",
+	),
 );
