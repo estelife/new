@@ -19,19 +19,18 @@
 		</div>
 	<?php endif?>
 	<?php if ($arResult['filter_access']['type']):?>
-		<div class="field">
-			<label for="type">Назначение</label>
-			<select name="type" >
-				<option value="">--</option>
-				<option value="1" <?if($arResult['filter']['type'] === 1) echo " selected";?>>Мезотерапия</option>
-				<option value="3" <?if($arResult['filter']['type'] === 3) echo " selected";?>>Биоревитализация</option>
-				<option value="2" <?if($arResult['filter']['type'] === 2) echo " selected";?>>Ботулинотерапия</option>
-				<option value="4" <?if($arResult['filter']['type'] === 4) echo " selected";?>>Контурная пластика</option>
-				<option value="5" <?if($arResult['filter']['type'] === 5) echo " selected";?>>Имплантаты</option>
-				<option value="6" <?if($arResult['filter']['type'] === 6) echo " selected";?>>Нити</option>
-			</select>
-			<span class="block"></span>
-		</div>
+		<?php if (!empty($arResult['types'])):?>
+			<div class="field">
+				<label for="type">Назначение</label>
+				<select name="type" >
+					<option value="">--</option>
+					<?php foreach ($arResult['types'] as $val):?>
+						<option value="<?=$val['id']?>" <?if($arResult['filter']['type'] === $val['id']) echo " selected";?>><?=$val['name']?></option>
+					<?php endforeach?>
+				</select>
+				<span class="block"></span>
+			</div>
+		<?php endif?>
 	<?php endif?>
 	<?php if ($arResult['filter_access']['countries']):?>
 		<div class="field country">

@@ -11,8 +11,8 @@ $session = new \filters\decorators\VApparatuses();
 $arFilterParams = $session->getParams();
 
 //получение стран, которые есть только в аппаратах
-$obCountries = VDatabase::driver();
-$obQuery = $obCountries->createQuery();
+$obApp = VDatabase::driver();
+$obQuery = $obApp->createQuery();
 $obQuery->builder()->from('estelife_apparatus','ap');
 $obJoin = $obQuery->builder()->join();
 $obJoin->_left()
@@ -36,11 +36,14 @@ $obQuery->builder()->group('ct.ID');
 $obQuery->builder()->sort('ct.NAME', 'asc');
 $arResult['countries']=$obQuery->select()->all();
 
-/*$arResult['filter']=array(
-	'country'=>intval($obGet->one('country',0)),
-	'type'=>intval($obGet->one('type',0)),
-	'name'=>strip_tags(trim($obGet->one('name'))),
-);*/
+//Получение типов аппаратов
+$obQuery = $obApp->createQuery();
+$obQuery
+	->builder()
+	->from('estelife_apparatus_typename')
+	->filter()
+	->_eq('type', 1);
+$arResult['types'] = $obQuery->select()->all();
 
 $arResult['filter'] = $arFilterParams;
 $arResult['count'] = \bitrix\ERESULT::$DATA['count'];

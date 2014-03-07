@@ -24,6 +24,8 @@ $MESS ['ESTELIFE_F_PROTOCOL'] = 'Протокол процедуры';
 $MESS ['ESTELIFE_F_FORM'] = 'Форма выпуска';
 $MESS ['ESTELIFE_F_STORAGE'] = 'Условия хранения';
 $MESS ['ESTELIFE_F_UNDESIRED'] = 'Побочные эффекты';
+$MESS ['ESTELIFE_F_SPECIALIST'] = 'Рекомендация специалисту';
+$MESS ['ESTELIFE_F_PATIENT'] = 'Рекомендация пациенту';
 
 $MESS ['ESTELIFE_F_TYPE_SELECT'] = 'Выберите тип препарата';
 $MESS ['ESTELIFE_T_BASE'] = 'Добавление препарата';

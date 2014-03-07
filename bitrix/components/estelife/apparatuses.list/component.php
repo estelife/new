@@ -134,24 +134,24 @@ while($arData=$obResult->Fetch()){
 	$i++;
 }
 
-$arTypes = array(
-"1"=>'Anti-Age терапия',
-"7"=>'Диагностика',
-"2"=>'Коррекция фигуры',
-"9"=>'Микропигментация',
-"5"=>'Микротоки',
-"4"=>'Миостимуляция',
-"6"=>'Лазеры',
-"8"=>'Реабилитация',
-"3"=>'Эпиляция'
-);
+//Получение типов аппаратов
+$obQuery = $obPills->createQuery();
+$obQuery
+	->builder()
+	->from('estelife_apparatus_typename')
+	->filter()
+	->_eq('type', 1);
+$arTypes=$obQuery->select()->all();
+foreach ($arTypes as $val){
+	$arTypes[$val['id']]=$val;
+}
 
 if (empty($_GET['type'])){
 	$arSEOTitle = 'Список и база данных аппартов в эстетической медицине.';
 	$arSEODescription = 'Огромная база данных по аппаратам для всех процедур и видов терапий в эстетической медицине. Подробная информация только у нас.';
 }else{
-	$arSEOTitle = $arTypes[$_GET['type']].' - все аппараты в нашей базе данных.';
-	$arSEODescription = 'Вся информация по аппаратам для процедуры '.$arTypes[$_GET['type']].'. Весь список с подробным описанием в нашей базе данных.';
+	$arSEOTitle = $arTypes[$_GET['type']]['name'].' - все аппараты в нашей базе данных.';
+	$arSEODescription = 'Вся информация по аппаратам для процедуры '.$arTypes[$_GET['type']]['name'].'. Весь список с подробным описанием в нашей базе данных.';
 }
 
 if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){

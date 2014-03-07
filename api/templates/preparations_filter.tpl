@@ -20,17 +20,18 @@
 		</div>
 	<!--endif!-->
 	<!--if($filter_access.type)!-->
-		<div class="field">
-			<label for="type">Назначение</label>
-			<select name="type" >
-				<option value="">--</option>
-				<option value="1" <!--if($filter.type===1)!--> selected="true"<!--endif!-->>Мезотерапия</option>
-				<option value="3" <!--if($filter.type===3)!--> selected="true"<!--endif!-->>Биоревитализация</option>
-				<option value="2" <!--if($filter.type=== 2)!--> selected="true"<!--endif!-->>Ботулинотерапия</option>
-				<option value="4" <!--if($filter.type===4)!--> selected="true"<!--endif!-->>Контурная пластика</option>
-			</select>
-			<span class="block"></span>
-		</div>
+		<!--if($types)!-->
+			<div class="field">
+				<label for="type">Назначение</label>
+				<select name="type" >
+					<option value="">--</option>
+					<!--foreach($types as $key=>$val)!-->
+						<option value="<!--$val.id!-->" <!--if($filter.type === $val.id)!--> selected="true"<!--endif!-->><!--$val.name!--></option>
+					<!--endforeach!-->
+				</select>
+				<span class="block"></span>
+			</div>
+		<!--endif!-->
 	<!--endif!-->
 	<!--if($filter_access.countries)!-->
 		<div class="field country">

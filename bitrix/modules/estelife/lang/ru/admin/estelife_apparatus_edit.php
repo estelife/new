@@ -20,6 +20,9 @@ $MESS ['ESTELIFE_F_SECURITY'] = 'Безопасность';
 $MESS ['ESTELIFE_F_PROTOCOL'] = 'Протокол процедуры';
 $MESS ['ESTELIFE_F_UNDESIRED'] = 'Побочные эффекты';
 $MESS ['ESTELIFE_F_EQUIPMENT'] = 'Комплектация';
+$MESS ['ESTELIFE_F_EFFECT'] = 'Достигаемый эффект';
+$MESS ['ESTELIFE_F_SPECIALIST'] = 'Рекомендация специалисту';
+$MESS ['ESTELIFE_F_PATIENT'] = 'Рекомендация пациенту';
 
 $MESS ['ESTELIFE_F_TYPE_SELECT'] = 'Выберите тип аппарата';
 $MESS ['ESTELIFE_T_BASE'] = 'Добавление аппарата';
