@@ -3819,6 +3819,7 @@ form.quality .submit,
 .hall {
 	overflow: hidden;
 	width:100%;
+	float:left;
 }
 .hall .date {
 	width: auto;
