@@ -9,6 +9,11 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	die();
 
 CModule::IncludeModule("estelife");
+$arResult['auth']=false;
+
+if ($USER->IsAuthorized())
+	$arResult['auth']=true;
+
 
 if (isset($arParams['count']))
 	$nCount=intval($arParams['count']);
@@ -42,18 +47,9 @@ $arResult['element_id']=$nElementId;
 $arResult['type']=$nType;
 
 //Обработка формы для добавления комментария
-if ($_SERVER["REQUEST_METHOD"]=="POST" && !empty($_POST['send_comment'])){
+if ($_SERVER["REQUEST_METHOD"]=="POST" && !empty($_POST['send_comment']) && $arResult['auth']){
 	try{
 		$obError=new VFormException();
-		if (isset($_POST['first_name']) && !empty($_POST['first_name'])){
-			$sName=trim(strip_tags($_POST['first_name']));
-		}else
-			$obError->setFieldError('Укажите Ваше имя.','first_name');
-
-		if (isset($_POST['last_name']) && !empty($_POST['last_name'])){
-			$sLastName=trim(strip_tags($_POST['last_name']));
-		}else
-			$obError->setFieldError('Укажите Вашу фамилию.','last_name');
 
 		if (isset($_POST['comment']) && !empty($_POST['comment'])){
 			$sComment=trim(strip_tags($_POST['comment']));
@@ -88,6 +84,12 @@ $arResult['comments']=$obComments->getComments($nType, $nElementId, $nCount);
 if (!empty($arResult['comments'])){
 	foreach ($arResult['comments'] as &$val){
 		$val['date_create']=date('H:i, d.m.Y', strtotime($val['date_create']));
+		if (empty($val['name']))
+			$val['name']=$val['login'];
+		elseif (empty($val['last_name']))
+			$val['name']=$val['name'];
+		else
+			$val['name']=$val['last_name'].' '.$val['name'];
 	}
 }
 
