@@ -25,7 +25,6 @@ $arFilterFields = Array(
 	"find_user_id",
 	"find_date_create_to",
 	"find_date_create_from",
-	"find_moderate",
 );
 $lAdmin->InitFilter($arFilterFields);
 $arFilter = Array(
@@ -34,7 +33,6 @@ $arFilter = Array(
 	"user_id"=> $find_user_id,
 	"date_create_to"=>$find_date_create_to,
 	"date_create_from"=>$find_date_create_from,
-	"moderate"=>$find_moderate
 );
 
 //====== TABLE HEADERS =========
@@ -71,7 +69,16 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 				->value('moderate', 1)
 				->filter()
 				->_eq('id', $ID);
-			$obQuery->update();
+			if ($obQuery->update()){
+				$obQuery=$obComment->createQuery();
+				$obQuery->builder()
+					->from('estelife_moderate')
+					->value('type_id', 1)
+					->value('element_id', $ID)
+					->value('manager_id', $USER->GetID())
+					->value('date', date('Y-m-d H:i:s',time()));
+				$obQuery->insert();
+			}
 		}
 
 		if(($ID = IntVal($ID))>0 && $_REQUEST['action']=='active'){
@@ -97,45 +104,56 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 }
 
 $obQuery=$obComment->createQuery();
-$obJoin=$obQuery->builder()
-	->from('estelife_comments');
+$obQuery->builder()
+	->from('estelife_comments', 'ec');
+$obJoin=$obQuery->builder()->join();
+$obJoin->_left()
+	->_from('ec', 'user_id')
+	->_to('user', 'ID', 'u');
 if($by=='active'){
-	$obQuery->builder()->sort('active',$order);
+	$obQuery->builder()->sort('ec.active',$order);
 }else if($by=='moderate')
-	$obQuery->builder()->sort('moderate',$order);
+	$obQuery->builder()->sort('ec.moderate',$order);
 else if($by=='user_id')
-	$obQuery->builder()->sort('user_id',$order);
+	$obQuery->builder()->sort('ec.user_id',$order);
 else if($by=='name')
-	$obQuery->builder()->sort('name',$order);
+	$obQuery->builder()->sort('ec.name',$order);
 else if($by=='id')
-	$obQuery->builder()->sort('id',$order);
+	$obQuery->builder()->sort('ec.id',$order);
 else if($by=='text')
-	$obQuery->builder()->sort('text',$order);
+	$obQuery->builder()->sort('ec.text',$order);
 else if($by=='date_create')
-	$obQuery->builder()->sort('date_create',$order);
+	$obQuery->builder()->sort('ec.date_create',$order);
 
 $obFilter=$obQuery->builder()
-	->sort('moderate','desc')
-	->sort('date_create','desc')
+	->field('ec.id')
+	->field('ec.user_id')
+	->field('ec.text')
+	->field('ec.date_create')
+	->field('ec.active')
+	->field('ec.moderate')
+	->field('u.NAME', 'name')
+	->field('u.LAST_NAME', 'last_name')
+	->field('u.LOGIN', 'login')
+	->sort('ec.moderate','desc')
+	->sort('ec.date_create','desc')
 	->filter();
 
 if(!empty($arFilter['id']))
-	$obFilter->_eq('id',$arFilter['id']);
+	$obFilter->_eq('ec.id',$arFilter['id']);
 
 if(!empty($arFilter['name']))
-	$obFilter->_like('name',$arFilter['name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+	$obFilter->_like('ec.name',$arFilter['name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 
-if(strlen($arFilter['moderate'])>0)
-	$obFilter->_eq('moderate',$arFilter['moderate']);
 
 if(!empty($arFilter['user_id']))
-	$obFilter->_eq('user_id',$arFilter['user_id']);
+	$obFilter->_eq('ec.user_id',$arFilter['user_id']);
 
 if(!empty($arFilter['date_create_to']))
-	$obFilter->_gte('date_create',date('Y-m-d H:i:s', strtotime($arFilter['date_create_to'])));
+	$obFilter->_gte('ec.date_create',date('Y-m-d H:i:s', strtotime($arFilter['date_create_to'])));
 
 if(!empty($arFilter['date_create_from']))
-	$obFilter->_lte('date_create',date('Y-m-d H:i:s', strtotime($arFilter['date_create_from'])));
+	$obFilter->_lte('ec.date_create',date('Y-m-d H:i:s', strtotime($arFilter['date_create_from'])));
 
 $obResult=$obQuery->select();
 $obResult=new CAdminResult(
@@ -150,9 +168,13 @@ while($arRecord=$obResult->Fetch()){
 	$row =& $lAdmin->AddRow($f_ID, $arRecord);
 
 	$row->AddViewField("id",$arRecord['id']);
+	if (empty($arRecord['name']))
+		$arRecord['name']=$arRecord['login'];
+	elseif (empty($arRecord['last_name']))
+		$arRecord['name']=$arRecord['name'];
+	else
+		$arRecord['name']=$arRecord['last_name'].' '.$arRecord['name'];
 	$row->AddViewField("name",$arRecord['name']);
-	if ($arRecord['user_id']<=0)
-		$arRecord['user_id']='Гость';
 	$row->AddViewField("user_id",$arRecord['user_id']);
 	$arRecord['moderate']=($arRecord['moderate']>0) ? 'Да' : '<span class="moderate">Нет</span>';
 	$row->AddViewField("moderate",$arRecord['moderate']);
@@ -164,8 +186,8 @@ while($arRecord=$obResult->Fetch()){
 
 
 	$arActions = Array();
-	$arActions[] = array("ICON"=>"delete", "TITLE"=>GetMessage("ESTELIFE_DELETE_ALT"),"ACTION"=>"javascript:if(confirm('".GetMessage("ESTELIFE_CONFIRM_DELETE")."')) window.location='?lang=".LANGUAGE_ID."&action=delete&ID=$f_ID&".bitrix_sessid_get()."'","TEXT"=>GetMessage("ESTELIFE_DELETE"));
-	$arActions[] = array("ICON"=>"edit", "TITLE"=>GetMessage("ESTELIFE_MODERATE_ALT"),"ACTION"=>"javascript:if(confirm('".GetMessage("ESTELIFE_CONFIRM_MODERATE")."')) window.location='?lang=".LANGUAGE_ID."&action=moderate&ID=$f_ID&".bitrix_sessid_get()."'","TEXT"=>GetMessage("ESTELIFE_MODERATE"));
+//	$arActions[] = array("ICON"=>"delete", "TITLE"=>GetMessage("ESTELIFE_DELETE_ALT"),"ACTION"=>"javascript:if(confirm('".GetMessage("ESTELIFE_CONFIRM_DELETE")."')) window.location='?lang=".LANGUAGE_ID."&action=delete&ID=$f_ID&".bitrix_sessid_get()."'","TEXT"=>GetMessage("ESTELIFE_DELETE"));
+	$arActions[] = array("ICON"=>"edit", "TITLE"=>GetMessage("ESTELIFE_MODERATE_ALT"),"ACTION"=>"javascript:window.location='?lang=".LANGUAGE_ID."&action=moderate&ID=$f_ID&".bitrix_sessid_get()."'","TEXT"=>GetMessage("ESTELIFE_MODERATE"));
 	if ($nActive>0){
 		$arActions[] = array(
 			"ICON"=>"setting",
@@ -222,7 +244,6 @@ require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_adm
 				GetMessage("ESTELIFE_F_NAME"),
 				GetMessage("ESTELIFE_F_USER_ID"),
 				GetMessage("ESTELIFE_F_DATE_CREATE"),
-				GetMessage("ESTELIFE_F_MODERATE")
 			)
 		);
 		$oFilter->Begin();
@@ -246,16 +267,7 @@ require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_adm
 				<?echo CalendarPeriod("find_date_create_to", "", "find_date_create_from", "", "form1", "N")?>
 			</td>
 		</tr>
-		<tr>
-			<td><?echo GetMessage("ESTELIFE_F_MODERATE")?></td>
-			<td>
-				<select name="find_moderate">
-					<option value=""><?echo GetMessage("ESTELIFE_NOT_IMPORTANT")?></option>
-					<option value="1"<?=($find_moderate==1 ? ' selected="true"' : '')?>>Да</option>
-					<option value="0"<?=($find_moderate==0 ? ' selected="true"' : '')?>>Нет</option>
-				</select>
-			</td>
-		</tr>
+
 		<?
 		$oFilter->Buttons(array("table_id"=>$sTableID, "url"=>$APPLICATION->GetCurPage()));
 		$oFilter->End();
