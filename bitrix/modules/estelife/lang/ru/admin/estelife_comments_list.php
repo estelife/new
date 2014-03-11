@@ -16,9 +16,11 @@ $MESS ['ESTELIFE_CREATE_TITLE'] = 'Отобразиться форма для с
 
 $MESS ['ESTELIFE_EDIT_ALT']='Редактирование';
 $MESS ['ESTELIFE_DELETE_ALT']='Удаление';
-$MESS ['ESTELIFE_MODERATE_ALT']='Модерация';
+$MESS ['ESTELIFE_MODERATE_ALT']='Разрешить';
 $MESS ['ESTELIFE_ACTIVE_ALT']='Активировать';
+$MESS ['ESTELIFE_DEACTIVE_ALT']='Заблокировать';
 $MESS ['ESTELIFE_CONFIRM_DELETE']='Вы действительно хотите удалить эту запись и связанные с ней данные?';
+$MESS ['ESTELIFE_CONFIRM_MODERATE']='Вы действительно хотите разрешить комментарий для показа?';
 $MESS ['ESTELIFE_CONFIRM_ACTIVE']='Вы действительно хотите активировать комментарий?';
 $MESS ['ESTELIFE_CONFIRM_DEACTIVE']='Вы действительно хотите заблокировать комментарий?';
 $MESS ['ESTELIFE_MODERATE']='Разрешить';

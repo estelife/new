@@ -43,7 +43,8 @@ $obQuery->builder()->filter()
 $arResult['clinic'] = $obQuery->select()->assoc();
 
 if ($arResult['clinic']['clinic_id']>0)
-	LocalRedirect('/cl'.$arResult['clinic']['clinic_id'].'/',false,'301 Moved Permanently');
+	$APPLICATION->AddHeadString('<link rel="canonical" href="http://www.estelife.ru/cl'.$arResult['clinic']['clinic_id'].'/" />',true);
+
 if (!empty($arResult['clinic']['preview_text'])){
 	$arResult['clinic']['name'] = $arResult['clinic']['preview_text'];
 }

@@ -95,24 +95,6 @@
 					<p class="none"><!--$detail.equipment!--></p>
 				</div>
 			<!--endif!-->
-			<!--if ($detail.effect)!-->
-				<div class="el-tab">
-					<h3><a href="#">Достигаемый эффект</a></h3>
-					<p class="none"><!--$detail.effect!--></p>
-				</div>
-			<!--endif!-->
-			<!--if ($detail.specialist)!-->
-				<div class="el-tab">
-					<h3><a href="#">Рекомендации специалисту</a></h3>
-					<p class="none"><!--$detail.specialist!--></p>
-				</div>
-			<!--endif!-->
-			<!--if ($detail.patient)!-->
-				<div class="el-tab">
-					<h3><a href="#">Рекомендации пациенту</a></h3>
-					<p class="none"><!--$detail.patient!--></p>
-				</div>
-			<!--endif!-->
 			<!--if($detail.gallery)!-->
 				<div class="el-tab">
 					<h3><a href="#">Фотографии результатов</a></h3>

@@ -115,7 +115,7 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 		"DISPLAY_PREVIEW_TEXT" => "Y",
 		"AJAX_MODE" => "N",
 		"IBLOCK_TYPE" => "news",
-		"IBLOCK_ID" => $arParams["IBLOCK_ID"],
+		"IBLOCK_ID" => "14",
 		"NEWS_COUNT" => "3",
 		"SORT_BY1" => "ACTIVE_FROM",
 		"SORT_ORDER1" => "DESC",

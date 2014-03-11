@@ -18,10 +18,5 @@ echo json_encode(array(
 			'link'=>'#'
 		)
 	),
-	'seo'=>array(
-		'title'=>$APPLICATION->GetPageProperty('title'),
-		'description'=>$APPLICATION->GetPageProperty('description'),
-		'keywords'=>$APPLICATION->GetPageProperty('keywords')
-	),
 	'class'=>'sponsor'
 ));

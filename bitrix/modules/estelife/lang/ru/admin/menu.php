@@ -26,14 +26,10 @@ $MESS ['ESTELIFE_COMPANIES_LIST']='Компании';
 $MESS ['ESTELIFE_COMPANIES_TITLE']='Управление компаниями';
 $MESS ['ESTELIFE_PRODUCTION']='Продукция';
 $MESS ['ESTELIFE_PILLS']='Препараты';
-$MESS ['ESTELIFE_PILLS_TYPE']='Типы препаратов, нитей,...';
 $MESS ['ESTELIFE_APPARATUS']='Аппараты';
-$MESS ['ESTELIFE_APPARATUS_TYPE']='Типы аппаратов';
 $MESS ['ESTELIFE_PRODUCTION_TITLE']='Управление продукцией';
 $MESS ['ESTELIFE_PILLS_TITLE']='Управление препаратами';
-$MESS ['ESTELIFE_PILLS_TITLE_TYPE']='Типы препаратов, нитей,...';
 $MESS ['ESTELIFE_APPARATUS_TITLE']='Управление аппаратами';
-$MESS ['ESTELIFE_APPARATUS_TITLE_TYPE']='Типы аппаратов';
 $MESS ['ESTELIFE_METHODS']='Методики';
 $MESS ['ESTELIFE_METHODS_TITLE']='Управление методиками';
 

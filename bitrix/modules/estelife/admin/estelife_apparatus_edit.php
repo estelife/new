@@ -139,10 +139,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			->value('security', htmlentities($obPost->one('security'),ENT_QUOTES,'utf-8'))
 			->value('protocol', htmlentities($obPost->one('protocol'),ENT_QUOTES,'utf-8'))
 			->value('undesired', htmlentities($obPost->one('undesired'),ENT_QUOTES,'utf-8'))
-			->value('equipment', htmlentities($obPost->one('equipment'),ENT_QUOTES,'utf-8'))
-			->value('effect', htmlentities($obPost->one('effect'),ENT_QUOTES,'utf-8'))
-			->value('specialist', htmlentities($obPost->one('specialist'),ENT_QUOTES,'utf-8'))
-			->value('patient', htmlentities($obPost->one('patient'),ENT_QUOTES,'utf-8'));
+			->value('equipment', htmlentities($obPost->one('equipment'),ENT_QUOTES,'utf-8'));
 
 		if(!empty($_FILES['logo_id'])){
 			$arImage=$_FILES['logo_id'];
@@ -368,11 +365,11 @@ if(!empty($arResult['error']['text'])){
 
 //Получение всех типов аппаратов
 $obQuery = $obApp->createQuery();
-$obQuery
-	->builder()
-	->from('estelife_apparatus_typename')
-	->filter()
-	->_eq('type', 1);
+$obQuery->builder()->from('iblock_element');
+$obQuery->builder()
+	->field('ID')
+	->field('NAME');
+$obQuery->builder()->filter()->_eq('IBLOCK_ID', 31);
 $arResult['types'] = $obQuery->select()->all();
 
 ?>
@@ -436,20 +433,40 @@ $arResult['types'] = $obQuery->select()->all();
 			<?php endif?>
 		</td>
 	</tr>
-	<?php if (!empty($arResult['types'])):?>
-		<tr class="adm-detail-required-field">
-			<td width="40%"><?=GetMessage("ESTELIFE_F_FORMAT")?></td>
-			<td width="60%">
-				<ul class="estelife-checklist">
-					<?php foreach ($arResult['types'] as $val):?>
-						<li>
-							<label for="format_<?=$val['id']?>"><input type="checkbox" name="format[]" id="format_<?=$val['id']?>" value="<?=$val['id']?>"<?=(in_array($val['id'],$arResult['apps']['format']) ? ' checked="true"' : '')?> /><?=$val['name']?></label>
-						</li>
-					<?php endforeach?>
-				</ul>
-			</td>
-		</tr>
-	<?php endif?>
+	<tr class="adm-detail-required-field">
+		<td width="40%"><?=GetMessage("ESTELIFE_F_FORMAT")?></td>
+		<td width="60%">
+			<ul class="estelife-checklist">
+				<li>
+					<label for="format_1"><input type="checkbox" name="format[]" id="format_1" value="1"<?=(in_array(1,$arResult['apps']['format']) ? ' checked="true"' : '')?> />Anti-Age терапия</label>
+				</li>
+				<li>
+					<label for="format_2"><input type="checkbox" name="format[]" id="format_2" value="2"<?=(in_array(2,$arResult['apps']['format']) ? ' checked="true"' : '')?> />Коррекция фигуры</label>
+				</li>
+				<li>
+					<label for="format_3"><input type="checkbox" name="format[]" id="format_3" value="3"<?=(in_array(3,$arResult['apps']['format']) ? ' checked="true"' : '')?> />Эпиляция</label>
+				</li>
+				<li>
+					<label for="format_4"><input type="checkbox" name="format[]" id="format_4" value="4"<?=(in_array(4,$arResult['apps']['format']) ? ' checked="true"' : '')?> />Миостимуляция</label>
+				</li>
+				<li>
+					<label for="format_5"><input type="checkbox" name="format[]" id="format_5" value="5"<?=(in_array(5,$arResult['apps']['format']) ? ' checked="true"' : '')?> />Микротоки</label>
+				</li>
+				<li>
+					<label for="format_6"><input type="checkbox" name="format[]" id="format_6" value="6"<?=(in_array(6,$arResult['apps']['format']) ? ' checked="true"' : '')?> />Лазеры</label>
+				</li>
+				<li>
+					<label for="format_7"><input type="checkbox" name="format[]" id="format_7" value="7"<?=(in_array(7,$arResult['apps']['format']) ? ' checked="true"' : '')?> />Диагностика</label>
+				</li>
+				<li>
+					<label for="format_8"><input type="checkbox" name="format[]" id="format_8" value="8"<?=(in_array(8,$arResult['apps']['format']) ? ' checked="true"' : '')?> />Реабилитация</label>
+				</li>
+				<li>
+					<label for="format_9"><input type="checkbox" name="format[]" id="format_9" value="9"<?=(in_array(9,$arResult['apps']['format']) ? ' checked="true"' : '')?> />Микропигментация</label>
+				</li>
+			</ul>
+		</td>
+	</tr>
 	<tr class="adm-detail-required-field">
 		<td width="40%"><?=GetMessage("ESTELIFE_F_TYPE")?></td>
 		<td width="60%">
@@ -543,24 +560,6 @@ $arResult['types'] = $obQuery->select()->all();
 		<td width="40%"><?=GetMessage("ESTELIFE_F_EQUIPMENT")?></td>
 		<td width="60%">
 			<textarea name="equipment" rows="12" style="width:70%"><?=$arResult['apps']['equipment']?></textarea>
-		</td>
-	</tr>
-	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_EFFECT")?></td>
-		<td width="60%">
-			<textarea name="effect" rows="12" style="width:70%"><?=$arResult['apps']['effect']?></textarea>
-		</td>
-	</tr>
-	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_SPECIALIST")?></td>
-		<td width="60%">
-			<textarea name="specialist" rows="12" style="width:70%"><?=$arResult['apps']['specialist']?></textarea>
-		</td>
-	</tr>
-	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_PATIENT")?></td>
-		<td width="60%">
-			<textarea name="patient" rows="12" style="width:70%"><?=$arResult['apps']['patient']?></textarea>
 		</td>
 	</tr>
 		<?php $tabControl->BeginNextTab();?>

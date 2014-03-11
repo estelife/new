@@ -111,9 +111,6 @@ $arResult['app']['procedure'] = nl2br(htmlspecialchars_decode($arResult['app']['
 $arResult['app']['protocol'] = nl2br(htmlspecialchars_decode($arResult['app']['protocol'],ENT_NOQUOTES));
 $arResult['app']['specs'] = nl2br(htmlspecialchars_decode($arResult['app']['specs'],ENT_NOQUOTES));
 $arResult['app']['equipment'] = nl2br(htmlspecialchars_decode($arResult['app']['equipment'],ENT_NOQUOTES));
-$arResult['app']['effect'] = nl2br(htmlspecialchars_decode($arResult['app']['effect'],ENT_NOQUOTES));
-$arResult['app']['specialist'] = nl2br(htmlspecialchars_decode($arResult['app']['specialist'],ENT_NOQUOTES));
-$arResult['app']['patient'] = nl2br(htmlspecialchars_decode($arResult['app']['patient'],ENT_NOQUOTES));
 
 //получение галереи
 $obQuery = $obApps->createQuery();
