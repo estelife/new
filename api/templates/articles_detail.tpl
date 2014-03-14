@@ -1,4 +1,4 @@
-<div class="item detail big-font">
+<div class="item detail article">
 	<h1><!--$detail.NAME!--></h1>
 	<ul class="stat notlike" data-elid="<!--$detail.LIKES.element_id!-->" data-type="<!--$detail.LIKES.type!-->">
 		<!--if ($detail.ACTIVE_FROM)!-->

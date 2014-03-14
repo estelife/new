@@ -15,7 +15,7 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 			<li><b><?=$arResult["NAME"]?></b></li>
 		</ul>
 		<div itemscope itemtype="http://schema.org/ScholarlyArticle">
-		<div class="item detail article">
+		<div class="item detail big-font">
 			<meta itemprop="articleSection" content="<?=$arResult['LAST_SECTION']['NAME']?>">
 			<h1 itemprop="headline"><?=$arResult["NAME"]?></h1>
 			<ul class="stat notlike" data-elid="<?=$arResult['LIKES']['element_id']?>" data-type="<?=$arResult['LIKES']['type']?>">
