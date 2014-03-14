@@ -581,6 +581,8 @@ ul.stat {
 	padding-left:20px;
 	margin-right:15px;
 	height:16px;
+	width: auto;
+	margin-top: 0;
 }
 .content ul.stat .unlikes {
 	margin-right: 0;
@@ -1574,10 +1576,12 @@ td.prices i {
 .item.detail .gallery .arrow.right i {
 	background-position: -296px -54px;
 }
-.item.detail .gallery .arrow.right:hover i, .win-gallery .arrow.right i {
+.item.detail .gallery .arrow.right:hover i,
+.win-gallery .arrow.right i {
 	background-position: -459px 0;
 }
-.item.detail .gallery-in .item, .item.detail .gallery-in,
+.item.detail .gallery-in .item,
+.item.detail .gallery-in,
 .item.detail .gallery-in .img {
 	width:605px;
 }
@@ -1591,6 +1595,8 @@ td.prices i {
 	background:#dddddd;
 	display: block;
 	quotes: '';
+	font-style: italic;
+	font-size: 14px;
 }
 .item.detail p {
 	margin:15px 0;
@@ -2215,14 +2221,16 @@ h3 a:hover,
 .similars .item.product li {
 	padding-left:0;
 }
-.item.producer .cols, .item.product .cols {
+.item.producer .cols,
+.item.product .cols {
 	float:right;
 	width:540px;
 }
 .item.product .cols {
 	width:458px;
 }
-.items .item.producer p, .items .item.product p {
+.items .item.producer p,
+.items .item.product p {
 	margin:0;
 	clear: both;
 }
@@ -2323,8 +2331,81 @@ li.country, span.country {
 	padding:0;
 	float:left;
 	margin-bottom: 0;
+	height:auto;
 }
-.item.detail.producer .current, .item.detail.product .current {
+.item.detail.article,
+.item.detail.article p,
+.item.detail.article h3 {
+	font-size: 16px;
+	color:#2c2c2c;
+}
+.item.detail.article .announce,
+.item.detail.article .announce p {
+	font-weight: bold;
+	font-size:18px;
+}
+.item.detail.article h2 {
+	font-size:22px;
+	color:#e60265;
+}
+.item.detail.article p {
+	margin: 27px 0;
+}
+.item.detail.article blockquote {
+	margin:45px 0;
+}
+.item.detail.article blockquote q,
+.item.detail.article .inset span,
+.item.detail.article .recommend {
+	font-size:18px;
+	color:#c67195;
+	font-weight: bold;
+	quotes: '\00ab...' '...\00bb';
+	padding:0;
+	font-style: normal;
+	background:none;
+	width: 594px;
+	margin: 0 auto;
+	text-align: center;
+}
+.item.detail.article .inset {
+	overflow: hidden;
+	margin:27px 0;
+	position: relative;
+}
+.item.detail.article .inset span {
+	width:229px;
+	text-align: left;
+}
+.item.detail.article .inset p {
+	float:right;
+	width:420px;
+	margin:0;
+}
+.item.detail.article .inset.left span {
+	float:left;
+	background:url('../images/icons/callout_l.png') right 0 no-repeat;
+	padding-right:55px;
+}
+.item.detail.article .inset.right p {
+	float:left;
+}
+.item.detail.article .inset.right span {
+	float:right;
+	background:url('../images/icons/callout.png') 0 0 no-repeat;
+	padding-left:55px;
+}
+.item.detail.article .recommend {
+	font-size:16px;
+	font-weight: normal;
+	width:auto;
+	text-align: left;
+	padding-left: 82px;
+	background:url('../images/icons/chirik.png') 45px 5px no-repeat;
+	margin:40px 0;
+}
+.item.detail.producer .current,
+.item.detail.product .current {
 	overflow: hidden;
 	margin-bottom:26px;
 }
