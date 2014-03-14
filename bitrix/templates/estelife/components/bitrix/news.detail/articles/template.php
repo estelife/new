@@ -14,7 +14,7 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 			<?php endif; ?>
 			<li><b><?=$arResult["NAME"]?></b></li>
 		</ul>
-		<div class="item detail big-font">
+		<div class="item detail article">
 			<h1><?=$arResult["NAME"]?></h1>
 			<ul class="stat notlike" data-elid="<?=$arResult['LIKES']['element_id']?>" data-type="<?=$arResult['LIKES']['type']?>">
 				<?php if (!empty($arResult['ACTIVE_FROM'])):?>
