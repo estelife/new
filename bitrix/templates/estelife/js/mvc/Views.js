@@ -183,8 +183,14 @@ define(['tpl/Template'],function(Template){
 					});
 					commentsView.setData(ob.data);
 					commentsView.render();
+
 					ob.$el.find('.comments-ajax')
 						.replaceWith(commentsView.$el);
+
+					Events.push({
+						target:$('body'),
+						type:'updateContent'
+					});
 				});
 			}
 
@@ -450,6 +456,11 @@ define(['tpl/Template'],function(Template){
 
 				this.$el.append(this.data.page);
 				this.el=this.$el[0];
+
+				Events.push({
+					'target':this.$el.find('form'),
+					'type':'updateForm'
+				})
 			}
 			return this;
 		}

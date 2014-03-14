@@ -2,10 +2,10 @@
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="#">Главная</a></li>
-		<li><b>Акции <?if ($arResult['city']['ID']==359):?>Москвы<?elseif($arResult['city']['ID']==358):?>Санкт-Петербурга<?endif?></b></li>
+		<li><b>Акции <?=$arResult['city']['R_NAME']?></b></li>
 	</ul>
 	<div class="title">
-		<h2>Акции <?if ($arResult['city']['ID']==359):?>Москвы<?elseif($arResult['city']['ID']==358):?>Санкт-Петербурга<?endif?></h2>
+		<h2>Акции <?=$arResult['city']['R_NAME']?></h2>
 	</div>
 	<div class="items">
 		<?php if (!empty($arResult['akzii'])):?>

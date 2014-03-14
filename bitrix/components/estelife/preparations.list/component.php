@@ -115,12 +115,17 @@ $obResult = $obQuery->select();
 $obResult = $obResult->bxResult();
 $nCount = $obResult->SelectedRowsCount();
 
-$arTypes = array(
-	"1"=>"Мезотерапия",
-	"2"=>"Ботулинотерапия",
-	"3"=>"Биоревитализация",
-	"4"=>"Контурная пластика"
-);
+//Получение типов аппаратов
+$obQuery = $obPills->createQuery();
+$obQuery
+	->builder()
+	->from('estelife_apparatus_typename')
+	->filter()
+	->_eq('type', 1);
+$arTypes=$obQuery->select()->all();
+foreach ($arTypes as $val){
+	$arTypes[$val['id']]=$val;
+}
 
 if ($nType==1){
 	$arResult['title']='Препараты';
@@ -131,8 +136,8 @@ if ($nType==1){
 		$arSEOTitle = 'Список и база данных препаратов в эстетической медицине';
 		$arSEODescription = 'Большая база данных препаратов для процедур и различных видов терапий в эстетической медицине. Мы собрали для Вас всю информацию';
 	}else{
-		$arSEOTitle = $arTypes[$_GET['type']].' - все препараты в нашей базе данных';
-		$arSEODescription = 'Вся информация по препаратам для процедуры '.$arTypes[$_GET['type']].'. Весь список с подробным описанием в нашей базе данных';
+		$arSEOTitle = $arTypes[$_GET['type']]['name'].' - все препараты в нашей базе данных';
+		$arSEODescription = 'Вся информация по препаратам для процедуры '.$arTypes[$_GET['type']]['name'].'. Весь список с подробным описанием в нашей базе данных';
 	}
 }else if ($nType==2){
 	$arResult['title']='Нити';

@@ -697,7 +697,85 @@ Estelife.prototype.notice=function(){
 		hide:_hide,
 		show:_show
 	}
-}
+};
+
+Estelife.prototype.touchEvent = (function(){
+	function _getMousePosition(event){
+		if(event.type == 'touchstart' || event.type == 'touchend'){
+			var touch = event.originalEvent.touches[0] || event.originalEvent.changedTouches[0];
+			event.pageX = touch.pageX;
+			event.pageY = touch.pageY;
+		} else if (event.pageX == null && event.clientX != null ) {
+			var html = document.documentElement,
+				body = document.body;
+
+			event.pageX = event.clientX + (html && html.scrollLeft || body && body.scrollLeft || 0) - (html.clientLeft || 0)
+			event.pageY = event.clientY + (html && html.scrollTop || body && body.scrollTop || 0) - (html.clientTop || 0)
+		}
+
+		return {
+			x:event.pageX,
+			y:event.pageY
+		}
+	}
+
+	function _validateEvent(event) {
+		if(event.type){
+			var target = $(event.currentTarget),
+				mouseCoords = _getMousePosition(event),
+				deal = 500;
+
+			switch(event.type) {
+				case 'click':
+					return true;
+					break;
+				case 'touchstart':
+					$('[data-touched]').removeAttr('data-touched');
+
+					target.attr({
+						'data-touched':(new Date().getTime()),
+						'data-touch-x':mouseCoords.x,
+						'data-touch-y':mouseCoords.y
+					});
+					break;
+				case 'touchend':
+					if(target.is('[data-touched]')){
+						var now = (new Date().getTime()),
+							t = target.attr('data-touched'),
+							x = target.attr('data-touch-x'),
+							y = target.attr('data-touch-y');
+
+						if((now - t) > deal)
+							return false;
+
+						$('[data-touched]').removeAttr('data-touched')
+							.removeAttr('data-touch-x')
+							.removeAttr('data-touch-y');
+
+						if(x == mouseCoords.x && y == mouseCoords.y)
+							return true;
+					}
+					break;
+			}
+		}
+
+		return false;
+	}
+
+	$(document).bind('touchend', function(){
+		$('[data-touched]').removeAttr('data-touched');
+	});
+
+	return {
+		eventTrigger: 'click touchstart touchend',
+		callback: function(callback){
+			return function(event){
+				if(_validateEvent(event))
+					callback(event, $(event.currentTarget));
+			};
+		}
+	}
+})();
 
 var EL=new Estelife({
 	'path':'/bitrix/templates/estelife/js'

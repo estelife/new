@@ -126,6 +126,18 @@
 						<p class="none"><?=$arResult['pill']['storage']?></p>
 					</div>
 				<?php endif?>
+				<?php if (!empty($arResult['pill']['specialist'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Рекомендации специалисту</a></h3>
+						<p class="none"><?=$arResult['pill']['specialist']?></p>
+					</div>
+				<?php endif?>
+				<?php if (!empty($arResult['pill']['patient'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Рекомендации пациенту</a></h3>
+						<p class="none"><?=$arResult['pill']['patient']?></p>
+					</div>
+				<?php endif?>
 
 				<?php if (!empty($arResult['pill']['gallery'])):?>
 					<div class="el-tab">

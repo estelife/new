@@ -14,7 +14,7 @@ $APPLICATION->IncludeComponent(
 		"DISPLAY_PREVIEW_TEXT" => "Y",
 		"AJAX_MODE" => "N",
 		"IBLOCK_TYPE" => "news",
-		"IBLOCK_ID" => "14",
+		"IBLOCK_ID" => $arParams['IBLOCK_ID'],
 		"NEWS_COUNT" => "3",
 		"SORT_BY1" => "ACTIVE_FROM",
 		"SORT_ORDER1" => "DESC",
@@ -81,6 +81,7 @@ echo json_encode(array(
 		'DETAIL_TEXT'=>$arResult['DETAIL_TEXT'],
 		'SOURCE'=>(!empty($arResult['PROPERTIES']['SOURCE']['VALUE'])) ? $arResult['PROPERTIES']['SOURCE']['VALUE'] : '',
 		'LIKES'=>$arResult['LIKES'],
+		'TYPE'=>$arResult['TYPE']
 	),
 	'class'=>'article',
 	'same_data'=>(isset(bitrix\ERESULT::$DATA['SAME_ARTICLES'])) ?

@@ -23,10 +23,10 @@ if (isset($arParams['COUNT']) && $arParams['COUNT']>0)
 if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 	$arPageCount = $arParams['PAGE_COUNT'];
 else
-	$arPageCount = 10;
+	$arPageCount = 12;
 
 if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){
-	$arResult['city']['ID'] = $arFilterParams['city'];
+	$nCityId=$arResult['city']['ID'] = $arFilterParams['city'];
 }else if(!$obGet->blank('city'))
 	$nCityId=intval($obGet->one('city'));
 elseif (isset($arParams['CITY_ID']) && $arParams['CITY_ID']>0)
@@ -187,7 +187,7 @@ if(!empty($arCount)){
 	if (empty($arResult['city']['R_NAME']))
 		$arResult['city']['R_NAME'] = '';
 	else
-		$arResult['city']['R_NAME'] = ' в '.$arResult['city']['R_NAME'];
+		$arResult['city']['R_NAME'] = ' '.$arResult['city']['R_NAME'];
 
 	$sTitle='Клиники'.$arResult['city']['R_NAME'].' - акции, скидки, купоны.';
 	$sDescription='Актуальные акции и скидки клиник'.$arResult['city']['R_NAME'].'.';

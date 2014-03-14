@@ -2,10 +2,10 @@
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="/">Главная</a></li>
-		<li><b>Клиники <?if ($arResult['city']['ID']==359):?>Москвы<?elseif($arResult['city']['ID']==358):?>Санкт-Петербурга<?endif?></b></li>
+		<li><b>Клиники <?=$arResult['city']['PROPERTY_CITY_VALUE']?></b></li>
 	</ul>
 	<div class="title">
-		<h1>Клиники <?if ($arResult['city']['ID']==359):?>Москвы<?elseif($arResult['city']['ID']==358):?>Санкт-Петербурга<?endif?></h1>
+		<h1>Клиники <?=$arResult['city']['PROPERTY_CITY_VALUE']?></h1>
 	</div>
 	<div class="items">
 		<?php if (!empty($arResult['clinics'])):?>
@@ -14,7 +14,7 @@
 				<div class="item-rel">
 					<h2>
 						<a href="<?=$arClinic["link"]?>" class="el-get-detail"><?=$arClinic["name"]?></a>
-						<?php if ($arClinic["recomended"] == 1):?><a href="/about/quality-mark.php" class="checked">Знак качества Estelife</a><?php endif?>
+						<?php if ($arClinic["recomended"] == 1):?><span class="checked">Знак качества Estelife</span><?php endif?>
 					</h2>
 					<div class="item-in">
 						<?if (!empty($arClinic['specialization'])):?>

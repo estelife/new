@@ -7,8 +7,23 @@
 	border:0px solid;
 }
 
+.buket{
+	position: absolute;
+	left: -8px;
+	top: 44px;
+}
+
+.buket img{
+	border: 0px;
+}
+
 .head .main_menu .hover a{
 	color:#e50264;
+}
+
+.ui-autocomplete {
+	width: 469px;
+	z-index: 11;
 }
 
 form .success{
@@ -194,6 +209,9 @@ form .global_error{
 .country.k2999{
 	background-image:url('images/countries/k2999.jpg');
 }
+.country.k4030{
+	background-image:url('images/countries/k4030.png');
+}
 
 .country.c357, .country .v357 {
 	background-image:url('images/countries/c357.png');
@@ -356,6 +374,9 @@ form .global_error{
 }
 .country.c2999, .country .v2999{
 	background-image:url('images/countries/c2999.jpg');
+}
+.country.c4030, .country .v4030{
+	background-image:url('images/countries/c4030.png');
 }
 
 #ui-datepicker-div {

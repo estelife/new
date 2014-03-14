@@ -105,6 +105,7 @@ $arProductions = $obQuery->select()->all();
 
 foreach ($arProductions as $val){
 	$val['img'] = CFile::ShowImage($val['logo_id'],180, 180, 'alt='.$val['name']);
+	$val['preview_text'] = strip_tags(html_entity_decode($val['preview_text'],ENT_QUOTES,'utf-8'));
 	$val['preview_text'] = \core\types\VString::truncate($val['preview_text'], 90, '...');
 	if ($val['type_id']==1)
 		$sPrefix='ps';

@@ -10,7 +10,6 @@ $obClinics = VDatabase::driver();
 $nClinicID =  (isset($arParams['ID'])) ?
 	intval($arParams['ID']) : 0;
 
-
 //Получаем данные по клинике
 $obQuery = $obClinics->createQuery();
 $obQuery->builder()->from('estelife_clinics', 'ec');
@@ -44,8 +43,7 @@ $obQuery->builder()->filter()
 $arResult['clinic'] = $obQuery->select()->assoc();
 
 if ($arResult['clinic']['clinic_id']>0)
-	$APPLICATION->AddHeadString('<link rel="canonical" href="http://www.estelife.ru/cl'.$arResult['clinic']['clinic_id'].'/" />',true);
-
+	LocalRedirect('/cl'.$arResult['clinic']['clinic_id'].'/',false,'301 Moved Permanently');
 if (!empty($arResult['clinic']['preview_text'])){
 	$arResult['clinic']['name'] = $arResult['clinic']['preview_text'];
 }
@@ -316,14 +314,14 @@ if (!empty($arResult['clinic']['city_id'])){
 	$obRes = CIBlockElement::GetList(Array(), array("IBLOCK_ID"=>16,"ID"=>$arResult['clinic']['city_id']), false, false, array("PROPERTY_CITY"));
 	$arCity = $obRes->Fetch();
 	if (!empty($arCity['PROPERTY_CITY_VALUE'])){
-		$arCity = $arCity['PROPERTY_CITY_VALUE'];
+		$arResult['clinic']['city_name']=$arCity = $arCity['PROPERTY_CITY_VALUE'];
 	}else{
-		$arCity = $arResult['clinic']['city'];
+		$arResult['clinic']['city_name']=$arCity = $arResult['clinic']['city'];
 	}
 }
 
 if (!empty($arCity))
-	$arCity = ' в '.$arCity;
+	$arCity = $arCity;
 else
 	$arCity = '';
 
@@ -336,8 +334,8 @@ if(preg_match('#(клиник)#ui',$arResult['clinic']['seo_name']))
 	$sPrefix='';
 
 
-$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].$arCity.' - акции, цены, адреса';
-$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].$arCity.' - подробная информация, адреса, контакты и акции.';
+$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' - акции, цены, адреса';
+$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' - подробная информация, адреса, контакты и акции.';
 
 $APPLICATION->SetPageProperty("title", $arResult['clinic']['seo_title']);
 $APPLICATION->SetPageProperty("description", $arResult['clinic']['seo_description']);

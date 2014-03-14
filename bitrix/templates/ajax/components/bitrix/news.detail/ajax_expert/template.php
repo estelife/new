@@ -83,6 +83,7 @@ echo json_encode(array(
 		'PREVIEW_TEXT'=>$arResult['PREVIEW_TEXT'],
 		'DETAIL_TEXT'=>$arResult['DETAIL_TEXT'],
 		'LIKES'=>$arResult['LIKES'],
+		'TYPE'=>$arResult['TYPE']
 	),
 	'class'=>'article',
 	'same_data'=>(isset(bitrix\ERESULT::$DATA['SAME_ARTICLES'])) ?

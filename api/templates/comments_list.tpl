@@ -1,5 +1,5 @@
 <!--if($comments)!-->
-	<div class="comments">
+	<div class="comments" data-id="<!--$comments.element_id!-->" data-type="<!--$comments.type!-->">
 		<h2>Обсуждение</h2>
 		<!--if($comments.comments)!-->
 			<b class="stat"><!--$comments.count!--></b>
@@ -21,31 +21,27 @@
 			</div>
 		<!--endif!-->
 		<!--if($comments.success)!-->
-			<div class="success">Ваш комментарий успешно добавлен. Комментарий появится после модерации.</div>
+			<div class="success">Ваш комментарий успешно добавлен.</div>
 		<!--endif!-->
-		<form name="comments" method="post" action="#comment">
-			<div class="form-in quality-in">
-				<input type="hidden" name="id" value="<!--$comments.element_id!-->">
-				<input type="hidden" name="type" value="<!--$comments.type!-->">
-				<div class="col1">
-					<div class="field <!--if($comments.error.first_name)!-->error<!--endif!-->">
-						<label for="first_name">Имя</label>
-						<input type="text" name="first_name" id="first_name" class="text" value="">
-					</div>
-					<div class="field <!--if($comments.error.last_name)!-->error<!--endif!-->">
-						<label for="last_name">Фамилия</label>
-						<input type="text" name="last_name" id="last_name" class="text" value="">
+		<!--if($comments.auth)!-->
+			<form name="comments" method="post" action="#comment">
+				<div class="form-in quality-in">
+					<input type="hidden" name="id" value="<!--$comments.element_id!-->">
+					<input type="hidden" name="type" value="<!--$comments.type!-->">
+					<div class="col1">
+						<div class="field <!--if($comments.error.comment)!-->error<!--endif!-->">
+							<label for="comment">Ваш комментарий<span>Осталось <s>1000 символов</s></span></label>
+							<textarea name="comment" id="comment"></textarea>
+						</div>
 					</div>
 				</div>
-				<div class="col2">
-					<div class="field <!--if($comments.error.comment)!-->error<!--endif!-->">
-						<label for="comment">Ваш комментарий<span>Осталось <s>1000 символов</s></span></label>
-						<textarea name="comment" id="comment"></textarea>
-					</div>
-				</div>
-			</div>
-			<input type="submit" class="submit" value="Комментировать" name="send_comment">
-			<p class="total_error <!--if($comments.error)!-->error<!--endif!-->">! Все поля обязательны к заполнению</p>
-		</form>
+				<input type="submit" class="submit" value="Комментировать" name="send_comment">
+				<p class="total_error <!--if($comments.error)!-->error<!--endif!-->">! Все поля обязательны к заполнению</p>
+			</form>
+		<!--else!-->
+		<div class="not-auth">
+			<p>Комментарии могут оставлять только зарегистрированные пользователи. <a href="/personal/register/?backurl=/<!--$comments.type!--><!--$comments.element_id!-->/">Зарегистрироваться</a>.</p>
+		</div>
+		<!--endif!-->
 	</div>
 <!--endif!-->

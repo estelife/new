@@ -428,15 +428,18 @@ try{
 			$arResult['list']=array();
 
 			if(!empty($arData['term'])){
+				$arData['term']=trim(strip_tags($arData['term']));
 				$obQuery=$obData->createQuery();
 				$obQuery->builder()
 					->from('estelife_search_history')
+					->sort('count', 'desc')
+					->sort('found', 'desc')
 					->sort('date','desc')
 					->field('text', 'name')
 					->field('id')
 					->filter()
 					->_like(
-						'text_search',
+						'text',
 						$arData['term'],
 						VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE
 					);
@@ -449,32 +452,52 @@ try{
 		case 'set_search_history':
 			$arResult['save']=true;
 
+			$sCookie='';
+			$nFound=0;
+			if (!empty($_COOKIE['estelife_search_term']))
+				$sCookie=trim(strip_tags($_COOKIE['estelife_search_term']));
+
 			if(!empty($arData['term'])){
 				$arData['term']=trim(strip_tags($arData['term']));
 				$obQuery=$obData->createQuery();
 				$obQuery->builder()
 					->from('estelife_search_history')
 					->field('id')
+					->field('count')
 					->filter()
 					->_eq('text', $arData['term']);
-				$arSearchs=$obQuery
+				$arSearch=$obQuery
 					->select()
 					->assoc();
+
+				if ($arData['term']!=$sCookie){
+					$arSearch['count']++;
+
+					//определение количества найденных элементов
+					$obSph=new \search\VSearch();
+					$arAnswer=$obSph->search($arData['term']);
+					if (!empty($arAnswer))
+						$nFound=count($arAnswer);
+				}
 
 				$obQuery=$obData->createQuery();
 				$obQuery->builder()
 					->from('estelife_search_history')
 					->value('text', $arData['term'])
+					->value('count', $arSearch['count'])
+					->value('found', $nFound)
 					->value('date', time());
-				if ($arSearchs['id']>0){
+				if ($arSearch['id']>0){
 					$obQuery->builder()->filter()
-						->_eq('id',$arSearchs['id']);
+						->_eq('id',$arSearch['id']);
 					$obQuery->update();
-					$nId=$arSearchs['id'];
+					$nId=$arSearch['id'];
 				}else
 					$nId=$obQuery->insert()->insertId();
 				if (!$nId)
 					$arResult['save']=false;
+
+				setcookie('estelife_search_term', $arData['term'], time() + 12*60*60*24*30, '/');
 			}
 			break;
 		case 'get_cities_by_term':

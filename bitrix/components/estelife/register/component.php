@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["register"]) && !$USER
 		$obError=new VFormException();
 
 		if (isset($_POST['name']) && !empty($_POST['name']))
-			$arResult['values']['USER_NAME']=trim(strip_tags($_POST['name']));
+			$arResult['values']['NAME']=trim(strip_tags($_POST['name']));
 		else
 			$obError->setFieldError('Укажите ФИО.','name');
 

@@ -29,27 +29,26 @@ final class VComment{
 		if (empty($sText) || empty($sName) || empty($nType) || empty($nElId))
 			return false;
 
-		global $USER;
-		if ($USER->IsAuthorized())
-			$nUserId=$USER->GetID();
-		else
-			$nUserId=0;
+		$nId=0;
 
-		$obComment=VDatabase::driver();
-		$obQuery=$obComment->createQuery();
-		$obQuery
-			->builder()
-			->from('estelife_comments')
-			->value('text',$sText)
-			->value('date_create',date('Y-m-d H:i:s', time()))
-			->value('active', 1)
-			->value('moderate', 0)
-			->value('name', $sName)
-			->value('user_id', $nUserId)
-			->value('type', $nType)
-			->value('element_id', $nElId);
-		if ($nId=$obQuery->insert()->insertId())
-			$this->setCookieAndSession($nId, $sName, $nType, $nElId);
+		global $USER;
+		if ($USER->IsAuthorized()){
+			$nUserId=$USER->GetID();
+			$obComment=VDatabase::driver();
+			$obQuery=$obComment->createQuery();
+			$obQuery
+				->builder()
+				->from('estelife_comments')
+				->value('text',$sText)
+				->value('date_create',date('Y-m-d H:i:s', time()))
+				->value('active', 1)
+				->value('moderate', 0)
+				->value('name', $sName)
+				->value('user_id', $nUserId)
+				->value('type', $nType)
+				->value('element_id', $nElId);
+			$nId=$obQuery->insert()->insertId();
+		}
 
 		return $nId;
 	}
@@ -101,38 +100,27 @@ final class VComment{
 		if (empty($nType) || empty($nElId))
 			return false;
 
-		if (isset($_SESSION['estelife_comments']) && !empty($_SESSION['estelife_comments']))
-			$arDataSession=unserialize($_SESSION['estelife_comments']);
-		else
-			$arDataSession=array();
-
-		if (isset($_COOKIE['estelife_comments']) && !empty($_COOKIE['estelife_comments']))
-			$arDataCookie=unserialize($_COOKIE['estelife_comments']);
-		else
-			$arDataCookie=array();
-
-		$arDataGuest=array_unique(array_merge($arDataSession, $arDataCookie));
-
 		$obComment=VDatabase::driver();
 		$obQuery=$obComment->createQuery();
 		$obQuery
 			->builder()
-			->from('estelife_comments')
-			->sort('date_create', 'desc');
-		$obFilter=$obQuery->builder()->filter();
-			if (!empty($arDataGuest)){
-				$obFilter->_or()
-					->_eq('active', 1)
-					->_in(
-						$obQuery->builder()->_md5('id','name',$nType.$nElId.'solonatakaiasol'),
-						$arDataGuest
-					);
-			}
-			$obFilter->_or()
-				->_eq('type', $nType)
-				->_eq('element_id', $nElId)
-				->_eq('active', 1)
-				->_eq('moderate', 1);
+			->from('estelife_comments', 'ec');
+		$obJoin=$obQuery->builder()->join();
+		$obJoin->_left()
+			->_from('ec', 'user_id')
+			->_to('user', 'ID', 'u');
+		$obQuery->builder()
+			->sort('date_create', 'desc')
+			->field('ec.text')
+			->field('ec.date_create')
+			->field('u.NAME', 'name')
+			->field('u.LAST_NAME', 'last_name')
+			->field('u.LOGIN', 'login')
+			->filter()
+			->_eq('ec.type', $nType)
+			->_eq('ec.element_id', $nElId)
+			->_eq('ec.active', 1)
+			->_eq('ec.moderate', 0);
 		if ($nCount>0)
 			$obQuery->builder()->slice(0, $nCount);
 
@@ -213,33 +201,18 @@ final class VComment{
 		if (empty($nType) || empty($nElId))
 			return false;
 
-		if (isset($_SESSION['estelife_comments']) && !empty($_SESSION['estelife_comments']))
-			$arDataSession=unserialize($_SESSION['estelife_comments']);
 
-		if (isset($_COOKIE['estelife_comments']) && !empty($_COOKIE['estelife_comments']))
-			$arDataCookie=unserialize($_COOKIE['estelife_comments']);
-
-		$arDataGuest=array_unique(array_merge($arDataSession, $arDataCookie));
 
 		$obComment=VDatabase::driver();
 		$obQuery=$obComment->createQuery();
 		$obQuery
 			->builder()
-			->from('estelife_comments');
-		$obFilter=$obQuery->builder()->filter();
-		if (!empty($arDataGuest)){
-			$obFilter->_or()
-				->_eq('active', 1)
-				->_in(
-					$obQuery->builder()->_md5('id','name',$nType.$nElId.'solonatakaiasol'),
-					$arDataGuest
-				);
-		}
-		$obFilter->_or()
+			->from('estelife_comments')
+			->filter()
 			->_eq('type', $nType)
 			->_eq('element_id', $nElId)
 			->_eq('active', 1)
-			->_eq('moderate', 1);
+			->_eq('moderate', 0);
 
 		if (!empty($sGroup))
 			$obQuery->builder()->group($sGroup);
@@ -265,6 +238,6 @@ final class VComment{
 	 * @return bool|int
 	 */
 	public function getCountUsers($nType, $nElId){
-		return $this->getCount($nType, $nElId, 'name');
+		return $this->getCount($nType, $nElId, 'user_id');
 	}
 }

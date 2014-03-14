@@ -165,10 +165,11 @@ class estelife extends CModule {
 	{
 		global $MESS;
 		$arr = array(
-			"reference_id" => array("D","R","W"),
+			"reference_id" => array("D","E","F","W"),
 			"reference" => array(
 				"[D] ".GetMessage("ESTELIFE_DENIED"),
-				"[R] ".GetMessage("ESTELIFE_OPENED"),
+				"[E] ".GetMessage("ESTELIFE_OPENED"),
+				"[F] ".GetMessage("ESTELIFE_PRIVATE"),
 				"[W] ".GetMessage("ESTELIFE_FULL"))
 		);
 		return $arr;

@@ -4,7 +4,7 @@
 			<div class="item-rel">
 				<h2>
 					<a href="<!--$val.link!-->" class="el-get-detail"><!--$val.name!--></a>
-					<!--if($val.recomended==1)!--><a href="/about/quality-mark.php" class="checked">Знак качества Estelife</a><!--endif!-->
+					<!--if($val.recomended==1)!--><span class="checked">Знак качества Estelife</span><!--endif!-->
 				</h2>
 				<div class="item-in">
 					<!--if($val.specialization)!-->

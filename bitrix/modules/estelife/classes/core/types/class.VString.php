@@ -62,6 +62,15 @@ class VString {
 	}
 
 	/**
+	 * Делает перенос для первого пробела
+	 * @param $sString
+	 * @return string
+	 */
+	public static function brForName($sString){
+		return preg_replace('/([^\s]+)\s(.*)/', '$1<br />$2', $sString);
+	}
+
+	/**
 	 * Осуществляет проверку страки на соответствие идентификатору
 	 * @param $sTranslit
 	 * @return int
@@ -265,7 +274,7 @@ class VString {
 	 * @return string
 	 */
 	public static function pregStrSeo($sText){
-		return preg_replace('#[^a-zа-я0-9\s\.\,\-\(\)\%]+#iu',' ',$sText);
+		return preg_replace('#([^a-zа-я0-9\s\.\,\-\(\)\%]+|[\r\n\t]+)#ius', ' ', $sText);
 	}
 
 

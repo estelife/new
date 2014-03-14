@@ -173,7 +173,6 @@ if($nCountElement < 3){
 	$obFilter = $obQuery->builder()->filter();
 	$obFilter->_eq('ec.active', 1);
 	$obFilter->_eq('ec.clinic_id', 0);
-	$obFilter->_eq('ec.recomended', 1);
 
 
 	if(!empty($arResult['city'])){
@@ -245,7 +244,7 @@ if($nCountElement < 3){
 	}
 
 }
-$arResult['city']['T_NAME'] = ($arResult['active']==0 ? 'Акции ' : 'Клиники ').(($arResult['city']['ID']==359) ? 'Москвы' : (($arResult['city']['ID']==358) ? 'Санкт-Петербурга' : ''));
+$arResult['city']['T_NAME'] = ($arResult['active']==0 ? 'Акции ' : 'Клиники ').((!empty($arResult['city']['R_NAME']) ? $arResult['city']['R_NAME'] : ''));
 
 $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
@@ -257,7 +256,7 @@ $sPage=(isset($_GET['PAGEN_1']) && $_GET['PAGEN_1'] > 1) ?
 if (empty($arResult['city']['R_NAME']))
 	$arResult['city']['R_NAME'] = '';
 else
-	$arResult['city']['R_NAME'] = ' в '.$arResult['city']['R_NAME'];
+	$arResult['city']['R_NAME'] = ' '.$arResult['city']['R_NAME'];
 
 $this->IncludeComponentTemplate();
 

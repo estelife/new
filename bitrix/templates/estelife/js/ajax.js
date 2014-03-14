@@ -46,23 +46,35 @@ require([
 				$(".main_menu>li").removeClass("hover");
 			}
 		);
-
 	});
 
-	// BULLSHIT
 	$(function(){
 		var body=$('body');
 
 		EL.notice();
 
-		Backbone.history.start({
-			'pushState':true,
-			'hashChange': true,
-			'silent': true
-		});
+		if(Backbone.history && !Backbone.History.started) {
+			var historySettings;
+
+			if(!(window.history && history.pushState)) {
+				historySettings={
+					'pushState':false,
+					'hashChange': false,
+					'silent': true
+				};
+			}else {
+				historySettings={
+					'pushState':true,
+					'hashChange': true,
+					'silent': true
+				};
+			}
+			Backbone.history.start(historySettings);
+		}
 
 		//подстановка в url авторизации backurl
-		body.on('click', '.goto-auth', function(e){
+		body.on('click touchstart touchend', '.goto-auth', function(e){
+			if(e.type)
 			var link=location.href.replace(location.protocol+'//'+location.host,'');
 			var href='/personal/auth/?backurl='+encodeURIComponent(link);
 
@@ -107,35 +119,51 @@ require([
 		});
 
 		//Переход на детальную страницу
-		body.on('click', '.items .item:not(.article), .items .article .item-in, .general-news .col1, .general-news .col2 .img', function(e){
-			var target=$(e.target),
-				currentTag=target[0].tagName,
-				parentTag=target.parent()[0].tagName,
-				link=(currentTag=='A') ?
-					target.attr('href') :
-					$(this).find('a:first').attr('href');
+		body.on(
+			EL.touchEvent.eventTrigger,
+			'.items .item:not(.article,.activity), .items .article .item-in, .item.activity .user, .general-news .col1, .general-news .col2 .img',
+			EL.touchEvent.callback(function(event,target){
+				var currentTag=target[0].tagName,
+					parentTag=target.parent()[0].tagName,
+					link=(currentTag=='A') ?
+						target.attr('href') :
+						target.find('a:first').attr('href');
 
-			if(link=='#'){
-				e.preventDefault();
-				return;
-			}
+				if(link=='#'){
+					event.preventDefault();
+					return;
+				}
 
-			if((currentTag!='A' && link && link.length>0) || ['H1','H2','H3'].inArray(parentTag)>-1){
-				Router.navigate(link,{trigger: true});
-				lightMenu();
-				e.preventDefault();
-			}
-		});
-
+				if((currentTag!='A' && link && link.length>0) || ['H1','H2','H3'].inArray(parentTag)>-1){
+					Router.navigate(link,{trigger: true});
+					lightMenu();
+					event.preventDefault();
+				}
+			})
+		);
 
 		var intId;
 		//переключение между пунктами меню в эксперном мнении
-		body.on('click','.experts .menu li',function(){
-			clearInterval(intId);
-			showNextExpert($(this));
-			expertClick();
-			return false;
-		});
+		body.on(
+			EL.touchEvent.eventTrigger,
+			'.experts .menu li',
+			EL.touchEvent.callback(function(event, target){
+				clearInterval(intId);
+				showNextExpert(target);
+				expertClick();
+				event.preventDefault();
+			})
+		);
+
+		body.on(
+			EL.touchEvent.eventTrigger,
+			'.ax-support',
+			EL.touchEvent.callback(function(event, target){
+				var link = target.attr('href');
+				Router.navigate(link,{trigger: true});
+				event.preventDefault();
+			})
+		);
 
 		function showNextExpert(li){
 			var prnt = $('.experts'),
@@ -167,36 +195,39 @@ require([
 		expertClick();
 
 		//Лайки
-		body.on('click', '.stat .likes', function(){
-			var prnt = $(this).parent().parent(),
-				act = $(this).hasClass('active'),
-				md5 = EL.storage().getItem('like_'+prnt.attr('data-elid')+ prnt.attr('data-type'));
+		body.on(
+			'click',
+			'.stat .likes', function(){
+				var prnt = $(this).parent().parent(),
+					act = $(this).hasClass('active'),
+					md5 = EL.storage().getItem('like_'+prnt.attr('data-elid')+ prnt.attr('data-type'));
 
-			if ($(this).parent().hasClass('notlike'))
-				return false;
+				if ($(this).parent().hasClass('notlike'))
+					return false;
 
-			$.post('/api/estelife_ajax.php',{
-				'action':'set_likes',
-				'elementId': prnt.attr('data-elid'),
-				'type': prnt.attr('data-type'),
-				'typeLike': 1,
-				'md5': md5
-			},function(r){
-				if (r){
-					if (act == false){
-						$('.likes.islike').addClass('active').html(r.countLike+' и Ваш<i></i>');
+				$.post('/api/estelife_ajax.php',{
+					'action':'set_likes',
+					'elementId': prnt.attr('data-elid'),
+					'type': prnt.attr('data-type'),
+					'typeLike': 1,
+					'md5': md5
+				},function(r){
+					if (r){
+						if (act == false){
+							$('.likes.islike').addClass('active').html(r.countLike+' и Ваш<i></i>');
+						}else{
+							$('.likes.islike').removeClass('active').html(r.countLike+'<i></i>');
+						}
+						$('.unlikes.islike').removeClass('active').html(r.countDislike+'<i></i>');
+						EL.storage().setItem('like_'+r.element_id+ r.type, r.md5);
 					}else{
-						$('.likes.islike').removeClass('active').html(r.countLike+'<i></i>');
+						alert('Ошибка постановки лайков');
 					}
-					$('.unlikes.islike').removeClass('active').html(r.countDislike+'<i></i>');
-					EL.storage().setItem('like_'+r.element_id+ r.type, r.md5);
-				}else{
-					alert('Ошибка постановки лайков');
-				}
-			},'json');
+				},'json');
 
-			return false;
-		});
+				return false;
+			}
+		);
 
 		body.on('click', '.stat .unlikes', function(){
 			var prnt = $(this).parent().parent(),
@@ -275,7 +306,7 @@ require([
 		});
 
 		//переключения между табами в галереи
-		body.on('click', '.media .menu a', function(){
+		body.on('click touchstart', '.media .menu a', function(){
 			var lnk=$(this),
 				rel=lnk.attr('rel');
 
@@ -342,7 +373,7 @@ require([
 			}
 		});
 
-		body.on('click','.nav a, .crumb a, .search_page a', function(e){
+		body.on('click touchstart','.nav a, .crumb a:not(.no-ajax), .search_page a', function(e){
 			var lnk=$(this),
 				href=lnk.attr('href'),
 				crumb=lnk.parents('.crumb:first');
@@ -405,14 +436,14 @@ require([
 			);
 			lightMenu();
 			e.preventDefault();
-		}).on('click','form.filter a.clear',function(e){
+		}).on('click touchstart','form.filter a.clear',function(e){
 //			var href=$(this).attr('href');
 //			Router.navigate(
 //				href,
 //				{trigger: true}
 //			);
 //			e.preventDefault();
-		}).on('click','.logo',function(e){
+		}).on('click touchstart','.logo',function(e){
 			if (!$(this).hasClass('no-ajax')){
 				Router.navigate(
 					$(this).attr('href'),
@@ -540,7 +571,7 @@ require([
 		});
 
 		//Вывод списка городов в шапке
-		body.on('click','.change_main_city', function(){
+		body.on('click touchstart','.change_main_city', function(){
 			var lnk=$(this);
 
 			if(lnk.hasClass('active'))
@@ -555,7 +586,7 @@ require([
 		});
 
 		//Вывод списка городов для акций
-		body.on('click','.change_promotions_city', function(){
+		body.on('click touchstart','.change_promotions_city', function(){
 			var lnk=$(this);
 
 			if(lnk.hasClass('active'))
@@ -573,7 +604,7 @@ require([
 	$(function other(){
 		var body=$('body');
 
-		body.on('click','.media .items .item',function(e){
+		body.on('click touchstart','.media .items .item',function(e){
 			Media.VideoDirect.start();
 
 			var link=$(this),
@@ -665,9 +696,10 @@ require([
 		});
 		$('form.filter').trigger('updateFilter');
 
-		body.find('form:not(\'.filter\')').each(function(){
+		body.on('updateForm','form:not(\'.filter\')',function(){
 			Functions.initFormFields($(this));
 		});
+		$('form:not(\'.filter\')').trigger('updateForm');
 
 		body.on('updateGallery', '.gallery', function(){
 			var gallery=$(this);
@@ -676,6 +708,33 @@ require([
 			});
 		});
 		$('.gallery').trigger('updateGallery');
+
+		body.on('updateContent', function(){
+			var activity = $('.activity');
+
+			if(activity.length>0){
+				var end,height,maxHeight = 0,
+					items = activity.find('.item-in'),
+					lastItemIndex = 0;
+
+				items.each(function(i){
+					height = $(this).height();
+
+					if(maxHeight<=height)
+						maxHeight = height;
+
+					if((i>0 && i%4==0) || i+1==items.length){
+						end = (i%4 == 0) ? i : items.length;
+
+						for(var y = lastItemIndex; y<end; y++)
+							items.eq(y).height(maxHeight);
+
+						lastItemIndex = y;
+						maxHeight=0;
+					}
+				});
+			}
+		}).trigger('updateContent');
 
 		body.on('submit','form[name=add_request]',function(e){
 			var form=$(this),
@@ -780,7 +839,7 @@ require([
 			})
 		});
 
-		body.on('click','.repost a', function(e){
+		body.on('click touchstart','.repost a', function(e){
 			var href=$(this).attr('href'),
 				width=550,
 				height=400,
@@ -790,7 +849,7 @@ require([
 			e.preventDefault();
 		});
 
-		body.on('click','.show-quality-form',function(e){
+		body.on('click touchstart','.show-quality-form',function(e){
 			var link=$(this),
 				form=link.next('form');
 
@@ -816,7 +875,7 @@ require([
 		EL.helpMaker($('[data-help],[title]'));
 
 		//Пишем в базу историю поиска
-		body.on('click', '.set_search_history', function(){
+		body.on('click touchstart', '.set_search_history', function(){
 			var term=$('input[data-action=get_search_history]').val();
 
 			if (term.length>0){
@@ -830,7 +889,35 @@ require([
 			}
 		});
 
-		//комментарии
+		//Автокомплит поиска
+		body.on('focus','input[data-action=get_search_history]', function(){
+			$(this).autocomplete({
+				minLength:3,
+				width:260,
+				source:function(request, response){
+					var data={
+						'action':'get_search_history',
+						'term':request.term
+					};
+					$.post('/api/estelife_ajax.php',data,function(result){
+						if(result.hasOwnProperty('list')){
+							response($.map(result.list,function( item ) {
+								return {
+									label: item.name,
+									value: item.name,
+									id: item.id
+								}
+							}));
+						}
+					},'json');
+				},
+				select:function(e,ui){
+					$('input[data-action=get_search_history]').val(ui.item.name);
+				}
+			})
+		});
+
+		//отправка комментария
 		body.on('submit','form[name=comments]', function(){
 			var form=$(this);
 			require(['mvc/Models','mvc/Views'],function(Models,Views){
@@ -854,18 +941,14 @@ require([
 		});
 
 		//Показать все комментарии
-		body.on('click', '.comments .more a span', function(){
+		body.on('click touchstart', '.comments .more a span', function(){
 			var el=$(this);
 			require(['mvc/Models', 'mvc/Views'], function(Models,Views){
 				var data={},
-					form=el.parents('div.comments').find('form[name=comments]');
+					form=el.parents('div.comments');
 
-				form.find('input').each(function(){
-					var input=$(this);
-					if (input.attr('name')=='id' || input.attr('name')=='type')
-						data[input.attr('name')]=input.val();
-				});
-
+				data['id']=form.attr('data-id');
+				data['type']=form.attr('data-type');
 				if (el.hasClass('hide')){
 					data['count']=5;
 				}else{
@@ -898,6 +981,7 @@ require([
 				$(this).attr({maxlength: maxchars});
 			}
 		});
+
 	});
 
 	$(function interfaces(){

@@ -14,11 +14,14 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 			<?php endif; ?>
 			<li><b><?=$arResult["NAME"]?></b></li>
 		</ul>
+		<div itemscope itemtype="http://schema.org/ScholarlyArticle">
 		<div class="item detail big-font">
-			<h1><?=$arResult["NAME"]?></h1>
+			<meta itemprop="articleSection" content="<?=$arResult['LAST_SECTION']['NAME']?>">
+			<h1 itemprop="headline"><?=$arResult["NAME"]?></h1>
 			<ul class="stat notlike" data-elid="<?=$arResult['LIKES']['element_id']?>" data-type="<?=$arResult['LIKES']['type']?>">
 				<?php if (!empty($arResult['ACTIVE_FROM'])):?>
-					<li class="date"><?=date('d.m.Y',strtotime($arResult['ACTIVE_FROM']))?></li>
+				<span itemprop="datePublished" hidden="hidden"><?=date('Y-m-d',strtotime($arResult['ACTIVE_FROM']))?></span>
+				<li class="date"><?=date('d.m.Y',strtotime($arResult['ACTIVE_FROM']))?></li>
 				<?php endif?>
 <!--				<li class="comments">9<i></i></li>-->
 				<li class="likes islike"><?=$arResult['LIKES']['countLike']?><?if ($arResult['LIKES']['typeLike']==1):?> и Ваш<?endif?><i></i></li>
@@ -39,7 +42,7 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 					<?php endif?>
 				</div>
 			<?php endif; ?>
-			<?=$arResult["DETAIL_TEXT"];?>
+			<div itemprop="articleBody"><?=$arResult["DETAIL_TEXT"];?></div>
 			<div class="info">
 				<ul class="stat" data-elid="<?=$arResult['LIKES']['element_id']?>" data-type="<?=$arResult['LIKES']['type']?>">
 					<li><a href="#" class="likes islike<?if ($arResult['LIKES']['typeLike']==1):?> active<?endif?>" data-help="Нравится"><?=$arResult['LIKES']['countLike']?><?if ($arResult['LIKES']['typeLike']==1):?> и Ваш<?endif?><i></i></a></li>
@@ -47,16 +50,23 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 				</ul>
 				<div class="social cols repost">
 					<span>Поделиться: </span>
-					<a href="http://vkontakte.ru/share.php?url=http://estelife.ru/ar<?=$arResult['ID']?>/" target="_blank" class="vk">ВКонтакте</a>
-					<a href="https://www.facebook.com/sharer.php?u=http://estelife.ru/ar<?=$arResult['ID']?>/" target="_blank" class="fb">Facebook</a>
+					<a href="http://vkontakte.ru/share.php?url=http://estelife.ru/<?=$arResult['TYPE']?><?=$arResult['ID']?>/" target="_blank" class="vk">ВКонтакте</a>
+					<a href="https://www.facebook.com/sharer.php?u=http://estelife.ru/<?=$arResult['TYPE']?><?=$arResult['ID']?>/" target="_blank" class="fb">Facebook</a>
 				</div>
 				<div class="author cols">
+					<?php if(!empty($arResult['utm'])): ?>
+						<div class="utm">
+							<?=$arResult['utm']?>
+						</div>
+					<?php endif; ?>
 					<?php if (!empty($arResult['PROPERTIES']['SOURCE']['VALUE'])):?>
+					<meta content="Author Name"><?=$arResult['PROPERTIES']['SOURCE']['VALUE']?></meta>
 					Автор статьи
 					<b><?=$arResult['PROPERTIES']['SOURCE']['VALUE']?></b>
 					<?php endif?>
 				</div>
 			</div>
+		</div>
 		</div>
 		<div class="comments-ajax">
 		<?$APPLICATION->IncludeComponent("estelife:comments.list",
@@ -110,7 +120,7 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 		"DISPLAY_PREVIEW_TEXT" => "Y",
 		"AJAX_MODE" => "N",
 		"IBLOCK_TYPE" => "news",
-		"IBLOCK_ID" => "14",
+		"IBLOCK_ID" => $arParams["IBLOCK_ID"],
 		"NEWS_COUNT" => "3",
 		"SORT_BY1" => "ACTIVE_FROM",
 		"SORT_ORDER1" => "DESC",

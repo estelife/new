@@ -11,8 +11,8 @@ try{
 	CModule::IncludeModule("estelife");
 
 	//Получение ID секции
-	$sNow = date('d.m.Y', time());
-	$sDateNow =strtotime($sNow.' 00:00:00');
+	$sNow = date('d.m.Y H:i:s', time());
+	$sDateNow =strtotime(preg_replace('/([0-9]{2}\:?){3}$/', '00:00:00', $sNow));
 
 	$obResult = CIBlockSection::GetList(
 		array('UF_DATE_PUB_SECT'=>'DESC'),
@@ -32,15 +32,15 @@ try{
 		array('nPageSize'=>1)
 	);
 
-	while($asRes = $obResult->Fetch()){
+	while($asRes = $obResult->Fetch())
 		$arSection = $asRes;
-	}
 
 	$arResult['SECTION_NAME'] = $arSection['NAME'];
 
 	//проверка на публикацию сегодня
 	$flag = 0;
 	$sSectionTime = date('d.m.Y', strtotime($arSection['UF_DATE_UPD_SECTION']));
+
 	if (strtotime($sSectionTime.' 00:00:00') < $sDateNow){
 		$flag = 1;
 		$bs = new CIBlockSection;
@@ -67,7 +67,7 @@ try{
 				'ID',
 				'NAME',
 				'PREVIEW_TEXT',
-				'PROPERTY_SHORT_TEXT',
+				'PROPERTY_TEXT_IN_HOME',
 				'PROPERTY_COUNT',
 				'PROPERTY_FRONTRIGHT',
 				'PROPERTY_FRONTBIG'
@@ -79,7 +79,11 @@ try{
 			$asRes['DETAIL_URL']='/'.$arParams['PREFIX'].$asRes['ID'].'/';
 
 			if($bFirst){
-				$asRes['PREVIEW_TEXT_B'] = trim(VString::truncate($asRes['PREVIEW_TEXT'],200)).'<span></span>';
+				$sPreview = !empty($asRes['PROPERTY_TEXT_IN_HOME_VALUE']['TEXT']) ?
+					$asRes['PROPERTY_TEXT_IN_HOME_VALUE']['TEXT'] :
+					VString::truncate($asRes['PREVIEW_TEXT'],200);
+
+				$asRes['PREVIEW_TEXT_B'] = trim($sPreview).'<span></span>';
 				$asRes['IMG_B'] = CFile::GetFileArray($asRes['PROPERTY_FRONTBIG_VALUE']);
 				$asRes['IMG_B']=$asRes['IMG_B']['SRC'];
 				$bFirst=false;

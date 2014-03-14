@@ -151,4 +151,17 @@ class VDate {
 		$arDates=$arTemp;
 		return $arDates;
 	}
+
+	/**
+	 * Позволяет получить даут из базы в корректном формате, к тому же осуществляет проверку "заполненности" даты
+	 * @param $sDate
+	 * @param string $sFormat
+	 * @return bool|null|string
+	 */
+	public static function getDbDate($sDate, $sFormat='d.m.Y'){
+		if(preg_match('#^0000-00-00#', $sDate))
+			return null;
+
+		return date($sFormat, strtotime($sDate));
+	}
 }

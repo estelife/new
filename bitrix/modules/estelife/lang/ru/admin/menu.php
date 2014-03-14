@@ -26,10 +26,14 @@ $MESS ['ESTELIFE_COMPANIES_LIST']='Компании';
 $MESS ['ESTELIFE_COMPANIES_TITLE']='Управление компаниями';
 $MESS ['ESTELIFE_PRODUCTION']='Продукция';
 $MESS ['ESTELIFE_PILLS']='Препараты';
+$MESS ['ESTELIFE_PILLS_TYPE']='Типы препаратов, нитей,...';
 $MESS ['ESTELIFE_APPARATUS']='Аппараты';
+$MESS ['ESTELIFE_APPARATUS_TYPE']='Типы аппаратов';
 $MESS ['ESTELIFE_PRODUCTION_TITLE']='Управление продукцией';
 $MESS ['ESTELIFE_PILLS_TITLE']='Управление препаратами';
+$MESS ['ESTELIFE_PILLS_TITLE_TYPE']='Типы препаратов, нитей,...';
 $MESS ['ESTELIFE_APPARATUS_TITLE']='Управление аппаратами';
+$MESS ['ESTELIFE_APPARATUS_TITLE_TYPE']='Типы аппаратов';
 $MESS ['ESTELIFE_METHODS']='Методики';
 $MESS ['ESTELIFE_METHODS_TITLE']='Управление методиками';
 
@@ -48,5 +52,19 @@ $MESS ['ESTELIFE_IMPLANTS']='Имплантаты';
 $MESS ['ESTELIFE_IMPLANTS_TITLE']='Управление имплантатами';
 $MESS ['ESTELIFE_IMPLANTS_LIST']='Список имплантатов';
 
+$MESS ['ESTELIFE_ACTIVITY_TYPES']='Типы событий';
+$MESS ['ESTELIFE_ACTIVITY_TYPES_TITLE']='Список типов событий';
+$MESS ['ESTELIFE_EVENT_HALLS']='Залы';
+$MESS ['ESTELIFE_EVENT_HALLS_TITLE']='Залы';
+$MESS ['ESTELIFE_EVENT_SECTIONS']='Секции';
+$MESS ['ESTELIFE_EVENT_SECTIONS_TITLE']='Секции';
+$MESS ['ESTELIFE_PROFESSIONALS_CLINICS']='Специалисты';
+$MESS ['ESTELIFE_PROFESSIONALS_CLINICS_TITLE']='Специалисты';
+$MESS ['ESTELIFE_EVENT_ACTIVITIES']='События';
+$MESS ['ESTELIFE_EVENT_ACTIVITIES_TITLE']='События';
 
-
+$MESS ['ESTELIFE_EDUCATION'] = 'Онлайн обучения';
+$MESS ['ESTELIFE_EDUCATION_LIST'] = 'Список обучений';
+$MESS ['ESTELIFE_RECEIPT'] = 'Квитанции';
+$MESS ['ESTELIFE_RECEIPT_LIST'] = 'Квитанции';
+$MESS ['ESTELIFE_YANDEX_LIST'] = 'Yandex content';

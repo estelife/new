@@ -9,12 +9,11 @@ CModule::IncludeModule("estelife");
 $obDriver = VDatabase::driver();
 
 //Получение списка городов
-$arSelect = Array("ID", "NAME");
-$arFilter = Array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
-$obCities = CIBlockElement::GetList(Array("NAME"=>"ASC"), $arFilter, false, false, $arSelect);
-while($res = $obCities->Fetch()) {
-	$arResult['cities'][] = $res;
-}
+$arResult['cities']=array_values($APPLICATION->IncludeComponent(
+		'estelife:system-settings',
+		'',
+		array('filter'=>'cities')
+	));
 
 //получение списка специализаций
 $obQuery = $obDriver->createQuery();
@@ -107,6 +106,8 @@ if($obMethod){
 	'concreate'=>intval($obGet->one('concreate',0)),
 	'name'=>strip_tags(trim($obGet->one('name'))),
 );*/
+
+
 
 $arResult['filter'] = $arFilterParams;
 
