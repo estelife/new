@@ -1,6 +1,7 @@
 <?php
 use core\database\VDatabase;
 use core\types\VArray;
+use core\types\VString;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 CModule::IncludeModule("iblock");
@@ -258,6 +259,44 @@ if (!empty($arFilialsPays)){
 
 	foreach ($arPays as $key=>$val){
 		$arResult['clinic']['contacts'][$key]['pays'] =  mb_strtolower(implode(', ', $val), 'utf-8');
+	}
+}
+
+//Получаем специалистов
+$obQuery = $obClinics->createQuery();
+$obQuery->builder()->from('estelife_professionals_clinics', 'epc');
+$obJoin = $obQuery->builder()->join();
+$obJoin->_left()
+	->_from('epc', 'professional_id')
+	->_to('estelife_professionals', 'id', 'ep');
+$obJoin->_left()
+	->_from('ep', 'user_id')
+	->_to('user', 'ID', 'u');
+$obQuery->builder()
+	->field('ep.id','id')
+	->field('u.NAME','name')
+	->field('u.LAST_NAME', 'last_name')
+	->field('u.SECOND_NAME', 'second_name')
+	->field('ep.image_id', 'image_id')
+	->field('ep.short_description', 'short_description')
+	->filter()
+	->_eq('epc.clinic_id', $nClinicID);
+$arProfessionals = $obQuery->select()->all();
+if (!empty($arProfessionals)){
+	foreach ($arProfessionals as $arData){
+		$arData['link']='/pf'.$arData['id'].'/';
+		if (empty($arData['last_name']))
+			$arData['name']=VString::brForName($arData['name']);
+		else
+			$arData['name']=VString::brForName($arData['last_name'].' '.$arData['name'].' '.$arData['second_name']);
+
+		$arData['short_description'] = \core\types\VString::truncate(html_entity_decode($arData['short_description'],ENT_QUOTES), 120, '...');
+
+		if(!empty($arData['image_id'])){
+			$file=CFile::ShowImage($arData["image_id"], 227, 158,'alt="'.$arData['name'].'"');
+			$arData['logo']=$file;
+		}
+		$arResult['clinic']['professionals'][]=$arData;
 	}
 }
 

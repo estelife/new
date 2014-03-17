@@ -88,28 +88,29 @@ if (!empty($arResult['pill']['type_company_name'])){
 	$arResult['pill']['company_name'] = $arResult['pill']['type_company_name'];
 	$arResult['pill']['company_id'] = $arResult['pill']['type_company_id'];
 }
-unset($arResult['pill']['type_company_name']);
-unset($arResult['pill']['type_company_id']);
 
 if (!empty($arResult['pill']['type_country_name'])){
 	$arResult['pill']['country_name'] = $arResult['pill']['type_country_name'];
 	$arResult['pill']['country_id'] = $arResult['pill']['type_country_id'];
 }
-unset($arResult['pill']['type_country_name']);
-unset($arResult['pill']['type_country_id']);
 
 if (!empty($arResult['pill']['type_company_translit'])){
 	$arResult['pill']['company_translit'] = $arResult['pill']['type_company_translit'];
 }
-unset($arResult['pill']['type_company_translit']);
 
 if (!empty($arResult['pill']['type_company_id'])){
 	$arResult['pill']['company_id'] = $arResult['pill']['type_company_id'];
 }
-unset($arResult['pill']['type_company_id']);
+unset(
+	$arResult['pill']['type_company_id'],
+	$arResult['pill']['type_company_translit'],
+	$arResult['pill']['type_country_id'],
+	$arResult['pill']['type_country_name'],
+	$arResult['pill']['type_company_name'],
+	$arResult['pill']['type_company_id']
+);
 
 $arResult['pill']['company_link'] = '/pm'.$arResult['pill']['company_id'].'/';
-
 $arResult['pill']['img'] = CFile::ShowImage($arResult['pill']['logo_id'],180, 180, 'alt='.$arResult['pill']['name']);
 
 $arResult['pill']['detail_text'] = nl2br(htmlspecialchars_decode($arResult['pill']['detail_text'],ENT_NOQUOTES));
@@ -142,22 +143,6 @@ if (!empty($arPhotos)){
 		$file =  CFile::GetFileArray($val['original']);
 		$arResult['pill']['gallery'][] = $file['SRC'];
 	}
-}
-
-//Получение других препаратов для данной компании
-$obQuery = $obPills->createQuery();
-$obQuery->builder()->from('estelife_pills');
-$obQuery->builder()->filter()
-	->_eq('company_id', $arResult['pill']['company_id'])
-	->_ne('id', $arResult['pill']['id']);
-$obQuery->builder()->slice(0,3);
-$arProductions = $obQuery->select()->all();
-
-foreach ($arProductions as $val){
-	$val['img'] = CFile::ShowImage($val['logo_id'],150, 140, 'alt='.$val['name']);
-	$val['preview_text'] = \core\types\VString::truncate($val['preview_text'], 100, '...');
-	$val['link'] = '/'.$arParams['PREFIX'].$val['id'].'/';
-	$arResult['pill']['production'][] = $val;
 }
 
 $arResult['pill']['name'] = trim(strip_tags(html_entity_decode($arResult['pill']['name'], ENT_QUOTES, 'utf-8')));
