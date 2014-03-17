@@ -131,6 +131,10 @@ CModule::AddAutoloadClasses(
 		'pay\VProtocol'=>'classes/pay/class.VProtocol.php',
 		'pay\VReceipt'=>'classes/pay/class.VReceipt.php',
 		'pay\VReceiptEx'=>'classes/pay/class.VReceiptEx.php',
-		'pay\VSecure'=>'classes/pay/class.VSecure.php'
+		'pay\VSecure'=>'classes/pay/class.VSecure.php',
+
+		'core\models\VList' => 'classes/core/models/class.VList.php',
+		'core\models\VSettings' => 'classes/core/models/class.VSettings.php',
+		'code\models\VAdapter' => 'classes/core/models/interface.VAdapter.php'
 	)
 );
