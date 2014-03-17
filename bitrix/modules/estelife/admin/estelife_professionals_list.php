@@ -130,9 +130,6 @@ $obFilter=$obQuery->builder()
 	->field('ep.full_description','full_description')
 	->filter();
 
-
-
-
 if($_GET && $_GET['set_filter'] == 'Y'){
 
 	if(!empty($arFilter['id']))
@@ -172,6 +169,7 @@ $obFilter=$obQuery->builder()
 	->field('ect.NAME','city')
 	->field('ep.short_description','short_description')
 	->field('ep.full_description','full_description')
+	->group('ep.id')
 	->filter();
 
 

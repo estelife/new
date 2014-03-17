@@ -1928,6 +1928,9 @@ form input[type=checkbox] {
 .item.specialist h2 {
 	margin:5px 0 0 0;
 }
+.item.specialist h2 a {
+	font-size: 16px;
+}
 .item.specialist .country {
 	margin-top:21px;
 }
@@ -2465,7 +2468,8 @@ li.country, span.country {
 .inner .products .item.product .img-in,
 .similars .item.product .img-in,
 .item.specialist .img,
-.item.specialist .img-in {
+.item.specialist .img-in,
+.item.detail.company .item.specialist .img-in{
 	background:#fff;
 	height:158px;
 	width:227px;

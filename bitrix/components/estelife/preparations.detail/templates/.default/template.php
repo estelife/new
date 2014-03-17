@@ -165,37 +165,15 @@
 				<?php endif?>
 			</div>
 		</div>
-		<?php if (!empty($arResult['pill']['production'])):?>
-			<div class="similars products">
-				<div class="title">
-					<h2>Другие препараты производителя</h2>
-					<a href="<?=$arResult['pill']['company_link']?>">Смотреть все</a>
-				</div>
-				<div class="items products">
-					<?php foreach ($arResult['pill']['production'] as $arValue):?>
-						<div class="item product">
-							<div class="item-rel">
-								<div class="img">
-									<div class="img-in">
-										<a href="<?=$arValue['link']?>">
-											<?php if(!empty($arValue["img"])):?>
-												<?=$arValue["img"]?>
-											<?php else: ?>
-												<div class="default">Изображение отсутствует</div>
-											<?endif?>
-										</a>
-									</div>
-								</div>
-								<div class="cols">
-									<h4><?=$arValue["name"]?></h4>
-									<p><?=$arValue["preview_text"]?></p>
-								</div>
-							</div>
-							<div class="border"></div>
-						</div>
-					<?php endforeach?>
-				</div>
-			</div>
-		<?php endif?>
+		<?$APPLICATION->IncludeComponent(
+			"estelife:preparations.list",
+			"similar_list",
+			array(
+				"MAKER"=>$arResult['pill']['company_id'],
+				"MAKER_LINK"=> $arResult['pill']['company_link'],
+				"COMPONENT"=> 'similar_list',
+				"PREP_ID" => $arResult['pill']['id'],
+			)
+		)?>
 	</div>
 </div>

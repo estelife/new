@@ -127,49 +127,6 @@ if (!empty($arPhotos)){
 	}
 }
 
-//получение типов препаратов
-$obQuery = $obApps->createQuery();
-$obQuery->builder()->from('estelife_apparatus_type');
-$obQuery->builder()->filter()->_eq('apparatus_id', $arResult['app']['id']);
-$arTypes = $obQuery->select()->all();
-if (!empty($arTypes)){
-	foreach ($arTypes as $val){
-		if ($val['type_id'] == 1){
-			$arResult['app']['types'][] = 'Anti-Age терапия';
-		}elseif ($val['type_id'] == 2){
-			$arResult['app']['types'][] = 'Коррекция фигуры';
-		}elseif ($val['type_id'] == 3){
-			$arResult['app']['types'][] = 'Эпиляция';
-		}elseif ($val['type_id'] == 4){
-			$arResult['app']['types'][] = 'Миостимуляция';
-		}elseif ($val['type_id'] == 5){
-			$arResult['app']['types'][] = 'Микротоки';
-		}elseif ($val['type_id'] == 6){
-			$arResult['app']['types'][] = 'Лазеры';
-		}elseif ($val['type_id'] == 7){
-			$arResult['app']['types'][] = 'Диагностика';
-		}elseif ($val['type_id'] == 8){
-			$arResult['app']['types'][] = 'Реабилитация';
-		}
-	}
-}
-
-//Получение других препаратов для данной компании
-$obQuery = $obApps->createQuery();
-$obQuery->builder()->from('estelife_apparatus');
-$obQuery->builder()->filter()
-	->_eq('company_id', $arResult['app']['company_id'])
-	->_ne('id', $arResult['app']['id']);
-$obQuery->builder()->slice(0,3);
-$arProductions = $obQuery->select()->all();
-
-foreach ($arProductions as $val){
-	$val['img'] = CFile::ShowImage($val['logo_id'],150, 140, 'alt='.$val['name']);
-	$val['link'] = '/ap'.$val['id'].'/';
-	$val['preview_text'] = \core\types\VString::truncate($val['preview_text'], 90, '...');
-	$arResult['app']['production'][] = $val;
-}
-
 $arResult['app']['name']=trim(strip_tags(html_entity_decode($arResult['app']['name'], ENT_QUOTES, 'utf-8')));
 $arResult['app']['seo_name']=VString::pregStrSeo($arResult['app']['name']);
 $arResult['app']['seo_preview_text']=trim(strip_tags(html_entity_decode($arResult['app']['detail_text'], ENT_QUOTES, 'utf-8')));
