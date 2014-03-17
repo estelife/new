@@ -215,11 +215,12 @@ $arResult['action']['day_count']=$arResult['action']['day_count'].' '.\core\type
 $arResult['action']['end_date_format']=date('d.m.Y', $arResult['action']['end_date']);
 $arResult['action']['now'] = time();
 
-$arResult['action']['clinic']['name'] = trim(strip_tags(html_entity_decode($arResult['action']['clinic']['name'], ENT_QUOTES, 'utf-8')));
-$arResult['action']['clinic']['seo_name'] = \core\types\VString::pregStrSeo($arResult['action']['clinic']['name']);
+$arResult['action']['clinic']['name'] = trim(strip_tags(html_entity_decode($arClinic['name'], ENT_QUOTES, 'utf-8')));
+$arResult['action']['clinic']['seo_name'] = \core\types\VString::pregStrSeo($arClinic['name']);
 
 $arResult['action']['preview_text'] = trim(strip_tags(html_entity_decode($arResult['action']['preview_text'], ENT_QUOTES, 'utf-8')));
 $arResult['action']['seo_preview_text'] = \core\types\VString::pregStrSeo($arResult['action']['preview_text']);
+
 
 //получение города в родительском патеже
 if (!empty($arResult['action']['clinic']['main']['city_id'])){

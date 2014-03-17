@@ -1,7 +1,12 @@
-<div itemscope itemtype="http://schema.org/ScholarlyArticle">
+<<<<<<< HEAD
 <div class="item detail article">
+	<h1><!--$detail.NAME!--></h1>
+=======
+<div itemscope itemtype="http://schema.org/ScholarlyArticle">
+<div class="item detail big-font">
 	<meta itemprop="articleSection" content="<!--$detail.NAME!-->">
 	<h1 itemprop="headline"><!--$detail.NAME!--></h1>
+>>>>>>> origin/mx
 	<ul class="stat notlike" data-elid="<!--$detail.LIKES.element_id!-->" data-type="<!--$detail.LIKES.type!-->">
 		<!--if ($detail.ACTIVE_FROM)!-->
 		<span itemprop="datePublished" hidden="hidden"><!--$detail.ACTIVE_FROM!--></span>
