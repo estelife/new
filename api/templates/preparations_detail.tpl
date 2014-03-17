@@ -145,14 +145,14 @@
 			<!--endif!-->
 		</div>
 	</div>
-	<!--if($detail.production)!-->
+	<!--if($detail.similar)!-->
 		<div class="similars products">
 			<div class="title">
 				<h2>Другие препараты производителя</h2>
-				<a href="<!--$detail.company_link!-->">Смотреть все</a>
+				<a href="<!--$detail.similar.company_link!-->">Смотреть все</a>
 			</div>
 			<div class="items products">
-				<!--foreach ($detail.production as $key=>$val)!-->
+				<!--foreach ($detail.similar.production as $key=>$val)!-->
 				<div class="item product">
 					<div class="item-rel">
 						<div class="img">

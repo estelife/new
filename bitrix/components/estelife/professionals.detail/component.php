@@ -59,10 +59,11 @@ $obJoin->_left()
 	->_to('estelife_clinics','id','ec');
 $obQuery->builder()
 	->field('ec.id','id')
-	->field('ec.name','name');
-$obFilter->_eq('epc.professional_id', $nProfessionalId);
-
+	->field('ec.name','name')
+	->filter()
+	->_eq('epc.professional_id', $nProfessionalId);
 $arClinics=$obQuery->select()->all();
+
 if (!empty($arClinics)){
 	foreach ($arClinics as $val){
 		$val['link']='/cl'.$val['id'].'/';

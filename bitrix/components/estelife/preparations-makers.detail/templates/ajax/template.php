@@ -2,21 +2,19 @@
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	die();
 
-echo json_encode(array(
-	'detail'=>$arResult['company'],
-	'crumb'=>array(
-		array(
-			'name'=>'Главная',
-			'link'=>'/'
-		),
-		array(
-			'name'=>'Производители препаратов',
-			'link'=>'/preparations-makers/'
-		),
-		array(
-			'name'=>$arResult['company']['name'],
-			'link'=>'#'
-		)
+bitrix\ERESULT::$DATA[bitrix\ERESULT::$KEY]=$arResult['company'];
+bitrix\ERESULT::$DATA['class']='producer';
+bitrix\ERESULT::$DATA['crumb']=array(
+	array(
+		'name'=>'Главная',
+		'link'=>'/'
 	),
-	'class'=>'producer'
-));
+	array(
+		'name'=>'Производители препаратов',
+		'link'=>'/preparations-makers/'
+	),
+	array(
+		'name'=>$arResult['company']['name'],
+		'link'=>'#'
+	)
+);

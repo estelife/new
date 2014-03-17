@@ -18,6 +18,24 @@ if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 else
 	$arPageCount = 10;
 
+if (isset($arParams['MAKER']) && $arParams['MAKER']>0)
+	$nMaker=intval($arParams['MAKER']);
+else
+	$nMaker=0;
+
+if (isset($arParams['MAKER_LINK']) && !empty($arParams['COMPONENT']))
+	$sMakerLink=trim(strip_tags($arParams['MAKER_LINK']));
+else
+	$sMakerLink=0;
+
+if (isset($arParams['COMPONENT']) && !empty($arParams['COMPONENT']))
+	$arParams['COMPONENT']=$sComponent=trim(strip_tags($arParams['COMPONENT']));
+else
+	$arParams['COMPONENT']=$sComponent='';
+
+if (isset($arParams['PREP_ID']) && $arParams['PREP_ID']>0)
+	$nPrepId=intval($arParams['PREP_ID']);
+
 //Получение списка аппаратов
 $obQuery = $obPills->createQuery();
 $obQuery->builder()->from('estelife_apparatus', 'ap');
@@ -64,109 +82,139 @@ $obQuery->builder()
 	->field('ect.id','type_company_id')
 	->field('ect.translit','type_company_translit')
 	->field('ect.id','type_company_id');
-$obFilter = $obQuery->builder()->filter();
-
-$session = new \filters\decorators\VApparatuses();
-$arFilterParams = $session->getParams();
-
-
-if(!empty($arFilterParams['country']) && $arFilterParams['country'] !='all'){
-	$obFilter->_or()->_eq('ecg.country_id', intval($arFilterParams['country']));
-	$obFilter->_or()->_eq('ectg.country_id', intval($arFilterParams['country']));
-}
-
-if(!empty($arFilterParams['name'])){
-	$obFilter->_like('ap.name',$arFilterParams['name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
-}
-
-if(!empty($arFilterParams['type'])){
-	$obFilter->_eq('apt.type_id', intval($arFilterParams['type']));
-}
 $obQuery->builder()->group('ap.id');
 $obQuery->builder()->sort('ap.name', 'asc');
-$obResult = $obQuery->select();
 
-$obResult = $obResult->bxResult();
-$nCount = $obResult->SelectedRowsCount();
-$arResult['count'] = 'Найден'.VString::spellAmount($nCount, ',о,о'). ' '.$nCount.' аппарат'.VString::spellAmount($nCount, ',а,ов');
-\bitrix\ERESULT::$DATA['count'] = $arResult['count'];
+if ($sComponent=='list'){
+	$obFilter = $obQuery->builder()->filter();
 
-$obResult->NavStart($arPageCount);
-$arResult['apps'] = array();
+	$session = new \filters\decorators\VApparatuses();
+	$arFilterParams = $session->getParams();
 
-$i = 0;
-$arResult['apps'] = array();
-while($arData=$obResult->Fetch()){
-	$arData['link'] = '/ap'.$arData['id'].'/';
-	$arData['preview_text'] = \core\types\VString::truncate(nl2br(htmlspecialchars_decode($arData['preview_text'],ENT_NOQUOTES)), 250, '...');
-
-	if(!empty($arData['logo_id'])){
-		$file=CFile::ShowImage($arData["logo_id"], 180, 180,'alt="'.$arData['name'].'"');
-		$arData['logo']=$file;
+	if(!empty($arFilterParams['country']) && $arFilterParams['country'] !='all'){
+		$obFilter->_or()->_eq('ecg.country_id', intval($arFilterParams['country']));
+		$obFilter->_or()->_eq('ectg.country_id', intval($arFilterParams['country']));
 	}
 
-	if (!empty($arData['type_country_name'])){
-		$arData['country_name'] = $arData['type_country_name'];
-		$arData['country_id'] = $arData['type_country_id'];
+	if(!empty($arFilterParams['name'])){
+		$obFilter->_like('ap.name',$arFilterParams['name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 	}
-	unset($arData['type_country_name']);
-	unset($arData['type_country_id']);
 
-	if (!empty($arData['type_company_name'])){
-		$arData['company_name'] = $arData['type_company_name'];
-		$arData['company_translit'] = $arData['type_company_translit'];
+	if(!empty($arFilterParams['type'])){
+		$obFilter->_eq('apt.type_id', intval($arFilterParams['type']));
 	}
-	unset($arData['type_company_name']);
-	unset($arData['type_company_translit']);
 
-	if (!empty($arData['type_company_id'])){
-		$arData['company_id'] = $arData['type_company_id'];
+	$obResult = $obQuery->select();
+	$obResult = $obResult->bxResult();
+	$nCount = $obResult->SelectedRowsCount();
+	$arResult['count'] = 'Найден'.VString::spellAmount($nCount, ',о,о'). ' '.$nCount.' аппарат'.VString::spellAmount($nCount, ',а,ов');
+	\bitrix\ERESULT::$DATA['count'] = $arResult['count'];
+
+	$obResult->NavStart($arPageCount);
+	$arResult['apps'] = array();
+
+	$i = 0;
+	$arResult['apps'] = array();
+	while($arData=$obResult->Fetch()){
+		$arData['link'] = '/ap'.$arData['id'].'/';
+		$arData['preview_text'] = \core\types\VString::truncate(nl2br(htmlspecialchars_decode($arData['preview_text'],ENT_NOQUOTES)), 250, '...');
+
+		if(!empty($arData['logo_id'])){
+			$file=CFile::ShowImage($arData["logo_id"], 180, 180,'alt="'.$arData['name'].'"');
+			$arData['logo']=$file;
+		}
+
+		if (!empty($arData['type_country_name'])){
+			$arData['country_name'] = $arData['type_country_name'];
+			$arData['country_id'] = $arData['type_country_id'];
+		}
+
+		if (!empty($arData['type_company_name'])){
+			$arData['company_name'] = $arData['type_company_name'];
+			$arData['company_translit'] = $arData['type_company_translit'];
+		}
+
+		if (!empty($arData['type_company_id'])){
+			$arData['company_id'] = $arData['type_company_id'];
+		}
+		unset(
+			$arData['type_company_id'],
+			$arData['type_company_translit'],
+			$arData['type_company_name'],
+			$arData['type_country_id'],
+			$arData['type_country_name']
+		);
+
+		$arData['company_link'] = '/am'.$arData['company_id'].'/';
+
+		$arResult['apps'][]=$arData;
+
+		if ($i<=5){
+			$arDescription[]= mb_strtolower($arData['name']);
+		}
+		$i++;
 	}
-	unset($arData['type_company_id']);
 
-	$arData['company_link'] = '/am'.$arData['company_id'].'/';
-
-	$arResult['apps'][]=$arData;
-
-	if ($i<=5){
-		$arDescription[]= mb_strtolower($arData['name']);
+	//Получение типов аппаратов
+	$obQuery = $obPills->createQuery();
+	$obQuery
+		->builder()
+		->from('estelife_apparatus_typename')
+		->filter()
+		->_eq('type', 1);
+	$arTypes=$obQuery->select()->all();
+	foreach ($arTypes as $val){
+		$arTypes[$val['id']]=$val;
 	}
-	$i++;
+
+	if (empty($_GET['type'])){
+		$arSEOTitle = 'Список и база данных аппартов в эстетической медицине.';
+		$arSEODescription = 'Огромная база данных по аппаратам для всех процедур и видов терапий в эстетической медицине. Подробная информация только у нас.';
+	}else{
+		$arSEOTitle = $arTypes[$_GET['type']]['name'].' - все аппараты в нашей базе данных.';
+		$arSEODescription = 'Вся информация по аппаратам для процедуры '.$arTypes[$_GET['type']]['name'].'. Весь список с подробным описанием в нашей базе данных.';
+	}
+
+	if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
+		$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
+		$arSEOTitle.=' - '.$_GET['PAGEN_1'].' страница';
+		$arSEODescription.=' - '.$_GET['PAGEN_1'].' страница';
+	}
+
+
+	$APPLICATION->SetPageProperty("title", $arSEOTitle);
+	$APPLICATION->SetPageProperty("description", VString::truncate($arSEODescription, 160, ''));
+	$APPLICATION->SetPageProperty("keywords", "Estelife, Аппараты, ". $arSEODescription);
+
+	$sTemplate=$this->getTemplateName();
+	$obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
+	$arResult['nav']=$obNav->getNav();
+}elseif ($sComponent=='similar_list'){
+	$obQuery->builder()->filter()
+		->_eq('ap.company_id',$nMaker)
+		->_ne('ap.id', $nPrepId);
+	$obQuery->builder()->slice(0,3);
+	$arProductions = $obQuery->select()->all();
+
+	foreach ($arProductions as $val){
+		$val['img'] = CFile::ShowImage($val['logo_id'],150, 140, 'alt='.$val['name']);
+		$val['link'] = '/ap'.$val['id'].'/';
+		$val['preview_text'] = \core\types\VString::truncate($val['preview_text'], 90, '...');
+		$arResult['similar_apps']['production'][] = $val;
+	}
+	$arResult['similar_apps']['company_link'] = $sMakerLink;
+}elseif ($sComponent=='maker_list'){
+	$obQuery->builder()->filter()
+		->_eq('ap.company_id', $nMaker);
+	$arProductions = $obQuery->select()->all();
+
+	foreach ($arProductions as $val){
+		$val['img'] = CFile::ShowImage($val['logo_id'],150, 150, 'alt='.$val['name']);
+		$val['preview_text'] = \core\types\VString::truncate($val['preview_text'], 90, '...');
+		$val['link'] = '/ap'.$val['id'].'/';
+		$arResult['company']['production'][] = $val;
+	}
 }
 
-$arTypes = array(
-"1"=>'Anti-Age терапия',
-"7"=>'Диагностика',
-"2"=>'Коррекция фигуры',
-"9"=>'Микропигментация',
-"5"=>'Микротоки',
-"4"=>'Миостимуляция',
-"6"=>'Лазеры',
-"8"=>'Реабилитация',
-"3"=>'Эпиляция'
-);
 
-if (empty($_GET['type'])){
-	$arSEOTitle = 'Список и база данных аппартов в эстетической медицине.';
-	$arSEODescription = 'Огромная база данных по аппаратам для всех процедур и видов терапий в эстетической медицине. Подробная информация только у нас.';
-}else{
-	$arSEOTitle = $arTypes[$_GET['type']].' - все аппараты в нашей базе данных.';
-	$arSEODescription = 'Вся информация по аппаратам для процедуры '.$arTypes[$_GET['type']].'. Весь список с подробным описанием в нашей базе данных.';
-}
-
-if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
-	$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
-	$arSEOTitle.=' - '.$_GET['PAGEN_1'].' страница';
-	$arSEODescription.=' - '.$_GET['PAGEN_1'].' страница';
-}
-
-
-$APPLICATION->SetPageProperty("title", $arSEOTitle);
-$APPLICATION->SetPageProperty("description", VString::truncate($arSEODescription, 160, ''));
-$APPLICATION->SetPageProperty("keywords", "Estelife, Аппараты, ". $arSEODescription);
-
-$sTemplate=$this->getTemplateName();
-$obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
-$arResult['nav']=$obNav->getNav();
-//$arResult['nav']=$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav.php');
 $this->IncludeComponentTemplate();

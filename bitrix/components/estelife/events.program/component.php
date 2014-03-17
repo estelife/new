@@ -1,5 +1,6 @@
 <?php
 use core\exceptions\VException;
+use core\types\VString;
 
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	die();
@@ -193,5 +194,11 @@ try {
 		'CODE' => $e->getCode()
 	);
 }
+
+$sSeoName = trim(strip_tags(html_entity_decode($arResult['event']['short_name'], ENT_QUOTES, 'utf-8')));
+$sSeoName = VString::pregStrSeo($sSeoName);
+
+$APPLICATION->SetPageProperty("title", $sSeoName);
+$APPLICATION->SetPageProperty("keywords", "Estelife, Программа мероприятия, ".mb_strtolower($sSeoName));
 
 $this->IncludeComponentTemplate();

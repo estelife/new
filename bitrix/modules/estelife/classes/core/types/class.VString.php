@@ -274,7 +274,7 @@ class VString {
 	 * @return string
 	 */
 	public static function pregStrSeo($sText){
-		return preg_replace('#[^a-zа-я0-9\s\.\,\-\(\)\%]+#iu',' ',$sText);
+		return preg_replace('#([^a-zа-я0-9\s\.\,\-\(\)\%]+|[\r\n\t]+)#ius', ' ', $sText);
 	}
 
 

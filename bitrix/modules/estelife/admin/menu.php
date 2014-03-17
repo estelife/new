@@ -336,6 +336,17 @@ if($APPLICATION->GetGroupRight("estelife")>"D")
 						)
 					)
 				),
+				array(
+					"text" => GetMessage("ESTELIFE_YANDEX_LIST"),
+					"dynamic" => true,
+					"module_id" => "estelife",
+					"title" => GetMessage("ESTELIFE_YANDEX_LIST"),
+					"items_id" => "menu_estelife_yandex",
+					"url" => '/bitrix/admin/estelife_yandex_list.php?lang='.LANGUAGE_ID,
+					'more_url'=>array(
+						'/bitrix/admin/estelife_yandex_edit.php?lang='.LANGUAGE_ID,
+					),
+				),
 			)
 		);
 

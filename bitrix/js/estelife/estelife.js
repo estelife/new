@@ -1109,6 +1109,52 @@ $(function(){
 		}
 	});
 
+	//Получение специалистов
+	$('input[name*=\'professional_name\']').autocomplete({
+		minLength:3,
+		source:function(request,response){
+			var inpt=this.element;
+			$.get('/bitrix/admin/estelife_ajax.php',{
+				'action':'professionals',
+				'term':request.term
+			},function(r){
+				if('list' in r){
+					if(r.list.length==1){
+						var item= r.list.shift(),
+							prnt=inpt.parent();
+
+						inpt.val(item.name);
+						$('input[name*=\''+inpt.attr('data-input')+'\']',prnt).val(item.id);
+						response();
+
+						if(inpt.hasClass('estelife-need-clone')){
+							prnt.find('.estelife-more').click();
+						}
+					}else{
+						response($.map(r.list, function(item) {
+							return {
+								label: item.NAME,
+								value: item.NAME,
+								'id': item.ID
+							}
+						}));
+					}
+				}
+			},'json');
+		},
+		select:function(e, ui){
+			var inpt=$(this),
+				prnt=inpt.parent();
+
+			$('input[name*=\''+inpt.attr('data-input')+'\']',inpt.parent()).val(ui.item.id);
+
+			if(inpt.hasClass('estelife-need-clone')){
+				prnt.find('.estelife-more').click();
+				prnt.parent().prev().find('input[type=text]').val(ui.item.value);
+			}
+		}
+	});
+
 
 	//Получение препаратов
 	$('input[name*=\'pill_name\'],input[name=find_pill_name]').autocomplete({
