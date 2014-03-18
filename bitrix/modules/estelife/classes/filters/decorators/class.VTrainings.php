@@ -16,7 +16,7 @@ class VTrainings extends VDecorator {
 		if($nSity ==0)
 			$nSity = 'all';
 
-		$nDate = date('d-m-Y',time());
+		$nDate = date('d.m.y',time());
 
 		parent::__construct('trainings');
 		parent::setDefaultField('city',$nSity);

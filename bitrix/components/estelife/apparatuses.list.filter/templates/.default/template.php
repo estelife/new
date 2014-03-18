@@ -9,23 +9,18 @@
 		<input name="name" type="text" value="<?=$arResult['filter']['name']?>" class="text" />
 		<span class="block"></span>
 	</div>
-	<div class="field">
-		<label for="type">Тип</label>
-		<select name="type" >
-			<option value="">--</option>
-			<option value="1" <?if($arResult['filter']['type'] === 1) echo " selected";?>>Anti-Age терапия</option>
-			<option value="7" <?if($arResult['filter']['type'] === 7) echo " selected";?>>Диагностика</option>
-			<option value="2" <?if($arResult['filter']['type'] === 2) echo " selected";?>>Коррекция фигуры</option>
-			<option value="9" <?if($arResult['filter']['type'] === 9) echo " selected";?>>Микропигментация</option>
-			<option value="5" <?if($arResult['filter']['type'] === 5) echo " selected";?>>Микротоки</option>
-			<option value="4" <?if($arResult['filter']['type'] === 4) echo " selected";?>>Миостимуляция</option>
-			<option value="6" <?if($arResult['filter']['type'] === 6) echo " selected";?>>Лазеры</option>
-			<option value="8" <?if($arResult['filter']['type'] === 8) echo " selected";?>>Реабилитация</option>
-			<option value="3" <?if($arResult['filter']['type'] === 3) echo " selected";?>>Эпиляция</option>
-		</select>
-
-		<span class="block"></span>
-	</div>
+	<?php if (!empty($arResult['types'])):?>
+		<div class="field">
+			<label for="type">Назначение</label>
+			<select name="type" >
+				<option value="">--</option>
+				<?php foreach ($arResult['types'] as $val):?>
+					<option value="<?=$val['id']?>" <?if($arResult['filter']['type'] === $val['id']) echo " selected";?>><?=$val['name']?></option>
+				<?php endforeach?>
+			</select>
+			<span class="block"></span>
+		</div>
+	<?php endif?>
 	<div class="field country">
 		<label for="country">Страна</label>
 		<select name="country" >

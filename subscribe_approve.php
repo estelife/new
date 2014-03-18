@@ -1,7 +1,6 @@
 <?php
 use core\exceptions\VException;
 use core\types\VString;
-use notice\VNotice;
 
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("EsteLife.RU - информационный портал о косметологии и пластической хирургии");
@@ -72,9 +71,9 @@ try{
 		$obQuery->update();
 	}
 
-	VNotice::registerSuccess('Подписка успешно подтверждена', '');
+	\notice\VNotice::registerSuccess('Подписка успешно подтверждена');
 }catch(VException $e){
-	VNotice::registerError('Подтверждение подписки не удалось', '');
+	\notice\VNotice::registerError('Подтверждение подписки не удалось');
 }
 
 LocalRedirect('/');

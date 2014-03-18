@@ -65,6 +65,9 @@
 			<a href="/" class="logo">
 				Портал<br /> эстетической медицины
 			</a>
+			<div class="buket">
+				<img src="/bitrix/templates/estelife/images/buket.png" >
+			</div>
 			<? $APPLICATION->IncludeComponent("estelife:search.form", "", Array(
 					"PAGE"	=>	"/search/"
 				)
