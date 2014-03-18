@@ -36,7 +36,6 @@
 				</div>
 			</div>
 			<input type="submit" class="submit" value="Комментировать" name="send_comment">
-			<p class="total_error <?=(isset($arResult['error']) ? ' error' : '')?>">! Все поля обязательны к заполнению</p>
 		</form>
 	<?php else:?>
 		<div class="not-auth">

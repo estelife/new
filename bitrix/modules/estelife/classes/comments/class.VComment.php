@@ -110,7 +110,7 @@ final class VComment{
 			->_from('ec', 'user_id')
 			->_to('user', 'ID', 'u');
 		$obQuery->builder()
-			->sort('date_create', 'desc')
+			->sort('date_create', 'asc')
 			->field('ec.text')
 			->field('ec.date_create')
 			->field('u.NAME', 'name')

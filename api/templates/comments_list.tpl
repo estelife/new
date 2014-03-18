@@ -36,7 +36,6 @@
 					</div>
 				</div>
 				<input type="submit" class="submit" value="Комментировать" name="send_comment">
-				<p class="total_error <!--if($comments.error)!-->error<!--endif!-->">! Все поля обязательны к заполнению</p>
 			</form>
 		<!--else!-->
 		<div class="not-auth">
