@@ -2365,7 +2365,7 @@ li.country, span.country {
 .item.detail.article .recommend,
 .item.detail.article h4 {
 	font-size:18px;
-	color:#c67195;
+	color:#E50364; /*c67195*/
 	font-weight: bold;
 	quotes: '\00ab...' '...\00bb';
 	padding:0;
