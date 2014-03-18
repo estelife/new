@@ -102,7 +102,24 @@
 						<p class="none"><?=$arResult['app']['equipment']?></p>
 					</div>
 				<?php endif?>
-
+				<?php if (!empty($arResult['app']['effect'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Достигаемый эффект</a></h3>
+						<p class="none"><?=$arResult['app']['effect']?></p>
+					</div>
+				<?php endif?>
+				<?php if (!empty($arResult['app']['specialist'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Рекомендации специалисту</a></h3>
+						<p class="none"><?=$arResult['app']['specialist']?></p>
+					</div>
+				<?php endif?>
+				<?php if (!empty($arResult['app']['patient'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Рекомендации пациенту</a></h3>
+						<p class="none"><?=$arResult['app']['patient']?></p>
+					</div>
+				<?php endif?>
 
 				<?php if (!empty($arResult['app']['gallery'])):?>
 					<div class="el-tab">

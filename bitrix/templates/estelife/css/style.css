@@ -3277,20 +3277,13 @@ form.quality .submit,
 }
 .comments form .col1 {
 	float:left;
-	width:209px;
-}
-.comments form .col1 input {
-	width:183px;
+	width:685px;
 }
 .comments form .col1 .field:first-child {
 	margin-bottom:10px;
 }
-.comments form .col2 {
-	float: right;
-	width:459px;
-}
-.comments form .col2 textarea {
-	width: 433px;
+.comments form .col1 textarea {
+	width: 660px;
 	height: 80px;
 }
 .comments form .submit {
@@ -3303,6 +3296,10 @@ form.quality .submit,
 	margin-left:32px;
 	font-style: italic;
 	font-size:12px;
+}
+.comments .not-auth {
+	float:left;
+	font-size:14px;
 }
 .field {
 	position: relative;
