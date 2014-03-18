@@ -212,17 +212,6 @@ if($APPLICATION->GetGroupRight("estelife")>"D")
 					"items_id" => "menu_estelife_production",
 					"items" => array(
 						array(
-							"text" => GetMessage("ESTELIFE_PILLS_TYPE"),
-							"dynamic" => true,
-							"module_id" => "estelife",
-							"title" => GetMessage("ESTELIFE_PILLS_TITLE_TYPE"),
-							"items_id" => "menu_estelife_pills",
-							"url" => '/bitrix/admin/estelife_pills_type_list.php?lang='.LANGUAGE_ID,
-							'more_url'=>array(
-								'/bitrix/admin/estelife_pills_type_edit.php?lang='.LANGUAGE_ID,
-							)
-						),
-						array(
 							"text" => GetMessage("ESTELIFE_PILLS"),
 							"dynamic" => true,
 							"module_id" => "estelife",
@@ -264,17 +253,6 @@ if($APPLICATION->GetGroupRight("estelife")>"D")
 							"url" => '/bitrix/admin/estelife_apparatus_list.php?lang='.LANGUAGE_ID,
 							'more_url'=>array(
 								'/bitrix/admin/estelife_apparatus_edit.php?lang='.LANGUAGE_ID,
-							)
-						),
-						array(
-							"text" => GetMessage("ESTELIFE_APPARATUS_TYPE"),
-							"dynamic" => true,
-							"module_id" => "estelife",
-							"title" => GetMessage("ESTELIFE_APPARATUS_TITLE_TYPE"),
-							"items_id" => "menu_estelife_apparatus",
-							"url" => '/bitrix/admin/estelife_apparatus_type_list.php?lang='.LANGUAGE_ID,
-							'more_url'=>array(
-								'/bitrix/admin/estelife_apparatus_type_edit.php?lang='.LANGUAGE_ID,
 							)
 						)
 					)

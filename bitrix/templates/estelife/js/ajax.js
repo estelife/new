@@ -917,7 +917,7 @@ require([
 			})
 		});
 
-		//отправка комментария
+		//комментарии
 		body.on('submit','form[name=comments]', function(){
 			var form=$(this);
 			require(['mvc/Models','mvc/Views'],function(Models,Views){
@@ -945,10 +945,14 @@ require([
 			var el=$(this);
 			require(['mvc/Models', 'mvc/Views'], function(Models,Views){
 				var data={},
-					form=el.parents('div.comments');
+					form=el.parents('div.comments').find('form[name=comments]');
 
-				data['id']=form.attr('data-id');
-				data['type']=form.attr('data-type');
+				form.find('input').each(function(){
+					var input=$(this);
+					if (input.attr('name')=='id' || input.attr('name')=='type')
+						data[input.attr('name')]=input.val();
+				});
+
 				if (el.hasClass('hide')){
 					data['count']=5;
 				}else{

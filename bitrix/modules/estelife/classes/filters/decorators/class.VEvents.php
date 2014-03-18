@@ -17,7 +17,7 @@ class VEvents extends VDecorator {
 		if($nSity ==0)
 			$nSity = 'all';
 
-		$nDate = date('d.m.y',time());
+		$nDate = date('d-m-Y',time());
 
 		parent::__construct('events');
 		parent::setDefaultField('name','');

@@ -130,8 +130,6 @@ $arResult['pill']['security'] = nl2br(htmlspecialchars_decode($arResult['pill'][
 $arResult['pill']['mix'] = nl2br(htmlspecialchars_decode($arResult['pill']['mix'],ENT_NOQUOTES));
 $arResult['pill']['protocol'] = nl2br(htmlspecialchars_decode($arResult['pill']['protocol'],ENT_NOQUOTES));
 $arResult['pill']['specs'] = nl2br(htmlspecialchars_decode($arResult['pill']['specs'],ENT_NOQUOTES));
-$arResult['pill']['specialist'] = nl2br(htmlspecialchars_decode($arResult['pill']['specialist'],ENT_NOQUOTES));
-$arResult['pill']['effect'] = nl2br(htmlspecialchars_decode($arResult['pill']['effect'],ENT_NOQUOTES));
 
 //получение галереи
 $obQuery = $obPills->createQuery();

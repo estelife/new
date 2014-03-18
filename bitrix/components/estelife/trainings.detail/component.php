@@ -77,7 +77,6 @@ $obQuery->builder()->filter()
 	->_eq('event_id', $arResult['event']['id']);
 //	->_gte('date',strtotime(date('d.m.Y 00:00')));
 
-$arResult['event']['calendar']=array();
 $arCalendar = $obQuery->select()->all();
 if (!empty($arCalendar)){
 	foreach ($arCalendar as $val){
@@ -125,6 +124,51 @@ if (preg_match("/[а-я]+/u" ,$arResult['event']['calendar']['first_period']['fr
 }
 
 $arResult['event']['calendar']['first_period']=$arResult['event']['calendar']['first_period']['from'].(!empty($arResult['event']['calendar']['first_period']['to']) ? ' - '.$arResult['event']['calendar']['first_period']['to'] : '');
+/*
+//Получение организаторов
+$obQuery = $obEvent->createQuery();
+$obQuery->builder()->from('estelife_company_events', 'ece');
+$obJoin = $obQuery->builder()->join();
+$obJoin->_left()
+	->_from('ece', 'company_id')
+	->_to('estelife_companies', 'id', 'ec');
+$obJoin->_left()
+	->_from('ec', 'id')
+	->_to('estelife_company_geo', 'company_id', 'ecg');
+$obJoin->_left()
+	->_from('ecg','country_id')
+	->_to('iblock_element','ID','ct')
+	->_cond()->_eq('ct.IBLOCK_ID',15);
+$obJoin->_left()
+	->_from('ecg','city_id')
+	->_to('iblock_element','ID','cty')
+	->_cond()->_eq('cty.IBLOCK_ID',16);
+$obQuery->builder()
+	->field('ec.name', 'company_name')
+	->field('ec.id', 'company_id')
+	->field('ecg.address', 'address')
+	->field('ct.NAME', 'country_name')
+	->field('cty.NAME', 'city_name')
+	->field('ece.is_owner', 'is_owner');
+$obQuery->builder()->filter()
+	->_eq('ece.event_id', $arResult['event']['id']);
+
+$arCompanies = $obQuery->select()->all();
+
+if (!empty($arCompanies)){
+	foreach ($arCompanies as $val){
+		if ($val['is_owner'] == 1){
+			if (!empty($val['city_name'])){
+				$val['city_name'] = 'г. '. $val['city_name'];
+			};
+			$val['full_address'] = $val['address'];
+			$val['link'] = '/tc'.$val['company_id'].'/';
+			$arResult['event']['main_org'] = $val;
+		}else{
+			$arResult['event']['org'][] = $val;
+		}
+	}
+}*/
 
 //Получение контактных данных
 $obQuery = $obEvent->createQuery();
@@ -174,7 +218,6 @@ if (!empty($arResult['event']['city_id'])){
 		$mCity['PROPERTY_CITY_VALUE']:
 		$arResult['event']['city_name'];
 }
-
 
 $arResult['event']['full_name'] = trim(strip_tags(html_entity_decode($arResult['event']['full_name'], ENT_QUOTES, 'utf-8')));
 $arResult['event']['seo_full_name'] = VString::pregStrSeo($arResult['event']['full_name']);

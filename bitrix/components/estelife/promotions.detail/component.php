@@ -180,7 +180,7 @@ $obFilter=$obBuilder
 	->_gte('ea.end_date', time());
 
 if(!empty($arResult['service_concreate']))
-	$obFilter->_or()->_in('eat.service_concreate_id',$arResult['service_concreate']);
+	$obFilter->_or()->_in('eat.service_concreate_id',$arResult['service']);
 if(!empty($arResult['service']))
 	$obFilter->_or()->_in('eat.service_id',$arResult['service']);
 if(!empty($arResult['specialization']))

@@ -78,14 +78,12 @@ $obQuery->builder()
 		->_eq('type_id',$nType);
 $arResult['countries'] = $obQuery->select()->all();
 
-//Получение типов аппаратов
-$obQuery = $obCountries->createQuery();
-$obQuery
-	->builder()
-	->from('estelife_apparatus_typename')
-	->filter()
-	->_eq('type', 1);
-$arResult['types'] = $obQuery->select()->all();
+/*$arResult['filter']=array(
+	'country'=>intval($obGet->one('country',0)),
+	'type'=>intval($obGet->one('type',0)),
+	'name'=>strip_tags(trim($obGet->one('name',''))),
+	'company_name'=>strip_tags(trim($obGet->one('company_name',''))),
+);*/
 
 $arResult['filter'] = $arFilterParams;
 
