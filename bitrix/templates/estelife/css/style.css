@@ -2396,6 +2396,10 @@ li.country, span.country {
 .item.detail.article .float-image p {
 	width: 470px;
 }
+.item.detail.article .inset span {
+	font-size: 16px;
+	font-weight: normal;
+}
 .item.detail.article .inset.left span {
 	background:url('../images/icons/callout_l.png') right 0 no-repeat;
 	padding-right:55px;
