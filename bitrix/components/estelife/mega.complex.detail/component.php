@@ -59,7 +59,6 @@ if (!$arLink || empty($arDirectories[$mathces[1]]))
 	);
 
 	if(array_key_exists ($mathces[1],$arBlocksIds)){
-
 		$nBlockID = $arBlocksIds[$mathces[1]];
 
 		$obResult=CIBlockElement::GetList(
@@ -81,6 +80,11 @@ if (!$arLink || empty($arDirectories[$mathces[1]]))
 		};
 	}
 }
+
+$bInitTemplate = true;
+
+if (!$bNotFound && !($bInitTemplate = $this->initComponentTemplate($componentPage)))
+	$bNotFound = true;
 
 if($bNotFound) {
 	$componentPage='index';
@@ -110,4 +114,15 @@ $arResult = array(
 	'DEEP_PATHES' => $arPath
 );
 
-$this->IncludeComponentTemplate($componentPage);
+// А это - встречайте - костыль для злоебучего битрикса
+
+if ($bInitTemplate || $this->initComponentTemplate($componentPage)) {
+	$this->showComponentTemplate();
+
+	if($this->__component_epilog)
+		$this->includeComponentEpilog($this->__component_epilog);
+
+	$this->abortResultCache();
+} else {
+	$this->__showError('Страница не найдена');
+}
