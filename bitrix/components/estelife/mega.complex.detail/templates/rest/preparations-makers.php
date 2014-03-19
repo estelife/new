@@ -17,8 +17,8 @@ $APPLICATION->IncludeComponent(
 	"estelife:preparations.list",
 	"ajax",
 	array(
-		"MAKER"=>bitrix\ERESULT::$DATA['company']['id'],
-		"MAKER_NAME"=>bitrix\ERESULT::$DATA['company']['name'],
+		"MAKER"=>bitrix\ERESULT::$DATA['detail']['id'],
+		"MAKER_NAME"=>bitrix\ERESULT::$DATA['detail']['name'],
 		"COMPONENT"=> 'maker_list',
 	)
 );

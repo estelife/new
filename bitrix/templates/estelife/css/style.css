@@ -1594,7 +1594,7 @@ td.prices i {
 	padding:20px;
 	background:#dddddd;
 	display: block;
-	quotes: '';
+	quotes: '' '';
 	font-style: italic;
 	font-size: 14px;
 }
