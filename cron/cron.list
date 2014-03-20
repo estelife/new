@@ -5,3 +5,4 @@
 40 2 * * *	php -f /var/www/estelife/data/www/estelife.ru/cron/indexer.php sphinx.conf events
 50 2 * * *	php -f /var/www/estelife/data/www/estelife.ru/cron/indexer.php sphinx.conf preparations
 0 3 * * *	php -f /var/www/estelife/data/www/estelife.ru/cron/indexer.php sphinx.conf promotions
+10 3 * * *	php -f /var/www/estelife/data/www/estelife.ru/cron/xml_maker.php

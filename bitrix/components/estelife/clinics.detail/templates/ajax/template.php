@@ -3,7 +3,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	die();
 
 if (!empty($arResult['clinic']['city_id']))
-	$arGet = '?='.$arResult['clinic']['city_id'];
+	$arGet = '?city='.$arResult['clinic']['city_id'];
 else
 	$arGet='';
 

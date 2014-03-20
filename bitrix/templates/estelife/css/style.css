@@ -581,6 +581,8 @@ ul.stat {
 	padding-left:20px;
 	margin-right:15px;
 	height:16px;
+	width: auto;
+	margin-top: 0;
 }
 .content ul.stat .unlikes {
 	margin-right: 0;
@@ -1574,10 +1576,12 @@ td.prices i {
 .item.detail .gallery .arrow.right i {
 	background-position: -296px -54px;
 }
-.item.detail .gallery .arrow.right:hover i, .win-gallery .arrow.right i {
+.item.detail .gallery .arrow.right:hover i,
+.win-gallery .arrow.right i {
 	background-position: -459px 0;
 }
-.item.detail .gallery-in .item, .item.detail .gallery-in,
+.item.detail .gallery-in .item,
+.item.detail .gallery-in,
 .item.detail .gallery-in .img {
 	width:605px;
 }
@@ -1590,7 +1594,9 @@ td.prices i {
 	padding:20px;
 	background:#dddddd;
 	display: block;
-	quotes: '';
+	quotes: '' '';
+	font-style: italic;
+	font-size: 14px;
 }
 .item.detail p {
 	margin:15px 0;
@@ -1603,7 +1609,7 @@ td.prices i {
 	padding-top:25px;
 	float: left;
 	width: 100%;
-	margin-top:30px;
+	margin-top:50px;
 }
 .item.detail .info .stat {
 	margin:0 54px 0 0;
@@ -2218,14 +2224,16 @@ h3 a:hover,
 .similars .item.product li {
 	padding-left:0;
 }
-.item.producer .cols, .item.product .cols {
+.item.producer .cols,
+.item.product .cols {
 	float:right;
 	width:540px;
 }
 .item.product .cols {
 	width:458px;
 }
-.items .item.producer p, .items .item.product p {
+.items .item.producer p,
+.items .item.product p {
 	margin:0;
 	clear: both;
 }
@@ -2326,8 +2334,109 @@ li.country, span.country {
 	padding:0;
 	float:left;
 	margin-bottom: 0;
+	height:auto;
 }
-.item.detail.producer .current, .item.detail.product .current {
+.item.detail.article,
+.item.detail.article p,
+.item.detail.article h3 {
+	font-size: 16px;
+	color:#2c2c2c;
+}
+.item.detail.article a {
+	color:#e60265;
+}
+.item.detail.article .announce,
+.item.detail.article .announce p {
+	font-weight: bold;
+	font-size:18px;
+}
+.item.detail.article h2 {
+	font-size:22px;
+	color:#e60265;
+}
+.item.detail.article p {
+	margin: 27px 0;
+}
+.item.detail.article blockquote {
+	margin:45px 0;
+}
+.item.detail.article blockquote q,
+.item.detail.article .inset span,
+.item.detail.article .recommend,
+.item.detail.article h4 {
+	font-size:18px;
+	color:#E50364; /*c67195*/
+	font-weight: bold;
+	quotes: '\00ab...' '...\00bb';
+	padding:0;
+	font-style: normal;
+	background:none;
+	width: 594px;
+	margin: 0 auto;
+	text-align: center;
+}
+.item.detail.article .inset,
+.item.detail.article .float-image {
+	overflow: hidden;
+	margin:27px 0;
+}
+.item.detail.article .inset span,
+.item.detail.article .float-image img {
+	width:229px;
+	text-align: left;
+	border:none;
+	float:left;
+}
+.item.detail.article .inset p,
+.item.detail.article .float-image p{
+	float:right;
+	width:420px;
+	margin:0;
+}
+.item.detail.article .float-image p {
+	width: 470px;
+}
+.item.detail.article .inset span {
+	font-size: 16px;
+	font-weight: normal;
+}
+.item.detail.article .inset.left span {
+	background:url('../images/icons/callout_l.png') right 0 no-repeat;
+	padding-right:55px;
+}
+.item.detail.article .inset.right p,
+.item.detail.article .float-image.right p {
+	float:left;
+}
+.item.detail.article .float-image.right img {
+	float:right;
+}
+.item.detail.article h4 {
+	width: auto;
+	text-align: left;
+	margin:27px 0;
+}
+.item.detail.article .inset.right span {
+	float:right;
+	background:url('../images/icons/callout.png') 0 0 no-repeat;
+	padding-left:55px;
+}
+.item.detail.article .recommend {
+	font-size:16px;
+	font-weight: normal;
+	width:auto;
+	text-align: left;
+	padding-left: 82px;
+	background:url('../images/icons/chirik.png') 45px 5px no-repeat;
+	margin:40px 0;
+}
+.item.detail.article .author {
+	font-style:normal;
+	font-size:14px;
+	float:right;
+}
+.item.detail.producer .current,
+.item.detail.product .current {
 	overflow: hidden;
 	margin-bottom:26px;
 }
@@ -3820,6 +3929,7 @@ form.quality .submit,
 .hall {
 	overflow: hidden;
 	width:100%;
+	float:left;
 }
 .hall .date {
 	width: auto;
@@ -3967,4 +4077,64 @@ form.quality .submit,
 }
 .pro li a:hover span {
 	color:#fff;
+}
+.content .info ul.stat {
+	height:auto;
+}
+.content .info ul.stat .likes,
+.content .info ul.stat .unlikes,
+.content .info ul.stat .likes i,
+.content .info ul.stat .unlikes i {
+	width:40px;
+	height:29px;
+	text-indent: -10000px;
+	margin:0;
+	padding:0;
+	display: block;
+}
+.content .info ul.stat .likes i,
+.content .info ul.stat .unlikes i {
+	background-position: -63px -111px;
+	top:0;
+}
+.content .info ul.stat .likes {
+	margin-right: 10px;
+}
+.content .info ul.stat .likes:hover i,
+.content .info ul.stat .likes.active i {
+	 background-position: -110px -111px;
+}
+.content .info ul.stat .unlikes i {
+	background-position: -160px -111px;
+}
+.content .info ul.stat .unlikes:hover i,
+.content .info ul.stat .unlikes.active i {
+	background-position: -208px -111px;
+}
+.content .info .social {
+	float:right;
+	width:136px;
+	margin-top:3px;
+}
+.content .info .social span {
+	font-weight: bold;
+	font-size: 12px;
+	line-height: 22px;
+}
+.item.detail .info .social a {
+	width:24px;
+	height:23px;
+	margin:0;
+}
+.item.detail .info .social a.vk,
+.item.detail .info .social a.vk:hover {
+	background-position: -1px -112px;
+	margin: 0 5px 0 18px;
+}
+.item.detail .info .social a.fb,
+.item.detail .info .social a.fb:hover {
+	background-position: -32px -112px;
+}
+.item.detail .info .social a:hover {
+	opacity: 0.8;
 }

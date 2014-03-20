@@ -7,7 +7,6 @@ $arDirectories=$APPLICATION->IncludeComponent(
 	array('filter'=>'directions')
 );
 
-
 $arDefaultUrlTemplates404 = array(
 	"articles" => "#CURRENT_CODE#/(.*)"
 );
@@ -34,12 +33,60 @@ $componentPage = CComponentEngine::ParseComponentPath(
 
 //разбираем $arVariables
 CModule::IncludeModule('estelife');
+CModule::IncludeModule("iblock");
+
 $sCode=htmlspecialchars($arVariables['CURRENT_CODE'],ENT_QUOTES,'utf-8');
 $arPath = array();
 $arLink = preg_match('/^([a-z]{2})([0-9]+)$/', $sCode, $mathces);
+$bNotFound = false;
 
 if (!$arLink || empty($arDirectories[$mathces[1]]))
 {
+	$bNotFound = true;
+}else{
+	$componentPage = $arDirectories[$mathces[1]];
+	$sPath = preg_replace('#^\/rest#','',GetPagePath());
+	$arPath = explode('/', $sPath);
+	$arPath = array_splice($arPath, 2, -1);
+
+	if(!empty($arPath))
+		$componentPage .= '-deep';
+
+	$arBlocksIds = array(
+		'ar'=>14,
+		'pt'=>36,
+		'ns'=>3,
+	);
+
+	if(array_key_exists ($mathces[1],$arBlocksIds)){
+		$nBlockID = $arBlocksIds[$mathces[1]];
+
+		$obResult=CIBlockElement::GetList(
+			array('PROPERTY_COUNT'=>'ASC'),
+			array(
+				'ID'=>$mathces[2],
+				'IBLOCK_ID' => $nBlockID,
+				'ACTIVE' => 'Y',
+			),
+			false,
+			array('nPageSize'=>$arParams['NEWS_COUNT']),
+			array(
+				'ID',
+			)
+		);
+
+		if(empty($obResult->arResult)){
+			$bNotFound = true;
+		};
+	}
+}
+
+$bInitTemplate = true;
+
+if (!$bNotFound && !($bInitTemplate = $this->initComponentTemplate($componentPage)))
+	$bNotFound = true;
+
+if($bNotFound) {
 	$componentPage='index';
 	$folder404 = str_replace("\\", "/", $arParams["SEF_FOLDER"]);
 	if ($folder404 != "/")
@@ -53,14 +100,6 @@ if (!$arLink || empty($arDirectories[$mathces[1]]))
 		$APPLICATION->SetTitle("404 Not Found");
 		CHTTP::SetStatus("404 Not Found");
 	}
-}else{
-	$componentPage = $arDirectories[$mathces[1]];
-	$sPath = preg_replace('#^\/rest#','',GetPagePath());
-	$arPath = explode('/', $sPath);
-	$arPath = array_splice($arPath, 2, -1);
-
-	if(!empty($arPath))
-		$componentPage .= '-deep';
 }
 
 CComponentEngine::InitComponentVariables($componentPage, $arComponentVariables, $arVariableAliases, $arVariables);
@@ -75,4 +114,15 @@ $arResult = array(
 	'DEEP_PATHES' => $arPath
 );
 
-$this->IncludeComponentTemplate($componentPage);
+// А это - встречайте - костыль для злоебучего битрикса
+
+if ($bInitTemplate || $this->initComponentTemplate($componentPage)) {
+	$this->showComponentTemplate();
+
+	if($this->__component_epilog)
+		$this->includeComponentEpilog($this->__component_epilog);
+
+	$this->abortResultCache();
+} else {
+	$this->__showError('Страница не найдена');
+}

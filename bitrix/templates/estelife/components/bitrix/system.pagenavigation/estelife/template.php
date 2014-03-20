@@ -9,7 +9,11 @@
 			if($NavRecordGroup == $arResult['NavPageNomer']): ?>
 				<li><b><?=$NavRecordGroup?></b></li>
 			<?php else: ?>
-				<li><a href="<?=$arResult['sUrlPath']?>?PAGEN_<?=$arResult['NavNum']?>=<?=$NavRecordGroup?>&<?=$arResult['NavQueryString']?>" data-page="<?=$NavRecordGroup?>"><?=$NavRecordGroup?></a></li>
+				<? $sAndArg = '';
+					if(!empty($arResult['NavQueryString'])){
+						$sAndArg = '&';
+					} ?>
+				<li><a href="<?=$arResult['sUrlPath']?>?PAGEN_<?=$arResult['NavNum']?>=<?=$NavRecordGroup?><?=$sAndArg;?><?=$arResult['NavQueryString']?>" data-page="<?=$NavRecordGroup?>"><?=$NavRecordGroup?></a></li>
 			<?php endif;
 			$NavRecordGroup++;
 		}
