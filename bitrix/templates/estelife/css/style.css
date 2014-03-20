@@ -2338,12 +2338,19 @@ li.country, span.country {
 }
 .item.detail.article,
 .item.detail.article p,
-.item.detail.article h3 {
+.item.detail.article h3,
+.item.detail.article a {
 	font-size: 16px;
 	color:#2c2c2c;
 }
 .item.detail.article a {
 	color:#e60265;
+	display: inline;
+	font-weight: normal;
+	margin:0;
+}
+.item.detail.article a:hover {
+	text-decoration: underline;
 }
 .item.detail.article .announce,
 .item.detail.article .announce p {
