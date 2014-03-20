@@ -1,56 +1,73 @@
 <?php
-namespace form;
+namespace core\utils\forms;
 
 /**
- *
- * @author Panait Vitaly <panait.v@yandex.ru>
- * @since 06.02.14
+ * Класс для работы с полями.
+ * @file class.VField.php
+ * @version 0.1
  */
+abstract class VField {
 
-abstract class VField{
-	protected $sName;
 	protected $mValue;
+	protected $sName;
+	protected $sId;
 	protected $sLabel;
 	protected $arAttributes;
-	protected $sId;
 
-	abstract public function __toString();
+	abstract function __toString();
 
 	public function __construct($sName, $sId){
-		$this->sName=trim(strip_tags($sName));
-		if (empty($sId))
-			$sId=md5($this->sName.time());
-
-		$this->sId=$sId;
+		$this->sName = trim(addslashes(htmlspecialchars($sName, ENT_QUOTES, 'utf-8')));
+		$this->sId = trim(addslashes(htmlspecialchars($sId, ENT_QUOTES, 'utf-8')));
 	}
 
+	/**
+	 * Метод установки имени поля
+	 * @param $sName
+	 */
 	public function setName($sName){
-		if (!empty($sName))
-			$this->sName=$sName;
+		if (empty($sName))
+			assert('Field name is empty');
+
+		$this->sName = trim(addslashes(htmlspecialchars($sName, ENT_QUOTES, 'utf-8')));
 	}
 
+	/**
+	 * Метод установки значения для поля
+	 * @param $mValue
+	 */
 	public function setValue($mValue){
-		if (empty($mValue))
-			$this->mValue=false;
-
-		$this->mValue=$mValue;
+		$this->mValue = trim(addslashes(htmlspecialchars($mValue, ENT_QUOTES, 'utf-8')));
 	}
 
-	public function setLabel($sLabel){
-		if (!empty($sLabel))
-			$this->sLabel=$sLabel;
-	}
 
-	public function setAttributes($arAttributes){
-		if (!empty($arAttributes))
-			$this->arAttributes=$arAttributes;
-	}
-
+	/**
+	 * Метод получения значения для поля
+	 */
 	public function getValue(){
 		return $this->mValue;
 	}
 
-	public function getName(){
-		return $this->sName;
+	/**
+	 * Метод установки лэйбла для поля
+	 * @param $sLabel
+	 */
+	public function setLabel($sLabel){
+		if (empty($sLabel))
+			assert('Field label is empty');
+
+		$this->sLabel = trim(addslashes(htmlspecialchars($sLabel, ENT_QUOTES, 'utf-8')));
+
+	}
+
+	/**
+	 * Метод установки атрибутов поля
+	 * @param array $arAttributes
+	 */
+	public function setAttributes(array $arAttributes){
+		if (!is_array($arAttributes) && empty($arAttributes))
+			assert('Field attributes is empty or not array');
+
+		$this->arAttributes = $arAttributes;
 	}
 }

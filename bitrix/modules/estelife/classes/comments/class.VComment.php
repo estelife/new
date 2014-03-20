@@ -19,14 +19,13 @@ final class VComment{
 	/**
 	 * Добавление комментария в базу
 	 * @param $sText
-	 * @param $sName
 	 * @param $nType
 	 * @param $nElId
 	 * @return bool|mixed
 	 *
 	 */
-	public function setComment($sText, $sName, $nType, $nElId){
-		if (empty($sText) || empty($sName) || empty($nType) || empty($nElId))
+	public function setComment($sText, $nType, $nElId){
+		if (empty($sText) || empty($nType) || empty($nElId))
 			return false;
 
 		$nId=0;
@@ -43,7 +42,6 @@ final class VComment{
 				->value('date_create',date('Y-m-d H:i:s', time()))
 				->value('active', 1)
 				->value('moderate', 0)
-				->value('name', $sName)
 				->value('user_id', $nUserId)
 				->value('type', $nType)
 				->value('element_id', $nElId);
@@ -112,6 +110,7 @@ final class VComment{
 		$obQuery->builder()
 			->sort('date_create', 'asc')
 			->field('ec.text')
+			->field('ec.id')
 			->field('ec.date_create')
 			->field('u.NAME', 'name')
 			->field('u.LAST_NAME', 'last_name')
@@ -201,8 +200,6 @@ final class VComment{
 		if (empty($nType) || empty($nElId))
 			return false;
 
-
-
 		$obComment=VDatabase::driver();
 		$obQuery=$obComment->createQuery();
 		$obQuery
@@ -231,6 +228,18 @@ final class VComment{
 		return $this->getCount($nType, $nElId);
 	}
 
+	public function getCountUnreadComments(){
+		$obComment=VDatabase::driver();
+		$obQuery=$obComment->createQuery();
+		$obQuery
+			->builder()
+			->from('estelife_comments')
+			->filter()
+			->_eq('moderate', 0);
+
+		return $obQuery->select()->count();
+	}
+
 	/**
 	 * Получение количества пользователей для конкретного типа
 	 * @param $nType
@@ -240,4 +249,5 @@ final class VComment{
 	public function getCountUsers($nType, $nElId){
 		return $this->getCount($nType, $nElId, 'user_id');
 	}
+
 }

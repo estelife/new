@@ -18,6 +18,7 @@
 			<ul class="menu">
 				<li class="active"><a href="#"><i></i></a></li>
 				<li><a href="#"><i></i></a></li>
+				<li><a href="#"><i></i></a></li>
 			</ul>
 		</div>
 		<div class="border"></div>

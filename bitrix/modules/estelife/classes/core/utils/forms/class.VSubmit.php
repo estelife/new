@@ -1,31 +1,30 @@
 <?php
-namespace submit;
-use field\VField;
+namespace core\utils\forms;
 
 /**
- *
- * @author Panait Vitaly <panait.v@yandex.ru>
- * @since 06.02.14
+ * Класс для построения текстового поля
+ * @file class.VText.php
+ * @version 0.1
  */
+class VSubmit extends VField {
 
-class VSubmit extends VField{
 	public function __toString(){
-		$sField='';
-		$sAttr='';
+		$sField="";
+		$sAttributes="";
 
 		if (!empty($this->arAttributes)){
 			foreach ($this->arAttributes as $key=>$val){
-				$sAttr.=' '.$key.'="'.$val.'"';
+				$sAttributes .= ' '.$key.'="'.$val.'"';
 			}
 		}
 
 		if (!empty($this->sLabel))
-			$sField.='<label for="'.$this->sId.'">';
+			$sField .= '<label for="'.$this->sId.'">';
 
-		$sField.='<input type="submit" name="'.$this->sName.'" value="'.$this->mValue.'" id="'.$this->sId.'"'.$sAttr.' />';
+		$sField .= '<input type="submit" name="'.$this->sName.'" value="'.$this->mValue.'" id="'.$this->sId.'"'.$sAttributes.' />';
 
 		if (!empty($this->sLabel))
-			$sField.=$this->sLabel.'</label>';
+			$sField .= $this->sLabel.'</label>';
 
 		return $sField;
 	}

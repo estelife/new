@@ -25,6 +25,7 @@ $arFilterFields = Array(
 	"find_user_id",
 	"find_date_create_to",
 	"find_date_create_from",
+	"find_moderate",
 );
 $lAdmin->InitFilter($arFilterFields);
 $arFilter = Array(
@@ -33,6 +34,7 @@ $arFilter = Array(
 	"user_id"=> $find_user_id,
 	"date_create_to"=>$find_date_create_to,
 	"date_create_from"=>$find_date_create_from,
+	"moderate"=>$find_moderate,
 );
 
 //====== TABLE HEADERS =========
@@ -43,6 +45,7 @@ $headers = array(
 	array("id"=>"moderate", "content"=>GetMessage("ESTELIFE_F_MODERATE"),"sort"=>"moderate","default"=>true),
 	array("id"=>"active", "content"=>GetMessage("ESTELIFE_F_ACTIVE"),"sort"=>"active","default"=>true),
 	array("id"=>"date_create", "content"=>GetMessage("ESTELIFE_F_DATE_CREATE"),"sort"=>"date_create","default"=>true),
+	array("id"=>"url", "content"=>GetMessage("ESTELIFE_F_URL"),"sort"=>"element_id","default"=>true),
 	array("id"=>"text", "content"=>GetMessage("ESTELIFE_F_TEXT"),"sort"=>"text","default"=>true),
 
 );
@@ -102,6 +105,11 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 		}
 	}
 }
+$arTypes=array_values($APPLICATION->IncludeComponent(
+	'estelife:system-settings',
+	'',
+	array('filter'=>'types')
+));
 
 $obQuery=$obComment->createQuery();
 $obQuery->builder()
@@ -132,6 +140,8 @@ $obFilter=$obQuery->builder()
 	->field('ec.date_create')
 	->field('ec.active')
 	->field('ec.moderate')
+	->field('ec.type')
+	->field('ec.element_id')
 	->field('u.NAME', 'name')
 	->field('u.LAST_NAME', 'last_name')
 	->field('u.LOGIN', 'login')
@@ -145,6 +155,8 @@ if(!empty($arFilter['id']))
 if(!empty($arFilter['name']))
 	$obFilter->_like('ec.name',$arFilter['name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 
+if(!is_null($arFilter['moderate']))
+	$obFilter->_eq('ec.moderate',$arFilter['moderate']);
 
 if(!empty($arFilter['user_id']))
 	$obFilter->_eq('ec.user_id',$arFilter['user_id']);
@@ -183,6 +195,8 @@ while($arRecord=$obResult->Fetch()){
 	$row->AddViewField("active",$arRecord['active']);
 	$row->AddViewField("date_create",$arRecord['date_create']);
 	$row->AddViewField("text",$arRecord['text']);
+	$arRecord['url'] = '<a href="/'.$arTypes[$arRecord['type']].$arRecord['element_id'].'/#comment_'.$arRecord['id'].'" target="_blank">ссылка</a>';
+	$row->AddViewField("url",$arRecord['url']);
 
 
 	$arActions = Array();
@@ -244,6 +258,7 @@ require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_adm
 				GetMessage("ESTELIFE_F_NAME"),
 				GetMessage("ESTELIFE_F_USER_ID"),
 				GetMessage("ESTELIFE_F_DATE_CREATE"),
+				GetMessage("ESTELIFE_F_MODERATE"),
 			)
 		);
 		$oFilter->Begin();
@@ -260,11 +275,20 @@ require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_adm
 			<td><b><?echo GetMessage("ESTELIFE_F_USER_ID")?></b></td>
 			<td><input type="text" name="find_user_id" size="47" value="<?echo htmlspecialcharsbx($find_user_id)?>"></td>
 		</tr>
-
 		<tr>
 			<td><?echo GetMessage("ESTELIFE_F_DATE_CREATE")?></td>
 			<td>
 				<?echo CalendarPeriod("find_date_create_to", "", "find_date_create_from", "", "form1", "N")?>
+			</td>
+		</tr>
+		<tr>
+			<td><?echo GetMessage("ESTELIFE_F_MODERATE")?></td>
+			<td>
+				<select name="find_moderate" value="<?echo htmlspecialcharsbx($find_moderate)?>">
+					<option value="">Выберите вариант</option>
+					<option value="1">Да</option>
+					<option value="0">Нет</option>
+				</select>
 			</td>
 		</tr>
 

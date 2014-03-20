@@ -2,11 +2,11 @@
 namespace core\utils\forms;
 
 /**
- * Класс для построения текстарии
- * @file class.VTextarea.php
+ * Класс для построения текстового поля
+ * @file class.VText.php
  * @version 0.1
  */
-class VTextarea extends VField {
+class VHidden extends VField {
 
 	public function __toString(){
 		$sField="";
@@ -21,7 +21,7 @@ class VTextarea extends VField {
 		if (!empty($this->sLabel))
 			$sField .= '<label for="'.$this->sId.'">';
 
-		$sField .= '<textarea type="text" name="'.$this->sName.'" id="'.$this->sId.'"'.$sAttributes.'>'.$this->mValue.'</textarea>';
+		$sField .= '<input type="hidden" name="'.$this->sName.'" value="'.$this->mValue.'" id="'.$this->sId.'"'.$sAttributes.' />';
 
 		if (!empty($this->sLabel))
 			$sField .= $this->sLabel.'</label>';

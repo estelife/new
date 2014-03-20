@@ -33,6 +33,12 @@ if(!empty($_GET['utm_source']) && $_GET['utm_source']=='arc'){
 
 	$arResult['utm'] = implode('', $arResult['utm']);
 }
+$arTypes=array_values($APPLICATION->IncludeComponent(
+	'estelife:system-settings',
+	'',
+	array('filter'=>'types')
+));
+$arResult['INT_TYPES'] = array_flip($arTypes);
 
 $arIblockIds = array(
 	14 => 'ar',

@@ -13,27 +13,71 @@ class VValidate {
 	 * Проверка массива параметров на валидность
 	 * @param array $arParams
 	 * @param array $arRules
+	 * @param array $arFunc
 	 * @return mixed
 	 */
-	public static function validateArray(array &$arParams, array $arRules){
-		try{
-			$obError=new VFormException();
-			foreach ($arParams as $key=>$val){
+	public static function validateArray(array &$arParams, array $arRules=null, array $arFunc=null){
+		$obError = new VFormException();
+		foreach ($arParams as $key=>&$val){
+			if (!empty($arRules)){
 				if (isset($arRules[$key])){
-					$arItemRules=(self::isArray($arRules[$key])) ? $arRules[$key] : explode(',',$arRules[$key]);
+					$arItemRules = (self::isArray($arRules[$key])) ? $arRules[$key] : explode(',',$arRules[$key]);
 					if (!empty($arItemRules)){
 						foreach ($arItemRules as $v){
-							if (!self::$v($val))
-								$obError->setFieldError($v,$key);
+							$v = trim($v);
+							if (preg_match('/^(.*)\\[([><=]{1,2})(.*)\\]$/', $v, $matches)){
+								$matches[1] = trim($matches[1]);
+								switch ($matches[2]){
+									case '>':
+										if (call_user_func($matches[1], $val) <= $matches[3])
+											$obError->setFieldError($v,$key);
+									break;
+									case '<':
+										if (call_user_func($matches[1], $val) >= $matches[3])
+											$obError->setFieldError($v,$key);
+										break;
+									case '<=':
+										if ((call_user_func($matches[1], $val) > $matches[3]))
+											$obError->setFieldError($v,$key);
+										break;
+									case '>=':
+										if (call_user_func($matches[1], $val) < $matches[3])
+											$obError->setFieldError($v,$key);
+										break;
+									default:
+										if (call_user_func($matches[1], $val) != $matches[3])
+											$obError->setFieldError($v,$key);
+										break;
+								}
+							}else{
+								if (!method_exists(__CLASS__, $v)){
+									$bRes = call_user_func($v, $val);
+									if ($bRes == false)
+										$obError->setFieldError($v,$key);
+								}else{
+									$obRes = self::$v($val);
+									if ($obRes == false)
+										$obError->setFieldError($v,$key);
+								}
+							}
 						}
 					}
-				}else
-					unset($arParams[$key]);
+				}
 			}
-			$obError->raise();
-		}catch(VFormException $e){
-			return $e->getFieldErrors();
+
+			if (!empty($arFunc)){
+				if (isset($arFunc[$key])){
+					$arItemFunc=(self::isArray($arFunc[$key])) ? $arFunc[$key] : explode(',',$arFunc[$key]);
+					if (!empty($arItemFunc)){
+						foreach ($arItemFunc as $v){
+							$v = trim($v);
+							$val = call_user_func($v, $val);
+						}
+					}
+				}
+			}
 		}
+		$obError->raise();
 	}
 
 	/**
@@ -148,4 +192,22 @@ class VValidate {
 		return preg_match('#^((https?|ftp)\:\/\/){1}([a-z_\-\.\/]+)(\?[0-9a-z=\/_\-&\%]+)$#i',$sUrl);
 	}
 
+
+	/**
+	 * Проверяет на пустоту
+	 * @param $mValue
+	 * @return bool
+	 */
+	public static function notEmpty($mValue){
+		return !empty($mValue);
+	}
+
+	/**
+	 * Проверяет на isset
+	 * @param $mValue
+	 * @return bool
+	 */
+	public static function isIsset($mValue){
+		return isset($mValue);
+	}
 }
