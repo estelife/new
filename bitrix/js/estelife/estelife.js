@@ -871,7 +871,7 @@ $(function(){
 						var item= r.list.shift(),
 							prnt=inpt.parent();
 
-						inpt.val(item.NAME +' '+ item.LAST_NAME);
+						inpt.val(item.NAME);
 						$('input[name*=\''+inpt.attr('data-input')+'\']',prnt).val(item.ID);
 						response();
 
@@ -881,8 +881,8 @@ $(function(){
 					}else{
 						response($.map(r.list, function(item) {
 							return {
-								label: item.NAME +' '+ item.LAST_NAME,
-								value: item.NAME +' '+ item.LAST_NAME,
+								label: item.NAME,
+								value: item.NAME,
 								'id': item.ID
 							}
 						}));

@@ -115,23 +115,60 @@ if(!empty($ID)){
 }
 
 
-
+$nFlag==0;
 if($_SERVER['REQUEST_METHOD']=='POST'){
 	$obPost=new VArray($_POST);
 	$obError=new ex\VFormException();
+	$nUserId = $obPost->one('user_id');
 
 	try{
-		if($obPost->blank('user_id'))
-			$obError->setFieldError('NOT_USER','user_id');
+		//Создание нового пользователя
+		$sNow = date('Y-m-d H:i:s', time());
+		if($obPost->blank('user_id')){
+			$obQuery = $obSpec->createQuery();
+			$obQuery->builder()
+				->from('user')
+				->value('NAME', trim(strip_tags($obPost->one('user_name'))))
+				->value('PASSWORD', md5($obPost->one('user_name')))
+				->value('ACTIVE', 'Y')
+				->value('TIMESTAMP_X', $sNow)
+				->value('DATE_REGISTER', $sNow)
+				->value('LID', 's1');
+			$nUserId = $obQuery->insert()->insertId();
+			if ($nUserId>0){
+				$obQuery = $obSpec->createQuery();
+				$obQuery->builder()
+					->from('user')
+					->value('LOGIN', 'estelife_spec'.$nUserId.'@estelife.ru')
+					->value('EMAIL', 'estelife_spec'.$nUserId.'@estelife.ru')
+					->filter()
+					->_eq('ID',$nUserId);
+				$obQuery->update();
 
-		$obError->raise();
+				//Добавление группы
+				$obQuery = $obSpec->createQuery();
+				$obQuery->builder()
+					->from('user_group')
+					->value('USER_ID', $nUserId)
+					->value('GROUP_ID', 6);
+				$obQuery->insert()->insertId();
+				$obQuery = $obSpec->createQuery();
+				$obQuery->builder()
+					->from('user_group')
+					->value('USER_ID', $nUserId)
+					->value('GROUP_ID', 2);
+				$obQuery->insert()->insertId();
+
+			}
+		}
+
 
 
 		$obQuery = $obSpec->createQuery();
 		$obQueryClinics = $obSpec->createQuery();
 		$obQueryActivity = $obSpec->createQuery();
 		$obQuery->builder()->from('estelife_professionals')
-			->value('user_id', $obPost->one('user_id'))
+			->value('user_id', $nUserId)
 			->value('short_description', trim(htmlentities($obPost->one('short_description'),ENT_QUOTES,'utf-8')))
 			->value('full_description', trim(htmlentities($obPost->one('full_description'),ENT_QUOTES,'utf-8')));
 

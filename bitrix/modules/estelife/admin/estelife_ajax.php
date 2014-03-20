@@ -250,6 +250,7 @@ try{
 					->field('u.ID','ID')
 					->field('u.NAME','NAME')
 					->field('u.LAST_NAME','LAST_NAME')
+					->field('u.SECOND_NAME','SECOND_NAME')
 					->_eq('ug.GROUP_ID',6);
 
 				$obFilter = $obQuery->builder()->filter();
@@ -260,6 +261,13 @@ try{
 				$obFilter->_eq('ug.GROUP_ID',6);
 
 				$arResult['list'] = $obQuery->select()->all();
+
+				if (!empty($arResult['list'])){
+					foreach ($arResult['list'] as &$val){
+						if (!empty($val['LAST_NAME']))
+							$val['NAME'] = $val['LAST_NAME'].' '.$val['NAME'].' '.$val['SECOND_NAME'];
+					}
+				}
 
 			}else{
 				$arResult['list']=array();
