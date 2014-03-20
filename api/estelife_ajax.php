@@ -30,6 +30,10 @@ try{
 	$obFormError=new VFormException();
 
 	switch($sAction){
+		case 'create_form_token':
+			if (!empty($arData['params']))
+				$arResult=\core\utils\forms\VForm::createToken($arData['params']['name'], $arData['params']['method'], $arData['params']['action']);
+			break;
 		case 'get_system_settings':
 			$arResult=$arData=$APPLICATION->IncludeComponent(
 				"estelife:system-settings",

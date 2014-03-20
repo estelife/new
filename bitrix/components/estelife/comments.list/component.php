@@ -3,6 +3,7 @@ use core\database\mysql\VFilter;
 use core\database\VDatabase;
 use core\exceptions\VFormException;
 use core\types\VString;
+use core\utils\forms\VForm;
 use geo\VGeo;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
@@ -46,38 +47,45 @@ $obComments=new \comments\VComment();
 $arResult['element_id']=$nElementId;
 $arResult['type']=$nType;
 
+$arTypes=array_values($APPLICATION->IncludeComponent(
+	'estelife:system-settings',
+	'',
+	array('filter'=>'types')
+));
+$arResult['type_string'] = $arTypes[$nType];
+
+//Создание формы
+$obForm = new VForm('comments', '#comment');
+$obHidden = $obForm->createHiddenField('id');
+$obHidden->setValue($nElementId);
+$obHidden = $obForm->createHiddenField('type');
+$obHidden->setValue($nType);
+$obTextarea = $obForm->createTextareaField('comment', 'comment');
+$obSubmit = $obForm->createSubmitField('send_comment');
+$obSubmit->setAttributes(array('class'=>'submit'));
+$obForm->createTokenField('form_token');
+$arValues=array(
+	'comment'=>'',
+	'send_comment'=>'Комментировать'
+);
+$obForm->setValues($arValues);
+
 //Обработка формы для добавления комментария
-if ($_SERVER["REQUEST_METHOD"]=="POST" && !empty($_POST['send_comment']) && $arResult['auth']){
+if ($_SERVER["REQUEST_METHOD"]=="POST" && $arResult['auth']){
 	try{
 		$obError=new VFormException();
+		$obForm->setValues($_POST, array('comment'=>'isIsset, notEmpty, strlen[<=1000]'), array('comment'=>'strip_tags, trim', 'form_token'=>'strip_tags, trim', 'id'=>'intval', 'type'=>'intval'));
+		$arValues = $obForm->getValues();
 
-		if (isset($_POST['comment']) && !empty($_POST['comment'])){
-			$sComment=trim(strip_tags($_POST['comment']));
-		}else
-			$obError->setFieldError('Укажите текст комментария.','comment');
-
-		if (strlen($_POST['comment'])<=1000){
-			$sComment=trim(strip_tags($_POST['comment']));
-		}else
-			$obError->setFieldError('Текст комментария слишком длинный.','comment');
-
-		$obError->raise();
-
-		if (\core\validate\VValidate::isNumeric($_POST['type'])){
-			$nType=intval($_POST['type']);
-		}else{
-			$nType=$arTypes[$_POST['type']];
+		if ($obForm->checkToken($arValues['form_token'])){
+			if ($obComments->setComment($arValues['comment'], $arValues['type'], $arValues['id']))
+				$arResult['success']=true;
 		}
-		$nElementId=intval($_POST['id']);
-
-		if ($obComments->setComment($sComment, $sName.' '.$sLastName, $nType, $nElementId))
-			$arResult['success']=true;
-
-
 	}catch(VFormException $e){
 		$arResult['error']=$e->getFieldErrors();
 	}
 }
+$arResult['form'] = $obForm;
 
 //Получение комментариев
 $arResult['comments']=$obComments->getComments($nType, $nElementId, $nCount);

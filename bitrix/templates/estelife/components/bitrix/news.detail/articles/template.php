@@ -68,7 +68,7 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 			"",
 			array(
 				"element_id"=>$arResult["ID"],
-				"type"=>$arParams["LINK_CODE"],
+				"type"=>$arResult['INT_TYPES'][$arParams["LINK_CODE"]],
 				"count"=>"5"
 			)
 		);?>

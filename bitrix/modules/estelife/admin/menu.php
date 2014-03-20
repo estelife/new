@@ -7,6 +7,18 @@ if($APPLICATION->GetGroupRight("estelife")>"D")
 	function InitGlobalMenu(&$aGlobalMenu, &$aModuleMenu){
 		global $USER;
 
+		CModule::IncludeModule("estelife");
+		//Получение количества непромодерированных комментариев
+		$obComment=\core\database\VDatabase::driver();
+		$obQuery=$obComment->createQuery();
+		$obQuery
+			->builder()
+			->from('estelife_comments')
+			->filter()
+			->_eq('moderate', 0);
+
+		$nCount = $obQuery->select()->count();
+
 		$aGlobalMenu['global_menu_estelife']=array(
 			"menu_id" => "estelife",
 			//"icon" => "button_settings",
@@ -311,7 +323,7 @@ if($APPLICATION->GetGroupRight("estelife")>"D")
 					)
 				),
 				array(
-					"text" => GetMessage("ESTELIFE_COMMENTS"),
+					"text" => GetMessage("ESTELIFE_COMMENTS").' <div class="unread-messages">'.$nCount.'</div>',
 					"dynamic" => true,
 					"module_id" => "estelife",
 					"title" => GetMessage("ESTELIFE_COMMENTS_TITLE"),

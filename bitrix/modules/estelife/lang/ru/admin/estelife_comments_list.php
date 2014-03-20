@@ -7,13 +7,9 @@ $MESS ['ESTELIFE_F_MODERATE'] = 'Модерация';
 $MESS ['ESTELIFE_F_ID'] = 'ID';
 $MESS ['ESTELIFE_F_TEXT'] = 'Текст комментария';
 $MESS ['ESTELIFE_F_DATE_CREATE'] = 'Дата добавления';
-
+$MESS ['ESTELIFE_F_URL'] = 'Ссылка на комментарий';
 $MESS ['ESTELIFE_CREATE'] = 'Создать обучение';
 $MESS ['ESTELIFE_CREATE_TITLE'] = 'Отобразиться форма для создания обучения';
-
-
-
-
 $MESS ['ESTELIFE_EDIT_ALT']='Редактирование';
 $MESS ['ESTELIFE_DELETE_ALT']='Удаление';
 $MESS ['ESTELIFE_MODERATE_ALT']='Модерация';
