@@ -1,3 +1,4 @@
+<script type="text/javascript" src="/bitrix/js/estelife/yandex.js"></script>
 <?php
 use core\database\mysql\VFilter;
 use core\database\VDatabase;
@@ -53,6 +54,92 @@ $headers = array(
 $lAdmin->AddHeaders($headers);
 
 
+$obQuery= VDatabase::driver();
+
+if(isset($_GET['code'])&& !empty($_GET['code'])){
+	$nCode = $_GET['code'];
+
+	$app_pass 	 =YA_APP_ID;
+	$app_id 	 =YA_APP_PASS;
+
+	$obQuery = $obQuery->createQuery();
+	$obQuery->builder()
+		->from('estelife_yandex');
+	$obQuery->builder()
+		->field('code');
+	$obFilter=$obQuery->builder()->filter()->_eq('id',1);
+
+	$obResult=$obQuery->select()->assoc();
+
+
+	$obQuery->builder()->from('estelife_yandex')
+		->value('id',1)
+		->value('code', $code);
+	$obQuery->builder()->filter()
+		->_eq('id', 1);
+
+	if(isset($obResult['code'])&& !empty($obResult['code'])){
+		$obQuery->update();
+	}else{
+		$obQuery->insert();
+	}
+
+	$url = 'https://oauth.yandex.ru/token';
+	$postData = 'grant_type=authorization_code&code='.$code.'&client_id='.$app_id.'&client_secret='.$app_pass.'';
+	$headers = array(
+		'POST /token HTTP/1.1',
+		'Host: oauth.yandex.ru',
+		'Content-type: application/x-www-form-urlencoded',
+		'Content-Length: ' . strlen($postData),
+	);
+	$curlOptions = array(
+		CURLOPT_POST            => 1,
+		CURLOPT_HEADER          => 0,
+		CURLOPT_URL             => $url,
+		CURLOPT_CONNECTTIMEOUT  => 1,
+		CURLOPT_FRESH_CONNECT   => 1,
+		CURLOPT_RETURNTRANSFER  => 1,
+		CURLOPT_FORBID_REUSE    => 1,
+		CURLOPT_TIMEOUT         => 5,
+		CURLOPT_SSL_VERIFYPEER  => false,
+		CURLOPT_POSTFIELDS      => $postData,
+		CURLOPT_HTTPHEADER      => $headers
+	);
+	$ch = curl_init();
+	curl_setopt_array($ch, $curlOptions);
+	$result = curl_exec($ch);
+	$info = curl_getinfo($ch);
+    $result =json_decode($result);
+	if($result->access_token){
+		$token = $result->access_token;
+
+		$obQuery->builder()
+			->from('estelife_yandex');
+		$obQuery->builder()
+			->field('token');
+		$obFilter=$obQuery->builder()->filter()->_eq('id',1);
+
+		$obResult=$obQuery->select()->assoc();
+
+		$obQuery->builder()->from('estelife_yandex')
+			->value('id',1)
+			->value('token', htmlspecialchars($token));
+		$obQuery->builder()->filter()
+			->_eq('id', 1);
+
+			$obQuery->update();
+
+	}else{
+		$token = '';
+	}
+
+
+	echo "<h4>Код успешно получен</h4>";
+
+	die();
+}
+
+
 //==== Здесь надо зафигачить генерацию списка ========
 if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 
@@ -68,6 +155,26 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 			$obResult=$obQuery->select()->assoc();
 			$sContent = $obResult['DETAIL_TEXT'];
 
+			$obQuery->builder()
+				->from('estelife_yandex');
+			$obQuery->builder()
+				->field('code');
+			$obFilter=$obQuery->builder()->filter()->_eq('id',1);
+
+			$obResult=$obQuery->select()->assoc();
+
+
+			$obQuery->builder()
+				->from('estelife_yandex');
+			$obQuery->builder()
+				->field('token');
+			$obFilter=$obQuery->builder()->filter()->_eq('id',1);
+
+			$obResult=$obQuery->select()->assoc();
+
+			$token = $obResult['token'];
+
+			$code = $obResult['code'];
 			$nSymbolCount = strlen(utf8_decode($sContent));
 			$skipAddPost = false;
 			$bLicense = false;
@@ -78,21 +185,23 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 				$skipAddPost = true;
 			}
 
+
+
 			if($bLicense == true && $skipAddPost == false){
 
 
 				// Кодируем текст статьи
-				$sContent = urlencode($sContent);
+				//$sContent = urlencode($sContent);
 
-				$sYandexPwdKey = 'acd5afa742dbfeb79849459e0962e89470a4d7e8';
-				$sYandexLogin = 'eugensereda7';
-				$sYandexPass = '2131041';
+				//$sYandexPwdKey = 'acd5afa742dbfeb79849459e0962e89470a4d7e8';
+				$sYandexLogin = 'maxim.shlemaryov';
+				$sYandexPass = '120005konturi';
 
 				// Конфиг
-				$login		 = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($sYandexPwdKey), base64_decode($sYandexLogin), MCRYPT_MODE_CBC, md5(md5($sYandexPwdKey))), "\0");
-				$pwd		 = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($sYandexPwdKey), base64_decode($sYandexPass), MCRYPT_MODE_CBC, md5(md5($sYandexPwdKey))), "\0");
+				$login		 = $sYandexLogin;
+				$pwd		 = $sYandexPass;
 				$host_id	 = '62.109.11.71';
-				$host_name	 = 'estelife.ru';
+				$host_name	 = YA_HOST_NAME;
 
 				// Ссылки
 				$sUriLogin = "http://passport.yandex.ru/passport?mode=auth";
@@ -101,61 +210,36 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 				if( empty($login) || empty($pwd) || empty($host_id) || empty($host_name) ){
 					// Do nothing
 				} else {
+
+
 					# Формируем запрос
-					$fields = '<wsw-fields><wsw-field name="host"><wsw-value>'.$host_name.' </wsw-value></wsw-field><wsw-field name="Original_text" ><wsw-value>'.$sContent.'</wsw-value></wsw-field></wsw-fields>';
-					$request    = 'action=saveData&host='.$host_name.'&mvcDataLoadSignature=saveData&page=Originals-submission-form&service=ORIGINALS&wsw-fields='.$fields;
+					/*$fields = '<wsw-fields><wsw-field name="host"><wsw-value>'.$host_name.' </wsw-value></wsw-field><wsw-field name="Original_text" ><wsw-value>'.$sContent.'</wsw-value></wsw-field></wsw-fields>';
+					$request    = 'action=saveData&host='.$host_name.'&mvcDataLoadSignature=saveData&page=Originals-submission-form&service=ORIGINALS&wsw-fields='.$fields;*/
 
-					#print $request;exit;
+					$xml = $sContent;
+					$xml =urlencode('<original-text><content>'.$xml.'</content></original-text>');
 
-					#--------------------------------------------------#
-					# Проходим авторизацию
-					$ch = curl_init();                                        // инициализация UCP-cURL
-					curl_setopt ($ch, CURLOPT_HEADER, 0);                     // получать заголовки
-					curl_setopt ($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3');
-					curl_setopt ($ch, CURLOPT_POST, 1);                       // использовать метод POST
-					curl_setopt ($ch, CURLOPT_COOKIEJAR, 'cookie.txt');       // сохранять информацию Cookie в файл, чтобы потом можно было ее использовать
-					curl_setopt ($ch, CURLOPT_COOKIEFILE, 'cookie_total.txt');
-					curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);             // возвращать результат работы
-					curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0);             // не проверять SSL сертификат
-					curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);             // не проверять Host SSL сертификата
-					curl_setopt ($ch, CURLOPT_HTTPHEADER, array('Expect:'));  // это необходимо, чтобы cURL не высылал заголовок на ожидание
-					//curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,15);            //
-					curl_setopt($ch, CURLOPT_TIMEOUT,5);                      // Тайм Аут 5 секунд
 
-					// Авторизируемся
-					curl_setopt ($ch, CURLOPT_URL, $sUriLogin);
-					curl_setopt ($ch, CURLOPT_REFERER, $sUriLogin);
-					curl_setopt ($ch, CURLOPT_POSTFIELDS, 'login='.$login.'&passwd='.$pwd.'&twoweeks=yes');
-					curl_exec   ($ch);
-					$result = curl_multi_getcontent($ch);
 
-					// Делаем запрос и парсим нужные данные
-					curl_setopt ($ch, CURLOPT_URL, 'http://webmaster.yandex.ru/sites/');
-					curl_setopt ($ch, CURLOPT_REFERER, $sUriRefferer);
-					curl_setopt ($ch, CURLOPT_POST, 0);
-					curl_setopt ($ch, CURLOPT_ENCODING,'gzip');
-					curl_exec   ($ch);
-					$result = curl_multi_getcontent($ch);
-
-					// Парсим SK
-					preg_match("/mvc\.obj\(\"user\"\,\[\[\"sk\"\,\"auth\"\]\,\[\"user\"\,\"([\w]+)\"\,true\,null\]\]\)\;/iU",$result, $ya_parse);
-					$host_sk = $ya_parse[1];
-					//print $ya_parse[1];
-					//print $result;
-					//exit;
+					$headers = array(
+						'Authorization: OAuth '.$token,
+						'Content-Length: ' .strlen($xml)
+					);
 
 					// Добавляем пост
 					// http://webmaster.yandex.ru/site/plugins/wsw.api/api.xml?sk=uce0cdfb1fa8fb4beb9301c7e2a036b13
-					curl_setopt ($ch, CURLOPT_URL, 'http://webmaster.yandex.ru/site/plugins/wsw.api/api.xml');
-					curl_setopt ($ch, CURLOPT_REFERER, $sUriRefferer);
+					$ch = curl_init('http://webmaster.yandex.ru/api/v2/hosts/4324/original-texts/');
+					curl_setopt ($ch, CURLOPT_URL, 'http://webmaster.yandex.ru/api/v2/hosts/4324/original-texts/');
+					curl_setopt ($ch, CURLOPT_HTTPHEADER, $headers);
 					curl_setopt ($ch, CURLOPT_POST, 1);
-					curl_setopt ($ch, CURLOPT_ENCODING,'gzip');
-					curl_setopt ($ch, CURLOPT_POSTFIELDS, $request.'&sk='.$host_sk.'');
-					curl_exec   ($ch);
+					curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+					curl_setopt ($ch, CURLOPT_POSTFIELDS, $xml);
 
-					$result = curl_multi_getcontent ($ch);
+					$result = curl_exec($ch);
+					$info = curl_getinfo($ch);
 
 
+					//$obQuery=\core\database\VDatabase::driver()->createQuery();
 					if( preg_match( "#^mvc\.map\(.gate-errors#iU", $result ) ){
 						$message = '<font color="red"><b>Ошибка :(</b></font><br /> Дамп: '.$result. 'yandex-content'.'<br />';
 					}
@@ -179,6 +263,7 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 					else {
 						$message = '<font color="red"><b>Неизвестная ошибка :(</b></font><br /> Дамп:'.$result. 'yandex-content'.'<br />';
 					}
+
 
 					CEvent::Send("SEND_YANDEX_CONTENT_RESULT", "s1", array(
 						'EMAIL_TO'=>'',
@@ -361,6 +446,14 @@ require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_adm
 	</form>
 
 <?
+print "<form method='post' action='/'>\n";
+print "<div class='wrap'>";
 
+$popupUrl = 'https://oauth.yandex.ru/authorize?response_type=code&client_id=11156d008f04494596948f23d5f30787&display=popup';
+$popupTitle = "Yandex Code";
+print "<p><a href='#' onclick='popup(\"$popupUrl\", \"$popupTitle\");'>Получить код подтверждения</a>";
+
+print "</div>";
+print '</form></div>';
 
 $lAdmin->DisplayList();

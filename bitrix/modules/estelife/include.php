@@ -1,5 +1,9 @@
 <?php
 define('PREFIX','b_');
+define('YA_APP_ID','11156d008f04494596948f23d5f30787');
+define('YA_APP_PASS','129398d5da0d464587cbb6a4706db2e2');
+define('YA_HOST_NAME','estelife.ru');
+
 CModule::AddAutoloadClasses(
 	"estelife",
 	array(
@@ -131,6 +135,8 @@ CModule::AddAutoloadClasses(
 		'pay\VProtocol'=>'classes/pay/class.VProtocol.php',
 		'pay\VReceipt'=>'classes/pay/class.VReceipt.php',
 		'pay\VReceiptEx'=>'classes/pay/class.VReceiptEx.php',
-		'pay\VSecure'=>'classes/pay/class.VSecure.php'
+		'pay\VSecure'=>'classes/pay/class.VSecure.php',
+
+
 	)
 );
