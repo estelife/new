@@ -59,30 +59,19 @@ $obQuery= VDatabase::driver();
 if(isset($_GET['code'])&& !empty($_GET['code'])){
 	$nCode = $_GET['code'];
 
-	$app_pass 	 =YA_APP_ID;
-	$app_id 	 =YA_APP_PASS;
+	$app_pass 	 =YA_APP_PASS;
+	$app_id 	 =YA_APP_ID;
+
 
 	$obQuery = $obQuery->createQuery();
 	$obQuery->builder()
 		->from('estelife_yandex');
 	$obQuery->builder()
-		->field('code');
+		->field('token');
 	$obFilter=$obQuery->builder()->filter()->_eq('id',1);
 
 	$obResult=$obQuery->select()->assoc();
 
-
-	$obQuery->builder()->from('estelife_yandex')
-		->value('id',1)
-		->value('code', $code);
-	$obQuery->builder()->filter()
-		->_eq('id', 1);
-
-	if(isset($obResult['code'])&& !empty($obResult['code'])){
-		$obQuery->update();
-	}else{
-		$obQuery->insert();
-	}
 
 	$url = 'https://oauth.yandex.ru/token';
 	$postData = 'grant_type=authorization_code&code='.$code.'&client_id='.$app_id.'&client_secret='.$app_pass.'';
@@ -110,6 +99,8 @@ if(isset($_GET['code'])&& !empty($_GET['code'])){
 	$result = curl_exec($ch);
 	$info = curl_getinfo($ch);
     $result =json_decode($result);
+
+
 	if($result->access_token){
 		$token = $result->access_token;
 
@@ -127,14 +118,21 @@ if(isset($_GET['code'])&& !empty($_GET['code'])){
 		$obQuery->builder()->filter()
 			->_eq('id', 1);
 
+		if(isset($obResult['token'])&& !empty($obResult['token'])){
 			$obQuery->update();
+		}else{
+			$obQuery->insert();
+		}
+
+		echo "<h4>Код успешно получен</h4>";
 
 	}else{
 		$token = '';
+		echo "<h4>Ошибка! Пожалуйста обновите страницу и повторите попытку</h4>";
 	}
 
 
-	echo "<h4>Код успешно получен</h4>";
+
 
 	die();
 }
@@ -155,13 +153,6 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 			$obResult=$obQuery->select()->assoc();
 			$sContent = $obResult['DETAIL_TEXT'];
 
-			$obQuery->builder()
-				->from('estelife_yandex');
-			$obQuery->builder()
-				->field('code');
-			$obFilter=$obQuery->builder()->filter()->_eq('id',1);
-
-			$obResult=$obQuery->select()->assoc();
 
 
 			$obQuery->builder()
@@ -239,21 +230,22 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 					$info = curl_getinfo($ch);
 
 
+					$obQuery = VDatabase::driver()->createQuery();
+					$obQuery->builder()->from('estelife_yandex_content')
+						->value('send', intval(1));
+
+					$obQuery->builder()->filter()
+						->_eq('iblock_element',$ID);
+					$obQuery->update();
+
+
 					//$obQuery=\core\database\VDatabase::driver()->createQuery();
 					if( preg_match( "#^mvc\.map\(.gate-errors#iU", $result ) ){
 						$message = '<font color="red"><b>Ошибка :(</b></font><br /> Дамп: '.$result. 'yandex-content'.'<br />';
 					}
 					# SUCCESS
-					elseif( preg_match( "#^mvc\.map\(.wsw_field_init#iU", $result ) ){
+					elseif( preg_match( "#^mvc\.map\(.wsw_field_init#iU", $result )){
 						$message =  'Статус: <font color="green"><b>OK</b></font><br />Статья добавлена в панель вебмастера.'. 'yandex-content' .'<br />';
-
-						$obQuery = VDatabase::driver()->createQuery();
-						$obQuery->builder()->from('estelife_yandex_content')
-							->value('send', intval(1));
-
-							$obQuery->builder()->filter()
-								->_eq('iblock_element',$ID);
-							$obQuery->update();
 					}
 					# AUTHFAIL
 					elseif( $result == 'AUTHFAIL' ){
@@ -303,6 +295,8 @@ if($_GET && $_GET['set_filter'] == 'Y'){
 	if(!empty($arFilter['send'])){
 		if($arFilter['send']== 'yes'){
 			$obFilter->_eq('yc.send',1);
+		}else if($arFilter['send']=='accept'){
+			$obResult->_eq('yc.send',2);
 		}else{
 			$obFilter->_eq('yc.send',0);
 		}
@@ -340,7 +334,15 @@ while($arRecord=$obResult->Fetch()){
 	$f_ID=$arRecord['id'];
 	$row =& $lAdmin->AddRow($f_ID,$arRecord);
 
-	$sSend = ($arRecord['send'] == 0) ? 'Нет' : 'Да';
+	$sSend = '';
+
+	if($arRecord['send']==1){
+		$sSend = 'Отправлено';
+	}else if($arRecord['send'] ==2){
+		$sSend = 'Подтверждено';
+	}else{
+		$sSend = 'В ожидании';
+	}
 
 	$row->AddViewField("ID",$arRecord['id']);
 	$row->AddViewField("IBLOCK", $arRecord['IBLOCK_ID']);
@@ -364,7 +366,6 @@ $lAdmin->AddFooter(
 
 
 
-//========= Групповое удаление, если права позволяют
 //if ($FORM_RIGHT=="W")
 $lAdmin->AddGroupActionTable(Array(
 	"send"=>GetMessage("FORM_SEND_L"),
@@ -400,6 +401,7 @@ require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_adm
 	<script type="text/javascript" src="/bitrix/js/estelife/estelife.js"></script>
 
 	<a name="tb"></a>
+
 	<form name="form1" method="GET" action="<?=$APPLICATION->GetCurPage()?>?">
 		<?php
 		$oFilter = new CAdminFilter(
@@ -432,6 +434,7 @@ require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_adm
 			<td>
 				<select name="find_send" value="<?echo htmlspecialcharsbx($find_send)?>">
 					<option value="0"><?echo GetMessage("ESTELIFE_NOT_IMPORTANT")?></option>
+					<option value="accept">Подтверждено</option>
 					<option value="yes">Да</option>
 					<option value="no">Нет</option>
 				</select>
@@ -446,6 +449,9 @@ require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_adm
 	</form>
 
 <?
+
+$lAdmin->DisplayList();
+
 print "<form method='post' action='/'>\n";
 print "<div class='wrap'>";
 
@@ -455,5 +461,3 @@ print "<p><a href='#' onclick='popup(\"$popupUrl\", \"$popupTitle\");'>Полу�
 
 print "</div>";
 print '</form></div>';
-
-$lAdmin->DisplayList();
