@@ -47,6 +47,7 @@
 						<?php if (!empty($arResult['clinic']['professionals'])):?>
 							<li class="t6"><a href="#">Специалисты<i></i></a></li>
 						<?php endif?>
+						<li class="t7"><a href="#">Отзывы<i></i></a></li>
 						<li class="t5"><a href="#">Контакты<i></i></a></li>
 					</ul>
 				</div>
@@ -192,6 +193,14 @@
 						</div>
 					</div>
 				<?php endif?>
+				<div class="tabs tab7 reviews">
+					<?$APPLICATION->IncludeComponent("estelife:review.list", "", array(
+						'clinic_id' => $arResult['clinic']['id']
+					))?>
+					<?$APPLICATION->IncludeComponent("estelife:review.form", "", array(
+						'clinic_id' => $arResult['clinic']['id']
+					))?>
+				</div>
 				<div class="tabs tab-c tab5 none">
 					<?php if (!empty($arResult['clinic']['contacts'])):?>
 						<?php foreach ($arResult['clinic']['contacts'] as $val):?>
