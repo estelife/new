@@ -64,6 +64,7 @@ $APPLICATION->IncludeComponent(
 		"AUTOR"=> 172,
 		"PROFESSION" => 173,
 		"PREVIEW"=>178,
+        "MAIN_ACTIVE" => 200,
 		"PREFIX" => ""
 	)
 );
