@@ -82,7 +82,7 @@ $arResult['countries'] = $obQuery->select()->all();
 $obQuery = $obCountries->createQuery();
 $obQuery
 	->builder()
-	->from('estelife_apparatus_typename')
+	->from('estelife_pills_typename')
 	->filter()
 	->_eq('type', 1);
 $arResult['types'] = $obQuery->select()->all();
