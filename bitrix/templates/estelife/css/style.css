@@ -1806,8 +1806,9 @@ form .date i.calendar {
 	cursor: pointer;
 }
 form .date i.calendar {
-	top: 47px;
+	top: 48px;
 	right: 12px;
+	left: auto;
 }
 form .date {
 	position: relative;
@@ -4300,8 +4301,8 @@ form.quality .submit,
 .reviews .ratings .field {
 	background: #FFF;
 	border: 1px solid #D1D1D1;
-	padding: 9px 18px;
-	width: 298px;
+	padding: 9px 14px 9px 18px;
+	width: 302px;
 	margin-bottom: 18px;
 }
 .reviews .ratings .field:nth-child(2n+1),
@@ -4330,6 +4331,9 @@ form.quality .submit,
 }
 .reviews .rating span {
 	margin-left: 10px;
+	width: 68px;
+	display: block;
+	float: right;
 }
 .reviews .rating a.active,
 .reviews .rating a:hover {

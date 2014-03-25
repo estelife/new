@@ -269,6 +269,16 @@ class VString {
 	}
 
 	/**
+	 * Экранирует строку
+	 * @param $sValue
+	 * @return string
+	 */
+	public static function secure($sValue)
+	{
+		return trim(addslashes(htmlspecialchars($sValue, ENT_QUOTES, 'utf-8')));
+	}
+
+	/**
 	 * Убирает ненужные символы для SEO
 	 * @param $sText
 	 * @return string

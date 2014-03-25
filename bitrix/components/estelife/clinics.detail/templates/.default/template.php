@@ -194,10 +194,10 @@
 					</div>
 				<?php endif?>
 				<div class="tabs tab7 reviews">
-					<?$APPLICATION->IncludeComponent("estelife:review.list", "", array(
-						'clinic_id' => $arResult['clinic']['id']
-					))?>
-					<?$APPLICATION->IncludeComponent("estelife:review.form", "", array(
+					<?//$APPLICATION->IncludeComponent("estelife:review.list", "", array(
+					//	'clinic_id' => $arResult['clinic']['id']
+					//))?>
+					<?$APPLICATION->IncludeComponent("estelife:review.form", '', array(
 						'clinic_id' => $arResult['clinic']['id']
 					))?>
 				</div>
