@@ -3469,7 +3469,7 @@ form.quality .submit,
 	font-size:12px;
 }
 /*.item.detail.expert .stat {*/
-	/*margin: 34px 0 27px 0;*/
+/*margin: 34px 0 27px 0;*/
 /*}*/
 .item.detail.expert .announce {
 	font-size:16px;
@@ -4144,7 +4144,7 @@ form.quality .submit,
 }
 .content .info ul.stat .likes:hover i,
 .content .info ul.stat .likes.active i {
-	 background-position: -110px -111px;
+	background-position: -110px -111px;
 }
 .content .info ul.stat .unlikes i {
 	background-position: -160px -111px;

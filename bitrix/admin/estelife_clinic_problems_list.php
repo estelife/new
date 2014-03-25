@@ -1,0 +1,1 @@
+<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/estelife/admin/estelife_clinic_problems_list.php");?>
