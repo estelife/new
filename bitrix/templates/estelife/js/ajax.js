@@ -1011,6 +1011,9 @@ require([
 				var prnt=$(this);
 				var index=prnt.attr('data-index')||0;
 
+				if (!prnt.find('a').length)
+					return;
+
 				if (index < 0) {
 					prnt.find('a').removeClass('active');
 					prnt.find('span').html('<b>0</b> (никак)');
@@ -1032,6 +1035,10 @@ require([
 
 				return false;
 			});
+
+			if (location.href.match(/(review_list|review_form)/)) {
+				$('.tabs-menu .t7').click();
+			}
 		})();
 	});
 

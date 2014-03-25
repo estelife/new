@@ -84,7 +84,7 @@ define(['tpl/Template','modules/Select'],function(Template,Select){
 			var input=$('input[name=name]',form);
 		},
 		initFormFields:function(form){
-			$('.text.date',form).each(function(){
+			$('.text.date, .field.date',form).each(function(){
 				var current=$(this),
 					img=current.find('i'),
 					prnt=current.parent(),

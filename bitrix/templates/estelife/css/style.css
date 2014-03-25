@@ -92,7 +92,7 @@ a:hover {
 .social a, .arrow i, ul.stat i, .promotion .time i, .promotion .prices i, .media .item span, .media .menu .first a,
 .promotion .time i, .promotion .prices i, .item.detail .clinic a.more i, .select .arrow, .item.company p i, .gallery .arrow i, td.prices i,
 .filter .date i, .win-close, .checked, .item.promotion .current .perc i,.checkbox.active i, .checkbox.radio i, .to-top i, h2.show-quality-form i,.help i, .tabs-menu .active i,
-.auth .link.back i, .item.specialist .work i, .activity .dates .active i, .hall .date i, form .date i.calendar, .reviews .rating a, .reviews .group, .reviews .head span i {
+.auth .link.back i, .item.specialist .work i, .activity .dates .active i, .hall .date i, form .date i.calendar, .reviews .rating a, .reviews .rating i, .reviews .group, .reviews .head span i {
 	background-image:url('../images/complex.png');
 	background-repeat: no-repeat;
 }
@@ -255,6 +255,7 @@ textarea {
 input.text, textarea {
 	padding: 4px 12px;
 	min-width: 164px;
+	resize: none;
 }
 .submit {
 	background:none;
@@ -4320,23 +4321,24 @@ form.quality .submit,
 	color:#e60364;
 	font-size:18px;
 }
-.reviews .rating a {
+.reviews .rating a,
+.content .reviews .rating i {
 	display:block;
 	width:15px;
 	height:14px;
 	background-position: -257px -93px;
 	float:left;
-	margin-top:3px;
-	margin-right: 5px;
+	margin:3px 5px 0 0;
 }
-.reviews .rating span {
+.reviews .rating i {
 	margin-left: 10px;
 	width: 68px;
 	display: block;
 	float: right;
 }
 .reviews .rating a.active,
-.reviews .rating a:hover {
+.reviews .rating a:hover,
+.reviews .rating i.active {
 	background-position: -280px -93px;
 }
 .reviews .areas {
@@ -4418,14 +4420,16 @@ form.quality .submit,
 .reviews .head .rating {
 	margin: 10px 0 0 15px;
 }
-.reviews .head .rating a {
+.reviews .head .rating a,
+.reviews .head .rating i {
 	width:17px;
 	height:16px;
 	background-position:-262px -117px;
-	margin-right:3px;
+	margin:0 3px 0 0;
 }
 .reviews .head .rating a.active,
-.reviews .head .rating a:hover {
+.reviews .head .rating a:hover,
+.reviews .head .rating i.active {
 	background-position:-290px -117px;
 }
 .reviews .head .rating span {
@@ -4434,7 +4438,7 @@ form.quality .submit,
 }
 .reviews .head .rating span,
 .reviews .head .right b,
-.reviews .info .rating span{
+.reviews .info .rating span {
 	color:#e60364;
 }
 .reviews .head .right span {
@@ -4561,6 +4565,12 @@ form.quality .submit,
 .reviews form.sort .select .arrow {
 	height: 17px;
 	width: 17px;
+}
+.reviews form .rating span {
+	width: 68px;
+	float: right;
+	display: block;
+	margin-left: 5px;
 }
 .reviews form.sort a.all {
 	color: #2C2C2C;

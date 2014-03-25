@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				throw new VException('Не удалось идентифицировать пользователя');
 		}
 
-		if (!preg_match('/^([0-9]{2}\.){2}[0-9]{4}$/', $sDateVisit))
+		if (!preg_match('/^([0-9]{2}\.){2}[0-9]{2,4}$/', $sDateVisit))
 			$obError->setFieldError('Не корректно указана дата посещения', 'date_visit');
 
 		if (!$nProblemId && $sProblemName == '') {
@@ -175,8 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$sDateVisit = date('Y-m-d H:i:s', strtotime($sDateVisit));
 
 		if (!$nUserId) {
-			$bConfirmReq = COption::GetOptionString("main", "new_user_registration_email_confirmation", "N") == "Y";
-			$sPassword = mb_substr(md5(time()), 0, 5);
+			$sPassword = mb_substr(md5(time()), 0, 6);
 
 			$arUser = array(
 				'NAME' => $sUserName,
@@ -203,7 +202,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				$arUser["USER_ID"] = $ID;
 				CEvent::Send("NEW_REVIEW_USER", SITE_ID, $arUser);
 			}else
-				throw new VException('Не удалось создать пользователя');
+				throw new VException($user->LAST_ERROR);
 		}
 
 		$obQuery->builder()
@@ -241,7 +240,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$arResult['complete'] = 'ok';
 		} else {
 			\notice\VNotice::registerSuccess('', 'Отзыв успешно добавлен. После подтверждения модератором он будет виден остальным пользователям.');
-			LocalRedirect('/cl'.$nClinicId.'/');
+			LocalRedirect('/cl'.$nClinicId.'/?review_list');
 		}
 	} catch(\core\exceptions\VFormException $e) {
 		$arResult['errors'] = $e->getFieldErrors();
