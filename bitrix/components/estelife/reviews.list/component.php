@@ -80,9 +80,9 @@ if (!empty($arResult['reviews'])){
 		$val['stars'] = '';
 		for ($j=1; $j<=5; $j++){
 			if ($j<=$val['temp_rating'])
-				$val['stars'] .= '<a href="#" class="active"></a>';
+				$val['stars'] .= '<span class="active"></span>';
 			else
-				$val['stars'] .= '<a href="#"></a>';
+				$val['stars'] .= '<span></span>';
 		}
 
 		if (empty($val['date_moderate']))
@@ -165,9 +165,9 @@ if (!empty($arResult['reviews'])){
 			$val['stars'] = '';
 			for ($j=1; $j<=5; $j++){
 				if ($j<=$nStar)
-					$val['stars'] .= '<a href="#" class="active"></a>';
+					$val['stars'] .= '<span class="active"></span>';
 				else
-					$val['stars'] .= '<a href="#"></a>';
+					$val['stars'] .= '<span></span>';
 			}
 			$arResult['specialist'] = $val;
 		}
@@ -186,45 +186,45 @@ if (!empty($arResult['reviews'])){
 	$arResult['clinic_rating']['stars_doctor'] = '';
 	for ($j=1; $j<=5; $j++){
 		if ($j<=$arResult['clinic_rating']['temp_rating_doctor'])
-			$arResult['clinic_rating']['stars_doctor'] .= '<a href="#" class="active"></a>';
+			$arResult['clinic_rating']['stars_doctor'] .= '<spanclass="active"></span>';
 		else
-			$arResult['clinic_rating']['stars_doctor'] .= '<a href="#"></a>';
+			$arResult['clinic_rating']['stars_doctor'] .= '<span></span>';
 	}
 
 	$arResult['clinic_rating']['temp_rating_quality'] = round($arResult['clinic_rating']['rating_quality']);
 	$arResult['clinic_rating']['stars_quality'] = '';
 	for ($j=1; $j<=5; $j++){
 		if ($j<=$arResult['clinic_rating']['temp_rating_quality'])
-			$arResult['clinic_rating']['stars_quality'] .= '<a href="#" class="active"></a>';
+			$arResult['clinic_rating']['stars_quality'] .= '<span class="active"></span>';
 		else
-			$arResult['clinic_rating']['stars_quality'] .= '<a href="#"></a>';
+			$arResult['clinic_rating']['stars_quality'] .= '<span href="#"></span>';
 	}
 
 	$arResult['clinic_rating']['temp_rating_stuff'] = round($arResult['clinic_rating']['rating_stuff']);
 	$arResult['clinic_rating']['stars_stuff'] = '';
 	for ($j=1; $j<=5; $j++){
 		if ($j<=$arResult['clinic_rating']['temp_rating_stuff'])
-			$arResult['clinic_rating']['stars_stuff'] .= '<a href="#" class="active"></a>';
+			$arResult['clinic_rating']['stars_stuff'] .= '<span class="active"></span>';
 		else
-			$arResult['clinic_rating']['stars_stuff'] .= '<a href="#"></a>';
+			$arResult['clinic_rating']['stars_stuff'] .= '<span href="#"></span>';
 	}
 
 	$arResult['clinic_rating']['temp_rating_service'] = round($arResult['clinic_rating']['rating_service']);
 	$arResult['clinic_rating']['stars_service'] = '';
 	for ($j=1; $j<=5; $j++){
 		if ($j<=$arResult['clinic_rating']['temp_rating_service'])
-			$arResult['clinic_rating']['stars_service'] .= '<a href="#" class="active"></a>';
+			$arResult['clinic_rating']['stars_service'] .= '<span class="active"></span>';
 		else
-			$arResult['clinic_rating']['stars_service'] .= '<a href="#"></a>';
+			$arResult['clinic_rating']['stars_service'] .= '<span></span>';
 	}
 
 	$arResult['clinic_rating']['temp_rating_full'] = round($arResult['clinic_rating']['rating_full']);
 	$arResult['clinic_rating']['stars_full'] = '';
 	for ($j=1; $j<=5; $j++){
 		if ($j<=$arResult['clinic_rating']['temp_rating_full'])
-			$arResult['clinic_rating']['stars_full'] .= '<a href="#" class="active"></a>';
+			$arResult['clinic_rating']['stars_full'] .= '<span class="active"></span>';
 		else
-			$arResult['clinic_rating']['stars_full'] .= '<a href="#"></a>';
+			$arResult['clinic_rating']['stars_full'] .= '<span></span>';
 	}
 
 
