@@ -250,15 +250,50 @@ try{
 					->field('u.ID','ID')
 					->field('u.NAME','NAME')
 					->field('u.LAST_NAME','LAST_NAME')
-					->field('u.SECOND_NAME','SECOND_NAME')
-					->_eq('ug.GROUP_ID',6);
+					->field('u.SECOND_NAME','SECOND_NAME');
+
 
 				$obFilter = $obQuery->builder()->filter();
-
 				$obFilter->_or()->_like('u.LAST_NAME',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 				$obFilter->_or()->_like('u.NAME',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 				$obFilter->_or()->_like('u.SECOND_NAME',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 				$obFilter->_eq('ug.GROUP_ID',6);
+
+				$arResult['list'] = $obQuery->select()->all();
+
+				if (!empty($arResult['list'])){
+					foreach ($arResult['list'] as &$val){
+						if (!empty($val['LAST_NAME']))
+							$val['NAME'] = $val['LAST_NAME'].' '.$val['NAME'].' '.$val['SECOND_NAME'];
+					}
+				}
+
+			}else{
+				$arResult['list']=array();
+			}
+			break;
+		case 'get_specialists':
+			if(!empty($arData['term'])){
+				$sName=trim(strip_tags($arData['term']));
+
+				$obApp= VDatabase::driver();
+
+				$obQuery = $obApp->createQuery();
+				$obQuery->builder()->from('estelife_professionals', 'ep');
+				$obJoin=$obQuery->builder()->join();
+				$obJoin->_left()
+					->_from('ep','user_id')
+					->_to('user','ID','u');
+				$obFilter = $obQuery->builder()
+					->field('ep.id','ID')
+					->field('u.NAME','NAME')
+					->field('u.LAST_NAME','LAST_NAME')
+					->field('u.SECOND_NAME','SECOND_NAME');
+
+				$obFilter = $obQuery->builder()->filter();
+				$obFilter->_or()->_like('u.LAST_NAME',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+				$obFilter->_or()->_like('u.NAME',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+				$obFilter->_or()->_like('u.SECOND_NAME',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 
 				$arResult['list'] = $obQuery->select()->all();
 

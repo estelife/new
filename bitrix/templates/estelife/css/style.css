@@ -91,8 +91,8 @@ a:hover {
 }
 .social a, .arrow i, ul.stat i, .promotion .time i, .promotion .prices i, .media .item span, .media .menu .first a,
 .promotion .time i, .promotion .prices i, .item.detail .clinic a.more i, .select .arrow, .item.company p i, .gallery .arrow i, td.prices i,
-.filter .date i, .win-close, .checked, .item.promotion .current .perc i,.checkbox.active i, .to-top i, h2.show-quality-form i,.help i, .tabs-menu .active i,
-.auth .link.back i, .item.specialist .work i, .activity .dates .active i, .hall .date i {
+.filter .date i, .win-close, .checked, .item.promotion .current .perc i,.checkbox.active i, .checkbox.radio i, .to-top i, h2.show-quality-form i,.help i, .tabs-menu .active i,
+.auth .link.back i, .item.specialist .work i, .activity .dates .active i, .hall .date i, form .date i.calendar, .reviews .rating a, .reviews .group, .reviews .head span i {
 	background-image:url('../images/complex.png');
 	background-repeat: no-repeat;
 }
@@ -240,12 +240,15 @@ ul li:last-child, ul li.last-child {
 input {
 	outline: none;
 }
-input.text, .select, textarea {
+input.text,
+.select, textarea {
 	background:#fff;
 	border-radius: 0;
 	border:1px solid #d1d1d1;
 }
-input.text, .select, .select a, textarea {
+input.text,
+.select, .select a,
+textarea {
 	font-size:14px;
 	text-decoration: none;
 }
@@ -304,7 +307,8 @@ ul.stat,
 .item.specialist .work ul,
 .activity ul, .pro ul,
 .item.detail .menu ul,
-.education .top ul {
+.education .top ul,
+.reviews .item ul.scope {
 	list-style: none;
 	padding:0;
 	margin:0;
@@ -1769,7 +1773,8 @@ form input[type=checkbox] {
 	visibility: hidden;
 	height:28px;
 }
-.filter .select, .filter .input.text {
+.filter .select,
+.filter .input.text {
 	height:28px;
 }
 .filter .date {
@@ -1788,7 +1793,8 @@ form input[type=checkbox] {
 	min-width: 0;
 	padding:3px 7px;
 }
-.filter .date i {
+.filter .date i,
+form .date i.calendar {
 	display: block;
 	width:16px;
 	height:16px;
@@ -1797,6 +1803,13 @@ form input[type=checkbox] {
 	top:6px;
 	right:5px;
 	cursor: pointer;
+}
+form .date i.calendar {
+	top: 47px;
+	right: 12px;
+}
+form .date {
+	position: relative;
 }
 .field .block {
 	background:#e8e8e8;
@@ -1825,7 +1838,8 @@ form input[type=checkbox] {
 	z-index: 1;
 	/*max-height: 208px;*/
 }
-.select a, .select em {
+.select a,
+.select em {
 	text-decoration: none;
 	display: block;
 	line-height: 26px;
@@ -1873,7 +1887,8 @@ form input[type=checkbox] {
 	right: 0px;
 	padding: 0;
 }
-.select .arrow.active, .select .arrow:hover {
+.select .arrow.active,
+.select .arrow:hover {
 	background-position: -161px -51px;
 	border-color:#e50364;
 }
@@ -2338,12 +2353,19 @@ li.country, span.country {
 }
 .item.detail.article,
 .item.detail.article p,
-.item.detail.article h3 {
+.item.detail.article h3,
+.item.detail.article a {
 	font-size: 16px;
 	color:#2c2c2c;
 }
 .item.detail.article a {
 	color:#e60265;
+	display: inline;
+	font-weight: normal;
+	margin:0;
+}
+.item.detail.article a:hover {
+	text-decoration: underline;
 }
 .item.detail.article .announce,
 .item.detail.article .announce p {
@@ -2683,7 +2705,8 @@ form.search {
 	width:100%;
 	margin-bottom:50px;
 }
-form.search input, form.search div.select {
+form.search input,
+form.search div.select {
 	float:left;
 	margin-right:20px;
 }
@@ -2944,8 +2967,8 @@ form.search .submit {
 .home-img {
 	position: absolute;
 	opacity: 0.5;
-	top: -77px;
-	left: -320px;
+	top: 1px;
+	left: -7px;
 	width: 1918px;
 	max-height: initial;
 	max-width: initial;
@@ -3016,6 +3039,17 @@ form.search .submit {
 }
 .checkbox.active i {
 	background-position: -45px -72px;
+}
+.checkbox.radio i {
+	border:none;
+	width:16px;
+	height:16px;
+}
+.checkbox.radio i {
+	background-position: -308px -92px;
+}
+.checkbox.radio.active i {
+	background-position: -336px -92px;
 }
 .to-top {
 	width:65px;
@@ -3192,7 +3226,8 @@ form.quality .clinic  input {
 }
 form.quality .submit,
 .auth .submit,
-.p-form .submit {
+.p-form .submit,
+.reviews .submit {
 	height: 40px;
 	margin-top: 14px;
 	float: left;
@@ -3433,7 +3468,7 @@ form.quality .submit,
 	font-size:12px;
 }
 /*.item.detail.expert .stat {*/
-	/*margin: 34px 0 27px 0;*/
+/*margin: 34px 0 27px 0;*/
 /*}*/
 .item.detail.expert .announce {
 	font-size:16px;
@@ -3720,7 +3755,7 @@ form.quality .submit,
 	color:#009b3a;
 	font-weight: normal;
 }
-.content .p-form .submit {
+.content .p-form .submit{
 	width:auto;
 	padding:0 20px;
 }
@@ -3745,28 +3780,34 @@ form.quality .submit,
 .p-form .select {
 	width:310px;
 }
-.content .p-form .select .value {
+.content .p-form .select .value,
+.reviews .select .value {
 	height:38px;
 	line-height: 37px;
 	text-align: left;
 }
-.content .p-form .select .item {
+.content .p-form .select .item,
+.reviews .select .arrow {
 	text-align: left;
 }
-.p-form .select .arrow {
+.p-form .select .arrow,
+.reviews .select .arrow {
 	height: 36px;
 	width: 37px;
 	background:url('../images/icons/select_arrow_black.png') center center no-repeat;
 	top: -1px;
 	right: -1px;
 }
-.p-form .select .arrow:hover {
+.p-form .select .arrow:hover,
+.reviews .select .arrow:hover {
 	background:#e60365 url('../images/icons/short_arrow_white.png') center center no-repeat;
 }
-.p-form .select .arrow.active {
+.p-form .select .arrow.active,
+.reviews .select .arrow.active{
 	background:url('../images/icons/select_arrow_pink.png') center center no-repeat;
 }
-.p-form .select .items {
+.p-form .select .items,
+.reviews .select .items {
 	top:38px;
 }
 .content .p-form {
@@ -4102,7 +4143,7 @@ form.quality .submit,
 }
 .content .info ul.stat .likes:hover i,
 .content .info ul.stat .likes.active i {
-	 background-position: -110px -111px;
+	background-position: -110px -111px;
 }
 .content .info ul.stat .unlikes i {
 	background-position: -160px -111px;
@@ -4137,4 +4178,515 @@ form.quality .submit,
 }
 .item.detail .info .social a:hover {
 	opacity: 0.8;
+}
+.reviews {
+	float:left;
+	width:100%;
+}
+.reviews .title {
+	height: auto;
+	margin: 52px 0 0 0;
+	text-align: center;
+}
+.reviews .title h3 {
+	font-size: 21px;
+	margin:0 0 22px 0;
+}
+.reviews .title a {
+	font-size: 13px;
+	letter-spacing: inherit;
+	margin: 0;
+	float: none;
+	color: #E50364;
+}
+.reviews form {
+	background:#e8e8e8;
+	padding: 22px 0;
+	float:left;
+	width:100%;
+	border:1px solid #d1d1d1;
+	margin-top:18px;
+}
+.reviews h4 {
+	font-size:24px;
+	font-weight: normal;
+	margin:0 0 15px 0;
+}
+.reviews .group {
+	float:left;
+	padding: 0 15px 0 16px;
+	position: relative;
+	left:-1px;
+	margin-bottom:65px;
+	background-position: -468px -122px;
+	background-repeat: no-repeat;
+}
+.reviews .group:last-child {
+	width:694px;
+	background:none;
+	text-align: center;
+	margin-bottom: 0;
+}
+.reviews label {
+	margin: 5px 0 4px 0;
+	font-size: 14px;
+	line-height: 28px;
+	position: relative;
+	font-weight: normal;
+	color:#2c2c2c;
+}
+.reviews label i,
+.reviews h4 i {
+	color:#dd3a3a;
+	font-size:24px;
+	position: absolute;
+	left: -1px;
+	top: -3px;
+}
+.reviews h4 i {
+	position: static;
+}
+.reviews .require label {
+	padding-left:10px;
+}
+.reviews .field {
+	float:left;
+	margin-right: 21px;
+}
+.reviews .date,
+.reviews .problem .field:last-child,
+.reviews .prof .field:last-child {
+	margin:0;
+}
+.reviews input,
+.reviews textarea {
+	font-size:14px;
+	color:#d4005c;
+	outline:none;
+}
+.reviews input:focus,
+.reviews textarea:focus,
+.reviews .ratings .field:hover 	{
+	border-color:#e296b6;
+}
+.reviews input {
+	padding: 9px 12px;
+	width: 235px;
+}
+.reviews .date  input {
+	width: 99px;
+	min-width: 0;
+}
+.reviews .problem input,
+.reviews .prof input {
+	width:340px;
+}
+.reviews .group.personal {
+	margin-bottom:69px;
+}
+.reviews .select {
+	width:262px;
+}
+.reviews span.or {
+	font-size:14px;
+	float:left;
+	margin-right: 17px;
+	margin-top: 8px;
+}
+.reviews .ratings {
+	margin-bottom: 41px;
+}
+.reviews .ratings .field {
+	background: #FFF;
+	border: 1px solid #D1D1D1;
+	padding: 9px 18px;
+	width: 298px;
+	margin-bottom: 18px;
+}
+.reviews .ratings .field:nth-child(2n+1),
+.reviews .areas .field:last-child {
+	margin-right: 0;
+}
+.reviews .ratings .field i {
+	float:left;
+	font-style:normal;
+}
+.reviews .ratings .field div {
+	float:right;
+}
+.reviews .ratings .field b {
+	color:#e60364;
+	font-size:18px;
+}
+.reviews .rating a {
+	display:block;
+	width:15px;
+	height:14px;
+	background-position: -257px -93px;
+	float:left;
+	margin-top:3px;
+	margin-right: 5px;
+}
+.reviews .rating span {
+	margin-left: 10px;
+}
+.reviews .rating a.active,
+.reviews .rating a:hover {
+	background-position: -280px -93px;
+}
+.reviews .areas {
+	background-position: -468px -113px;
+}
+.reviews .areas textarea {
+	width:310px;
+	margin-top:3px;
+	height:150px;
+}
+.reviews .areas label {
+	font-size:24px;
+	margin-left:29px;
+	font-weight: normal;
+}
+.reviews .areas span,
+.reviews .item .message span {
+	float:left;
+	width:21px;
+	height:38px;
+	background:#009b3a;
+	position: absolute;
+	top: 4px;
+	left: 3px;
+	color:#fff;
+	text-align: center;
+	font-size: 22px;
+	line-height: 29px;
+}
+.reviews .areas .field:last-child span,
+.reviews .item .message p:nth-child(2) span {
+	background:#dd3a3a;
+}
+.reviews .radios {
+	margin-bottom: 56px;
+}
+.reviews .radios h4 {
+	margin-bottom:26px;
+}
+.reviews .radio {
+	margin: 0 50px 0 3px;
+}
+.reviews form .submit {
+	float:none;
+	margin:20px auto 0 auto;
+	width:222px;
+	color:#2c2c2c;
+}
+.reviews form .submit:hover {
+	color:#fff;
+}
+.reviews .head {
+	background: #D1D1D1;
+	border: 1px solid #B6B6B6;
+	width: 671px;
+	height: 38px;
+	font-size: 14px;
+	text-transform: uppercase;
+	font-weight: bold;
+	line-height: 39px;
+	padding: 0 26px;
+	margin:28px 0 0 0;
+}
+.reviews .head .left,
+.reviews .head i,
+.reviews .head .rating,
+.reviews .head .rating span,
+.reviews .info .left,
+.reviews .info .right,
+.reviews .info .user,
+.reviews .info .right b {
+	float:left;
+	font-style: normal;
+}
+.reviews .head .right {
+	float:right;
+	width:268px;
+}
+.reviews .head .rating {
+	margin: 10px 0 0 15px;
+}
+.reviews .head .rating a {
+	width:17px;
+	height:16px;
+	background-position:-262px -117px;
+	margin-right:3px;
+}
+.reviews .head .rating a.active,
+.reviews .head .rating a:hover {
+	background-position:-290px -117px;
+}
+.reviews .head .rating span {
+	font-size:24px;
+	line-height: 20px;
+}
+.reviews .head .rating span,
+.reviews .head .right b,
+.reviews .info .rating span{
+	color:#e60364;
+}
+.reviews .head .right span {
+	padding-left: 35px;
+	margin-right: 8px;
+	position: relative;
+}
+.reviews .head .right i {
+	float: none;
+	font-size: 12px;
+}
+.reviews .head .right span i {
+	width:16px;
+	height:16px;
+	background-position: -320px -117px;
+	display: block;
+	position: absolute;
+	top:0;
+	left:0;
+}
+.content .reviews .info {
+	width:687px;
+	height:223px;
+	border:1px solid #d1d1d1;
+	border-top:none;
+	margin:0;
+	padding:16px 18px 0 18px;
+	background:#e8e8e8;
+}
+.reviews .info .left {
+	width:295px;
+}
+.reviews .info .left b {
+	display: block;
+	float:left;
+	width:137px;
+	text-align: right;
+	margin-right: 13px;
+}
+.reviews .info .row {
+	margin-top:10px;
+}
+.reviews .info .rating span {
+	font-weight: bold;
+	font-size:16px;
+}
+.reviews .info .right {
+	width:374px;
+	float:right;
+}
+.reviews .info .right b {
+	display: block;
+	width:95px;
+	margin-top:10px;
+}
+.reviews .info .user {
+	width:275px;
+	position: relative;
+	height:127px;
+}
+.reviews .info .user a {
+	position: static;
+	display: block;
+}
+.reviews .info .user .img {
+	padding: 12px;
+	background: #FFF;
+	width: 93px;
+	border:none;
+	float:left;
+	margin-right: 11px;
+}
+.reviews .info .user img {
+	margin:0;
+}
+.reviews .info .user .name {
+	color:#2c2c2c;
+	margin-top: 12px;
+	line-height: 15px;
+}
+.reviews .info .user .name:hover {
+	color:#e60364;
+}
+.reviews .info .user .rating {
+	position: absolute;
+	bottom: 6px;
+	right: 15px;
+}
+.reviews .info .top {
+	overflow: hidden;
+	padding-bottom: 20px;
+	border-bottom: 1px solid #D1D1D1;
+}
+.reviews .info .submit {
+	float: none;
+	margin: 16px auto;
+	height: 36px;
+	width: 225px;
+	line-height: 39px;
+}
+.reviews form.sort {
+	padding: 0;
+	border: none;
+	background: none;
+}
+.reviews form.sort label,
+.reviews form.sort .select {
+	float:left;
+	font-size:13px;
+}
+.reviews form.sort label {
+	margin-right: 7px;
+}
+.reviews form.sort .select {
+	margin-top: 9px;
+	width: 157px;
+	margin-right: 20px;
+}
+.reviews form.sort .select .value {
+	height:19px;
+	line-height: 19px;
+	padding-left:10px;
+}
+.reviews form.sort .select .arrow {
+	height: 17px;
+	width: 17px;
+}
+.reviews form.sort a.all {
+	color: #2C2C2C;
+	float: right;
+	margin-top: 9px;
+	margin-right: 2px;
+	font-size: 13px;
+}
+.reviews form.sort a.all:hover {
+	color:#e60364;
+}
+.reviews .item {
+	margin-top:60px;
+	border:1px solid #d1d1d1;
+	position: relative;
+	width:722px;
+	cursor:default;
+}
+.reviews .item h5 {
+	background: #2C2C2C;
+	width: 164px;
+	margin: 0;
+	height: 42px;
+	color: #FFF;
+	text-transform: uppercase;
+	text-align: center;
+	line-height: 43px;
+	font-size: 13px;
+	position: absolute;
+	top:-41px;
+	left:-1px;
+}
+.reviews .item.hl h5 {
+	background:#8e8e8e;
+}
+.reviews .item h5 b {
+	font-size:12px;
+	color:#919191;
+	font-weight: normal;
+	margin-left: 5px;
+}
+.reviews .item.hl h5 b {
+	color:#d0d0d0;
+}
+.reviews .item .top {
+	border-bottom: 1px solid #D1D1D1;
+	height: 28px;
+	padding-top:10px;
+	background:#e8e8e8;
+}
+.reviews .item .top b {
+	float: left;
+	margin: 0 14px 0 18px;
+}
+.reviews .item .top .rating {
+	float:left;
+}
+.reviews .item .top i {
+	float: right;
+	font-size: 12px;
+	line-height: 13px;
+	margin-right: 27px;
+	font-style: normal;
+	color:#c67195;
+}
+.reviews .item .scope li {
+	float: left;
+	padding: 10px 18px;
+	border-right: 1px solid #D1D1D1;
+	width: 323px;
+	font-size: 13px;
+}
+.reviews .item .scope li:nth-child(2n + 2) {
+	border-right: none;
+}
+.reviews .item .scope a {
+	color:#2c2c2c;
+}
+.reviews .item .scope a:hover {
+	color:#e60364;
+}
+.reviews .item .scope {
+	border-bottom: 1px solid #D1D1D1;
+	overflow: hidden;
+}
+.reviews .item .scope b {
+	display: block;
+}
+.reviews .item .message p {
+	font-size:15px;
+	margin: 10px 0 20px 56px;
+	position: relative;
+}
+.reviews .item .message span {
+	height: 21px;
+	width: 33px;
+	position: absolute;
+	left: -59px;
+	top: 0;
+	line-height: 20px;
+	text-align: right;
+	padding-right: 5px;
+}
+.reviews .item .message b {
+	color:#009b3a;
+	margin-left:56px;
+}
+.reviews .item .row {
+	margin:0;
+	padding:0;
+	border-bottom:1px solid #d1d1d1;
+	border-right:none;
+	border-left:none;
+	border-top:none;
+}
+.reviews .item .message {
+	padding-bottom:10px;
+}
+.reviews .item .clinic,
+.reviews .item .manager {
+	padding: 9px 16px;
+}
+.reviews .item .clinic p,
+.reviews .item .manager p {
+	margin:0;
+}
+.reviews .item .clinic b,
+.reviews .item .manager b {
+	color:#e60265;
+}
+.reviews .item .manager {
+	border:none;
+	font-style: italic;
 }
