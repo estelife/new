@@ -98,7 +98,7 @@ if(isset($_GET['code'])&& !empty($_GET['code'])){
 	curl_setopt_array($ch, $curlOptions);
 	$result = curl_exec($ch);
 	$info = curl_getinfo($ch);
-    $result =json_decode($result);
+	$result =json_decode($result);
 
 
 	if($result->access_token){
@@ -207,7 +207,7 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 					/*$fields = '<wsw-fields><wsw-field name="host"><wsw-value>'.$host_name.' </wsw-value></wsw-field><wsw-field name="Original_text" ><wsw-value>'.$sContent.'</wsw-value></wsw-field></wsw-fields>';
 					$request    = 'action=saveData&host='.$host_name.'&mvcDataLoadSignature=saveData&page=Originals-submission-form&service=ORIGINALS&wsw-fields='.$fields;*/
 
-					$xml = $sContent;
+					$xml = strip_tags($sContent);
 					$xml =urlencode('<original-text><content>'.$xml.'</content></original-text>');
 
 
@@ -219,8 +219,8 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 
 					// Добавляем пост
 					// http://webmaster.yandex.ru/site/plugins/wsw.api/api.xml?sk=uce0cdfb1fa8fb4beb9301c7e2a036b13
-					$ch = curl_init('http://webmaster.yandex.ru/api/v2/hosts/4324/original-texts/');
-					curl_setopt ($ch, CURLOPT_URL, 'http://webmaster.yandex.ru/api/v2/hosts/4324/original-texts/');
+					$ch = curl_init('http://webmaster.yandex.ru/api/v2/hosts/18841276/original-texts/');
+					curl_setopt ($ch, CURLOPT_URL, 'http://webmaster.yandex.ru/api/v2/hosts/18841276/original-texts/');
 					curl_setopt ($ch, CURLOPT_HTTPHEADER, $headers);
 					curl_setopt ($ch, CURLOPT_POST, 1);
 					curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -232,7 +232,7 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 
 					$obQuery = VDatabase::driver()->createQuery();
 					$obQuery->builder()->from('estelife_yandex_content')
-						->value('send', intval(1));
+						->value('send', intval(2));
 
 					$obQuery->builder()->filter()
 						->_eq('iblock_element',$ID);
@@ -257,10 +257,10 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 					}
 
 
-					CEvent::Send("SEND_YANDEX_CONTENT_RESULT", "s1", array(
+					/*CEvent::Send("SEND_YANDEX_CONTENT_RESULT", "s1", array(
 						'EMAIL_TO'=>'',
-						'MESSAGE'=>$message,
-					),"Y",62);
+						'MESSAGE'=>'Статус: <font color="green"><b>OK</b></font><br />Статья добавлена в панель вебмастера.'. 'yandex-content' .'<br />',
+					),"Y",62);*/
 
 				}
 
@@ -396,57 +396,57 @@ $APPLICATION->SetTitle(GetMessage("ESTELIFE_HEAD_TITLE"));
 require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_after.php");
 
 ?>
-	<script type="text/javascript" src="/bitrix/js/estelife/jquery-1.10.2.min.js"></script>
-	<script type="text/javascript" src="/bitrix/js/estelife/jquery-ui-1.10.3.custom.min.js"></script>
-	<script type="text/javascript" src="/bitrix/js/estelife/estelife.js"></script>
+<script type="text/javascript" src="/bitrix/js/estelife/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="/bitrix/js/estelife/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="/bitrix/js/estelife/estelife.js"></script>
 
-	<a name="tb"></a>
+<a name="tb"></a>
 
-	<form name="form1" method="GET" action="<?=$APPLICATION->GetCurPage()?>?">
-		<?php
-		$oFilter = new CAdminFilter(
-			$sTableID."_filter",
-			array(
-				GetMessage("ESTELIFE_F_ID"),
-				GetMessage("ESTELIFE_F_BLOCK"),
-				GetMessage("ESTELIFE_F_NAME"),
-				GetMessage("ESTELIFE_F_SEND"),
-			)
-		);
-		$oFilter->Begin();
-		?>
-		<tr>
-			<td><?echo GetMessage("ESTELIFE_F_ID")?></td>
-			<td><input type="text" name="find_id" size="30" value="<?echo htmlspecialcharsbx($find_id)?>"></td>
-		</tr>
+<form name="form1" method="GET" action="<?=$APPLICATION->GetCurPage()?>?">
+	<?php
+	$oFilter = new CAdminFilter(
+		$sTableID."_filter",
+		array(
+			GetMessage("ESTELIFE_F_ID"),
+			GetMessage("ESTELIFE_F_BLOCK"),
+			GetMessage("ESTELIFE_F_NAME"),
+			GetMessage("ESTELIFE_F_SEND"),
+		)
+	);
+	$oFilter->Begin();
+	?>
+	<tr>
+		<td><?echo GetMessage("ESTELIFE_F_ID")?></td>
+		<td><input type="text" name="find_id" size="30" value="<?echo htmlspecialcharsbx($find_id)?>"></td>
+	</tr>
 
-		<tr>
-			<td><?echo GetMessage("ESTELIFE_F_BLOCK")?></td>
-			<td><input type="text" name="find_block" size="30" value="<?echo htmlspecialcharsbx($find_block)?>"></td>
-		</tr>
-		<tr>
-			<td><?echo GetMessage("ESTELIFE_F_NAME")?></td>
-			<td><input type="text" name="find_name" size="30" value="<?echo htmlspecialcharsbx($find_name)?>"></td>
-		</tr>
+	<tr>
+		<td><?echo GetMessage("ESTELIFE_F_BLOCK")?></td>
+		<td><input type="text" name="find_block" size="30" value="<?echo htmlspecialcharsbx($find_block)?>"></td>
+	</tr>
+	<tr>
+		<td><?echo GetMessage("ESTELIFE_F_NAME")?></td>
+		<td><input type="text" name="find_name" size="30" value="<?echo htmlspecialcharsbx($find_name)?>"></td>
+	</tr>
 
-		<tr>
-			<td><?echo GetMessage("ESTELIFE_F_SEND")?></td>
-			<td>
-				<select name="find_send" value="<?echo htmlspecialcharsbx($find_send)?>">
-					<option value="0"><?echo GetMessage("ESTELIFE_NOT_IMPORTANT")?></option>
-					<option value="accept">Подтверждено</option>
-					<option value="yes">Да</option>
-					<option value="no">Нет</option>
-				</select>
-			</td>
-		</tr>
+	<tr>
+		<td><?echo GetMessage("ESTELIFE_F_SEND")?></td>
+		<td>
+			<select name="find_send" value="<?echo htmlspecialcharsbx($find_send)?>">
+				<option value="0"><?echo GetMessage("ESTELIFE_NOT_IMPORTANT")?></option>
+				<option value="accept">Подтверждено</option>
+				<option value="yes">Да</option>
+				<option value="no">Нет</option>
+			</select>
+		</td>
+	</tr>
 
-		<?
-		$oFilter->Buttons(array("table_id"=>$sTableID, "url"=>$APPLICATION->GetCurPage()));
-		$oFilter->End();
-		#############################################################
-		?>
-	</form>
+	<?
+	$oFilter->Buttons(array("table_id"=>$sTableID, "url"=>$APPLICATION->GetCurPage()));
+	$oFilter->End();
+	#############################################################
+	?>
+</form>
 
 <?
 
@@ -457,7 +457,7 @@ print "<div class='wrap'>";
 
 $popupUrl = 'https://oauth.yandex.ru/authorize?response_type=code&client_id=11156d008f04494596948f23d5f30787&display=popup';
 $popupTitle = "Yandex Code";
-print "<p><a href='#' onclick='popup(\"$popupUrl\", \"$popupTitle\");'>Получить код подтверждения</a>";
+print "<p><a href='#' onclick='popup(\"$popupUrl\", \"$popupTitle\");'>.</a>";
 
 print "</div>";
 print '</form></div>';
