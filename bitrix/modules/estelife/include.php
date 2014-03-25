@@ -140,6 +140,7 @@ CModule::AddAutoloadClasses(
 		'pay\VProtocol'=>'classes/pay/class.VProtocol.php',
 		'pay\VReceipt'=>'classes/pay/class.VReceipt.php',
 		'pay\VReceiptEx'=>'classes/pay/class.VReceiptEx.php',
-		'pay\VSecure'=>'classes/pay/class.VSecure.php'
+		'pay\VSecure'=>'classes/pay/class.VSecure.php',
+
 	)
 );

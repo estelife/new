@@ -36,7 +36,6 @@ $MESS ['ESTELIFE_APPARATUS_TITLE']='Управление аппаратами';
 $MESS ['ESTELIFE_APPARATUS_TITLE_TYPE']='Типы аппаратов';
 $MESS ['ESTELIFE_METHODS']='Методики';
 $MESS ['ESTELIFE_METHODS_TITLE']='Управление методиками';
-
 $MESS ['ESTELIFE_SPECIAL']='Специальные разделы';
 $MESS ['ESTELIFE_SUBSCRIBE_TITLE']='Управление подпиской';
 $MESS ['ESTELIFE_SUBSCRIBE_LIST']='Список подписок';
@@ -51,7 +50,6 @@ $MESS ['ESTELIFE_THREADS_LIST']='Список нитей';
 $MESS ['ESTELIFE_IMPLANTS']='Имплантаты';
 $MESS ['ESTELIFE_IMPLANTS_TITLE']='Управление имплантатами';
 $MESS ['ESTELIFE_IMPLANTS_LIST']='Список имплантатов';
-
 $MESS ['ESTELIFE_ACTIVITY_TYPES']='Типы событий';
 $MESS ['ESTELIFE_ACTIVITY_TYPES_TITLE']='Список типов событий';
 $MESS ['ESTELIFE_EVENT_HALLS']='Залы';
@@ -62,9 +60,10 @@ $MESS ['ESTELIFE_PROFESSIONALS_CLINICS']='Специалисты';
 $MESS ['ESTELIFE_PROFESSIONALS_CLINICS_TITLE']='Специалисты';
 $MESS ['ESTELIFE_EVENT_ACTIVITIES']='События';
 $MESS ['ESTELIFE_EVENT_ACTIVITIES_TITLE']='События';
-
 $MESS ['ESTELIFE_EDUCATION'] = 'Онлайн обучения';
 $MESS ['ESTELIFE_EDUCATION_LIST'] = 'Список обучений';
 $MESS ['ESTELIFE_RECEIPT'] = 'Квитанции';
 $MESS ['ESTELIFE_RECEIPT_LIST'] = 'Квитанции';
 $MESS ['ESTELIFE_YANDEX_LIST'] = 'Yandex content';
+$MESS ['ESTELIFE_CLINIC_REVIEWS_TITLE'] = 'Отзывы';
+$MESS ['ESTELIFE_CLINIC_PROBLEMS_TITLE'] = 'Услуги или пробемы';

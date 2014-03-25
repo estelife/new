@@ -14,19 +14,8 @@ try{
 
 	$obIblock = VDatabase::driver();
 	$obQuery = $obIblock->createQuery();
-	$obJoin = $obQuery->builder()
-		->sort('ie.DATE_CREATE', 'desc')
-		->field('ie.ID', 'ID')
-		->field('ie.NAME', 'NAME')
-		->field('ie.ACTIVE_FROM', 'ACTIVE_FROM')
-		->field('ie.CODE', 'CODE')
-		->field('iepr.VALUE', 'PREVIEW_TEXT')
-		->field('iepi.VALUE', 'IMG')
-		->field('iepp.VALUE', 'PROFESSION')
-		->field('iepa.VALUE', 'AUTHOR')
-		->from('iblock_element', 'ie')
-		->slice(0, $arParams['NEWS_COUNT'])
-		->join();
+	$obQuery->builder()->from('iblock_element', 'ie');
+	$obJoin = $obQuery->builder()->join();
 	$obJoin->_left()
 		->_from('ie','ID')
 		->_to('iblock_element_property','IBLOCK_ELEMENT_ID','iepi')
@@ -43,14 +32,29 @@ try{
 		->_from('ie','ID')
 		->_to('iblock_element_property','IBLOCK_ELEMENT_ID','iepr')
 		->_cond()->_eq('iepr.IBLOCK_PROPERTY_ID', $arParams['PREVIEW']);
+    $obJoin->_left()
+        ->_from('ie','ID')
+        ->_to('iblock_element_property','IBLOCK_ELEMENT_ID','ieac')
+        ->_cond()->_eq('ieac.IBLOCK_PROPERTY_ID', $arParams['MAIN_ACTIVE']);
+
+	$obQuery->builder()
+		->field('ie.ID', 'ID')
+		->field('ie.NAME', 'NAME')
+		->field('ie.ACTIVE_FROM', 'ACTIVE_FROM')
+		->field('ie.CODE', 'CODE')
+		->field('iepr.VALUE', 'PREVIEW_TEXT')
+		->field('iepi.VALUE', 'IMG')
+		->field('iepp.VALUE', 'PROFESSION')
+		->field('iepa.VALUE', 'AUTHOR');
 	$obQuery->builder()->filter()
 		->_eq('IBLOCK_ID', $arParams['IBLOCK_ID'])
-		->_eq('ACTIVE', 'Y');
+		->_eq('ACTIVE', 'Y')
+        ->_gte('ieac.VALUE', 0);
+	$obQuery->builder()->slice(0, $arParams['NEWS_COUNT']);
 
 	$arElements = $obQuery->select()->all();
-	$arResult['count'] = count($arElements);
 
-	if ($arResult['count']) {
+	if (!empty($arElements)){
 		foreach ($arElements as $val){
 			$val['PREVIEW_TEXT'] = unserialize($val['PREVIEW_TEXT']);
 			if (!empty($val['PREVIEW_TEXT']['TEXT'])){
@@ -66,6 +70,7 @@ try{
 			$arResult['iblock'][] = $val;
 		}
 	}
+
 }catch(VException $e){
 	echo $e->getMessage(), "\n";
 }

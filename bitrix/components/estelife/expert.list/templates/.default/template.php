@@ -1,5 +1,5 @@
 <?php if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
-<?php if ($arResult['count']):?>
+<?php if (!empty($arResult['iblock'])):?>
 	<div class="experts">
 		<div class="item-rel">
 			<h2><?=$arParams['TITLE']?></h2>
@@ -17,9 +17,9 @@
 				</div>
 			<?php endforeach?>
 			<ul class="menu">
-				<?php for($i=0; $i<$arResult['count']; $i++): ?>
-					<li<?=($i==0 ? ' class="active"' : '')?>><a href="#"><i></i></a></li>
-				<?php endfor; ?>
+                <?php foreach ($arResult['iblock'] as $key=>$val):?>
+				    <li class="<?php if ($key==0):?> active<?php endif?>"><a href="#"><i></i></a></li>
+                <?php endforeach?>
 			</ul>
 		</div>
 		<div class="border"></div>

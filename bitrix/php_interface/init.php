@@ -26,7 +26,9 @@ class YandexPost
 			3=>3,
 		);
 
-		if($arFields["ID"]>0 && array_key_exists($arFields['IBLOCK_ID'],$arBlocks)){
+		$lenght = strlen(utf8_decode($arFields['DETAIL_TEXT']));
+
+		if($arFields["ID"]>0 && array_key_exists($arFields['IBLOCK_ID'],$arBlocks) && $lenght > 500){
 
 			$obQuery = \core\database\VDatabase::driver()->createQuery();
 			$obQuery->builder()

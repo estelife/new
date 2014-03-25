@@ -56,6 +56,7 @@ $arResult['type_string'] = $arTypes[$nType];
 
 //Создание формы
 $obForm = new VForm('comments', '#comment');
+$obForm->createTokenField('form_token');
 $obHidden = $obForm->createHiddenField('id');
 $obHidden->setValue($nElementId);
 $obHidden = $obForm->createHiddenField('type');
@@ -63,7 +64,6 @@ $obHidden->setValue($nType);
 $obTextarea = $obForm->createTextareaField('comment', 'comment');
 $obSubmit = $obForm->createSubmitField('send_comment');
 $obSubmit->setAttributes(array('class'=>'submit'));
-$obForm->createTokenField('form_token');
 $arValues=array(
 	'comment'=>'',
 	'send_comment'=>'Комментировать'
