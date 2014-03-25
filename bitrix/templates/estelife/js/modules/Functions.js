@@ -121,11 +121,12 @@ define(['tpl/Template','modules/Select'],function(Template,Select){
 				var sl=Select.make($(this));
 			});
 
-			$('input[type=checkbox]',form).each(function(){
+			$('input[type=checkbox], input[type=radio]',form).each(function(){
 				var inpt=$(this),
-					form=$(this.form),
-					link=$('<a href="#"></a>'),
-					id=inpt.attr('id'),
+					isRadio = inpt.attr('type') == 'radio',
+					form = $(this.form),
+					link = $('<a href="#"></a>'),
+					id = inpt.attr('id'),
 					label;
 
 				if(id && id.length>0){
@@ -142,7 +143,12 @@ define(['tpl/Template','modules/Select'],function(Template,Select){
 
 				inpt.after(link).hide();
 				link.html('<i></i>'+label);
-				link.data('Input',inpt).addClass('checkbox');
+				link.data('Input', inpt)
+					.addClass('checkbox')
+					.attr('data-name', inpt.attr('name'));
+
+				if (isRadio)
+					link.addClass('radio');
 
 				if(inpt.is(':checked'))
 					link.addClass('active');
@@ -150,13 +156,25 @@ define(['tpl/Template','modules/Select'],function(Template,Select){
 				link.click(function(e){
 					var link=$(this);
 
-					if(link.hasClass('active')){
+					if(link.hasClass('active') && !isRadio){
 						link.removeClass('active');
-						link.data('Input').prop('checked',false);
+						link.data('Input').prop('checked', false);
 					}else{
+						if (isRadio) {
+							var name = link.attr('data-name'),
+								active = $('.checkbox.radio[data-name='+name+']');
+
+							active.each(function(){
+								var link = $(this);
+								link.removeClass('active');
+								link.data('Input').prop('checked', false);
+							});
+						}
+
 						link.addClass('active');
-						link.data('Input').prop('checked',true);
+						link.data('Input').prop('checked', true);
 					}
+
 					e.preventDefault();
 				});
 			});
