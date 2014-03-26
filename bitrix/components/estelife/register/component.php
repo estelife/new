@@ -44,12 +44,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["register"]) && !$USER
 		$obError->raise();
 
 		//Регистрация пользователя
-		$bConfirmReq = COption::GetOptionString("main", "new_user_registration_email_confirmation", "N") == "Y";
+		//$bConfirmReq = COption::GetOptionString("main", "new_user_registration_email_confirmation", "N") == "Y";
 
 		$arResult['values']["CHECKWORD"] = randString(8);
 		$arResult['values']["~CHECKWORD_TIME"] = $DB->CurrentTimeFunction();
-		$arResult['values']["ACTIVE"] = $bConfirmReq? "N": "Y";
-		$arResult['values']["CONFIRM_CODE"] = $bConfirmReq? randString(8): "";
+		$arResult['values']["ACTIVE"] = 'N';//$bConfirmReq? "N": "Y";
+		$arResult['values']["CONFIRM_CODE"] = randString(8);
 		$arResult['values']["LID"] = SITE_ID;
 
 		$arResult['values']["USER_IP"] = $_SERVER["REMOTE_ADDR"];
@@ -69,10 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["register"]) && !$USER
 			$arEventFields = $arResult['values'];
 			unset($arEventFields["PASSWORD"]);
 			unset($arEventFields["CONFIRM_PASSWORD"]);
-
-			CEvent::Send("NEW_USER", SITE_ID, $arEventFields);
-			if($bConfirmReq)
-				CEvent::Send("NEW_USER_CONFIRM", SITE_ID, $arEventFields);
+			CEvent::Send("NEW_USER_CONFIRM", SITE_ID, $arEventFields);
 		}else
 			throw new \request\exceptions\VRequest($user->LAST_ERROR);
 

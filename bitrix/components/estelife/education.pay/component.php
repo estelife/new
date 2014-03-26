@@ -52,8 +52,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		$arUser["CHECKWORD"] = randString(8);
 		$arUser["~CHECKWORD_TIME"] = $DB->CurrentTimeFunction();
-		$arUser["ACTIVE"] = $bConfirmReq ? "N": "Y";
-		$arUser["CONFIRM_CODE"] = $bConfirmReq? randString(8): "";
+		$arUser["ACTIVE"] = 'N';
+		$arUser["CONFIRM_CODE"] = randString(8);
 		$arUser["LID"] = SITE_ID;
 
 		$arUser["USER_IP"] = $_SERVER["REMOTE_ADDR"];

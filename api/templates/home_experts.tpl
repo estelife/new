@@ -16,8 +16,9 @@
 			</div>
 			<!--endforeach!-->
 			<ul class="menu">
-				<li class="active"><a href="#"><i></i></a></li>
-				<li><a href="#"><i></i></a></li>
+                <!--foreach ($EXPERTS.iblock as $key=>$val)!-->
+				    <li class="<!--if($key==0)!--> active<!--endif!-->"><a href="#"><i></i></a></li>
+                <!--endforeach!-->
 			</ul>
 		</div>
 		<div class="border"></div>

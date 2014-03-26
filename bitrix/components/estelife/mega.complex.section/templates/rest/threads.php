@@ -7,7 +7,8 @@ $APPLICATION->IncludeComponent(
 	"ajax",
 	array(
 		"PAGE_COUNT" => 10,
-		"TYPE"=>2
+		"TYPE"=>2,
+		"COMPONENT"=>'list'
 	),
 	false
 );

@@ -45,7 +45,7 @@ return array (
       array (
         'className' => '\\Bitrix\\Main\\DB\\MysqlConnection',
         'host' => 'localhost',
-        'database' => 'estelife',
+        'database' => 'estelife.new',
         'login' => 'root',
         'password' => 'root',
         'options' => 2,

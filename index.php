@@ -39,7 +39,7 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 		"",
 		array(
 			"IBLOCK_ID"=>35,
-			"NEWS_COUNT" => 2,
+			"NEWS_COUNT" => 4,
 			"MAIN_URL" => "",
 			"TITLE"=>"Экспертное мнение",
 			"MORE_TITLE"=>"",
@@ -47,6 +47,7 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 			"AUTOR"=> 172,
 			"PROFESSION" => 173,
 			"PREVIEW"=>178,
+            "MAIN_ACTIVE" => 200,
 			"PREFIX" => ""
 		)
 	)?>

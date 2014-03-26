@@ -28,6 +28,7 @@ $arResult=array(
 		"pf" => "professionals"
 	),
 	'types' => array(
+		0=>"",
 		1=>"ns",
 		2=>"pt",
 		3=>"ar",

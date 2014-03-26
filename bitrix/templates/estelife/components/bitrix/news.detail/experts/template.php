@@ -22,7 +22,7 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 				<p><?=$arResult["PREVIEW_TEXT"];?></p>
 			</div>
 			<div class="theme">
-				<?=$arResult["ABOUT"];?>
+				<?=$arResult["ABOUT"]?>
 			</div>
 			<div class="user">
 				<div class="img">

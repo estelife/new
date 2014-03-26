@@ -32,6 +32,10 @@ try{
 		->_from('ie','ID')
 		->_to('iblock_element_property','IBLOCK_ELEMENT_ID','iepr')
 		->_cond()->_eq('iepr.IBLOCK_PROPERTY_ID', $arParams['PREVIEW']);
+    $obJoin->_left()
+        ->_from('ie','ID')
+        ->_to('iblock_element_property','IBLOCK_ELEMENT_ID','ieac')
+        ->_cond()->_eq('ieac.IBLOCK_PROPERTY_ID', $arParams['MAIN_ACTIVE']);
 
 	$obQuery->builder()
 		->field('ie.ID', 'ID')
@@ -44,7 +48,8 @@ try{
 		->field('iepa.VALUE', 'AUTHOR');
 	$obQuery->builder()->filter()
 		->_eq('IBLOCK_ID', $arParams['IBLOCK_ID'])
-		->_eq('ACTIVE', 'Y');
+		->_eq('ACTIVE', 'Y')
+        ->_gte('ieac.VALUE', 0);
 	$obQuery->builder()->slice(0, $arParams['NEWS_COUNT']);
 
 	$arElements = $obQuery->select()->all();
@@ -65,6 +70,7 @@ try{
 			$arResult['iblock'][] = $val;
 		}
 	}
+
 }catch(VException $e){
 	echo $e->getMessage(), "\n";
 }

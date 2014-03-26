@@ -59,7 +59,6 @@ if (!$arLink || empty($arDirectories[$mathces[1]]))
 	);
 
 	if(array_key_exists ($mathces[1],$arBlocksIds)){
-
 		$nBlockID = $arBlocksIds[$mathces[1]];
 
 		$obResult=CIBlockElement::GetList(
@@ -82,6 +81,11 @@ if (!$arLink || empty($arDirectories[$mathces[1]]))
 	}
 }
 
+$bInitTemplate = true;
+
+if (!$bNotFound && !($bInitTemplate = $this->initComponentTemplate($componentPage)))
+	$bNotFound = true;
+
 if($bNotFound) {
 	$componentPage='index';
 	$folder404 = str_replace("\\", "/", $arParams["SEF_FOLDER"]);
@@ -96,6 +100,7 @@ if($bNotFound) {
 		$APPLICATION->SetTitle("404 Not Found");
 		CHTTP::SetStatus("404 Not Found");
 	}
+	$bInitTemplate = false;
 }
 
 CComponentEngine::InitComponentVariables($componentPage, $arComponentVariables, $arVariableAliases, $arVariables);
@@ -110,4 +115,13 @@ $arResult = array(
 	'DEEP_PATHES' => $arPath
 );
 
-$this->IncludeComponentTemplate($componentPage);
+// А это - встречайте - костыль для злоебучего битрикса
+if ($bInitTemplate || $this->initComponentTemplate($componentPage)) {
+	$this->showComponentTemplate();
+
+	if($this->__component_epilog)
+		$this->includeComponentEpilog($this->__component_epilog);
+} else {
+	$this->abortResultCache();
+	$this->__showError('Страница не найдена');
+}

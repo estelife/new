@@ -982,6 +982,64 @@ require([
 			}
 		});
 
+		(function(){
+			var text = ['ужасно', 'плохо', 'удовл.', 'хор.', 'оч.хор.'];
+
+			body.on('mouseout', '.rating a', function(){
+				return false;
+			}).on('mouseover','.rating a',function(e){
+				var link=$(this),
+					prnt=link.parent(),
+					links=prnt.find('a'),
+					active = links.filter('.active');
+
+				if (!prnt.attr('data-index')) {
+					prnt.attr('data-index', active.length-1);
+				}
+
+				active.removeClass('active');
+
+				for(var i=0; i<links.length; i++){
+					links.eq(i).addClass('active');
+
+					if(link.get(0) == links.get(i))
+						break;
+				}
+
+				prnt.find('span').html('<b>'+(i+1)+'</b> ('+text[i]+')');
+			}).on('mouseout','.rating',function(){
+				var prnt=$(this);
+				var index=prnt.attr('data-index')||0;
+
+				if (!prnt.find('a').length)
+					return;
+
+				if (index < 0) {
+					prnt.find('a').removeClass('active');
+					prnt.find('span').html('<b>0</b> (никак)');
+				} else {
+					index = parseInt(index);
+					prnt.find('a').eq(index).mouseover();
+					prnt.find('span').html('<b>'+(index+1)+'</b> ('+text[index]+')');
+				}
+			}).on('click','.rating a',function(){
+				var prnt=$(this).parent();
+
+				var active=prnt.find('.active').length;
+				prnt.attr('data-index', active-1);
+
+				var id = prnt.attr('id');
+
+				if	(id)
+					$('input[name='+id+']').val(active);
+
+				return false;
+			});
+
+			if (location.href.match(/(review_list|review_form)/)) {
+				$('.tabs-menu .t7').click();
+			}
+		})();
 	});
 
 	$(function interfaces(){

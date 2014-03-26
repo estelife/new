@@ -21,7 +21,7 @@ class VQuery implements db\VQuery {
 	public function select(){
 		$sSelect=$this->builder()->buildSelect();
 		$this->obBuilder=null;
-//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/query.log',$sSelect."\r\n\r\n----\r\n\r\n");
+
 		if(!($this->obQueryResult=$this->obDriver->connect()->query($sSelect)))
 			throw new db\exceptions\VQueryException(
 				$this->obDriver->connect()->error,

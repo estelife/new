@@ -26,23 +26,25 @@ $arResult['event_id']=$nEventId;
 
 //Получение секций по холу о событию
 $obQuery=$obEvent->createQuery();
-$obQuery->builder()
-	->from('estelife_event_section_halls', 'esh');
-$obJoin=$obQuery->builder()->join();
-$obJoin->_left()
-	->_from('esh','section_id')
-	->_to('estelife_event_sections','id','es');
-$obJoin->_left()
-	->_from('esh','hall_id')
-	->_to('estelife_event_halls','id','eh');
+$obJoin=$obQuery->builder()
+	->from('estelife_event_sections','es')
+	->join();
+
 $obJoin->_left()
 	->_from('es','id')
 	->_to('estelife_event_sections_dates','section_id','esd');
+
+$obJoin->_left()
+	->_from('esd','hall_id')
+	->_to('estelife_event_halls','id','eh');
+
 $obJoin->_left()
 	->_from('es','event_id')
 	->_to('estelife_events','id','ee');
+
 $obQuery->builder()
 	->field('es.name', 'section_name')
+	->field('es.theme', 'section_theme')
 	->field('ee.full_name', 'event_name')
 	->field('es.id', 'section_id')
 	->field('es.number', 'number')
@@ -54,50 +56,57 @@ $obQuery->builder()
 	->filter()
 	->_eq('eh.translit',$sHall)
 	->_eq('esd.date', date('Y-m-d', $nDate));
-$arSections=$obQuery->select()->all();
 
-$arIds=array();
-if (!empty($arSections)){
-	foreach ($arSections as $val){
-		$nHallId=$val['hall_id'];
-		$arIds[]=$val['section_id'];
+$arTemp = $obQuery->select()->all();
+$arSections = array();
+$arActivities = array();
+$nHallId = 0;
+
+if (!empty($arTemp)){
+	foreach ($arTemp as $val){
+		$nHallId = $val['hall_id'];
 		$arResult['event']=$val['event_name'];
 		$arResult['hall_id']=$val['hall_id'];
 		$arResult['hall']=$val['hall_name'];
 		$arResult['date']=\core\types\VDate::date($nDate, 'j F');
-		$val['time_to']=preg_replace('/(.*)\:[0-9]{2}$/','$1',$val['time_to']);
-		$val['time_from']=preg_replace('/(.*)\:[0-9]{2}$/','$1',$val['time_from']);
-		$arResult['sections'][$val['section_id']]=$val;
+
+		if(!preg_match('#^00:00:00$#',$val['time_from'])){
+			$val['time'] = array(
+				'to'=>preg_replace('/(.*)\:[0-9]{2}$/','$1',$val['time_to']),
+				'from'=>preg_replace('/(.*)\:[0-9]{2}$/','$1',$val['time_from'])
+			);
+			unset(
+			$val['time_to'],
+			$val['time_from']
+			);
+		}
+
+		$arSections[$val['section_id']]=$val;
 	}
 }
 
 //получение событий для секции
-if (!empty($arIds)){
-	$obQuery=$obEvent->createQuery();
-	$obQuery->builder()
-		->from('estelife_event_activities', 'ea');
-	$obFilter=$obQuery->builder()
-		->field('ea.section_id', 'section_id')
-		->field('ea.name', 'activity_name')
-		->field('ea.id', 'id')
-		->filter()
-		->_eq('ea.hall_id',$nHallId)
-		->_eq('ea.event_id', $nEventId);
-	$obFilter->_or()->_in('ea.section_id', $arIds);
-	$obFilter->_or()->_isNull('ea.section_id');
-	$arActivities=$obQuery->select()->all();
-}
+$obQuery=$obEvent->createQuery();
+$obQuery->builder()
+	->from('estelife_event_activities', 'ea');
 
-$arIdEvents=array();
-$arNewActivities=array();
-if (!empty($arActivities)){
-	foreach ($arActivities as $val){
-		$arIdEvents[]=$val['id'];
-		$arNewActivities[$val['id']]=$val;
-	}
-}
+$obFilter=$obQuery->builder()
+	->field('ea.section_id', 'section_id')
+	->field('ea.name', 'activity_name')
+	->field('ea.id', 'id')
+	->filter()
+	->_eq('ea.hall_id',$nHallId)
+	->_eq('ea.event_id', $nEventId);
 
-if (!empty($arIdEvents)){
+$obFilter->_or()->_in('ea.section_id', array_keys($arSections));
+$obFilter->_or()->_isNull('ea.section_id');
+
+$arTemp=$obQuery->select()->all();
+
+if (!empty($arTemp)){
+	foreach ($arTemp as $val)
+		$arActivities[$val['id']]=$val;
+
 	$obQuery=$obEvent->createQuery();
 	$obQuery->builder()
 		->from('estelife_professional_activity', 'epa');
@@ -123,43 +132,33 @@ if (!empty($arIdEvents)){
 		->field('ep.short_description', 'description')
 		->field('epa.activity_id', 'activity_id')
 		->filter()
-		->_in('epa.activity_id',$arIdEvents);
+		->_in('epa.activity_id',array_keys($arActivities));
+
 	$arProfessionals=$obQuery->select()->all();
-}
 
-if (!empty($arProfessionals)){
-	foreach ($arProfessionals as $val){
-		if(!empty($val['image_id'])){
-			$file=CFile::ShowImage($val["image_id"], 84, 80,'alt="'.$val['name'].'"');
-			$val['logo']=$file;
+	if (!empty($arProfessionals)){
+		foreach ($arProfessionals as $val){
+			if(!empty($val['image_id'])){
+				$file=CFile::ShowImage($val["image_id"], 72, 68,'alt="'.$val['name'].'"');
+				$val['logo']=$file;
+			}
+
+			if (!empty($val['last_name']))
+				$val['name']=$val['last_name'].' '.$val['name'].' '.$val['second_name'];
+
+			$val['link']='/pf'.$val['professional_id'].'/';
+			$arActivities[$val['activity_id']]['events'][]=$val;
 		}
-		if (!empty($val['last_name']))
-			$val['name']=$val['last_name'].' '.$val['name'].' '.$val['second_name'];
-
-		$val['link']='/pf'.$val['professional_id'].'/';
-		$arNewActivities[$val['activity_id']]['events'][]=$val;
 	}
-}
 
-if (!empty($arNewActivities)){
-	foreach ($arNewActivities as $val){
+	foreach ($arActivities as $val){
 		if (empty($val['section_id']))
 			$val['section_id']=0;
 
-		$arResult['sections'][$val['section_id']]['activities']=$val;
+		$arSections[$val['section_id']]['activities'][]=$val;
 	}
 }
-unset($arActivities, $arNewActivities, $arProfessionals);
 
-
-
-$sSeoName =''.$arResult['event'].', '.$arResult['hall'].'';
-
-$arResult['app']['name']=trim(strip_tags(html_entity_decode($sSeoName, ENT_QUOTES, 'utf-8')));
-$arResult['app']['seo_name']=VString::pregStrSeo($arResult['app']['name']);
-
-$APPLICATION->SetPageProperty("title", $arResult['app']['seo_name']);
-$APPLICATION->SetPageProperty("keywords", "Estelife, Секции, ".$arResult['app']['seo_name']);
-
-
+$arResult['sections'] = $arSections;
+unset($arActivities, $arNewActivities, $arProfessionals, $arSections);
 $this->IncludeComponentTemplate();
