@@ -59,6 +59,7 @@ if ($nClinicId) {
 
 		$arProfessionals = $arTemp;
 	}
+	$arResult['specialists'] = $arProfessionals;
 }
 
 $arResult['rating_doctor'] = 0;

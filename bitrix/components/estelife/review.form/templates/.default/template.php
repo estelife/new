@@ -57,8 +57,8 @@
 			<select name="specialist_id">
 			<option value="0">--</option>
 				<?php if (!empty($arResult['specialists'])): ?>
-					<?php foreach($arResult['specialists'] as $arSpecialist): ?>
-						<option value="<?=$arSpecialist['id']?>"<?=(isset($arResult['specialist_id']) && $arResult['specialist_id'] == $arSpecialist['id']) ? ' selected="true"' : ''?>><?=$arSpecialist['name']?></option>
+					<?php foreach($arResult['specialists'] as $key=>$arSpecialist): ?>
+						<option value="<?=$key?>"<?=(isset($arResult['specialist_id']) && $arResult['specialist_id'] == $key) ? ' selected="true"' : ''?>><?=$arSpecialist?></option>
 					<?php endforeach; ?>
 				<?php endif; ?>
 			</select>
