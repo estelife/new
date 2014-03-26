@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				$obCheckLogin = CUser::GetList($b, $o, array("=EMAIL" => $sUserEmail));
 
 				if($obCheckLogin->Fetch())
-					$obError->setFieldError('E-mail указан неверно или уже существует.','login');
+					$obError->setFieldError('E-mail указан неверно или уже существует.','user_email');
 			}
 		} else {
 			$obQuery->builder()
@@ -132,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if (!$nProblemId && $sProblemName == '') {
 			$obError->setFieldError('Необходимо указать проблему или услугу обращения в клинику', 'problem_id');
 		} else if ($nProblemId) {
-			if (!isset($arProblem[$nProblemId])) {
+			if (!isset($arProblems[$nProblemId])) {
 				if ($sProblemName == '')
 					$obError->setFieldError('Не удалось опознать указанную проблему или услугу', 'problem_name');
 				else
