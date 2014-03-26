@@ -4723,6 +4723,8 @@ form.quality .submit,
 	color:#e60265;
 }
 .reviews .item .manager {
-	border:none;
 	font-style: italic;
+}
+.reviews .item .row:last-child {
+	border:none;
 }
