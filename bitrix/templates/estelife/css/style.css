@@ -92,7 +92,7 @@ a:hover {
 .social a, .arrow i, ul.stat i, .promotion .time i, .promotion .prices i, .media .item span, .media .menu .first a,
 .promotion .time i, .promotion .prices i, .item.detail .clinic a.more i, .select .arrow, .item.company p i, .gallery .arrow i, td.prices i,
 .filter .date i, .win-close, .checked, .item.promotion .current .perc i,.checkbox.active i, .checkbox.radio i, .to-top i, h2.show-quality-form i,.help i, .tabs-menu .active i,
-.auth .link.back i, .item.specialist .work i, .activity .dates .active i, .hall .date i, form .date i.calendar, .reviews .rating a, .reviews .rating i, .reviews .group, .reviews .head span i {
+.auth .link.back i, .item.specialist .work i, .activity .dates .active i, .hall .date i, form .date i.calendar, .reviews .rating a, .reviews .rating em, .reviews .group, .reviews .head span i {
 	background-image:url('../images/complex.png');
 	background-repeat: no-repeat;
 }
@@ -1869,6 +1869,9 @@ form .date {
 }
 .select .items .item {
 	width:100%;
+	margin: 0;
+	border: none;
+	position: static;
 }
 .select em {
 	padding:0;
@@ -4290,6 +4293,9 @@ form.quality .submit,
 .reviews .select {
 	width:262px;
 }
+.reviews .select .items {
+	width: 262px;
+}
 .reviews span.or {
 	font-size:14px;
 	float:left;
@@ -4322,7 +4328,7 @@ form.quality .submit,
 	font-size:18px;
 }
 .reviews .rating a,
-.content .reviews .rating i {
+.content .reviews .rating em {
 	display:block;
 	width:15px;
 	height:14px;
@@ -4330,7 +4336,7 @@ form.quality .submit,
 	float:left;
 	margin:3px 5px 0 0;
 }
-.reviews .rating i {
+.reviews .rating em {
 	margin-left: 10px;
 	width: 68px;
 	display: block;
@@ -4338,7 +4344,7 @@ form.quality .submit,
 }
 .reviews .rating a.active,
 .reviews .rating a:hover,
-.reviews .rating i.active {
+.reviews .rating em.active {
 	background-position: -280px -93px;
 }
 .reviews .areas {
@@ -4421,7 +4427,7 @@ form.quality .submit,
 	margin: 10px 0 0 15px;
 }
 .reviews .head .rating a,
-.reviews .head .rating i {
+.reviews .head .rating em {
 	width:17px;
 	height:16px;
 	background-position:-262px -117px;
@@ -4429,12 +4435,14 @@ form.quality .submit,
 }
 .reviews .head .rating a.active,
 .reviews .head .rating a:hover,
-.reviews .head .rating i.active {
+.reviews .head .rating em.active {
 	background-position:-290px -117px;
 }
 .reviews .head .rating span {
 	font-size:24px;
 	line-height: 20px;
+	margin-left:5px;
+	margin-top:-1px;
 }
 .reviews .head .rating span,
 .reviews .head .right b,
@@ -4484,6 +4492,7 @@ form.quality .submit,
 .reviews .info .rating span {
 	font-weight: bold;
 	font-size:16px;
+	margin-left:5px;
 }
 .reviews .info .right {
 	width:374px;
@@ -4565,6 +4574,10 @@ form.quality .submit,
 .reviews form.sort .select .arrow {
 	height: 17px;
 	width: 17px;
+}
+.reviews form.sort .select .items {
+	top:20px;
+	width:157px;
 }
 .reviews form .rating span {
 	width: 68px;
