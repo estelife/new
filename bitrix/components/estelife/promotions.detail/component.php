@@ -1,6 +1,7 @@
 <?php
 use core\database\VDatabase;
 use core\types\VArray;
+use promotions\VPromotions;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 CModule::IncludeModule("iblock");
@@ -153,45 +154,42 @@ $arResult['action']['prices']=$obQuery->select()->all();
 $arNow = time();
 
 //Получение похожих акций
-$obQuery=$obActions->createQuery();
-$obBuilder=$obQuery->builder();
-$obJoin=$obBuilder
-	->from('estelife_akzii','ea')
-	->sort($obQuery->builder()->_rand())
-	->field('ea.*')
-	->field('ec.name','clinic_name')
-	->field('ec.id','clinic_id')
-	->join();
-$obJoin->_left()
-	->_from('ea','id')
-	->_to('estelife_clinic_akzii','akzii_id','eca');
-$obJoin->_left()
-	->_from('eca','clinic_id')
-	->_to('estelife_clinics','id','ec');
-$obJoin->_left()
-	->_from('ea', 'id')
-	->_to('estelife_akzii_types', 'akzii_id', 'eat');
-$obFilter=$obBuilder
-	->slice(0,3)
-	->group('ea.id')
-	->filter()
-	->_eq('ea.active', 1)
-	->_ne('ea.id',$arResult['action']['id'])
-	->_gte('ea.end_date', time());
-
-if(!empty($arResult['service_concreate']))
-	$obFilter->_or()->_in('eat.service_concreate_id',$arResult['service_concreate']);
-if(!empty($arResult['service']))
-	$obFilter->_or()->_in('eat.service_id',$arResult['service']);
-if(!empty($arResult['specialization']))
-	$obFilter->_or()->_in('eat.specialization_id',$arResult['specialization']);
-
-if(!empty($arResult['action']['clinic']['main']))
-	$obFilter->_eq('ec.city_id',$arResult['action']['clinic']['main']['city_id']);
-
-$arSimilar=$obQuery
-	->select()
-	->all();
+$nCityId = $arResult['action']['clinic']['main']['city_id'];
+if(!empty($arResult['service_concreate'])){
+	$sDopKey = 'eat.service_concreate_id';
+	$sDopValue = $arResult['service_concreate'];
+}else{
+	if(!empty($arResult['service'])){
+		$sDopKey = 'eat.service_id';
+		$sDopValue = $arResult['service'];
+	}else{
+		$sDopKey = 'eat.specialization_id';
+		$sDopValue = $arResult['specialization'];
+	}
+}
+$arSimilar =VPromotions::getSimilarPromotions($arResult['action']['id'], $nCityId, 3, $sDopKey, $sDopValue);
+$nCount = count($arSimilar);
+$nCount = 1;
+if ($nCount<3){
+	if(!empty($arResult['service'])){
+		$sDopKey = 'eat.service_id';
+		$sDopValue = $arResult['service'];
+	}else{
+		$sDopKey = 'eat.specialization_id';
+		$sDopValue = $arResult['specialization'];
+	}
+	$arSimilarDop =VPromotions::getSimilarPromotions($arResult['action']['id'], $nCityId, 3-$nCount, $sDopKey, $sDopValue);
+	$arSimilar = array_merge($arSimilar, $arSimilarDop);
+	$nCount = count($arSimilar);
+	if ($nCount<3){
+		if(!empty($arResult['specialization'])){
+			$sDopKey = 'eat.specialization_id';
+			$sDopValue = $arResult['specialization'];
+		}
+		$arSimilarDop =VPromotions::getSimilarPromotions($arResult['action']['id'], $nCityId, 3-$nCount, $sDopKey, $sDopValue);
+		$arSimilar = array_merge($arSimilar, $arSimilarDop);
+	}
+}
 
 if (!empty($arSimilar)){
 	foreach ($arSimilar as $val){
