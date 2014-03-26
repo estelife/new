@@ -5,7 +5,7 @@
 		<div class="left">
 			<i>Рейтинг клиники:</i>
 			<div class="rating">
-				<?=$arResult['clinic_rating']['stars_full']?>
+				<?=$arResult['clinic_rating']['stars_rating_full']?>
 				<span><?=$arResult['clinic_rating']['rating_full']?></span>
 			</div>
 		</div>
@@ -22,28 +22,28 @@
 				<div class="row">
 					<b>Персонал:</b>
 					<div class="rating">
-						<?=$arResult['clinic_rating']['stars_stuff']?>
+						<?=$arResult['clinic_rating']['stars_rating_stuff']?>
 						<span><?=$arResult['clinic_rating']['rating_stuff']?></span>
 					</div>
 				</div>
 				<div class="row">
 					<b>Бытовые услуги:</b>
 					<div class="rating">
-						<?=$arResult['clinic_rating']['stars_service']?>
+						<?=$arResult['clinic_rating']['stars_rating_service']?>
 						<span><?=$arResult['clinic_rating']['rating_service']?></span>
 					</div>
 				</div>
 				<div class="row">
 					<b>Работа врачей:</b>
 					<div class="rating">
-						<?=$arResult['clinic_rating']['stars_doctor']?>
+						<?=$arResult['clinic_rating']['stars_rating_doctor']?>
 						<span><?=$arResult['clinic_rating']['rating_doctor']?></span>
 					</div>
 				</div>
 				<div class="row">
 					<b>Цена/качество:</b>
 					<div class="rating">
-						<?=$arResult['clinic_rating']['stars_quality']?>
+						<?=$arResult['clinic_rating']['stars_rating_quality']?>
 						<span><?=$arResult['clinic_rating']['rating_quality']?></span>
 					</div>
 				</div>
@@ -70,20 +70,34 @@
 	</div>
 </div>
 <?php if (!empty($arResult['reviews'])):?>
-	<form action="" method="get" class="sort">
+	<form action="" method="get" name="review_filter" class="sort">
 		<div class="field">
-			<label for="">Проблема или услуга:</label>
-			<div class="select"><div class="selected"><a href="javascript:void(0)" class="value"><span data-value="359">--</span></a><a href="javascript:void(0)" class="arrow"></a></div><div class="items" style="overflow: hidden; padding: 0px;"><em class="item"><a data-value="" href="javascript:void(0)">-- </a></em></div></div>
+			<label for="problem_id">Проблема или услуга:</label>
+			<select name="problem_id" id="problem_id">
+				<option value="0">--</option>
+				<?php if(!empty($arResult['problems'])): ?>
+					<?php foreach($arResult['problems'] as $arProblem): ?>
+						<option value="<?=$arProblem['id']?>"><?=$arProblem['name']?></option>
+					<?php endforeach; ?>
+				<?php endif; ?>
+			</select>
 		</div>
 		<div class="field">
-			<label for="">Врач:</label>
-			<div class="select"><div class="selected"><a href="javascript:void(0)" class="value"><span data-value="359">--</span></a><a href="javascript:void(0)" class="arrow"></a></div><div class="items" style="overflow: hidden; padding: 0px;"><em class="item"><a data-value="" href="javascript:void(0)">-- </a></em></div></div>
+			<label for="specialist_id">Врач:</label>
+			<select name="specialist_id" id="specialist_id">
+				<option value="0">--</option>
+				<?php if (!empty($arResult['specialists'])): ?>
+					<?php foreach($arResult['specialists'] as $arSpecialist): ?>
+						<option value="<?=$arSpecialist['id']?>"><?=$arSpecialist['name']?></option>
+					<?php endforeach; ?>
+				<?php endif; ?>
+			</select>
 		</div>
 		<a href="#" class="all">Все отзывы</a>
 	</form>
 	<div class="items">
 		<?php foreach ($arResult['reviews'] as $val):?>
-			<div class="item hl">
+			<div class="item<?=$val['hl']?>">
 				<h5>Отзыв №<?=$val['number']?> <b><?=$val['date_add']?></b></h5>
 				<div class="top">
 					<b>Оценка:</b>

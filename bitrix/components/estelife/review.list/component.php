@@ -1,9 +1,7 @@
 <?php
 use core\database\mysql\VFilter;
 use core\database\VDatabase;
-use core\exceptions\VFormException;
 use core\types\VString;
-use core\utils\forms\VForm;
 use geo\VGeo;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
@@ -18,6 +16,7 @@ else
 
 $arResult = array();
 $obDriver = VDatabase::driver();
+
 //Получение списка отзывов
 $obQuery = $obDriver->createQuery();
 $obQuery->builder()
@@ -55,10 +54,10 @@ $obQuery->builder()
 	->field('ecr.date_moderate')
 	->field('ep.id', 'professional_id')
 	->field('ec.name', 'clinic_name')
-	->field('u.NAME', 'name')
-	->field('u.LAST_NAME', 'last_name')
-	->field('u.SECOND_NAME', 'second_name')
-	->field('u.LOGIN', 'login')
+	->field('uu.NAME', 'user_name')
+	->field('uu.LAST_NAME', 'last_name')
+	->field('uu.SECOND_NAME', 'second_name')
+	->field('uu.LOGIN', 'login')
 	->field('ec.title', 'problem')
 	->field('ecur.rating_doctor')
 	->field('ecur.rating_stuff')
@@ -68,21 +67,34 @@ $obQuery->builder()
 	->filter()
 	->_eq('ecr.clinic_id', $nClinicId)
 	->_eq('ecr.active', 1);
+
+$nProblemId = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : null;
+$nSpecialistId = isset($_GET['specialist_id']) ? intval($_GET['specialist_id']) : null;
+
+if ($nSpecialistId)
+	$obQuery->builder()->filter()
+		->_eq('ecr.specialist_id', $nSpecialistId);
+
+if ($nProblemId)
+	$obQuery->builder()->filter()
+		->_eq('ecr.problem_id', $nProblemId);
+
 $arResult['reviews'] = $obQuery->select()->all();
 $arResult['count_good'] = 0;
 
 $i=1;
-if (!empty($arResult['reviews'])){
-	foreach ($arResult['reviews'] as &$val){
 
+if (!empty($arResult['reviews'])){
+	foreach ($arResult['reviews'] as $nKey => &$val){
 		$val['rating'] = round(($val['rating_doctor']+$val['rating_stuff']+$val['rating_service']+$val['rating_quality'])/4, 1);
 		$val['temp_rating'] = round($val['rating']);
 		$val['stars'] = '';
+
 		for ($j=1; $j<=5; $j++){
 			if ($j<=$val['temp_rating'])
-				$val['stars'] .= '<span class="active"></span>';
+				$val['stars'] .= '<em class="active"></em>';
 			else
-				$val['stars'] .= '<span></span>';
+				$val['stars'] .= '<em></em>';
 		}
 
 		if (empty($val['date_moderate']))
@@ -101,24 +113,21 @@ if (!empty($arResult['reviews'])){
 			$val['professional_link'] = '/pf'.$val['professional_id'].'/';
 		}
 
-
 		$val['date_visit'] = date('d.m.Y', strtotime($val['date_visit']));
 		$val['date_add'] = date('d.m.Y', strtotime($val['date_add']));
 
 		if (!empty($val['problem_name']))
 			$val['problem'] = $val['problem_name'];
 
-		if (empty($val['user_name']))
-			$val['user_name']=$val['user_login'];
-		elseif (empty($val['user_last_name']))
-			$val['user_name']=$val['user_name'];
-		else
-			$val['user_name']=$val['user_last_name'].' '.$val['user_name'].' '.$val['user_second_name'];
+		if (!empty($val['user_last_name']))
+			$val['user_name'] = $val['user_last_name'].' '.$val['user_name'].' '.$val['user_second_name'];
 
 		if ($val['is_recomended'] == 1)
 			$arResult['count_good']++;
+
 		$val['number'] = $i;
-		$i++;
+		$val['hl'] = ($nKey%2 == 0) ? '' : ' hl';
+ 		$i++;
 	}
 
 	$arResult['count_reviews'] = count($arResult['reviews']);
@@ -145,16 +154,18 @@ if (!empty($arResult['reviews'])){
 		->slice(0,1)
 		->filter()
 		->_eq('epc.clinic_id', $nClinicId);
+
 	$arSpecialist = $obQuery->select()->all();
+
 	if (!empty($arSpecialist)){
 		foreach ($arSpecialist as &$val){
-			if (empty($val['name']))
-				$val['name'] = $val['login'];
-			elseif (empty($val['last_name']))
-				$val['name'] = $val['name'];
-			else
+			if (!empty($val['last_name']))
 				$val['name'] = $val['last_name'].' '.$val['name'].' '.$val['second_name'];
+			else if (empty($val['name']))
+				$val['name'] = $val['login'];
+
 			$val['professional_link'] = '/pf'.$val['id'].'/';
+
 			if(!empty($val['image_id'])){
 				$file=CFile::ShowImage($val['image_id'], 93, 127,'alt="'.$val['name'].'"');
 				$val['logo']=$file;
@@ -163,71 +174,72 @@ if (!empty($arResult['reviews'])){
 			$val['name'] = str_replace(' ', '<br />', $val['name']);
 			$nStar = round($val['rating']);
 			$val['stars'] = '';
+
 			for ($j=1; $j<=5; $j++){
 				if ($j<=$nStar)
-					$val['stars'] .= '<i class="active"></i>';
+					$val['stars'] .= '<em class="active"></em>';
 				else
-					$val['stars'] .= '<i></i>';
+					$val['stars'] .= '<em></em>';
 			}
+
 			$val['rating'] = number_format($val['rating'], 1);
 			$arResult['specialist'] = $val;
 		}
 	}
 }
 
-	//Получение общего рейтинга
-	$obQuery = $obDriver->createQuery();
-	$obQuery->builder()
-		->from('estelife_clinic_rating', 'ep')
-		->filter()
-		->_eq('clinic_id', $nClinicId);
-	$arResult['clinic_rating'] = $obQuery->select()->assoc();
+//Получение общего рейтинга
+$obQuery = $obDriver->createQuery();
+$obQuery->builder()
+	->from('estelife_clinic_rating', 'ep')
+	->filter()
+	->_eq('clinic_id', $nClinicId);
 
-	$arResult['clinic_rating']['temp_rating_doctor'] = round($arResult['clinic_rating']['rating_doctor']);
-	$arResult['clinic_rating']['stars_doctor'] = '';
-	for ($j=1; $j<=5; $j++){
-		if ($j<=$arResult['clinic_rating']['temp_rating_doctor'])
-			$arResult['clinic_rating']['stars_doctor'] .= '<i class="active"></i>';
-		else
-			$arResult['clinic_rating']['stars_doctor'] .= '<i></i>';
-	}
+$arTempClinicRating = array(
+	'rating_doctor' => 0,
+	'rating_quality' => 0,
+	'rating_stuff' => 0,
+	'rating_service' => 0,
+	'rating_full' => 0
+);
 
-	$arResult['clinic_rating']['temp_rating_quality'] = round($arResult['clinic_rating']['rating_quality']);
-	$arResult['clinic_rating']['stars_quality'] = '';
-	for ($j=1; $j<=5; $j++){
-		if ($j<=$arResult['clinic_rating']['temp_rating_quality'])
-			$arResult['clinic_rating']['stars_quality'] .= '<i class="active"></i>';
-		else
-			$arResult['clinic_rating']['stars_quality'] .= '<i></i>';
-	}
+if (!($arClinicRating = $obQuery->select()->assoc()))
+	$arClinicRating = $arTempClinicRating;
 
-	$arResult['clinic_rating']['temp_rating_stuff'] = round($arResult['clinic_rating']['rating_stuff']);
-	$arResult['clinic_rating']['stars_stuff'] = '';
-	for ($j=1; $j<=5; $j++){
-		if ($j<=$arResult['clinic_rating']['temp_rating_stuff'])
-			$arResult['clinic_rating']['stars_stuff'] .= '<i class="active"></i>';
-		else
-			$arResult['clinic_rating']['stars_stuff'] .= '<i></i>';
-	}
+$arResult['clinic_rating'] = array();
 
-	$arResult['clinic_rating']['temp_rating_service'] = round($arResult['clinic_rating']['rating_service']);
-	$arResult['clinic_rating']['stars_service'] = '';
-	for ($j=1; $j<=5; $j++){
-		if ($j<=$arResult['clinic_rating']['temp_rating_service'])
-			$arResult['clinic_rating']['stars_service'] .= '<i class="active"></i>';
-		else
-			$arResult['clinic_rating']['stars_service'] .= '<i></i>';
-	}
+foreach ($arClinicRating as $sKey => $fValue) {
+	$nTempRating = round($fValue);
 
-	$arResult['clinic_rating']['temp_rating_full'] = round($arResult['clinic_rating']['rating_full']);
-	$arResult['clinic_rating']['stars_full'] = '';
-	for ($j=1; $j<=5; $j++){
-		if ($j<=$arResult['clinic_rating']['temp_rating_full'])
-			$arResult['clinic_rating']['stars_full'] .= '<i class="active"></i>';
-		else
-			$arResult['clinic_rating']['stars_full'] .= '<i></i>';
-	}
+	for ($j=1; $j<=5; $j++)
+		$arResult['clinic_rating']['stars_'.$sKey] .= '<em'.($j <= $nTempRating ? ' class="active"' : '').'></em>';
 
+	$arResult['clinic_rating'][$sKey] = number_format($fValue, 1);
+}
 
+$obQuery->builder()
+	->field('id')
+	->field('title', 'name')
+	->from('estelife_clinic_problems');
+
+$arResult['problems'] = $obQuery->select()->all();
+
+$obJoin = $obQuery->builder()
+	->from('estelife_professionals_clinics', 'pf_link')
+	->field('pf.id', 'id')
+	->field('us.NAME', 'name')
+	->join();
+$obJoin->_left()
+	->_from('pf_link', 'professional_id')
+	->_to('estelife_professionals', 'id', 'pf');
+$obJoin->_left()
+	->_from('pf', 'user_id')
+	->_to('user', 'ID', 'us');
+$obQuery->builder()
+	->filter()
+	->_eq('pf_link.clinic_id', $nClinicId);
+
+$arProfessionals = $obQuery->select()->all();
+$arResult['specialists'] = $arProfessionals;
 
 $this->IncludeComponentTemplate();

@@ -9,9 +9,11 @@ $obQuery = \core\database\VDatabase::driver()->createQuery();
 $nClinicId = isset($arParams['clinic_id']) ? intval($arParams['clinic_id']) : 0;
 
 $obQuery->builder()
+	->field('id')
+	->field('title', 'name')
 	->from('estelife_clinic_problems')
-	->filter()
-	->_eq('id', $nProblemId);
+	->filter();
+
 $arProblems = $obQuery->select()->all();
 $arResult['problems'] = $arProblems;
 
@@ -40,7 +42,7 @@ if ($nClinicId) {
 		->filter()
 		->_eq('clinic_id', $nClinicId);
 	$arProfessionals = $obQuery->select()->all();
-	$arResult['professionals'] = $arProfessionals;
+	$arResult['specialists'] = $arProfessionals;
 
 	if (!empty($arProfessionals)) {
 		$arTemp = array();
@@ -196,10 +198,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				$arUser["GROUP_ID"] = explode(",", $nDefGroup);
 
 			$user = new CUser();
-			$ID = $user->Add($arUser);
+			$nUserId = $user->Add($arUser);
 
-			if($ID > 0){
-				$arUser["USER_ID"] = $ID;
+			if($nUserId > 0){
+				$arUser["USER_ID"] = $nUserId;
 				CEvent::Send("NEW_REVIEW_USER", SITE_ID, $arUser);
 			}else
 				throw new VException($user->LAST_ERROR);
