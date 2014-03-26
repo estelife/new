@@ -33,6 +33,8 @@ if ($nClinicId) {
 		->from('estelife_professionals_clinics', 'pf_link')
 		->field('pf.id', 'id')
 		->field('us.NAME', 'name')
+		->field('us.LAST_NAME', 'last_name')
+		->field('us.SECOND_NAME', 'second_name')
 		->join();
 	$obJoin->_left()
 		->_from('pf_link', 'professional_id')
@@ -44,13 +46,16 @@ if ($nClinicId) {
 		->filter()
 		->_eq('clinic_id', $nClinicId);
 	$arProfessionals = $obQuery->select()->all();
-	$arResult['specialists'] = $arProfessionals;
 
 	if (!empty($arProfessionals)) {
 		$arTemp = array();
 
-		foreach($arProfessionals as $arProf)
+		foreach($arProfessionals as &$arProf) {
+			if (!empty($arProf['last_name']))
+				$arProf['name'] = trim($arProf['last_name'] . ' '.$arProf['name'] . ' '.$arProf['second_name']);
+
 			$arTemp[$arProf['id']] = $arProf['name'];
+		}
 
 		$arProfessionals = $arTemp;
 	}

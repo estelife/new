@@ -123,7 +123,7 @@ require([
 			EL.touchEvent.eventTrigger,
 			'.items .item:not(.article,.activity), .items .article .item-in, .item.activity .user, .general-news .col1, .general-news .col2 .img',
 			EL.touchEvent.callback(function(event,target){
-				var currentTag=target[0].tagName,
+				var currentTag=event.target.tagName,
 					parentTag=target.parent()[0].tagName,
 					link=(currentTag=='A') ?
 						target.attr('href') :
