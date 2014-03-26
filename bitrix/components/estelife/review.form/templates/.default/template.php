@@ -29,7 +29,7 @@
 			<label for="user_email"><i>*</i>E-mail</label>
 			<input type="text" name="user_email" id="user_email" class="text" value="<?=isset($arResult['user_email']) ? $arResult['user_email'] : ''?>" />
 		</div>
-		<div class="field">
+		<div class="field<?=isset($arResult['errors']['user_phone']) ? ' error' : ''?>">
 			<label for="user_phone">Телефон</label>
 			<input type="text" name="user_phone" id="user_phone" class="text" value="<?=isset($arResult['user_phone']) ? $arResult['user_phone'] : ''?>" />
 		</div>

@@ -6,6 +6,7 @@ $MESS ['ESTELIFE_F_CLINIC'] = 'Клиника';
 $MESS ['ESTELIFE_F_SPECIALIST'] = 'Специалист';
 $MESS ['ESTELIFE_F_ACTIVE'] = 'Активность';
 $MESS ['ESTELIFE_F_MODERATE'] = 'Модерация';
+$MESS ['ESTELIFE_F_USER'] = 'Пользователь';
 $MESS ['ESTELIFE_F_ID'] = 'ID';
 $MESS ['ESTELIFE_F_DATE_ADD'] = 'Дата добавления';
 $MESS ['ESTELIFE_EDIT_ALT']='Редактирование';

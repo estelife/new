@@ -137,6 +137,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if (!preg_match('/^([0-9]{2}\.){2}[0-9]{2,4}$/', $sDateVisit))
 			$obError->setFieldError('Не корректно указана дата посещения', 'date_visit');
 
+		if (strlen($sUserPhone)<10)
+			$obError->setFieldError('Не корректно указан номер телефона', 'user_phone');
+
 		if (!$nProblemId && $sProblemName == '') {
 			$obError->setFieldError('Необходимо указать проблему или услугу обращения в клинику', 'problem_id');
 		} else if ($nProblemId) {

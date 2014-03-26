@@ -54,6 +54,8 @@ if(!empty($ID)){
 		->field('ecr.specialist_name')
 		->field('ecr.positive_description')
 		->field('ecr.negative_description')
+		->field('ecr.answer')
+		->field('ecr.answer_clinic')
 		->field('ep.id', 'user_id')
 		->field('ecr.problem_name')
 		->field('ecr.date_moderate')
@@ -93,7 +95,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			->value('specialist_id', intval($obPost->one('spec_id')))
 			->value('specialist_name', trim(htmlentities($obPost->one('specialist_name'),ENT_QUOTES,'utf-8')))
 			->value('positive_description', trim(htmlentities($obPost->one('positive_description'),ENT_QUOTES,'utf-8')))
-			->value('negative_description', trim(htmlentities($obPost->one('negative_description'),ENT_QUOTES,'utf-8')));
+			->value('negative_description', trim(htmlentities($obPost->one('negative_description'),ENT_QUOTES,'utf-8')))
+			->value('answer', trim(htmlentities($obPost->one('answer'),ENT_QUOTES,'utf-8')))
+			->value('answer_clinic', trim(htmlentities($obPost->one('answer_clinic'),ENT_QUOTES,'utf-8')));
 
 		if (!empty($ID)){
 			$obQuery->builder()->filter()
@@ -225,6 +229,18 @@ if(!empty($arResult['error']['text'])){
 		<td width="40%"><?=GetMessage("ESTELIFE_F_NEGATIVE")?></td>
 		<td width="60%">
 			<textarea name="negative_description" rows="12" style="width:70%"><?=$arResult['review']['negative_description']?></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td width="40%"><?=GetMessage("ESTELIFE_F_ANSWER")?></td>
+		<td width="60%">
+			<textarea name="answer" rows="12" style="width:70%"><?=$arResult['review']['answer']?></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td width="40%"><?=GetMessage("ESTELIFE_F_ANSWER_CLINIC")?></td>
+		<td width="60%">
+			<textarea name="answer_clinic" rows="12" style="width:70%"><?=$arResult['review']['answer_clinic']?></textarea>
 		</td>
 	</tr>
 	<?php

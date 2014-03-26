@@ -1,5 +1,4 @@
 <?php if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
-
 <div class="top">
 	<div class="head">
 		<div class="left">
@@ -137,13 +136,13 @@
 				<?php if (!empty($val['answer_clinic'])):?>
 					<div class="row clinic">
 						<b>Ответ клиники</b>
-						<p>Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому, что тот обеспечивает более или менее стандартное заполнение шаблона.</p>
+						<p><?=$val['answer_clinic']?></p>
 					</div>
 				<?php endif?>
 				<?php if (!empty($val['answer'])):?>
 					<div class="row manager">
 						<b>Комментарий администрации EsteLife</b>
-						<p>Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться.</p>
+						<p><?=$val['answer']?></p>
 					</div>
 				<?php endif?>
 			</div>
