@@ -777,6 +777,94 @@ Estelife.prototype.touchEvent = (function(){
 	}
 })();
 
+Estelife.prototype.Form = function(f) {
+	if (_.isString(f))
+		form = $(f);
+	else if(!_.isObject(f) || !(f instanceof jQuery))
+		throw 'Incorrect form element';
+
+	if (!f.length)
+		throw 'Form element not found in page';
+
+	var form = f,
+		afterSend,
+		beforeSend;
+
+	this.getData = function() {
+		var data={},
+			keys={};
+
+		form.find('input,select,textarea').each(function(){
+			var inpt=$(this),
+				type=inpt.attr('type') || 'textarea',
+				name=inpt.attr('name'),
+				val='';
+
+			if(['text', 'select', 'hidden', 'textarea'].inArray(type) > -1){
+				val=inpt.val();
+			}else if(['checkbox','radio'].inArray(type) > -1 && inpt.prop('checked')){
+				val=inpt.val();
+			}
+
+			if(val!='' && val!=0 && val!='0'){
+				var matches;
+
+				if(matches=name.match(/([a-z_\-0-9]+)\[(.*)\]/)){
+					if(!keys.hasOwnProperty(matches[1]))
+						keys[matches[1]]=[];
+
+					var key=(matches[2]!='') ?
+						matches[2] :
+						Object.keys(keys[matches[1]]).length;
+
+					keys[matches[1]].push(key);
+					data[matches[1]+'['+key+']']=val;
+				}else
+					data[name]=val;
+			}
+		});
+
+		return data;
+	};
+
+	this.sendData = function(params) {
+		var def = {
+			method: form.attr('method'),
+			action: form.attr('action')
+		};
+		params = $.extend(def, params);
+		var formData = this.getData();
+
+		if (beforeSend && !beforeSend(formData, params))
+			return;
+
+		$.ajax({
+			cache: false,
+			data: formData,
+			dataType: 'json',
+			type: params.method.toLowerCase(),
+			url: params.action,
+			success: function(data) {
+				afterSend && afterSend(data);
+			}
+		});
+	};
+
+	this.registerBeforeSend = function(callback) {
+		if (callback && typeof callback=='function')
+			beforeSend = callback;
+	};
+
+	this.registerAfterSend = function(callback) {
+		if (callback && typeof callback=='function')
+			afterSend = callback;
+	};
+
+	this.getTarget = function() {
+		return form;
+	}
+};
+
 var EL=new Estelife({
 	'path':'/bitrix/templates/estelife/js'
 });

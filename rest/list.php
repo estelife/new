@@ -24,7 +24,9 @@ $APPLICATION->IncludeComponent("estelife:mega.complex.section", "rest", array(
 			'search',
 			'podcast',
 			'articles',
-			'banner'
+			'banner',
+			'review_list',
+			'review_form'
 		)
 	)
 );

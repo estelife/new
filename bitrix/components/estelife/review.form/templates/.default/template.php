@@ -58,7 +58,7 @@
 			<option value="0">--</option>
 				<?php if (!empty($arResult['specialists'])): ?>
 					<?php foreach($arResult['specialists'] as $key=>$arSpecialist): ?>
-						<option value="<?=$key?>"<?=(isset($arResult['specialist_id']) && $arResult['specialist_id'] == $key) ? ' selected="true"' : ''?>><?=$arSpecialist?></option>
+						<option value="<?=$key?>"<?=(isset($arResult['specialist_id']) && $arResult['specialist_id'] == $key) ? ' selected="true"' : ''?>><?=$arSpecialist['name']?></option>
 					<?php endforeach; ?>
 				<?php endif; ?>
 			</select>
@@ -68,10 +68,10 @@
 			<input type="text" name="specialist_name" id="specialist_name" class="text" value="<?=isset($arResult['specialist_name']) ? $arResult['specialist_name'] : ''?>" />
 		</div>
 	</div>
-	<div class="group ratings<?=isset($arResult['errors']['ratings']) ? ' error' : ''?>">
+	<div class="group ratings">
 		<h4><i>*</i>Оцените клинику по следующим параметрам</h4>
-		<div class="field">
-			<i>Работа врача</i>
+		<div class="field<?=isset($arResult['errors']['rating_doctor']) ? ' error' : ''?>">
+			<em>Работа врача</em>
 			<div class="rating" id="rating_doctor">
 				<?php for($i=1; $i<6; $i++): ?>
 					<a href="#"<?=$arResult['rating_doctor']>=$i ? ' class="active"' : ''?>></a>
@@ -80,8 +80,8 @@
 			</div>
 			<input type="hidden" name="rating_doctor" value="<?=$arResult['rating_doctor']?>" />
 		</div>
-		<div class="field">
-			<i>Работа персонала</i>
+		<div class="field<?=isset($arResult['errors']['rating_stuff']) ? ' error' : ''?>">
+			<em>Работа персонала</em>
 			<div class="rating" id="rating_stuff">
 				<?php for($i=1; $i<6; $i++): ?>
 					<a href="#"<?=$arResult['rating_stuff']>=$i ? ' class="active"' : ''?>></a>
@@ -90,8 +90,8 @@
 			</div>
 			<input type="hidden" name="rating_stuff" value="<?=$arResult['rating_stuff']?>" />
 		</div>
-		<div class="field">
-			<i>Бытовые условия</i>
+		<div class="field<?=isset($arResult['errors']['rating_service']) ? ' error' : ''?>">
+			<em>Бытовые условия</em>
 			<div class="rating" id="rating_service">
 				<?php for($i=1; $i<6; $i++): ?>
 					<a href="#"<?=$arResult['rating_service']>=$i ? ' class="active"' : ''?>></a>
@@ -100,8 +100,8 @@
 			</div>
 			<input type="hidden" name="rating_service" value="<?=$arResult['rating_service']?>" />
 		</div>
-		<div class="field">
-			<i>Цена / качество</i>
+		<div class="field<?=isset($arResult['errors']['rating_quality']) ? ' error' : ''?>">
+			<em>Цена / качество</em>
 			<div class="rating" id="rating_quality">
 				<?php for($i=1; $i<6; $i++): ?>
 					<a href="#"<?=$arResult['rating_quality']>=$i ? ' class="active"' : ''?>></a>
@@ -129,9 +129,11 @@
 		<input type="radio" name="recommend" value="2" title="Нет"<?=isset($arResult['recommend']) && $arResult['recommend']==2 ? ' checked="true"' : ''?> />
 		<input type="radio" name="recommend" value="3" title="Затрудняюсь ответить"<?=isset($arResult['recommend']) && $arResult['recommend']==3 ? ' checked="true"' : ''?> />
 	</div>
-	<div class="group<?=isset($arResult['errors']['read_term']) ? ' error' : ''?>">
-		<input type="checkbox" name="read_term" value="1"<?=isset($arResult['read_term']) && $arResult['read_term']==1 ? ' checked="true"' : ''?> />
-		Я ознакомлен(а) с <a href="#" target="_blank">правилами размещения отзывов</a>
+	<div class="group">
+		<div class="<?=isset($arResult['errors']['read_term']) ? 'error' : ''?>">
+			<input type="checkbox" name="read_term" value="1"<?=isset($arResult['read_term']) && $arResult['read_term']==1 ? ' checked="true"' : ''?> />
+			Я ознакомлен(а) с <a href="#" target="_blank">правилами размещения отзывов</a>
+		</div>
 		<input type="submit" class="submit" value="Оставить отзыв">
 	</div>
 </form>
