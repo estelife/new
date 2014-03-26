@@ -241,13 +241,15 @@ input {
 	outline: none;
 }
 input.text,
-.select, textarea {
+.select,
+textarea {
 	background:#fff;
 	border-radius: 0;
 	border:1px solid #d1d1d1;
 }
 input.text,
-.select, .select a,
+.select,
+.select a,
 textarea {
 	font-size:14px;
 	text-decoration: none;
@@ -1771,7 +1773,7 @@ form input[type=checkbox] {
 .field.disabled label {
 	color:#b8b8b8;
 }
-.filter select {
+select {
 	visibility: hidden;
 	height:28px;
 }
@@ -3349,9 +3351,12 @@ form.quality .submit,
 .field {
 	position: relative;
 }
-.field.error input, .field.error textarea {
-	background: #ff5858;
-	color:#fff;
+.error input,
+.error textarea,
+.error .select,
+.error .checkbox i {
+	background-color: #ff9292;
+	color:#fff !important;
 }
 .field.error i {
 	font-size:12px;
@@ -4312,11 +4317,14 @@ form.quality .submit,
 	width: 302px;
 	margin-bottom: 18px;
 }
+.reviews .ratings .field.error {
+	background:#ff9292;
+}
 .reviews .ratings .field:nth-child(2n+1),
 .reviews .areas .field:last-child {
 	margin-right: 0;
 }
-.reviews .ratings .field i {
+.reviews .ratings .field em {
 	float:left;
 	font-style:normal;
 }

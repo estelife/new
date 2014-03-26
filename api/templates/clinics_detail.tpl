@@ -37,6 +37,7 @@
 					<!--if($detail.professionals)!-->
 					<li class="t6"><a href="#">Специалисты<i></i></a></li>
 					<!--endif!-->
+					<li class="t7"><a href="#">Отзывы<i></i></a></li>
 					<li class="t5"><a href="#">Контакты<i></i></a></li>
 				</ul>
 			</div>
@@ -184,6 +185,11 @@
 					</div>
 				</div>
 			<!--endif!-->
+
+			<div class="tabs tab7 none">
+				<div class="reviews"></div>
+			</div>
+
 			<div class="tabs tab-c tab5 none">
 				<!--if ($detail.contacts)!-->
 					<!--foreach($detail.contacts as $key=>$val)!-->

@@ -193,10 +193,12 @@
 						</div>
 					</div>
 				<?php endif?>
-				<div class="tabs tab7 reviews none">
-					<?$APPLICATION->IncludeComponent("estelife:reviews", '', array(
-						'clinic_id' => $arResult['clinic']['id']
-					))?>
+				<div class="tabs tab7 none">
+					<div class="reviews">
+						<?$APPLICATION->IncludeComponent("estelife:reviews", '', array(
+							'clinic_id' => $arResult['clinic']['id']
+						))?>
+					</div>
 				</div>
 				<div class="tabs tab-c tab5 none">
 					<?php if (!empty($arResult['clinic']['contacts'])):?>

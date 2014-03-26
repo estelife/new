@@ -68,32 +68,33 @@
 		<a href="#" class="submit add_review">Оставить отзыв</a>
 	</div>
 </div>
+<form action="" method="get" name="review_filter" class="sort">
+	<input type="hidden" name="clinic_id" value="<?=$arResult['clinic_id']?>" />
+	<div class="field">
+		<label for="problem_id">Проблема или услуга:</label>
+		<select name="problem_id" id="problem_id">
+			<option value="0">--</option>
+			<?php if(!empty($arResult['problems'])): ?>
+				<?php foreach($arResult['problems'] as $arProblem): ?>
+					<option value="<?=$arProblem['id']?>"<?=$arResult['filter']['problem_id']==$arProblem['id'] ? ' selected="true"' : ''?>><?=$arProblem['name']?></option>
+				<?php endforeach; ?>
+			<?php endif; ?>
+		</select>
+	</div>
+	<div class="field">
+		<label for="specialist_id">Врач:</label>
+		<select name="specialist_id" id="specialist_id">
+			<option value="0">--</option>
+			<?php if (!empty($arResult['specialists'])): ?>
+				<?php foreach($arResult['specialists'] as $arSpecialist): ?>
+					<option value="<?=$arSpecialist['id']?>"<?=$arResult['filter']['specialist_id']==$arSpecialist['id'] ? ' selected="true"' : ''?>><?=$arSpecialist['name']?></option>
+				<?php endforeach; ?>
+			<?php endif; ?>
+		</select>
+	</div>
+	<a href="#" class="all">Все отзывы</a>
+</form>
 <?php if (!empty($arResult['reviews'])):?>
-	<form action="" method="get" name="review_filter" class="sort">
-		<div class="field">
-			<label for="problem_id">Проблема или услуга:</label>
-			<select name="problem_id" id="problem_id">
-				<option value="0">--</option>
-				<?php if(!empty($arResult['problems'])): ?>
-					<?php foreach($arResult['problems'] as $arProblem): ?>
-						<option value="<?=$arProblem['id']?>"><?=$arProblem['name']?></option>
-					<?php endforeach; ?>
-				<?php endif; ?>
-			</select>
-		</div>
-		<div class="field">
-			<label for="specialist_id">Врач:</label>
-			<select name="specialist_id" id="specialist_id">
-				<option value="0">--</option>
-				<?php if (!empty($arResult['specialists'])): ?>
-					<?php foreach($arResult['specialists'] as $arSpecialist): ?>
-						<option value="<?=$arSpecialist['id']?>"><?=$arSpecialist['name']?></option>
-					<?php endforeach; ?>
-				<?php endif; ?>
-			</select>
-		</div>
-		<a href="#" class="all">Все отзывы</a>
-	</form>
 	<div class="items">
 		<?php foreach ($arResult['reviews'] as $val):?>
 			<div class="item<?=$val['hl']?>">

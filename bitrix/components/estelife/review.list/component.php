@@ -70,8 +70,8 @@ $obQuery->builder()
 	->_eq('ecr.clinic_id', $nClinicId)
 	->_eq('ecr.active', 1);
 
-$nProblemId = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : null;
-$nSpecialistId = isset($_GET['specialist_id']) ? intval($_GET['specialist_id']) : null;
+$nProblemId = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
+$nSpecialistId = isset($_GET['specialist_id']) ? intval($_GET['specialist_id']) : 0;
 
 if ($nSpecialistId)
 	$obQuery->builder()->filter()
@@ -253,5 +253,10 @@ if (!empty($arProfessionals)) {
 }
 
 $arResult['specialists'] = $arProfessionals;
+$arResult['clinic_id'] = $nClinicId;
+$arResult['filter'] = array(
+	'problem_id' => $nProblemId,
+	'specialist_id' => $nSpecialistId
+);
 
 $this->IncludeComponentTemplate();
