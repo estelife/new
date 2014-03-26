@@ -194,11 +194,40 @@ class VString {
 
 		$nPoint=strpos($sText,$sPoint,$nLimit);
 
-		if($nPoint==false || $nPoint>=$nLength)
+		if($nPoint===false || $nPoint>=$nLength)
 			return $sText;
 
 		$sText=substr($sText,0,$nPoint);
 		$sText=preg_replace('#[^a-zа-я0-9]$#iu','',$sText);
+		return trim($sText.$sEnd);
+	}
+
+	/**
+	 * Укарачивает в меньшую сторону
+	 * @param $sText
+	 * @param $nLimit
+	 * @param string $sEnd
+	 * @param string $sPoint
+	 * @return string
+	 */
+	public static function truncateToMin($sText, $nLimit, $sEnd='', $sPoint = ' ') {
+		$nLength=strlen($sText);
+
+		if($nLength<=$nLimit)
+			return $sText;
+
+		$nPoint = strpos($sText, $sPoint, $nLimit);
+
+		if (!$nPoint || $nPoint > $nLimit) {
+			$sText = substr($sText, 0, $nLimit);
+			$nPoint = strrpos($sText, $sPoint);
+
+			if (!$nPoint)
+				return $sText;
+		}
+
+		$sText=substr($sText,0,$nPoint);
+		$sText=preg_replace('#[^a-zа-я0-9]$#iu', '', $sText);
 		return trim($sText.$sEnd);
 	}
 
