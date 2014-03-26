@@ -5,6 +5,8 @@ use core\types\VString;
 if(!defined("B_PROLOG_INCLUDED")||B_PROLOG_INCLUDED!==true)
 	die();
 
+global $USER;
+
 $obQuery = \core\database\VDatabase::driver()->createQuery();
 $nClinicId = isset($arParams['clinic_id']) ? intval($arParams['clinic_id']) : 0;
 
@@ -181,9 +183,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 			$arUser = array(
 				'NAME' => $sUserName,
+				'LAST_NAME' => $sUserLastName,
 				'EMAIL' => $sUserEmail,
 				'LOGIN' => $sUserEmail,
 				'PASSWORD' => $sPassword,
+				'PERSONAL_PHONE' => $sUserPhone,
 				'CONFIRM_PASSWORD' => $sPassword,
 				'CHECKWORD' => randString(8),
 				'~CHECKWORD_TIME' => $DB->CurrentTimeFunction(),
@@ -197,8 +201,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			if (($sDefGroup = COption::GetOptionString("main", "new_user_registration_def_group", "")) != '')
 				$arUser["GROUP_ID"] = explode(",", $nDefGroup);
 
-			$user = new CUser();
-			$nUserId = $user->Add($arUser);
+			$nUserId = $USER->Add($arUser);
 
 			if($nUserId > 0){
 				$arUser["USER_ID"] = $nUserId;
@@ -256,6 +259,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	}
 } else {
 	$arResult['clinic_id'] = $nClinicId;
+
+	if ($USER->IsAuthorized()) {
+		$arResult['user_id'] = $USER->GetID();
+		$arResult['user_name'] = $USER->GetFirstName();
+		$arResult['user_email'] = $USER->GetEmail();
+		$arResult['user_phone'] = $USER->GetParam('PERSONAL_PHONE');
+		$arResult['user_last_name'] = $USER->GetLastName();
+	}
 }
 
 $this->IncludeComponentTemplate();

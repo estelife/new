@@ -7,6 +7,9 @@
 <?php endif; ?>
 <form action="" name="add_review" method="post">
 	<input type="hidden" name="clinic_id" value="<?=$arResult['clinic_id']?>" />
+	<?php if (!empty($arResult['user_id'])): ?>
+		<input type="hidden" name="user_id" value="<?=$arResult['user_id']?>" />
+	<?php endif; ?>
 	<div class="group personal">
 		<h4>Личные данные</h4>
 		<div class="field require<?=isset($arResult['errors']['user_name']) ? ' error' : ''?>">
