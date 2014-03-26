@@ -15,7 +15,7 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 			<li><b><?=$arResult["NAME"]?></b></li>
 		</ul>
 		<div itemscope itemtype="http://schema.org/ScholarlyArticle">
-		<div class="item detail big-font">
+		<div class="item detail article">
 			<meta itemprop="articleSection" content="<?=$arResult['LAST_SECTION']['NAME']?>">
 			<h1 itemprop="headline"><?=$arResult["NAME"]?></h1>
 			<span itemprop="url" hidden="hidden"><?='http://estelife.ru/'.$arParams["LINK_CODE"].''.$arResult['ID'].'' ?></span>
@@ -77,7 +77,7 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 			"",
 			array(
 				"element_id"=>$arResult["ID"],
-				"type"=>$arParams["LINK_CODE"],
+				"type"=>$arResult['INT_TYPES'][$arParams["LINK_CODE"]],
 				"count"=>"5"
 			)
 		);?>

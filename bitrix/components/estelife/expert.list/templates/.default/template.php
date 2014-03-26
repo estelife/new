@@ -17,9 +17,9 @@
 				</div>
 			<?php endforeach?>
 			<ul class="menu">
-				<li class="active"><a href="#"><i></i></a></li>
-				<li><a href="#"><i></i></a></li>
-	<!--			<li><a href="#"><i></i></a></li>-->
+                <?php foreach ($arResult['iblock'] as $key=>$val):?>
+				    <li class="<?php if ($key==0):?> active<?php endif?>"><a href="#"><i></i></a></li>
+                <?php endforeach?>
 			</ul>
 		</div>
 		<div class="border"></div>

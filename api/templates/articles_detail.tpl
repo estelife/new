@@ -1,5 +1,5 @@
 <div itemscope itemtype="http://schema.org/ScholarlyArticle">
-<div class="item detail big-font">
+<div class="item detail article">
 	<meta itemprop="articleSection" content="<!--$detail.NAME!-->">
 	<h1 itemprop="headline"><!--$detail.NAME!--></h1>
 	<ul class="stat notlike" data-elid="<!--$detail.LIKES.element_id!-->" data-type="<!--$detail.LIKES.type!-->">

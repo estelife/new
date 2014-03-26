@@ -6,7 +6,8 @@
 		"",
 		array(
 			"PAGE_COUNT" => 10,
-			"TYPE"=>3
+			"TYPE"=>3,
+			"COMPONENT"=>'list'
 		),
 		false
 	);

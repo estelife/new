@@ -2,7 +2,7 @@
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="/">Главная</a></li>
-		<li><a href="/clinics/?=<?=$arResult['clinic']['city_id']?>">Клиники <?=$arResult['clinic']['city_name']?></a></li>
+		<li><a href="/clinics/?city=<?=$arResult['clinic']['city_id']?>">Клиники <?=$arResult['clinic']['city_name']?></a></li>
 		<li><b><?=$arResult['clinic']['name']?></b></li>
 	</ul>
 	<div class="wrap_item">
@@ -44,9 +44,10 @@
 						<?php if (!empty($arResult['clinic']["articles"])):?>
 							<li class="t4"><a href="#">Статьи<i></i></a></li>
 						<?php endif?>
-						<?php if ($arResult['clinic']["id"]==2):?>
+						<?php if (!empty($arResult['clinic']['professionals'])):?>
 							<li class="t6"><a href="#">Специалисты<i></i></a></li>
 						<?php endif?>
+						<li class="t7"><a href="#">Отзывы<i></i></a></li>
 						<li class="t5"><a href="#">Контакты<i></i></a></li>
 					</ul>
 				</div>
@@ -169,42 +170,37 @@
 						</div>
 					</div>
 				<?php endif?>
-				<?php if ($arResult['clinic']['id']==2):?>
+				<?php if (!empty($arResult['clinic']['professionals'])):?>
 					<div class="tabs tab6 none">
-						<div class="items ">
-							<div class="item article specialist">
-								<img src="/bitrix/templates/estelife/images/spec/rib.jpg" alt="Рыбакин Артур Владимирович" title="Рыбакин Артур Владимирович">
-								<h3>Рыбакин Артур Владимирович</h3>
-								<p>Пластический хирург, главный врач Института красоты СПИК, заведующий отделением эстетической пластической хирургии Института красоты СПИК</p>
-							</div>
-							<div class="item article specialist">
-								<img src="/bitrix/templates/estelife/images/spec/and.jpg" alt="Андреищев Андрей Русланович" title="Андреищев Андрей Русланович">
-								<h3>Андреищев Андрей Русланович</h3>
-								<p>Пластический и челюстно-лицевой хирург, ортодонт</p>
-							</div>
-							<div class="item article specialist">
-								<img src="/bitrix/templates/estelife/images/spec/arb.jpg" alt="Арбатов Вячеслав Витальевич" title="Арбатов Вячеслав Витальевич">
-								<h3>Арбатов Вячеслав Витальевич</h3>
-								<p>Пластический хирург</p>
-							</div>
-							<div class="item article specialist">
-								<img src="/bitrix/templates/estelife/images/spec/sok.jpg" alt="Соколов Григорий Никитич" title="Соколов Григорий Никитич">
-								<h3>Соколов Григорий Никитич</h3>
-								<p>Дерматолог-онколог, зав.отделением лазерной косметологии, к.м.н</p>
-							</div>
-							<div class="item article specialist">
-								<img src="/bitrix/templates/estelife/images/spec/bag.jpg" alt="Багненко Елена Сергеевна" title="Багненко Елена Сергеевна">
-								<h3>Багненко Елена Сергеевна</h3>
-								<p>Врач дерматолог-косметолог, трихолог, к.м.н</p>
-							</div>
-							<div class="item article specialist">
-								<img src="/bitrix/templates/estelife/images/spec/gin.jpg" alt="Гинтовт Елизавета Алексеевна" title="Гинтовт Елизавета Алексеевна">
-								<h3>Гинтовт Елизавета Алексеевна</h3>
-								<p>Врач дерматолог-косметолог, к.м.н</p>
-							</div>
+						<div class="items">
+							<?php foreach ($arResult['clinic']['professionals'] as $arProf):?>
+								<div class="item specialist">
+									<div class="img">
+										<div class="img-in">
+											<?php if(!empty($arProf["logo"])): ?>
+												<?=$arProf["logo"]?>
+											<?php else: ?>
+												<div class="default">Изображение отсутствует</div>
+											<?endif?>
+										</div>
+									</div>
+									<h2><a href="<?=$arProf["link"]?>"><?=$arProf["name"]?></a></h2>
+									<?php if (!empty($arProf["short_description"])):?>
+										<p><?=$arProf["short_description"]?></p>
+									<?php endif?>
+								</div>
+							<?php endforeach?>
 						</div>
 					</div>
 				<?php endif?>
+				<div class="tabs tab7 reviews">
+					<?//$APPLICATION->IncludeComponent("estelife:review.list", "", array(
+					//	'clinic_id' => $arResult['clinic']['id']
+					//))?>
+					<?$APPLICATION->IncludeComponent("estelife:review.form", '', array(
+						'clinic_id' => $arResult['clinic']['id']
+					))?>
+				</div>
 				<div class="tabs tab-c tab5 none">
 					<?php if (!empty($arResult['clinic']['contacts'])):?>
 						<?php foreach ($arResult['clinic']['contacts'] as $val):?>

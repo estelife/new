@@ -34,7 +34,7 @@
 					<!--if($detail.articles)!-->
 					<li class="t4"><a href="#">Статьи<i></i></a></li>
 					<!--endif!-->
-					<!--if($detail.id==2)!-->
+					<!--if($detail.professionals)!-->
 					<li class="t6"><a href="#">Специалисты<i></i></a></li>
 					<!--endif!-->
 					<li class="t5"><a href="#">Контакты<i></i></a></li>
@@ -161,39 +161,26 @@
 					</div>
 				</div>
 			<!--endif!-->
-			<!--if($detail.id==2)!-->
+			<!--if($detail.professionals)!-->
 				<div class="tabs tab6 none">
-					<div class="items ">
-						<div class="item article specialist">
-							<img src="/bitrix/templates/estelife/images/spec/rib.jpg" alt="Рыбакин Артур Владимирович" title="Рыбакин Артур Владимирович">
-							<h3>Рыбакин Артур Владимирович</h3>
-							<p>Пластический хирург, главный врач Института красоты СПИК, заведующий отделением эстетической пластической хирургии Института красоты СПИК</p>
-						</div>
-						<div class="item article specialist">
-							<img src="/bitrix/templates/estelife/images/spec/and.jpg" alt="Андреищев Андрей Русланович" title="Андреищев Андрей Русланович">
-							<h3>Андреищев Андрей Русланович</h3>
-							<p>Пластический и челюстно-лицевой хирург, ортодонт</p>
-						</div>
-						<div class="item article specialist">
-							<img src="/bitrix/templates/estelife/images/spec/arb.jpg" alt="Арбатов Вячеслав Витальевич" title="Арбатов Вячеслав Витальевич">
-							<h3>Арбатов Вячеслав Витальевич</h3>
-							<p>Пластический хирург</p>
-						</div>
-						<div class="item article specialist">
-							<img src="/bitrix/templates/estelife/images/spec/sok.jpg" alt="Соколов Григорий Никитич" title="Соколов Григорий Никитич">
-							<h3>Соколов Григорий Никитич</h3>
-							<p>Дерматолог-онколог, зав.отделением лазерной косметологии, к.м.н</p>
-						</div>
-						<div class="item article specialist">
-							<img src="/bitrix/templates/estelife/images/spec/bag.jpg" alt="Багненко Елена Сергеевна" title="Багненко Елена Сергеевна">
-							<h3>Багненко Елена Сергеевна</h3>
-							<p>Врач дерматолог-косметолог, трихолог, к.м.н</p>
-						</div>
-						<div class="item article specialist">
-							<img src="/bitrix/templates/estelife/images/spec/gin.jpg" alt="Гинтовт Елизавета Алексеевна" title="Гинтовт Елизавета Алексеевна">
-							<h3>Гинтовт Елизавета Алексеевна</h3>
-							<p>Врач дерматолог-косметолог, к.м.н</p>
-						</div>
+					<div class="items">
+						<!--foreach ($detail.professionals as $key=>$val)!-->
+							<div class="item specialist">
+								<div class="img">
+									<div class="img-in">
+										<!--if($val.logo)!-->
+											<!--$val.logo!-->
+										<!--else!-->
+											<div class="default">Изображение отсутствует</div>
+										<!--endif!-->
+									</div>
+								</div>
+								<h2><a href="<!--$val.link!-->"><!--$val.name!--></a></h2>
+								<!--if($val.short_description)!-->
+									<p><!--$val.short_description!--></p>
+								<!--endif!-->
+							</div>
+						<!--endforeach!-->
 					</div>
 				</div>
 			<!--endif!-->

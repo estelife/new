@@ -1,0 +1,22 @@
+<?php
+$MESS ['ESTELIFE_HEAD_TITLE'] = 'Список отзывов';
+$MESS ['ESTELIFE_F_NAME'] = 'ФИО пользователя';
+$MESS ['ESTELIFE_F_PROBLEM'] = 'Проблема';
+$MESS ['ESTELIFE_F_CLINIC'] = 'Клиника';
+$MESS ['ESTELIFE_F_SPECIALIST'] = 'Специалист';
+$MESS ['ESTELIFE_F_ACTIVE'] = 'Активность';
+$MESS ['ESTELIFE_F_MODERATE'] = 'Модерация';
+$MESS ['ESTELIFE_F_ID'] = 'ID';
+$MESS ['ESTELIFE_F_DATE_ADD'] = 'Дата добавления';
+$MESS ['ESTELIFE_EDIT_ALT']='Редактирование';
+$MESS ['ESTELIFE_DELETE_ALT']='Удаление';
+$MESS ['ESTELIFE_MODERATE_ALT']='Модерация';
+$MESS ['ESTELIFE_ACTIVE_ALT']='Активировать';
+$MESS ['ESTELIFE_CONFIRM_ACTIVE']='Вы действительно хотите активировать комментарий?';
+$MESS ['ESTELIFE_CONFIRM_DEACTIVE']='Вы действительно хотите заблокировать комментарий?';
+$MESS ['ESTELIFE_MODERATE']='Модерация';
+$MESS ['ESTELIFE_ACTIVE']='Активировать';
+$MESS ['ESTELIFE_EDIT']='Подробно';
+$MESS ['ESTELIFE_DEACTIVE']='Заблокировать';
+$MESS ['ESTELIFE_DELETE']='Удалить';
+$MESS ['ESTELIFE_NOT_IMPORTANT']='Не важно';
