@@ -58,7 +58,7 @@ $obQuery->builder()
 	->field('uu.LAST_NAME', 'last_name')
 	->field('uu.SECOND_NAME', 'second_name')
 	->field('uu.LOGIN', 'login')
-	->field('ec.title', 'problem')
+	->field('ecp.title', 'problem')
 	->field('ecur.rating_doctor')
 	->field('ecur.rating_stuff')
 	->field('ecur.rating_service')
@@ -120,7 +120,7 @@ if (!empty($arResult['reviews'])){
 			$val['problem'] = $val['problem_name'];
 
 		if (!empty($val['user_last_name']))
-			$val['user_name'] = $val['user_last_name'].' '.$val['user_name'].' '.$val['user_second_name'];
+			$val['user_name'] = trim($val['user_last_name'].' '.$val['user_name'].' '.$val['user_second_name']);
 
 		if ($val['is_recomended'] == 1)
 			$arResult['count_good']++;
@@ -160,7 +160,7 @@ if (!empty($arResult['reviews'])){
 	if (!empty($arSpecialist)){
 		foreach ($arSpecialist as &$val){
 			if (!empty($val['last_name']))
-				$val['name'] = $val['last_name'].' '.$val['name'].' '.$val['second_name'];
+				$val['name'] = trim($val['last_name'].' '.$val['name'].' '.$val['second_name']);
 			else if (empty($val['name']))
 				$val['name'] = $val['login'];
 
@@ -228,6 +228,8 @@ $obJoin = $obQuery->builder()
 	->from('estelife_professionals_clinics', 'pf_link')
 	->field('pf.id', 'id')
 	->field('us.NAME', 'name')
+	->field('us.LAST_NAME', 'last_name')
+	->field('us.SECOND_NAME', 'second_name')
 	->join();
 $obJoin->_left()
 	->_from('pf_link', 'professional_id')
@@ -240,6 +242,14 @@ $obQuery->builder()
 	->_eq('pf_link.clinic_id', $nClinicId);
 
 $arProfessionals = $obQuery->select()->all();
+
+if (!empty($arProfessionals)) {
+	foreach($arProfessionals as &$arProf) {
+		if (!empty($arProf['last_name']))
+			$arProf['name'] = trim($arProf['last_name'] . ' '.$arProf['name'] . ' '.$arProf['second_name']);
+	}
+}
+
 $arResult['specialists'] = $arProfessionals;
 
 $this->IncludeComponentTemplate();
