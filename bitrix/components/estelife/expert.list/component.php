@@ -53,6 +53,7 @@ try{
 	$obQuery->builder()->slice(0, $arParams['NEWS_COUNT']);
 
 	$arElements = $obQuery->select()->all();
+	
 
 	if (!empty($arElements)){
 		foreach ($arElements as $val){

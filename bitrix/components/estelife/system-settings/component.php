@@ -16,7 +16,7 @@ $arResult=array(
 		"tc" => "training-centers",
 		"tr" => "trainings",
 		"ev" => "events",
-		"sp" => "sponsors",
+		"sp" => "organizers",
 		"sh" => "search",
 		"ex" => "experts",
 		"au" => "auth",
@@ -113,6 +113,14 @@ $arResult=array(
 		14=>array(
 			'id'=>1491,
 			'name'=>'Воронеж'
+		),
+		15=>array(
+			'id'=>1492,
+			'name'=>'Иркутск'
+		),
+		16=>array(
+			'id'=>2983,
+			'name'=>'Тюмень'
 		)
 	)
 );

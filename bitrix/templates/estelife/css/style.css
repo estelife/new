@@ -645,16 +645,21 @@ ul.stat .unlikes.active i {
 	cursor: pointer;
 }
 .experts h2 {
-	font-size:18px;
-	margin:20px 0 30px 0;
+	background: #a8a8a8;
+	font-size: 18px;
+	font-weight: bold;
+	height: 42px;
+	color: white;
+	margin-bottom: 17px;
+	line-height: 42px;
 }
 .experts .item {
 	text-align: left;
 }
 .experts .user {
-	float: right;
-	width: 147px;
-	margin-bottom: 22px;
+	float: left;
+	width: 190px;
+	margin-bottom: 42px;
 	line-height: 15px;
 	height:185px;
 }
@@ -663,6 +668,7 @@ ul.stat .unlikes.active i {
 }
 .item.detail .menu a,
 .experts .quote,
+.experts .user,
 .inner .products .item.product .cols,
 .similars .item.product .cols,
 .tabs-menu li a {
@@ -1121,7 +1127,7 @@ td.prices i {
 	margin:0;
 }
 .promotions .cities .col1 {
-	width:220px;
+	width:165px;
 }
 .promotions .cities h4,
 .promotions .cities a,
