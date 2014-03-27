@@ -6,15 +6,15 @@ class VPromotions {
 
 	/**
 	 * Получение похожих акций
-	 * @param $nActionId
+	 * @param array $arActionId
 	 * @param $nCityId
 	 * @param $nCount
 	 * @param $sDopKey
 	 * @param array $sDopValue
 	 * @return array
 	 */
-	public static function getSimilarPromotions($nActionId, $nCityId, $nCount, $sDopKey, array $sDopValue){
-		if (intval($nActionId)<=0)
+	public static function getSimilarPromotions(array $arActionId, $nCityId, $nCount, $sDopKey, array $sDopValue){
+		if (empty($arActionId))
 			assert('Action ID is empty');
 
 		if (intval($nCityId)<=0)
@@ -50,14 +50,16 @@ class VPromotions {
 			->_to('estelife_akzii_types', 'akzii_id', 'eat');
 		$obBuilder
 			->slice(0, $nCount)
-			->group('ea.id')
-			->filter()
+			->group('ea.id');
+		$obFilter = $obBuilder->filter()
 			->_eq('ea.active', 1)
-			->_ne('ea.id',$nActionId)
 			->_gte('ea.end_date', time())
 			->_eq('ec.city_id', $nCityId)
 			->_eq('ec.city_id', $nCityId)
 			->_in($sDopKey, $sDopValue);
+		foreach ($arActionId as $val){
+			$obFilter->_ne('ea.id',$val);
+		}
 
 		return $obQuery->select()->all();
 	}

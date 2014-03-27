@@ -384,7 +384,7 @@ define(['tpl/Template'],function(Template){
 		el:null,
 		render:function(){
 			if(_.isString(this.data) && this.data!=null){
-				this.$el=$('<div></div>').addClass('adv');
+				this.$el=$('<div></div>').addClass('ajax_banner');
 
 				if(this.className)
 					this.$el.addClass(this.className);
@@ -402,7 +402,7 @@ define(['tpl/Template'],function(Template){
 
 			if(_.isString(this.data) && this.data!=null){
 				setTimeout(function(){
-					var className='adv';
+					var className='ajax_banner';
 
 					if(ob.className)
 						className+=' '+ob.className;
