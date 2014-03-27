@@ -92,7 +92,8 @@ a:hover {
 .social a, .arrow i, ul.stat i, .promotion .time i, .promotion .prices i, .media .item span, .media .menu .first a,
 .promotion .time i, .promotion .prices i, .item.detail .clinic a.more i, .select .arrow, .item.company p i, .gallery .arrow i, td.prices i,
 .filter .date i, .win-close, .checked, .item.promotion .current .perc i,.checkbox.active i, .checkbox.radio i, .to-top i, h2.show-quality-form i,.help i, .tabs-menu .active i,
-.auth .link.back i, .item.specialist .work i, .activity .dates .active i, .hall .date i, form .date i.calendar, .reviews .rating a, .reviews .rating em, .reviews .group, .reviews .head span i {
+.auth .link.back i, .item.specialist .work i, .activity .dates .active i, .hall .date i, form .date i.calendar, .reviews .rating a, .reviews .rating em, .reviews .group, .reviews .head span i,
+.item.detail.article .specialist h2 i {
 	background-image:url('../images/complex.png');
 	background-repeat: no-repeat;
 }
@@ -2438,6 +2439,55 @@ li.country, span.country {
 	font-style:normal;
 	font-size:14px;
 	float:right;
+}
+.item.detail.article .specialist {
+	border:1px solid #E60265;
+	border-left: none;
+	border-right: none;
+	position: relative;
+	padding:30px 0;
+	float:left;
+	width:100%;
+	margin-bottom:27px;
+}
+.item.detail.article .specialist h2 {
+	font-size:18px;
+	background:#F0F0F0;
+	position: absolute;
+	top:-16px;
+	margin:0;
+	padding:0 16px 0 62px;
+}
+.item.detail.article .specialist h2 i {
+	display: block;
+	width:48px;
+	height:28px;
+	background-position: -184px 0;
+	position: absolute;
+	left:0;
+	top:-1px;
+}
+.item.detail.article .specialist .about {
+	float:left;
+	width:146px;
+	font-size:12px;
+	line-height: 10px;
+}
+.item.detail.article .specialist .about b {
+	margin-bottom:10px;
+	display: block;
+}
+.item.detail.article .specialist .about a {
+	display: block;
+	padding:10px;
+	background:#dddddd;
+	margin-bottom:30px;
+}
+.item.detail.article .specialist p {
+	float:right;
+	width:530px;
+	margin:0;
+	font-style:italic;
 }
 .item.detail.producer .current,
 .item.detail.product .current {
