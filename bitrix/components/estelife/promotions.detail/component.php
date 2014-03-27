@@ -168,6 +168,8 @@ if(!empty($arResult['service_concreate'])){
 	}
 }
 $arSimilar =VPromotions::getSimilarPromotions($arResult['action']['id'], $nCityId, 3, $sDopKey, $sDopValue);
+
+
 $nCount = count($arSimilar);
 $nCount = 1;
 if ($nCount<3){
@@ -200,6 +202,8 @@ if (!empty($arSimilar)){
 		$val['time'] = ceil(($val['end_date']-$arNow)/(60*60*24));
 		$val['day'] = \core\types\VString::spellAmount($val['time'], 'день,дня,дней');
 		$val['link'] = '/pr'.$val['id'].'/';
+		if ($val['parent_clinic_id']>0)
+			$val['clinic_id'] = $val['parent_clinic_id'];
 		$arResult['action']['similar'][] = $val;
 	}
 }

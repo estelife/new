@@ -38,6 +38,7 @@ class VPromotions {
 			->field('ea.*')
 			->field('ec.name','clinic_name')
 			->field('ec.id','clinic_id')
+			->field('ec.clinic_id','parent_clinic_id')
 			->join();
 		$obJoin->_left()
 			->_from('ea','id')
