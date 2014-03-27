@@ -32,6 +32,7 @@ CModule::AddAutoloadClasses(
 		'core\database\exceptions\VQueryBuildException' => "classes/core/database/exceptions/class.VQueryBuildException.php",
 		'core\database\exceptions\VQueryException' => "classes/core/database/exceptions/class.VQueryException.php",
 		'core\database\exceptions\VResultException' => "classes/core/database/exceptions/class.VResultException.php",
+		'core\exceptions\VHttpEx' => "classes/core/exceptions/class.VHttpEx.php",
 
 		// collections
 		'core\database\collections\VCollection' => "classes/core/database/collections/class.VCollection.php",
