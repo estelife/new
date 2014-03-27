@@ -47,17 +47,20 @@ $obQuery->builder()
 	->field('specialization_id')
 	->field('service_id')
 	->field('service_concreate_id')
+	->field('method_id')
 	->filter()
 	->_eq('akzii_id', $arResult['action']['id']);
 
 $arServices=$obQuery
 	->select()
 	->all();
-
 if (!empty($arServices)){
 	foreach ($arServices as $val){
 		if(!empty($val['service_id']))
 			$arResult['service'][] = $val['service_id'];
+
+		if(!empty($val['method_id']) && $val['method_id']>0)
+			$arResult['method'][] = $val['method_id'];
 
 		if(!empty($val['specialization_id']))
 			$arResult['specialization'][] = $val['specialization_id'];
@@ -70,6 +73,7 @@ if (!empty($arServices)){
 $arResult['specialization'] = array_values(array_unique($arResult['specialization']));
 $arResult['service'] = array_values(array_unique($arResult['service']));
 $arResult['service_concreate'] = array_values(array_unique($arResult['service_concreate']));
+$arResult['method'] = array_values(array_unique($arResult['method']));
 
 //получение клиник
 $obQuery = $obActions->createQuery();
@@ -159,34 +163,53 @@ if(!empty($arResult['service_concreate'])){
 	$sDopKey = 'eat.service_concreate_id';
 	$sDopValue = $arResult['service_concreate'];
 }else{
-	if(!empty($arResult['service'])){
-		$sDopKey = 'eat.service_id';
-		$sDopValue = $arResult['service'];
+	if (!empty($arResult['method'])){
+		$sDopKey = 'eat.method_id';
+		$sDopValue = $arResult['method'];
 	}else{
-		$sDopKey = 'eat.specialization_id';
-		$sDopValue = $arResult['specialization'];
-	}
-}
-$arSimilar =VPromotions::getSimilarPromotions($arResult['action']['id'], $nCityId, 3, $sDopKey, $sDopValue);
-$nCount = count($arSimilar);
-$nCount = 1;
-if ($nCount<3){
-	if(!empty($arResult['service'])){
-		$sDopKey = 'eat.service_id';
-		$sDopValue = $arResult['service'];
-	}else{
-		$sDopKey = 'eat.specialization_id';
-		$sDopValue = $arResult['specialization'];
-	}
-	$arSimilarDop =VPromotions::getSimilarPromotions($arResult['action']['id'], $nCityId, 3-$nCount, $sDopKey, $sDopValue);
-	$arSimilar = array_merge($arSimilar, $arSimilarDop);
-	$nCount = count($arSimilar);
-	if ($nCount<3){
-		if(!empty($arResult['specialization'])){
+		if(!empty($arResult['service'])){
+			$sDopKey = 'eat.service_id';
+			$sDopValue = $arResult['service'];
+		}else{
 			$sDopKey = 'eat.specialization_id';
 			$sDopValue = $arResult['specialization'];
 		}
-		$arSimilarDop =VPromotions::getSimilarPromotions($arResult['action']['id'], $nCityId, 3-$nCount, $sDopKey, $sDopValue);
+	}
+}
+$arActionId[] = $arResult['action']['id'];
+$arSimilar =VPromotions::getSimilarPromotions($arActionId, $nCityId, 3, $sDopKey, $sDopValue);
+$nCount = count($arSimilar);
+if ($nCount<3){
+	foreach ($arSimilar as $val){
+		$arActionId[] = $val['id'];
+	}
+	if (!empty($arResult['method'])){
+		$sDopKey = 'eat.method_id';
+		$sDopValue = $arResult['method'];
+	}else{
+		if(!empty($arResult['service'])){
+			$sDopKey = 'eat.service_id';
+			$sDopValue = $arResult['service'];
+		}else{
+			$sDopKey = 'eat.specialization_id';
+			$sDopValue = $arResult['specialization'];
+		}
+	}
+	$arSimilarDop =VPromotions::getSimilarPromotions($arActionId, $nCityId, 3-$nCount, $sDopKey, $sDopValue);
+	$arSimilar = array_merge($arSimilar, $arSimilarDop);
+	$nCount = count($arSimilar);
+	if ($nCount<3){
+		foreach ($arSimilar as $val){
+			$arActionId[] = $val['id'];
+		}
+		if(!empty($arResult['service'])){
+			$sDopKey = 'eat.service_id';
+			$sDopValue = $arResult['service'];
+		}else{
+			$sDopKey = 'eat.specialization_id';
+			$sDopValue = $arResult['specialization'];
+		}
+		$arSimilarDop =VPromotions::getSimilarPromotions($arActionId, $nCityId, 3-$nCount, $sDopKey, $sDopValue);
 		$arSimilar = array_merge($arSimilar, $arSimilarDop);
 	}
 }

@@ -45,15 +45,16 @@ try{
 		->field('iepr.VALUE', 'PREVIEW_TEXT')
 		->field('iepi.VALUE', 'IMG')
 		->field('iepp.VALUE', 'PROFESSION')
+		->field('ieac.VALUE', 'ACTIVE')
 		->field('iepa.VALUE', 'AUTHOR');
 	$obQuery->builder()->filter()
 		->_eq('IBLOCK_ID', $arParams['IBLOCK_ID'])
 		->_eq('ACTIVE', 'Y')
-        ->_gte('ieac.VALUE', 0);
+		->_gte('ieac.VALUE', 0);
 	$obQuery->builder()->slice(0, $arParams['NEWS_COUNT']);
 
 	$arElements = $obQuery->select()->all();
-
+	
 	if (!empty($arElements)){
 		foreach ($arElements as $val){
 			$val['PREVIEW_TEXT'] = unserialize($val['PREVIEW_TEXT']);
