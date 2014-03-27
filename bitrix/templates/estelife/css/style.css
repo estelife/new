@@ -92,7 +92,8 @@ a:hover {
 .social a, .arrow i, ul.stat i, .promotion .time i, .promotion .prices i, .media .item span, .media .menu .first a,
 .promotion .time i, .promotion .prices i, .item.detail .clinic a.more i, .select .arrow, .item.company p i, .gallery .arrow i, td.prices i,
 .filter .date i, .win-close, .checked, .item.promotion .current .perc i,.checkbox.active i, .checkbox.radio i, .to-top i, h2.show-quality-form i,.help i, .tabs-menu .active i,
-.auth .link.back i, .item.specialist .work i, .activity .dates .active i, .hall .date i, form .date i.calendar, .reviews .rating a, .reviews .rating em, .reviews .group, .reviews .head span i {
+.auth .link.back i, .item.specialist .work i, .activity .dates .active i, .hall .date i, form .date i.calendar, .reviews .rating a, .reviews .rating em, .reviews .group, .reviews .head span i,
+.item.detail.article .specialist h2 i {
 	background-image:url('../images/complex.png');
 	background-repeat: no-repeat;
 }
@@ -116,10 +117,10 @@ ul li:last-child, ul li.last-child {
 	line-height:30px;
 }
 .panel .col1 {
-	width:415px;
+	width:314px;
 }
 .panel .col1 a {
-	margin: 6px 11px 10px 23px;
+	margin: 6px 11px 10px 7px;
 	float: left;
 	display: block;
 	line-height: 15px;
@@ -164,61 +165,35 @@ ul li:last-child, ul li.last-child {
 }
 .social a {
 	display: block;
-	width:30px;
-	height:30px;
-	margin-left:11px;
+	width:28px;
+	height:28px;
+	margin-left:12px;
 	text-indent:-10000px;
 }
 .panel .social a {
 	width:18px;
 	height:17px;
 	margin-top:6px;
-	margin-left: 14px;
+	margin-left: 5px;
 }
 .panel .social span {
 	margin-right: 17px;
 }
 .panel .social a.fb {
-	background-position:0 -34px;
-}
-.panel .social a.fb:hover {
-	background-position:-21px -34px;
+	background-position:-78px -33px;
 }
 .panel .social a.tw {
-	background-position:-132px -34px;
-}
-.panel .social a.tw:hover {
-	background-position:-155px -34px;
+	background-position:-26px -33px;
+	margin-right: 46px;
 }
 .panel .social a.vk {
-	background-position:-180px -34px;
-}
-.panel .social a.vk:hover {
-	background-position:-203px -34px;
-}
-.panel .social a.ok {
-	background-position:-89px -34px;
-}
-.panel .social a.ok:hover {
-	background-position:-111px -34px;
-}
-.panel .social a.lj {
-	background-position:-44px -34px;
-}
-.panel .social a.lj:hover {
-	background-position:-68px -34px;
+	background-position:-52px -33px;
 }
 .panel .social a.gp {
-	background-position:-354px -67px;
+	background-position:-103px -33px;
 }
-.panel .social a.gp:hover {
-	background-position:-331px -67px;
-}
-.panel .social a.yt {
-	background-position:-376px -67px;
-}
-.panel .social a.yt:hover {
-	background-position:-398px -67px;
+.panel .social a.rss {
+	background-position:-1px -33px;
 }
 .head {
 	height:159px;
@@ -2471,6 +2446,55 @@ li.country, span.country {
 	font-size:14px;
 	float:right;
 }
+.item.detail.article .specialist {
+	border:1px solid #E60265;
+	border-left: none;
+	border-right: none;
+	position: relative;
+	padding:30px 0;
+	float:left;
+	width:100%;
+	margin-bottom:27px;
+}
+.item.detail.article .specialist h2 {
+	font-size:18px;
+	background:#F0F0F0;
+	position: absolute;
+	top:-16px;
+	margin:0;
+	padding:0 16px 0 62px;
+}
+.item.detail.article .specialist h2 i {
+	display: block;
+	width:48px;
+	height:28px;
+	background-position: -184px 0;
+	position: absolute;
+	left:0;
+	top:-1px;
+}
+.item.detail.article .specialist .about {
+	float:left;
+	width:146px;
+	font-size:12px;
+	line-height: 10px;
+}
+.item.detail.article .specialist .about b {
+	margin-bottom:10px;
+	display: block;
+}
+.item.detail.article .specialist .about a {
+	display: block;
+	padding:10px;
+	background:#dddddd;
+	margin-bottom:30px;
+}
+.item.detail.article .specialist p {
+	float:right;
+	width:530px;
+	margin:0;
+	font-style:italic;
+}
 .item.detail.producer .current,
 .item.detail.product .current {
 	overflow: hidden;
@@ -2788,46 +2812,27 @@ form.search .submit {
 }
 .footer .social {
 	float:right;
-	margin-top: 20px;
+	margin-top: 18px;
 }
-.footer .social a.fb:hover {
-	background-position: -34px 0;
+.footer .social a.fb {
+	background-position: -109px 0;
 }
 .footer .social a.vk {
-	background-position: -138px 0;
-}
-.footer .social a.vk:hover {
-	background-position: -173px 0;
+	background-position: -72px 0;
 }
 .footer .social a.tw {
-	background-position: -68px 0;
-}
-.footer .social a.tw:hover {
-	background-position: -102px 0;
-}
-.footer .social a.ok {
-	background-position: -207px 0;
-}
-.footer .social a.ok:hover {
-	background-position: -241px 0;
-}
-.footer .social a.lj {
-	background-position: -275px 0;
-}
-.footer .social a.lj:hover {
-	background-position: -310px 0;
+	background-position: -35px 0;
 }
 .footer .social a.gp {
-	background-position: -344px 0;
+	background-position: -146px 0;
 }
-.footer .social a.gp:hover {
-	background-position: -378px 0;
-}
-.footer .social a.yt {
-	background-position: -344px -34px;
-}
-.footer .social a.yt:hover {
-	background-position: -378px -34px;
+.footer .social span {
+	display: block;
+	float: left;
+	margin: 0 19px 0 27px;
+	font-size: 21px;
+	font-weight: bold;
+	color:#959595;
 }
 .footer .copy {
 	float:left;
@@ -2981,8 +2986,8 @@ form.search .submit {
 .home-img {
 	position: absolute;
 	opacity: 0.5;
-	top: 1px;
-	left: -7px;
+	top: 91px;
+	left: -283px;
 	width: 1918px;
 	max-height: initial;
 	max-width: initial;
@@ -4667,11 +4672,16 @@ form.quality .submit,
 	float: left;
 	padding: 10px 18px;
 	border-right: 1px solid #D1D1D1;
+	border-bottom: 1px solid #D1D1D1;
 	width: 323px;
 	font-size: 13px;
 }
 .reviews .item .scope li:nth-child(2n + 2) {
 	border-right: none;
+}
+.reviews .item .scope li:nth-child(3),
+.reviews .item .scope li:nth-child(4){
+	border-bottom: none;
 }
 .reviews .item .scope a {
 	color:#2c2c2c;

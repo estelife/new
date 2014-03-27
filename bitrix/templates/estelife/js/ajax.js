@@ -504,6 +504,12 @@ require([
 				specialistId = form.find('select[name=specialist_id]').val();
 
 			Router.reviewList(clinicId, problemId, specialistId);
+		}).on('click', 'form[name=review_filter] .all', function(e){
+				var form = $(this).parents('form:first'),
+					clinicId = form.find('input[name=clinic_id]').val();
+
+				Router.reviewList(clinicId);
+				e.preventDefault();
 		});
 	});
 
@@ -1031,7 +1037,7 @@ require([
 			}
 		});
 
-		body.on('click', 'a.add_review', function(e){
+		body.on('click', '.add_review', function(e){
 			var matches;
 
 			if (matches = location.pathname.match(/cl([0-9]+)/)) {

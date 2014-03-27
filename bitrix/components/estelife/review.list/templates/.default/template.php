@@ -92,7 +92,9 @@
 			<?php endif; ?>
 		</select>
 	</div>
-	<a href="#" class="all">Все отзывы</a>
+	<?php if($arResult['filter']['not_empty']): ?>
+		<a href="/cl<?=$arResult['clinic_id']?>/" class="all">Все отзывы</a>
+	<?php endif; ?>
 </form>
 <?php if (!empty($arResult['reviews'])):?>
 	<div class="items">
@@ -116,7 +118,11 @@
 					</li>
 					<li>
 						<b>Врач:</b>
-						<a href="<?=$val['professional_link']?>"><?=$val['professional_name']?></a>
+						<?php if (isset($val['professional_link'])): ?>
+							<a href="<?=$val['professional_link']?>"><?=$val['professional_name']?></a>
+						<?php else: ?>
+							<?=$val['professional_name']?>
+						<?php endif; ?>
 					</li>
 					<li>
 						<b>Пациент:</b>
