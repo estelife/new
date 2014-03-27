@@ -1,7 +1,7 @@
 <!--if($reviews)!-->
 	<div class="title">
 		<h3>Ваш отзыв о данной клинике</h3>
-		<p>Перед размещением мы просим Вас ознакомиться с <a href="#" target="_blank">правилами размещения отзывов</a></p>
+		<p>Перед размещением мы просим Вас ознакомиться с <a href="#" class="show_terms">правилами размещения отзывов</a></p>
 	</div>
 	<form action="" name="add_review" method="post">
 		<input type="hidden" name="clinic_id" value="<!--$reviews.clinic_id!-->" />
@@ -138,7 +138,7 @@
 		<div class="group">
 			<div data-handler="read_term">
 				<input type="checkbox" name="read_term" value="1" />
-				Я ознакомлен(а) с <a href="#" target="_blank">правилами размещения отзывов</a>
+				Я ознакомлен(а) с <a href="#" class="show_terms">правилами размещения отзывов</a>
 			</div>
 			<input type="submit" class="submit" value="Оставить отзыв">
 		</div>

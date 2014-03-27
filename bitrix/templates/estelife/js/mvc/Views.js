@@ -99,7 +99,6 @@ define(['tpl/Template'],function(Template){
 					ob.$el.append(el);
 				});
 			}
-
 			return this;
 		},
 		render:function(){
@@ -176,7 +175,6 @@ define(['tpl/Template'],function(Template){
 						ob.template.set('same_data', ob.data.same_data);
 
 					ob.$el.append(ob.template.render());
-					EL.goto($('.main_menu'),false,true);
 
 					var commentsView=new Views.Comments({
 						template:'comments_list'
@@ -195,6 +193,8 @@ define(['tpl/Template'],function(Template){
 
 					ob.$el.find('.reviews')
 						.replaceWith(reviewsView.$el);
+
+					EL.goto($('.main_menu'), false, true);
 
 					Events.push({
 						target:$('body'),

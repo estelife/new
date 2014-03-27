@@ -1,6 +1,6 @@
 <div class="title">
 	<h3>Ваш отзыв о данной клинике</h3>
-	<p>Перед размещением мы просим Вас ознакомиться с <a href="#" target="_blank">правилами размещения отзывов</a></p>
+	<p>Перед размещением мы просим Вас ознакомиться с <a href="#" class="show_terms">правилами размещения отзывов</a></p>
 </div>
 <?php if (isset($arResult['error'])): ?>
 	<div class="error"><?=$arResult['error']['message']?></div>
@@ -132,7 +132,7 @@
 	<div class="group">
 		<div class="<?=isset($arResult['errors']['read_term']) ? 'error' : ''?>">
 			<input type="checkbox" name="read_term" value="1"<?=isset($arResult['read_term']) && $arResult['read_term']==1 ? ' checked="true"' : ''?> />
-			Я ознакомлен(а) с <a href="#" target="_blank">правилами размещения отзывов</a>
+			Я ознакомлен(а) с <a href="#" class="show_terms">правилами размещения отзывов</a>
 		</div>
 		<input type="submit" class="submit" value="Оставить отзыв">
 	</div>
