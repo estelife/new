@@ -56,9 +56,12 @@ $obQuery->builder()
 	->field('ecr.date_moderate')
 	->field('ep.id', 'professional_id')
 	->field('ec.name', 'clinic_name')
+	->field('u.NAME', 'name')
+	->field('u.LAST_NAME', 'last_name')
+	->field('u.SECOND_NAME', 'second_name')
 	->field('uu.NAME', 'user_name')
-	->field('uu.LAST_NAME', 'last_name')
-	->field('uu.SECOND_NAME', 'second_name')
+	->field('uu.LAST_NAME', 'user_last_name')
+	->field('uu.SECOND_NAME', 'user_second_name')
 	->field('uu.LOGIN', 'login')
 	->field('ecp.title', 'problem')
 	->field('ecur.rating_doctor')
@@ -70,8 +73,8 @@ $obQuery->builder()
 	->_eq('ecr.clinic_id', $nClinicId)
 	->_eq('ecr.active', 1);
 
-$nProblemId = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : null;
-$nSpecialistId = isset($_GET['specialist_id']) ? intval($_GET['specialist_id']) : null;
+$nProblemId = isset($_GET['problem_id']) ? intval($_GET['problem_id']) : 0;
+$nSpecialistId = isset($_GET['specialist_id']) ? intval($_GET['specialist_id']) : 0;
 
 if ($nSpecialistId)
 	$obQuery->builder()->filter()
@@ -103,8 +106,7 @@ if (!empty($arResult['reviews'])){
 			$val['moderate'] = 1;
 
 		if (!empty($val['specialist_name'])){
-			$val['professional_name']=$val['specialist_name'];
-			$val['professional_link'] = '#';
+			$val['professional_name'] = $val['specialist_name'];
 		}else{
 			if (empty($val['name']))
 				$val['professional_name']=$val['login'];
@@ -127,7 +129,7 @@ if (!empty($arResult['reviews'])){
 		if ($val['is_recomended'] == 1)
 			$arResult['count_good']++;
 
-		$val['number'] = $i;
+		$val['number'] = $val['id'];
 		$val['hl'] = ($nKey%2 == 0) ? '' : ' hl';
  		$i++;
 	}
@@ -253,5 +255,11 @@ if (!empty($arProfessionals)) {
 }
 
 $arResult['specialists'] = $arProfessionals;
+$arResult['clinic_id'] = $nClinicId;
+$arResult['filter'] = array(
+	'problem_id' => $nProblemId,
+	'specialist_id' => $nSpecialistId,
+	'not_empty' => $nProblemId || $nSpecialistId
+);
 
 $this->IncludeComponentTemplate();

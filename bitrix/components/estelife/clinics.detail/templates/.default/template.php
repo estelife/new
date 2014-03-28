@@ -38,20 +38,20 @@
 			<?php if ($arResult['clinic']["recomended"] == 1):?>
 				<div class="tabs-menu menu_tab">
 					<ul>
-						<li class="active t1"><a href="#">О клинике<i></i></a></li>
-						<li class="t3"><a href="#">Услуги и цены<i></i></a></li>
-						<li class="t2"><a href="#">Акции<i></i></a></li>
+						<li class="t1<?=$arResult['CURRENT_TAB']=='base' ? ' active' : ''?>"><a href="/cl<?=$arResult['clinic']['id']?>/">О клинике<i></i></a></li>
+						<li class="t3<?=$arResult['CURRENT_TAB']=='prices' ? ' active' : ''?>"><a href="/cl<?=$arResult['clinic']['id']?>/prices/">Услуги и цены<i></i></a></li>
+						<li class="t2<?=$arResult['CURRENT_TAB']=='promotions' ? ' active' : ''?>"><a href="/cl<?=$arResult['clinic']['id']?>/promotions/">Акции<i></i></a></li>
 						<?php if (!empty($arResult['clinic']["articles"])):?>
-							<li class="t4"><a href="#">Статьи<i></i></a></li>
+							<li class="t4<?=$arResult['CURRENT_TAB']=='articles' ? ' active' : ''?>"><a href="/cl<?=$arResult['clinic']['id']?>/articles/">Статьи<i></i></a></li>
 						<?php endif?>
 						<?php if (!empty($arResult['clinic']['professionals'])):?>
-							<li class="t6"><a href="#">Специалисты<i></i></a></li>
+							<li class="t6<?=$arResult['CURRENT_TAB']=='specialists' ? ' active' : ''?>"><a href="/cl<?=$arResult['clinic']['id']?>/specialists/">Специалисты<i></i></a></li>
 						<?php endif?>
-						<li class="t7"><a href="#">Отзывы<i></i></a></li>
-						<li class="t5"><a href="#">Контакты<i></i></a></li>
+						<li class="t7<?=$arResult['CURRENT_TAB']=='reviews' ? ' active' : ''?>"><a href="/cl<?=$arResult['clinic']['id']?>/reviews/">Отзывы<i></i></a></li>
+						<li class="t5<?=$arResult['CURRENT_TAB']=='contacts' ? ' active' : ''?>"><a href="/cl<?=$arResult['clinic']['id']?>/contacts/">Контакты<i></i></a></li>
 					</ul>
 				</div>
-				<div class="tabs tab1">
+				<div class="tabs tab1<?=$arResult['CURRENT_TAB']!='base' ? ' none' : ''?>">
 					<?php if (!empty($arResult['clinic']['gallery'])):?>
 						<div class="gallery">
 							<div class="gallery-in">
@@ -77,7 +77,7 @@
 					<?php endif?>
 					<p><?=$arResult['clinic']['detail_text']?></p>
 				</div>
-				<div class="tabs tab2 services none">
+				<div class="tabs tab2 services<?=$arResult['CURRENT_TAB']!='prices' ? ' none' : ''?>">
 					<span>Перечень услуг и цен является ориентировочным и содержит лишь часть полного комплекса процедур и операций, проводимых специалистами клиники.
 					Для получения более подробной информации, пожалуйста, позвоните по телефону, указанному в контактных данных.</span>
 					<?php foreach ($arResult['clinic']['specializations'] as $key=>$val):?>
@@ -98,7 +98,7 @@
 						<?php endforeach?>
 					<?php endforeach?>
 				</div>
-				<div class="tabs tab3 none">
+				<div class="tabs tab3<?=$arResult['CURRENT_TAB']!='promotions' ? ' none' : ''?>">
 					<div class="promotions">
 						<div class="items">
 							<?php if (!empty($arResult['clinic']['akzii'])):?>
@@ -151,7 +151,7 @@
 					</div>
 				</div>
 				<?php if (!empty($arResult['clinic']['articles'])):?>
-					<div class="tabs tab4 none">
+					<div class="tabs tab4<?=$arResult['CURRENT_TAB']!='articles' ? ' none' : ''?>">
 						<div class="items ">
 							<?php foreach ($arResult['clinic']['articles'] as $val):?>
 
@@ -171,7 +171,7 @@
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['clinic']['professionals'])):?>
-					<div class="tabs tab6 none">
+					<div class="tabs tab6<?=$arResult['CURRENT_TAB']!='specialists' ? ' none' : ''?>">
 						<div class="items">
 							<?php foreach ($arResult['clinic']['professionals'] as $arProf):?>
 								<div class="item specialist">
@@ -193,12 +193,14 @@
 						</div>
 					</div>
 				<?php endif?>
-				<div class="tabs tab7 reviews none">
-					<?$APPLICATION->IncludeComponent("estelife:reviews", '', array(
-						'clinic_id' => $arResult['clinic']['id']
-					))?>
+				<div class="tabs tab7<?=$arResult['CURRENT_TAB']!='reviews' ? ' none' : ''?>">
+					<div class="reviews">
+						<?$APPLICATION->IncludeComponent("estelife:reviews", '', array(
+							'clinic_id' => $arResult['clinic']['id']
+						))?>
+					</div>
 				</div>
-				<div class="tabs tab-c tab5 none">
+				<div class="tabs tab-c tab5<?=$arResult['CURRENT_TAB']!='contacts' ? ' none' : ''?>">
 					<?php if (!empty($arResult['clinic']['contacts'])):?>
 						<?php foreach ($arResult['clinic']['contacts'] as $val):?>
 							<ul>

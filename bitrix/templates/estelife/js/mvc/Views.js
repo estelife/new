@@ -99,7 +99,6 @@ define(['tpl/Template'],function(Template){
 					ob.$el.append(el);
 				});
 			}
-
 			return this;
 		},
 		render:function(){
@@ -137,7 +136,7 @@ define(['tpl/Template'],function(Template){
 	Views.Comments=Views.Default.extend({
 		el:'div.comments-ajax',
 		render:function(){
-			if(_.isObject(this.data) && 'comments' in this.data){
+			if(_.isObject(this.data) && this.data.hasOwnProperty('comments')){
 				var ob=this;
 
 				if(this.$el.length==0){
@@ -173,10 +172,9 @@ define(['tpl/Template'],function(Template){
 					ob.template.set('detail', ob.data.detail);
 
 					if(ob.data.hasOwnProperty('same_data'))
-						ob.template.set('same_data',ob.data.same_data);
+						ob.template.set('same_data', ob.data.same_data);
 
 					ob.$el.append(ob.template.render());
-					EL.goto($('.main_menu'),false,true);
 
 					var commentsView=new Views.Comments({
 						template:'comments_list'
@@ -186,6 +184,17 @@ define(['tpl/Template'],function(Template){
 
 					ob.$el.find('.comments-ajax')
 						.replaceWith(commentsView.$el);
+
+					var reviewsView=new Views.Reviews({
+						template:'review_list'
+					});
+					reviewsView.setData(ob.data);
+					reviewsView.render();
+
+					ob.$el.find('.reviews')
+						.replaceWith(reviewsView.$el);
+
+					EL.goto($('.main_menu'), false, true);
 
 					Events.push({
 						target:$('body'),
@@ -505,6 +514,36 @@ define(['tpl/Template'],function(Template){
 				_.each(this.views,function(view){
 					ob.$el.append(view.render().$el);
 				});
+			}
+
+			return this;
+		}
+	});
+
+	Views.Reviews=Views.Default.extend({
+		el:'div.reviews',
+		render:function(){
+			if(_.isObject(this.data) && this.data.hasOwnProperty('reviews')){
+				var ob=this;
+
+				if(this.$el.length==0){
+					this.$el=$('<div class="reviews"></div>');
+					this.el=this.$el[0];
+				}
+
+				this.$el.empty();
+
+				this.template.ready(function(){
+					ob.template.set('reviews', ob.data.reviews);
+					ob.$el.append($(ob.template.render()));
+
+					Events.push({
+						'target':ob.$el.find('form'),
+						'type':'updateForm'
+					});
+				});
+
+				ob.el=ob.$el[0];
 			}
 
 			return this;

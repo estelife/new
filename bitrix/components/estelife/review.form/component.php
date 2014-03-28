@@ -45,21 +45,19 @@ if ($nClinicId) {
 	$obQuery->builder()
 		->filter()
 		->_eq('clinic_id', $nClinicId);
-	$arProfessionals = $obQuery->select()->all();
+	$arTemp = $obQuery->select()->all();
+	$arProfessionals = array();
 
-	if (!empty($arProfessionals)) {
-		$arTemp = array();
-
-		foreach($arProfessionals as &$arProf) {
+	if (!empty($arTemp)) {
+		foreach($arTemp as &$arProf) {
 			if (!empty($arProf['last_name']))
 				$arProf['name'] = trim($arProf['last_name'] . ' '.$arProf['name'] . ' '.$arProf['second_name']);
 
-			$arTemp[$arProf['id']] = $arProf['name'];
+			$arProfessionals[$arProf['id']] = $arProf['name'];
 		}
-
-		$arProfessionals = $arTemp;
 	}
-	$arResult['specialists'] = $arProfessionals;
+
+	$arResult['specialists'] = $arTemp;
 }
 
 $arResult['rating_doctor'] = 0;
@@ -145,14 +143,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		} else if ($nProblemId) {
 			if (!isset($arProblems[$nProblemId])) {
 				if ($sProblemName == '')
-					$obError->setFieldError('Не удалось опознать указанную проблему или услугу', 'problem_name');
+					$obError->setFieldError('Не удалось опознать указанную проблему или услугу', 'problem_id');
 				else
 					$nProblemId = 0;
 			}
 		}
 
 		if (!$nSpecialistId && $sSpecialistName == '')
-			$obError->setFieldError('Необхоидимо указать специалиста, с которым общались', 'specialist_name');
+			$obError->setFieldError('Необхоидимо указать специалиста, с которым общались', 'specialist_id');
 		else if ($nSpecialistId) {
 			$obQuery->builder()
 				->from('estelife_professionals_clinics')
@@ -180,8 +178,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if (!$nReadTerm)
 			$obError->setFieldError('Необходимо ознакомиться с правилами размещения отзывов', 'read_term');
 
-		if (!$nRatingQuality || !$nRatingService || !$nRatingStuff || !$nRatingDoctor)
-			$obError->setFieldError('Необхоидмо поставить оценки по всем харрактеристикам', 'ratings');
+		if (!$nRatingQuality)
+			$obError->setFieldError('Необхоидмо поставить оценки по всем харрактеристикам', 'rating_quality');
+
+		if (!$nRatingService)
+			$obError->setFieldError('Необхоидмо поставить оценки по всем харрактеристикам', 'rating_service');
+
+		if (!$nRatingStuff)
+			$obError->setFieldError('Необхоидмо поставить оценки по всем харрактеристикам', 'rating_stuff');
+
+		if (!$nRatingDoctor)
+			$obError->setFieldError('Необхоидмо поставить оценки по всем харрактеристикам', 'rating_doctor');
 
 		$obError->raise();
 
@@ -249,11 +256,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			->value('rating_quality', $nRatingQuality);
 
 		$obQuery->insert();
+		$sNotice = 'Отзыв успешно добавлен. После подтверждения модератором он будет виден остальным пользователям.';
 
 		if (\core\http\VHttp::isAjaxRequest()) {
-			$arResult['complete'] = 'ok';
+			$arResult['complete'] = array(
+				'clinic_id' => $nClinicId,
+				'review_id' => $nReviewId,
+				'text' => $sNotice
+			);
 		} else {
-			\notice\VNotice::registerSuccess('', 'Отзыв успешно добавлен. После подтверждения модератором он будет виден остальным пользователям.');
+			\notice\VNotice::registerSuccess('', $sNotice);
 			LocalRedirect('/cl'.$nClinicId.'/?review_list');
 		}
 	} catch(\core\exceptions\VFormException $e) {

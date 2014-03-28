@@ -53,6 +53,9 @@ $APPLICATION->IncludeComponent(
 	)
 );
 
+$sDescription = \core\types\VString::truncateToMin($arResult["PREVIEW_TEXT"],150);
+$date = date('Y-m-d',strtotime($arResult['ACTIVE_FROM']));
+
 $img = CFile::GetFileArray($arResult['PROPERTIES']['INSIDE']['VALUE']);
 echo json_encode(array(
 	'crumb'=>array(
@@ -78,9 +81,11 @@ echo json_encode(array(
 			'DESCRIPTION'=>$img['DESCRIPTION']
 		),
 		'PREVIEW_TEXT'=>$arResult['PREVIEW_TEXT'],
+		'DESCRIPTION'=>$sDescription,
 		'DETAIL_TEXT'=>$arResult['DETAIL_TEXT'],
 		'SOURCE'=>(!empty($arResult['PROPERTIES']['SOURCE']['VALUE'])) ? $arResult['PROPERTIES']['SOURCE']['VALUE'] : '',
 		'LIKES'=>$arResult['LIKES'],
+		'DATE'=>$date,
 		'TYPE'=>$arResult['TYPE']
 	),
 	'class'=>'article',

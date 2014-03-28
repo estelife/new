@@ -7,6 +7,12 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 CModule::IncludeModule("iblock");
 CModule::IncludeModule("estelife");
 
+$arTabs = array('base', 'reviews', 'prices', 'promotions', 'specialists', 'contacts', 'articles');
+$arResult['CURRENT_TAB'] = isset($arParams['CURRENT_TAB']) ? $arParams['CURRENT_TAB'] : 'base';
+
+if (!in_array($arResult['CURRENT_TAB'], $arTabs))
+	throw new \core\exceptions\VHttpEx('Invalid request', 404);
+
 $obClinics = VDatabase::driver();
 $nClinicID =  (isset($arParams['ID'])) ?
 	intval($arParams['ID']) : 0;

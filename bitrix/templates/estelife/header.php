@@ -19,6 +19,7 @@
 	<link rel="shortcut icon" href="/favicon.png" type="image/icon">
 	<link rel="stylesheet" type="text/css" href="/bitrix/templates/estelife/css/style.css" />
 	<link rel="stylesheet" type="text/css" href="/bitrix/templates/estelife/template_styles.css" />
+	<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://estelife.ru/rss.php" />
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -45,10 +46,12 @@
 				?>
 				<div class="cols col2 social">
 					<span>Мы в соцсетях:</span>
-					<a href="http://vk.com/estelife_ru" class="vk" target="_blank">ВКонтакте</a>
+					<a href="http://vk.com/club58189724" class="vk" target="_blank">ВКонтакте</a>
 					<a href="https://www.facebook.com/EsteLife.RU" class="fb" target="_blank">Facebook</a>
-					<a href="http://www.youtube.com/esteliferu" class="yt" target="_blank">Youtube</a>
-					<a href="https://plus.google.com/u/0/b/106608290098923557575/" class="gp" target="_blank">Google+</a>
+					<a href="https://plus.google.com/u/0/107415582900361267191/posts" class="gp" target="_blank">Google+</a>
+					<a href="https://twitter.com/estelife" class="tw" target="_blank">Twitter</a>
+					<span>Наша новостная лента:</span>
+					<a href="http://feeds.feedburner.com/estelife/SgfF" target="_blank" class="rss">RSS</a>
 				</div>
 				<?php
 				$APPLICATION->IncludeComponent(
