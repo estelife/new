@@ -6,7 +6,7 @@
 		<!--endif!-->
 	</div>
 	<div class="field">
-		<label for="name">Наименование</label>
+		<label for="name">Наименование клиники</label>
 		<input name="name" type="text" value="<!--$filter.name!-->" class="text" />
 		<span class="block"></span>
 	</div>
