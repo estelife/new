@@ -4751,3 +4751,11 @@ form.quality .submit,
 .reviews .item .row:last-child {
 	border:none;
 }
+.loader {
+	position: fixed;
+	top: 0;
+	height: 4px;
+	width: 0;
+	background: #E50364;
+	box-shadow: 0 0 5px #868686;
+}

@@ -249,8 +249,9 @@ class VString {
 				$mVar->$sVar=self::jsonFixCyr($mValue);
 			}
 		}elseif(is_string($mVar)){
-			$mVar=iconv('cp1251', 'utf-8', $mVar);
+			$mVar = mb_convert_encoding($mVar, 'utf-8');
 		}
+
 		return $mVar;
 	}
 

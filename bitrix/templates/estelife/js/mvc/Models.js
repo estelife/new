@@ -29,11 +29,14 @@ define(['mvc/Views'],function(Views){
 
 		sync:function(){
 			var model=this;
+			EL.loader.startWithPercent();
+			EL.loader.setPercent(20);
 
-			if(this.pages && 0<this.pages.length<10){
+			if(this.pages && 0 < this.pages.length < 10){
 				var data={},
 					numRequests=0,
-					maxTimeouts=0;
+					maxTimeouts= 0,
+					percentIntval = 50 / this.pages.length;
 
 				_.each(this.pages,function(page){
 					$.get('/'+page,{},function(response){
@@ -46,8 +49,10 @@ define(['mvc/Views'],function(Views){
 							}else if(window.console)
 								console.error(e,page);
 						}
+
+						EL.loader.setPercent((numRequests+percentIntval)+10);
 						numRequests++;
-						maxTimeouts++;
+//						maxTimeouts++;
 					});
 				});
 
@@ -62,17 +67,22 @@ define(['mvc/Views'],function(Views){
 				timeout();
 			}else if(this.page){
 				var page=this.page;
-				$.get('/'+page,{},function(response){
-					try{
+
+				$.get('/'+page,{},function(response) {
+					try {
 						response=$.parseJSON(response);
+						EL.loader.setPercent(70);
 						model.set(response);
-					}catch(e){
-						if(model.staticPage){
+					} catch(e) {
+						if (model.staticPage) {
 							model.set({
 								'page':response
 							});
-						}else if(window.console)
+						}else if(window.console) {
 							console.error(e,page);
+						}
+
+						EL.loader.setPercent(100);
 					}
 				});
 			}

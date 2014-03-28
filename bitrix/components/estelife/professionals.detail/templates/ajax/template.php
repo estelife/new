@@ -2,7 +2,7 @@
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	die();
 
-echo json_encode(array(
+echo \core\types\VString::jsonSafeEncode(array(
 	'detail'=>$arResult['professional'],
 	'crumb'=>array(
 		array(

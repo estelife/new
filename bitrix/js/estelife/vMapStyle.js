@@ -6,9 +6,6 @@
  * To change this template use File | Settings | File Templates.
  */
 var VMapStyle=(function(){
-	if (typeof google == 'undefined')
-		return null;
-
 	return {
 		mapOptions:function(){
 			return {
