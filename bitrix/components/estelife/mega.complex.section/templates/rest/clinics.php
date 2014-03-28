@@ -6,7 +6,7 @@ $APPLICATION->IncludeComponent(
 	"estelife:clinics.list",
 	"ajax",
 	array(
-		"PAGE_COUNT" => 10,
+		"PAGE_COUNT" => 21,
 	),
 	false
 );

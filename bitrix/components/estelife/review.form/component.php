@@ -60,6 +60,11 @@ if ($nClinicId) {
 	$arResult['specialists'] = $arTemp;
 }
 
+$arResult['user_id'] = '';
+$arResult['user_name'] = '';
+$arResult['user_email'] = '';
+$arResult['user_last_name'] = '';
+$arResult['user_phone'] = '';
 $arResult['rating_doctor'] = 0;
 $arResult['rating_stuff'] = 0;
 $arResult['rating_service'] = 0;
@@ -285,7 +290,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$arResult['user_id'] = $USER->GetID();
 		$arResult['user_name'] = $USER->GetFirstName();
 		$arResult['user_email'] = $USER->GetEmail();
-		$arResult['user_phone'] = $USER->GetParam('PERSONAL_PHONE');
 		$arResult['user_last_name'] = $USER->GetLastName();
 	}
 }
