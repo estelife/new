@@ -62,7 +62,6 @@ $arSpecialists = $obQuery->select()->all();
 
 
 
-
 foreach($arMathes as $key=>$value){
 	foreach($value as $val){
 
@@ -95,7 +94,7 @@ foreach($arMathes as $key=>$value){
 							<div class="about">
 								<a href="/pf'.$nSpec.'"><img src="/upload/'.$arSpec['image'].'" alt="'.$sSpecName.'" title="'.$sSpecName.'" /></a>
 								<b>'.$sSpecName.'</b>
-								<i>'.$sShortDescription.'</i>
+								<i>'.$sShortDesription.'</i>
 							</div>
 							<p>'.$sText.'</p>
 						</div>';
