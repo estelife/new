@@ -187,10 +187,8 @@ var Estelife=function(s){
 		}
 	};
 
-	this.goto=function(toElement,fromAllPosition,noAnimated){
-		var target=(this.browser().webkit) ?
-			$('body') :
-			$('html');
+	this.goto=function(toElement, fromAllPosition, noAnimated){
+		var target=(this.browser().webkit) ? $('body') : $('html');
 
 		if(toElement && toElement.length>0){
 			var top=toElement.offset().top,

@@ -28,20 +28,20 @@
 		<!--if($detail.recomended==1)!-->
 			<div class="tabs-menu menu_tab">
 				<ul>
-					<li class="active t1"><a href="#">О клинике<i></i></a></li>
-					<li class="t3"><a href="#">Услуги и цены<i></i></a></li>
-					<li class="t2"><a href="#">Акции<i></i></a></li>
+					<li class="t1<!--if($detail.CURRENT_TAB==base)!--> active<!--endif!-->"><a href="/cl<!--$detail.id!-->/">О клинике<i></i></a></li>
+					<li class="t3<!--if($detail.CURRENT_TAB==prices)!--> active<!--endif!-->"><a href="/cl<!--$detail.id!-->/prices/">Услуги и цены<i></i></a></li>
+					<li class="t2<!--if($detail.CURRENT_TAB==promotions)!--> active<!--endif!-->"><a href="/cl<!--$detail.id!-->/promotions/">Акции<i></i></a></li>
 					<!--if($detail.articles)!-->
-					<li class="t4"><a href="#">Статьи<i></i></a></li>
+					<li class="t4<!--if($detail.CURRENT_TAB==articles)!--> active<!--endif!-->"><a href="/cl<!--$detail.id!-->/articles/">Статьи<i></i></a></li>
 					<!--endif!-->
 					<!--if($detail.professionals)!-->
-					<li class="t6"><a href="#">Специалисты<i></i></a></li>
+					<li class="t6<!--if($detail.CURRENT_TAB==specialists)!--> active<!--endif!-->"><a href="/cl<!--$detail.id!-->/specialists/">Специалисты<i></i></a></li>
 					<!--endif!-->
-					<li class="t7"><a href="#">Отзывы<i></i></a></li>
-					<li class="t5"><a href="#">Контакты<i></i></a></li>
+					<li class="t7<!--if($detail.CURRENT_TAB==reviews)!--> active<!--endif!-->"><a href="/cl<!--$detail.id!-->/reviews/">Отзывы<i></i></a></li>
+					<li class="t5<!--if($detail.CURRENT_TAB==contacts)!--> active<!--endif!-->"><a href="/cl<!--$detail.id!-->/contacts/">Контакты<i></i></a></li>
 				</ul>
 			</div>
-			<div class="tabs tab1">
+			<div class="tabs tab1<!--if($detail.CURRENT_TAB!=base)!--> none<!--endif!-->">
 				<!--if($detail.gallery)!-->
 					<div class="gallery">
 						<div class="gallery-in">
@@ -67,7 +67,7 @@
 				<!--endif!-->
 				<p><!--$detail.detail_text!--></p>
 			</div>
-			<div class="tabs tab2 services none">
+			<div class="tabs tab2 services<!--if($detail.CURRENT_TAB!=prices)!--> none<!--endif!-->">
 				<span>Перечень услуг и цен является ориентировочным и содержит лишь часть полного комплекса процедур и операций, проводимых специалистами клиники.
 					Для получения более подробной информации, пожалуйста, позвоните по телефону, указанному в контактных данных.</span>
 				<!--foreach($detail.specializations as $key=>$val)!-->
@@ -88,7 +88,7 @@
 					<!--endforeach!-->
 				<!--endforeach!-->
 			</div>
-			<div class="tabs tab3 none">
+			<div class="tabs tab3<!--if($detail.CURRENT_TAB!=promotions)!--> none<!--endif!-->">
 				<div class="promotions">
 					<div class="items">
 						<!--if($detail.akzii)!-->
@@ -145,7 +145,7 @@
 				</div>
 			</div>
 			<!--if($detail.articles)!-->
-				<div class="tabs tab4 none">
+				<div class="tabs tab4<!--if($detail.CURRENT_TAB!=articles)!--> none<!--endif!-->">
 					<div class="items">
 						<!--foreach($detail.articles as $key=>$val)!-->
 							<div class="item article">
@@ -163,7 +163,7 @@
 				</div>
 			<!--endif!-->
 			<!--if($detail.professionals)!-->
-				<div class="tabs tab6 none">
+				<div class="tabs tab6<!--if($detail.CURRENT_TAB!=specialists)!--> none<!--endif!-->">
 					<div class="items">
 						<!--foreach ($detail.professionals as $key=>$val)!-->
 							<div class="item specialist">
@@ -186,11 +186,11 @@
 				</div>
 			<!--endif!-->
 
-			<div class="tabs tab7 none">
+			<div class="tabs tab7<!--if($detail.CURRENT_TAB!=reviews)!--> none<!--endif!-->">
 				<div class="reviews"></div>
 			</div>
 
-			<div class="tabs tab-c tab5 none">
+			<div class="tabs tab-c tab5<!--if($detail.CURRENT_TAB!=contacts)!--> none<!--endif!-->">
 				<!--if ($detail.contacts)!-->
 					<!--foreach($detail.contacts as $key=>$val)!-->
 						<ul>

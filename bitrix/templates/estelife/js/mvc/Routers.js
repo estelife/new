@@ -23,7 +23,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			'professionals/(.*)': 'professionalsList',
 			'ap:number/': 'apparatusesDetail',
 			'am:number/': 'apparatusesMakersDetail',
-			'cl:number/': 'clinicsDetail',
+			'cl:number/(:param/)': 'clinicsDetail',
 			'ev:number/': 'eventsDetail',
 			'ps:number/': 'preparationsDetail',
 			'th:number/': 'threadsDetail',
@@ -862,10 +862,10 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			model.fetch();
 		},
 
-		clinicsDetail: function(id){
+		clinicsDetail: function(id, path){
 			var model=new Models.Inner(null,{
 				pages:[
-					'cl'+id+'/',
+					'cl'+id+'/'+(path && path!='undefined' ? path + '/' : ''),
 					'clinics_filter/'+EL.query().toString(),
 					'review_list/?clinic_id='+id,
 					'banner/'
