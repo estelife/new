@@ -46,10 +46,12 @@
 				?>
 				<div class="cols col2 social">
 					<span>Мы в соцсетях:</span>
-					<a href="http://vk.com/estelife_ru" class="vk" target="_blank">ВКонтакте</a>
+					<a href="http://vk.com/club58189724" class="vk" target="_blank">ВКонтакте</a>
 					<a href="https://www.facebook.com/EsteLife.RU" class="fb" target="_blank">Facebook</a>
-					<a href="http://www.youtube.com/esteliferu" class="yt" target="_blank">Youtube</a>
-					<a href="https://plus.google.com/u/0/b/106608290098923557575/" class="gp" target="_blank">Google+</a>
+					<a href="https://plus.google.com/u/0/107415582900361267191/posts" class="gp" target="_blank">Google+</a>
+					<a href="https://twitter.com/estelife" class="tw" target="_blank">Twitter</a>
+					<span>Наша новостная лента:</span>
+					<a href="http://feeds.feedburner.com/estelife/SgfF" target="_blank" class="rss">RSS</a>
 				</div>
 				<?php
 				$APPLICATION->IncludeComponent(
@@ -66,9 +68,6 @@
 			<a href="/" class="logo">
 				Портал<br /> эстетической медицины
 			</a>
-			<div class="buket">
-				<img src="/bitrix/templates/estelife/images/buket.png" >
-			</div>
 			<? $APPLICATION->IncludeComponent("estelife:search.form", "", Array(
 					"PAGE"	=>	"/search/"
 				)

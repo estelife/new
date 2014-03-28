@@ -92,7 +92,9 @@
 				<!--endif!-->
 			</select>
 		</div>
-		<a href="#" class="all">Все отзывы</a>
+		<!--if($reviews.filter.not_empty)!-->
+			<a href="/cl<!--$reviews.clinic_id!-->/" class="all">Все отзывы</a>
+		<!--endif!-->
 	</form>
 	<!--if ($reviews.reviews)!-->
 		<div class="items">
@@ -116,7 +118,11 @@
 						</li>
 						<li>
 							<b>Врач:</b>
-							<a href="<!--$val.professional_link!-->"><!--$val.professional_name!--></a>
+							<!--if($val.professional_link)!-->
+								<a href="<!--$val.professional_link!-->"><!--$val.professional_name!--></a>
+							<!--else!-->
+								<!--$val.professional_name!-->
+							<!--endif!-->
 						</li>
 						<li>
 							<b>Пациент:</b>

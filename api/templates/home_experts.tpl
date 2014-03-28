@@ -5,7 +5,7 @@
 			<!--foreach ($EXPERTS.iblock as $key=>$val)!-->
 			<div class="item<!--if($key>0)!--> none<!--endif!-->">
 				<div class="user">
-					<img src="<!--$val.IMG!-->" alt="<!--$val.NAME!-->" title="<!--$val.NAME!-->" width="146px" />
+					<img src="<!--$val.IMG!-->" alt="<!--$val.NAME!-->" title="<!--$val.NAME!-->" width="190" />
 					<b><!--$val.AUTHOR!--></b>
 					<i><!--$val.PROFESSION!--></i>
 				</div>

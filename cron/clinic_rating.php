@@ -9,65 +9,127 @@ define("NOT_CHECK_PERMISSIONS", true);
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
 CModule::IncludeModule('estelife');
 
-VRegistry::get('managment')->init('catalog');
-VRegistry::get('managment')->init('geo');
-VGeo::cities()->setSelect(new VPartSelect(array(
-	'id'
-)));
-$arCities=VGeo::cities()->items();
-$obObjects=new VObjects();
-$obObjects->setSelect(new VPartSelect(array(
-	'rating','id'
-)));
-$arDeleted=array();
+$obQuery = \core\database\VDatabase::driver()->createQuery();
+$obJoin = $obQuery->builder()
+	->from('estelife_clinic_reviews', 'review')
+	->field('review.id')
+	->field('review.specialist_id')
+	->field('clinic.city_id')
+	->field('clinic.id', 'clinic_id')
+	->field('rt.rating_doctor')
+	->field('rt.rating_stuff')
+	->field('rt.rating_service')
+	->field('rt.rating_quality')
+	->join();
+$obJoin->_left()
+	->_from('review', 'clinic_id')
+	->_to('estelife_clinics', 'id', 'clinic');
+$obJoin->_left()
+	->_from('review', 'id')
+	->_to('estelife_clinic_user_rating', 'review_id', 'rt');
 
-foreach($arCities as $arCity){
-	$obRatingInfo=new VRatingInfo();
-	$arScore=$obRatingInfo->setFilter(new VPartFilter(array(
-		'city_id'=>$arCity['id']
-	)))->items();
+$arReviews = $obQuery->select()->all();
 
-	if(empty($arScore))
-		continue;
+if (!empty($arReviews)) {
+	$arCities = array();
+	$arCounts = array();
 
-	$arObjects=array();
-	$arCounts=array();
+	$arRatingDoctor = array();
+	$arRatingStuff = array();
+	$arRatingService = array();
+	$arRatingQuality = array();
 
-	foreach($arScore as $arValue){
-		$arObjects[$arValue['object_id']][]=$arValue['value'];
+	$arSpecialistRatings = array();
+	$arSpecialistCounts = array();
 
-		if(!isset($arCounts[$arValue['object_id']]))
-			$arCounts[$arValue['object_id']]=0;
+	foreach($arReviews as $arReview) {
+		if (!isset($arCities[$arReview['city_id']]) && !in_array($arReview['clinic_id'], $arCities[$arReview['city_id']]))
+			$arCities[$arReview['city_id']][] = $arReview['clinic_id'];
 
-		$arCounts[$arValue['object_id']]++;
+		$arRatingDoctor[$arReview['clinic_id']][] = floatval($arReview['rating_doctor']);
+		$arRatingStuff[$arReview['clinic_id']][] = floatval($arReview['rating_stuff']);
+		$arRatingService[$arReview['clinic_id']][] = floatval($arReview['rating_service']);
+		$arRatingQuality[$arReview['clinic_id']][] = floatval($arReview['rating_quality']);
+
+		if (!isset($arCounts[$arReview['city_id']][$arReview['clinic_id']]))
+			$arCounts[$arReview['city_id']][$arReview['clinic_id']] = 0;
+
+		$arCounts[$arReview['city_id']][$arReview['clinic_id']] ++;
+
+		if (empty($arReview['specialist_id']))
+			continue;
+
+		$arSpecialistRatings[$arReview['specialist_id']][] = floatval($arReview['rating_doctor']);
+
+		if (!isset($arSpecialistCounts[$arReview['specialist_id']]))
+			$arSpecialistCounts[$arReview['specialist_id']] = 0;
+
+		$arSpecialistCounts[$arReview['specialist_id']] ++;
 	}
 
-	$nMaxScore=pow(max(array_values($arCounts)),1/10);
-	$obAction=new VObjectAction(null,null,VObjectAction::UPDATE);
+	$obQuery->builder()
+		->from('estelife_clinic_rating')
+		->filter()
+		->_ne('id', 0);
+	$obQuery->delete();
 
-	foreach($arObjects as $nObjectId=>$arScore){
-		$nCount=count($arScore);
-		$nScore=array_sum($arScore)/$nCount;
+	foreach($arCities as $nCityId => $arClinics) {
+		$nMaxScore = pow(max(array_values($arCounts[$nCityId])), 1/5);
 
-		$nRating=(log($nMaxScore,$nCount)+$nScore)/2;
+		foreach ($arClinics as $nClinicId) {
+			$nCount = count($arRatingDoctor[$nClinicId]);
 
-		if(is_nan($nRating))
-			$nRating=0;
+			$nScoreDoctor = array_sum($arRatingDoctor[$nClinicId]) / $nCount;
+			$nScoreStuff = array_sum($arRatingStuff[$nClinicId]) / $nCount;
+			$nScoreService = array_sum($arRatingService[$nClinicId]) / $nCount;
+			$nScoreQuality = array_sum($arRatingQuality[$nClinicId]) / $nCount;
 
-		try{
-			$obObject=$obObjects->item($nObjectId);
-			$obObject->set('rating',$nRating);
-			$obObject->write();
-		}catch(VException $e){
-			$arDeleted[]=$nObjectId;
+			$nRatingDoctor = (log($nMaxScore, $nCount) + $nScoreDoctor) / 2;
+			$nRatingStuff = (log($nMaxScore, $nCount) + $nScoreStuff) / 2;
+			$nRatingService = (log($nMaxScore, $nCount) + $nScoreService) / 2;
+			$nRatingQuality = (log($nMaxScore, $nCount) + $nScoreQuality) / 2;
+
+			if(is_nan($nRatingDoctor))
+				$nRatingDoctor = 0;
+
+			if(is_nan($nRatingStuff))
+				$nRatingStuff = 0;
+
+			if(is_nan($nRatingService))
+				$nRatingService = 0;
+
+			if(is_nan($nRatingQuality))
+				$nRatingQuality = 0;
+
+			$obQuery->builder()
+				->from('estelife_clinic_rating')
+				->value('clinic_id', $nClinicId)
+				->value('rating_doctor', $nRatingDoctor)
+				->value('rating_stuff', $nRatingStuff)
+				->value('rating_service', $nRatingService)
+				->value('rating_quality', $nRatingQuality)
+				->value('rating_full', ($nRatingDoctor + $nRatingStuff + $nRatingService + $nRatingQuality) / 4);
+			$obQuery->insert();
 		}
 	}
-}
 
-if(!empty($arDeleted)){
-	$obRatingInfo->setActionFilter(new VPartFilter(array(
-		'->object_id'=>$arDeleted
-	)))->delete();
+	foreach($arSpecialistRatings as $nSpecialistId => $arRatings) {
+		$nMaxScore = pow(max(array_values($arSpecialistCounts)), 1/5);
+		$nCount = count($arRatings);
+		$nScore = array_sum($arRatings) / $nCount;
+		$nRating = (log($nMaxScore, $nCount) + $nScore) / 2;
+
+		if(is_nan($nRating))
+			$nRating = 0;
+
+		$obQuery->builder()
+			->from('estelife_professionals')
+			->value('rating', $nRating)
+			->filter()
+			->_eq('id', $nSpecialistId);
+
+		$obQuery->update();
+	}
 }
 
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/epilog_after.php");

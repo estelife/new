@@ -17,7 +17,7 @@ ErrorDocument 404 /404.php
 	Options +FollowSymLinks
 	RewriteEngine On
 
-	RewriteCond %{REQUEST_URI} (/index1.php|/(pr|actions|stati|clinic|training|uchebnie-centry|club|examples|proizvoditeli|organizatory|maker-pills|pills|maker-apparatus)/(.*)|/novosti/[a-z0-9\-_]+/[^\/]+/|/(articles|podcast)/[a-z0-9\-]+\-[0-9]{6,8}/|/(apparatuses|preparations|apparatuses-makers|preparations-makers|trainings|trainig-centers|events|sponsors|promotions)/[a-z0-9\-_]+/|/apparatus/)
+	RewriteCond %{REQUEST_URI} (/index1.php|/(pr|actions|stati|clinic|training|uchebnie-centry|club|examples|proizvoditeli|organizatory|maker-pills|pills|maker-apparatus|sponsors)/(.*)|/novosti/[a-z0-9\-_]+/[^\/]+/|/(articles|podcast)/[a-z0-9\-]+\-[0-9]{6,8}/|/(apparatuses|preparations|apparatuses-makers|preparations-makers|trainings|trainig-centers|events|organizers|promotions)/[a-z0-9\-_]+/|/apparatus/)
 	RewriteRule ^(.*)$ /redirect301.php [L]
 
 	RewriteCond %{HTTP_HOST} ^www\.estelife\.ru$

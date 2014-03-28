@@ -20,9 +20,12 @@ switch($arPath[0]){
 	case 'organizatory':
 	case 'sponsors':
 	case 'uchebnie-centry':
+	case 'organizers':
 	case 'training-centers':
 		if($arPath[0]=='uchebnie-centry')
 			$arPath[0]='training-centers';
+		else if ($arPath[0]=='sponsors')
+			$arPath[0]='organizers';
 		else if($arPath[0]=='clinic')
 			$arPath[0]='clinics';
 		else if($arPath[0]=='organizatory')
