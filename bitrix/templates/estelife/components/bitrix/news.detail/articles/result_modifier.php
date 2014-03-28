@@ -11,62 +11,105 @@ if (!empty($arResult['SECTION']['PATH']))
 	$arResult['LAST_SECTION'] = array_pop($arResult['SECTION']['PATH']);
 
 
-$isShort =  stristr($arResult['DETAIL_TEXT'],'EXPERT');
+$isShort =  preg_match_all('[(.*)]',$arResult['DETAIL_TEXT'],$arMathes);
 
-if(!empty($isShort)){
+$arUsers = array();
 
-	$sSpec = str_replace(']','',$isShort);
-	$nSpec = str_replace('EXPERT_','',$sSpec);
-	$nSpec = intval($nSpec);
-	$sArText = explode(":", $isShort);
-	$sTextAr = explode(']',$sArText[1]);
-	$sText = trim($sTextAr[0]);
+foreach($arMathes as $key=>$value){
+	foreach($value as $val){
 
-	$obDriver = VDatabase::driver();
+		$isShort =  stristr($val,'EXPERT');
 
+		if(!empty($isShort)){
 
-	$obQuery = $obDriver->createQuery();
-	$obQuery->builder()
-		->from('user', 'u');
-	$obJoin=$obQuery->builder()->join();
-	$obJoin->_left()
-		->_from('u', 'ID')
-		->_to('estelife_professionals', 'user_id', 'ep');
-	$obQuery->builder()
-		->field('u.ID')
-		->field('u.NAME', 'user_name')
-		->field('u.LAST_NAME', 'last_name')
-		->field('u.SECOND_NAME', 'second_name')
-		->field('ep.image_id', 'image_id')
-		->field('ep.short_description','short_description');
-	$obQuery->builder()->filter()
-		->_eq('ep.id', $nSpec);
+			$sSpec = str_replace(']','',$isShort);
+			$nSpec = str_replace('EXPERT_','',$sSpec);
+			$nSpec = intval($nSpec);
 
-	$arSpec = $obQuery->select()->assoc();
+			array_push($arUsers,$nSpec);
+		}
+	}
+}
+
+$obDriver = VDatabase::driver();
 
 
-	if(!empty($arSpec)){
-		$sSpecName = ''.$arSpec['last_name'].' '.$arSpec['user_name'].' '.$arSpec['second_name'];
-		$file=CFile::ShowImage($arSpec['image_id'], 93, 127,'alt="'.$sSpecName.'"');
-		$sShortDesription = $arSpec['short_description'];
+$obQuery = $obDriver->createQuery();
+$obQuery->builder()
+	->from('user', 'u');
+$obJoin=$obQuery->builder()->join();
+$obJoin->_left()
+	->_from('u', 'ID')
+	->_to('estelife_professionals', 'user_id', 'ep');
+$obJoin->_left()
+	->_from('ep', 'image_id')
+	->_to('file', 'ID', 'fl');
+$obQuery->builder()
+	->field('u.ID')
+	->field('ep.id','user_id')
+	->field('u.NAME', 'user_name')
+	->field('u.LAST_NAME', 'last_name')
+	->field('u.SECOND_NAME', 'second_name')
+	->field(
+		$obQuery->builder()->_concat('fl.SUBDIR', '/', 'fl.FILE_NAME'),
+		'image'
+	)
+	->field('ep.short_description','short_description');
+$obQuery->builder()->filter()
+	->_in('ep.id', $arUsers);
 
-		$html = '<div class="specialist">
+$arSpecialists = $obQuery->select()->all();
+
+
+
+
+foreach($arMathes as $key=>$value){
+	foreach($value as $val){
+
+		$isShort =  stristr($val,'EXPERT');
+
+		if(!empty($isShort)){
+
+			$sSpec = str_replace(']','',$isShort);
+			$nSpec = str_replace('EXPERT_','',$sSpec);
+			$nSpec = intval($nSpec);
+			$sArText = explode(":", $isShort);
+			$sTextAr = explode(']',$sArText[1]);
+			$sText = trim($sTextAr[0]);
+
+			$arSpec = array();
+
+
+			foreach($arSpecialists as $key=>$value){
+				if($value['user_id'] == $nSpec){
+					$arSpec = $arSpecialists[$key];
+				}
+			}
+
+			if(!empty($arSpec)){
+				$sSpecName = ''.$arSpec['last_name'].' '.$arSpec['user_name'].' '.$arSpec['second_name'];
+				$sShortDesription = $arSpec['short_description'];
+
+				$html = '<div class="specialist">
 							<h2>Комментарий эксперта<i></i></h2>
 							<div class="about">
-								<a href="/pf'.$nSpec.'">'.$file.'</a>
+								<a href="/pf'.$nSpec.'"><img src="/upload/'.$arSpec['image'].'" alt="'.$sSpecName.'" title="'.$sSpecName.'" /></a>
 								<b>'.$sSpecName.'</b>
 								<i>'.$sShortDescription.'</i>
 							</div>
 							<p>'.$sText.'</p>
 						</div>';
 
-		$sShort = '[EXPERT_'.$nSpec.' : '.$sText.']';
+				$sShort = '[EXPERT_'.$nSpec.' : '.$sText.']';
 
-		$arResult['DETAIL_TEXT'] = str_replace($sShort,$html,$arResult['DETAIL_TEXT']);
+				$arResult['DETAIL_TEXT'] = str_replace($sShort,$html,$arResult['DETAIL_TEXT']);
+			}
+
+		}
 	}
-
-
 }
+
+
 
 $arResult['LAST_SECTION']['SECTION_PAGE_URL'] = preg_replace('/stati/', $arParams['SECTION_CODE'], $arResult['LAST_SECTION']['SECTION_PAGE_URL']);
 $arResult['IMG']=CFile::GetFileArray($arResult['PROPERTIES']['INSIDE']['VALUE']);
