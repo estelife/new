@@ -145,6 +145,7 @@ if (!empty($arClinics)){
 	$arResult['action']['clinic']=$arCurrent;
 	unset($arCurrent,$arOffices,$arClinics);
 }
+$arResult['action']['clinic']['link'] = $arResult['action']['clinic']['main']['link'].'promotions/';
 
 //Получение условий акции
 $obQuery = $obActions->createQuery();

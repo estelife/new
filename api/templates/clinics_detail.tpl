@@ -124,21 +124,8 @@
 						<!--else!-->
 							<div class="default">
 								<h3>Текущих акций нет</h3>
-								<p>На текущий момент Клиника <!--$detail.name!--> не проводит акций.</p>
-								<p>Однако, Вы можете оставить нам свой e-mail, и мы с радостью сообщим Вам о запуске новых акций от данной клиники.</p>
-								<form name="subscribe" method="post" action="" class="subscribe">
-									<div class="field">
-										<input type="text" name="email" class="text" placeholder="Ваш e-mail..." />
-									</div>
-									<div class="field check">
-										<input type="checkbox" name="always" checked="true" value="1" id="always" />
-										<label for="always">Хочу узнавать обо всех новых акциях, размещаемых на портале</label>
-										<input type="hidden" name="type" value="1" />
-										<input type="hidden" name="params[id]" value="<!--$detail.id!-->" />
-										<input type="hidden" name="params[city_id]" value="<!--$detail.main_contact.city_id!-->" />
-									</div>
-									<input type="submit" class="submit" value="Оставить" />
-								</form>
+								<p>На текущий момент клиника <!--$detail.name!--> не проводит акций.</p>
+
 							</div>
 						<!--endif!-->
 					</div>

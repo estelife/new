@@ -12,11 +12,11 @@
 			<h4>Личные данные</h4>
 			<div class="field require" data-handler="user_name">
 				<label for="user_name"><i>*</i>Имя</label>
-				<input type="text" name="user_name" id="user_name" class="text" value="" />
+				<input type="text" name="user_name" id="user_name" class="text" value="<!--$reviews.user_name!-->" />
 			</div>
 			<div class="field">
 				<label for="user_last_name">Фамилия</label>
-				<input type="text" name="user_last_name" id="user_last_name" class="text" value="" />
+				<input type="text" name="user_last_name" id="user_last_name" class="text" value="<!--$reviews.user_last_name!-->" />
 			</div>
 			<div class="field date require" data-handler="date_visit">
 				<label for="date_visit"><i>*</i>Дата посещения</label>
@@ -25,11 +25,11 @@
 			</div>
 			<div class="field require" data-handler="user_email">
 				<label for="user_email"><i>*</i>E-mail</label>
-				<input type="text" name="user_email" id="user_email" class="text" value="" />
+				<input type="text" name="user_email" id="user_email" class="text" value="<!--$reviews.user_email!-->" />
 			</div>
 			<div class="field">
 				<label for="user_phone">Телефон</label>
-				<input type="text" name="user_phone" id="user_phone" class="text" value="" />
+				<input type="text" name="user_phone" id="user_phone" class="text" value="<!--$reviews.user_phone!-->" />
 			</div>
 		</div>
 		<div class="group problem" data-handler="problem_id">

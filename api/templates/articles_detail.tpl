@@ -11,7 +11,8 @@
 		<li class="unlikes islike"><!--$detail.LIKES.countDislike!--><!--if($detail.LIKES.typeLike==2)!--> и Ваш<!--endif!--><i></i></li>
 	</ul>
 	<div class="announce">
-		<span itemprop="description"><!--$detail.DESCRIPTION!--></span>
+		<span itemprop="description" style="display:none;"><!--$detail.DESCRIPTION!--></span>
+		<span itemprop="description"><!--$detail.PREVIEW_TEXT!--></span>
 	</div>
 	<div class="article-img">
 		<div class="article-img-in">

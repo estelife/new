@@ -138,7 +138,7 @@ var Estelife=function(s){
 		var target=(this.browser().webkit) ? $('body') : $('html');
 
 		if(toElement && toElement.length>0){
-			var top=toElement.offset().top;
+			var top=toElement.offset().top - 10;
 			target.scrollTop(top);
 		}else{
 			(!noAnimated) ?
@@ -837,7 +837,9 @@ Estelife.prototype.loader = (function() {
 			loader.stop().animate({width: percentWidth + 'px'}, 200, 'swing', function(){
 				if (percent >= 100) {
 					percentStarted = false;
-					loader.hide();
+					setTimeout(function(){
+						loader.hide();
+					}, 100)
 				}
 			});
 		},
