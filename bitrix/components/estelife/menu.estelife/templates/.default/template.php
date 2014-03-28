@@ -22,7 +22,7 @@
 	<li><a href="/promotions/">Акции</a></li>
 	<li><a href="#" class="empty_link">События</a>
 		<ul class="submenu">
-			<li><a href="/sponsors/">Организаторы</a></li>
+			<li><a href="/organizers/">Организаторы</a></li>
 			<li><a href="/events/">Календарь событий</a></li>
 		</ul>
 	</li>

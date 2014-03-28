@@ -4,6 +4,8 @@ $APPLICATION->SetPageProperty("description",$arResult['PROPERTIES']['DESCRIPTION
 $APPLICATION->SetPageProperty("keywords",$arResult['PROPERTIES']['KEYWORDS']['VALUE']);
 $APPLICATION->SetPageProperty("title", $arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
+
+$sDescription = \core\types\VString::truncateToMin($arResult["PREVIEW_TEXT"],150);
 ?>
 <div class="content">
 	<div class="inner">
@@ -16,9 +18,9 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 		</ul>
 		<div itemscope itemtype="http://schema.org/ScholarlyArticle">
 		<div class="item detail article">
-			<meta itemprop="articleSection" content="<?=$arResult['LAST_SECTION']['NAME']?>">
+			<meta itemprop="genre" content="<?=$arResult['LAST_SECTION']['NAME']?>">
 			<h1 itemprop="headline"><?=$arResult["NAME"]?></h1>
-			<span itemprop="url" hidden="hidden"><?='http://estelife.ru/'.$arParams["LINK_CODE"].''.$arResult['ID'].'' ?></span>
+			<span itemprop="url" hidden="hidden"><?='h'.$arParams["LINK_CODE"].''.$arResult['ID'].'/' ?></span>
 			<ul class="stat notlike" data-elid="<?=$arResult['LIKES']['element_id']?>" data-type="<?=$arResult['LIKES']['type']?>">
 				<?php if (!empty($arResult['ACTIVE_FROM'])):?>
 				<span itemprop="datePublished" hidden="hidden"><?=date('Y-m-d',strtotime($arResult['ACTIVE_FROM']))?></span>
@@ -29,12 +31,12 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 				<li class="unlikes islike"><?=$arResult['LIKES']['countDislike']?><?if ($arResult['LIKES']['typeLike']==2):?> и Ваш<?endif?><i></i></li>
 			</ul>
 			<div class="announce">
-			<span itemprop="description"><?=$arResult["PREVIEW_TEXT"];?></span>
+			<span itemprop="description"><?=$sDescription?></span>
 			</div>
 			<?php if(!empty($arResult['IMG']['SRC'])): ?>
 				<div class="article-img">
 					<div class="article-img-in">
-						<span itemprop="image" hidden="hidden"><?=$arResult['IMG']['SRC']?></span><img src="<?=$arResult['IMG']['SRC']?>" alt="<?=$arResult["NAME"]?>" title="<?=$arResult["NAME"]?>">
+						<span itemprop="image" hstyle="display: none;"<?=$arResult['IMG']['SRC']?></span><img src="<?=$arResult['IMG']['SRC']?>" alt="<?=$arResult["NAME"]?>" title="<?=$arResult["NAME"]?>">
 					</div>
 					<?php if (!empty($arResult['IMG']['DESCRIPTION'])):?>
 						<div class="article-img-desc">
@@ -44,6 +46,17 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 				</div>
 			<?php endif; ?>
 			<div itemprop="articleBody"><?=$arResult["DETAIL_TEXT"];?></div>
+			<?php if (!empty($arResult['PROPERTIES']['SOURCE']['VALUE'])){?>
+				<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+    					<span itemprop="name" hidden="hidden"><?=$arResult['PROPERTIES']['SOURCE']['VALUE']?></span>
+				</span>
+				<div class="author"><?=$arResult['PROPERTIES']['SOURCE']['VALUE']?></div>
+			<?php }else{ ?>
+				<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+    					<span itemprop="name" hidden="hidden">EsteLife.RU</span>
+				</span>
+				<div class="author">EsteLife.RU</div>
+			<? } ?>
 			<div class="info">
 				<ul class="stat" data-elid="<?=$arResult['LIKES']['element_id']?>" data-type="<?=$arResult['LIKES']['type']?>">
 					<li><a href="#" class="likes islike<?if ($arResult['LIKES']['typeLike']==1):?> active<?endif?>" data-help="Нравится"><?=$arResult['LIKES']['countLike']?><?if ($arResult['LIKES']['typeLike']==1):?> и Ваш<?endif?><i></i></a></li>
@@ -60,14 +73,6 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 							<?=$arResult['utm']?>
 						</div>
 					<?php endif; ?>
-					<?php if (!empty($arResult['PROPERTIES']['SOURCE']['VALUE'])):?>
-					<meta content="Author Name"><?=$arResult['PROPERTIES']['SOURCE']['VALUE']?></meta>
-					Автор статьи
-					<span itemprop="author" itemscope itemtype="http://schema.org/Person">
-    					<span itemprop="name" hidden="hidden"><?=$arResult['PROPERTIES']['SOURCE']['VALUE']?></span>
-					</span>
-					<b><?=$arResult['PROPERTIES']['SOURCE']['VALUE']?></b>
-					<?php endif?>
 				</div>
 			</div>
 		</div>
@@ -83,33 +88,20 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 		);?>
 		</div>
 	</div>
-	<div class="adv adv-out right">
-		<?$APPLICATION->IncludeComponent("bitrix:advertising.banner","",Array(
-				"TYPE" => "main_right_1",
-				"CACHE_TYPE" => "A",
-				"NOINDEX" => "N",
-				"CACHE_TIME" => "3600"
-			)
-		);?>
-	</div>
-<!--	<div class="adv adv-out right">-->
-<!--		--><?//$APPLICATION->IncludeComponent("bitrix:advertising.banner","",Array(
-//				"TYPE" => "main_right_2",
-//				"CACHE_TYPE" => "A",
-//				"NOINDEX" => "N",
-//				"CACHE_TIME" => "3600"
-//			)
-//		);?>
-<!--	</div>-->
-<!--	<div class="adv top">-->
-<!--		--><?//$APPLICATION->IncludeComponent("bitrix:advertising.banner","",Array(
-//				"TYPE" => "main_center_1",
-//				"CACHE_TYPE" => "A",
-//				"NOINDEX" => "N",
-//				"CACHE_TIME" => "3600"
-//			)
-//		);?>
-<!--	</div>-->
+	<?$APPLICATION->IncludeComponent("bitrix:advertising.banner","right",Array(
+			"TYPE" => "main_right_1",
+			"CACHE_TYPE" => "A",
+			"NOINDEX" => "N",
+			"CACHE_TIME" => "3600"
+		)
+	);?>
+	<?$APPLICATION->IncludeComponent("bitrix:advertising.banner","right",Array(
+			"TYPE" => "main_right_2",
+			"CACHE_TYPE" => "A",
+			"NOINDEX" => "N",
+			"CACHE_TIME" => "3600"
+		)
+	);?>
 
 	<?
 		GLOBAL $samefilter;

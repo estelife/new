@@ -48,6 +48,9 @@ CModule::AddAutoloadClasses(
 
 		// companies
 		'companies\VCompanies' => "classes/companies/class.VCompanies.php",
+
+		// promotions
+		'promotions\VPromotions' => "classes/promotions/class.VPromotions.php",
 		
 		// geo
 		'geo\VGeo' => "classes/geo/class.VGeo.php",

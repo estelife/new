@@ -19,6 +19,7 @@
 	<link rel="shortcut icon" href="/favicon.png" type="image/icon">
 	<link rel="stylesheet" type="text/css" href="/bitrix/templates/estelife/css/style.css" />
 	<link rel="stylesheet" type="text/css" href="/bitrix/templates/estelife/template_styles.css" />
+	<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://estelife.ru/rss.php" />
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -67,9 +68,6 @@
 			<a href="/" class="logo">
 				Портал<br /> эстетической медицины
 			</a>
-			<div class="buket">
-				<img src="/bitrix/templates/estelife/images/buket.png" >
-			</div>
 			<? $APPLICATION->IncludeComponent("estelife:search.form", "", Array(
 					"PAGE"	=>	"/search/"
 				)

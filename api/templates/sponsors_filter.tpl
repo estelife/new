@@ -1,4 +1,4 @@
-<form name="sponsors" class="filter" method="get" action="/sponsors/" >
+<form name="organizers" class="filter" method="get" action="/organizers/" >
 	<div class="title">
 		<h4>Поиск организатора</h4>
 		<!--if($count)!-->
@@ -38,6 +38,6 @@
 
 	<input type="submit" value="Найти организатора" class="submit">
 	<!--if($empty)!-->
-		<a href="/sponsors/?country=all&city=all" class="clear">Сбросить фильтр</a>
+		<a href="/organizers/?country=all&city=all" class="clear">Сбросить фильтр</a>
 	<!--endif!-->
 </form>

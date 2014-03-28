@@ -1,6 +1,6 @@
 <?php if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
 
-<form name="sponsors" class="filter" method="get" action="/sponsors/" >
+<form name="organizers" class="filter" method="get" action="/organizers/" >
 	<div class="title">
 		<h4>Поиск организатора</h4>
 		<span class="count-result"><?=$arResult['count']?></span>
@@ -38,6 +38,6 @@
 
 	<input type="submit" value="Найти организатора" class="submit">
 	<?php if ($arResult['empty']):?>
-		<a href="/sponsors/?country=all&city=all" class="clear">Сбросить фильтр</a>
+		<a href="/organizers/?country=all&city=all" class="clear">Сбросить фильтр</a>
 	<?php endif?>
 </form>

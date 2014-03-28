@@ -180,6 +180,7 @@ foreach ($arResult['clinic']['specializations'] as $val){
 }
 
 $arResult['clinic']['specializations_string'] = implode(', ', $arResult['clinic']['specializations_string']);
+$arResult['clinic']['specializations_string'] = mb_strtolower($arResult['clinic']['specializations_string']);
 
 //Получаем галерею
 $obQuery = $obClinics->createQuery();
@@ -354,17 +355,7 @@ if(!empty($arResult['clinic']['logo_id']))
 
 $arResult['clinic']['detail_text']=htmlspecialchars_decode($arResult['clinic']['detail_text'],ENT_NOQUOTES);
 
-//получение города в родительском патеже
-if (!empty($arResult['clinic']['city_id'])){
-	$obRes = CIBlockElement::GetList(Array(), array("IBLOCK_ID"=>16,"ID"=>$arResult['clinic']['city_id']), false, false, array("PROPERTY_CITY"));
-	$arCity = $obRes->Fetch();
-	if (!empty($arCity['PROPERTY_CITY_VALUE'])){
-		$arResult['clinic']['city_name']=$arCity = $arCity['PROPERTY_CITY_VALUE'];
-	}else{
-		$arResult['clinic']['city_name']=$arCity = $arResult['clinic']['city'];
-	}
-}
-
+$arResult['clinic']['city_name']=$arCity = $arResult['clinic']['city'];
 if (!empty($arCity))
 	$arCity = $arCity;
 else

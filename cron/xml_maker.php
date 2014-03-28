@@ -232,11 +232,10 @@ if (!empty($arData)){
 //Список подкастов
 $obRes = CIBlockSection::GetList(
 	array('created'=>'desc'),
-	array('ACTIVE'=>'Y', 'IBLOCK_ID'=>14, 'SECTION_ID'=>'208'),
+	array('ACTIVE'=>'Y', 'IBLOCK_ID'=>36),
 	false,
 	array('CODE', 'NAME')
 );
-
 while ($res=$obRes->Fetch()){
 	$arUrl[] = 'http://estelife.ru/podcast/'.$res['CODE'].'/';
 }
@@ -244,11 +243,10 @@ while ($res=$obRes->Fetch()){
 //Список статей для подкастов
 $obRes = CIBlockElement::GetList(
 	array('SORT'=>'ASC'),
-	array('ACTIVE'=>'Y', 'IBLOCK_ID'=>14, 'SECTION_ID'=>'208','INCLUDE_SUBSECTIONS' => "Y"),
+	array('ACTIVE'=>'Y', 'IBLOCK_ID'=>36, 'INCLUDE_SUBSECTIONS' => "Y"),
 	false,
 	false
 );
-
 while ($res=$obRes->Fetch()){
 	$arUrl[] = 'http://estelife.ru/pt'.$res['ID'].'/';
 }

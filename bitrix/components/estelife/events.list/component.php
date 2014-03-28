@@ -288,7 +288,7 @@ $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
 $arResult['nav']=$obNav->getNav();
 
-$sTitle='Календарь событий по косметологии и пластической хирургии';
+$sTitle='Календарь событий в сфере эстетической медицины';
 $sDescription='Все важные события в мире косметологии и пластической хирургиив одном месте';
 
 if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){

@@ -11,7 +11,7 @@ echo json_encode(array(
 		),
 		array(
 			'name'=>'Организаторы',
-			'link'=>'/sponsors/'
+			'link'=>'/organizers/'
 		),
 		array(
 			'name'=>$arResult['company']['name'],
