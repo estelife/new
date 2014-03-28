@@ -125,9 +125,10 @@ require([
 			'.items .item:not(.article,.activity), .items .article .item-in, .item.activity .user, .general-news .col1, .general-news .col2 .img',
 			EL.touchEvent.callback(function(event,target){
 				var currentTag=event.target.tagName,
-					parentTag=target.parent()[0].tagName,
+					eventTarget = $(event.target),
+					parentTag=eventTarget.parent()[0].tagName,
 					link=(currentTag=='A') ?
-						target.attr('href') :
+						eventTarget.attr('href') :
 						target.find('a:first').attr('href');
 
 				if(link=='#'){
@@ -479,6 +480,7 @@ require([
 			e.preventDefault();
 		}).on('submit', 'form[name=add_review]', function(e){
 			var form = new EL.Form($(this));
+
 			form.registerAfterSend(function(data){
 				if (!_.isObject(data) || !data.hasOwnProperty('reviews'))
 					throw 'Какой-то fail';

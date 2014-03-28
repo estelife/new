@@ -121,7 +121,6 @@ define(['tpl/Template'],function(Template){
 				this.template.ready(function(){
 					ob.template.set('list', ob.data.list);
 					ob.$el.append(ob.template.render());
-					EL.goto($('.main_menu'),false,true);
 				});
 			}
 
@@ -193,8 +192,6 @@ define(['tpl/Template'],function(Template){
 
 					ob.$el.find('.reviews')
 						.replaceWith(reviewsView.$el);
-
-					EL.goto($('.main_menu'), false, true);
 
 					Events.push({
 						target:$('body'),
@@ -516,6 +513,8 @@ define(['tpl/Template'],function(Template){
 				});
 			}
 
+			EL.goto($('.main_menu'));
+			EL.loader.setPercent(100);
 			return this;
 		}
 	});
@@ -524,6 +523,7 @@ define(['tpl/Template'],function(Template){
 		el:'div.reviews',
 		render:function(){
 			if(_.isObject(this.data) && this.data.hasOwnProperty('reviews')){
+				EL.loader.setPercent(80);
 				var ob=this;
 
 				if(this.$el.length==0){
@@ -541,9 +541,13 @@ define(['tpl/Template'],function(Template){
 						'target':ob.$el.find('form'),
 						'type':'updateForm'
 					});
+
+					EL.loader.setPercent(100);
 				});
 
 				ob.el=ob.$el[0];
+			} else {
+				EL.loader.setPercent(100);
 			}
 
 			return this;

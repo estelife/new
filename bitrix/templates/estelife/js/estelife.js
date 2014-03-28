@@ -107,59 +107,6 @@ var Estelife=function(s){
 		})();
 	};
 
-	this.bigLoader=function(){
-		return {
-			'create':function(){
-				var loader=$('.el-big-loader');
-
-				if(loader.length<1){
-					loader=$('<div></div>').addClass('el-big-loader');
-					$('body').append(loader);
-				}
-
-				loader.stop().fadeTo(200,0.9);
-			},
-			'destroy':function(){
-				$('.el-big-loader').stop().fadeTo(200,0);
-			}
-		}
-	};
-
-	this.smallLoader=function(){
-		return {
-			'create':function(el){
-				var find=-1,
-					tag=el[0].tagName.toLowerCase();
-
-				if((find=$.inArray(tag,['select','input','textarea']))>-1){
-					if(find==0){
-						var temp=el.next();
-						if(temp.hasClass('select'))
-							el=temp;
-					}
-
-					var loader=$('.el-small-loader');
-
-					if(loader.length<1){
-						loader=$('<div></div>').addClass('el-small-loader');
-						$('body').append(loader);
-					}else{
-						loader.show();
-					}
-
-					loader.css({
-						'position':'absolute',
-						'top':el.offset().top+4,
-						'left':el.offset().left+el.width()-(find==0 ? 50 : 12)
-					});
-				}
-			},
-			'destroy':function(){
-				$('.el-small-loader').hide();
-			}
-		}
-	};
-
 	this.formBlock=function(){
 		return {
 			'create':function(el){
@@ -191,14 +138,8 @@ var Estelife=function(s){
 		var target=(this.browser().webkit) ? $('body') : $('html');
 
 		if(toElement && toElement.length>0){
-			var top=toElement.offset().top,
-				currentScroll=target.scrollTop();
-
-			if(fromAllPosition || currentScroll>top){
-				(!noAnimated) ?
-					target.animate({'scrollTop':top+'px'},200) :
-					target.scrollTop(top);
-			}
+			var top=toElement.offset().top;
+			target.scrollTop(top);
 		}else{
 			(!noAnimated) ?
 				target.animate({'scrollTop':'0px'},200) :
@@ -862,6 +803,54 @@ Estelife.prototype.Form = function(f) {
 		return form;
 	}
 };
+
+Estelife.prototype.loader = (function() {
+	var loader,
+		percentStarted;
+
+	function _create() {
+		if (!loader) {
+			loader = $('<div class="loader"></div>');
+			$('body').append(loader);
+		}
+	}
+
+	return {
+		startWithPercent: function() {
+			_create();
+			loader.width(0).show();
+			percentStarted = true;
+		},
+		setPercent:function(percent) {
+			if (!percentStarted)
+				return;
+
+			var windowWidth = $(window).width();
+			percent = parseFloat(percent);
+
+			if (isNaN(percent) || percent < 0)
+				percent = 0;
+			else if (percent > 100)
+				percent = 100;
+
+			var percentWidth = windowWidth * (percent / 100);
+			loader.stop().animate({width: percentWidth + 'px'}, 200, 'swing', function(){
+				if (percent >= 100) {
+					percentStarted = false;
+					loader.hide();
+				}
+			});
+		},
+		start: function() {
+			_create();
+			loader.width(0)
+				.show()
+				.animate({width: $(window).width() + 'px'}, 500, 'swing', function(){
+					loader.hide();
+				});
+		}
+	};
+})();
 
 var EL=new Estelife({
 	'path':'/bitrix/templates/estelife/js'

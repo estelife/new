@@ -17,9 +17,6 @@ function VMap(){
 	};
 
 	this.create=function(mapElement,lat,lng){
-		if (!VMapStyle)
-			return;
-
 		if(typeof mapElement!='object' || !(mapElement instanceof jQuery) || mapElement.length<=0)
 			return;
 
@@ -54,9 +51,6 @@ function VMap(){
 	};
 
 	this.load=function(callback){
-		if (!prvt.map)
-			return;
-
 		google.maps.event.addListenerOnce(prvt.map, 'idle', function(){
 			callback();
 		});
@@ -151,9 +145,6 @@ function VMap(){
 						user=marker;
 					},
 					add:function(marker,icon){
-						if(!prvt.map)
-							return;
-
 						if(typeof marker!='object')
 							throw 'incorrect marker type';
 
@@ -262,9 +253,6 @@ function VMap(){
 					false;
 			};
 			this.googleMarker=function(){
-				if(!prvt.map)
-					return null;
-
 				if(!googleMarker){
 					googleMarker=new google.maps.Marker({
 						draggable: false,
