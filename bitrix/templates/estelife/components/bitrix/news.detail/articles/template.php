@@ -20,7 +20,7 @@ $sDescription = \core\types\VString::truncateToMin($arResult["PREVIEW_TEXT"],150
 		<div class="item detail article">
 			<meta itemprop="genre" content="<?=$arResult['LAST_SECTION']['NAME']?>">
 			<h1 itemprop="headline"><?=$arResult["NAME"]?></h1>
-			<span itemprop="url" hidden="hidden"><?='h'.$arParams["LINK_CODE"].''.$arResult['ID'].'/' ?></span>
+			<span itemprop="url" hidden="hidden">http://estelife.ru/<?='h'.$arParams["LINK_CODE"].''.$arResult['ID'].'/' ?></span>
 			<ul class="stat notlike" data-elid="<?=$arResult['LIKES']['element_id']?>" data-type="<?=$arResult['LIKES']['type']?>">
 				<?php if (!empty($arResult['ACTIVE_FROM'])):?>
 				<span itemprop="datePublished" hidden="hidden"><?=date('Y-m-d',strtotime($arResult['ACTIVE_FROM']))?></span>
@@ -31,12 +31,13 @@ $sDescription = \core\types\VString::truncateToMin($arResult["PREVIEW_TEXT"],150
 				<li class="unlikes islike"><?=$arResult['LIKES']['countDislike']?><?if ($arResult['LIKES']['typeLike']==2):?> и Ваш<?endif?><i></i></li>
 			</ul>
 			<div class="announce">
-			<span itemprop="description"><?=$sDescription?></span>
+			<span itemprop="description" style="display:none;"><?=$sDescription?></span>
+			<span><?=$arResult["PREVIEW_TEXT"];?></span>
 			</div>
 			<?php if(!empty($arResult['IMG']['SRC'])): ?>
 				<div class="article-img">
 					<div class="article-img-in">
-						<span itemprop="image" hstyle="display: none;"<?=$arResult['IMG']['SRC']?></span><img src="<?=$arResult['IMG']['SRC']?>" alt="<?=$arResult["NAME"]?>" title="<?=$arResult["NAME"]?>">
+						<span itemprop="image" style="display: none;">http://estelife.ru<?=$arResult['IMG']['SRC']?></span><img src="<?=$arResult['IMG']['SRC']?>" alt="<?=$arResult["NAME"]?>" title="<?=$arResult["NAME"]?>">
 					</div>
 					<?php if (!empty($arResult['IMG']['DESCRIPTION'])):?>
 						<div class="article-img-desc">

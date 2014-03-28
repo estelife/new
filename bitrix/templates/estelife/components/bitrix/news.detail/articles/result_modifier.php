@@ -73,7 +73,7 @@ foreach($arMathes as $key=>$value){
 			$sSpec = str_replace(']','',$isShort);
 			$nSpec = str_replace('EXPERT_','',$sSpec);
 			$nSpec = intval($nSpec);
-			$sArText = explode(":", $isShort);
+			$sArText = explode(":", $isShort,2);
 			$sTextAr = explode(']',$sArText[1]);
 			$sText = trim($sTextAr[0]);
 
