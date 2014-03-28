@@ -115,13 +115,18 @@ $arResult = array(
 	'DEEP_PATHES' => $arPath
 );
 
-// А это - встречайте - костыль для злоебучего битрикса
-if ($bInitTemplate || $this->initComponentTemplate($componentPage)) {
-	$this->showComponentTemplate();
+try {
+	// А это - встречайте - костыль для злоебучего битрикса
+	if ($bInitTemplate || $this->initComponentTemplate($componentPage)) {
+		$this->showComponentTemplate();
 
-	if($this->__component_epilog)
-		$this->includeComponentEpilog($this->__component_epilog);
-} else {
-	$this->abortResultCache();
-	$this->__showError('Страница не найдена');
+		if($this->__component_epilog)
+			$this->includeComponentEpilog($this->__component_epilog);
+	} else {
+		$this->abortResultCache();
+		$this->__showError('Страница не найдена');
+	}
+} catch (\core\exceptions\VHttpEx $e) {
+	CHTTP::SetStatus($e->getCode().' '.$e->getMessage());
+	$this->includeComponentTemplate($e->getCode());
 }

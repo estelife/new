@@ -2,15 +2,9 @@
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	die();
 
-if (!empty($arResult['clinic']['city_id']))
-	$arGet = '?city='.$arResult['clinic']['city_id'];
-else
-	$arGet='';
-
-if (!empty($arResult['clinic']['city_name']))
-	$arGetTitle = ' '.$arResult['clinic']['city_name'];
-else
-	$arGetTitle='';
+$arGet = !empty($arResult['clinic']['city_id']) ? '?city='.$arResult['clinic']['city_id'] : '';
+$arGetTitle = !empty($arResult['clinic']['city_name']) ? ' '.$arResult['clinic']['city_name'] : '';
+$arResult['clinic']['CURRENT_TAB'] = $arResult['CURRENT_TAB'];
 
 echo json_encode(array(
 	'detail'=>$arResult['clinic'],

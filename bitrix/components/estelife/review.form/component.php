@@ -256,11 +256,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			->value('rating_quality', $nRatingQuality);
 
 		$obQuery->insert();
+		$sNotice = 'Отзыв успешно добавлен. После подтверждения модератором он будет виден остальным пользователям.';
 
 		if (\core\http\VHttp::isAjaxRequest()) {
-			$arResult['complete'] = $nClinicId;
+			$arResult['complete'] = array(
+				'clinic_id' => $nClinicId,
+				'review_id' => $nReviewId,
+				'text' => $sNotice
+			);
 		} else {
-			\notice\VNotice::registerSuccess('', 'Отзыв успешно добавлен. После подтверждения модератором он будет виден остальным пользователям.');
+			\notice\VNotice::registerSuccess('', $sNotice);
 			LocalRedirect('/cl'.$nClinicId.'/?review_list');
 		}
 	} catch(\core\exceptions\VFormException $e) {

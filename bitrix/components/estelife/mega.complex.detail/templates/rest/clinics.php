@@ -7,7 +7,8 @@ $APPLICATION->IncludeComponent(
 	"ajax",
 	array(
 		"PREFIX"=>$arResult['PREFIX'],
-		'ID'=>$arResult['ID']
+		'ID'=>$arResult['ID'],
+		'CURRENT_TAB' => isset($arResult['CURRENT_TAB']) ? $arResult['CURRENT_TAB'] : 'base'
 	),
 	false
 );

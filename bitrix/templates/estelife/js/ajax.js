@@ -294,16 +294,22 @@ require([
 		});
 
 		//Переключение между табами
-		body.on('click','.menu_tab ul li',function(){
-			var col = $('.menu_tab ul li'),
-				index = col.index($(this));
+		body.on('click','.menu_tab ul li',function(e){
+			var href = $(this).find('a').attr('href');
 
-			col.removeClass('active');
-			$(this).addClass('active');
+			if (!href || href == '#') {
+				var col = $('.menu_tab ul li'),
+					index = col.index($(this));
 
-			$('.tabs').addClass('none').eq(index).removeClass('none');
+				col.removeClass('active');
+				$(this).addClass('active');
 
-			return false;
+				$('.tabs').addClass('none').eq(index).removeClass('none');
+			} else {
+				Router.navigate(href, {trigger: true});
+			}
+
+			e.preventDefault();
 		});
 
 		//переключения между табами в галереи
@@ -486,7 +492,8 @@ require([
 						form.getTarget().find('[data-handler='+key+']').addClass('error');
 					});
 				} else if(data.hasOwnProperty('complete')) {
-					Router.reviewList(data.complete);
+					Router.reviewList(data.complete.clinic_id);
+					EL.notice().show(data.complete.text);
 				} else {
 					throw 'Какой-то fail';
 				}
@@ -1040,10 +1047,20 @@ require([
 		body.on('click', '.add_review', function(e){
 			var matches;
 
-			if (matches = location.pathname.match(/cl([0-9]+)/)) {
+			if (matches = location.pathname.match(/cl([0-9]+)/))
 				Router.reviewForm(matches[1]);
+
+			e.preventDefault();
+		}).on('click', '.show_terms', function(e){
+				$.get('/about/review_terms.php', {
+					action: 'show_terms'
+				}, function(terms) {
+					EL.notice().show(terms);
+					var ch = $('form[name=add_review] input[name=read_term]');
+					ch.prop('checked', true);
+					ch.next('a[data-name=read_term]').addClass('active');
+				});
 				e.preventDefault();
-			}
 		});
 
 		(function(){
