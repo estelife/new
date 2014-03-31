@@ -28,6 +28,8 @@ define(function(){
 		}
 
 		function arrow_click_r(){
+			if (list.length<=1)
+				return false;
 			if (flag == false){
 				flag = true;
 				var	item_next,
@@ -77,6 +79,8 @@ define(function(){
 		}
 
 		function arrow_click_l(){
+			if (list.length<=1)
+				return false;
 			if (flag == false){
 				flag = true;
 				var item_prev,

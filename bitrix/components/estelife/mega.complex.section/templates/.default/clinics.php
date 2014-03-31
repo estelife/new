@@ -5,7 +5,7 @@
 		"estelife:clinics.list",
 		"",
 		array(
-			"PAGE_COUNT" => 21,
+			"PAGE_COUNT" => 10,
 		),
 		false
 	);

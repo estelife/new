@@ -25,8 +25,6 @@ if ($USER->IsAuthorized())
 
 //Конфирм регистарции
 if (isset($_GET['confirm_registration']) && $_GET['confirm_registration']=='yes'){
-	VNotice::registerSuccess('Добро пожаловать!','Регистрация прошла успешно.');
-	LocalRedirect('/');
 	try{
 		if ($_GET['confirm_user_id']>0)
 			$nUserId=intval($_GET['confirm_user_id']);
