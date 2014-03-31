@@ -372,6 +372,60 @@ var Estelife=function(s){
 			setCookie(name, null, -1)
 		}
 	};
+
+	this.Range=function(field){
+		if(typeof field!='object' || !(field instanceof jQuery) || field.length<=0)
+			throw 'incorrect field for EL.range';
+
+		var ff=field.get(0);
+
+		this.caretPosition = function() {
+			ff.focus();
+
+			if(ff.selectionStart)
+				return ff.selectionStart;
+			else if(document.selection){
+				var sel = document.selection.createRange();
+				var clone = sel.duplicate();
+				sel.collapse(true);
+				clone.moveToElementText(ff);
+				clone.setEndPoint('EndToEnd', sel);
+				return clone.text.length;
+			}
+
+			return 0;
+		};
+
+		this.setSelection = function(start, end) {
+			if(ff.selectionStart){
+				ff.setSelectionRange(start,end);
+				ff.focus();
+			}else if (ff.createTextRange){
+				var r=ff.createTextRange();
+				r.moveStart('character',start);
+				r.moveEnd('character',end);
+				r.select();
+			}
+		};
+	};
+
+	this.keyCode=function(e,code){
+		var keyCode=(window.event) ? window.event.keyCode : e.which;
+		return (!code) ? keyCode : (code==keyCode);
+	};
+
+	this.fromCharCode = function(code) {
+		var codes = [48,49,50,51,52,53,54,55,56,57,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,96,97,98,99,100,101,102,103,104,105,106,107,109,110,111,186,187,188,189,190,191,192,219,220,221,222],
+			values = [0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',0,1,2,3,4,5,6,7,8,9,'*','+','-','.','/',';','=',',','-','.','/','~','[','\\',']','\''],
+			key = null;
+
+		key = codes.inArray(code);
+
+		if (key < 0 || key >= values.length)
+			return null;
+
+		return values[key];
+	};
 };
 Estelife.prototype.profile=function(t){
 	var title=t||'profile:',
@@ -571,13 +625,17 @@ Estelife.prototype.helpMaker=function(elements){
 
 Estelife.prototype.notice=function(){
 	if(!this.noticeElement){
-		this.noticeElement=$('<div class="notice"><div class="notice-message"></div></div>');
+		this.noticeElement=$('<div class="notice"><a href="#" class="close">Закрыть</a><div class="notice-message"></div></div>');
 		this.noticeElement.click(function(){
 			return false;
 		});
 		$('body').append(this.noticeElement);
 		$(document).click(function(){
 			_hide();
+		});
+		this.noticeElement.find('a').click(function(e){
+			_hide();
+			e.preventDefault();
 		});
 	}
 

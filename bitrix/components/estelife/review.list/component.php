@@ -54,6 +54,7 @@ $obQuery->builder()
 	->field('ecr.answer')
 	->field('ecr.answer_clinic')
 	->field('ecr.date_moderate')
+	->field('ecr.order_num')
 	->field('ep.id', 'professional_id')
 	->field('ec.name', 'clinic_name')
 	->field('u.NAME', 'name')
@@ -129,7 +130,7 @@ if (!empty($arResult['reviews'])){
 		if ($val['is_recomended'] == 1)
 			$arResult['count_good']++;
 
-		$val['number'] = $val['id'];
+		$val['number'] = $val['order_num'];
 		$val['hl'] = ($nKey%2 == 0) ? '' : ' hl';
  		$i++;
 	}

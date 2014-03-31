@@ -140,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if (!preg_match('/^([0-9]{2}\.){2}[0-9]{2,4}$/', $sDateVisit))
 			$obError->setFieldError('Не корректно указана дата посещения', 'date_visit');
 
-		if (strlen($sUserPhone)<10)
+		if (!empty($sUserPhone) && !VString::isPhone($sUserPhone))
 			$obError->setFieldError('Не корректно указан номер телефона', 'user_phone');
 
 		if (!$nProblemId && $sProblemName == '') {
@@ -224,12 +224,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 			$nUserId = $USER->Add($arUser);
 
-			if($nUserId > 0){
+			if ($nUserId > 0) {
 				$arUser["USER_ID"] = $nUserId;
 				CEvent::Send("NEW_REVIEW_USER", SITE_ID, $arUser);
-			}else
+			} else
 				throw new VException($user->LAST_ERROR);
 		}
+
+		$nMaxNum = 0;
+		$obQuery->builder()
+			->from('estelife_clinic_reviews')
+			->field('order_num')
+			->sort('order_num', 'desc')
+			->slice(0, 1)
+			->filter()
+			->_eq('clinic_id', $nClinicId);
+		$arMaxReview = $obQuery->select()->assoc();
+
+		if (!empty($arMaxReview))
+			$nMaxNum = intval($arMaxReview['order_num']);
 
 		$obQuery->builder()
 			->from('estelife_clinic_reviews')
@@ -244,7 +257,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			->value('specialist_name', $sSpecialistName)
 			->value('positive_description', $sPositive)
 			->value('negative_description', $sNegative)
-			->value('is_recomended', $nRecommend);
+			->value('is_recomended', $nRecommend)
+			->value('order_num', ++$nMaxNum);
 
 		$obResult = $obQuery->insert();
 		$nReviewId = $obResult->insertId();

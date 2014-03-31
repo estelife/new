@@ -178,6 +178,90 @@ define(['tpl/Template','modules/Select'],function(Template,Select){
 					e.preventDefault();
 				});
 			});
+
+			$('input.phone').bind(
+				'keydown input',
+				this.inputPhoneEventCallback
+			);
+		},
+
+		// Используется в сочетании с событиями keydown input
+		inputPhoneEventCallback: function(e){
+			var code = EL.keyCode(e),
+				inpt = $(e.target),
+				origin = inpt.val(),
+				val = origin.replace(/[^\d]+/gi,''),
+				avay = $.inArray(code,[46,8,37,39,116,35,36]);
+
+			if (code && (code < 48 || (code > 57 && code < 96) || code > 105)) {
+				if (avay < 0)
+					return false;
+			}
+
+			if (avay < 2) {
+				var range = new EL.Range(inpt),
+					pos = range.caretPosition() + 1,
+					temp, temp_pos;
+
+				if (avay < 0) {
+					if (val.length >= 11)
+						return false;
+
+					if (pos > origin.length) {
+						pos += 1;
+						val += EL.fromCharCode(code);
+					} else {
+						temp = origin.split('');
+						temp_pos = pos-1;
+						var ln = origin.length;
+
+						temp.splice(temp_pos, 0, EL.fromCharCode(code));
+						val = temp.join('').replace(/[^\d]+/gi,'');
+					}
+				}else if($.trim(origin) != ''){
+					pos -= 2;
+					temp = origin.split('');
+					temp_pos = pos;
+					var chr = origin[temp_pos];
+
+					if (!chr.match(/^[\d]$/))
+						temp_pos -= 1;
+
+					delete temp[temp_pos];
+					origin = temp.join('');
+					val = origin.replace(/[^\d\s]+/gi,'');
+				}
+
+				//if(e.type!='input' && val.length>10)
+				//	val=val.slice(0,11);
+				//else if(e.type=='input' && val.length>11)
+				val = val.slice(0,11);
+
+				var newVal = '';
+
+				for (var i= 0, y=i; i<val.length; i++, y++) {
+					newVal += val[i];
+
+					if (i == 0) {
+						newVal = '+'+newVal+'(';
+						y+=2;
+					}else if(i == 3){
+						newVal += ')';
+						y++;
+					}else if(i == 6 || i == 8){
+						newVal += '-';
+						y++;
+					}
+					if ((i == 0 || i == 3 || i == 6 || i == 8) && pos == y)
+						pos += 1;
+				}
+
+				inpt.val(newVal);
+				range.setSelection(pos, pos);
+				return false;
+			}
+
+			return true;
 		}
 	}
 });
