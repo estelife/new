@@ -31,7 +31,7 @@
 		</div>
 		<div class="field<?=isset($arResult['errors']['user_phone']) ? ' error' : ''?>">
 			<label for="user_phone">Телефон</label>
-			<input type="text" name="user_phone" id="user_phone" class="text" value="<?=isset($arResult['user_phone']) ? $arResult['user_phone'] : ''?>" />
+			<input type="text" name="user_phone" id="user_phone" class="text phone" value="<?=isset($arResult['user_phone']) ? $arResult['user_phone'] : ''?>" />
 		</div>
 	</div>
 	<div class="group problem<?=isset($arResult['errors']['problem_id']) ? ' error' : ''?>">

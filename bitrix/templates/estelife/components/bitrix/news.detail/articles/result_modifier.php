@@ -108,8 +108,6 @@ foreach($arMathes as $key=>$value){
 	}
 }
 
-
-
 $arResult['LAST_SECTION']['SECTION_PAGE_URL'] = preg_replace('/stati/', $arParams['SECTION_CODE'], $arResult['LAST_SECTION']['SECTION_PAGE_URL']);
 $arResult['IMG']=CFile::GetFileArray($arResult['PROPERTIES']['INSIDE']['VALUE']);
 

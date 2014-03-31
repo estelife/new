@@ -29,7 +29,7 @@
 			</div>
 			<div class="field">
 				<label for="user_phone">Телефон</label>
-				<input type="text" name="user_phone" id="user_phone" class="text" value="<!--$reviews.user_phone!-->" />
+				<input type="text" name="user_phone" id="user_phone" class="text phone" value="<!--$reviews.user_phone!-->" />
 			</div>
 		</div>
 		<div class="group problem" data-handler="problem_id">
