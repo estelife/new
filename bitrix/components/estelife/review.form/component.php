@@ -302,9 +302,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 	if ($USER->IsAuthorized()) {
 		$arResult['user_id'] = $USER->GetID();
-		$arResult['user_name'] = $USER->GetFirstName();
-		$arResult['user_email'] = $USER->GetEmail();
-		$arResult['user_last_name'] = $USER->GetLastName();
+		//$arResult['user_name'] = $USER->GetFirstName();
+		//$arResult['user_email'] = $USER->GetEmail();
+		//$arResult['user_last_name'] = $USER->GetLastName();
 	}
 }
 
