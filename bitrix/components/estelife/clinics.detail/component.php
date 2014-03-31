@@ -393,30 +393,30 @@ if($nCityId>0){
 }
 
 if(isset($arResult['city'])&& !empty($arResult['city'])){
-	$arCity = $arResult['city']['R_NAME'];
+	$arCity = $arResult['city']['NAME'];
 }
 
 if($arResult['CURRENT_TAB']=='prices'){
-	$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' в '.$arCity.' - цены и услуги';
-	$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' в '.$arCity.' -  продробная информация о ценах и услугах здесь.';
+	$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' - цены и услуги';
+	$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' -  продробная информация о ценах и услугах здесь.';
 }else if($arResult['CURRENT_TAB']=='promotions'){
-	$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' в '.$arCity.' - акции и скидки';
-	$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' в '.$arCity.' -  вся информация о проводимых акциях и предоставляемых скидках. Читайте.';
+	$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' - акции и скидки';
+	$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' -  вся информация о проводимых акциях и предоставляемых скидках. Читайте.';
 }else if($arResult['CURRENT_TAB']=='reviews'){
-	$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' в '.$arCity.' - отзывы пациентов';
-	$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' в '.$arCity.' -  читайте отзывы пациентов у нас.';
+	$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' - отзывы пациентов';
+	$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' -  читайте отзывы пациентов у нас.';
 }else if($arResult['CURRENT_TAB']=='contacts'){
-	$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' в '.$arCity.' - адреса, карты и контакты';
-	$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' в '.$arCity.' -  все адреса и  месторасположение на карте, а так же контакты. Смотрите здесь.';
+	$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' - адреса, карты и контакты';
+	$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' -  все адреса и  месторасположение на карте, а так же контакты. Смотрите здесь.';
 }else if($arResult['CURRENT_TAB']=='articles'){
-	$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' в '.$arCity.' - мнение экспертов и статьи';
-	$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' в '.$arCity.' -  экслюзивно на портале Estelife предлагает вашему вниманию интересные статьи и мнения своих специалистов. Только лучшее.';
+	$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' - мнение экспертов и статьи';
+	$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' -  экслюзивно на портале Estelife предлагает вашему вниманию интересные статьи и мнения своих специалистов. Только лучшее.';
 }else if($arResult['CURRENT_TAB']=='professionals'){
-	$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' в '.$arCity.' - врачи и специалисты клиники';
-	$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' в '.$arCity.' -  Название клиники - полный список врачей и специалистов с подробной информацией. Читайте у нас.';
+	$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' - врачи и специалисты клиники';
+	$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' -  Название клиники - полный список врачей и специалистов с подробной информацией. Читайте у нас.';
 }else{
-	$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' в '.$arCity.' - акции, цены, адреса';
-	$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' в '.$arCity.' - подробная информация, адреса, контакты и акции.';
+	$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' - акции, цены, адреса';
+	$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' - подробная информация, адреса, контакты и акции.';
 }
 
 $APPLICATION->SetPageProperty("title", $arResult['clinic']['seo_title']);
