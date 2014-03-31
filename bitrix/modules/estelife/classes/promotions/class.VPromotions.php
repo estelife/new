@@ -10,10 +10,10 @@ class VPromotions {
 	 * @param $nCityId
 	 * @param $nCount
 	 * @param $sDopKey
-	 * @param array $sDopValue
+	 * @param $sDopValue
 	 * @return array
 	 */
-	public static function getSimilarPromotions(array $arActionId, $nCityId, $nCount, $sDopKey, array $sDopValue){
+	public static function getSimilarPromotions(array $arActionId, $nCityId, $nCount, $sDopKey=false, $sDopValue=false){
 		if (empty($arActionId))
 			assert('Action ID is empty');
 
@@ -22,12 +22,6 @@ class VPromotions {
 
 		if (intval($nCount)<=0)
 			assert('Count is empty');
-
-		if (empty($sDopKey))
-			assert('DopKey is empty');
-
-		if (empty($sDopValue))
-			assert('DopValue is empty');
 
 		$obDriver = VDatabase::driver();
 		$obQuery = $obDriver->createQuery();
@@ -56,8 +50,9 @@ class VPromotions {
 			->_eq('ea.active', 1)
 			->_gte('ea.end_date', time())
 			->_eq('ec.city_id', $nCityId)
-			->_eq('ec.city_id', $nCityId)
-			->_in($sDopKey, $sDopValue);
+			->_eq('ec.city_id', $nCityId);
+		if (!empty($sDopKey) && !empty($sDopValue))
+			$obFilter->_in($sDopKey, $sDopValue);
 		foreach ($arActionId as $val){
 			$obFilter->_ne('ea.id',$val);
 		}
