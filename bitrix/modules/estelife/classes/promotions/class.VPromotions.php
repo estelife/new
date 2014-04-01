@@ -58,6 +58,7 @@ class VPromotions {
 			->_eq('ec.city_id', $nCityId)
 			->_eq('ec.city_id', $nCityId)
 			->_in($sDopKey, $sDopValue);
+
 		foreach ($arActionId as $val){
 			$obFilter->_ne('ea.id',$val);
 		}
