@@ -866,26 +866,13 @@ $(function(){
 				'term':request.term
 			},function(r){
 				if('list' in r){
-					if(r.list.length==1){
-						var item= r.list.shift(),
-							prnt=inpt.parent();
-
-						inpt.val(item.NAME);
-						$('input[name*=\''+inpt.attr('data-input')+'\']',prnt).val(item.ID);
-						response();
-
-						if(inpt.hasClass('estelife-need-clone')){
-							prnt.find('.estelife-more').click();
+					response($.map(r.list, function(item) {
+						return {
+							label: item.NAME,
+							value: item.NAME,
+							'id': item.ID
 						}
-					}else{
-						response($.map(r.list, function(item) {
-							return {
-								label: item.NAME,
-								value: item.NAME,
-								'id': item.ID
-							}
-						}));
-					}
+					}));
 				}
 			},'json');
 		},

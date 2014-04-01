@@ -49,10 +49,11 @@ class VPromotions {
 		$obFilter = $obBuilder->filter()
 			->_eq('ea.active', 1)
 			->_gte('ea.end_date', time())
-			->_eq('ec.city_id', $nCityId)
 			->_eq('ec.city_id', $nCityId);
+			
 		if (!empty($sDopKey) && !empty($sDopValue))
 			$obFilter->_in($sDopKey, $sDopValue);
+			
 		foreach ($arActionId as $val){
 			$obFilter->_ne('ea.id',$val);
 		}
