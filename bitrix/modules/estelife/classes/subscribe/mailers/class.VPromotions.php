@@ -29,6 +29,6 @@ class VPromotions extends VMailer {
 		CEvent::Send("SEND_SUBSCRIBE_PROMOTIONS", "s1", array(
 			'EMAIL_TO'=>$this->obOwner->getEmail(),
 			'PROMOTIONS'=>$sContent
-		),"Y",61);
+		),"Y");
 	}
 }
