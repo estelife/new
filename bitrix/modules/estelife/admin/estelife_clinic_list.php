@@ -118,7 +118,7 @@ $obFilter=$obQuery->builder()->filter();
 if(!empty($arFilter['id']))
 	$obFilter->_like('ec.id',$arFilter['id'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
 if(!empty($arFilter['name']))
-	$obFilter->_like('ec.name',$arFilter['name'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
+	$obFilter->_like('ec.name',htmlentities(trim(strip_tags($arFilter['name'])),ENT_QUOTES,'utf-8'),VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
 if(!empty($arFilter['city_id']))
 	$obFilter->_eq('ec.city_id',$arFilter['city_id']);
 if(!empty($arFilter['metro_id']))

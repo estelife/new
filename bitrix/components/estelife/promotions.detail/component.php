@@ -177,9 +177,11 @@ if(!empty($arResult['service_concreate'])){
 		}
 	}
 }
+
 $arActionId[] = $arResult['action']['id'];
 $arSimilar =VPromotions::getSimilarPromotions($arActionId, $nCityId, 3, $sDopKey, $sDopValue);
 $nCount = count($arSimilar);
+
 if ($nCount<3){
 	foreach ($arSimilar as $val){
 		$arActionId[] = $val['id'];
