@@ -29,6 +29,6 @@ class VTrainings extends VMailer {
 		CEvent::Send("SEND_SUBSCRIBE_TRAINING", "s1", array(
 			'EMAIL_TO'=>$this->obOwner->getEmail(),
 			'TRAININGS'=>$sContent
-		),"Y",63);
+		),"Y");
 	}
 }

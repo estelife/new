@@ -266,6 +266,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if (!$nReviewId)
 			throw new VException('Системная ошибка: сохранение отзыва не удалось');
 
+		//Отправляем письмо Маше
+		CEvent::Send(
+			"ADD_REVIEW",
+			"s1",
+			array(
+				'POSITIVE_DESCRIPTION'=>$sPositive,
+				'NEGATIVE_DESCRIPTION'=>$sNegative,
+				'ID'=>$nReviewId,
+			),
+			"Y"
+		);
+
 		$obQuery->builder()
 			->from('estelife_clinic_user_rating')
 			->value('review_id', $nReviewId)
