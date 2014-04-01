@@ -5,7 +5,6 @@ use core\exceptions\VException;
 use core\exceptions\VFormException;
 use core\http\VHttp;
 use core\types\VArray;
-use reference\services as rs;
 
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_before.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/estelife/prolog.php");
@@ -30,7 +29,7 @@ try{
 	switch($sAction){
 		case 'clinic':
 			if(!empty($arData['term'])){
-				$sName=trim(strip_tags($arData['term']));
+				$sName=htmlentities(trim(strip_tags($arData['term'])),ENT_QUOTES,'utf-8');
 				$obClinics=VDatabase::driver();
 				$obQuery=$obClinics->createQuery();
 				$obQuery->builder()
@@ -560,16 +559,6 @@ try{
 
 			$obFormError->raise();
 			$obCurrent=null;
-
-			if($sAction=='save_specialization'){
-				$obCurrent=new rs\VSpecs();
-			}else if($sAction=='save_service'){
-				$obCurrent=new rs\VServices();
-			}else if($sAction=='save_methods'){
-				$obCurrent=new rs\VMethods();
-			}else{
-				$obCurrent=new rs\VCServices();
-			}
 
 			$obRecord=$obCurrent->create();
 			$obRecord['name']=$sName;
