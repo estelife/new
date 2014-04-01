@@ -891,20 +891,17 @@ $(function(){
 		var inpt=$(this),
 			val=e.originalEvent.clipboardData.getData('Text'),
 			prnt=inpt.parent(),
-			type=prnt.find('input[name=company_type_id]').val();
+			idInput = $('input[name*=\''+inpt.attr('data-input')+'\']',prnt);
+
+		idInput.val('0');
 		$.get('/bitrix/admin/estelife_ajax.php',{
-			'action':'company',
-			'term':val,
-			'type_id': type
+			'action':'spec',
+			'term':val
 		},function(r){
 			if('list' in r){
 				var item= r.list.shift();
 				inpt.val(item.name);
-				$('input[name*=\''+inpt.attr('data-input')+'\']',prnt).val(item.id);
-
-				if(inpt.hasClass('estelife-need-clone')){
-					prnt.find('.estelife-more').click();
-				}
+				idInput.val(item.id);
 			}
 		},'json');
 	}).on('keyup', function(e) {
