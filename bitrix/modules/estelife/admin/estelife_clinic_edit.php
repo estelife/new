@@ -200,6 +200,34 @@ if(!empty($ID) || !empty($CLINIC_ID)){
 		->_eq('clinic_id',$arResult['clinic']['id']);
 	$obResult=$obQuery->select();
 	$arResult['clinic']['articles']=$obResult->all();
+
+	//Получение специалистов
+	$obQuery=$obClinics->createQuery();
+	$obQuery->builder()->from('estelife_professionals_clinics', 'epc');
+	$obJoin=$obQuery->builder()->join();
+	$obJoin->_left()
+		->_from('epc','professional_id')
+		->_to('estelife_professionals','id','ep');
+	$obJoin->_left()
+		->_from('ep','user_id')
+		->_to('user','ID','u');
+	$obQuery->builder()
+		->field('ep.id', 'ID')
+		->field('u.NAME')
+		->field('u.LAST_NAME')
+		->field('u.SECOND_NAME')
+		->filter()
+		->_eq('clinic_id',$arResult['clinic']['id']);
+	$obResult=$obQuery->select();
+	$arProfessionals=$obResult->all();
+	if (!empty($arProfessionals)){
+		foreach ($arProfessionals as $val){
+			if (!empty($val['LAST_NAME'])){
+				$val['NAME']=$val['LAST_NAME'].' '.$val['NAME'].' '.$val['SECOND_NAME'];
+			}
+			$arResult['clinic']['professionals'][]=$val;
+		}
+	}
 }
 
 if(empty($ID) || !empty($CLINIC_ID)){
@@ -381,6 +409,11 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			$obQuery->builder()->filter()->_eq('clinic_id',$idClinic);
 			$obQuery->delete();
 
+			$obQuery = $obClinics->createQuery();
+			$obQuery->builder()->from('estelife_professionals_clinics');
+			$obQuery->builder()->filter()->_eq('clinic_id',$idClinic);
+			$obQuery->delete();
+
 			$obQuery=$obClinics->createQuery();
 			$obQuery->builder()
 				->from('estelife_clinic_pays')
@@ -407,6 +440,22 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			}
 		}
 
+		if($arProfessionals=$obPost->one('professional')){
+			$arProfessionals=$arProfessionals['professional_id'];
+
+			foreach($arProfessionals as $nProfessional){
+				$nProfessional=intval($nProfessional);
+
+				if(empty($nProfessional))
+					continue;
+
+				$obQuery->builder()
+					->from('estelife_professionals_clinics')
+					->value('professional_id',$nProfessional)
+					->value('clinic_id',$ID);
+				$obQuery->insert();
+			}
+		}
 
 
 		// Пишем ссылки на услуги
@@ -436,6 +485,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 			}
 		}
+
 
 		if(!$obPost->blank('site')){
 			$obQuery=$obClinics->createQuery();
@@ -716,7 +766,8 @@ $aTabs = array(
 	array("DIV" => "edit6", "TAB" => GetMessage("ESTELIFE_T_CONTACTS"), "ICON" => "estelife_r_base", "TITLE" => GetMessage("ESTELIFE_T_CONTACTS")),
 	array("DIV" => "edit8", "TAB" => GetMessage("ESTELIFE_T_GALLERIES"), "ICON" => "estelife_r_base", "TITLE" => GetMessage("ESTELIFE_T_GALLERIES")),
 	array("DIV" => "edit9", "TAB" => GetMessage("ESTELIFE_T_AKZII"), "ICON" => "estelife_r_base", "TITLE" => GetMessage("ESTELIFE_T_AKZII")),
-	array("DIV" => "edit12", "TAB" => GetMessage("ESTELIFE_T_ARTICLES"), "ICON" => "estelife_r_base", "TITLE" => GetMessage("ESTELIFE_T_ARTICLES"))
+	array("DIV" => "edit12", "TAB" => GetMessage("ESTELIFE_T_ARTICLES"), "ICON" => "estelife_r_base", "TITLE" => GetMessage("ESTELIFE_T_ARTICLES")),
+	array("DIV" => "edit13", "TAB" => GetMessage("ESTELIFE_T_PROFESSIONALS"), "ICON" => "estelife_r_base", "TITLE" => GetMessage("ESTELIFE_T_PROFESSIONALS"))
 );
 
 if(empty($CLINIC_ID)){
@@ -1633,6 +1684,31 @@ if(!empty($arResult['error']['text'])){
 				<td width="70%">
 					<input type="hidden" name="articles[article_id][]" value="" />
 					<input type="text" name="articles[article_name][]" data-input="article_id" class="estelife-need-clone" value=""size="60" />
+					<a href="#" class="estelife-more estelife-btn adm-btn adm-btn-save">&crarr;</a>
+				</td>
+			</tr>
+		</div>
+		<?
+		$tabControl->BeginNextTab()
+		?>
+		<div class="estelife-services one-list">
+			<?php if(!empty($arResult['clinic']['professionals'])): ?>
+				<?php foreach($arResult['clinic']['professionals'] as $val): ?>
+					<tr>
+						<td width="30%"><?=GetMessage("ESTELIFE_F_PROFESSIONALS")?></td>
+						<td width="70%">
+							<input type="hidden" name="professional[professional_id][]" value="<?=$val['ID']?>" />
+							<input type="text" disabled="disabled" name="professional[professional_name][]" data-input="professional_id" class="estelife-need-clone" size="60" value="<?=$val['NAME']?>" />
+							<a href="#" class="estelife-more estelife-btn adm-btn adm-btn-delete estelife-delete"></a>
+						</td>
+					</tr>
+				<?php endforeach; ?>
+			<?php endif; ?>
+			<tr>
+				<td width="30%"><?=GetMessage("ESTELIFE_F_PROFESSIONALS")?></td>
+				<td width="70%">
+					<input type="hidden" name="professional[professional_id][]" value="" />
+					<input type="text" name="professional[professional_name][]" data-input="professional_id" class="estelife-need-clone" value=""size="60" />
 					<a href="#" class="estelife-more estelife-btn adm-btn adm-btn-save">&crarr;</a>
 				</td>
 			</tr>

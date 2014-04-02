@@ -217,7 +217,7 @@ class VOwner implements VOwnerEvents {
 					'EMAIL_TO'=>$this->getEmail(),
 					'LINK'=>md5($nEventId.$nType.$this->getOwnerId().$this->getEmail().'itsthesalt'),
 				),
-				"Y", 59
+				"Y"
 			);
 			$this->bSends=true;
 		}

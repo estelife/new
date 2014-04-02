@@ -1,3 +1,4 @@
+var Router;
 require([
 	'mvc/Routers',
 	'tpl/Template',
@@ -5,7 +6,7 @@ require([
 	'modules/Media',
 	'modules/Functions'
 ],function(Routers,Template,Geo,Media,Functions){
-	var Router=new Routers.Default();
+	Router=new Routers.Default();
 
 	$(function home(){
 		var body=$('body');
@@ -123,10 +124,11 @@ require([
 			EL.touchEvent.eventTrigger,
 			'.items .item:not(.article,.activity), .items .article .item-in, .item.activity .user, .general-news .col1, .general-news .col2 .img',
 			EL.touchEvent.callback(function(event,target){
-				var currentTag=target[0].tagName,
-					parentTag=target.parent()[0].tagName,
+				var currentTag=event.target.tagName,
+					eventTarget = $(event.target),
+					parentTag=eventTarget.parent()[0].tagName,
 					link=(currentTag=='A') ?
-						target.attr('href') :
+						eventTarget.attr('href') :
 						target.find('a:first').attr('href');
 
 				if(link=='#'){
@@ -293,16 +295,22 @@ require([
 		});
 
 		//Переключение между табами
-		body.on('click','.menu_tab ul li',function(){
-			var col = $('.menu_tab ul li'),
-				index = col.index($(this));
+		body.on('click','.menu_tab ul li',function(e){
+			var href = $(this).find('a').attr('href');
 
-			col.removeClass('active');
-			$(this).addClass('active');
+			if (!href || href == '#') {
+				var col = $('.menu_tab ul li'),
+					index = col.index($(this));
 
-			$('.tabs').addClass('none').eq(index).removeClass('none');
+				col.removeClass('active');
+				$(this).addClass('active');
 
-			return false;
+				$('.tabs').addClass('none').eq(index).removeClass('none');
+			} else {
+				Router.navigate(href, {trigger: true});
+			}
+
+			e.preventDefault();
 		});
 
 		//переключения между табами в галереи
@@ -470,8 +478,48 @@ require([
 			}
 
 			e.preventDefault();
-		});
+		}).on('submit', 'form[name=add_review]', function(e){
+			var form = new EL.Form($(this));
 
+			form.registerAfterSend(function(data){
+				if (!_.isObject(data) || !data.hasOwnProperty('reviews'))
+					throw 'Какой-то fail';
+
+				data = data.reviews;
+
+				if (data.hasOwnProperty('error')) {
+					form.getTarget().prepend('<div class="total_error">'+data.error.message+'</div>');
+				} else if (data.hasOwnProperty('errors')) {
+					_.map(data.errors, function(value, key){
+						form.getTarget().find('[data-handler='+key+']').addClass('error');
+					});
+				} else if(data.hasOwnProperty('complete')) {
+					Router.reviewList(data.complete.clinic_id);
+					EL.notice().show(data.complete.text);
+				} else {
+					throw 'Какой-то fail';
+				}
+			});
+
+			form.sendData({
+				action: '/rest/review_form/'
+			});
+
+			e.preventDefault();
+		}).on('change','form[name=review_filter] select', function() {
+			var form = $(this.form),
+				clinicId = form.find('input[name=clinic_id]').val(),
+				problemId = form.find('select[name=problem_id]').val(),
+				specialistId = form.find('select[name=specialist_id]').val();
+
+			Router.reviewList(clinicId, problemId, specialistId);
+		}).on('click', 'form[name=review_filter] .all', function(e){
+				var form = $(this).parents('form:first'),
+					clinicId = form.find('input[name=clinic_id]').val();
+
+				Router.reviewList(clinicId);
+				e.preventDefault();
+		});
 	});
 
 	//меню
@@ -774,17 +822,33 @@ require([
 			e.preventDefault();
 		});
 
-		body.on('focus','.quality-in input, .quality-in textarea', function(){
-			var form=$(this).parent();
-			if (form.hasClass('error'))
-				form.removeClass('error').find('i:last').remove();
+		body.on('focus','.error input, .error textarea', function(){
+			var prnt = $(this).parents('.error:first');
 
-			var total_form=$(this).parents('form'),
-				total_error=total_form.find('.total_error');
+			if (prnt.hasClass('error')) {
+				prnt.removeClass('error');
+				prnt.find('input,textarea').next('i').remove();
+			}
+
+			var total_form = $(this.form),
+				total_error = total_form.find('.total_error');
+
 			if (total_error.hasClass('error'))
 				total_error.removeClass('error');
 
 			$('.success').remove();
+		}).on('click', '.field.error', function(){
+			var prnt = $(this);
+
+			if (prnt.find('input,textarea').length)
+				return;
+
+			var total_error = $(this).parents('form:first').find('.total_error');
+
+			if (total_error.hasClass('error'))
+				total_error.removeClass('error');
+
+			prnt.removeClass('error');
 		});
 
 		body.on('focus','input.preload', function(){
@@ -982,6 +1046,83 @@ require([
 			}
 		});
 
+		body.on('click', '.add_review', function(e){
+			var matches;
+
+			if (matches = location.pathname.match(/cl([0-9]+)/))
+				Router.reviewForm(matches[1]);
+
+			e.preventDefault();
+		}).on('click', '.show_terms', function(e){
+				$.get('/about/review_terms.php', {
+					action: 'show_terms'
+				}, function(terms) {
+					EL.notice().show(terms);
+					var ch = $('form[name=add_review] input[name=read_term]');
+					ch.prop('checked', true);
+					ch.next('a[data-name=read_term]').addClass('active');
+				});
+				e.preventDefault();
+		});
+
+		(function(){
+			var text = ['ужасно', 'плохо', 'удовл.', 'хор.', 'оч.хор.'];
+
+			body.on('mouseout', '.rating a', function(){
+				return false;
+			}).on('mouseover','.rating a',function(e){
+				var link=$(this),
+					prnt=link.parent(),
+					links=prnt.find('a'),
+					active = links.filter('.active');
+
+				if (!prnt.attr('data-index')) {
+					prnt.attr('data-index', active.length-1);
+				}
+
+				active.removeClass('active');
+
+				for(var i=0; i<links.length; i++){
+					links.eq(i).addClass('active');
+
+					if(link.get(0) == links.get(i))
+						break;
+				}
+
+				prnt.find('span').html('<b>'+(i+1)+'</b> ('+text[i]+')');
+			}).on('mouseout','.rating',function(){
+				var prnt=$(this);
+				var index=prnt.attr('data-index')||0;
+
+				if (!prnt.find('a').length)
+					return;
+
+				if (index < 0) {
+					prnt.find('a').removeClass('active');
+					prnt.find('span').html('<b>0</b> (никак)');
+				} else {
+					index = parseInt(index);
+					prnt.find('a').eq(index).mouseover();
+					prnt.find('span').html('<b>'+(index+1)+'</b> ('+text[index]+')');
+				}
+			}).on('click','.rating a',function(){
+				var prnt=$(this).parent();
+
+				var active=prnt.find('.active').length;
+				prnt.attr('data-index', active-1);
+
+				var id = prnt.attr('id');
+
+				if	(id)
+					$('input[name='+id+']').val(active);
+
+				return false;
+			});
+
+			if (location.href.match(/(review_list|review_form)/)) {
+				$('.tabs-menu .t7').click();
+			}
+		})();
 	});
 
 	$(function interfaces(){

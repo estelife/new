@@ -70,7 +70,6 @@ $arResult['company'] = $obQuery->select()->assoc();
 if (!empty($arResult['company']['type_name'])){
 	$arResult['company']['name'] = $arResult['company']['type_name'];
 }
-unset($arResult['company']['type_name']);
 
 if (!empty($arResult['company']['type_address']))
 	$arResult['company']['address'] = $arResult['company']['type_address'];
@@ -81,34 +80,25 @@ if(!empty($arResult['company']['type_lat']))
 if(!empty($arResult['company']['type_lng']))
 	$arResult['company']['lng']=$arResult['company']['type_lng'];
 
-unset($arResult['company']['type_address'],$arResult['company']['type_lng'],$arResult['company']['type_lat']);
-
 if (!empty($arResult['company']['type_logo_id'])){
 	$arResult['company']['logo_id'] = $arResult['company']['type_logo_id'];
 }
-unset($arResult['company']['type_logo_id']);
 
 if (!empty($arResult['company']['type_country_name'])){
 	$arResult['company']['country_name'] = $arResult['company']['type_country_name'];
 	$arResult['company']['country_id'] = $arResult['company']['type_country_id'];
 }
-unset($arResult['company']['type_country_id']);
-unset($arResult['company']['type_country_name']);
 
 if (!empty($arResult['company']['type_city_name'])){
 	$arResult['company']['city_name'] = $arResult['company']['type_city_name'];
 	$arResult['company']['city_id']=$arResult['company']['type_city_id'];
 }
-unset($arResult['company']['type_city_name']);
 
 $arResult['company']['address'] = 'г. '.$arResult['company']['city_name'].', '.$arResult['company']['address'];
-
 $arResult['company']['img'] = CFile::ShowImage($arResult['company']['logo_id'],200, 90, 'alt='.$arResult['company']['name']);
 
-if (!empty($arResult['company']['type_detail_text'])){
+if (!empty($arResult['company']['type_detail_text']))
 	$arResult['company']['detail_text'] = $arResult['company']['type_detail_text'];
-}
-unset($arResult['company']['type_detail_text']);
 
 $arResult['company']['detail_text'] = nl2br(htmlspecialchars_decode($arResult['company']['detail_text'], ENT_NOQUOTES));
 
@@ -133,6 +123,7 @@ if (!empty($arContacts)){
 		}
 	}
 }
+
 //Получение контактов для типа компании
 if (!empty($arResult['company']['type_id'])){
 	$obQuery = $obCompanies->createQuery();
@@ -155,29 +146,38 @@ if (!empty($arResult['company']['type_id'])){
 	}
 }
 
-
-if (!empty($arResult['company']['type_web'])){
+if (!empty($arResult['company']['type_web']))
 	$arResult['company']['web'] = $arResult['company']['type_web'];
-	unset($arResult['company']['type_web']);
-}
 
-
-if(!empty($arResult['company']['web']))
+if(!empty($arResult['company']['web'])){
 	$arResult['company']['web'] = current($arResult['company']['web']);
 	$arResult['company']['web_short']=\core\types\VString::checkUrl($arResult['company']['web']);
+}
 
 if (!empty($arResult['company']['type_phone'])){
 	$arResult['company']['phone'] = $arResult['company']['type_phone'];
-	unset($arResult['company']['type_phone']);
 }
-if (!empty($arResult['company']['type_fax'])){
+if (!empty($arResult['company']['type_fax']))
 	$arResult['company']['fax'] = $arResult['company']['type_fax'];
-	unset($arResult['company']['type_fax']);
-}
-if (!empty($arResult['company']['type_email'])){
+
+if (!empty($arResult['company']['type_email']))
 	$arResult['company']['email'] = $arResult['company']['type_email'];
-	unset($arResult['company']['type_email']);
-}
+
+unset(
+	$arResult['company']['type_email'],
+	$arResult['company']['type_fax'],
+	$arResult['company']['type_phone'],
+	$arResult['company']['type_web'],
+	$arResult['company']['type_detail_text'],
+	$arResult['company']['type_city_name'],
+	$arResult['company']['type_country_id'],
+	$arResult['company']['type_country_name'],
+	$arResult['company']['type_logo_id'],
+	$arResult['company']['type_name'],
+	$arResult['company']['type_address'],
+	$arResult['company']['type_lng'],
+	$arResult['company']['type_lat']
+);
 
 $arResult['company']['contacts']['web'] = $arResult['company']['web'];
 $arResult['company']['contacts']['web_short'] = (!empty($arResult['company']['web_short'])) ? $arResult['company']['web_short'] : '';
@@ -186,106 +186,6 @@ $arResult['company']['contacts']['fax'] = implode(', ', $arResult['company']['fa
 $arResult['company']['contacts']['email'] = implode(', ', $arResult['company']['email']);
 $arResult['company']['contacts']['lat'] = $arResult['company']['lat'];
 $arResult['company']['contacts']['lng'] = $arResult['company']['lng'];
-
-//получение мероприятий компании
-$obQuery = $obCompanies->createQuery();
-$obQuery->builder()->from('estelife_events', 'ee');
-$obJoin=$obQuery->builder()->join();
-$obJoin->_left()
-	->_from('ee', 'id')
-	->_to('estelife_event_types', 'event_id', 'eet');
-$obJoin->_left()
-	->_from('ee', 'id')
-	->_to('estelife_company_events', 'event_id', 'ece')
-	->_cond()->_eq('ece.is_owner', 1);
-$obJoin->_left()
-	->_from('ee','id')
-	->_to('estelife_calendar','event_id','ecal');
-
-$obQuery->builder()
-	->field('ee.id','id')
-	->field('ee.short_name','name')
-	->field('ee.preview_text', 'preview_text');
-$obFilter=$obQuery->builder()->filter()
-	->_eq('eet.type', 3)
-	->_eq('ece.company_id',$arResult['company']['id']);
-
-$nDateFrom=\core\types\VDate::dateToTime(date('d.m.Y', time()).' 00:00');
-$obFilter->_gte('ecal.date',$nDateFrom);
-
-$obQuery->builder()
-	->sort('ecal.date','asc')
-	->group('ee.id')
-	->slice(0,10);
-
-$arEvents = $obQuery->select()->all();
-
-foreach ($arEvents as $val){
-	$val['link'] = '/tr'.$val['id'].'/';
-	$val['preview_text']=html_entity_decode($val['preview_text'],ENT_QUOTES,'utf-8');
-	$arResult['company']['events'][$val['id']] = $val;
-	$arIds[] = $val['id'];
-}
-
-
-if (!empty($arIds)){
-	//Получение календаря
-	$obQuery=$obCompanies->createQuery();
-	$obFilter=$obQuery->builder()
-		->from('estelife_calendar')
-		->sort('date','asc')
-		->filter()
-		->_in('event_id', $arIds);
-
-	$arCalendar=$obQuery->select()->all();
-
-	foreach ($arCalendar as $val)
-		$arResult['company']['events'][$val['event_id']]['calendar'][]=$val['date'];
-
-	$nNow=time();
-
-	foreach($arResult['company']['events'] as $nKey=>&$arTraining){
-		if (!empty($arTraining['calendar'])){
-			$arTraining['calendar']=\core\types\VDate::createDiapasons($arTraining['calendar'],function(&$nFrom,&$nTo) use($nNow){
-				$nNowTo=strtotime(date('d.m.Y', $nNow).' 00:00:00');
-				$nNowFrom=strtotime(date('d.m.Y', $nNow).' 23:59:59');
-				$nTempTo=$nTo;
-				$nTempFrom=$nFrom;
-
-				if($nTo==0){
-					$nFrom=\core\types\VDate::date($nFrom, 'j F Y');
-				}else{
-					$arFrom=explode('.',date('n',$nFrom));
-					$arTo=explode('.',date('n',$nTo));
-					$sPattern='j F';
-
-					if($arFrom[1]==$arTo[1])
-						$sPattern=($arFrom[0]==$arTo[0]) ? 'j' : 'j F';
-
-					$nFrom=\core\types\VDate::date($nFrom,$sPattern);
-					$nTo=\core\types\VDate::date($nTo,'j F Y');
-				}
-
-				if(($nNowTo<=$nTempTo && $nNowFrom>=$nTempFrom) || ($nNowTo<=$nTempFrom) || ($nNowTo<=$nTempFrom && $nNowFrom>=$nTempFrom))
-					return false;
-
-				return true;
-			});
-
-			$arTraining['first_period']=end($arTraining['calendar']);
-			$arD = preg_match("/^[0-9]+/", $arTraining['first_period']['from'], $mathes);
-			$arTraining['first_date']=$mathes[0].' <i>';
-
-			if (preg_match("/[а-я]+/u" ,$arTraining['first_period']['from'], $mathes)){
-				$arTraining['first_date'] .= mb_substr($mathes[0], 0, 3, 'utf-8').'</i>';
-			}else{
-				$arM = preg_match("/[а-я]+/u", $arTraining['first_period']['to'], $mathes);
-				$arTraining['first_date'] .= mb_substr($mathes[0], 0, 3, 'utf-8').'</i>';
-			}
-		}
-	}
-
-}
 
 //Получение галереи
 $obQuery=$obCompanies->createQuery();

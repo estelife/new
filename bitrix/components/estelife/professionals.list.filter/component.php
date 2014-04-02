@@ -15,7 +15,6 @@ $obCountries = VDatabase::driver();
 $obQuery = $obCountries->createQuery();
 $obQuery->builder()->from('estelife_professionals','ep');
 $obJoin = $obQuery->builder()->join();
-
 $obJoin->_left()
 	->_from('ep','country_id')
 	->_to('iblock_element','ID','ct')
@@ -23,7 +22,9 @@ $obJoin->_left()
 
 $obQuery->builder()
 	->field('ct.ID','ID')
-	->field('ct.NAME','NAME');
+	->field('ct.NAME','NAME')
+	->filter()
+	->_notNull('ep.country_id');
 
 $obQuery->builder()->group('ct.ID');
 $obQuery->builder()->sort('ct.NAME', 'asc');

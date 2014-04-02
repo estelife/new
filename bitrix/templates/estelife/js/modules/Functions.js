@@ -84,7 +84,7 @@ define(['tpl/Template','modules/Select'],function(Template,Select){
 			var input=$('input[name=name]',form);
 		},
 		initFormFields:function(form){
-			$('.text.date',form).each(function(){
+			$('.text.date, .field.date',form).each(function(){
 				var current=$(this),
 					img=current.find('i'),
 					prnt=current.parent(),
@@ -121,11 +121,12 @@ define(['tpl/Template','modules/Select'],function(Template,Select){
 				var sl=Select.make($(this));
 			});
 
-			$('input[type=checkbox]',form).each(function(){
+			$('input[type=checkbox], input[type=radio]',form).each(function(){
 				var inpt=$(this),
-					form=$(this.form),
-					link=$('<a href="#"></a>'),
-					id=inpt.attr('id'),
+					isRadio = inpt.attr('type') == 'radio',
+					form = $(this.form),
+					link = $('<a href="#"></a>'),
+					id = inpt.attr('id'),
 					label;
 
 				if(id && id.length>0){
@@ -142,7 +143,12 @@ define(['tpl/Template','modules/Select'],function(Template,Select){
 
 				inpt.after(link).hide();
 				link.html('<i></i>'+label);
-				link.data('Input',inpt).addClass('checkbox');
+				link.data('Input', inpt)
+					.addClass('checkbox')
+					.attr('data-name', inpt.attr('name'));
+
+				if (isRadio)
+					link.addClass('radio');
 
 				if(inpt.is(':checked'))
 					link.addClass('active');
@@ -150,16 +156,112 @@ define(['tpl/Template','modules/Select'],function(Template,Select){
 				link.click(function(e){
 					var link=$(this);
 
-					if(link.hasClass('active')){
+					if(link.hasClass('active') && !isRadio){
 						link.removeClass('active');
-						link.data('Input').prop('checked',false);
+						link.data('Input').prop('checked', false);
 					}else{
+						if (isRadio) {
+							var name = link.attr('data-name'),
+								active = $('.checkbox.radio[data-name='+name+']');
+
+							active.each(function(){
+								var link = $(this);
+								link.removeClass('active');
+								link.data('Input').prop('checked', false);
+							});
+						}
+
 						link.addClass('active');
-						link.data('Input').prop('checked',true);
+						link.data('Input').prop('checked', true);
 					}
+
 					e.preventDefault();
 				});
 			});
+
+			$('input.phone').bind(
+				'keydown input',
+				this.inputPhoneEventCallback
+			);
+		},
+
+		// Используется в сочетании с событиями keydown input
+		inputPhoneEventCallback: function(e){
+			var code = EL.keyCode(e),
+				inpt = $(e.target),
+				origin = inpt.val(),
+				val = origin.replace(/[^\d]+/gi,''),
+				avay = $.inArray(code,[46,8,37,39,116,35,36]);
+
+			if (code && (code < 48 || (code > 57 && code < 96) || code > 105)) {
+				if (avay < 0)
+					return false;
+			}
+
+			if (avay < 2) {
+				var range = new EL.Range(inpt),
+					pos = range.caretPosition() + 1,
+					temp, temp_pos;
+
+				if (avay < 0) {
+					if (val.length >= 11)
+						return false;
+
+					if (pos > origin.length) {
+						pos += 1;
+						val += EL.fromCharCode(code);
+					} else {
+						temp = origin.split('');
+						temp_pos = pos-1;
+						var ln = origin.length;
+
+						temp.splice(temp_pos, 0, EL.fromCharCode(code));
+						val = temp.join('').replace(/[^\d]+/gi,'');
+					}
+				}else if($.trim(origin) != ''){
+					pos -= 2;
+					temp = origin.split('');
+					temp_pos = pos;
+					var chr = origin[temp_pos];
+
+					if (!chr.match(/^[\d]$/))
+						temp_pos -= 1;
+
+					delete temp[temp_pos];
+					origin = temp.join('');
+					val = origin.replace(/[^\d\s]+/gi,'');
+				}
+
+				//if(e.type!='input' && val.length>10)
+				//	val=val.slice(0,11);
+				//else if(e.type=='input' && val.length>11)
+				val = val.slice(0,11);
+
+				var newVal = '';
+
+				for (var i= 0, y=i; i<val.length; i++, y++) {
+					newVal += val[i];
+
+					if (i == 0) {
+						newVal = '+'+newVal+'(';
+						y+=2;
+					}else if(i == 3){
+						newVal += ')';
+						y++;
+					}else if(i == 6 || i == 8){
+						newVal += '-';
+						y++;
+					}
+					if ((i == 0 || i == 3 || i == 6 || i == 8) && pos == y)
+						pos += 1;
+				}
+
+				inpt.val(newVal);
+				range.setSelection(pos, pos);
+				return false;
+			}
+
+			return true;
 		}
 	}
 });

@@ -45,7 +45,7 @@
 					<div><!--$detail.contacts.email!--></div>
 				<!--endif!-->
 				<!--if($detail.contacts.web)!-->
-					<a href="<$detail.contacts.web!-->" class="link"><!--$detail.contacts.web_short!--></a>
+					<a href="<!--detail.contacts.web!-->" class="link"><!--$detail.contacts.web_short!--></a>
 				<!--endif!-->
 			</div>
 			<div class="map">

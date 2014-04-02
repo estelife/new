@@ -865,13 +865,69 @@ $(function(){
 				'action':'spec',
 				'term':request.term
 			},function(r){
-				console.log(r);
+				if('list' in r){
+					response($.map(r.list, function(item) {
+						return {
+							label: item.NAME,
+							value: item.NAME,
+							'id': item.ID
+						}
+					}));
+				}
+			},'json');
+		},
+		select:function(e, ui){
+			var inpt=$(this),
+				prnt=inpt.parent();
+
+			$('input[name*=\''+inpt.attr('data-input')+'\']',inpt.parent()).val(ui.item.id);
+
+			if(inpt.hasClass('estelife-need-clone')){
+				prnt.find('.estelife-more').click();
+				prnt.parent().prev().find('input[type=text]').val(ui.item.value);
+			}
+		}
+	}).on('paste',function(e){
+		var inpt=$(this),
+			val=e.originalEvent.clipboardData.getData('Text'),
+			prnt=inpt.parent(),
+			idInput = $('input[name*=\''+inpt.attr('data-input')+'\']',prnt);
+
+		idInput.val('0');
+		$.get('/bitrix/admin/estelife_ajax.php',{
+			'action':'spec',
+			'term':val
+		},function(r){
+			if('list' in r){
+				var item= r.list.shift();
+				inpt.val(item.name);
+				idInput.val(item.id);
+			}
+		},'json');
+	}).on('keyup', function(e) {
+		var code = e.charCode || e.keyCode,
+			inpt = $(this);
+
+		if ([8,46].inArray(code) > -1) {
+			$('input[name*=\''+inpt.attr('data-input')+'\']',inpt.parent()).val('0');
+		}
+	});
+
+	//Получение специалистов
+	$('input[name=spec_name],input[name=find_spec_name]').autocomplete({
+		minLength:3,
+		source:function(request,response){
+			var inpt=this.element;
+			$.get('/bitrix/admin/estelife_ajax.php',{
+				'action':'get_specialists',
+				'term':request.term
+			},function(r){
 				if('list' in r){
 					if(r.list.length==1){
 						var item= r.list.shift(),
 							prnt=inpt.parent();
 
-						inpt.val(item.NAME +' '+ item.LAST_NAME);
+						inpt.val(item.NAME);
 						$('input[name*=\''+inpt.attr('data-input')+'\']',prnt).val(item.ID);
 						response();
 
@@ -881,8 +937,8 @@ $(function(){
 					}else{
 						response($.map(r.list, function(item) {
 							return {
-								label: item.NAME +' '+ item.LAST_NAME,
-								value: item.NAME +' '+ item.LAST_NAME,
+								label: item.NAME,
+								value: item.NAME,
 								'id': item.ID
 							}
 						}));
@@ -902,27 +958,7 @@ $(function(){
 				prnt.parent().prev().find('input[type=text]').val(ui.item.value);
 			}
 		}
-	}).on('paste',function(e){
-			var inpt=$(this),
-				val=e.originalEvent.clipboardData.getData('Text'),
-				prnt=inpt.parent(),
-				type=prnt.find('input[name=company_type_id]').val();
-			$.get('/bitrix/admin/estelife_ajax.php',{
-				'action':'company',
-				'term':val,
-				'type_id': type
-			},function(r){
-				if('list' in r){
-					var item= r.list.shift();
-					inpt.val(item.name);
-					$('input[name*=\''+inpt.attr('data-input')+'\']',prnt).val(item.id);
-
-					if(inpt.hasClass('estelife-need-clone')){
-						prnt.find('.estelife-more').click();
-					}
-				}
-			},'json');
-		});
+	});
 
 	function show_select_halls(id){
 
@@ -1070,6 +1106,52 @@ $(function(){
 			var inpt=this.element;
 			$.get('/bitrix/admin/estelife_ajax.php',{
 				'action':'articles',
+				'term':request.term
+			},function(r){
+				if('list' in r){
+					if(r.list.length==1){
+						var item= r.list.shift(),
+							prnt=inpt.parent();
+
+						inpt.val(item.name);
+						$('input[name*=\''+inpt.attr('data-input')+'\']',prnt).val(item.id);
+						response();
+
+						if(inpt.hasClass('estelife-need-clone')){
+							prnt.find('.estelife-more').click();
+						}
+					}else{
+						response($.map(r.list, function(item) {
+							return {
+								label: item.NAME,
+								value: item.NAME,
+								'id': item.ID
+							}
+						}));
+					}
+				}
+			},'json');
+		},
+		select:function(e, ui){
+			var inpt=$(this),
+				prnt=inpt.parent();
+
+			$('input[name*=\''+inpt.attr('data-input')+'\']',inpt.parent()).val(ui.item.id);
+
+			if(inpt.hasClass('estelife-need-clone')){
+				prnt.find('.estelife-more').click();
+				prnt.parent().prev().find('input[type=text]').val(ui.item.value);
+			}
+		}
+	});
+
+	//Получение специалистов
+	$('input[name*=\'professional_name\']').autocomplete({
+		minLength:3,
+		source:function(request,response){
+			var inpt=this.element;
+			$.get('/bitrix/admin/estelife_ajax.php',{
+				'action':'professionals',
 				'term':request.term
 			},function(r){
 				if('list' in r){

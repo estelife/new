@@ -1,17 +1,22 @@
-<div class="item detail big-font">
-	<h1><!--$detail.NAME!--></h1>
+<div itemscope itemtype="http://schema.org/ScholarlyArticle">
+<div class="item detail article">
+	<meta itemprop="genre" content="<!--$detail.NAME!-->">
+	<h1 itemprop="headline"><!--$detail.NAME!--></h1>
 	<ul class="stat notlike" data-elid="<!--$detail.LIKES.element_id!-->" data-type="<!--$detail.LIKES.type!-->">
 		<!--if ($detail.ACTIVE_FROM)!-->
+		<span itemprop="datePublished" hidden="hidden"><!--$detail.DATE!--></span>
 			<li class="date"><!--$detail.ACTIVE_FROM!--></li>
 		<!--endif!-->
 		<li class="likes islike"><!--$detail.LIKES.countLike!--><!--if($detail.LIKES.typeLike==1)!--> и Ваш<!--endif!--><i></i></li>
 		<li class="unlikes islike"><!--$detail.LIKES.countDislike!--><!--if($detail.LIKES.typeLike==2)!--> и Ваш<!--endif!--><i></i></li>
 	</ul>
 	<div class="announce">
-		<!--$detail.PREVIEW_TEXT!-->
+		<span itemprop="description" style="display:none;"><!--$detail.DESCRIPTION!--></span>
+		<span itemprop="description"><!--$detail.PREVIEW_TEXT!--></span>
 	</div>
 	<div class="article-img">
 		<div class="article-img-in">
+			<span itemprop="image" hidden="hidden"><!--$detail.IMG.SRC!--></span>
 			<img src="<!--$detail.IMG.SRC!-->" alt="<!--$detail.NAME!-->" title="<!--$detail.NAME!-->">
 		</div>
 		<!--if($detail.IMG.DESCRIPTION)!-->
@@ -20,7 +25,18 @@
 			</div>
 		<!--endif!-->
 	</div>
-	<!--$detail.DETAIL_TEXT!-->
+	<div itemprop="articleBody"><!--$detail.DETAIL_TEXT!--></div>
+	<!--if ($detail.SOURCE)!-->
+			<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+    					<span itemprop="name" hidden="hidden"><!--$detail.SOURCE!--></span>
+					</span>
+	<div class="author"><!--$detail.SOURCE!--></div>
+	<!--else!-->
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+    					<span itemprop="name" hidden="hidden">Estelife.Ru</span>
+					</span>
+		<div class="author">Estelife.Ru</div>
+	<!--endif!-->
 	<div class="info">
 		<ul class="stat" data-elid="<!--$detail.LIKES.element_id!-->" data-type="<!--$detail.LIKES.type!-->">
 			<li><a href="#" class="likes islike<!--if($detail.LIKES.typeLike==1)!--> active<!--endif!-->" data-help="Нравится"><!--$detail.LIKES.countLike!--><!--if($detail.LIKES.typeLike==1)!--> и Ваш<!--endif!--><i></i></a></li>
@@ -32,10 +48,7 @@
 			<a href="https://www.facebook.com/sharer.php?u=http://estelife.ru/<!--$detail.TYPE!--><!--$detail.ID!-->/" target="_blank" class="fb">Facebook</a>
 		</div>
 		<div class="author cols">
-			<!--if ($detail.SOURCE)!-->
-			Автор статьи
-			<b><!--$detail.SOURCE!--></b>
-			<!--endif!-->
+
 		</div>
 	</div>
 </div>

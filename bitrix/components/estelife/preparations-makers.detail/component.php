@@ -68,55 +68,35 @@ $arResult['company'] = $obQuery->select()->assoc();
 if (!empty($arResult['company']['type_name'])){
 	$arResult['company']['name'] = $arResult['company']['type_name'];
 }
-unset($arResult['company']['type_name']);
 
 if (!empty($arResult['company']['type_logo_id'])){
 	$arResult['company']['logo_id'] = $arResult['company']['type_logo_id'];
 }
-unset($arResult['company']['type_logo_id']);
 $arResult['company']['img'] = CFile::ShowImage($arResult['company']['logo_id'],200, 85, 'alt='.$arResult['company']['name']);
 
 if (!empty($arResult['company']['type_country_name'])){
 	$arResult['company']['country_name'] = $arResult['company']['type_country_name'];
 	$arResult['company']['country_id'] = $arResult['company']['type_country_id'];
 }
-unset($arResult['company']['type_country_id']);
-unset($arResult['company']['type_country_name']);
 
 if (!empty($arResult['company']['type_web'])){
 	$arResult['company']['web'] = $arResult['company']['type_web'];
 }
 $arResult['company']['web_short']=\core\types\VString::checkUrl($arResult['company']['web']);
-unset($arResult['company']['type_web']);
 
 if (!empty($arResult['company']['type_detail_text'])){
 	$arResult['company']['detail_text'] = $arResult['company']['type_detail_text'];
 }
-unset($arResult['company']['type_detail_text']);
 $arResult['company']['detail_text'] = nl2br(htmlspecialchars_decode($arResult['company']['detail_text'],ENT_NOQUOTES));
 
-//Получение препаратов для данной компании
-$obQuery = $obCompanies->createQuery();
-$obQuery->builder()->from('estelife_pills');
-$obQuery->builder()->sort('name','asc');
-$obQuery->builder()->filter()
-	->_eq('company_id', $arResult['company']['id']);
-$arProductions = $obQuery->select()->all();
-
-foreach ($arProductions as $val){
-	$val['img'] = CFile::ShowImage($val['logo_id'],180, 180, 'alt='.$val['name']);
-	$val['preview_text'] = strip_tags(html_entity_decode($val['preview_text'],ENT_QUOTES,'utf-8'));
-	$val['preview_text'] = \core\types\VString::truncate($val['preview_text'], 90, '...');
-	if ($val['type_id']==1)
-		$sPrefix='ps';
-	elseif ($val['type_id']==2)
-		$sPrefix='th';
-	else
-		$sPrefix='im';
-	$val['link'] = '/'.$sPrefix.$val['id'].'/';
-	$arResult['company']['production'][] = $val;
-}
-
+unset(
+	$arResult['company']['type_name'],
+	$arResult['company']['type_logo_id'],
+	$arResult['company']['type_country_id'],
+	$arResult['company']['type_country_name'],
+	$arResult['company']['type_web'],
+	$arResult['company']['type_detail_text']
+);
 
 $arResult['company']['name'] = trim(strip_tags(html_entity_decode($arResult['company']['name'], ENT_QUOTES, 'utf-8')));
 $arResult['company']['seo_description'] = \core\types\VString::pregStrSeo($arResult['company']['name']);

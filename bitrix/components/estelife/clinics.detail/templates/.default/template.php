@@ -2,7 +2,7 @@
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="/">Главная</a></li>
-		<li><a href="/clinics/?=<?=$arResult['clinic']['city_id']?>">Клиники <?=$arResult['clinic']['city_name']?></a></li>
+		<li><a href="/clinics/?city=<?=$arResult['clinic']['city_id']?>">Клиники <?=$arResult['clinic']['city_name']?></a></li>
 		<li><b><?=$arResult['clinic']['name']?></b></li>
 	</ul>
 	<div class="wrap_item">
@@ -38,19 +38,20 @@
 			<?php if ($arResult['clinic']["recomended"] == 1):?>
 				<div class="tabs-menu menu_tab">
 					<ul>
-						<li class="active t1"><a href="#">О клинике<i></i></a></li>
-						<li class="t3"><a href="#">Услуги и цены<i></i></a></li>
-						<li class="t2"><a href="#">Акции<i></i></a></li>
+						<li class="t1<?=$arResult['CURRENT_TAB']=='base' ? ' active' : ''?>"><a href="/cl<?=$arResult['clinic']['id']?>/">О клинике<i></i></a></li>
+						<li class="t3<?=$arResult['CURRENT_TAB']=='prices' ? ' active' : ''?>"><a href="/cl<?=$arResult['clinic']['id']?>/prices/">Услуги и цены<i></i></a></li>
+						<li class="t2<?=$arResult['CURRENT_TAB']=='promotions' ? ' active' : ''?>"><a href="/cl<?=$arResult['clinic']['id']?>/promotions/">Акции<i></i></a></li>
 						<?php if (!empty($arResult['clinic']["articles"])):?>
-							<li class="t4"><a href="#">Статьи<i></i></a></li>
+							<li class="t4<?=$arResult['CURRENT_TAB']=='articles' ? ' active' : ''?>"><a href="/cl<?=$arResult['clinic']['id']?>/articles/">Статьи<i></i></a></li>
 						<?php endif?>
-						<?php if ($arResult['clinic']["id"]==2):?>
-							<li class="t6"><a href="#">Специалисты<i></i></a></li>
+						<?php if (!empty($arResult['clinic']['professionals'])):?>
+							<li class="t6<?=$arResult['CURRENT_TAB']=='specialists' ? ' active' : ''?>"><a href="/cl<?=$arResult['clinic']['id']?>/specialists/">Специалисты<i></i></a></li>
 						<?php endif?>
-						<li class="t5"><a href="#">Контакты<i></i></a></li>
+						<li class="t7<?=$arResult['CURRENT_TAB']=='reviews' ? ' active' : ''?>"><a href="/cl<?=$arResult['clinic']['id']?>/reviews/">Отзывы<i></i></a></li>
+						<li class="t5<?=$arResult['CURRENT_TAB']=='contacts' ? ' active' : ''?>"><a href="/cl<?=$arResult['clinic']['id']?>/contacts/">Контакты<i></i></a></li>
 					</ul>
 				</div>
-				<div class="tabs tab1">
+				<div class="tabs tab1<?=$arResult['CURRENT_TAB']!='base' ? ' none' : ''?>">
 					<?php if (!empty($arResult['clinic']['gallery'])):?>
 						<div class="gallery">
 							<div class="gallery-in">
@@ -76,7 +77,7 @@
 					<?php endif?>
 					<p><?=$arResult['clinic']['detail_text']?></p>
 				</div>
-				<div class="tabs tab2 services none">
+				<div class="tabs tab2 services<?=$arResult['CURRENT_TAB']!='prices' ? ' none' : ''?>">
 					<span>Перечень услуг и цен является ориентировочным и содержит лишь часть полного комплекса процедур и операций, проводимых специалистами клиники.
 					Для получения более подробной информации, пожалуйста, позвоните по телефону, указанному в контактных данных.</span>
 					<?php foreach ($arResult['clinic']['specializations'] as $key=>$val):?>
@@ -97,7 +98,7 @@
 						<?php endforeach?>
 					<?php endforeach?>
 				</div>
-				<div class="tabs tab3 none">
+				<div class="tabs tab3<?=$arResult['CURRENT_TAB']!='promotions' ? ' none' : ''?>">
 					<div class="promotions">
 						<div class="items">
 							<?php if (!empty($arResult['clinic']['akzii'])):?>
@@ -133,9 +134,9 @@
 							<?php else:?>
 								<div class="default">
 									<h3>Текущих акций нет</h3>
-									<p>На текущий момент Клиника <?=$arResult['clinic']['name']?> не проводит акций.</p>
-									<p>Однако, Вы можете оставить нам свой e-mail, и мы с радостью сообщим Вам о запуске новых акций от данной клиники.</p>
-									<?$APPLICATION->IncludeComponent(
+									<p>На текущий момент клиника <?=$arResult['clinic']['name']?> не проводит акций.</p>
+<!--									<p>Однако, Вы можете оставить нам свой e-mail, и мы с радостью сообщим Вам о запуске новых акций от данной клиники.</p>
+									$APPLICATION->IncludeComponent(
 										"estelife:subscribe",
 										"",
 										array(
@@ -143,14 +144,15 @@
 											'type'=>1,
 											'text'=>'Хочу узнавать обо всех новых акциях, размещаемых на портале'
 										)
-									)?>
+									)
+-->
 								</div>
 							<?php endif?>
 						</div>
 					</div>
 				</div>
 				<?php if (!empty($arResult['clinic']['articles'])):?>
-					<div class="tabs tab4 none">
+					<div class="tabs tab4<?=$arResult['CURRENT_TAB']!='articles' ? ' none' : ''?>">
 						<div class="items ">
 							<?php foreach ($arResult['clinic']['articles'] as $val):?>
 
@@ -169,43 +171,37 @@
 						</div>
 					</div>
 				<?php endif?>
-				<?php if ($arResult['clinic']['id']==2):?>
-					<div class="tabs tab6 none">
-						<div class="items ">
-							<div class="item article specialist">
-								<img src="/bitrix/templates/estelife/images/spec/rib.jpg" alt="Рыбакин Артур Владимирович" title="Рыбакин Артур Владимирович">
-								<h3>Рыбакин Артур Владимирович</h3>
-								<p>Пластический хирург, главный врач Института красоты СПИК, заведующий отделением эстетической пластической хирургии Института красоты СПИК</p>
-							</div>
-							<div class="item article specialist">
-								<img src="/bitrix/templates/estelife/images/spec/and.jpg" alt="Андреищев Андрей Русланович" title="Андреищев Андрей Русланович">
-								<h3>Андреищев Андрей Русланович</h3>
-								<p>Пластический и челюстно-лицевой хирург, ортодонт</p>
-							</div>
-							<div class="item article specialist">
-								<img src="/bitrix/templates/estelife/images/spec/arb.jpg" alt="Арбатов Вячеслав Витальевич" title="Арбатов Вячеслав Витальевич">
-								<h3>Арбатов Вячеслав Витальевич</h3>
-								<p>Пластический хирург</p>
-							</div>
-							<div class="item article specialist">
-								<img src="/bitrix/templates/estelife/images/spec/sok.jpg" alt="Соколов Григорий Никитич" title="Соколов Григорий Никитич">
-								<h3>Соколов Григорий Никитич</h3>
-								<p>Дерматолог-онколог, зав.отделением лазерной косметологии, к.м.н</p>
-							</div>
-							<div class="item article specialist">
-								<img src="/bitrix/templates/estelife/images/spec/bag.jpg" alt="Багненко Елена Сергеевна" title="Багненко Елена Сергеевна">
-								<h3>Багненко Елена Сергеевна</h3>
-								<p>Врач дерматолог-косметолог, трихолог, к.м.н</p>
-							</div>
-							<div class="item article specialist">
-								<img src="/bitrix/templates/estelife/images/spec/gin.jpg" alt="Гинтовт Елизавета Алексеевна" title="Гинтовт Елизавета Алексеевна">
-								<h3>Гинтовт Елизавета Алексеевна</h3>
-								<p>Врач дерматолог-косметолог, к.м.н</p>
-							</div>
+				<?php if (!empty($arResult['clinic']['professionals'])):?>
+					<div class="tabs tab6<?=$arResult['CURRENT_TAB']!='specialists' ? ' none' : ''?>">
+						<div class="items">
+							<?php foreach ($arResult['clinic']['professionals'] as $arProf):?>
+								<div class="item specialist">
+									<div class="img">
+										<div class="img-in">
+											<?php if(!empty($arProf["logo"])): ?>
+												<?=$arProf["logo"]?>
+											<?php else: ?>
+												<div class="default">Изображение отсутствует</div>
+											<?endif?>
+										</div>
+									</div>
+									<h2><a href="<?=$arProf["link"]?>"><?=$arProf["name"]?></a></h2>
+									<?php if (!empty($arProf["short_description"])):?>
+										<p><?=$arProf["short_description"]?></p>
+									<?php endif?>
+								</div>
+							<?php endforeach?>
 						</div>
 					</div>
 				<?php endif?>
-				<div class="tabs tab-c tab5 none">
+				<div class="tabs tab7<?=$arResult['CURRENT_TAB']!='reviews' ? ' none' : ''?>">
+					<div class="reviews">
+						<?$APPLICATION->IncludeComponent("estelife:reviews", '', array(
+							'clinic_id' => $arResult['clinic']['id']
+						))?>
+					</div>
+				</div>
+				<div class="tabs tab-c tab5<?=$arResult['CURRENT_TAB']!='contacts' ? ' none' : ''?>">
 					<?php if (!empty($arResult['clinic']['contacts'])):?>
 						<?php foreach ($arResult['clinic']['contacts'] as $val):?>
 							<ul>

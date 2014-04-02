@@ -22,7 +22,7 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 				<p><?=$arResult["PREVIEW_TEXT"];?></p>
 			</div>
 			<div class="theme">
-				<?=$arResult["ABOUT"];?>
+				<?=$arResult["ABOUT"]?>
 			</div>
 			<div class="user">
 				<div class="img">
@@ -61,33 +61,20 @@ $APPLICATION->SetTitle($arResult['PROPERTIES']['BROWSER_TITLE']['VALUE']);
 			</div>
 		</div>
 	</div>
-	<div class="adv adv-out right">
-		<?$APPLICATION->IncludeComponent("bitrix:advertising.banner","",Array(
-				"TYPE" => "main_right_1",
-				"CACHE_TYPE" => "A",
-				"NOINDEX" => "N",
-				"CACHE_TIME" => "3600"
-			)
-		);?>
-	</div>
-<!--	<div class="adv adv-out right">-->
-<!--		--><?//$APPLICATION->IncludeComponent("bitrix:advertising.banner","",Array(
-//				"TYPE" => "main_right_2",
-//				"CACHE_TYPE" => "A",
-//				"NOINDEX" => "N",
-//				"CACHE_TIME" => "3600"
-//			)
-//		);?>
-<!--	</div>-->
-<!--	<div class="adv top">-->
-<!--		--><?//$APPLICATION->IncludeComponent("bitrix:advertising.banner","",Array(
-//				"TYPE" => "main_center_1",
-//				"CACHE_TYPE" => "A",
-//				"NOINDEX" => "N",
-//				"CACHE_TIME" => "3600"
-//			)
-//		);?>
-<!--	</div>-->
+	<?$APPLICATION->IncludeComponent("bitrix:advertising.banner","right",Array(
+			"TYPE" => "main_right_1",
+			"CACHE_TYPE" => "A",
+			"NOINDEX" => "N",
+			"CACHE_TIME" => "3600"
+		)
+	);?>
+	<?$APPLICATION->IncludeComponent("bitrix:advertising.banner","right",Array(
+			"TYPE" => "main_right_2",
+			"CACHE_TYPE" => "A",
+			"NOINDEX" => "N",
+			"CACHE_TIME" => "3600"
+		)
+	);?>
 	<?
 		GLOBAL $samefilter;
 		$samefilter = array("!=ID"=>$arResult['ID']);

@@ -32,6 +32,7 @@ CModule::AddAutoloadClasses(
 		'core\database\exceptions\VQueryBuildException' => "classes/core/database/exceptions/class.VQueryBuildException.php",
 		'core\database\exceptions\VQueryException' => "classes/core/database/exceptions/class.VQueryException.php",
 		'core\database\exceptions\VResultException' => "classes/core/database/exceptions/class.VResultException.php",
+		'core\exceptions\VHttpEx' => "classes/core/exceptions/class.VHttpEx.php",
 
 		// collections
 		'core\database\collections\VCollection' => "classes/core/database/collections/class.VCollection.php",
@@ -47,6 +48,9 @@ CModule::AddAutoloadClasses(
 
 		// companies
 		'companies\VCompanies' => "classes/companies/class.VCompanies.php",
+
+		// promotions
+		'promotions\VPromotions' => "classes/promotions/class.VPromotions.php",
 		
 		// geo
 		'geo\VGeo' => "classes/geo/class.VGeo.php",
@@ -74,6 +78,15 @@ CModule::AddAutoloadClasses(
 		'core\types\VString' => "classes/core/types/class.VString.php",
 		'core\types\VDate' => "classes/core/types/class.VDate.php",
 		'core\http\VHttp' => "classes/core/http/class.VHttp.php",
+
+		// forms
+		'core\utils\forms\VForm' => "classes/core/utils/forms/class.VForm.php",
+		'core\utils\forms\VField' => "classes/core/utils/forms/class.VField.php",
+		'core\utils\forms\VSubmit' => "classes/core/utils/forms/class.VSubmit.php",
+		'core\utils\forms\VText' => "classes/core/utils/forms/class.VText.php",
+		'core\utils\forms\VTextarea' => "classes/core/utils/forms/class.VTextarea.php",
+		'core\utils\forms\VHidden' => "classes/core/utils/forms/class.VHidden.php",
+		'core\utils\forms\VToken' => "classes/core/utils/forms/class.VToken.php",
 
 		//bitrix
 		'bitrix\VNavigation'=>"classes/bitrix/class.VNavigation.php",
@@ -131,6 +144,7 @@ CModule::AddAutoloadClasses(
 		'pay\VProtocol'=>'classes/pay/class.VProtocol.php',
 		'pay\VReceipt'=>'classes/pay/class.VReceipt.php',
 		'pay\VReceiptEx'=>'classes/pay/class.VReceiptEx.php',
-		'pay\VSecure'=>'classes/pay/class.VSecure.php'
+		'pay\VSecure'=>'classes/pay/class.VSecure.php',
+
 	)
 );

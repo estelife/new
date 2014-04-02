@@ -107,59 +107,6 @@ var Estelife=function(s){
 		})();
 	};
 
-	this.bigLoader=function(){
-		return {
-			'create':function(){
-				var loader=$('.el-big-loader');
-
-				if(loader.length<1){
-					loader=$('<div></div>').addClass('el-big-loader');
-					$('body').append(loader);
-				}
-
-				loader.stop().fadeTo(200,0.9);
-			},
-			'destroy':function(){
-				$('.el-big-loader').stop().fadeTo(200,0);
-			}
-		}
-	};
-
-	this.smallLoader=function(){
-		return {
-			'create':function(el){
-				var find=-1,
-					tag=el[0].tagName.toLowerCase();
-
-				if((find=$.inArray(tag,['select','input','textarea']))>-1){
-					if(find==0){
-						var temp=el.next();
-						if(temp.hasClass('select'))
-							el=temp;
-					}
-
-					var loader=$('.el-small-loader');
-
-					if(loader.length<1){
-						loader=$('<div></div>').addClass('el-small-loader');
-						$('body').append(loader);
-					}else{
-						loader.show();
-					}
-
-					loader.css({
-						'position':'absolute',
-						'top':el.offset().top+4,
-						'left':el.offset().left+el.width()-(find==0 ? 50 : 12)
-					});
-				}
-			},
-			'destroy':function(){
-				$('.el-small-loader').hide();
-			}
-		}
-	};
-
 	this.formBlock=function(){
 		return {
 			'create':function(el){
@@ -187,20 +134,12 @@ var Estelife=function(s){
 		}
 	};
 
-	this.goto=function(toElement,fromAllPosition,noAnimated){
-		var target=(this.browser().webkit) ?
-			$('body') :
-			$('html');
+	this.goto=function(toElement, fromAllPosition, noAnimated){
+		var target=(this.browser().webkit) ? $('body') : $('html');
 
 		if(toElement && toElement.length>0){
-			var top=toElement.offset().top,
-				currentScroll=target.scrollTop();
-
-			if(fromAllPosition || currentScroll>top){
-				(!noAnimated) ?
-					target.animate({'scrollTop':top+'px'},200) :
-					target.scrollTop(top);
-			}
+			var top=toElement.offset().top - 10;
+			target.scrollTop(top);
 		}else{
 			(!noAnimated) ?
 				target.animate({'scrollTop':'0px'},200) :
@@ -433,6 +372,60 @@ var Estelife=function(s){
 			setCookie(name, null, -1)
 		}
 	};
+
+	this.Range=function(field){
+		if(typeof field!='object' || !(field instanceof jQuery) || field.length<=0)
+			throw 'incorrect field for EL.range';
+
+		var ff=field.get(0);
+
+		this.caretPosition = function() {
+			ff.focus();
+
+			if(ff.selectionStart)
+				return ff.selectionStart;
+			else if(document.selection){
+				var sel = document.selection.createRange();
+				var clone = sel.duplicate();
+				sel.collapse(true);
+				clone.moveToElementText(ff);
+				clone.setEndPoint('EndToEnd', sel);
+				return clone.text.length;
+			}
+
+			return 0;
+		};
+
+		this.setSelection = function(start, end) {
+			if(ff.selectionStart){
+				ff.setSelectionRange(start,end);
+				ff.focus();
+			}else if (ff.createTextRange){
+				var r=ff.createTextRange();
+				r.moveStart('character',start);
+				r.moveEnd('character',end);
+				r.select();
+			}
+		};
+	};
+
+	this.keyCode=function(e,code){
+		var keyCode=(window.event) ? window.event.keyCode : e.which;
+		return (!code) ? keyCode : (code==keyCode);
+	};
+
+	this.fromCharCode = function(code) {
+		var codes = [48,49,50,51,52,53,54,55,56,57,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,96,97,98,99,100,101,102,103,104,105,106,107,109,110,111,186,187,188,189,190,191,192,219,220,221,222],
+			values = [0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',0,1,2,3,4,5,6,7,8,9,'*','+','-','.','/',';','=',',','-','.','/','~','[','\\',']','\''],
+			key = null;
+
+		key = codes.inArray(code);
+
+		if (key < 0 || key >= values.length)
+			return null;
+
+		return values[key];
+	};
 };
 Estelife.prototype.profile=function(t){
 	var title=t||'profile:',
@@ -632,13 +625,17 @@ Estelife.prototype.helpMaker=function(elements){
 
 Estelife.prototype.notice=function(){
 	if(!this.noticeElement){
-		this.noticeElement=$('<div class="notice"><div class="notice-message"></div></div>');
+		this.noticeElement=$('<div class="notice"><a href="#" class="close">Закрыть</a><div class="notice-message"></div></div>');
 		this.noticeElement.click(function(){
 			return false;
 		});
 		$('body').append(this.noticeElement);
 		$(document).click(function(){
 			_hide();
+		});
+		this.noticeElement.find('a').click(function(e){
+			_hide();
+			e.preventDefault();
 		});
 	}
 
@@ -775,6 +772,144 @@ Estelife.prototype.touchEvent = (function(){
 			};
 		}
 	}
+})();
+
+Estelife.prototype.Form = function(f) {
+	if (_.isString(f))
+		form = $(f);
+	else if(!_.isObject(f) || !(f instanceof jQuery))
+		throw 'Incorrect form element';
+
+	if (!f.length)
+		throw 'Form element not found in page';
+
+	var form = f,
+		afterSend,
+		beforeSend;
+
+	this.getData = function() {
+		var data={},
+			keys={};
+
+		form.find('input,select,textarea').each(function(){
+			var inpt=$(this),
+				type=inpt.attr('type') || 'textarea',
+				name=inpt.attr('name'),
+				val='';
+
+			if(['text', 'select', 'hidden', 'textarea'].inArray(type) > -1){
+				val=inpt.val();
+			}else if(['checkbox','radio'].inArray(type) > -1 && inpt.prop('checked')){
+				val=inpt.val();
+			}
+
+			if(val!='' && val!=0 && val!='0'){
+				var matches;
+
+				if(matches=name.match(/([a-z_\-0-9]+)\[(.*)\]/)){
+					if(!keys.hasOwnProperty(matches[1]))
+						keys[matches[1]]=[];
+
+					var key=(matches[2]!='') ?
+						matches[2] :
+						Object.keys(keys[matches[1]]).length;
+
+					keys[matches[1]].push(key);
+					data[matches[1]+'['+key+']']=val;
+				}else
+					data[name]=val;
+			}
+		});
+
+		return data;
+	};
+
+	this.sendData = function(params) {
+		var def = {
+			method: form.attr('method'),
+			action: form.attr('action')
+		};
+		params = $.extend(def, params);
+		var formData = this.getData();
+
+		if (beforeSend && !beforeSend(formData, params))
+			return;
+
+		$.ajax({
+			cache: false,
+			data: formData,
+			dataType: 'json',
+			type: params.method.toLowerCase(),
+			url: params.action,
+			success: function(data) {
+				afterSend && afterSend(data);
+			}
+		});
+	};
+
+	this.registerBeforeSend = function(callback) {
+		if (callback && typeof callback=='function')
+			beforeSend = callback;
+	};
+
+	this.registerAfterSend = function(callback) {
+		if (callback && typeof callback=='function')
+			afterSend = callback;
+	};
+
+	this.getTarget = function() {
+		return form;
+	}
+};
+
+Estelife.prototype.loader = (function() {
+	var loader,
+		percentStarted;
+
+	function _create() {
+		if (!loader) {
+			loader = $('<div class="loader"></div>');
+			$('body').append(loader);
+		}
+	}
+
+	return {
+		startWithPercent: function() {
+			_create();
+			loader.width(0).show();
+			percentStarted = true;
+		},
+		setPercent:function(percent) {
+			if (!percentStarted)
+				return;
+
+			var windowWidth = $(window).width();
+			percent = parseFloat(percent);
+
+			if (isNaN(percent) || percent < 0)
+				percent = 0;
+			else if (percent > 100)
+				percent = 100;
+
+			var percentWidth = windowWidth * (percent / 100);
+			loader.stop().animate({width: percentWidth + 'px'}, 200, 'swing', function(){
+				if (percent >= 100) {
+					percentStarted = false;
+					setTimeout(function(){
+						loader.hide();
+					}, 100)
+				}
+			});
+		},
+		start: function() {
+			_create();
+			loader.width(0)
+				.show()
+				.animate({width: $(window).width() + 'px'}, 500, 'swing', function(){
+					loader.hide();
+				});
+		}
+	};
 })();
 
 var EL=new Estelife({

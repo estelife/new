@@ -1,10 +1,18 @@
 <?php
 use core\database\VDatabase;
 use core\types\VArray;
+use core\types\VString;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 CModule::IncludeModule("iblock");
 CModule::IncludeModule("estelife");
+
+
+$arTabs = array('base', 'reviews', 'prices', 'promotions', 'specialists', 'contacts', 'articles');
+$arResult['CURRENT_TAB'] = isset($arParams['CURRENT_TAB']) ? $arParams['CURRENT_TAB'] : 'base';
+
+if (!in_array($arResult['CURRENT_TAB'], $arTabs))
+	throw new \core\exceptions\VHttpEx('Invalid request', 404);
 
 $obClinics = VDatabase::driver();
 $nClinicID =  (isset($arParams['ID'])) ?
@@ -173,6 +181,7 @@ foreach ($arResult['clinic']['specializations'] as $val){
 }
 
 $arResult['clinic']['specializations_string'] = implode(', ', $arResult['clinic']['specializations_string']);
+$arResult['clinic']['specializations_string'] = mb_strtolower($arResult['clinic']['specializations_string']);
 
 //Получаем галерею
 $obQuery = $obClinics->createQuery();
@@ -261,6 +270,44 @@ if (!empty($arFilialsPays)){
 	}
 }
 
+//Получаем специалистов
+$obQuery = $obClinics->createQuery();
+$obQuery->builder()->from('estelife_professionals_clinics', 'epc');
+$obJoin = $obQuery->builder()->join();
+$obJoin->_left()
+	->_from('epc', 'professional_id')
+	->_to('estelife_professionals', 'id', 'ep');
+$obJoin->_left()
+	->_from('ep', 'user_id')
+	->_to('user', 'ID', 'u');
+$obQuery->builder()
+	->field('ep.id','id')
+	->field('u.NAME','name')
+	->field('u.LAST_NAME', 'last_name')
+	->field('u.SECOND_NAME', 'second_name')
+	->field('ep.image_id', 'image_id')
+	->field('ep.short_description', 'short_description')
+	->filter()
+	->_eq('epc.clinic_id', $nClinicID);
+$arProfessionals = $obQuery->select()->all();
+if (!empty($arProfessionals)){
+	foreach ($arProfessionals as $arData){
+		$arData['link']='/pf'.$arData['id'].'/';
+		if (empty($arData['last_name']))
+			$arData['name']=VString::brForName($arData['name']);
+		else
+			$arData['name']=VString::brForName($arData['last_name'].' '.$arData['name'].' '.$arData['second_name']);
+
+		$arData['short_description'] = \core\types\VString::truncate(html_entity_decode($arData['short_description'],ENT_QUOTES), 120, '...');
+
+		if(!empty($arData['image_id'])){
+			$file=CFile::ShowImage($arData["image_id"], 227, 158,'alt="'.$arData['name'].'"');
+			$arData['logo']=$file;
+		}
+		$arResult['clinic']['professionals'][]=$arData;
+	}
+}
+
 //Получаем акции
 $obQuery = $obClinics->createQuery();
 $obJoin=$obQuery
@@ -309,17 +356,7 @@ if(!empty($arResult['clinic']['logo_id']))
 
 $arResult['clinic']['detail_text']=htmlspecialchars_decode($arResult['clinic']['detail_text'],ENT_NOQUOTES);
 
-//получение города в родительском патеже
-if (!empty($arResult['clinic']['city_id'])){
-	$obRes = CIBlockElement::GetList(Array(), array("IBLOCK_ID"=>16,"ID"=>$arResult['clinic']['city_id']), false, false, array("PROPERTY_CITY"));
-	$arCity = $obRes->Fetch();
-	if (!empty($arCity['PROPERTY_CITY_VALUE'])){
-		$arResult['clinic']['city_name']=$arCity = $arCity['PROPERTY_CITY_VALUE'];
-	}else{
-		$arResult['clinic']['city_name']=$arCity = $arResult['clinic']['city'];
-	}
-}
-
+$arResult['clinic']['city_name']=$arCity = $arResult['clinic']['city'];
 if (!empty($arCity))
 	$arCity = $arCity;
 else
@@ -334,8 +371,53 @@ if(preg_match('#(клиник)#ui',$arResult['clinic']['seo_name']))
 	$sPrefix='';
 
 
-$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' - акции, цены, адреса';
-$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' - подробная информация, адреса, контакты и акции.';
+$nCityId = 0;
+
+if(isset($arResult['clinic']['city_id'])&& !empty($arResult['clinic']['city_id'])){
+	$nCityId = $arResult['clinic']['city_id'];
+}
+
+if($nCityId>0){
+	//Получаем имя города по его ID
+	$obCity=CIBlockElement::GetList(
+		array("NAME"=>"ASC"),
+		array("IBLOCK_ID"=>16, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "ID" => $nCityId),
+		false,
+		false,
+		array("ID", "NAME", 'PROPERTY_CITY')
+	);
+	$arResult['city']=$obCity->Fetch();
+	$arResult['city']['R_NAME']=(!empty($arResult['city']['PROPERTY_CITY_VALUE'])) ?
+		$arResult['city']['PROPERTY_CITY_VALUE'] :
+		$arResult['city']['NAME'];
+}
+
+if(isset($arResult['city'])&& !empty($arResult['city'])){
+	$arCity = $arResult['city']['NAME'];
+}
+
+if($arResult['CURRENT_TAB']=='prices'){
+	$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' - цены и услуги';
+	$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' -  продробная информация о ценах и услугах здесь.';
+}else if($arResult['CURRENT_TAB']=='promotions'){
+	$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' - акции и скидки';
+	$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' -  вся информация о проводимых акциях и предоставляемых скидках. Читайте.';
+}else if($arResult['CURRENT_TAB']=='reviews'){
+	$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' - отзывы пациентов';
+	$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' -  читайте отзывы пациентов у нас.';
+}else if($arResult['CURRENT_TAB']=='contacts'){
+	$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' - адреса, карты и контакты';
+	$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' -  все адреса и  месторасположение на карте, а так же контакты. Смотрите здесь.';
+}else if($arResult['CURRENT_TAB']=='articles'){
+	$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' - мнение экспертов и статьи';
+	$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' -  экслюзивно на портале Estelife предлагает вашему вниманию интересные статьи и мнения своих специалистов. Только лучшее.';
+}else if($arResult['CURRENT_TAB']=='professionals'){
+	$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' - врачи и специалисты клиники';
+	$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' -  Название клиники - полный список врачей и специалистов с подробной информацией. Читайте у нас.';
+}else{
+	$arResult['clinic']['seo_title'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' - акции, цены, адреса';
+	$arResult['clinic']['seo_description'] = $sPrefix.$arResult['clinic']['seo_name'].' '.$arCity.' - подробная информация, адреса, контакты и акции.';
+}
 
 $APPLICATION->SetPageProperty("title", $arResult['clinic']['seo_title']);
 $APPLICATION->SetPageProperty("description", $arResult['clinic']['seo_description']);

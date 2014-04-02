@@ -41,8 +41,8 @@ $arResult['countries'] = $obQuery->select()->all();
 $arResult['filter'] = $arFilterParams;
 
 $arResult['count'] = \bitrix\ERESULT::$DATA['count'];
-
 $arResult['empty']=false;
+
 foreach ($arResult['filter'] as $val){
 	if (($val=='' && $val==0) || $val=='all')
 		continue;

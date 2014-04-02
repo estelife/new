@@ -39,7 +39,7 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 		"",
 		array(
 			"IBLOCK_ID"=>35,
-			"NEWS_COUNT" => 2,
+			"NEWS_COUNT" => 4,
 			"MAIN_URL" => "",
 			"TITLE"=>"Экспертное мнение",
 			"MORE_TITLE"=>"",
@@ -47,6 +47,7 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 			"AUTOR"=> 172,
 			"PROFESSION" => 173,
 			"PREVIEW"=>178,
+            "MAIN_ACTIVE" => 200,
 			"PREFIX" => ""
 		)
 	)?>
@@ -65,8 +66,8 @@ $APPLICATION->SetPageProperty("title", "EsteLife.RU - информационны
 		"",
 		array(
 			"IBLOCK_ID"=>3,
-			"SECTIONS_ID"=> array(176,177,173,172),
-			"SECTIONS_NAME"=> array("События","Обо всем","Пластическая хирургия","Косметология"),
+			"SECTIONS_ID"=> array(172,177,173,176),
+			"SECTIONS_NAME"=> array("Косметология","Обо всем","Пластическая хирургия","События"),
 			"NEWS_COUNT" => 4,
 			"NEED_SECTION" => "N",
 			"MAIN_URL" => "novosti",

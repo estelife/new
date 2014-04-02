@@ -202,7 +202,7 @@ if (!empty($arClinics)){
 
 $sTemplate=$this->getTemplateName();
 $obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
-$arResult['nav']=$obNav->getNav();//$obResult->GetNavPrint('', true,'text','/bitrix/templates/estelife/system/pagenav'.$sTemplate.'.php');
+$arResult['nav'] = $obNav->getNav();
 
 $sTitle = "Клиники косметологии и пластической хирургии";
 

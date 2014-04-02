@@ -203,7 +203,7 @@ $arDescription=implode(', ',$arDescription);
 $arDescription = strip_tags(html_entity_decode(implode(", ", $arDescription), ENT_QUOTES, 'utf-8'));
 $arDescription = VString::pregStrSeo($arDescription);
 
-$sSeoTitle='Организаторы мероприятий в сфере красоты';
+$sSeoTitle='Организаторы событий в сфере эстетической медицины';
 $sSeoDescription='Подробная информация об организаторах выставок, форумов, семинаров и конгрессов в сфере эстетической медицины';
 $arSeoGeo=array();
 

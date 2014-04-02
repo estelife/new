@@ -22,7 +22,7 @@
 	<li><a href="/promotions/">Акции</a></li>
 	<li><a href="#" class="empty_link">События</a>
 		<ul class="submenu">
-			<li><a href="/sponsors/">Организаторы</a></li>
+			<li><a href="/organizers/">Организаторы</a></li>
 			<li><a href="/events/">Календарь событий</a></li>
 		</ul>
 	</li>
@@ -51,7 +51,4 @@
 			</ul>
 		</li>
 	<?php endif?>
-	<li class="last">
-		<a href="/ev321/program/" class="no-ajax">ECAM 2014</a>
-	</li>
 </ul>

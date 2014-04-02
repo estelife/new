@@ -99,7 +99,6 @@ define(['tpl/Template'],function(Template){
 					ob.$el.append(el);
 				});
 			}
-
 			return this;
 		},
 		render:function(){
@@ -122,7 +121,6 @@ define(['tpl/Template'],function(Template){
 				this.template.ready(function(){
 					ob.template.set('list', ob.data.list);
 					ob.$el.append(ob.template.render());
-					EL.goto($('.main_menu'),false,true);
 				});
 			}
 
@@ -137,7 +135,7 @@ define(['tpl/Template'],function(Template){
 	Views.Comments=Views.Default.extend({
 		el:'div.comments-ajax',
 		render:function(){
-			if(_.isObject(this.data) && 'comments' in this.data){
+			if(_.isObject(this.data) && this.data.hasOwnProperty('comments')){
 				var ob=this;
 
 				if(this.$el.length==0){
@@ -173,10 +171,9 @@ define(['tpl/Template'],function(Template){
 					ob.template.set('detail', ob.data.detail);
 
 					if(ob.data.hasOwnProperty('same_data'))
-						ob.template.set('same_data',ob.data.same_data);
+						ob.template.set('same_data', ob.data.same_data);
 
 					ob.$el.append(ob.template.render());
-					EL.goto($('.main_menu'),false,true);
 
 					var commentsView=new Views.Comments({
 						template:'comments_list'
@@ -186,6 +183,15 @@ define(['tpl/Template'],function(Template){
 
 					ob.$el.find('.comments-ajax')
 						.replaceWith(commentsView.$el);
+
+					var reviewsView=new Views.Reviews({
+						template:'review_list'
+					});
+					reviewsView.setData(ob.data);
+					reviewsView.render();
+
+					ob.$el.find('.reviews')
+						.replaceWith(reviewsView.$el);
 
 					Events.push({
 						target:$('body'),
@@ -384,7 +390,7 @@ define(['tpl/Template'],function(Template){
 		el:null,
 		render:function(){
 			if(_.isString(this.data) && this.data!=null){
-				this.$el=$('<div></div>').addClass('adv');
+				this.$el=$('<div></div>').addClass('ajax_banner');
 
 				if(this.className)
 					this.$el.addClass(this.className);
@@ -402,7 +408,7 @@ define(['tpl/Template'],function(Template){
 
 			if(_.isString(this.data) && this.data!=null){
 				setTimeout(function(){
-					var className='adv';
+					var className='ajax_banner';
 
 					if(ob.className)
 						className+=' '+ob.className;
@@ -505,6 +511,43 @@ define(['tpl/Template'],function(Template){
 				_.each(this.views,function(view){
 					ob.$el.append(view.render().$el);
 				});
+			}
+
+			EL.goto($('.main_menu'));
+			EL.loader.setPercent(100);
+			return this;
+		}
+	});
+
+	Views.Reviews=Views.Default.extend({
+		el:'div.reviews',
+		render:function(){
+			if(_.isObject(this.data) && this.data.hasOwnProperty('reviews')){
+				EL.loader.setPercent(80);
+				var ob=this;
+
+				if(this.$el.length==0){
+					this.$el=$('<div class="reviews"></div>');
+					this.el=this.$el[0];
+				}
+
+				this.$el.empty();
+
+				this.template.ready(function(){
+					ob.template.set('reviews', ob.data.reviews);
+					ob.$el.append($(ob.template.render()));
+
+					Events.push({
+						'target':ob.$el.find('form'),
+						'type':'updateForm'
+					});
+
+					EL.loader.setPercent(100);
+				});
+
+				ob.el=ob.$el[0];
+			} else {
+				EL.loader.setPercent(100);
 			}
 
 			return this;

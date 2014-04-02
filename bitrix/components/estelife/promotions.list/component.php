@@ -78,7 +78,9 @@ $obQuery->builder()
 	->field('ct.CODE', 'city_code')
 	->field('ea.small_photo','s_logo_id')
 	->field('ec.name','clinic_name')
-	->field('ec.id','clinic_id');
+	->field('ec.id','clinic_id')
+    	->field('ec.clinic_id','current_clinic_id');
+
 $obFilter=$obQuery->builder()->filter();
 $obFilter->_gte('ea.end_date', $arNow);
 $obFilter->_eq('ea.active', 1);
@@ -148,6 +150,10 @@ if(!empty($arCount)){
 		$val['time'] = ceil(($val['end_date']-$arNow)/(60*60*24));
 		$val['day'] = \core\types\VString::spellAmount($val['time'], 'день,дня,дней');
 		$val['link'] = '/pr'.$val['id'].'/';
+
+		if (!empty($val['current_clinic_id']))
+			$val['clinic_id'] = $val['current_clinic_id'];
+
 		$arResult['akzii'][]=$val;
 	}
 
@@ -176,6 +182,9 @@ if(!empty($arCount)){
 
 		$arData['new_price'] = number_format(intval($arData['new_price']),0,'.',' ');
 		$arData['old_price'] = number_format(intval($arData['old_price']),0,'.',' ');
+
+		if (!empty($arData['current_clinic_id']))
+			$arData['clinic_id'] = $arData['current_clinic_id'];
 
 		$arResult['akzii'][]=$arData;
 	}

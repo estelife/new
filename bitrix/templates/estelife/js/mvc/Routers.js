@@ -17,13 +17,13 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			'threads/(.*)': 'threadsList',
 			'apparatuses/(.*)': 'apparatusesList',
 			'events/(.*)': 'eventsList',
-			'sponsors/(.*)': 'sponsorsList',
+			'organizers/(.*)': 'sponsorsList',
 			'training-centers/(.*)': 'trainingCentersList',
 			'trainings/(.*)': 'trainingsList',
 			'professionals/(.*)': 'professionalsList',
 			'ap:number/': 'apparatusesDetail',
 			'am:number/': 'apparatusesMakersDetail',
-			'cl:number/': 'clinicsDetail',
+			'cl:number/(:param/)': 'clinicsDetail',
 			'ev:number/': 'eventsDetail',
 			'ps:number/': 'preparationsDetail',
 			'th:number/': 'threadsDetail',
@@ -103,7 +103,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									]
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -136,7 +136,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 										]
 									}),
 									new Views.AdvertDelay({
-										className:'adv adv-out right',
+										className:'',
 										dataKey:'BANNER'
 									})
 								]
@@ -231,7 +231,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'clinics_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -270,7 +270,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'promotions_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -310,7 +310,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'preparations_makers_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -350,7 +350,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'apparatuses_makers_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -390,7 +390,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'preparations_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -430,7 +430,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'preparations_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -470,7 +470,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'preparations_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -510,7 +510,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'apparatuses_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -550,7 +550,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'events_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -565,7 +565,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			var model=new Models.Inner(null,{
 				pages:this.getShortPages(
 					[
-						'sponsors/'+EL.query().toString(),
+						'organizers/'+EL.query().toString(),
 						'sponsors_filter/'+EL.query().toString(),
 						'banner/'
 					],
@@ -590,7 +590,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'sponsors_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -630,7 +630,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'training_centers_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -670,7 +670,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'trainings_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -710,7 +710,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'professionals_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -751,7 +751,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									]
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -781,7 +781,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									]
 								}),
 								new Views.Advert({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -816,7 +816,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'apparatuses_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -851,7 +851,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'apparatuses_makers_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -862,11 +862,12 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			model.fetch();
 		},
 
-		clinicsDetail: function(id){
+		clinicsDetail: function(id, path){
 			var model=new Models.Inner(null,{
 				pages:[
-					'cl'+id+'/',
+					'cl'+id+'/'+(path && path!='undefined' ? path + '/' : ''),
 					'clinics_filter/'+EL.query().toString(),
+					'review_list/?clinic_id='+id,
 					'banner/'
 				],
 				view:new Views.WrapContent({
@@ -886,7 +887,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'clinics_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -921,7 +922,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'events_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -1000,7 +1001,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'preparations_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -1035,7 +1036,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'preparations_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -1070,7 +1071,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'preparations_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -1105,7 +1106,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'preparations_makers_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -1140,7 +1141,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'sponsors_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -1175,7 +1176,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'promotions_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -1210,7 +1211,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'training_centers_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -1245,7 +1246,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'trainings_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -1280,7 +1281,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									template:'professionals_filter'
 								}),
 								new Views.AdvertDelay({
-									className:'adv adv-out right',
+									className:'',
 									dataKey:'BANNER'
 								})
 							]
@@ -1289,8 +1290,39 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 				})
 			});
 			model.fetch();
-		}
+		},
 
+		reviewList: function(clinicId, problemId, specialistId) {
+			var query = ['clinic_id='+clinicId];
+
+			if (problemId)
+				query.push('problem_id='+problemId);
+
+			if (specialistId)
+				query.push('specialist_id='+specialistId);
+
+			var model=new Models.Component(null,{
+				pages:[
+					'review_list/?'+query.join('&')
+				],
+				view: new Views.Reviews({
+					template:'review_list'
+				})
+			});
+			model.fetch();
+		},
+
+		reviewForm: function(clinic_id) {
+			var model=new Models.Component(null,{
+				pages:[
+					'review_form/?clinic_id='+clinic_id,
+				],
+				view: new Views.Reviews({
+					template:'review_form'
+				})
+			});
+			model.fetch();
+		}
 	});
 
 	return Routers;

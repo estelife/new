@@ -5,7 +5,7 @@
 			<b class="stat"><!--$comments.count!--></b>
 			<div class="items">
 				<!--foreach ($comments.comments as $key=>$val)!-->
-					<div class="item">
+					<div class="item" id="comment_<!--$val.id!-->">
 						<b><!--$val.name!--></b>
 						<i><!--$val.date_create!--></i>
 						<p><!--$val.text!--></p>
@@ -24,23 +24,23 @@
 			<div class="success">Ваш комментарий успешно добавлен.</div>
 		<!--endif!-->
 		<!--if($comments.auth)!-->
-			<form name="comments" method="post" action="#comment">
+			<!--$comments.form.create_token!-->
+			<form name="<!--$comments.form.name!-->" method="<!--$comments.form.method!-->" action="<!--$comments.form.action!-->" id="<!--$comments.form.id!-->">
 				<div class="form-in quality-in">
-					<input type="hidden" name="id" value="<!--$comments.element_id!-->">
-					<input type="hidden" name="type" value="<!--$comments.type!-->">
+					<!--$comments.form.fields.id!-->
+					<!--$comments.form.fields.type!-->
 					<div class="col1">
-						<div class="field <!--if($comments.error.comment)!-->error<!--endif!-->">
+						<div class="field <!--if($comments.errors.comment)!-->error<!--endif!-->">
 							<label for="comment">Ваш комментарий<span>Осталось <s>1000 символов</s></span></label>
-							<textarea name="comment" id="comment"></textarea>
+							<!--$comments.form.fields.comment!-->
 						</div>
 					</div>
 				</div>
-				<input type="submit" class="submit" value="Комментировать" name="send_comment">
-				<p class="total_error <!--if($comments.error)!-->error<!--endif!-->">! Все поля обязательны к заполнению</p>
+				<!--$comments.form.fields.send_comment!-->
 			</form>
 		<!--else!-->
 		<div class="not-auth">
-			<p>Комментарии могут оставлять только зарегистрированные пользователи. <a href="/personal/register/?backurl=/<!--$comments.type!--><!--$comments.element_id!-->/">Зарегистрироваться</a>.</p>
+			<p>Комментарии могут оставлять только зарегистрированные пользователи. <a href="/personal/register/?backurl=/<!--$comments.type_string!--><!--$comments.element_id!-->/">Зарегистрироваться</a> или <a href="/personal/auth/?backurl=/<!--$comments.type_string!--><!--$comments.element_id!-->/">авторизоваться</a>.</p>
 		</div>
 		<!--endif!-->
 	</div>

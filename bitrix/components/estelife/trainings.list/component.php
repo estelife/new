@@ -1,6 +1,5 @@
 <?php
 use core\database\VDatabase;
-use core\database\VFilter;
 use core\types\VArray;
 use core\types\VString;
 
@@ -16,6 +15,21 @@ if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 	$arPageCount = $arParams['PAGE_COUNT'];
 else
 	$arPageCount = 10;
+
+if (isset($arParams['MAKER']) && $arParams['MAKER']>0)
+	$arParams['MAKER']=$nMaker=intval($arParams['MAKER']);
+else
+	$arParams['MAKER']=$nMaker=0;
+
+if (isset($arParams['MAKER_NAME']) && !empty($arParams['MAKER_NAME']))
+	$arParams['MAKER_NAME']=trim(strip_tags($arParams['MAKER_NAME']));
+else
+	$arParams['MAKER_NAME']='';
+
+if (isset($arParams['COMPONENT']) && !empty($arParams['COMPONENT']))
+	$arParams['COMPONENT']=$sComponent=trim(strip_tags($arParams['COMPONENT']));
+else
+	$arParams['COMPONENT']=$sComponent='';
 
 if(!$obGet->blank('city')){
 	$arResult['city'] = intval($obGet->one('city'));
@@ -72,7 +86,6 @@ $obJoin->_left()
 	->_to('estelife_calendar','event_id','ecal');
 
 $obQuery->builder()
-	//->slice(0,1)
 	->field('ee.id','id')
 	->field('ee.short_name','name')
 	->field('ee.full_name', 'full_name')
@@ -92,86 +105,127 @@ $obQuery->builder()
 	->field('ec.name','company_name')
 	->field('ec.id','company_id');
 
-$obFilter=$obQuery->builder()->filter();
-$obFilter->_eq('eet.type', 3);
+if ($sComponent=='list'){
+	$obFilter=$obQuery->builder()->filter();
+	$obFilter->_eq('eet.type', 3);
 
-$session = new \filters\decorators\VTrainings();
-$arFilterParams = $session->getParams();
+	$session = new \filters\decorators\VTrainings();
+	$arFilterParams = $session->getParams();
 
-if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){
-	$obFilter->_or()
-		->_eq('ecg.city_id', $arFilterParams['city']);
-	$obFilter->_or()
-		->_eq('ee.city_id', $arFilterParams['city']);
-}
-
-if(!empty($arFilterParams['direction'])){
-	$obFilter->_eq('eed.type', intval($arFilterParams['direction']));
-}
-
-if(!empty($arFilterParams['date_from'])){
-	$nDateFrom=preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$arFilterParams['date_from']);
-	$nDateFrom=\core\types\VDate::dateToTime($nDateFrom.' 00:00');
-}
-
-if(!empty($arFilterParams['date_to'])){
-	$nDateTo = preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$arFilterParams['date_to']);
-	$nDateTo = \core\types\VDate::dateToTime($nDateTo. ' 23:59');
-}else{
-	$nDateTo = false;
-}
-
-$obFilter->_gte('ecal.date',$nDateFrom);
-
-if ($nDateTo){
-	$obFilter->_lte('ecal.date',$nDateTo);
-}
-
-$obQuery->builder()->sort('ecal.date','asc');
-$obQuery->builder()->group('ee.id');
-
-$obResult = $obQuery->select();
-
-$obResult = $obResult->bxResult();
-$nCount = $obResult->SelectedRowsCount();
-$arResult['count'] = 'Найден'.VString::spellAmount($nCount, ',о,о'). ' '.$nCount.' семинар'.VString::spellAmount($nCount, ',а,ов');
-\bitrix\ERESULT::$DATA['count'] = $arResult['count'];
-$obResult->NavStart($arPageCount);
-
-$arResult['training'] = array();
-$arIds = array();
-
-while($arData=$obResult->Fetch()){
-	$arIds[] = $arData['id'];
-
-	$arData['link'] = '/tr'.$arData['id'].'/';
-
-	if(empty($arData["phone"]) && !empty($arData["company_phone"]))
-		$arData['phone']=\core\types\VString::formatPhone($arData["company_phone"]);
-
-	if(empty($arData['web']) && !empty($arData['company_web']))
-		$arData['web']=$arData['company_web'];
-
-	if(!empty($arData['web']))
-		$arData['web_short']=\core\types\VString::checkUrl($arData['web']);
-
-	if(empty($arData['address']) && !empty($arData['company_address'])){
-		$arData['address']=$arData['company_address'];
-		$arData['city_name']=$arData['company_city_name'];
+	if(!empty($arFilterParams['city']) && $arFilterParams['city'] !='all'){
+		$obFilter->_or()
+			->_eq('ecg.city_id', $arFilterParams['city']);
+		$obFilter->_or()
+			->_eq('ee.city_id', $arFilterParams['city']);
 	}
 
-	$arData['company_link'] = '/tc'.$arData['company_id'].'/';
+	if(!empty($arFilterParams['direction'])){
+		$obFilter->_eq('eed.type', intval($arFilterParams['direction']));
+	}
 
-	if(!empty($arData['logo_id'])){
-		$file = CFile::ShowImage($arData["logo_id"], 200, 90, 'alt="'.$arData['name'].'"');
-		$arData['logo']=$file;
+	if(!empty($arFilterParams['date_from'])){
+		$nDateFrom=preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$arFilterParams['date_from']);
+		$nDateFrom=\core\types\VDate::dateToTime($nDateFrom.' 00:00');
+	}
+
+	if(!empty($arFilterParams['date_to'])){
+		$nDateTo = preg_replace('/^(\d{2}).(\d{2}).(\d{2})$/','$1.$2.20$3 ',$arFilterParams['date_to']);
+		$nDateTo = \core\types\VDate::dateToTime($nDateTo. ' 23:59');
 	}else{
-		$arData['logo']="<img src='/img/icon/unlogo.png' />";
+		$nDateTo = false;
 	}
 
-	$arData['preview_text'] = \core\types\VString::truncate(nl2br(htmlspecialchars_decode($arData['preview_text'],ENT_NOQUOTES)), 80, '...');
-	$arData['phone']=\core\types\VString::formatPhone($arData["company_phone"]);
-	$arResult['training'][$arData['id']]=$arData;
+	$obFilter->_gte('ecal.date',$nDateFrom);
+
+	if ($nDateTo){
+		$obFilter->_lte('ecal.date',$nDateTo);
+	}
+
+	$obQuery->builder()->sort('ecal.date','asc');
+	$obQuery->builder()->group('ee.id');
+
+	$obResult = $obQuery->select();
+
+	$obResult = $obResult->bxResult();
+	$nCount = $obResult->SelectedRowsCount();
+	$arResult['count'] = 'Найден'.VString::spellAmount($nCount, ',о,о'). ' '.$nCount.' семинар'.VString::spellAmount($nCount, ',а,ов');
+	\bitrix\ERESULT::$DATA['count'] = $arResult['count'];
+	$obResult->NavStart($arPageCount);
+
+	$arResult['training'] = array();
+	$arIds = array();
+
+	while($arData=$obResult->Fetch()){
+		$arIds[] = $arData['id'];
+
+		$arData['link'] = '/tr'.$arData['id'].'/';
+
+		if(empty($arData["phone"]) && !empty($arData["company_phone"]))
+			$arData['phone']=\core\types\VString::formatPhone($arData["company_phone"]);
+
+		if(empty($arData['web']) && !empty($arData['company_web']))
+			$arData['web']=$arData['company_web'];
+
+		if(!empty($arData['web']))
+			$arData['web_short']=\core\types\VString::checkUrl($arData['web']);
+
+		if(empty($arData['address']) && !empty($arData['company_address'])){
+			$arData['address']=$arData['company_address'];
+			$arData['city_name']=$arData['company_city_name'];
+		}
+
+		$arData['company_link'] = '/tc'.$arData['company_id'].'/';
+
+		if(!empty($arData['logo_id'])){
+			$file = CFile::ShowImage($arData["logo_id"], 200, 90, 'alt="'.$arData['name'].'"');
+			$arData['logo']=$file;
+		}else{
+			$arData['logo']="<img src='/img/icon/unlogo.png' />";
+		}
+
+		$arData['preview_text'] = \core\types\VString::truncate(nl2br(htmlspecialchars_decode($arData['preview_text'],ENT_NOQUOTES)), 80, '...');
+		$arData['phone']=\core\types\VString::formatPhone($arData["company_phone"]);
+		$arResult['training'][$arData['id']]=$arData;
+	}
+
+
+
+	$sTitle='Семинары, курсы и обучения - косметология и пластическая хирургия.';
+	$sDescription='Расписание семинаров, обучений и курсов в учебных центрах по косметологии и платисческой хирургии.';
+
+	if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
+		$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
+		$sTitle.=' - '.$_GET['PAGEN_1'].' страница';
+		$sDescription.=' - '.$_GET['PAGEN_1'].' страница';
+	}
+
+	$APPLICATION->SetPageProperty("title", $sTitle);
+	$APPLICATION->SetPageProperty("description", $sDescription);
+
+	$sTemplate=$this->getTemplateName();
+	$obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
+	$arResult['nav']=$obNav->getNav();
+}elseif ($sComponent=='centers_list'){
+	$obFilter=$obQuery->builder()->filter()
+		->_eq('eet.type', 3)
+		->_eq('ece.company_id',$nMaker);
+
+	$nDateFrom=\core\types\VDate::dateToTime(date('d.m.Y', time()).' 00:00');
+	$obFilter->_gte('ecal.date',$nDateFrom);
+
+	$obQuery->builder()
+		->sort('ecal.date','asc')
+		->group('ee.id')
+		->slice(0,10);
+
+	$arEvents = $obQuery->select()->all();
+
+	foreach ($arEvents as $val){
+		$val['link'] = '/tr'.$val['id'].'/';
+		$val['preview_text']=html_entity_decode($val['preview_text'],ENT_QUOTES,'utf-8');
+		$arResult['training'][$val['id']] = $val;
+		$arIds[] = $val['id'];
+	}
 }
 
 if (!empty($arIds)){
@@ -181,8 +235,7 @@ if (!empty($arIds)){
 		->from('estelife_calendar')
 		->sort('date','asc')
 		->filter()
-			->_in('event_id', $arIds);
-//			->_gte('date',$nDateFrom);
+		->_in('event_id', $arIds);
 
 	if($nDateTo)
 		$obFilter->_lte('date',$nDateTo);
@@ -238,21 +291,5 @@ if (!empty($arIds)){
 	}
 
 }
-
-$sTitle='Семинары, курсы и обучения - косметология и пластическая хирургия.';
-$sDescription='Расписание семинаров, обучений и курсов в учебных центрах по косметологии и платисческой хирургии.';
-
-if (isset($_GET['PAGEN_1']) && intval($_GET['PAGEN_1'])>0){
-	$_GET['PAGEN_1'] = intval($_GET['PAGEN_1']);
-	$sTitle.=' - '.$_GET['PAGEN_1'].' страница';
-	$sDescription.=' - '.$_GET['PAGEN_1'].' страница';
-}
-
-$APPLICATION->SetPageProperty("title", $sTitle);
-$APPLICATION->SetPageProperty("description", $sDescription);
-
-$sTemplate=$this->getTemplateName();
-$obNav=new \bitrix\VNavigation($obResult,($sTemplate=='ajax'));
-$arResult['nav']=$obNav->getNav();
 
 $this->IncludeComponentTemplate();

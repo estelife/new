@@ -28,19 +28,20 @@
 		<!--if($detail.recomended==1)!-->
 			<div class="tabs-menu menu_tab">
 				<ul>
-					<li class="active t1"><a href="#">О клинике<i></i></a></li>
-					<li class="t3"><a href="#">Услуги и цены<i></i></a></li>
-					<li class="t2"><a href="#">Акции<i></i></a></li>
+					<li class="t1<!--if($detail.CURRENT_TAB==base)!--> active<!--endif!-->"><a href="/cl<!--$detail.id!-->/">О клинике<i></i></a></li>
+					<li class="t3<!--if($detail.CURRENT_TAB==prices)!--> active<!--endif!-->"><a href="/cl<!--$detail.id!-->/prices/">Услуги и цены<i></i></a></li>
+					<li class="t2<!--if($detail.CURRENT_TAB==promotions)!--> active<!--endif!-->"><a href="/cl<!--$detail.id!-->/promotions/">Акции<i></i></a></li>
 					<!--if($detail.articles)!-->
-					<li class="t4"><a href="#">Статьи<i></i></a></li>
+					<li class="t4<!--if($detail.CURRENT_TAB==articles)!--> active<!--endif!-->"><a href="/cl<!--$detail.id!-->/articles/">Статьи<i></i></a></li>
 					<!--endif!-->
-					<!--if($detail.id==2)!-->
-					<li class="t6"><a href="#">Специалисты<i></i></a></li>
+					<!--if($detail.professionals)!-->
+					<li class="t6<!--if($detail.CURRENT_TAB==specialists)!--> active<!--endif!-->"><a href="/cl<!--$detail.id!-->/specialists/">Специалисты<i></i></a></li>
 					<!--endif!-->
-					<li class="t5"><a href="#">Контакты<i></i></a></li>
+					<li class="t7<!--if($detail.CURRENT_TAB==reviews)!--> active<!--endif!-->"><a href="/cl<!--$detail.id!-->/reviews/">Отзывы<i></i></a></li>
+					<li class="t5<!--if($detail.CURRENT_TAB==contacts)!--> active<!--endif!-->"><a href="/cl<!--$detail.id!-->/contacts/">Контакты<i></i></a></li>
 				</ul>
 			</div>
-			<div class="tabs tab1">
+			<div class="tabs tab1<!--if($detail.CURRENT_TAB!=base)!--> none<!--endif!-->">
 				<!--if($detail.gallery)!-->
 					<div class="gallery">
 						<div class="gallery-in">
@@ -66,7 +67,7 @@
 				<!--endif!-->
 				<p><!--$detail.detail_text!--></p>
 			</div>
-			<div class="tabs tab2 services none">
+			<div class="tabs tab2 services<!--if($detail.CURRENT_TAB!=prices)!--> none<!--endif!-->">
 				<span>Перечень услуг и цен является ориентировочным и содержит лишь часть полного комплекса процедур и операций, проводимых специалистами клиники.
 					Для получения более подробной информации, пожалуйста, позвоните по телефону, указанному в контактных данных.</span>
 				<!--foreach($detail.specializations as $key=>$val)!-->
@@ -87,7 +88,7 @@
 					<!--endforeach!-->
 				<!--endforeach!-->
 			</div>
-			<div class="tabs tab3 none">
+			<div class="tabs tab3<!--if($detail.CURRENT_TAB!=promotions)!--> none<!--endif!-->">
 				<div class="promotions">
 					<div class="items">
 						<!--if($detail.akzii)!-->
@@ -123,28 +124,15 @@
 						<!--else!-->
 							<div class="default">
 								<h3>Текущих акций нет</h3>
-								<p>На текущий момент Клиника <!--$detail.name!--> не проводит акций.</p>
-								<p>Однако, Вы можете оставить нам свой e-mail, и мы с радостью сообщим Вам о запуске новых акций от данной клиники.</p>
-								<form name="subscribe" method="post" action="" class="subscribe">
-									<div class="field">
-										<input type="text" name="email" class="text" placeholder="Ваш e-mail..." />
-									</div>
-									<div class="field check">
-										<input type="checkbox" name="always" checked="true" value="1" id="always" />
-										<label for="always">Хочу узнавать обо всех новых акциях, размещаемых на портале</label>
-										<input type="hidden" name="type" value="1" />
-										<input type="hidden" name="params[id]" value="<!--$detail.id!-->" />
-										<input type="hidden" name="params[city_id]" value="<!--$detail.main_contact.city_id!-->" />
-									</div>
-									<input type="submit" class="submit" value="Оставить" />
-								</form>
+								<p>На текущий момент клиника <!--$detail.name!--> не проводит акций.</p>
+
 							</div>
 						<!--endif!-->
 					</div>
 				</div>
 			</div>
 			<!--if($detail.articles)!-->
-				<div class="tabs tab4 none">
+				<div class="tabs tab4<!--if($detail.CURRENT_TAB!=articles)!--> none<!--endif!-->">
 					<div class="items">
 						<!--foreach($detail.articles as $key=>$val)!-->
 							<div class="item article">
@@ -161,43 +149,35 @@
 					</div>
 				</div>
 			<!--endif!-->
-			<!--if($detail.id==2)!-->
-				<div class="tabs tab6 none">
-					<div class="items ">
-						<div class="item article specialist">
-							<img src="/bitrix/templates/estelife/images/spec/rib.jpg" alt="Рыбакин Артур Владимирович" title="Рыбакин Артур Владимирович">
-							<h3>Рыбакин Артур Владимирович</h3>
-							<p>Пластический хирург, главный врач Института красоты СПИК, заведующий отделением эстетической пластической хирургии Института красоты СПИК</p>
-						</div>
-						<div class="item article specialist">
-							<img src="/bitrix/templates/estelife/images/spec/and.jpg" alt="Андреищев Андрей Русланович" title="Андреищев Андрей Русланович">
-							<h3>Андреищев Андрей Русланович</h3>
-							<p>Пластический и челюстно-лицевой хирург, ортодонт</p>
-						</div>
-						<div class="item article specialist">
-							<img src="/bitrix/templates/estelife/images/spec/arb.jpg" alt="Арбатов Вячеслав Витальевич" title="Арбатов Вячеслав Витальевич">
-							<h3>Арбатов Вячеслав Витальевич</h3>
-							<p>Пластический хирург</p>
-						</div>
-						<div class="item article specialist">
-							<img src="/bitrix/templates/estelife/images/spec/sok.jpg" alt="Соколов Григорий Никитич" title="Соколов Григорий Никитич">
-							<h3>Соколов Григорий Никитич</h3>
-							<p>Дерматолог-онколог, зав.отделением лазерной косметологии, к.м.н</p>
-						</div>
-						<div class="item article specialist">
-							<img src="/bitrix/templates/estelife/images/spec/bag.jpg" alt="Багненко Елена Сергеевна" title="Багненко Елена Сергеевна">
-							<h3>Багненко Елена Сергеевна</h3>
-							<p>Врач дерматолог-косметолог, трихолог, к.м.н</p>
-						</div>
-						<div class="item article specialist">
-							<img src="/bitrix/templates/estelife/images/spec/gin.jpg" alt="Гинтовт Елизавета Алексеевна" title="Гинтовт Елизавета Алексеевна">
-							<h3>Гинтовт Елизавета Алексеевна</h3>
-							<p>Врач дерматолог-косметолог, к.м.н</p>
-						</div>
+			<!--if($detail.professionals)!-->
+				<div class="tabs tab6<!--if($detail.CURRENT_TAB!=specialists)!--> none<!--endif!-->">
+					<div class="items">
+						<!--foreach ($detail.professionals as $key=>$val)!-->
+							<div class="item specialist">
+								<div class="img">
+									<div class="img-in">
+										<!--if($val.logo)!-->
+											<!--$val.logo!-->
+										<!--else!-->
+											<div class="default">Изображение отсутствует</div>
+										<!--endif!-->
+									</div>
+								</div>
+								<h2><a href="<!--$val.link!-->"><!--$val.name!--></a></h2>
+								<!--if($val.short_description)!-->
+									<p><!--$val.short_description!--></p>
+								<!--endif!-->
+							</div>
+						<!--endforeach!-->
 					</div>
 				</div>
 			<!--endif!-->
-			<div class="tabs tab-c tab5 none">
+
+			<div class="tabs tab7<!--if($detail.CURRENT_TAB!=reviews)!--> none<!--endif!-->">
+				<div class="reviews"></div>
+			</div>
+
+			<div class="tabs tab-c tab5<!--if($detail.CURRENT_TAB!=contacts)!--> none<!--endif!-->">
 				<!--if ($detail.contacts)!-->
 					<!--foreach($detail.contacts as $key=>$val)!-->
 						<ul>
