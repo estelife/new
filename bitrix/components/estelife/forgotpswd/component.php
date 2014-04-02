@@ -63,7 +63,7 @@ if(!$USER->IsAuthorized()){
 				$obError->raise();
 
 				//Поиск пользователя в базе
-				$arUser = CUser::GetByLogin($sEmail)->Fetch();
+				$arUser = CUser::GetByLogin($arResult['values']['EMAIL'])->Fetch();
 				if (!empty($arUser)){
 					$arResult['values']['CHECKWORD']=md5($arUser['CHECKWORD'].$arUser['LOGIN'].'estelifefpswd'.$arUser['EMAIL']);
 					$arResult['values']['USER_ID']=$arUser['ID'];
