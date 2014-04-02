@@ -41,6 +41,7 @@ if (isset($_GET['change_password']) && $_GET['change_password']=="yes"){
 		if (strtotime($arUser['TIMESTAMP_X'])-time()>=2*60*60)
 			throw new \request\exceptions\VRequest('Ссылка для смены пароля не действительна.');
 
+		$arResult['user_id'] = $nUserId;
 		$arResult['change_password']=true;
 	}catch(VException $e){
 		$arResult['global_errors']['confirm']=$e->getMessage();
@@ -62,7 +63,8 @@ if(!$USER->IsAuthorized()){
 				$obError->raise();
 
 				//Поиск пользователя в базе
-				if ($arUser = CUser::GetList($by='id', $order='desc', array('EMAIL'=>$sEmail))->Fetch()){
+				$arUser = CUser::GetByLogin($sEmail)->Fetch();
+				if (!empty($arUser)){
 					$arResult['values']['CHECKWORD']=md5($arUser['CHECKWORD'].$arUser['LOGIN'].'estelifefpswd'.$arUser['EMAIL']);
 					$arResult['values']['USER_ID']=$arUser['ID'];
 					$arResult['values']['BACKURL']=$arResult["backurl"];
@@ -78,6 +80,7 @@ if(!$USER->IsAuthorized()){
 			}
 		}elseif (isset($_POST['change_password']) && intval($_POST['change_password'])==1){
 			try{
+				$nUserID = intval($_POST['user_id']);
 				//Смена пароля
 				if (isset($_POST['pswd']) && VString::isPassword($_POST['pswd']))
 					$arResult['VALUES']['PASSWORD']=trim(strip_tags($_POST['pswd']));
@@ -95,9 +98,9 @@ if(!$USER->IsAuthorized()){
 				$obError->raise();
 
 				$USER = new CUser;
-				$USER->Update($arUser['ID'], $arResult['VALUES']);
+				$USER->Update($nUserID, $arResult['VALUES']);
 
-				if($USER->Authorize($arUser['ID']))
+				if($USER->Authorize($nUserID))
 					LocalRedirect($arResult["backurl"]);
 
 			}catch(VFormException $e){

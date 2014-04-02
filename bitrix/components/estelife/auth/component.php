@@ -26,6 +26,11 @@ if ($USER->IsAuthorized())
 //Конфирм регистарции
 if (isset($_GET['confirm_registration']) && $_GET['confirm_registration']=='yes'){
 	try{
+		if (isset($_REQUEST['back_url']) && !empty($_REQUEST['back_url']))
+			$arResult["backurl"] = trim(strip_tags($_REQUEST['back_url']));
+		else
+			$arResult["backurl"]='/';
+
 		if ($_GET['confirm_user_id']>0)
 			$nUserId=intval($_GET['confirm_user_id']);
 		else
