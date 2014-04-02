@@ -19,6 +19,7 @@
 
 		<?php if ($arResult['change_password']):?>
 			<input type="hidden" name="change_password" value="1" />
+			<input type="hidden" name="user_id" value="<?=$arResult['user_id']?>" />
 			<div class="field <?=(isset($arResult['errors']['pswd']) ? ' error' : '')?>">
 				<label for="pswd">Пароль</label>
 				<input type="password" class="text" name="pswd" id="pswd" placeholder="..." />
@@ -32,7 +33,6 @@
 			<a href="<?=$arResult["backurl"]?>" class="link back"><span>Вернуться на страницу<i></i></span></a>
 		<?php else:?>
 			<input type="hidden" name="send_check_forgotpswd" value="1" />
-			<input type="hidden" name="user_id" value="<?=$arResult['user_id']?>" />
 			<div class="field <?=(isset($arResult['errors']['email']) ? ' error' : '')?>">
 				<label for="email">E-mail</label>
 				<input type="text" class="text" name="email" id="email" placeholder="..." value="<?=$_POST['email']?>" />
