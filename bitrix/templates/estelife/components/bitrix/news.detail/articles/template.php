@@ -79,14 +79,7 @@ $sDescription = \core\types\VString::truncateToMin($arResult["PREVIEW_TEXT"],150
 		</div>
 		</div>
 		<div class="comments-ajax">
-		<?$APPLICATION->IncludeComponent("estelife:comments.list",
-			"",
-			array(
-				"element_id"=>$arResult["ID"],
-				"type"=>$arResult['INT_TYPES'][$arParams["LINK_CODE"]],
-				"count"=>"5"
-			)
-		);?>
+		
 		</div>
 	</div>
 	<?$APPLICATION->IncludeComponent("bitrix:advertising.banner","right",Array(
