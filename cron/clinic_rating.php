@@ -27,6 +27,8 @@ $obJoin->_left()
 $obJoin->_left()
 	->_from('review', 'id')
 	->_to('estelife_clinic_user_rating', 'review_id', 'rt');
+$obQuery->builder()->filter()
+	->_eq('review.active', 1);
 
 $arReviews = $obQuery->select()->all();
 
