@@ -17,9 +17,6 @@ class VPromotions {
 		if (empty($arActionId))
 			assert('Action ID is empty');
 
-		if (intval($nCityId)<=0)
-			assert('Dop filter is empty');
-
 		if (intval($nCount)<=0)
 			assert('Count is empty');
 
@@ -48,8 +45,10 @@ class VPromotions {
 			->group('ea.id');
 		$obFilter = $obBuilder->filter()
 			->_eq('ea.active', 1)
-			->_gte('ea.end_date', time())
-			->_eq('ec.city_id', $nCityId);
+			->_gte('ea.end_date', time());
+
+		if (!empty($nCityId))
+			$obFilter->_eq('ec.city_id', $nCityId);
 			
 		if (!empty($sDopKey) && !empty($sDopValue))
 			$obFilter->_in($sDopKey, $sDopValue);
