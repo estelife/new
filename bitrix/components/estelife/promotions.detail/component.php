@@ -32,6 +32,9 @@ $arResult['action'] = $obQuery
 	->select()
 	->assoc();
 
+if (empty($arResult['action']))
+	throw new \core\exceptions\VHttpEx('Page not found',404);
+
 if(!empty($arResult['action']['big_photo_name'])){
 	$arResult['action']['big_photo']=array(
 		'src'=>'/upload/'.$arResult['action']['big_photo_dir'].'/'.$arResult['action']['big_photo_name'],
