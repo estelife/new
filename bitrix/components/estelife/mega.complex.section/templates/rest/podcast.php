@@ -1,4 +1,13 @@
 <? if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
+<?
+CModule::IncludeModule("iblock");
+if (!empty($arResult["VARIABLES"]["DOP_CODE"])){
+	$arSection = CIBlockSection::GetList(Array($by=>$order), array('IBLOCK_ID'=>36, "CODE"=>$arResult["VARIABLES"]["DOP_CODE"]), false, array('ID'))->Fetch();
+
+	if (empty($arSection))
+		throw new \core\exceptions\VHttpEx('Page not found',404);
+}
+?>
 <?$APPLICATION->IncludeComponent(
 	"bitrix:news.list",
 	"ajax",

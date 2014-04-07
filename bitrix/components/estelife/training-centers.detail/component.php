@@ -206,11 +206,11 @@ if(!empty($arResult['company']['gallery'])){
 $mCity=$arResult['company']['city_name'];
 
 if (!empty($arResult['company']['city_id'])){
-	$obRes = CIBlockElement::GetList(Array(), array("IBLOCK_ID"=>16,"ID"=>$arResult['company']['city_id']), false, false, array("PROPERTY_CITY"));
+	$obRes = CIBlockElement::GetList(Array(), array("IBLOCK_ID"=>16,"ID"=>$arResult['company']['city_id']), false, false, array("PROPERTY_CITY_R"));
 	$mCity=$obRes->Fetch();
 
-	$mCity=(!empty($mCity['PROPERTY_CITY_VALUE'])) ?
-		$mCity['PROPERTY_CITY_VALUE']:
+	$mCity=(!empty($mCity['PROPERTY_CITY_R_VALUE'])) ?
+		$mCity['PROPERTY_CITY_R_VALUE']:
 		$arResult['company']['city_name'];
 }
 
