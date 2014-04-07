@@ -937,6 +937,9 @@ require([
 		});
 
 		EL.helpMaker($('[data-help],[title]'));
+		body.on('showHelp', '', function(){
+			EL.helpMaker($('[data-help],[title]'));
+		});
 
 		//Пишем в базу историю поиска
 		body.on('click touchstart', '.set_search_history', function(){
