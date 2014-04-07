@@ -35,7 +35,7 @@
 		</div>
 	</div>
 	<div class="group problem<?=isset($arResult['errors']['problem_id']) ? ' error' : ''?>">
-		<h4><i>*</i>Проблема или услуга обращения в клинику</h4>
+		<h4><i>*</i>Повод обращения в клинику (проблема или услуга)</h4>
 		<div class="field">
 			<select name="problem_id">
 				<option value="0">--</option>
