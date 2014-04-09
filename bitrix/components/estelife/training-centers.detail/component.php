@@ -212,6 +212,7 @@ if (!empty($arResult['company']['city_id'])){
 	$mCity=(!empty($mCity['PROPERTY_CITY_R_VALUE'])) ?
 		$mCity['PROPERTY_CITY_R_VALUE']:
 		$arResult['company']['city_name'];
+
 }
 
 $arResult['company']['name'] = trim(strip_tags(html_entity_decode($arResult['company']['name'], ENT_QUOTES, 'utf-8')));
