@@ -102,6 +102,18 @@ abstract class VQueryBuilder {
 	}
 
 	/**
+	 * Добавляет значения для  записи в таблицу из массива
+	 * @param array $arValues
+	 * @return $this
+	 */
+	public function values(array $arValues) {
+		foreach ($arValues as $sField => $mValue)
+			$this->value($sField, $mValue);
+
+		return $this;
+	}
+
+	/**
 	 * Указывает, какое поле должно попасть в выборку
 	 * допускается именовать поля, предваряя имя таблицей / коллекцией или её алиасом
 	 * @param string|VQueryBuilder|VFunction $sField
