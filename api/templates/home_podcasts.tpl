@@ -25,7 +25,7 @@
 		<!--foreach ($PODCASTS.ELEMENTS as $key=>$val)!-->
 		<div class="img">
 			<a href="<!--$val.DETAIL_URL!-->">
-				<img src="<!--$val.IMG_S!-->" alt="<!--$val.NAME!-->" title="<!--$val.NAME!-->" />
+				<img src="<!--$val.IMG_S!-->" alt="<!--$val.NAME!-->" />
 			</a>
 			<!--if($val.NAME)!-->
 				<div><p><!--$val.NAME!--></p></div>

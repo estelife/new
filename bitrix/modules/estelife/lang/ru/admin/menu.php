@@ -66,4 +66,4 @@ $MESS ['ESTELIFE_RECEIPT'] = 'Квитанции';
 $MESS ['ESTELIFE_RECEIPT_LIST'] = 'Квитанции';
 $MESS ['ESTELIFE_YANDEX_LIST'] = 'Yandex content';
 $MESS ['ESTELIFE_CLINIC_REVIEWS_TITLE'] = 'Отзывы';
-$MESS ['ESTELIFE_CLINIC_PROBLEMS_TITLE'] = 'Услуги или пробемы';
+$MESS ['ESTELIFE_CLINIC_PROBLEMS_TITLE'] = 'Услуги или проблемы';

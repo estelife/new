@@ -122,14 +122,24 @@ try{
 				$obCompanies= VDatabase::driver();
 
 				$obQuery = $obCompanies->CreateQuery();
-				$obFilter=$obQuery->builder()->from('estelife_company_types')
-					->field('name')
-					->field('company_id')
+				$obFilter=$obQuery->builder()->from('estelife_company_types', 'ect');
+				$obJoin=$obQuery->builder()->join();
+				$obJoin->_left()
+					->_from('ect','id')
+					->_to('estelife_company_type_geo','company_id','ectg');
+				$obJoin->_left()
+					->_from('ectg','city_id')
+					->_to('iblock_element','ID','ct')
+					->_cond()->_eq('ct.IBLOCK_ID',16);
+				$obQuery->builder()
+					->field('ect.name')
+					->field('ct.NAME', 'city_name')
+					->field('ect.company_id')
 					->filter()
-					->_like('name',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+					->_like('ect.name',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 
 				if(!empty($sTypeId))
-					$obFilter->_eq('type', $sTypeId);
+					$obFilter->_eq('ect.type', $sTypeId);
 
 				foreach ($obQuery->select()->all() as $val){
 					$arCType['id'] = $val['company_id'];
@@ -138,18 +148,28 @@ try{
 				}
 
 				$obQuery = $obCompanies->CreateQuery();
-				$obQuery->builder()->from('estelife_companies')
-					->field('id')
-					->field('name')
+				$obQuery->builder()->from('estelife_companies', 'ec');
+				$obJoin=$obQuery->builder()->join();
+				$obJoin->_left()
+					->_from('ec','id')
+					->_to('estelife_company_geo','company_id','ecg');
+				$obJoin->_left()
+					->_from('ecg','city_id')
+					->_to('iblock_element','ID','ct')
+					->_cond()->_eq('ct.IBLOCK_ID',16);
+				$obQuery->builder()
+					->field('ec.id')
+					->field('ec.name')
+					->field('ct.NAME', 'city_name')
 					->filter()
-					->_like('name',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+					->_like('ec.name',$sName,VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 
 				$arCompanies= $obQuery->select()->all();
 
-				$arCompanies = array_merge($arCompanyType, $arCompanies);
+//				$arCompanies = array_merge($arCompanyType, $arCompanies);
 				if (!empty($arCompanies)){
 					foreach ($arCompanies as $val){
-						$val['name'] =  html_entity_decode($val['name'], ENT_QUOTES, 'utf-8');
+						$val['name'] =  html_entity_decode($val['name'], ENT_QUOTES, 'utf-8').' ('.$val['city_name'].')';
 						$arResult['list'][] = $val;
 					}
 				}

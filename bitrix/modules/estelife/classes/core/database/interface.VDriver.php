@@ -47,4 +47,23 @@ interface VDriver {
 	 * @return VListQueries
 	 */
 	public function createListQueries();
+
+	/**
+	 * Стартует транзакции. По логике может ничего не делать.
+	 * @return void
+	 */
+	public function begin();
+
+	/**
+	 * Фиксирует изменения в базе данных
+	 * создавая тем самым точку возврата
+	 * @return void
+	 */
+	public function commit();
+
+	/**
+	 * Осуществляет возврат к зафиксированной позиции
+	 * @return mixed
+	 */
+	public function rollback();
 }

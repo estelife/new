@@ -26,12 +26,6 @@
 			<li><a href="/events/">Календарь событий</a></li>
 		</ul>
 	</li>
-	<li><a href="#" class="empty_link">Семинары</a>
-		<ul class="submenu">
-			<li><a href="/training-centers/">Учебные центры</a></li>
-			<li><a href="/trainings/">Расписание семинаров</a></li>
-		</ul>
-	</li>
 	<li><a href="#" class="empty_link">Справочник</a>
 		<ul class="submenu">
 			<li><a href="/preparations/">Препараты</a></li>
