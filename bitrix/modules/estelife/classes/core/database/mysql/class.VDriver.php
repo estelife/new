@@ -89,4 +89,32 @@ class VDriver implements db\VDriver {
 	public function createListQueries(){
 		return new VListQueries($this);
 	}
+
+	/**
+	 * Стартует транзакции. По логике может ничего не делать.
+	 * @return void
+	 */
+	public function begin(){
+		if (method_exists($this->connect(), 'begin_transaction'))
+			$this->connect()->begin_transaction();
+
+		$this->connect()->autocommit(false);
+	}
+
+	/**
+	 * Фиксирует изменения в базе данных
+	 * создавая тем самым точку возврата
+	 * @return void
+	 */
+	public function commit(){
+		$this->connect()->commit();
+	}
+
+	/**
+	 * Осуществляет возврат к зафиксированной позиции
+	 * @return mixed
+	 */
+	public function rollback(){
+		$this->connect()->rollback();
+	}
 }
