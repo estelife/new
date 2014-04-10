@@ -211,30 +211,29 @@ class VQueryBuilder extends db\VQueryBuilder {
 
 		$arValues=array_values($this->arValues);
 		$arTemp=array();
-		$bIsArray=false;
 
 		foreach($arValues as $nKey=>$mValue){
 			if(is_array($mValue)){
-				if($nKey>0 && !$bIsArray)
-					continue;
-
 				foreach($mValue as $nInnerKey=>$sValue){
-					$sValue=$this->obQuery->driver()->escapeString($sValue);
-					$arTemp[$nInnerKey][]=$sValue;
+					if(is_null($sValue)) {
+						$arTemp[$nInnerKey][] = 'null';
+					}else{
+						$sValue = $this->obQuery->driver()->escapeString($sValue);
+						$arTemp[$nInnerKey][] = is_numeric($sValue) ? $sValue : '\''.$sValue.'\'';
+					}
 				}
+			}else if(is_null($mValue)) {
+				$arTemp[0][] = 'null';
 			}else{
-				if($nKey>0 && $bIsArray)
-					continue;
-
-				$mValue=$this->obQuery->driver()->escapeString($mValue);
-				$arTemp[0][]=$mValue;
+				$mValue = $this->obQuery->driver()->escapeString($mValue);
+				$arTemp[0][] = is_numeric($mValue) ? $mValue : '\''.$mValue.'\'';
 			}
 		}
 
 		$sInset='INSERT INTO `'.$arFrom['table'].'` ('.implode(', ',$arFields).')';
 
 		foreach($arTemp as $arValues)
-			$sInset.=' VALUES (\''.implode('\', \'',$arValues).'\')';
+			$sInset.=' VALUES ('.implode(', ',$arValues).')';
 
 		return $sInset;
 	}
@@ -261,8 +260,14 @@ class VQueryBuilder extends db\VQueryBuilder {
 			if(!$this->obSpecialQuery->checkField($arFrom['table'],$sKey))
 				continue;
 
-			$mValue=$this->obQuery->driver()->escapeString($mValue);
-			$arFields[]=$sKey.'=\''.$mValue.'\'';
+			if (is_null($mValue)) {
+				$mValue = 'null';
+			} else {
+				$mValue=$this->obQuery->driver()->escapeString($mValue);
+				$mValue = is_numeric($mValue) ? $mValue : '\''.$mValue.'\'';
+			}
+
+			$arFields[]=$sKey.'='.$mValue;
 		}
 
 		if(empty($arFields))
