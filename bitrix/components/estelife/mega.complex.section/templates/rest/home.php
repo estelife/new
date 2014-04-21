@@ -56,7 +56,7 @@ $APPLICATION->IncludeComponent(
 	"home_ajax",
 	array(
 		"IBLOCK_ID"=>35,
-		"NEWS_COUNT" => 3,
+		"NEWS_COUNT" => 4,
 		"MAIN_URL" => "",
 		"TITLE"=>"Экспертное мнение",
 		"MORE_TITLE"=>"",
