@@ -599,12 +599,13 @@ require([
 				}
 			});
 		});
-	};
-	lightMenu();
+	}
 
 	//Работа с Гео
 	$(function(){
 		var body=$('body');
+
+		lightMenu();
 
 		Geo.addEventListener({
 			onCityChange:function(city){
