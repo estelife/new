@@ -522,6 +522,7 @@ define(['tpl/Template'],function(Template){
 				target:$('body'),
 				type:'showHelp'
 			});
+			
 			return this;
 		}
 	});
