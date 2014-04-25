@@ -47,6 +47,9 @@ form .global_error{
 	padding: 10px 10px;
 }
 
+.country.k4562{
+	background-image:url('images/countries/k4562.png');
+}
 .country.k357{
 	background-image:url('images/countries/k357.png');
 }
@@ -377,6 +380,9 @@ form .global_error{
 }
 .country.c4030, .country .v4030{
 	background-image:url('images/countries/c4030.png');
+}
+.country.c4562, .country .v4562{
+	background-image:url('images/countries/c4562.png');
 }
 
 #ui-datepicker-div {

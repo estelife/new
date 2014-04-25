@@ -131,7 +131,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			->value('security', htmlentities($obPost->one('security'),ENT_QUOTES,'utf-8'))
 			->value('mix', htmlentities($obPost->one('mix'),ENT_QUOTES,'utf-8'))
 			->value('specs', htmlentities($obPost->one('specs'),ENT_QUOTES,'utf-8'))
-			->value('protocol', htmlentities($obPost->one('protocol'),ENT_QUOTES,'utf-8'))
+			->value('protocol', VString::secure($obPost->one('protocol')))
 			->value('form', htmlentities($obPost->one('form'),ENT_QUOTES,'utf-8'))
 			->value('storage', htmlentities($obPost->one('storage'),ENT_QUOTES,'utf-8'))
 			->value('undesired', htmlentities($obPost->one('undesired'),ENT_QUOTES,'utf-8'))
