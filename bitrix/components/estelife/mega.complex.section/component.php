@@ -70,7 +70,6 @@ $arResult = array(
 	"PREFIX"=> $arPrefix
 );
 
-//$this->IncludeComponentTemplate($componentPage);
 try {
 	// А это - встречайте - костыль для злоебучего битрикса
 	if ($bInitTemplate || $this->initComponentTemplate($componentPage)) {
