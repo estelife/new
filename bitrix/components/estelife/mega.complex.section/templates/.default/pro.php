@@ -1,6 +1,7 @@
 <?php
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)
 	die();
+throw new core\exceptions\VHttpEx('Page not found', 404);
 ?>
 <div class="content">
 <?php
