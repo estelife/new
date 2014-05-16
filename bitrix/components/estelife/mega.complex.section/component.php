@@ -85,4 +85,3 @@ try {
 	CHTTP::SetStatus($e->getCode().' '.$e->getMessage());
 	$this->includeComponentTemplate($e->getCode());
 }
-
