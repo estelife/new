@@ -20,7 +20,7 @@ if ($arParams['PREFIX']=='ps'){
 	$arResult['type_link']="/preparations/";
 }elseif ($arParams['PREFIX']=='th'){
 	$nType=2;
-	$arResult['type']="Нити";
+	$arResult['type']="Бионити";
 	$arResult['type_link']="/threads/";
 }else{
 	$nType=3;
@@ -132,6 +132,7 @@ $arResult['pill']['protocol'] = nl2br(htmlspecialchars_decode($arResult['pill'][
 $arResult['pill']['specs'] = nl2br(htmlspecialchars_decode($arResult['pill']['specs'],ENT_NOQUOTES));
 $arResult['pill']['specialist'] = nl2br(htmlspecialchars_decode($arResult['pill']['specialist'],ENT_NOQUOTES));
 $arResult['pill']['effect'] = nl2br(htmlspecialchars_decode($arResult['pill']['effect'],ENT_NOQUOTES));
+$arResult['pill']['patient'] = nl2br(htmlspecialchars_decode($arResult['pill']['patient'],ENT_NOQUOTES));
 
 //получение галереи
 $obQuery = $obPills->createQuery();

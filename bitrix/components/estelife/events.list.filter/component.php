@@ -61,7 +61,6 @@ if(!$obGet->blank('country')){
 		$arResult['cities'][] = $res;
 	}
 
-
 $arDirections=array();
 $arTypes=array();
 
