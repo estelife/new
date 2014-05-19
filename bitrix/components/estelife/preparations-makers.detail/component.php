@@ -64,6 +64,8 @@ if(!is_null($nCompanyId)){
 }
 
 $arResult['company'] = $obQuery->select()->assoc();
+if (empty($arResult['company']))
+	throw new \core\exceptions\VHttpEx('Invalid request', 404);
 
 if (!empty($arResult['company']['type_name'])){
 	$arResult['company']['name'] = $arResult['company']['type_name'];
