@@ -117,7 +117,7 @@ if ($sComponent=='list'){
 	$arResult['apps'] = array();
 	while($arData=$obResult->Fetch()){
 		$arData['link'] = '/ap'.$arData['id'].'/';
-		$arData['preview_text'] = \core\types\VString::truncate(nl2br(htmlspecialchars_decode($arData['preview_text'],ENT_NOQUOTES)), 250, '...');
+		$arData['preview_text'] = \core\types\VString::truncate(htmlspecialchars_decode($arData['preview_text'],ENT_NOQUOTES), 250, '...');
 
 		if(!empty($arData['logo_id'])){
 			$file=CFile::ShowImage($arData["logo_id"], 180, 180,'alt="'.$arData['name'].'"');

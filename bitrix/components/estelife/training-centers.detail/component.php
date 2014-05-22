@@ -103,7 +103,7 @@ $arResult['company']['img'] = CFile::ShowImage($arResult['company']['logo_id'],2
 if (!empty($arResult['company']['type_detail_text']))
 	$arResult['company']['detail_text'] = $arResult['company']['type_detail_text'];
 
-$arResult['company']['detail_text'] = nl2br(htmlspecialchars_decode($arResult['company']['detail_text'], ENT_NOQUOTES));
+$arResult['company']['detail_text'] = htmlspecialchars_decode($arResult['company']['detail_text'], ENT_NOQUOTES);
 
 
 //Получение контактов для компании
