@@ -33,109 +33,109 @@
 				<?php if (!empty($arResult['pill']['action'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Действие</a></h3>
-						<p class="none"><?=$arResult['pill']['action']?></p>
+						<div class="none"><?=$arResult['pill']['action']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['evidence'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Показания</a></h3>
-						<p class="none"><?=$arResult['pill']['evidence']?></p>
+						<div class="none"><?=$arResult['pill']['evidence']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['contra'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Противопоказания</a></h3>
-						<p class="none"><?=$arResult['pill']['contra']?></p>
+						<div class="none"><?=$arResult['pill']['contra']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['structure'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Состав</a></h3>
-						<p class="none"><?=$arResult['pill']['structure']?></p>
+						<div class="none"><?=$arResult['pill']['structure']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['registration'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Регистрация</a></h3>
-						<p class="none"><?=$arResult['pill']['registration']?></p>
+						<div class="none"><?=$arResult['pill']['registration']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['advantages'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Преимущества</a></h3>
-						<p class="none"><?=$arResult['pill']['advantages']?></p>
+						<div class="none"><?=$arResult['pill']['advantages']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['usage'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Курс лечения</a></h3>
-						<p class="none"><?=$arResult['pill']['usage']?></p>
+						<div class="none"><?=$arResult['pill']['usage']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['area'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Зоны применения</a></h3>
-						<p class="none"><?=$arResult['pill']['area']?></p>
+						<div class="none"><?=$arResult['pill']['area']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['effect'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Достигаемый эффект</a></h3>
-						<p class="none"><?=$arResult['pill']['effect']?></p>
+						<div class="none"><?=$arResult['pill']['effect']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['undesired'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Побочные эффекты</a></h3>
-						<p class="none"><?=$arResult['pill']['undesired']?></p>
+						<div class="none"><?=$arResult['pill']['undesired']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['security'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Безопасность</a></h3>
-						<p class="none"><?=$arResult['pill']['security']?></p>
+						<div class="none"><?=$arResult['pill']['security']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['mix'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Сочетание</a></h3>
-						<p class="none"><?=$arResult['pill']['mix']?></p>
+						<div class="none"><?=$arResult['pill']['mix']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['specs'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Технические характеристики</a></h3>
-						<p class="none"><?=$arResult['pill']['specs']?></p>
+						<div class="none"><?=$arResult['pill']['specs']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['protocol'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Протокол процедуры</a></h3>
-						<p class="none"><?=$arResult['pill']['protocol']?></p>
+						<div class="none"><?=$arResult['pill']['protocol']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['form'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Форма выпуска</a></h3>
-						<p class="none"><?=$arResult['pill']['form']?></p>
+						<div class="none"><?=$arResult['pill']['form']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['storage'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Условия хранения</a></h3>
-						<p class="none"><?=$arResult['pill']['storage']?></p>
+						<div class="none"><?=$arResult['pill']['storage']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['specialist'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Рекомендации специалисту</a></h3>
-						<p class="none"><?=$arResult['pill']['specialist']?></p>
+						<div class="none"><?=$arResult['pill']['specialist']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['patient'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Рекомендации пациенту</a></h3>
-						<p class="none"><?=$arResult['pill']['patient']?></p>
+						<div class="none"><?=$arResult['pill']['patient']?></div>
 					</div>
 				<?php endif?>
 
