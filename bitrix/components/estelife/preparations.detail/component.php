@@ -134,6 +134,7 @@ $arResult['pill']['protocol'] = htmlspecialchars_decode($arResult['pill']['proto
 $arResult['pill']['specs'] = htmlspecialchars_decode($arResult['pill']['specs'],ENT_QUOTES);
 $arResult['pill']['specialist'] = htmlspecialchars_decode($arResult['pill']['specialist'],ENT_QUOTES);
 $arResult['pill']['effect'] = htmlspecialchars_decode($arResult['pill']['effect'],ENT_QUOTES);
+$arResult['pill']['patient'] = htmlspecialchars_decode($arResult['pill']['patient'],ENT_QUOTES);
 
 //получение галереи
 $obQuery = $obPills->createQuery();
