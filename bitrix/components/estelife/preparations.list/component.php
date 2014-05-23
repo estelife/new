@@ -156,11 +156,11 @@ if ($sComponent=='list'){
 			$arSEODescription = 'Вся информация по препаратам для процедуры '.$arTypes[$_GET['type']]['name'].'. Весь список с подробным описанием в нашей базе данных';
 		}
 	}else if ($nType==2){
-		$arResult['title']='Бионити';
+		$arResult['title']='Нити';
 		$sPrefix='th';
-		$arResult['count'] = 'Найден'.VString::spellAmount($nCount, ',о,о'). ' '.$nCount.' бионит'.VString::spellAmount($nCount, 'ь,и,ей');
-		$arSEOTitle = 'Список и база данных бионитей в эстетической медицине';
-		$arSEODescription = 'Большая база данных бионитей для процедур и различных видов терапий в эстетической медицине. Мы собрали для Вас всю информацию';
+		$arResult['count'] = 'Найден'.VString::spellAmount($nCount, ',о,о'). ' '.$nCount.' нит'.VString::spellAmount($nCount, 'ь,и,ей');
+		$arSEOTitle = 'Список и база данных нитей в эстетической медицине';
+		$arSEODescription = 'Большая база данных нитей для процедур и различных видов терапий в эстетической медицине. Мы собрали для Вас всю информацию';
 	}else{
 		$arResult['title']='Имплантаты';
 		$sPrefix='im';
