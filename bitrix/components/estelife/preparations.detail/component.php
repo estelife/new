@@ -20,7 +20,7 @@ if ($arParams['PREFIX']=='ps'){
 	$arResult['type_link']="/preparations/";
 }elseif ($arParams['PREFIX']=='th'){
 	$nType=2;
-	$arResult['type']="Бионити";
+	$arResult['type']="Нити";
 	$arResult['type_link']="/threads/";
 }else{
 	$nType=3;
