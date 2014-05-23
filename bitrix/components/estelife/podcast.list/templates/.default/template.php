@@ -12,7 +12,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<?php if (!empty($arResult["FIRST"])):?>
 				<div class="img">
 					<a href="<?=$arResult["FIRST"]["DETAIL_URL"]?>">
-						<img src="<?=$arResult["FIRST"]['IMG_B']?>" width="393px" height="218px"" alt="<?=$arResult["FIRST"]['NAME']?>" title="<?=$arResult["FIRST"]['NAME']?>" />
+						<img src="<?=$arResult["FIRST"]['IMG_B']?>" width="393" height="218" alt="<?=$arResult["FIRST"]['NAME']?>" title="<?=$arResult["FIRST"]['NAME']?>" />
 					</a>
 					<div>
 						<h3><?=$arResult["FIRST"]['NAME']?></h3>
@@ -29,7 +29,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 			<?php foreach ($arResult["ELEMENTS"] as $val):?>
 				<div class="img">
 					<a href="<?=$val['DETAIL_URL']?>">
-						<img src="<?=$val['IMG_S']?>" width="143px" height="98px"" alt="<?=$val['NAME']?>" title="<?=$val['NAME']?>" />
+						<img src="<?=$val['IMG_S']?>" width="143" height="98" alt="<?=$val['NAME']?>" />
 					</a>
 					<?php if($val["NAME"]):?>
 						<div><p><?=$val['NAME']?></p></div>

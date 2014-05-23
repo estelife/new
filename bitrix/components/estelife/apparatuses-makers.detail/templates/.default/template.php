@@ -2,7 +2,7 @@
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="/">Главная</a></li>
-		<li><a href="/apparatuses-makers/">Производители</a></li>
+		<li><a href="/apparatuses-makers/">Производители аппаратов</a></li>
 		<li><b><?=$arResult['company']['name']?></b></li>
 	</ul>
 	<div class="wrap_item">

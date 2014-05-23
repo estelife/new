@@ -168,10 +168,9 @@ require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_adm
 		$oFilter = new CAdminFilter(
 			$sTableID."_filter",
 			array(
-				GetMessage("ESTELIFE_F_ID"),
-				GetMessage("ESTELIFE_F_TITLE"),
 				GetMessage("ESTELIFE_F_SPEC"),
-				GetMessage("ESTELIFE_F_SERVICE")
+				GetMessage("ESTELIFE_F_SERVICE"),
+				GetMessage("ESTELIFE_F_METHOD")
 			)
 		);
 		$oFilter->Begin();

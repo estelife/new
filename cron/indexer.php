@@ -13,7 +13,7 @@ try{
 	$nLevel=0;
 	$bFound=false;
 
-	while($nLevel<3){
+	while($nLevel<4){
 		$sFile=$sPath.'/'.$sFileName;
 
 		if($bFound=is_file($sFile))
@@ -45,4 +45,5 @@ try{
 	$sLog=date('d.m.Y H:i:s')."\r\n";
 	$sLog.=$e->getMessage()."\r\n";
 	file_put_contents(__DIR__.'/indexer.log',$sLog."\r\n---------------------------\r\n\r\n");
+	echo $sLog;
 }

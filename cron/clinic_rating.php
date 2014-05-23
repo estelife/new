@@ -9,7 +9,15 @@ define("NOT_CHECK_PERMISSIONS", true);
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
 CModule::IncludeModule('estelife');
 
+
 $obQuery = \core\database\VDatabase::driver()->createQuery();
+
+$obQuery->builder()
+	->from('estelife_clinic_rating')
+	->filter()
+	->_ne('id', 0);
+$obQuery->delete();
+
 $obJoin = $obQuery->builder()
 	->from('estelife_clinic_reviews', 'review')
 	->field('review.id')
@@ -27,6 +35,8 @@ $obJoin->_left()
 $obJoin->_left()
 	->_from('review', 'id')
 	->_to('estelife_clinic_user_rating', 'review_id', 'rt');
+$obQuery->builder()->filter()
+	->_eq('review.active', 1);
 
 $arReviews = $obQuery->select()->all();
 
@@ -67,11 +77,7 @@ if (!empty($arReviews)) {
 		$arSpecialistCounts[$arReview['specialist_id']] ++;
 	}
 
-	$obQuery->builder()
-		->from('estelife_clinic_rating')
-		->filter()
-		->_ne('id', 0);
-	$obQuery->delete();
+
 
 	foreach($arCities as $nCityId => $arClinics) {
 		$nMaxScore = pow(max(array_values($arCounts[$nCityId])), 1/5);

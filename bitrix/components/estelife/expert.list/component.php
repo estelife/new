@@ -50,7 +50,7 @@ try{
 		->_eq('IBLOCK_ID', $arParams['IBLOCK_ID'])
 		->_eq('ACTIVE', 'Y')
         ->_gte('ieac.VALUE', 0);
-	$obQuery->builder()->sort('ie.SORT', 'DESC');
+    $obQuery->builder()->sort('ie.SORT', 'DESC');
 	$obQuery->builder()->slice(0, $arParams['NEWS_COUNT']);
 
 	$arElements = $obQuery->select()->all();

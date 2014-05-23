@@ -228,8 +228,7 @@ class VForm {
 			return false;
 	}
 
-	public function getScriptForToken(){
-		GLOBAL $APPLICATION;
+	public function getScriptForToken($bFlag=false){
 		$sScript='
 			<script type="text/javascript">
 				$.get("/api/estelife_ajax.php",{
@@ -246,26 +245,11 @@ class VForm {
 				"json");
 			</script>
 		';
-		$APPLICATION->AddHeadString($sScript, true);
-	}
-
-	public function getScriptForTokenStr(){
-		$sScript='
-			<script type="text/javascript">
-				$.get("/api/estelife_ajax.php",{
-					"action":"create_form_token",
-					"params":{
-						"name": "'.$this->sName.'" ,
-						"action": "'.$this->sAction.'",
-						"method": "'.$this->nMethod.'",
-					}
-				},function(r){
-					if (r)
-						$("#'.$this->sId.'").append("<input type=\'hidden\' name=\'form_token\' value=\'"+r+"\' />");
-				},
-				"json");
-			</script>
-		';
-		return $sScript;
+		if ($bFlag==true){
+			return $sScript;
+		}else{
+			GLOBAL $APPLICATION;
+			$APPLICATION->AddHeadString($sScript, true);
+		}
 	}
 }

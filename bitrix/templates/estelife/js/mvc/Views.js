@@ -63,6 +63,7 @@ define(['tpl/Template'],function(Template){
 
 			this.data=(this.dataKey) ?
 				data[this.dataKey] : data;
+
 		}
 	});
 
@@ -197,6 +198,7 @@ define(['tpl/Template'],function(Template){
 						target:$('body'),
 						type:'updateContent'
 					});
+
 				});
 			}
 
@@ -441,6 +443,7 @@ define(['tpl/Template'],function(Template){
 				});
 
 				ob.el=ob.$el[0];
+
 			}
 
 			return this;
@@ -515,6 +518,11 @@ define(['tpl/Template'],function(Template){
 
 			EL.goto($('.main_menu'));
 			EL.loader.setPercent(100);
+			Events.push({
+				target:$('body'),
+				type:'showHelp'
+			});
+
 			return this;
 		}
 	});

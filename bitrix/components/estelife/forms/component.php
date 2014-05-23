@@ -17,7 +17,7 @@ $arResult['form'] = array(
 	'id' => $obForm->getId(),
 	'action' => $obForm->getAction(),
 	'method' => $obForm->getMethod(),
-	'create_token' => $obForm->getScriptForTokenStr()
+	'create_token' => $obForm->getScriptForToken(true)
 );
 
 

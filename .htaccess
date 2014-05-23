@@ -1,4 +1,9 @@
-Options -Indexes 
+Order deny,allow
+Deny from all
+Allow from 85.143.128.30
+Allow from 62.109.11.71
+
+Options -Indexes
 ErrorDocument 404 /404.php
 
 <IfModule mod_php5.c>

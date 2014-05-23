@@ -19,6 +19,7 @@
 
 		<?php if ($arResult['change_password']):?>
 			<input type="hidden" name="change_password" value="1" />
+			<input type="hidden" name="user_id" value="<?=$arResult['user_id']?>" />
 			<div class="field <?=(isset($arResult['errors']['pswd']) ? ' error' : '')?>">
 				<label for="pswd">Пароль</label>
 				<input type="password" class="text" name="pswd" id="pswd" placeholder="..." />
