@@ -1452,7 +1452,7 @@ td.prices i {
 .media .item.video:hover span {
 	border-color:#e50364;
 }
-.item.detail, .item.detail a {
+.item.detail, .item.detail a, .item.product, .item.product a {
 	font-size:14px;
 }
 .item.detail:hover {
