@@ -139,7 +139,7 @@
 			<!--endif!-->
 		</div>
 	</div>
-	<!--if($detail.similar)!-->
+	<!--if($detail.similar.production)!-->
 		<div class="similars products">
 			<div class="title">
 				<h2>Другие аппараты производителя</h2>
