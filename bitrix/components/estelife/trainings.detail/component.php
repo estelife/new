@@ -60,6 +60,9 @@ else
 	$obFilter->_eq('ee.id', 0);
 
 $arResult['event'] = $obQuery->select()->assoc();
+if (empty($arResult['event']))
+	throw new \core\exceptions\VHttpEx('Invalid request', 404);
+
 $arResult['event']['img'] = CFile::ShowImage($arResult['event']['logo_id'],200, 90, 'alt='.$arResult['event']['name']);
 $arResult['event']['detail_text'] = htmlspecialchars_decode($arResult['event']['detail_text'],ENT_NOQUOTES);
 $arResult['event']['company_link']='/tc'.$arResult['event']['company_id'].'/';

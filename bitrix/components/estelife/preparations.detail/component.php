@@ -82,6 +82,8 @@ if(!is_null($nCompanyId)){
 }
 
 $arResult['pill'] = $obQuery->select()->assoc();
+if (empty($arResult['pill']))
+	throw new \core\exceptions\VHttpEx('Invalid request', 404);
 
 
 if (!empty($arResult['pill']['type_company_name'])){
@@ -113,25 +115,26 @@ unset(
 $arResult['pill']['company_link'] = '/pm'.$arResult['pill']['company_id'].'/';
 $arResult['pill']['img'] = CFile::ShowImage($arResult['pill']['logo_id'],180, 180, 'alt='.$arResult['pill']['name']);
 
-$arResult['pill']['detail_text'] = htmlspecialchars_decode($arResult['pill']['detail_text'],ENT_NOQUOTES);
-$arResult['pill']['registration'] = htmlspecialchars_decode($arResult['pill']['registration'],ENT_NOQUOTES);
-$arResult['pill']['action'] =  htmlspecialchars_decode($arResult['pill']['action'],ENT_NOQUOTES);
-$arResult['pill']['undesired'] = htmlspecialchars_decode($arResult['pill']['undesired'],ENT_NOQUOTES);
-$arResult['pill']['evidence'] = htmlspecialchars_decode($arResult['pill']['evidence'],ENT_NOQUOTES);
-$arResult['pill']['structure'] = htmlspecialchars_decode($arResult['pill']['structure'],ENT_NOQUOTES);
-$arResult['pill']['effect'] = htmlspecialchars_decode($arResult['pill']['effect'],ENT_NOQUOTES);
-$arResult['pill']['form'] = htmlspecialchars_decode($arResult['pill']['form'],ENT_NOQUOTES);
-$arResult['pill']['contra'] = htmlspecialchars_decode($arResult['pill']['contra'],ENT_NOQUOTES);
-$arResult['pill']['usage'] = htmlspecialchars_decode($arResult['pill']['usage'],ENT_NOQUOTES);
-$arResult['pill']['storage'] = htmlspecialchars_decode($arResult['pill']['storage'],ENT_NOQUOTES);
-$arResult['pill']['advantages'] = htmlspecialchars_decode($arResult['pill']['advantages'],ENT_NOQUOTES);
-$arResult['pill']['area'] = htmlspecialchars_decode($arResult['pill']['area'],ENT_NOQUOTES);
-$arResult['pill']['security'] = htmlspecialchars_decode($arResult['pill']['security'],ENT_NOQUOTES);
-$arResult['pill']['mix'] = htmlspecialchars_decode($arResult['pill']['mix'],ENT_NOQUOTES);
-$arResult['pill']['protocol'] = htmlspecialchars_decode($arResult['pill']['protocol'],ENT_NOQUOTES);
-$arResult['pill']['specs'] = htmlspecialchars_decode($arResult['pill']['specs'],ENT_NOQUOTES);
-$arResult['pill']['specialist'] = htmlspecialchars_decode($arResult['pill']['specialist'],ENT_NOQUOTES);
-$arResult['pill']['effect'] = htmlspecialchars_decode($arResult['pill']['effect'],ENT_NOQUOTES);
+$arResult['pill']['detail_text'] = htmlspecialchars_decode($arResult['pill']['detail_text'],ENT_QUOTES);
+$arResult['pill']['registration'] = htmlspecialchars_decode($arResult['pill']['registration'],ENT_QUOTES);
+$arResult['pill']['action'] =  htmlspecialchars_decode($arResult['pill']['action'],ENT_QUOTES);
+$arResult['pill']['undesired'] = htmlspecialchars_decode($arResult['pill']['undesired'],ENT_QUOTES);
+$arResult['pill']['evidence'] = htmlspecialchars_decode($arResult['pill']['evidence'],ENT_QUOTES);
+$arResult['pill']['structure'] = htmlspecialchars_decode($arResult['pill']['structure'],ENT_QUOTES);
+$arResult['pill']['effect'] = htmlspecialchars_decode($arResult['pill']['effect'],ENT_QUOTES);
+$arResult['pill']['form'] = htmlspecialchars_decode($arResult['pill']['form'],ENT_QUOTES);
+$arResult['pill']['contra'] = htmlspecialchars_decode($arResult['pill']['contra'],ENT_QUOTES);
+$arResult['pill']['usage'] = htmlspecialchars_decode($arResult['pill']['usage'],ENT_QUOTES);
+$arResult['pill']['storage'] = htmlspecialchars_decode($arResult['pill']['storage'],ENT_QUOTES);
+$arResult['pill']['advantages'] = htmlspecialchars_decode($arResult['pill']['advantages'],ENT_QUOTES);
+$arResult['pill']['area'] = htmlspecialchars_decode($arResult['pill']['area'],ENT_QUOTES);
+$arResult['pill']['security'] = htmlspecialchars_decode($arResult['pill']['security'],ENT_QUOTES);
+$arResult['pill']['mix'] = htmlspecialchars_decode($arResult['pill']['mix'],ENT_QUOTES);
+$arResult['pill']['protocol'] = htmlspecialchars_decode($arResult['pill']['protocol'],ENT_QUOTES);
+$arResult['pill']['specs'] = htmlspecialchars_decode($arResult['pill']['specs'],ENT_QUOTES);
+$arResult['pill']['specialist'] = htmlspecialchars_decode($arResult['pill']['specialist'],ENT_QUOTES);
+$arResult['pill']['effect'] = htmlspecialchars_decode($arResult['pill']['effect'],ENT_QUOTES);
+$arResult['pill']['patient'] = htmlspecialchars_decode($arResult['pill']['patient'],ENT_QUOTES);
 
 //получение галереи
 $obQuery = $obPills->createQuery();
