@@ -13,6 +13,7 @@ $nProfessionalId=null;
 $nProfessionalId =  (isset($arParams['ID'])) ?
 	intval($arParams['ID']) : 0;
 
+throw new \core\exceptions\VHttpEx('Invalid request', 404);
 
 //Получаем данные по мероприятию
 $obQuery = $obProfessional->createQuery();
