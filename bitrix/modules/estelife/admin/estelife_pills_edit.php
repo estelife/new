@@ -163,7 +163,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 				$obQuery = $obPills->createQuery();
 				$obQuery->builder()->from('estelife_preparations_type')
 					->value('type_id', intval($val))
-					->value('pill_id', $idPill);
+					->value('preparation_id', $idPill);
 				$idPillType = $obQuery->insert()->insertId();
 			}
 		}
