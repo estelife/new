@@ -36,12 +36,6 @@
 						<div class="none"><?=$arResult['app']['action']?></div>
 					</div>
 				<?php endif?>
-				<?php if (!empty($arResult['app']['func'])):?>
-					<div class="el-tab">
-						<h3><a href="#">Функции</a></h3>
-						<div class="none"><?=$arResult['app']['func']?></div>
-					</div>
-				<?php endif?>
 				<?php if (!empty($arResult['app']['evidence'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Показания</a></h3>
@@ -54,16 +48,10 @@
 						<div class="none"><?=$arResult['app']['contra']?></div>
 					</div>
 				<?php endif?>
-				<?php if (!empty($arResult['app']['registration'])):?>
+				<?php if (!empty($arResult['app']['area'])):?>
 					<div class="el-tab">
-						<h3><a href="#">Регистрация</a></h3>
-						<div class="none"><?=$arResult['app']['registration']?></div>
-					</div>
-				<?php endif?>
-				<?php if (!empty($arResult['app']['advantages'])):?>
-					<div class="el-tab">
-						<h3><a href="#">Преимущества</a></h3>
-						<div class="none"><?=$arResult['app']['advantages']?></div>
+						<h3><a href="#">Зоны применения</a></h3>
+						<div class="none"><?=$arResult['app']['area']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['procedure'])):?>
@@ -72,10 +60,10 @@
 						<div class="none"><?=$arResult['app']['procedure']?></div>
 					</div>
 				<?php endif?>
-				<?php if (!empty($arResult['app']['undesired'])):?>
+				<?php if (!empty($arResult['app']['registration'])):?>
 					<div class="el-tab">
-						<h3><a href="#">Побочные эффекты</a></h3>
-						<div class="none"><?=$arResult['app']['undesired']?></div>
+						<h3><a href="#">Регистрация</a></h3>
+						<div class="none"><?=$arResult['app']['registration']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['security'])):?>
@@ -84,34 +72,34 @@
 						<div class="none"><?=$arResult['app']['security']?></div>
 					</div>
 				<?php endif?>
-				<?php if (!empty($arResult['app']['specs'])):?>
-					<div class="el-tab">
-						<h3><a href="#">Технические характеристики</a></h3>
-						<div class="none"><?=$arResult['app']['specs']?></div>
-					</div>
-				<?php endif?>
-				<?php if (!empty($arResult['app']['protocol'])):?>
-					<div class="el-tab">
-						<h3><a href="#">Протокол процедуры</a></h3>
-						<div class="none"><?=$arResult['app']['protocol']?></div>
-					</div>
-				<?php endif?>
-				<?php if (!empty($arResult['app']['equipment'])):?>
-					<div class="el-tab">
-						<h3><a href="#">Комплектация</a></h3>
-						<div class="none"><?=$arResult['app']['equipment']?></div>
-					</div>
-				<?php endif?>
 				<?php if (!empty($arResult['app']['effect'])):?>
 					<div class="el-tab">
-						<h3><a href="#">Достигаемый эффект</a></h3>
+						<h3><a href="#">Достигаемые эффекты</a></h3>
 						<div class="none"><?=$arResult['app']['effect']?></div>
 					</div>
 				<?php endif?>
-				<?php if (!empty($arResult['app']['specialist'])):?>
+				<?php if (!empty($arResult['app']['undesired'])):?>
 					<div class="el-tab">
-						<h3><a href="#">Рекомендации специалисту</a></h3>
-						<div class="none"><?=$arResult['app']['specialist']?></div>
+						<h3><a href="#">Побочные эффекты</a></h3>
+						<div class="none"><?=$arResult['app']['undesired']?></div>
+					</div>
+				<?php endif?>
+				<?php if (!empty($arResult['app']['func'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Функции</a></h3>
+						<div class="none"><?=$arResult['app']['func']?></div>
+					</div>
+				<?php endif?>
+				<?php if (!empty($arResult['app']['advantages'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Преимущества</a></h3>
+						<div class="none"><?=$arResult['app']['advantages']?></div>
+					</div>
+				<?php endif?>
+				<?php if (!empty($arResult['app']['mix'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Сочетание</a></h3>
+						<div class="none"><?=$arResult['app']['mix']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['patient'])):?>
@@ -120,6 +108,44 @@
 						<div class="none"><?=$arResult['app']['patient']?></div>
 					</div>
 				<?php endif?>
+				<?php if (!empty($arResult['app']['specialist'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Рекомендации специалисту</a></h3>
+						<div class="none"><?=$arResult['app']['specialist']?></div>
+					</div>
+				<?php endif?>
+				<?php if (!empty($arResult['app']['protocol'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Протокол процедуры</a></h3>
+						<div class="none"><?=$arResult['app']['protocol']?></div>
+					</div>
+				<?php endif?>
+				<?php if (!empty($arResult['app']['specs'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Технические характеристики</a></h3>
+						<div class="none"><?=$arResult['app']['specs']?></div>
+					</div>
+				<?php endif?>
+				<?php if (!empty($arResult['app']['rules'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Правила эксплуатации</a></h3>
+						<div class="none"><?=$arResult['app']['rules']?></div>
+					</div>
+				<?php endif?>
+				<?php if (!empty($arResult['app']['equipment'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Комплектация</a></h3>
+						<div class="none"><?=$arResult['app']['equipment']?></div>
+					</div>
+				<?php endif?>
+				<?php if (!empty($arResult['app']['acs'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Аксессуары</a></h3>
+						<div class="none"><?=$arResult['app']['acs']?></div>
+					</div>
+				<?php endif?>
+
+
 
 				<?php if (!empty($arResult['app']['gallery'])):?>
 					<div class="el-tab">

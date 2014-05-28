@@ -25,15 +25,7 @@ $ID=isset($_REQUEST['ID']) ?
 	intval($_REQUEST['ID']) : 0;
 
 $obApp= VDatabase::driver();
-if(!empty($ID)){
-	$obQuery = $obApp->createQuery();
-	$obQuery
-		->builder()
-		->from('estelife_pills_typename')
-		->filter()
-		->_eq('ea.id', $ID);
-	$arResult['type']=$obQuery->select()->assoc();
-}
+
 if($_SERVER['REQUEST_METHOD']=='POST'){
 	$obPost=new VArray($_POST);
 	$obError=new ex\VFormException();
@@ -43,16 +35,12 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		if($obPost->blank('name'))
 			$obError->setFieldError('NAME_NOT_FILL','name');
 
-		if($obPost->blank('type'))
-			$obError->setFieldError('NAME_NOT_TYPE','type');
-
 		$obError->raise();
 
 		//Добавление типа
 		$obQuery = $obApp->createQuery();
 		$obQuery->builder()->from('estelife_pills_typename')
-			->value('name', trim(htmlentities($obPost->one('name'),ENT_QUOTES,'utf-8')))
-			->value('type', intval($obPost->one('type')));
+			->value('name', trim(htmlentities($obPost->one('name'),ENT_QUOTES,'utf-8')));
 
 		if (!empty($ID)){
 			$obQuery->builder()->filter()
@@ -124,20 +112,9 @@ if(!empty($arResult['error']['text'])){
 		<td width="40%"><?=GetMessage("ESTELIFE_F_TITLE")?></td>
 		<td width="60%"><input type="text" name="name" size="60" maxlength="255" value="<?=$arResult['type']['name']?>"></td>
 	</tr>
-	<tr class="adm-detail-required-field">
-		<td width="40%"><?=GetMessage("ESTELIFE_F_TYPE")?></td>
-		<td width="60%">
-			<select name="type">
-				<option value=""><?=GetMessage("ESTELIFE_F_TYPE_SELECT")?></option>
-				<option value="1" <?if ($arResult['type']['type']==1):?>selected<?endif?>>Препараты</option>
-				<option value="2" <?if ($arResult['type']['type']==2):?>selected<?endif?>>Нити</option>
-				<option value="3" <?if ($arResult['type']['type']==3):?>selected<?endif?>>Имплантаты</option>
-			</select>
-		</td>
-	</tr>
 	<?php
 	$tabControl->EndTab();
-	$tabControl->Buttons(array("disabled"=>false, "back_url"=>(strlen($back_url) > 0 ? $back_url : "estelife_apparatus_type_list.php?lang=".LANGUAGE_ID)));
+	$tabControl->Buttons(array("disabled"=>false, "back_url"=>(strlen($back_url) > 0 ? $back_url : "estelife_pills_type_list.php?lang=".LANGUAGE_ID)));
 	$tabControl->End();
 	?>
 	</form>

@@ -20,9 +20,13 @@ $MESS ['ESTELIFE_F_SECURITY'] = 'Безопасность';
 $MESS ['ESTELIFE_F_PROTOCOL'] = 'Протокол процедуры';
 $MESS ['ESTELIFE_F_UNDESIRED'] = 'Побочные эффекты';
 $MESS ['ESTELIFE_F_EQUIPMENT'] = 'Комплектация';
-$MESS ['ESTELIFE_F_EFFECT'] = 'Достигаемый эффект';
-$MESS ['ESTELIFE_F_SPECIALIST'] = 'Рекомендация специалисту';
-$MESS ['ESTELIFE_F_PATIENT'] = 'Рекомендация пациенту';
+$MESS ['ESTELIFE_F_EFFECT'] = 'Достигаемые эффекты';
+$MESS ['ESTELIFE_F_SPECIALIST'] = 'Рекомендации специалисту';
+$MESS ['ESTELIFE_F_PATIENT'] = 'Рекомендации пациенту';
+$MESS ['ESTELIFE_F_AREA'] = 'Зоны применения';
+$MESS ['ESTELIFE_F_RULES'] = 'Правила экплуатации';
+$MESS ['ESTELIFE_F_MIX'] = 'Сочетание';
+$MESS ['ESTELIFE_F_ACS'] = 'Аксессуары';
 
 $MESS ['ESTELIFE_F_TYPE_SELECT'] = 'Выберите тип аппарата';
 $MESS ['ESTELIFE_T_BASE'] = 'Добавление аппарата';

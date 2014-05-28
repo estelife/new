@@ -40,9 +40,7 @@ $arResult['countries']=$obQuery->select()->all();
 $obQuery = $obApp->createQuery();
 $obQuery
 	->builder()
-	->from('estelife_apparatus_typename')
-	->filter()
-	->_eq('type', 1);
+	->from('estelife_apparatus_typename');
 $arResult['types'] = $obQuery->select()->all();
 
 $arResult['filter'] = $arFilterParams;

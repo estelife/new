@@ -9,12 +9,11 @@ namespace filters\decorators;
 
 class VPreparations extends VDecorator {
 	public function __construct(){
-		parent::__construct('preparations', array('ptype'));
+		parent::__construct('preparations');
 		parent::setDefaultField('name','');
 		parent::setDefaultField('company_name','');
 		parent::setDefaultField('type','');
 		parent::setDefaultField('country','');
-		parent::setDefaultField('ptype','1');
 	}
 
 	public function getParams(){

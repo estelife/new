@@ -4,7 +4,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)
 
 bitrix\ERESULT::$KEY='detail';
 $APPLICATION->IncludeComponent(
-	"estelife:preparations.detail",
+	"estelife:implants.detail",
 	"ajax",
 	array(
 		"PREFIX"=>$arResult['PREFIX'],
@@ -14,7 +14,7 @@ $APPLICATION->IncludeComponent(
 );
 
 $APPLICATION->IncludeComponent(
-	"estelife:preparations.list",
+	"estelife:implants.list",
 	"ajax",
 	array(
 		"MAKER"=>bitrix\ERESULT::$DATA['detail']['company_id'],

@@ -17,11 +17,6 @@ if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 else
 	$arPageCount = 10;
 
-if (isset($arParams['TYPE']) && $arParams['TYPE']>0)
-	$nType=intval($arParams['TYPE']);
-else
-	$nType=1;
-
 if (isset($arParams['MAKER']) && $arParams['MAKER']>0)
 	$nMaker=intval($arParams['MAKER']);
 else
@@ -42,11 +37,11 @@ if (isset($arParams['PREP_ID']) && $arParams['PREP_ID']>0)
 
 //Получение списка препаратов
 $obQuery = $obPills->createQuery();
-$obQuery->builder()->from('estelife_pills', 'ep');
+$obQuery->builder()->from('estelife_preparations', 'ep');
 $obJoin=$obQuery->builder()->join();
 $obJoin->_left()
 	->_from('ep', 'id')
-	->_to('estelife_pills_type', 'pill_id', 'ept');
+	->_to('estelife_preparations_type', 'preparation_id', 'ept');
 $obJoin->_left()
 	->_from('ep', 'company_id')
 	->_to('estelife_companies', 'id', 'ec');
@@ -75,7 +70,6 @@ $obQuery->builder()
 	->field('cttype.NAME','type_country_name')
 	->field('ep.id','id')
 	->field('ep.name','name')
-	->field('ep.type_id', 'type_id')
 	->field('ep.translit','translit')
 	->field('ep.logo_id','logo_id')
 	->field('ep.preview_text', 'preview_text')
@@ -93,18 +87,9 @@ $obQuery->builder()->sort('ep.name', 'asc');
 
 if ($sComponent=='list'){
 
-	$obFilter = $obQuery->builder()->filter()->_eq('ep.type_id',$nType);
-
-	if($nType == 1){
-		$session = new \filters\decorators\VPreparations();
-		$arFilterParams = $session->getParams();
-	}else if($nType == 2){
-		$session = new \filters\decorators\VThreads();
-		$arFilterParams = $session->getParams();
-	}else if($nType == 3){
-		$session = new \filters\decorators\VImplants();
-		$arFilterParams = $session->getParams();
-	}
+	$obFilter = $obQuery->builder()->filter();
+	$session = new \filters\decorators\VPreparations();
+	$arFilterParams = $session->getParams();
 
 	if(!empty($arFilterParams['country']) && $arFilterParams['country'] !='all'){
 		$obFilter->_or()->_eq('ecg.country_id', intval($arFilterParams['country']));
@@ -135,39 +120,24 @@ if ($sComponent=='list'){
 	$obQuery = $obPills->createQuery();
 	$obQuery
 		->builder()
-		->from('estelife_apparatus_typename')
-		->filter()
-		->_eq('type', 1);
+		->from('estelife_preparations_typename');
 	$arTypes=$obQuery->select()->all();
 	foreach ($arTypes as $val){
 		$arTypes[$val['id']]=$val;
 	}
 
-	if ($nType==1){
-		$arResult['title']='Препараты';
-		$sPrefix='ps';
-		$arResult['count'] = 'Найден'.VString::spellAmount($nCount, ',о,о'). ' '.$nCount.' препарат'.VString::spellAmount($nCount, ',а,ов');
+	$arResult['title']='Препараты';
+	$sPrefix='ps';
+	$arResult['count'] = 'Найден'.VString::spellAmount($nCount, ',о,о'). ' '.$nCount.' препарат'.VString::spellAmount($nCount, ',а,ов');
 
-		if (empty($_GET['type'])){
-			$arSEOTitle = 'Список и база данных препаратов в эстетической медицине';
-			$arSEODescription = 'Большая база данных препаратов для процедур и различных видов терапий в эстетической медицине. Мы собрали для Вас всю информацию';
-		}else{
-			$arSEOTitle = $arTypes[$_GET['type']]['name'].' - все препараты в нашей базе данных';
-			$arSEODescription = 'Вся информация по препаратам для процедуры '.$arTypes[$_GET['type']]['name'].'. Весь список с подробным описанием в нашей базе данных';
-		}
-	}else if ($nType==2){
-		$arResult['title']='Нити';
-		$sPrefix='th';
-		$arResult['count'] = 'Найден'.VString::spellAmount($nCount, ',о,о'). ' '.$nCount.' нит'.VString::spellAmount($nCount, 'ь,и,ей');
-		$arSEOTitle = 'Список и база данных нитей в эстетической медицине';
-		$arSEODescription = 'Большая база данных нитей для процедур и различных видов терапий в эстетической медицине. Мы собрали для Вас всю информацию';
+	if (empty($_GET['type'])){
+		$arSEOTitle = 'Список и база данных препаратов в эстетической медицине';
+		$arSEODescription = 'Большая база данных препаратов для процедур и различных видов терапий в эстетической медицине. Мы собрали для Вас всю информацию';
 	}else{
-		$arResult['title']='Имплантаты';
-		$sPrefix='im';
-		$arResult['count'] = 'Найден'.VString::spellAmount($nCount, ',о,о'). ' '.$nCount.' имплантат'.VString::spellAmount($nCount, ',а,ов');
-		$arSEOTitle = 'Список и база данных имплантатов в эстетической медицине';
-		$arSEODescription = 'Большая база данных имплантатов для процедур и различных видов терапий в эстетической медицине. Мы собрали для Вас всю информацию';
+		$arSEOTitle = $arTypes[$_GET['type']]['name'].' - все препараты в нашей базе данных';
+		$arSEODescription = 'Вся информация по препаратам для процедуры '.$arTypes[$_GET['type']]['name'].'. Весь список с подробным описанием в нашей базе данных';
 	}
+
 	\bitrix\ERESULT::$DATA['count'] = $arResult['count'];
 
 	$obResult->NavStart($arPageCount);
@@ -234,12 +204,8 @@ if ($sComponent=='list'){
 	foreach ($arProductions as $val){
 		$val['img'] = CFile::ShowImage($val['logo_id'],150, 140, 'alt='.$val['name']);
 		$val['preview_text'] = \core\types\VString::truncate($val['preview_text'], 100, '...');
-		if ($val['type_id']==1)
-			$sPrefix='ps';
-		elseif ($val['type_id']==2)
-			$sPrefix='th';
-		else
-			$sPrefix='im';
+		$sPrefix='ps';
+
 		$val['link'] = '/'.$sPrefix.$val['id'].'/';
 		$arResult['similar_pills']['production'][] = $val;
 	}
@@ -253,12 +219,7 @@ if ($sComponent=='list'){
 		$val['img'] = CFile::ShowImage($val['logo_id'],180, 180, 'alt='.$val['name']);
 		$val['preview_text'] = strip_tags(html_entity_decode($val['preview_text'],ENT_QUOTES,'utf-8'));
 		$val['preview_text'] = \core\types\VString::truncate($val['preview_text'], 90, '...');
-		if ($val['type_id']==1)
-			$sPrefix='ps';
-		elseif ($val['type_id']==2)
-			$sPrefix='th';
-		else
-			$sPrefix='im';
+		$sPrefix='ps';
 		$val['link'] = '/'.$sPrefix.$val['id'].'/';
 		$arResult['company']['production'][] = $val;
 	}

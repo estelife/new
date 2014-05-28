@@ -54,7 +54,7 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 		if(($ID = IntVal($ID))>0 && $_REQUEST['action']=='delete'){
 			try{
 				$obQuery = $obPills->createQuery();
-				$obQuery->builder()->from('estelife_pills')->filter()
+				$obQuery->builder()->from('estelife_implants')->filter()
 					->_eq('id', $ID);
 				$obQuery->delete();
 			}catch(\core\database\exceptions\VCollectionException $e){}
@@ -63,7 +63,7 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 }
 
 $obQuery=$obPills->createQuery();
-$obQuery->builder()->from('estelife_pills','ep');
+$obQuery->builder()->from('estelife_implants','ep');
 $obJoin=$obQuery->builder()->join();
 $obJoin->_left()
 	->_from('ep', 'company_id')
@@ -80,7 +80,6 @@ $obQuery->builder()
 	->field('ep.id','id')
 	->field('ep.name','name');
 $obFilter=$obQuery->builder()->filter();
-$obFilter->_eq('type_id',3);
 
 if(!empty($arFilter['id']))
 	$obFilter->_like('ep.id',$arFilter['id'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);

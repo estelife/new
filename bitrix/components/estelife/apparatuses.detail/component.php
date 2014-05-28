@@ -22,10 +22,6 @@ $obJoin->_left()
 	->_from('ap', 'company_id')
 	->_to('estelife_companies', 'id', 'ec');
 $obJoin->_left()
-	->_from('ap','type_id')
-	->_to('iblock_element','ID','pt')
-	->_cond()->_eq('pt.IBLOCK_ID',31);
-$obJoin->_left()
 	->_from('ec', 'id')
 	->_to('estelife_company_geo', 'company_id', 'ecg');
 $obJoin->_left()
@@ -49,7 +45,6 @@ $obQuery->builder()
 	->field('cttype.ID','type_country_id')
 	->field('cttype.NAME','type_country_name')
 	->field('ap.*')
-	->field('pt.NAME','type_name')
 	->field('ec.name','company_name')
 	->field('ec.id','company_id')
 	->field('ec.translit','company_translit')
@@ -116,6 +111,10 @@ $arResult['app']['equipment'] = htmlspecialchars_decode($arResult['app']['equipm
 $arResult['app']['effect'] = htmlspecialchars_decode($arResult['app']['effect'],ENT_QUOTES);
 $arResult['app']['specialist'] = htmlspecialchars_decode($arResult['app']['specialist'],ENT_QUOTES);
 $arResult['app']['patient'] = htmlspecialchars_decode($arResult['app']['patient'],ENT_QUOTES);
+$arResult['app']['area'] = htmlspecialchars_decode($arResult['app']['area'],ENT_QUOTES);
+$arResult['app']['mix'] = htmlspecialchars_decode($arResult['app']['mix'],ENT_QUOTES);
+$arResult['app']['rules'] = htmlspecialchars_decode($arResult['app']['rules'],ENT_QUOTES);
+$arResult['app']['acs'] = htmlspecialchars_decode($arResult['app']['acs'],ENT_QUOTES);
 
 //получение галереи
 $obQuery = $obApps->createQuery();

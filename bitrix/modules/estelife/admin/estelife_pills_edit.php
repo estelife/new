@@ -31,12 +31,8 @@ $obCompaniesColl=new VCompanies();
 
 if(!empty($ID)){
 	$obQuery = $obPills->createQuery();
-	$obQuery->builder()->from('estelife_pills', 'ep');
+	$obQuery->builder()->from('estelife_preparations', 'ep');
 	$obJoin = $obQuery->builder()->join();
-	$obJoin->_left()
-		->_from('ep', 'type_id')
-		->_to('iblock_element','ID','mt')
-		->_cond()->_eq('mt.IBLOCK_ID',28);
 	$obJoin->_left()
 		->_from('ep', 'company_id')
 		->_to('estelife_companies', 'id', 'ec');
@@ -47,9 +43,7 @@ if(!empty($ID)){
 	$obQuery->builder()
 		->field('ep.*')
 		->field('ec.name', 'company_name')
-		->field('ect.name', 'company_type_name')
-		->field('mt.NAME', 'type_name')
-		->field('mt.ID', 'type_id');
+		->field('ect.name', 'company_type_name');
 	$obQuery->builder()->filter()
 		->_eq('ep.id', $ID);
 	$obResult = $obQuery->select();
@@ -65,9 +59,9 @@ if(!empty($ID)){
 
 	//Получение типов препаратов
 	$obQuery = $obPills->createQuery();
-	$obQuery->builder()->from('estelife_pills_type');
+	$obQuery->builder()->from('estelife_preparations_type');
 	$obQuery->builder()->filter()
-		->_eq('pill_id', $ID);
+		->_eq('preparation_id', $ID);
 	$obResult = $obQuery->select();
 	$arFormats=$obResult->all();
 	foreach ($arFormats as $val){
@@ -93,26 +87,20 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		if($obPost->blank('company_name'))
 			$obError->setFieldError('COMPANY_NOT_FILL','company_id');
 
-		if($obPost->blank('format'))
-			$obError->setFieldError('FORMAT_NOT_FILL','format');
-
-//		if($obPost->blank('type_id'))
-//			$obError->setFieldError('TYPE_NOT_FILL','type_id');
 
 		$obError->raise();
 
 		if($obPost->blank('translit')){
-			$arTranslit = VString::translit($obPost->one('name'));
+			$sTranslit = VString::translit($obPost->one('name'));
 		}else{
-			$arTranslit = $obPost->one('translit');
+			$sTranslit = $obPost->one('translit');
 		}
 
 		$nTime=time();
 
 		//Добавление препарата
 		$obQuery = $obPills->createQuery();
-		$obQuery->builder()->from('estelife_pills')
-			->value('type_id', 1)
+		$obQuery->builder()->from('estelife_preparations')
 			->value('name', trim(htmlentities($obPost->one('name'),ENT_QUOTES,'utf-8')))
 			->value('date_edit', $nTime)
 			->value('translit', trim($arTranslit))
@@ -136,7 +124,8 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			->value('storage', htmlentities($obPost->one('storage'),ENT_QUOTES,'utf-8'))
 			->value('undesired', htmlentities($obPost->one('undesired'),ENT_QUOTES,'utf-8'))
 			->value('specialist', htmlentities($obPost->one('specialist'),ENT_QUOTES,'utf-8'))
-			->value('patient', htmlentities($obPost->one('patient'),ENT_QUOTES,'utf-8'));
+			->value('patient', htmlentities($obPost->one('patient'),ENT_QUOTES,'utf-8'))
+			->value('line', htmlentities($obPost->one('line'),ENT_QUOTES,'utf-8'));
 
 		if(!empty($_FILES['logo_id'])){
 			$arImage=$_FILES['logo_id'];
@@ -158,9 +147,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 			//Удаляем привязку к типам
 			$obQuery =  $obPills->createQuery();
-			$obQuery->builder()->from('estelife_pills_type')
+			$obQuery->builder()->from('estelife_preparations_type')
 				->filter()
-				->_eq('pill_id', $idPill);
+				->_eq('preparation_id', $idPill);
 			$obQuery->delete();
 		}else{
 			$obQuery->builder()->value('date_create', $nTime);
@@ -172,9 +161,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			$arPillsType = $obPost->one('format');
 			foreach ($arPillsType as $val){
 				$obQuery = $obPills->createQuery();
-				$obQuery->builder()->from('estelife_pills_type')
+				$obQuery->builder()->from('estelife_preparations_type')
 					->value('type_id', intval($val))
-					->value('pill_id', $idPill);
+					->value('preparation_id', $idPill);
 				$idPillType = $obQuery->insert()->insertId();
 			}
 		}
@@ -280,9 +269,7 @@ if(!empty($arResult['error']['text'])){
 $obQuery = $obPills->createQuery();
 $obQuery
 	->builder()
-	->from('estelife_pills_typename')
-	->filter()
-	->_eq('type', 1);
+	->from('estelife_preparations_typename');
 $arResult['types'] = $obQuery->select()->all();
 ?>
 	<script type="text/javascript" src="/bitrix/js/estelife/jquery-1.10.2.min.js"></script>
@@ -300,16 +287,16 @@ $arResult['types'] = $obQuery->select()->all();
 	?>
 
 	<tr class="adm-detail-required-field">
-		<td width="40%"><?=GetMessage("ESTELIFE_F_TITLE")?></td>
-		<td width="60%"><input type="text" name="name" size="60" maxlength="255" value="<?=$arResult['pills']['name']?>"></td>
+		<td width="10%"><?=GetMessage("ESTELIFE_F_TITLE")?></td>
+		<td width="90%"><input type="text" name="name" size="60" maxlength="255" value="<?=$arResult['pills']['name']?>"></td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_TRANSLIT")?></td>
-		<td width="60%"><input type="text" name="translit" size="60" maxlength="255" value="<?=$arResult['pills']['translit']?>"></td>
+		<td width="10%"><?=GetMessage("ESTELIFE_F_TRANSLIT")?></td>
+		<td width="90%"><input type="text" name="translit" size="60" maxlength="255" value="<?=$arResult['pills']['translit']?>"></td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_LOGO")?></td>
-		<td width="60%">
+		<td width="10%"><?=GetMessage("ESTELIFE_F_LOGO")?></td>
+		<td width="90%">
 			<?echo CFileInput::Show("logo_id", $arResult['pills']['logo_id'],
 				array(
 					"IMAGE" => "Y",
@@ -334,8 +321,8 @@ $arResult['types'] = $obQuery->select()->all();
 		</td>
 	</tr>
 	<tr class="adm-detail-required-field">
-		<td width="40%"><?=GetMessage("ESTELIFE_F_COMPANY")?></td>
-		<td width="60%">
+		<td width="10%"><?=GetMessage("ESTELIFE_F_COMPANY")?></td>
+		<td width="90%">
 			<input type="hidden" name="company_type_id" value="3" />
 			<input type="hidden" name="company_id" value="<?=$arResult['pills']['company_id']?>" />
 			<?php if (!empty($arResult['pills']['company_type_name'])):?>
@@ -346,9 +333,9 @@ $arResult['types'] = $obQuery->select()->all();
 		</td>
 	</tr>
 	<?php if (!empty($arResult['types'])):?>
-		<tr class="adm-detail-required-field">
-			<td width="40%"><?=GetMessage("ESTELIFE_F_FORMAT")?></td>
-			<td width="60%">
+		<tr>
+			<td width="10%"><?=GetMessage("ESTELIFE_F_FORMAT")?></td>
+			<td width="90%">
 				<ul class="estelife-checklist">
 					<?php foreach ($arResult['types'] as $val):?>
 						<li>
@@ -360,123 +347,129 @@ $arResult['types'] = $obQuery->select()->all();
 		</tr>
 	<?php endif?>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_PREVIEW")?></td>
-		<td width="60%">
-			<textarea name="preview_text" rows="12" style="width:70%"><?=str_replace("<br />", "\r\n", $arResult['pills']['preview_text'])?></textarea>
+		<td width="10%">1. <?=GetMessage("ESTELIFE_F_PREVIEW")?></td>
+		<td width="90%">
+			<textarea name="preview_text" rows="15" style="width:90%"><?=str_replace("<br />", "\r\n", $arResult['pills']['preview_text'])?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_DETAIL")?></td>
-		<td width="60%">
-			<textarea name="detail_text" rows="12" style="width:70%"><?=str_replace("<br />", "\r\n", $arResult['pills']['detail_text'])?></textarea>
+		<td width="10%">2. <?=GetMessage("ESTELIFE_F_DETAIL")?></td>
+		<td width="90%">
+			<textarea name="detail_text" rows="15" style="width:90%"><?=str_replace("<br />", "\r\n", $arResult['pills']['detail_text'])?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_ACTION")?></td>
-		<td width="60%">
-			<textarea name="action" rows="12" style="width:70%"><?=$arResult['pills']['action']?></textarea>
+		<td width="10%">3. <?=GetMessage("ESTELIFE_F_ACTION")?></td>
+		<td width="90%">
+			<textarea name="action" rows="15" style="width:90%"><?=$arResult['pills']['action']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_EVIDENCE")?></td>
-		<td width="60%">
-			<textarea name="evidence" rows="12" style="width:70%"><?=$arResult['pills']['evidence']?></textarea>
+		<td width="10%">4. <?=GetMessage("ESTELIFE_F_EVIDENCE")?></td>
+		<td width="90%">
+			<textarea name="evidence" rows="15" style="width:90%"><?=$arResult['pills']['evidence']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_CONTRA")?></td>
-		<td width="60%">
-			<textarea name="contra" rows="12" style="width:70%"><?=$arResult['pills']['contra']?></textarea>
+		<td width="10%">5. <?=GetMessage("ESTELIFE_F_CONTRA")?></td>
+		<td width="90%">
+			<textarea name="contra" rows="15" style="width:90%"><?=$arResult['pills']['contra']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_STRUCTURE")?></td>
-		<td width="60%">
-			<textarea name="structure" rows="12" style="width:70%"><?=$arResult['pills']['structure']?></textarea>
+		<td width="10%">6. <?=GetMessage("ESTELIFE_F_AREA")?></td>
+		<td width="90%">
+			<textarea name="area" rows="15" style="width:90%"><?=$arResult['pills']['area']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_REGISTRATION")?></td>
-		<td width="60%">
-			<textarea name="registration" rows="12" style="width:70%"><?=$arResult['pills']['registration']?></textarea>
+		<td width="10%">7. <?=GetMessage("ESTELIFE_F_USAGE")?></td>
+		<td width="90%">
+			<textarea name="usage" rows="15" style="width:90%"><?=$arResult['pills']['usage']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_ADVANTAGES")?></td>
-		<td width="60%">
-			<textarea name="advantages" rows="12" style="width:70%"><?=$arResult['pills']['advantages']?></textarea>
+		<td width="10%">8. <?=GetMessage("ESTELIFE_F_REGISTRATION")?></td>
+		<td width="90%">
+			<textarea name="registration" rows="15" style="width:90%"><?=$arResult['pills']['registration']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_USAGE")?></td>
-		<td width="60%">
-			<textarea name="usage" rows="12" style="width:70%"><?=$arResult['pills']['usage']?></textarea>
+		<td width="10%">9. <?=GetMessage("ESTELIFE_F_SECURITY")?></td>
+		<td width="90%">
+			<textarea name="security" rows="15" style="width:90%"><?=$arResult['pills']['security']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_AREA")?></td>
-		<td width="60%">
-			<textarea name="area" rows="12" style="width:70%"><?=$arResult['pills']['area']?></textarea>
+		<td width="10%">10. <?=GetMessage("ESTELIFE_F_EFFECT")?></td>
+		<td width="90%">
+			<textarea name="effect" rows="15" style="width:90%"><?=$arResult['pills']['effect']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_EFFECT")?></td>
-		<td width="60%">
-			<textarea name="effect" rows="12" style="width:70%"><?=$arResult['pills']['effect']?></textarea>
+		<td width="10%">11. <?=GetMessage("ESTELIFE_F_UNDESIRED")?></td>
+		<td width="90%">
+			<textarea name="undesired" rows="15" style="width:90%"><?=$arResult['pills']['undesired']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_UNDESIRED")?></td>
-		<td width="60%">
-			<textarea name="undesired" rows="12" style="width:70%"><?=$arResult['pills']['undesired']?></textarea>
+		<td width="10%">12. <?=GetMessage("ESTELIFE_F_STRUCTURE")?></td>
+		<td width="90%">
+			<textarea name="structure" rows="15" style="width:90%"><?=$arResult['pills']['structure']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_SECURITY")?></td>
-		<td width="60%">
-			<textarea name="security" rows="12" style="width:70%"><?=$arResult['pills']['security']?></textarea>
+		<td width="10%">13. <?=GetMessage("ESTELIFE_F_LINE")?></td>
+		<td width="90%">
+			<textarea name="line" rows="15" style="width:90%"><?=$arResult['pills']['line']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_MIX")?></td>
-		<td width="60%">
-			<textarea name="mix" rows="12" style="width:70%"><?=$arResult['pills']['mix']?></textarea>
+		<td width="10%">14. <?=GetMessage("ESTELIFE_F_ADVANTAGES")?></td>
+		<td width="90%">
+			<textarea name="advantages" rows="15" style="width:90%"><?=$arResult['pills']['advantages']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_SPECS")?></td>
-		<td width="60%">
-			<textarea name="specs" rows="12" style="width:70%"><?=$arResult['pills']['specs']?></textarea>
+		<td width="10%">15. <?=GetMessage("ESTELIFE_F_MIX")?></td>
+		<td width="90%">
+			<textarea name="mix" rows="15" style="width:90%"><?=$arResult['pills']['mix']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_PROTOCOL")?></td>
-		<td width="60%">
-			<textarea name="protocol" rows="12" style="width:70%"><?=$arResult['pills']['protocol']?></textarea>
+		<td width="10%">16. <?=GetMessage("ESTELIFE_F_PATIENT")?></td>
+		<td width="90%">
+			<textarea name="patient" rows="15" style="width:90%"><?=$arResult['pills']['patient']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_FORM")?></td>
-		<td width="60%">
-			<textarea name="form" rows="12" style="width:70%"><?=$arResult['pills']['form']?></textarea>
+		<td width="10%">17. <?=GetMessage("ESTELIFE_F_SPECIALIST")?></td>
+		<td width="90%">
+			<textarea name="specialist" rows="15" style="width:90%"><?=$arResult['pills']['specialist']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_STORAGE")?></td>
-		<td width="60%">
-			<textarea name="storage" rows="12" style="width:70%"><?=$arResult['pills']['storage']?></textarea>
+		<td width="10%">18. <?=GetMessage("ESTELIFE_F_PROTOCOL")?></td>
+		<td width="90%">
+			<textarea name="protocol" rows="15" style="width:90%"><?=$arResult['pills']['protocol']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_SPECIALIST")?></td>
-		<td width="60%">
-			<textarea name="specialist" rows="12" style="width:70%"><?=$arResult['pills']['specialist']?></textarea>
+		<td width="10%">19. <?=GetMessage("ESTELIFE_F_SPECS")?></td>
+		<td width="90%">
+			<textarea name="specs" rows="15" style="width:90%"><?=$arResult['pills']['specs']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_PATIENT")?></td>
-		<td width="60%">
-			<textarea name="patient" rows="12" style="width:70%"><?=$arResult['pills']['patient']?></textarea>
+		<td width="10%">20. <?=GetMessage("ESTELIFE_F_FORM")?></td>
+		<td width="90%">
+			<textarea name="form" rows="15" style="width:90%"><?=$arResult['pills']['form']?></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td width="10%">21. <?=GetMessage("ESTELIFE_F_STORAGE")?></td>
+		<td width="90%">
+			<textarea name="storage" rows="15" style="width:90%"><?=$arResult['pills']['storage']?></textarea>
 		</td>
 	</tr>
 
