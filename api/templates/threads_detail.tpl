@@ -26,109 +26,145 @@
 			<!--if($detail.action)!-->
 				<div class="el-tab">
 					<h3><a href="#">Действие</a></h3>
-					<div class="none"><!--$detail.action!--></div>
+					<div class="text">
+					<div><!--$detail.action!--></div>
+					</div>
 				</div>
 			<!--endif!-->
 			<!--if($detail.evidence)!-->
 				<div class="el-tab">
 					<h3><a href="#">Показания</a></h3>
-					<div class="none"><!--$detail.evidence!--></div>
+					<div class="text">
+					<div><!--$detail.evidence!--></div>
+					</div>
 				</div>
 			<!--endif!-->
 			<!--if($detail.contra)!-->
 				<div class="el-tab">
 					<h3><a href="#">Противопоказания</a></h3>
-					<div class="none"><!--$detail.contra!--></div>
+					<div class="text">
+					<div><!--$detail.contra!--></div>
+					</div>
 				</div>
 			<!--endif!-->
 			<!--if($detail.area)!-->
 			<div class="el-tab">
 				<h3><a href="#">Зоны применения</a></h3>
-				<div class="none"><!--$detail.area!--></div>
+				<div class="text">
+				<div><!--$detail.area!--></div>
+				</div>
 			</div>
 			<!--endif!-->
 			<!--if($detail.usage)!-->
 			<div class="el-tab">
 				<h3><a href="#">Курс процедур</a></h3>
-				<div class="none"><!--$detail.usage!--></div>
+				<div class="text">
+				<div><!--$detail.usage!--></div>
+				</div>
 			</div>
 			<!--endif!-->
 			<!--if($detail.registration)!-->
 			<div class="el-tab">
 				<h3><a href="#">Регистрация</a></h3>
-				<div class="none"><!--$detail.registration!--></div>
+				<div class="text">
+				<div><!--$detail.registration!--></div>
+				</div>
 			</div>
 			<!--endif!-->
 			<!--if($detail.security)!-->
 			<div class="el-tab">
 				<h3><a href="#">Безопасность</a></h3>
-				<div class="none"><!--$detail.security!--></div>
+				<div class="text">
+				<div><!--$detail.security!--></div>
+				</div>
 			</div>
 			<!--endif!-->
 			<!--if($detail.effect)!-->
 			<div class="el-tab">
 				<h3><a href="#">Достигаемые эффекты</a></h3>
-				<div class="none"><!--$detail.effect!--></div>
+				<div class="text">
+				<div><!--$detail.effect!--></div>
+				</div>
 			</div>
 			<!--endif!-->
 			<!--if($detail.undesired)!-->
 			<div class="el-tab">
 				<h3><a href="#">Побочные эффекты</a></h3>
-				<div class="none"><!--$detail.undesired!--></div>
+				<div class="text">
+				<div><!--$detail.undesired!--></div>
+				</div>
 			</div>
 			<!--endif!-->
 			<!--if($detail.structure)!-->
 				<div class="el-tab">
 					<h3><a href="#">Состав</a></h3>
-					<div class="none"><!--$detail.structure!--></div>
+					<div class="text">
+					<div><!--$detail.structure!--></div>
+					</div>
 				</div>
 			<!--endif!-->
 			<!--if($detail.advantages)!-->
 				<div class="el-tab">
 					<h3><a href="#">Преимущества</a></h3>
-					<div class="none"><!--$detail.advantages!--></div>
+					<div class="text">
+					<div><!--$detail.advantages!--></div>
+					</div>
 				</div>
 			<!--endif!-->
 			<!--if($detail.mix)!-->
 				<div class="el-tab">
 					<h3><a href="#">Сочетание</a></h3>
-					<div class="none"><!--$detail.mix!--></div>
+					<div class="text">
+					<div><!--$detail.mix!--></div>
+					</div>
 				</div>
 			<!--endif!-->
 			<!--if ($detail.patient)!-->
 			<div class="el-tab">
 				<h3><a href="#">Рекомендации пациенту</a></h3>
-				<div class="none"><!--$detail.patient!--></div>
+				<div class="text">
+				<div><!--$detail.patient!--></div>
+				</div>
 			</div>
 			<!--endif!-->
 			<!--if ($detail.specialist)!-->
 			<div class="el-tab">
 				<h3><a href="#">Рекомендации специалисту</a></h3>
-				<div class="none"><!--$detail.specialist!--></div>
+				<div class="text">
+				<div><!--$detail.specialist!--></div>
+				</div>
 			</div>
 			<!--endif!-->
 			<!--if($detail.protocol)!-->
 			<div class="el-tab">
 				<h3><a href="#">Протокол процедуры</a></h3>
-				<div class="none"><!--$detail.protocol!--></div>
+				<div class="text">
+				<div><!--$detail.protocol!--></div>
+				</div>
 			</div>
 			<!--endif!-->
 			<!--if($detail.specs)!-->
 				<div class="el-tab">
 					<h3><a href="#">Технические характеристики</a></h3>
-					<div class="none"><!--$detail.specs!--></div>
+					<div class="text">
+					<div><!--$detail.specs!--></div>
+					</div>
 				</div>
 			<!--endif!-->
 			<!--if($detail.form)!-->
 				<div class="el-tab">
 					<h3><a href="#">Форма выпуска</a></h3>
-					<div class="none"><!--$detail.form!--></div>
+					<div class="text">
+					<div><!--$detail.form!--></div>
+					</div>
 				</div>
 			<!--endif!-->
 			<!--if($detail.storage)!-->
 				<div class="el-tab">
 					<h3><a href="#">Условия хранения</a></h3>
-					<div class="none"><!--$detail.storage!--></div>
+					<div class="text">
+					<div><!--$detail.storage!--></div>
+					</div>
 				</div>
 			<!--endif!-->
 

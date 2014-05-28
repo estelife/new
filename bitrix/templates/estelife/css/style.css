@@ -4770,3 +4770,8 @@ form.quality .submit,
 	background: #E50364;
 	box-shadow: 0 0 5px #868686;
 }
+
+.el-tab .text{
+	overflow: hidden;
+	height: 0;
+}
