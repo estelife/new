@@ -33,115 +33,153 @@
 				<?php if (!empty($arResult['app']['action'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Действие</a></h3>
-						<div class="none"><?=$arResult['app']['action']?></div>
+						<div class="text">
+						<div><?=$arResult['app']['action']?></div>
+						</div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['evidence'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Показания</a></h3>
-						<div class="none"><?=$arResult['app']['evidence']?></div>
+						<div class="text">
+						<div><?=$arResult['app']['evidence']?></div>
+						</div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['contra'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Противопоказания</a></h3>
-						<div class="none"><?=$arResult['app']['contra']?></div>
+						<div class="text">
+						<div><?=$arResult['app']['contra']?></div>
+						</div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['area'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Зоны применения</a></h3>
-						<div class="none"><?=$arResult['app']['area']?></div>
+						<div class="text">
+						<div><?=$arResult['app']['area']?></div>
+						</div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['procedure'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Курс процедур</a></h3>
-						<div class="none"><?=$arResult['app']['procedure']?></div>
+						<div class="text">
+						<div><?=$arResult['app']['procedure']?></div>
+						</div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['registration'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Регистрация</a></h3>
-						<div class="none"><?=$arResult['app']['registration']?></div>
+						<div class="text">
+						<div><?=$arResult['app']['registration']?></div>
+						</div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['security'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Безопасность</a></h3>
-						<div class="none"><?=$arResult['app']['security']?></div>
+						<div class="text">
+						<div><?=$arResult['app']['security']?></div>
+						</div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['effect'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Достигаемые эффекты</a></h3>
-						<div class="none"><?=$arResult['app']['effect']?></div>
+						<div class="text">
+						<div><?=$arResult['app']['effect']?></div>
+						</div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['undesired'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Побочные эффекты</a></h3>
-						<div class="none"><?=$arResult['app']['undesired']?></div>
+						<div class="text">
+						<div><?=$arResult['app']['undesired']?></div>
+						</div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['func'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Функции</a></h3>
-						<div class="none"><?=$arResult['app']['func']?></div>
+						<div class="text">
+						<div><?=$arResult['app']['func']?></div>
+						</div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['advantages'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Преимущества</a></h3>
-						<div class="none"><?=$arResult['app']['advantages']?></div>
+						<div class="text">
+						<div><?=$arResult['app']['advantages']?></div>
+						</div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['mix'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Сочетание</a></h3>
-						<div class="none"><?=$arResult['app']['mix']?></div>
+						<div class="text">
+						<div><?=$arResult['app']['mix']?></div>
+						</div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['patient'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Рекомендации пациенту</a></h3>
-						<div class="none"><?=$arResult['app']['patient']?></div>
+						<div class="text">
+						<div><?=$arResult['app']['patient']?></div>
+						</div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['specialist'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Рекомендации специалисту</a></h3>
-						<div class="none"><?=$arResult['app']['specialist']?></div>
+						<div class="text">
+						<div><?=$arResult['app']['specialist']?></div>
+						</div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['protocol'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Протокол процедуры</a></h3>
-						<div class="none"><?=$arResult['app']['protocol']?></div>
+						<div class="text">
+						<div><?=$arResult['app']['protocol']?></div>
+						</div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['specs'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Технические характеристики</a></h3>
-						<div class="none"><?=$arResult['app']['specs']?></div>
+						<div class="text">
+						<div><?=$arResult['app']['specs']?></div>
+						</div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['rules'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Правила эксплуатации</a></h3>
-						<div class="none"><?=$arResult['app']['rules']?></div>
+						<div class="text">
+						<div><?=$arResult['app']['rules']?></div>
+						</div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['equipment'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Комплектация</a></h3>
-						<div class="none"><?=$arResult['app']['equipment']?></div>
+						<div class="text">
+						<div><?=$arResult['app']['equipment']?></div>
+						</div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['app']['acs'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Аксессуары</a></h3>
-						<div class="none"><?=$arResult['app']['acs']?></div>
+						<div class="text">
+						<div><?=$arResult['app']['acs']?></div>
+						</div>
 					</div>
 				<?php endif?>
 

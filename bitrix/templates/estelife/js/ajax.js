@@ -279,16 +279,26 @@ require([
 		});
 
 		//табы для раскрытия информации
+		var flag = 1;
 		body.on('click', '.el-tab h3', function(){
 			var prnt = $(this).parent(),
 				el = $('a',$(this));
 
-			if (el.hasClass('active')){
-				el.removeClass('active');
-				prnt.find('h3').next().slideUp('700').addClass('none');
-			}else{
-				el.addClass('active');
-				prnt.find('h3').next().slideDown('700').removeClass('none');
+			if (flag == 1){
+				flag = 0;
+				if (el.hasClass('active')){
+					el.removeClass('active');
+					$('.text', prnt).animate({height: 0}, 500, function(){
+						flag = 1;
+					});
+				}else{
+					el.addClass('active');
+					var th = $('.text div', prnt),
+						h = th.height();
+					$('.text', prnt).animate({height: h+"px"}, 500, function(){
+						flag = 1;
+					});
+				}
 			}
 
 			return false
