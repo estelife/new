@@ -421,13 +421,13 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 										new Views.Crumb(),
 										new Views.Title(),
 										new Views.List({
-											template:'preparations_list'
+											template:'implants_list'
 										}),
 										new Views.Nav()
 									]
 								}),
 								new Views.Filter({
-									template:'preparations_filter'
+									template:'implants_filter'
 								}),
 								new Views.AdvertDelay({
 									className:'',
@@ -461,13 +461,13 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 										new Views.Crumb(),
 										new Views.Title(),
 										new Views.List({
-											template:'preparations_list'
+											template:'threads_list'
 										}),
 										new Views.Nav()
 									]
 								}),
 								new Views.Filter({
-									template:'preparations_filter'
+									template:'threads_filter'
 								}),
 								new Views.AdvertDelay({
 									className:'',
@@ -1027,12 +1027,12 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									views:[
 										new Views.Crumb(),
 										new Views.Detail({
-											template:'preparations_detail'
+											template:'threads_detail'
 										})
 									]
 								}),
 								new Views.Filter({
-									template:'preparations_filter'
+									template:'threads_filter'
 								}),
 								new Views.AdvertDelay({
 									className:'',
@@ -1062,12 +1062,12 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 									views:[
 										new Views.Crumb(),
 										new Views.Detail({
-											template:'preparations_detail'
+											template:'implants_detail'
 										})
 									]
 								}),
 								new Views.Filter({
-									template:'preparations_filter'
+									template:'implants_filter'
 								}),
 								new Views.AdvertDelay({
 									className:'',
@@ -1314,7 +1314,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		reviewForm: function(clinic_id) {
 			var model=new Models.Component(null,{
 				pages:[
-					'review_form/?clinic_id='+clinic_id,
+					'review_form/?clinic_id='+clinic_id
 				],
 				view: new Views.Reviews({
 					template:'review_form'

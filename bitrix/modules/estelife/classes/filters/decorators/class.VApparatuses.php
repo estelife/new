@@ -12,6 +12,7 @@ class VApparatuses extends VDecorator {
 		parent::__construct('apparatuses');
 		parent::setDefaultField('name','');
 		parent::setDefaultField('type','');
+		parent::setDefaultField('company_name','');
 		parent::setDefaultField('country','');
 	}
 

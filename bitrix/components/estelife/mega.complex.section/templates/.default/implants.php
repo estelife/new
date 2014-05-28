@@ -2,11 +2,10 @@
 <div class="content">
 	<?php
 	$APPLICATION->IncludeComponent(
-		"estelife:preparations.list",
+		"estelife:implants.list",
 		"",
 		array(
 			"PAGE_COUNT" => 10,
-			"TYPE"=>3,
 			"COMPONENT"=>'list'
 		),
 		false
@@ -14,11 +13,9 @@
 	?>
 	<?php
 	$APPLICATION->IncludeComponent(
-		"estelife:preparations.list.filter",
+		"estelife:implants.list.filter",
 		"",
-		array(
-			"TYPE"=>3
-		),
+		array(),
 		false
 	);
 	?>

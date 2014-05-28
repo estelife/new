@@ -4,6 +4,7 @@ $MESS ['ESTELIFE_F_TITLE'] = 'Название';
 $MESS ['ESTELIFE_F_TRANSLIT'] = 'Транслитерация';
 $MESS ['ESTELIFE_F_LOGO'] = 'Изображение имплантата';
 $MESS ['ESTELIFE_F_COMPANY'] = 'Производитель';
+$MESS ['ESTELIFE_F_FORMAT'] = 'Тип препарата';
 $MESS ['ESTELIFE_F_PREVIEW'] = 'Краткое описание';
 $MESS ['ESTELIFE_F_DETAIL'] = 'Подробное описание';
 $MESS ['ESTELIFE_F_ACTION'] = 'Действие';
