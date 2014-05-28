@@ -35,8 +35,10 @@
 					<li><a href="/sp<?=$val['company_id']?>/"><?=$val['company_name']?></a></li>
 				<?php endforeach?>
 			</ul>
-			<h3>Описание</h3>
-			<p><?=$arResult['event']['detail_text']?></p>
+			<?php if (!empty($arResult['event']['detail_text'])):?>
+				<h3>Описание</h3>
+				<p><?=$arResult['event']['detail_text']?></p>
+			<?php endif?>
 			<h3>Контактные данные</h3>
 			<p>
 				<?php if (!empty($arResult['event']['main_org'])):?>

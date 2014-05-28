@@ -14,31 +14,18 @@ $nCompanyId=null;
 $nCompanyId =  (isset($arParams['ID'])) ?
 	intval($arParams['ID']) : 0;
 
-if ($arParams['PREFIX']=='ps'){
-	$nType=1;
-	$arResult['type']="Препараты";
-	$arResult['type_link']="/preparations/";
-}elseif ($arParams['PREFIX']=='th'){
-	$nType=2;
-	$arResult['type']="Нити";
-	$arResult['type_link']="/threads/";
-}else{
-	$nType=3;
-	$arResult['type']="Имплантаты";
-	$arResult['type_link']="/implants/";
-}
+$nType=1;
+$arResult['type']="Препараты";
+$arResult['type_link']="/preparations/";
+
 
 //Получаем данные по препарату
 $obQuery = $obPills->createQuery();
-$obQuery->builder()->from('estelife_pills', 'ep');
+$obQuery->builder()->from('estelife_preparations', 'ep');
 $obJoin=$obQuery->builder()->join();
 $obJoin->_left()
 	->_from('ep', 'company_id')
 	->_to('estelife_companies', 'id', 'ec');
-$obJoin->_left()
-	->_from('ep','type_id')
-	->_to('iblock_element','ID','pt')
-	->_cond()->_eq('pt.IBLOCK_ID',28);
 $obJoin->_left()
 	->_from('ec', 'id')
 	->_to('estelife_company_geo', 'company_id', 'ecg');
@@ -63,7 +50,6 @@ $obQuery->builder()
 	->field('cttype.ID','type_country_id')
 	->field('cttype.NAME','type_country_name')
 	->field('ep.*')
-	->field('pt.NAME','type_name')
 	->field('ec.name','company_name')
 	->field('ec.id','company_id')
 	->field('ec.translit','company_translit')
@@ -133,8 +119,8 @@ $arResult['pill']['mix'] = htmlspecialchars_decode($arResult['pill']['mix'],ENT_
 $arResult['pill']['protocol'] = htmlspecialchars_decode($arResult['pill']['protocol'],ENT_QUOTES);
 $arResult['pill']['specs'] = htmlspecialchars_decode($arResult['pill']['specs'],ENT_QUOTES);
 $arResult['pill']['specialist'] = htmlspecialchars_decode($arResult['pill']['specialist'],ENT_QUOTES);
-$arResult['pill']['effect'] = htmlspecialchars_decode($arResult['pill']['effect'],ENT_QUOTES);
 $arResult['pill']['patient'] = htmlspecialchars_decode($arResult['pill']['patient'],ENT_QUOTES);
+$arResult['pill']['line'] = htmlspecialchars_decode($arResult['pill']['line'],ENT_QUOTES);
 
 //получение галереи
 $obQuery = $obPills->createQuery();

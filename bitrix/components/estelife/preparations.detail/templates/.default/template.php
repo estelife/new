@@ -48,10 +48,16 @@
 						<div class="none"><?=$arResult['pill']['contra']?></div>
 					</div>
 				<?php endif?>
-				<?php if (!empty($arResult['pill']['structure'])):?>
+				<?php if (!empty($arResult['pill']['area'])):?>
 					<div class="el-tab">
-						<h3><a href="#">Состав</a></h3>
-						<div class="none"><?=$arResult['pill']['structure']?></div>
+						<h3><a href="#">Зоны применения</a></h3>
+						<div class="none"><?=$arResult['pill']['area']?></div>
+					</div>
+				<?php endif?>
+				<?php if (!empty($arResult['pill']['usage'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Курс процедур</a></h3>
+						<div class="none"><?=$arResult['pill']['usage']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['registration'])):?>
@@ -60,27 +66,15 @@
 						<div class="none"><?=$arResult['pill']['registration']?></div>
 					</div>
 				<?php endif?>
-				<?php if (!empty($arResult['pill']['advantages'])):?>
+				<?php if (!empty($arResult['pill']['security'])):?>
 					<div class="el-tab">
-						<h3><a href="#">Преимущества</a></h3>
-						<div class="none"><?=$arResult['pill']['advantages']?></div>
-					</div>
-				<?php endif?>
-				<?php if (!empty($arResult['pill']['usage'])):?>
-					<div class="el-tab">
-						<h3><a href="#">Курс лечения</a></h3>
-						<div class="none"><?=$arResult['pill']['usage']?></div>
-					</div>
-				<?php endif?>
-				<?php if (!empty($arResult['pill']['area'])):?>
-					<div class="el-tab">
-						<h3><a href="#">Зоны применения</a></h3>
-						<div class="none"><?=$arResult['pill']['area']?></div>
+						<h3><a href="#">Безопасность</a></h3>
+						<div class="none"><?=$arResult['pill']['security']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['effect'])):?>
 					<div class="el-tab">
-						<h3><a href="#">Достигаемый эффект</a></h3>
+						<h3><a href="#">Достигаемые эффекты</a></h3>
 						<div class="none"><?=$arResult['pill']['effect']?></div>
 					</div>
 				<?php endif?>
@@ -90,10 +84,22 @@
 						<div class="none"><?=$arResult['pill']['undesired']?></div>
 					</div>
 				<?php endif?>
-				<?php if (!empty($arResult['pill']['security'])):?>
+				<?php if (!empty($arResult['pill']['structure'])):?>
 					<div class="el-tab">
-						<h3><a href="#">Безопасность</a></h3>
-						<div class="none"><?=$arResult['pill']['security']?></div>
+						<h3><a href="#">Состав</a></h3>
+						<div class="none"><?=$arResult['pill']['structure']?></div>
+					</div>
+				<?php endif?>
+				<?php if (!empty($arResult['pill']['line'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Линия препаратов</a></h3>
+						<div class="none"><?=$arResult['pill']['line']?></div>
+					</div>
+				<?php endif?>
+				<?php if (!empty($arResult['pill']['advantages'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Преимущества</a></h3>
+						<div class="none"><?=$arResult['pill']['advantages']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['mix'])):?>
@@ -102,16 +108,28 @@
 						<div class="none"><?=$arResult['pill']['mix']?></div>
 					</div>
 				<?php endif?>
-				<?php if (!empty($arResult['pill']['specs'])):?>
+				<?php if (!empty($arResult['pill']['patient'])):?>
 					<div class="el-tab">
-						<h3><a href="#">Технические характеристики</a></h3>
-						<div class="none"><?=$arResult['pill']['specs']?></div>
+						<h3><a href="#">Рекомендации пациенту</a></h3>
+						<div class="none"><?=$arResult['pill']['patient']?></div>
+					</div>
+				<?php endif?>
+				<?php if (!empty($arResult['pill']['specialist'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Рекомендации специалисту</a></h3>
+						<div class="none"><?=$arResult['pill']['specialist']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['protocol'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Протокол процедуры</a></h3>
 						<div class="none"><?=$arResult['pill']['protocol']?></div>
+					</div>
+				<?php endif?>
+				<?php if (!empty($arResult['pill']['specs'])):?>
+					<div class="el-tab">
+						<h3><a href="#">Технические характеристики</a></h3>
+						<div class="none"><?=$arResult['pill']['specs']?></div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['form'])):?>
@@ -124,18 +142,6 @@
 					<div class="el-tab">
 						<h3><a href="#">Условия хранения</a></h3>
 						<div class="none"><?=$arResult['pill']['storage']?></div>
-					</div>
-				<?php endif?>
-				<?php if (!empty($arResult['pill']['specialist'])):?>
-					<div class="el-tab">
-						<h3><a href="#">Рекомендации специалисту</a></h3>
-						<div class="none"><?=$arResult['pill']['specialist']?></div>
-					</div>
-				<?php endif?>
-				<?php if (!empty($arResult['pill']['patient'])):?>
-					<div class="el-tab">
-						<h3><a href="#">Рекомендации пациенту</a></h3>
-						<div class="none"><?=$arResult['pill']['patient']?></div>
 					</div>
 				<?php endif?>
 

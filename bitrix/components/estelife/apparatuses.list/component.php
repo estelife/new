@@ -100,6 +100,10 @@ if ($sComponent=='list'){
 		$obFilter->_like('ap.name',$arFilterParams['name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 	}
 
+	if(!empty($arFilterParams['company_name'])){
+		$obFilter->_like('ec.name',$arFilterParams['company_name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+	}
+
 	if(!empty($arFilterParams['type'])){
 		$obFilter->_eq('apt.type_id', intval($arFilterParams['type']));
 	}

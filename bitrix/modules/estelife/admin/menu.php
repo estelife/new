@@ -258,13 +258,32 @@ if($APPLICATION->GetGroupRight("estelife")>"D")
 					"items" => array(
 						array(
 							"text" => GetMessage("ESTELIFE_PILLS_TYPE"),
-							"dynamic" => true,
 							"module_id" => "estelife",
 							"title" => GetMessage("ESTELIFE_PILLS_TITLE_TYPE"),
 							"items_id" => "menu_estelife_pills",
 							"url" => '/bitrix/admin/estelife_pills_type_list.php?lang='.LANGUAGE_ID,
 							'more_url'=>array(
 								'/bitrix/admin/estelife_pills_type_edit.php?lang='.LANGUAGE_ID,
+							)
+						),
+						array(
+							"text" => GetMessage("ESTELIFE_IMPLANTS_TYPE"),
+							"module_id" => "estelife",
+							"title" => GetMessage("ESTELIFE_IMPLANTS_TITLE_TYPE"),
+							"items_id" => "menu_estelife_implants",
+							"url" => '/bitrix/admin/estelife_implants_type_list.php?lang='.LANGUAGE_ID,
+							'more_url'=>array(
+								'/bitrix/admin/estelife_implants_type_edit.php?lang='.LANGUAGE_ID,
+							)
+						),
+						array(
+							"text" => GetMessage("ESTELIFE_THREADS_TYPE"),
+							"module_id" => "estelife",
+							"title" => GetMessage("ESTELIFE_THREADS_TITLE_TYPE"),
+							"items_id" => "menu_estelife_threads",
+							"url" => '/bitrix/admin/estelife_threads_type_list.php?lang='.LANGUAGE_ID,
+							'more_url'=>array(
+								'/bitrix/admin/estelife_threads_type_edit.php?lang='.LANGUAGE_ID,
 							)
 						),
 						array(
