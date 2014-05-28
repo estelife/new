@@ -61,7 +61,7 @@ if(!empty($ID)){
 	$obQuery = $obPills->createQuery();
 	$obQuery->builder()->from('estelife_preparations_type');
 	$obQuery->builder()->filter()
-		->_eq('pill_id', $ID);
+		->_eq('preparation_id', $ID);
 	$obResult = $obQuery->select();
 	$arFormats=$obResult->all();
 	foreach ($arFormats as $val){
