@@ -149,7 +149,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			$obQuery =  $obPills->createQuery();
 			$obQuery->builder()->from('estelife_preparations_type')
 				->filter()
-				->_eq('pill_id', $idPill);
+				->_eq('preparation_id', $idPill);
 			$obQuery->delete();
 		}else{
 			$obQuery->builder()->value('date_create', $nTime);
