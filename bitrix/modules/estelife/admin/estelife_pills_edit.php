@@ -67,7 +67,6 @@ if(!empty($ID)){
 	foreach ($arFormats as $val){
 		$arResult['pills']['format'][]=$val['type_id'];
 	}
-
 }else{
 
 }
