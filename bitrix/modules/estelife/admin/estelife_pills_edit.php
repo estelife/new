@@ -51,9 +51,9 @@ if(!empty($ID)){
 
 	//Получение галереи
 	$obQuery = $obPills->createQuery();
-	$obQuery->builder()->from('estelife_pill_photos');
+	$obQuery->builder()->from('estelife_preparations_photos');
 	$obQuery->builder()->filter()
-		->_eq('pill_id', $ID);
+		->_eq('preparation_id', $ID);
 	$obResult = $obQuery->select();
 	$arResult['pills']['gallery']=$obResult->all();
 
@@ -174,13 +174,13 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			foreach($arDeleted as $nDelete){
 				try{
 					$obQuery = $obPills->createQuery();
-					$obQuery->builder()->from('estelife_pill_photos');
+					$obQuery->builder()->from('estelife_preparations_photos');
 					$obQuery->builder()->filter()->_eq('id', $nDelete);
 					$arPhoto = $obQuery->select()->assoc();
 					if (!empty($arPhoto)){
 						CFile::Delete($arPhoto['original']);
 						$obQuery = $obPills->createQuery();
-						$obQuery->builder()->from('estelife_pill_photos');
+						$obQuery->builder()->from('estelife_preparations_photos');
 						$obQuery->builder()->filter()->_eq('id', $nDelete);
 						$obQuery->delete();
 					}
@@ -209,9 +209,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 					continue;
 
 				$obQuery = $obPills->createQuery();
-				$obQuery->builder()->from('estelife_pill_photos')
+				$obQuery->builder()->from('estelife_preparations_photos')
 					->value('original', $nImageId)
-					->value('pill_id', $idPill);
+					->value('preparation_id', $idPill);
 				$idPillPhoto = $obQuery->insert()->insertId();
 			}
 		}

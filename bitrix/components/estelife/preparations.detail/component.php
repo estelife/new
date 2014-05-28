@@ -124,8 +124,8 @@ $arResult['pill']['line'] = html_entity_decode($arResult['pill']['line'],ENT_QUO
 
 //получение галереи
 $obQuery = $obPills->createQuery();
-$obQuery->builder()->from('estelife_pill_photos');
-$obQuery->builder()->filter()->_eq('pill_id', $arResult['pill']['id']);
+$obQuery->builder()->from('estelife_preparations_photos');
+$obQuery->builder()->filter()->_eq('preparation_id', $arResult['pill']['id']);
 $arPhotos = $obQuery->select()->all();
 if (!empty($arPhotos)){
 	foreach ($arPhotos as $val){
