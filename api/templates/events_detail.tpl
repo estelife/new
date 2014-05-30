@@ -27,7 +27,7 @@
 			<li><a href="/sp<!--$val.company_id!-->/"><!--$val.company_name!--></a></li>
 			<!--endforeach!-->
 		</ul>
-		<!--id($detail.detail_text)!-->
+		<!--if($detail.detail_text)!-->
 			<h3>Описание</h3>
 			<p><!--$detail.detail_text!--></p>
 		<!--endif!-->
