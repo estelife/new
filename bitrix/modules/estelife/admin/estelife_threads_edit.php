@@ -55,7 +55,13 @@ if(!empty($ID)){
 	$obQuery->builder()->filter()
 		->_eq('thread_id', $ID);
 	$obResult = $obQuery->select();
-	$arResult['pills']['gallery']=$obResult->all();
+	foreach ($obResult->all() as $val){
+		if ($val['type'] == 1){
+			$arResult['pills']['gallery'][] = $val;
+		}elseif ($val['type'] == 2){
+			$arResult['pills']['reg'][] = $val;
+		}
+	}
 
 	//Получение типов препаратов
 	$obQuery = $obPills->createQuery();
@@ -167,6 +173,27 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			}
 		}
 
+
+		//Пишем описание к фоткам
+		$arPost=$obPost->all();
+		foreach($arPost as $sKey=>$mValue){
+			if(preg_match('#^photo_descriptions_([0-9]+)$#i',$sKey,$arMatches)){
+				try{
+					$obQuery = $obPills->createQuery();
+					$obQuery->builder()->from('estelife_threads_photos');
+					$obQuery->builder()->filter()->_eq('id', $arMatches[1]);
+					$arPhoto = $obQuery->select()->assoc();
+					if (!empty($arPhoto)){
+						$obQuery = $obPills->createQuery();
+						$obQuery->builder()->from('estelife_threads_photos')
+							->value('description', htmlentities($mValue,ENT_QUOTES,'utf-8'));
+						$obQuery->builder()->filter()->_eq('id', $arMatches[1]);
+						$obQuery->update();
+					}
+				}catch(\core\database\exceptions\VCollectionException $e){}
+			}
+		}
+
 		//Пишем ссылки на фото до/после
 		if(!$obPost->blank('photo_deleted')){
 			$arDeleted=$obPost->one('photo_deleted');
@@ -204,13 +231,44 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 				$nImageId=CFile::SaveFile($arImage, "estelife");
 				$nImageId=intval($nImageId);
 
+
 				if(empty($nImageId))
 					continue;
 
 				$obQuery = $obPills->createQuery();
 				$obQuery->builder()->from('estelife_threads_photos')
 					->value('original', $nImageId)
-					->value('thread_id', $idPill);
+					->value('thread_id', $idPill)
+					->value('type',1);
+				$idPillPhoto = $obQuery->insert()->insertId();
+			}
+		}
+
+		if(!empty($_FILES['registration'])){
+			$arFiles=$_FILES['registration'];
+			foreach($arFiles['name'] as $nKey=>$sName){
+				if(empty($arFiles['tmp_name'][$nKey]))
+					continue;
+
+				$arImage=array(
+					'name'=>$sName,
+					'tmp_name'=>$arFiles['tmp_name'][$nKey],
+					'type'=>$arFiles['type'][$nKey],
+					'error'=>$arFiles['error'][$nKey],
+					'size'=>$arFiles['size'][$nKey]
+				);
+
+				$nImageId=CFile::SaveFile($arImage, "estelife");
+				$nImageId=intval($nImageId);
+
+				if(empty($nImageId))
+					continue;
+
+				$obQuery = $obPills->createQuery();
+				$obQuery->builder()->from('estelife_threads_photos')
+					->value('original', $nImageId)
+					->value('thread_id', $idPill)
+					->value('type',2);
 				$idPillPhoto = $obQuery->insert()->insertId();
 			}
 		}
@@ -237,6 +295,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 $aTabs = array(
 	array("DIV" => "edit1", "TAB" => GetMessage("ESTELIFE_T_BASE"), "ICON" => "estelife_r_base", "TITLE" => GetMessage("ESTELIFE_T_BASE")),
 	array("DIV" => "edit2", "TAB" => GetMessage("ESTELIFE_T_GALLERY"), "ICON" => "estelife_r_gallery", "TITLE" => GetMessage("ESTELIFE_T_GALLERY")),
+	array("DIV" => "edit3", "TAB" => GetMessage("ESTELIFE_T_REGISTRATION"), "ICON" => "estelife_r_registration", "TITLE" => GetMessage("ESTELIFE_T_REGISTRATION"))
 );
 $tabControl = new CAdminTabControl("estelife_service_concreate_".$ID, $aTabs, true, true);
 $message = null;
@@ -471,7 +530,7 @@ $arResult['types'] = $obQuery->select()->all();
 		<td colspan="2">
 			<input type="file" name="gallery[]" id="gallery" />
 			<?php if(!empty($arResult['pills']['gallery'])): ?>
-				<div class="estelife-pill-photos">
+				<div class="estelife-photos">
 					<?php foreach($arResult['pills']['gallery'] as $arPhoto): ?>
 						<div class="item" >
 							<div class="image">
@@ -479,6 +538,68 @@ $arResult['types'] = $obQuery->select()->all();
 							</div>
 							<div class="desc" id="tr_photo_descriptions_<?=$arPhoto['id']?>_editor">
 								<label for="phdl<?=$arPhoto['id']?>"><input type="checkbox" id="phdl<?=$arPhoto['id']?>" name="photo_deleted[]" value="<?=$arPhoto['id']?>">Удалить</label>
+								<?CFileMan::AddHTMLEditorFrame(
+									"photo_descriptions_".$arPhoto['id'],
+									$arPhoto['description'],
+									"photo_descriptions_".$arPhoto['id'],
+									'',
+									array(
+										'height' => 200,
+										'width' => 800
+									),
+									"N",
+									0,
+									"",
+									"",
+									$arIBlock["LID"],
+									true,
+									false,
+									array(
+										'toolbarConfig' => CFileman::GetEditorToolbarConfig("iblock_".(defined('BX_PUBLIC_MODE') && BX_PUBLIC_MODE == 1 ? 'public' : 'admin')),
+										'saveEditorKey' => $IBLOCK_ID
+									)
+								);?>
+							</div>
+						</div>
+					<?php endforeach; ?>
+				</div>
+			<?php endif; ?>
+		</td>
+	</tr>
+	<?php $tabControl->BeginNextTab();?>
+	<tr>
+		<td colspan="2">
+			<input type="file" name="registration[]" id="registration" />
+			<?php if(!empty($arResult['pills']['reg'])): ?>
+				<div class="estelife-photos">
+					<?php foreach($arResult['pills']['reg'] as $arPhoto): ?>
+						<div class="item" >
+							<div class="image">
+								<?=CFile::ShowImage($arPhoto['original'],300,300)?>
+							</div>
+							<div class="desc" id="tr_photo_descriptions_<?=$arPhoto['id']?>_editor">
+								<label for="phdl<?=$arPhoto['id']?>"><input type="checkbox" id="phdl<?=$arPhoto['id']?>" name="photo_deleted[]" value="<?=$arPhoto['id']?>">Удалить</label>
+								<?CFileMan::AddHTMLEditorFrame(
+									"photo_descriptions_".$arPhoto['id'],
+									$arPhoto['description'],
+									"photo_descriptions_".$arPhoto['id'],
+									'',
+									array(
+										'height' => 200,
+										'width' => 800
+									),
+									"N",
+									0,
+									"",
+									"",
+									$arIBlock["LID"],
+									true,
+									false,
+									array(
+										'toolbarConfig' => CFileman::GetEditorToolbarConfig("iblock_".(defined('BX_PUBLIC_MODE') && BX_PUBLIC_MODE == 1 ? 'public' : 'admin')),
+										'saveEditorKey' => $IBLOCK_ID
+									)
+								);?>
 							</div>
 						</div>
 					<?php endforeach; ?>

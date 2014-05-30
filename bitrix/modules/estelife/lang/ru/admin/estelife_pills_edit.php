@@ -36,3 +36,4 @@ $MESS['FORMAT_NOT_FILL']='Не указан тип препарата';
 $MESS['COMPANY_NOT_FILL']='Не указан производитель';
 $MESS['TYPE_NOT_FILL']='Не указан вид препарата';
 $MESS['COMPANY_ERROR']='Производитель не найден';
+$MESS['ESTELIFE_T_REGISTRATION'] = 'Регистрация';
