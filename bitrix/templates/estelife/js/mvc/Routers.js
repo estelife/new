@@ -73,14 +73,17 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		newsList:function(param){
+			lightMenu();
 			this.articlesList(param,'novosti/')
 		},
 
 		podcastList:function(param){
+			lightMenu();
 			this.articlesList(param,'podcast/')
 		},
 
 		articlesList:function(param,page){
+			lightMenu();
 			page=(page ? page : 'articles/')+(param ? param+'/' : '') + EL.query().toString();
 			(new Models.Inner(null,{
 				pages:[
@@ -114,6 +117,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		searchPage:function(){
+			lightMenu();
 			(new Models.Inner(null,{
 				pages:[
 					'search/'+EL.query().toString(),
@@ -148,6 +152,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		homePage:function(){
+			lightMenu();
 			(new Models.Inner(null,{
 				page:'home/'+EL.query().toString(),
 				view:new Views.WrapContent({
@@ -203,6 +208,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		clinicList: function(){
+			lightMenu();
 			(new Models.Inner(null,{
 				pages: this.getShortPages(
 					[
@@ -242,6 +248,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		promotionList: function(){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:this.getShortPages(
 					[
@@ -282,6 +289,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		preparationsMakersList: function(){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:this.getShortPages(
 					[
@@ -322,6 +330,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		apparatusesMakersList: function(){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:this.getShortPages(
 					[
@@ -362,6 +371,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		preparationsList: function(){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:this.getShortPages(
 					[
@@ -402,6 +412,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		implantsList: function(){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:this.getShortPages(
 					[
@@ -442,6 +453,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		threadsList: function(){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:this.getShortPages(
 					[
@@ -482,6 +494,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		apparatusesList: function(){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:this.getShortPages(
 					[
@@ -522,6 +535,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		eventsList: function(){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:this.getShortPages(
 					[
@@ -562,6 +576,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		sponsorsList: function(){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:this.getShortPages(
 					[
@@ -602,6 +617,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		trainingCentersList: function(){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:this.getShortPages(
 					[
@@ -642,6 +658,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		trainingsList: function(){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:this.getShortPages(
 					[
@@ -682,6 +699,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		professionalsList: function(){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:this.getShortPages(
 					[
@@ -1326,3 +1344,83 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 
 	return Routers;
 });
+
+function lightMenu(){
+	EL.SystemSettings.ready(function(s){
+		$(".main_menu a").parent().removeClass('main').removeClass('active');
+		$(".submenu a ").parent().removeClass('second_active');
+
+		$(".main_menu a").each(function() {
+			var href = $(this).attr("href"),
+				path_name = document.location.pathname.split('/'),
+				reg,matches;
+
+			if(!_.isEmpty(path_name[1])){
+				reg=new RegExp('^.*'+path_name[1]+'.*$');
+				matches=href.match(reg);
+			}
+
+			if (matches) {
+				$(this).closest(".main_menu>li").addClass("active").addClass('main');
+				return false;
+			}else{
+				var mass = s.directions;
+				path_name = path_name[1];
+				reg=new RegExp('^([a-z]{2})[0-9]+$');
+				matches=path_name.match(reg);
+
+				if (matches && mass[matches[1]].length>0){
+					reg=new RegExp('^.*'+mass[matches[1]]+'.*$');
+					var href_matches=href.match(reg);
+
+					if (href_matches && !$(".main_menu>li.active").length){
+						$(this).closest(".main_menu>li").addClass("active").addClass('main');
+						return false;
+					}
+				}
+			}
+		});
+
+		//подсветка урлов второго уровня
+		$(".submenu a").each(function(){
+			var href = $(this).attr("href"),
+				reg=new RegExp('^('+href+')(\\?.*)?$'),
+				path_name = document.location.href.split('/').slice(3).join('/');
+			path_name = '/'+path_name;
+			matches =path_name.match(reg);
+
+			if (matches || path_name == '/apparatuses-makers/') {
+				if (path_name == '/apparatuses-makers/'){
+					$('.submenu li a[href="/preparations-makers/"]').parent().addClass("second_active").parent().parent().addClass("active").addClass('main');
+				}else{
+					$(this).closest(".submenu>li").addClass("second_active");
+				}
+				return false;
+			}else{
+
+				var mass = s.directions,
+					reg=new RegExp('^([a-z]{2})[0-9]+$');
+				path_name = document.location.pathname.split('/').slice(1, -1).pop();
+
+				if (path_name){
+					var matches=path_name.match(reg);
+
+					if ((matches && mass[matches[1]].length>0) || (matches && matches[1]=='am')){
+
+						if (matches[1]=='am'){
+							$('.submenu li a[href="/preparations-makers/"]').parent().addClass("second_active").parent().parent().addClass("active").addClass('main');
+						}else{
+							reg=new RegExp('^\/'+mass[matches[1]]+'\/$');
+							var href_matches=href.match(reg);
+
+							if (href_matches){
+								$(this).closest(".submenu>li").addClass("second_active");
+								return false;
+							}
+						}
+					}
+				}
+			}
+		});
+	});
+}

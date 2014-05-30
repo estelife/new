@@ -126,6 +126,10 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			->value('patient', htmlentities($obPost->one('patient'),ENT_QUOTES,'utf-8'))
 			->value('line', htmlentities($obPost->one('line'),ENT_QUOTES,'utf-8'));
 
+		if ($obPost->one('logo_id_del') == 'Y'){
+			$obQuery->builder()->value('logo_id', 0);
+		}
+
 		if(!empty($_FILES['logo_id'])){
 			$arImage=$_FILES['logo_id'];
 			$arImage['old_file']=$obRecord['logo_id'];
@@ -153,6 +157,10 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		}else{
 			$obQuery->builder()->value('date_create', $nTime);
 			$idPill = $obQuery->insert()->insertId();
+		}
+
+		if ($obPost->one('logo_id_del') == 'Y' && $arResult['apps']['logo_id']>0){
+			CFile::Delete($arResult['apps']['logo_id']);
 		}
 
 		//Пишем тип препарата

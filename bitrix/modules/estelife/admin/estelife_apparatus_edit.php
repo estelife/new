@@ -33,10 +33,6 @@ if(!empty($ID)){
 	$obQuery->builder()->from('estelife_apparatus', 'ea');
 	$obJoin = $obQuery->builder()->join();
 	$obJoin->_left()
-		->_from('ea', 'type_id')
-		->_to('iblock_element','ID','mt')
-		->_cond()->_eq('mt.IBLOCK_ID',31);
-	$obJoin->_left()
 		->_from('ea', 'company_id')
 		->_to('estelife_companies', 'id', 'ec');
 	$obJoin->_left()
@@ -46,9 +42,7 @@ if(!empty($ID)){
 	$obQuery->builder()
 		->field('ea.*')
 		->field('ec.name', 'company_name')
-		->field('ect.name', 'company_type_name')
-		->field('mt.NAME', 'type_name')
-		->field('mt.ID', 'type_id');
+		->field('ect.name', 'company_type_name');
 	$obQuery->builder()->filter()
 		->_eq('ea.id', $ID);
 	$obResult = $obQuery->select();
@@ -81,9 +75,6 @@ if(!empty($ID)){
 	foreach ($arFormats as $val){
 		$arResult['apps']['format'][]=$val['type_id'];
 	}
-
-
-
 }else{
 
 }
@@ -102,9 +93,6 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		if($obPost->blank('company_name'))
 			$obError->setFieldError('COMPANY_NOT_FILL','company_id');
-
-		if($obPost->blank('format'))
-			$obError->setFieldError('FORMAT_NOT_FILL','format');
 
 		$obError->raise();
 
@@ -144,6 +132,10 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			->value('mix', htmlentities($obPost->one('mix'),ENT_QUOTES,'utf-8'))
 			->value('acs', htmlentities($obPost->one('acs'),ENT_QUOTES,'utf-8'));
 
+		if ($obPost->one('logo_id_del') == 'Y'){
+			$obQuery->builder()->value('logo_id', 0);
+		}
+
 		if(!empty($_FILES['logo_id'])){
 			$arImage=$_FILES['logo_id'];
 			$arImage['old_file']=$obRecord['logo_id'];
@@ -171,6 +163,10 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		}else{
 			$obQuery->builder()->value('date_create', $nTime);
 			$idApp = $obQuery->insert()->insertId();
+		}
+
+		if ($obPost->one('logo_id_del') == 'Y' && $arResult['apps']['logo_id']>0){
+			CFile::Delete($arResult['apps']['logo_id']);
 		}
 
 		//Пишем описание к аксессуарам
