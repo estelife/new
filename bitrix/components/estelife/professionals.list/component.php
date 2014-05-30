@@ -18,6 +18,8 @@ if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 else
 	$arPageCount = 12;
 
+throw new \core\exceptions\VHttpEx('Invalid request', 404);
+
 //Получение списка специалистов
 $obQuery=$obProfessionals->createQuery();
 $obQuery->builder()->from('estelife_professionals', 'ep');
