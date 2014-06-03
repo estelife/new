@@ -53,7 +53,7 @@ a:hover {
 .none {
 	display: none !important;
 }
-.experts .quote, .cl, .items .item.event ul.list2 {
+.experts .quote, .cl {
 	clear:both;
 }
 .cols, .social span, .promotions, ul.stat li, .social a, .logo, .head form input.text, .head .menu, .head .menu li,
@@ -97,7 +97,7 @@ a:hover {
 .promotion .time i, .promotion .prices i, .item.detail .clinic a.more i, .select .arrow, .item.company p i, .gallery .arrow i, td.prices i,
 .filter .date i, .win-close, .checked, .item.promotion .current .perc i,.checkbox.active i, .checkbox.radio i, .to-top i, h2.show-quality-form i,.help i, .tabs-menu .active i,
 .auth .link.back i, .item.specialist .work i, .activity .dates .active i, .hall .date i, form .date i.calendar, .reviews .rating a, .reviews .rating em, .reviews .group, .reviews .head span i,
-.item.detail.article .specialist h2 i, .notice .close {
+.item.detail.article .specialist h2 i, .notice .close, .filter .help-icon {
 	background-image:url('../images/complex.png');
 	background-repeat: no-repeat;
 }
@@ -1734,6 +1734,33 @@ td.prices i {
 .filter .field {
 	margin-bottom:10px;
 	position: relative;
+	float:left;
+	width: 100%;
+}
+.filter .help-icon {
+	display: block;
+	float:left;
+	width:13px;
+	height:13px;
+	background-position: -352px -119px;
+	text-indent: -10000px;
+	margin: 2px 0 0 5px;
+	position: relative;
+	cursor: help;
+}
+.filter .help-icon p {
+	position: absolute;
+	top: 37px;
+	left: 7px;
+	text-indent: 0;
+	background:#868686;
+	color:#fff;
+	padding: 20px;
+	width: 180px;
+	font-size: 12px;
+	line-height: 14px;
+	margin: 0;
+	display: none;
 }
 .filter .count-result b{
 	font-weight: normal;
@@ -1742,6 +1769,8 @@ td.prices i {
 .filter input[type=checkbox] {
 	display: block;
 	margin-bottom:3px;
+	float:left;
+	clear:left;
 }
 form input[type=checkbox] {
 	visibility: hidden;
@@ -1898,6 +1927,7 @@ form .date {
 	height:36px;
 	width:100%;
 	margin-top:20px;
+	float:left;
 }
 .filter .clear {
 	font-size: 12px;
@@ -1906,7 +1936,8 @@ form .date {
 	border-bottom: 1px dotted #5C5C5C;
 	display: block;
 	width: 90px;
-	margin: 20px auto 0 auto;
+	margin: 20px 0 0 50px;
+	float:left;
 }
 .item.company h2 a,
 .item.producer h2 a,
@@ -1921,6 +1952,9 @@ form .date {
 }
 .item.event h2 a {
 	line-height: 30px;
+}
+.items .item.event h2 a {
+	line-height: 20px;
 }
 .item.company h2,
 .item.producer h2,
@@ -2583,8 +2617,12 @@ li.country, span.country {
 .item.event {
 	padding-top:0;
 	padding-bottom:12px;
+	font-size: 14px;
 }
-.item.event h2 a, .item.event h2, .item.sponsor h2, .item.sponsor h2 a {
+.item.event h2 a,
+.item.event h2,
+.item.sponsor h2,
+.item.sponsor h2 a {
 	font-size:21px;
 }
 .item.event .date {
@@ -2597,8 +2635,19 @@ li.country, span.country {
 	margin:-19px 20px 0 0;
 	padding-top:22px;
 }
-.items .item.event .country {
-	margin:20px 0 5px 0;
+.items .item.event .date {
+	padding: 8px 0 9px 0;
+}
+.items .item.event .list1 {
+	margin-top: 12px;
+	width: 460px;
+}
+.items .item.event .list1 img {
+	height: 14px;
+	border: none;
+	position: relative;
+	top: 2px;
+	left: 3px;
 }
 .item.sponsor .col1, .item.event h2,
 .content .item.detail.sponsor .col1{
@@ -2700,8 +2749,25 @@ li.country, span.country {
 	max-height: 100px;
 	max-width: 209px;
 }
-.item.detail.sponsor h3 {
-	margin:60px 0 30px 0;
+.item.detail.sponsor .contacts {
+	margin-top:60px;
+}
+.item.detail.sponsor .contacts h3 {
+	margin: 0;
+}
+.item.detail.sponsor .contacts div {
+	margin-top: 30px;
+}
+.items.company-events .title {
+	float:left;
+	margin: 70px 0 20px 0;
+	width: 100%;
+	height: auto;
+}
+.items.company-events .title h3 {
+	font-size: 24px;
+	line-height: 30px;
+	margin:0;
 }
 .item.detail.event .current {
 	height:38px;

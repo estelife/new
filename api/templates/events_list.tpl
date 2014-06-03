@@ -16,20 +16,18 @@
 				</div>
 
 				<ul class="list1">
-					<li class="country big k<!--$val.country_id!-->"></li>
 					<!--if($val.country_name)!-->
-					<li>Место проведения: <b><!--$val.country_name!--><!--if($val.city_name)!-->, г. <!--$val.city_name!--><!--endif!--></b></li>
+					<li>Место проведения: <b><!--$val.country_name!--><!--if($val.city_name)!-->, г. <!--$val.city_name!--><!--endif!--></b><img src="/bitrix/templates/estelife/images/countries/k<!--$val.country_id!-->"></li>
 					<!--endif!-->
 					<li>Период проведения: <b><!--$val.first_period.from!-->
 							<!--if($val.first_period.to)!-->
 							-
 							<!--$val.first_period.to!-->
 							<!--endif!--></b></li>
-				</ul>
-				<ul class="list2">
 					<li>Формат: <b><!--$val.types!--></b></li>
 					<li>Направление: <b><!--$val.directions!--></b></li>
 				</ul>
+				<div class="cl"></div>
 			</div>
 			<div class="border"></div>
 		</div>

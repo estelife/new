@@ -26,20 +26,18 @@
 						</div>
 					
 						<ul class="list1">
-							<li class="country big k<?=$arEvent["country_id"]?>"></li>
 							<?php if(!empty($arEvent["country_name"])):?>
-								<li>Место проведения: <b><?=$arEvent["country_name"]?><?if (!empty($arEvent["city_name"])):?>, г. <?=$arEvent["city_name"]?><?endif?></b></li>
+								<li>Место проведения: <b><?=$arEvent["country_name"]?><?if (!empty($arEvent["city_name"])):?>, г. <?=$arEvent["city_name"]?><?endif?></b><img src="/bitrix/templates/estelife/images/countries/k<?=$arEvent["country_id"]?>"></li>
 							<?php endif?>
 							<li>Период проведения: <b><?=$arEvent['first_period']['from']?>
 									<?php if(!empty($arEvent['first_period']['to'])):?>
 										-
 										<?=$arEvent['first_period']['to']?>
 									<?php endif; ?></b></li>
-						</ul>
-						<ul class="list2">
 							<li>Формат: <b><?=$arEvent['types']?></b></li>
 							<li>Направление: <b><?=$arEvent['directions']?></b></li>
 						</ul>
+						<div class="cl"></div>
 					</div>
 					<div class="border"></div>
 				</div>

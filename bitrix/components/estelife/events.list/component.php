@@ -34,7 +34,7 @@ if(!$obGet->blank('country'))
 
 $arResult['events'] = array();
 
-//Получение списка клиник
+//Получение списка событий
 $obQuery=$obEvents->createQuery();
 $obQuery->builder()->from('estelife_events', 'ee');
 $obJoin=$obQuery->builder()->join();
