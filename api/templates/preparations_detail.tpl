@@ -68,20 +68,22 @@
 				<h3><a href="#">Регистрация</a></h3>
 				<div class="text">
 					<div><!--$detail.registration!--></div>
-					<!--foreach($detail.registration_photo as $key=>$val)!-->
-					<div class="item">
-						<div class="item-rel">
-							<div class="img">
-								<div class="img-in">
-									<a href="#" class="reg_photo">
-										<!--$val.file!-->
-									</a>
+					<div class="reg_images">
+						<!--foreach($detail.registration_photo as $key=>$val)!-->
+						<div class="item">
+							<div class="item-rel">
+								<div class="img">
+									<div class="img-in">
+										<a href="#" class="reg_photo">
+											<!--$val.file!-->
+										</a>
+									</div>
 								</div>
 							</div>
+							<div class="border"></div>
 						</div>
-						<div class="border"></div>
+						<!--endforeach!-->
 					</div>
-					<!--endforeach!-->
 				</div>
 			</div>
 			<!--endif!-->

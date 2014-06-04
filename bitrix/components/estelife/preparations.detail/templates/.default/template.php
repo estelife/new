@@ -75,6 +75,7 @@
 						<h3><a href="#">Регистрация</a></h3>
 						<div class="text">
 							<div><?=$arResult['pill']['registration']?></div>
+							<div class="reg_images">
 								<?php foreach ($arResult['pill']['registration_photo'] as $val):?>
 									<div class="item">
 										<div class="item-rel">
@@ -89,6 +90,7 @@
 										<div class="border"></div>
 									</div>
 								<?php endforeach?>
+							</div>
 						</div>
 					</div>
 				<?php endif?>
