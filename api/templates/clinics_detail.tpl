@@ -34,9 +34,7 @@
 					<!--if($detail.articles)!-->
 					<li class="t4<!--if($detail.CURRENT_TAB==articles)!--> active<!--endif!-->"><a href="/cl<!--$detail.id!-->/articles/">Статьи<i></i></a></li>
 					<!--endif!-->
-					<!--if($detail.professionals)!-->
-					<li class="t6<!--if($detail.CURRENT_TAB==specialists)!--> active<!--endif!-->"><a href="/cl<!--$detail.id!-->/specialists/">Специалисты<i></i></a></li>
-					<!--endif!-->
+
 					<li class="t7<!--if($detail.CURRENT_TAB==reviews)!--> active<!--endif!-->"><a href="/cl<!--$detail.id!-->/reviews/">Отзывы<i></i></a></li>
 					<li class="t5<!--if($detail.CURRENT_TAB==contacts)!--> active<!--endif!-->"><a href="/cl<!--$detail.id!-->/contacts/">Контакты<i></i></a></li>
 				</ul>
@@ -149,30 +147,7 @@
 					</div>
 				</div>
 			<!--endif!-->
-			<!--if($detail.professionals)!-->
-				<div class="tabs tab6<!--if($detail.CURRENT_TAB!=specialists)!--> none<!--endif!-->">
-					<div class="items">
-						<!--foreach ($detail.professionals as $key=>$val)!-->
-							<div class="item specialist">
-								<div class="img">
-									<div class="img-in">
-										<!--if($val.logo)!-->
-											<!--$val.logo!-->
-										<!--else!-->
-											<div class="default">Изображение отсутствует</div>
-										<!--endif!-->
-									</div>
-								</div>
-								<h2><a href="<!--$val.link!-->"><!--$val.name!--></a></h2>
-								<!--if($val.short_description)!-->
-									<p><!--$val.short_description!--></p>
-								<!--endif!-->
-							</div>
-						<!--endforeach!-->
-					</div>
-				</div>
-			<!--endif!-->
-
+			
 			<div class="tabs tab7<!--if($detail.CURRENT_TAB!=reviews)!--> none<!--endif!-->">
 				<div class="reviews"></div>
 			</div>
