@@ -49,6 +49,30 @@ if(!empty($ID)){
 	$obResult = $obQuery->select();
 	$arResult['pills']=$obResult->assoc();
 
+	foreach ($arResult['pills'] as &$val){
+		$val['preview_text'] = htmlentities($val['preview_text'],ENT_QUOTES,'utf-8');
+		$val['detail_text'] = htmlentities($val['detail_text'],ENT_QUOTES,'utf-8');
+		$val['action'] = htmlentities($val['action'],ENT_QUOTES,'utf-8');
+		$val['evidence'] = htmlentities($val['evidence'],ENT_QUOTES,'utf-8');
+		$val['contra'] = htmlentities($val['contra'],ENT_QUOTES,'utf-8');
+		$val['structure'] = htmlentities($val['structure'],ENT_QUOTES,'utf-8');
+		$val['registration'] = htmlentities($val['registration'],ENT_QUOTES,'utf-8');
+		$val['advantages'] = htmlentities($val['advantages'],ENT_QUOTES,'utf-8');
+		$val['usage'] = htmlentities($val['usage'],ENT_QUOTES,'utf-8');
+		$val['area'] = htmlentities($val['area'],ENT_QUOTES,'utf-8');
+		$val['effect'] = htmlentities($val['effect'],ENT_QUOTES,'utf-8');
+		$val['security'] = htmlentities($val['security'],ENT_QUOTES,'utf-8');
+		$val['mix'] = htmlentities($val['mix'],ENT_QUOTES,'utf-8');
+		$val['specs'] = htmlentities($val['specs'],ENT_QUOTES,'utf-8');
+		$val['protocol'] = htmlentities($val['protocol'],ENT_QUOTES,'utf-8');
+		$val['form'] = htmlentities($val['form'],ENT_QUOTES,'utf-8');
+		$val['storage'] = htmlentities($val['storage'],ENT_QUOTES,'utf-8');
+		$val['undesired'] = htmlentities($val['undesired'],ENT_QUOTES,'utf-8');
+		$val['specialist'] = htmlentities($val['specialist'],ENT_QUOTES,'utf-8');
+		$val['patient'] = htmlentities($val['patient'],ENT_QUOTES,'utf-8');
+		$val['line'] = htmlentities($val['line'],ENT_QUOTES,'utf-8');
+	}
+
 	//Получение фото
 	$obQuery = $obPills->createQuery();
 	$obQuery->builder()->from('estelife_preparations_photos');

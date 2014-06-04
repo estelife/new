@@ -48,6 +48,30 @@ if(!empty($ID)){
 	$obResult = $obQuery->select();
 	$arResult['apps']=$obResult->assoc();
 
+	foreach ($arResult['apps'] as &$val){
+		$val['preview_text'] = html_entity_decode($val['preview_text'],ENT_QUOTES,'utf-8');
+		$val['detail_text'] = html_entity_decode($val['detail_text'],ENT_QUOTES,'utf-8');
+		$val['action'] = html_entity_decode($val['action'],ENT_QUOTES,'utf-8');
+		$val['evidence'] = html_entity_decode($val['evidence'],ENT_QUOTES,'utf-8');
+		$val['contra'] = html_entity_decode($val['contra'],ENT_QUOTES,'utf-8');
+		$val['specs'] = html_entity_decode($val['specs'],ENT_QUOTES,'utf-8');
+		$val['func'] = html_entity_decode($val['func'],ENT_QUOTES,'utf-8');
+		$val['registration'] = html_entity_decode($val['registration'],ENT_QUOTES,'utf-8');
+		$val['advantages'] = html_entity_decode($val['advantages'],ENT_QUOTES,'utf-8');
+		$val['procedure'] = html_entity_decode($val['procedure'],ENT_QUOTES,'utf-8');
+		$val['security'] = html_entity_decode($val['security'],ENT_QUOTES,'utf-8');
+		$val['protocol'] = html_entity_decode($val['protocol'],ENT_QUOTES,'utf-8');
+		$val['undesired'] = html_entity_decode($val['undesired'],ENT_QUOTES,'utf-8');
+		$val['equipment'] = html_entity_decode($val['equipment'],ENT_QUOTES,'utf-8');
+		$val['effect'] = html_entity_decode($val['effect'],ENT_QUOTES,'utf-8');
+		$val['specialist'] = html_entity_decode($val['specialist'],ENT_QUOTES,'utf-8');
+		$val['patient'] = html_entity_decode($val['patient'],ENT_QUOTES,'utf-8');
+		$val['area'] = html_entity_decode($val['area'],ENT_QUOTES,'utf-8');
+		$val['rules'] = html_entity_decode($val['rules'],ENT_QUOTES,'utf-8');
+		$val['mix'] = html_entity_decode($val['mix'],ENT_QUOTES,'utf-8');
+		$val['acs'] = html_entity_decode($val['acs'],ENT_QUOTES,'utf-8');
+	}
+
 	//Получение галереи
 	$obQuery = $obApp->createQuery();
 	$obQuery->builder()->from('estelife_apparatus_photos');
