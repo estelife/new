@@ -27,7 +27,7 @@
 				<div class="el-tab">
 					<h3><a href="#">Действие</a></h3>
 					<div class="text">
-					<div><!--$detail.action!--></div>
+					<div class="desc"><!--$detail.action!--></div>
 					</div>
 				</div>
 			<!--endif!-->
@@ -35,7 +35,7 @@
 			<div class="el-tab">
 				<h3><a href="#">Показания</a></h3>
 				<div class="text">
-				<div><!--$detail.evidence!--></div>
+				<div class="desc"><!--$detail.evidence!--></div>
 				</div>
 			</div>
 			<!--endif!-->
@@ -43,7 +43,7 @@
 			<div class="el-tab">
 				<h3><a href="#">Противопоказания</a></h3>
 				<div class="text">
-				<div><!--$detail.contra!--></div>
+				<div class="desc"><!--$detail.contra!--></div>
 				</div>
 			</div>
 			<!--endif!-->
@@ -51,7 +51,7 @@
 			<div class="el-tab">
 				<h3><a href="#">Зоны применения</a></h3>
 				<div class="text">
-				<div><!--$detail.area!--></div>
+				<div class="desc"><!--$detail.area!--></div>
 				</div>
 			</div>
 			<!--endif!-->
@@ -59,7 +59,7 @@
 			<div class="el-tab">
 				<h3><a href="#">Курс процедур</a></h3>
 				<div class="text">
-				<div><!--$detail.procedure!--></div>
+				<div class="desc"><!--$detail.procedure!--></div>
 				</div>
 			</div>
 			<!--endif!-->
@@ -67,7 +67,7 @@
 			<div class="el-tab">
 				<h3><a href="#">Регистрация</a></h3>
 				<div class="text">
-					<div><!--$detail.registration!--></div>
+					<div class="desc"><!--$detail.registration!--></div>
 					<div class="reg_images">
 						<!--foreach($detail.registration_photo as $key=>$val)!-->
 						<div class="item">
@@ -91,7 +91,7 @@
 			<div class="el-tab">
 				<h3><a href="#">Безопасность</a></h3>
 				<div class="text">
-				<div><!--$detail.security!--></div>
+				<div class="desc"><!--$detail.security!--></div>
 				</div>
 			</div>
 			<!--endif!-->
@@ -99,7 +99,7 @@
 			<div class="el-tab">
 				<h3><a href="#">Достигаемый эффект</a></h3>
 				<div class="text">
-				<div><!--$detail.effect!--></div>
+				<div class="desc"><!--$detail.effect!--></div>
 				</div>
 			</div>
 			<!--endif!-->
@@ -107,7 +107,7 @@
 			<div class="el-tab">
 				<h3><a href="#">Побочные эффекты</a></h3>
 				<div class="text">
-				<div><!--$detail.undesired!--></div>
+				<div class="desc"><!--$detail.undesired!--></div>
 				</div>
 			</div>
 			<!--endif!-->
@@ -115,7 +115,7 @@
 				<div class="el-tab">
 					<h3><a href="#">Функции</a></h3>
 					<div class="text">
-					<div><!--$detail.func!--></div>
+					<div class="desc"><!--$detail.func!--></div>
 					</div>
 				</div>
 			<!--endif!-->
@@ -123,7 +123,7 @@
 				<div class="el-tab">
 					<h3><a href="#">Преимущества</a></h3>
 					<div class="text">
-					<div><!--$detail.advantages!--></div>
+					<div class="desc"><!--$detail.advantages!--></div>
 					</div>
 				</div>
 			<!--endif!-->
@@ -131,7 +131,7 @@
 			<div class="el-tab">
 				<h3><a href="#">Сочетание</a></h3>
 				<div class="text">
-				<div><!--$detail.mix!--></div>
+				<div class="desc"><!--$detail.mix!--></div>
 				</div>
 			</div>
 			<!--endif!-->
@@ -139,7 +139,7 @@
 			<div class="el-tab">
 				<h3><a href="#">Рекомендации пациенту</a></h3>
 				<div class="text">
-				<div><!--$detail.patient!--></div>
+				<div class="desc"><!--$detail.patient!--></div>
 				</div>
 			</div>
 			<!--endif!-->
@@ -147,7 +147,7 @@
 			<div class="el-tab">
 				<h3><a href="#">Рекомендации специалисту</a></h3>
 				<div class="text">
-				<div><!--$detail.specialist!--></div>
+				<div class="desc"><!--$detail.specialist!--></div>
 				</div>
 			</div>
 			<!--endif!-->
@@ -155,7 +155,7 @@
 			<div class="el-tab">
 				<h3><a href="#">Протокол процедуры</a></h3>
 				<div class="text">
-				<div><!--$detail.protocol!--></div>
+				<div class="desc"><!--$detail.protocol!--></div>
 				</div>
 			</div>
 			<!--endif!-->
@@ -163,7 +163,7 @@
 				<div class="el-tab">
 					<h3><a href="#">Технические характеристики</a></h3>
 					<div class="text">
-					<div><!--$detail.specs!--></div>
+					<div class="desc"><!--$detail.specs!--></div>
 					</div>
 				</div>
 			<!--endif!-->
@@ -171,7 +171,7 @@
 			<div class="el-tab">
 				<h3><a href="#">Правила эксплуатации</a></h3>
 				<div class="text">
-				<div><!--$detail.rules!--></div>
+				<div class="desc"><!--$detail.rules!--></div>
 				</div>
 			</div>
 			<!--endif!-->
@@ -179,7 +179,7 @@
 				<div class="el-tab">
 					<h3><a href="#">Комплектация</a></h3>
 					<div class="text">
-					<div><!--$detail.equipment!--></div>
+					<div class="desc"><!--$detail.equipment!--></div>
 					</div>
 				</div>
 			<!--endif!-->
@@ -187,7 +187,7 @@
 			<div class="el-tab">
 				<h3><a href="#">Аксессуары</a></h3>
 				<div class="text">
-				<div><!--$detail.acs!--></div>
+				<div class="desc"><!--$detail.acs!--></div>
 				</div>
 			</div>
 			<!--endif!-->

@@ -4849,6 +4849,10 @@ form.quality .submit,
 	height: 0;
 }
 
+.el-tab .text .desc{
+	padding: 1px;
+}
+
 .el-tab .text .item{
 	clear: none;
 }

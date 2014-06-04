@@ -147,7 +147,7 @@
 					</div>
 				</div>
 			<!--endif!-->
-			
+
 			<div class="tabs tab7<!--if($detail.CURRENT_TAB!=reviews)!--> none<!--endif!-->">
 				<div class="reviews"></div>
 			</div>
