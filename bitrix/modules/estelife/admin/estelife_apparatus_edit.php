@@ -48,29 +48,27 @@ if(!empty($ID)){
 	$obResult = $obQuery->select();
 	$arResult['apps']=$obResult->assoc();
 
-	foreach ($arResult['apps'] as &$val){
-		$val['preview_text'] = html_entity_decode($val['preview_text'],ENT_QUOTES,'utf-8');
-		$val['detail_text'] = html_entity_decode($val['detail_text'],ENT_QUOTES,'utf-8');
-		$val['action'] = html_entity_decode($val['action'],ENT_QUOTES,'utf-8');
-		$val['evidence'] = html_entity_decode($val['evidence'],ENT_QUOTES,'utf-8');
-		$val['contra'] = html_entity_decode($val['contra'],ENT_QUOTES,'utf-8');
-		$val['specs'] = html_entity_decode($val['specs'],ENT_QUOTES,'utf-8');
-		$val['func'] = html_entity_decode($val['func'],ENT_QUOTES,'utf-8');
-		$val['registration'] = html_entity_decode($val['registration'],ENT_QUOTES,'utf-8');
-		$val['advantages'] = html_entity_decode($val['advantages'],ENT_QUOTES,'utf-8');
-		$val['procedure'] = html_entity_decode($val['procedure'],ENT_QUOTES,'utf-8');
-		$val['security'] = html_entity_decode($val['security'],ENT_QUOTES,'utf-8');
-		$val['protocol'] = html_entity_decode($val['protocol'],ENT_QUOTES,'utf-8');
-		$val['undesired'] = html_entity_decode($val['undesired'],ENT_QUOTES,'utf-8');
-		$val['equipment'] = html_entity_decode($val['equipment'],ENT_QUOTES,'utf-8');
-		$val['effect'] = html_entity_decode($val['effect'],ENT_QUOTES,'utf-8');
-		$val['specialist'] = html_entity_decode($val['specialist'],ENT_QUOTES,'utf-8');
-		$val['patient'] = html_entity_decode($val['patient'],ENT_QUOTES,'utf-8');
-		$val['area'] = html_entity_decode($val['area'],ENT_QUOTES,'utf-8');
-		$val['rules'] = html_entity_decode($val['rules'],ENT_QUOTES,'utf-8');
-		$val['mix'] = html_entity_decode($val['mix'],ENT_QUOTES,'utf-8');
-		$val['acs'] = html_entity_decode($val['acs'],ENT_QUOTES,'utf-8');
-	}
+	$arResult['apps']['preview_text'] = html_entity_decode($arResult['apps']['preview_text'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['detail_text'] = html_entity_decode($arResult['apps']['detail_text'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['action'] = html_entity_decode($arResult['apps']['action'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['evidence'] = html_entity_decode($arResult['apps']['evidence'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['contra'] = html_entity_decode($arResult['apps']['contra'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['specs'] = html_entity_decode($arResult['apps']['specs'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['func'] = html_entity_decode($arResult['apps']['func'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['registration'] = html_entity_decode($arResult['apps']['registration'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['advantages'] = html_entity_decode($arResult['apps']['advantages'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['procedure'] = html_entity_decode($arResult['apps']['procedure'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['security'] = html_entity_decode($arResult['apps']['security'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['protocol'] = html_entity_decode($arResult['apps']['protocol'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['undesired'] = html_entity_decode($arResult['apps']['undesired'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['equipment'] = html_entity_decode($arResult['apps']['equipment'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['effect'] = html_entity_decode($arResult['apps']['effect'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['specialist'] = html_entity_decode($arResult['apps']['specialist'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['patient'] = html_entity_decode($arResult['apps']['patient'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['area'] = html_entity_decode($arResult['apps']['area'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['rules'] = html_entity_decode($arResult['apps']['rules'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['mix'] = html_entity_decode($arResult['apps']['mix'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['acs'] = html_entity_decode($arResult['apps']['acs'],ENT_QUOTES,'utf-8');
 
 	//Получение галереи
 	$obQuery = $obApp->createQuery();

@@ -49,29 +49,27 @@ if(!empty($ID)){
 	$obResult = $obQuery->select();
 	$arResult['pills']=$obResult->assoc();
 
-	foreach ($arResult['pills'] as &$val){
-		$val['preview_text'] = html_entity_decode($val['preview_text'],ENT_QUOTES,'utf-8');
-		$val['detail_text'] = html_entity_decode($val['detail_text'],ENT_QUOTES,'utf-8');
-		$val['action'] = html_entity_decode($val['action'],ENT_QUOTES,'utf-8');
-		$val['evidence'] = html_entity_decode($val['evidence'],ENT_QUOTES,'utf-8');
-		$val['contra'] = html_entity_decode($val['contra'],ENT_QUOTES,'utf-8');
-		$val['structure'] = html_entity_decode($val['structure'],ENT_QUOTES,'utf-8');
-		$val['registration'] = html_entity_decode($val['registration'],ENT_QUOTES,'utf-8');
-		$val['advantages'] = html_entity_decode($val['advantages'],ENT_QUOTES,'utf-8');
-		$val['usage'] = html_entity_decode($val['usage'],ENT_QUOTES,'utf-8');
-		$val['area'] = html_entity_decode($val['area'],ENT_QUOTES,'utf-8');
-		$val['effect'] = html_entity_decode($val['effect'],ENT_QUOTES,'utf-8');
-		$val['security'] = html_entity_decode($val['security'],ENT_QUOTES,'utf-8');
-		$val['mix'] = html_entity_decode($val['mix'],ENT_QUOTES,'utf-8');
-		$val['specs'] = html_entity_decode($val['specs'],ENT_QUOTES,'utf-8');
-		$val['protocol'] = html_entity_decode($val['protocol'],ENT_QUOTES,'utf-8');
-		$val['form'] = html_entity_decode($val['form'],ENT_QUOTES,'utf-8');
-		$val['storage'] = html_entity_decode($val['storage'],ENT_QUOTES,'utf-8');
-		$val['undesired'] = html_entity_decode($val['undesired'],ENT_QUOTES,'utf-8');
-		$val['specialist'] = html_entity_decode($val['specialist'],ENT_QUOTES,'utf-8');
-		$val['patient'] = html_entity_decode($val['patient'],ENT_QUOTES,'utf-8');
-		$val['line'] = html_entity_decode($val['line'],ENT_QUOTES,'utf-8');
-	}
+	$arResult['pills']['preview_text'] = html_entity_decode($arResult['pills']['preview_text'],ENT_QUOTES,'utf-8');
+	$arResult['pills']['detail_text'] = html_entity_decode($arResult['pills']['detail_text'],ENT_QUOTES,'utf-8');
+	$arResult['pills']['action'] = html_entity_decode($arResult['pills']['action'],ENT_QUOTES,'utf-8');
+	$arResult['pills']['evidence'] = html_entity_decode($arResult['pills']['evidence'],ENT_QUOTES,'utf-8');
+	$arResult['pills']['contra'] = html_entity_decode($arResult['pills']['contra'], ENT_QUOTES,'utf-8');
+	$arResult['pills']['structure'] = html_entity_decode($arResult['pills']['structure'],ENT_QUOTES,'utf-8');
+	$arResult['pills']['registration'] = html_entity_decode($arResult['pills']['registration'],ENT_QUOTES,'utf-8');
+	$arResult['pills']['advantages'] = html_entity_decode($arResult['pills']['advantages'],ENT_QUOTES,'utf-8');
+	$arResult['pills']['usage'] = html_entity_decode($arResult['pills']['usage'],ENT_QUOTES,'utf-8');
+	$arResult['pills']['area'] = html_entity_decode($arResult['pills']['area'],ENT_QUOTES,'utf-8');
+	$arResult['pills']['effect'] = html_entity_decode($arResult['pills']['effect'],ENT_QUOTES,'utf-8');
+	$arResult['pills']['security'] = html_entity_decode($arResult['pills']['security'],ENT_QUOTES,'utf-8');
+	$arResult['pills']['mix'] = html_entity_decode($arResult['pills']['mix'],ENT_QUOTES,'utf-8');
+	$arResult['pills']['specs'] = html_entity_decode($arResult['pills']['specs'],ENT_QUOTES,'utf-8');
+	$arResult['pills']['protocol'] = html_entity_decode($arResult['pills']['protocol'],ENT_QUOTES,'utf-8');
+	$arResult['pills']['form'] = html_entity_decode($arResult['pills']['form'],ENT_QUOTES,'utf-8');
+	$arResult['pills']['storage'] = html_entity_decode($arResult['pills']['storage'],ENT_QUOTES,'utf-8');
+	$arResult['pills']['undesired'] = html_entity_decode($arResult['pills']['undesired'],ENT_QUOTES,'utf-8');
+	$arResult['pills']['specialist'] = html_entity_decode($arResult['pills']['specialist'],ENT_QUOTES,'utf-8');
+	$arResult['pills']['patient'] = html_entity_decode($arResult['pills']['patient'],ENT_QUOTES,'utf-8');
+	$arResult['pills']['line'] = html_entity_decode($arResult['pills']['line'],ENT_QUOTES,'utf-8');
 
 	//Получение фото
 	$obQuery = $obPills->createQuery();
