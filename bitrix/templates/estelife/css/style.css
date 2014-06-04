@@ -4852,3 +4852,7 @@ form.quality .submit,
 .el-tab .text .item{
 	clear: none;
 }
+
+.el-tab .text .reg_images{
+	overflow: hidden;
+}

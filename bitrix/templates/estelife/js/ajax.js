@@ -300,13 +300,14 @@ require([
 					});
 				}else{
 					el.addClass('active');
-					var th = $('.text div', prnt),
-						h = th.height();
+					var th = $('.text', prnt).children(),
+						height = 0;
 
-					if ($('.text .item', prnt).length)
-						h = h+230;
+					th.each(function(){
+						height += $(this).outerHeight();
+					});
 
-					$('.text', prnt).animate({height: h+"px"}, 500, function(){
+					$('.text', prnt).animate({height: height +"px"}, 500, function(){
 						flag = 1;
 					});
 				}

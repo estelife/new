@@ -75,20 +75,20 @@
 						<h3><a href="#">Регистрация</a></h3>
 						<div class="text">
 							<div><?=$arResult['pill']['registration']?></div>
-							<?php foreach ($arResult['pill']['registration_photo'] as $val):?>
-								<div class="item">
-									<div class="item-rel">
-										<div class="img">
-											<div class="img-in">
-												<a href="#" class="reg_photo">
-													<?=$val['file'];?>
-												</a>
+								<?php foreach ($arResult['pill']['registration_photo'] as $val):?>
+									<div class="item">
+										<div class="item-rel">
+											<div class="img">
+												<div class="img-in">
+													<a href="#" class="reg_photo">
+														<?=$val['file'];?>
+													</a>
+												</div>
 											</div>
 										</div>
+										<div class="border"></div>
 									</div>
-									<div class="border"></div>
-								</div>
-							<?php endforeach?>
+								<?php endforeach?>
 						</div>
 					</div>
 				<?php endif?>
