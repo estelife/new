@@ -35,22 +35,22 @@ $obBuilder->from('estelife_apparatus')
 $arApps = $obQuery->select()->all();
 
 foreach ($arApps as $arValue) {
-	$arValue['detail_text'] = nl2br($arValue['detail_text']);
-	$arValue['registration'] = nl2br($arValue['registration']);
-	$arValue['action'] = nl2br($arValue['action']);
-	$arValue['undesired'] = nl2br($arValue['undesired']);
-	$arValue['evidence'] = nl2br($arValue['evidence']);
-	$arValue['contra'] = nl2br($arValue['contra']);
-	$arValue['advantages'] = nl2br($arValue['advantages']);
-	$arValue['func'] = nl2br($arValue['func']);
-	$arValue['security'] = nl2br($arValue['security']);
-	$arValue['procedure'] = nl2br($arValue['procedure']);
-	$arValue['protocol'] = nl2br($arValue['protocol']);
-	$arValue['specs'] = nl2br($arValue['specs']);
-	$arValue['equipment'] = nl2br($arValue['equipment']);
-	$arValue['effect'] = nl2br($arValue['effect']);
-	$arValue['specialist'] = nl2br($arValue['specialist']);
-	$arValue['patient'] = nl2br($arValue['patient']);
+	$arValue['detail_text'] = htmlentities(nl2br(html_entity_decode($arValue['detail_text'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['registration'] = htmlentities(nl2br(html_entity_decode($arValue['registration'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['action'] = htmlentities(nl2br(html_entity_decode($arValue['action'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['undesired'] = htmlentities(nl2br(html_entity_decode($arValue['undesired'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['evidence'] = htmlentities(nl2br(html_entity_decode($arValue['evidence'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['contra'] = htmlentities(nl2br(html_entity_decode($arValue['contra'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['advantages'] = htmlentities(nl2br(html_entity_decode($arValue['advantages'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['func'] = htmlentities(nl2br(html_entity_decode($arValue['func'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['security'] = htmlentities(nl2br(html_entity_decode($arValue['security'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['procedure'] = htmlentities(nl2br(html_entity_decode($arValue['procedure'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['protocol'] = htmlentities(nl2br(html_entity_decode($arValue['protocol'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['specs'] = htmlentities(nl2br(html_entity_decode($arValue['specs'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['equipment'] = htmlentities(nl2br(html_entity_decode($arValue['equipment'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['effect'] = htmlentities(nl2br(html_entity_decode($arValue['effect'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['specialist'] = htmlentities(nl2br(html_entity_decode($arValue['specialist'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['patient'] = htmlentities(nl2br(html_entity_decode($arValue['patient'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
 
 	$nId = $arValue['id'];
 	unset($arValue['id']);
@@ -87,25 +87,25 @@ $obBuilder->from('estelife_pills')
 $arApps = $obQuery->select()->all();
 
 foreach ($arApps as $arValue) {
-	$arValue['detail_text'] = nl2br($arValue['detail_text']);
-	$arValue['registration'] = nl2br($arValue['registration']);
-	$arValue['action'] =  nl2br($arValue['action']);
-	$arValue['undesired'] = nl2br($arValue['undesired']);
-	$arValue['evidence'] = nl2br($arValue['evidence']);
-	$arValue['structure'] = nl2br($arValue['structure']);
-	$arValue['effect'] = nl2br($arValue['effect']);
-	$arValue['form'] = nl2br($arValue['form']);
-	$arValue['contra'] = nl2br($arValue['contra']);
-	$arValue['usage'] = nl2br($arValue['usage']);
-	$arValue['storage'] = nl2br($arValue['storage']);
-	$arValue['advantages'] = nl2br($arValue['advantages']);
-	$arValue['area'] = nl2br($arValue['area']);
-	$arValue['security'] = nl2br($arValue['security']);
-	$arValue['mix'] = nl2br($arValue['mix']);
-	$arValue['protocol'] = nl2br($arValue['protocol']);
-	$arValue['specs'] = nl2br($arValue['specs']);
-	$arValue['specialist'] = nl2br($arValue['specialist']);
-	$arValue['effect'] = nl2br($arValue['effect']);
+	$arValue['detail_text'] = htmlentities(nl2br(html_entity_decode($arValue['detail_text'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['registration'] = htmlentities(nl2br(html_entity_decode($arValue['registration'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['action'] =  htmlentities(nl2br(html_entity_decode($arValue['action'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['undesired'] = htmlentities(nl2br(html_entity_decode($arValue['undesired'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['evidence'] = htmlentities(nl2br(html_entity_decode($arValue['evidence'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['structure'] = htmlentities(nl2br(html_entity_decode($arValue['structure'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['effect'] = htmlentities(nl2br(html_entity_decode($arValue['effect'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['form'] = htmlentities(nl2br(html_entity_decode($arValue['form'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['contra'] = htmlentities(nl2br(html_entity_decode($arValue['contra'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['usage'] = htmlentities(nl2br(html_entity_decode($arValue['usage'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['storage'] = htmlentities(nl2br(html_entity_decode($arValue['storage'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['advantages'] = htmlentities(nl2br(html_entity_decode($arValue['advantages'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['area'] = htmlentities(nl2br(html_entity_decode($arValue['area'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['security'] = htmlentities(nl2br(html_entity_decode($arValue['security'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['mix'] = htmlentities(nl2br(html_entity_decode($arValue['mix'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['protocol'] = htmlentities(nl2br(html_entity_decode($arValue['protocol'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['specs'] = htmlentities(nl2br(html_entity_decode($arValue['specs'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['specialist'] = htmlentities(nl2br(html_entity_decode($arValue['specialist'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
+	$arValue['effect'] = htmlentities(nl2br(html_entity_decode($arValue['effect'], ENT_QUOTES, 'utf-8')), ENT_QUOTES, 'utf-8');
 
 	$nId = $arValue['id'];
 	unset($arValue['id']);
