@@ -303,7 +303,7 @@ require([
 					var th = $('.text div', prnt),
 						h = th.height();
 
-					if ($('.text .item', prnt).html().length>0)
+					if ($('.text .item', prnt).length)
 						h = h+230;
 
 					$('.text', prnt).animate({height: h+"px"}, 500, function(){
