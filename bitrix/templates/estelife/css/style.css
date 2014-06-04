@@ -4848,3 +4848,7 @@ form.quality .submit,
 	overflow: hidden;
 	height: 0;
 }
+
+.el-tab .text .item{
+	clear: none;
+}

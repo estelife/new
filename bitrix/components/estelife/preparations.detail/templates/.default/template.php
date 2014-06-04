@@ -81,7 +81,7 @@
 										<div class="img">
 											<div class="img-in">
 												<a href="#" class="reg_photo">
-													<img src="<?=$val['file'];?>" alt="<?=$val['desc'];?>">
+													<?=$val['file'];?>
 												</a>
 											</div>
 										</div>
@@ -143,8 +143,9 @@
 				<?php if (!empty($arResult['pill']['mix'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Сочетание</a></h3>
-						<div class="none"><?=$arResult['pill']['mix']?></div>
-					</div>
+						<div class="text">
+							<div><?=$arResult['pill']['mix']?></div>
+						</div>
 					</div>
 				<?php endif?>
 				<?php if (!empty($arResult['pill']['patient'])):?>

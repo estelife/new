@@ -74,7 +74,7 @@
 							<div class="img">
 								<div class="img-in">
 									<a href="#" class="reg_photo">
-										<img src="<!--$val.file!-->" alt="<!--$val.desc!-->">
+										<!--$val.file!-->
 									</a>
 								</div>
 							</div>

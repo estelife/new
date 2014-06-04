@@ -140,8 +140,8 @@ $arRegistration = $obQuery->select()->all();
 $arResult['pill']['registration_photo'] = array();
 if (!empty($arRegistration)){
 	foreach ($arRegistration as $key=>$val){
-		$file =  CFile::GetFileArray($val['original']);
-		$arResult['pill']['registration_photo'][$key]['file'] = $file['SRC'];
+		$file =  CFile::ShowImage($val['original'],165, 220);
+		$arResult['pill']['registration_photo'][$key]['file'] = $file;
 		$arResult['pill']['registration_photo'][$key]['desc'] = $val['description'];
 	}
 }
