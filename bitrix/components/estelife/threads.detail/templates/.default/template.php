@@ -74,7 +74,22 @@
 					<div class="el-tab">
 						<h3><a href="#">Регистрация</a></h3>
 						<div class="text">
-						<div><?=$arResult['pill']['registration']?></div>
+							<?php foreach ($arResult['pill']['registration'] as $val):?>
+								<div class="item">
+									<div class="item-rel">
+										<div class="img">
+											<div class="img-in">
+												<a>
+													<img src="<?=$val['file'];?>" alt="<?=$val['desc'];?>">																	</a>
+											</div>
+										</div>
+										<!--<div class="desc">
+											Аппарат для моделирования фигуры и лечения целлюлита, сочетающий клеточную электротерапию...
+										</div>-->
+									</div>
+									<div class="border"></div>
+								</div>
+							<?php endforeach?>
 						</div>
 					</div>
 				<?php endif?>

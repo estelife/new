@@ -125,8 +125,24 @@ if (!empty($arPhotos)){
 	foreach ($arPhotos as $val){
 		$file =  CFile::GetFileArray($val['original']);
 		$arResult['app']['gallery'][] = $file['SRC'];
+		$arResult['app']['gallery'][] = $val['type'];
 	}
 }
+
+
+//получение регистрации
+$obQuery = $obApps->createQuery();
+$obQuery->builder()->from('estelife_apparatus_photos');
+$obQuery->builder()->filter()->_eq('apparatus_id', $arResult['app']['id'])->_eq('type',2);
+$arRegistration = $obQuery->select()->all();
+if (!empty($arRegistration)){
+	foreach ($arRegistration as $key=>$val){
+		$file =  CFile::GetFileArray($val['original']);
+		$arResult['app']['registration'][$key]['file'] = $file['SRC'];
+		$arResult['app']['registration'][$key]['desc'] = $val['description'];
+	}
+}
+
 
 $arResult['app']['name']=trim(strip_tags(html_entity_decode($arResult['app']['name'], ENT_QUOTES, 'utf-8')));
 $arResult['app']['seo_name']=VString::pregStrSeo($arResult['app']['name']);

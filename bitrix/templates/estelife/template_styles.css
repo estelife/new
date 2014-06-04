@@ -557,3 +557,18 @@ form .global_error{
 	background-color:#e50364;
 	color:#fff;
 }
+
+.properties .el-tab .text{
+	/*padding-bottom: 20px;*/
+}
+
+.properties .el-tab .text .item{
+	float: left;
+	width: 165px;
+	padding-right: 20px;
+}
+
+.properties .el-tab .text .desc{
+	float: left;
+}
+

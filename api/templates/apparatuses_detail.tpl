@@ -63,11 +63,23 @@
 				</div>
 			</div>
 			<!--endif!-->
-			<!--if($detail.registration)!-->
+			<!--if ($detail.registration)!-->
 			<div class="el-tab">
 				<h3><a href="#">Регистрация</a></h3>
 				<div class="text">
-				<div><!--$detail.registration!--></div>
+					<!--foreach($detail.registration as $key=>$val)!-->
+					<div class="item">
+						<div class="item-rel">
+							<div class="img">
+								<div class="img-in">
+									<a>
+										<img src="<!--$val.file!-->" alt="<!--$val.desc!-->"></a>
+								</div>
+							</div>
+						</div>
+						<div class="border"></div>
+					</div>
+					<!--endforeach!-->
 				</div>
 			</div>
 			<!--endif!-->

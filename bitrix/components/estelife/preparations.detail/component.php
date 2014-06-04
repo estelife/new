@@ -134,6 +134,21 @@ if (!empty($arPhotos)){
 	}
 }
 
+
+//получение регистрации
+$obQuery = $obPills->createQuery();
+$obQuery->builder()->from('estelife_preparations_photos');
+$obQuery->builder()->filter()->_eq('preparation_id', $arResult['pill']['id'])->_eq('type',2);
+$arRegistration = $obQuery->select()->all();
+if (!empty($arRegistration)){
+	foreach ($arRegistration as $key=>$val){
+		$file =  CFile::GetFileArray($val['original']);
+		$arResult['pill']['registration'][$key]['file'] = $file['SRC'];
+		$arResult['pill']['registration'][$key]['desc'] = $val['description'];
+	}
+}
+
+
 $arResult['pill']['name'] = trim(strip_tags(html_entity_decode($arResult['pill']['name'], ENT_QUOTES, 'utf-8')));
 $arResult['pill']['seo_name'] = VString::pregStrSeo($arResult['pill']['name']);
 
