@@ -3694,7 +3694,7 @@ form.quality .submit,
 }
 .blur {
 	filter: url(filter.svg#blur); /* FF, IE10 & Opera */
-	-webkit-filter: blur(5px);
+	-webkit-filter: blur(7px);
 }
 .notice {
 	position: fixed;
@@ -3717,6 +3717,14 @@ form.quality .submit,
 	color: #E50364;
 	font-weight: bold;
 }
+
+.notice-title{
+	text-align: center;
+	margin-bottom: 26px;
+	font-size: 21px;
+	font-weight: bold;
+}
+
 .notice .close {
 	display: block;
 	position: absolute;

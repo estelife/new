@@ -640,7 +640,8 @@ Estelife.prototype.notice=function(){
 	}
 
 	var notice=this.noticeElement,
-		message=notice.find('.notice-message');
+		message=notice.find('.notice-message'),
+		title='';
 
 	(function init(){
 		var notices=$('.notices .item');
@@ -664,6 +665,14 @@ Estelife.prototype.notice=function(){
 			$.map(items,function(item){
 				message.append('<div class="notice-item">'+item+'</div>');
 			});
+		}else if (items instanceof Object){
+			if (items.attr('title') != undefined)
+				title = items.attr('title');
+
+			if (items.html().length <= 0)
+				throw 'empty html items for notice';
+
+			message.append('<div class="notice-title">'+title+'</div><div class="notice-item">'+items.html()+'</div>');
 		}else{
 			message.append('<div class="notice-item">'+items+'</div>');
 		}
