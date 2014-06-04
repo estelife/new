@@ -95,26 +95,26 @@ $arResult['app']['company_link'] = '/am'.$arResult['app']['company_id'].'/';
 
 $arResult['app']['img'] = CFile::ShowImage($arResult['app']['logo_id'],180, 180, 'alt='.$arResult['app']['name']);
 
-$arResult['app']['detail_text'] = htmlspecialchars_decode($arResult['app']['detail_text'],ENT_QUOTES);
-$arResult['app']['registration'] = htmlspecialchars_decode($arResult['app']['registration'],ENT_QUOTES);
-$arResult['app']['action'] = htmlspecialchars_decode($arResult['app']['action'],ENT_QUOTES);
-$arResult['app']['undesired'] = htmlspecialchars_decode($arResult['app']['undesired'],ENT_QUOTES);
-$arResult['app']['evidence'] = htmlspecialchars_decode($arResult['app']['evidence'],ENT_QUOTES);
-$arResult['app']['contra'] = htmlspecialchars_decode($arResult['app']['contra'],ENT_QUOTES);
-$arResult['app']['advantages'] = htmlspecialchars_decode($arResult['app']['advantages'],ENT_QUOTES);
-$arResult['app']['func'] = htmlspecialchars_decode($arResult['app']['func'],ENT_QUOTES);
-$arResult['app']['security'] = htmlspecialchars_decode($arResult['app']['security'],ENT_QUOTES);
-$arResult['app']['procedure'] = htmlspecialchars_decode($arResult['app']['procedure'],ENT_QUOTES);
-$arResult['app']['protocol'] = htmlspecialchars_decode($arResult['app']['protocol'],ENT_QUOTES);
-$arResult['app']['specs'] = htmlspecialchars_decode($arResult['app']['specs'],ENT_QUOTES);
-$arResult['app']['equipment'] = htmlspecialchars_decode($arResult['app']['equipment'],ENT_QUOTES);
-$arResult['app']['effect'] = htmlspecialchars_decode($arResult['app']['effect'],ENT_QUOTES);
-$arResult['app']['specialist'] = htmlspecialchars_decode($arResult['app']['specialist'],ENT_QUOTES);
-$arResult['app']['patient'] = htmlspecialchars_decode($arResult['app']['patient'],ENT_QUOTES);
-$arResult['app']['area'] = htmlspecialchars_decode($arResult['app']['area'],ENT_QUOTES);
-$arResult['app']['mix'] = htmlspecialchars_decode($arResult['app']['mix'],ENT_QUOTES);
-$arResult['app']['rules'] = htmlspecialchars_decode($arResult['app']['rules'],ENT_QUOTES);
-$arResult['app']['acs'] = htmlspecialchars_decode($arResult['app']['acs'],ENT_QUOTES);
+$arResult['app']['detail_text'] = html_entity_decode($arResult['app']['detail_text'],ENT_QUOTES);
+$arResult['app']['registration'] = html_entity_decode($arResult['app']['registration'],ENT_QUOTES);
+$arResult['app']['action'] = html_entity_decode($arResult['app']['action'],ENT_QUOTES);
+$arResult['app']['undesired'] = html_entity_decode($arResult['app']['undesired'],ENT_QUOTES);
+$arResult['app']['evidence'] = html_entity_decode($arResult['app']['evidence'],ENT_QUOTES);
+$arResult['app']['contra'] = html_entity_decode($arResult['app']['contra'],ENT_QUOTES);
+$arResult['app']['advantages'] = html_entity_decode($arResult['app']['advantages'],ENT_QUOTES);
+$arResult['app']['func'] = html_entity_decode($arResult['app']['func'],ENT_QUOTES);
+$arResult['app']['security'] = html_entity_decode($arResult['app']['security'],ENT_QUOTES);
+$arResult['app']['procedure'] = html_entity_decode($arResult['app']['procedure'],ENT_QUOTES);
+$arResult['app']['protocol'] = html_entity_decode($arResult['app']['protocol'],ENT_QUOTES);
+$arResult['app']['specs'] = html_entity_decode($arResult['app']['specs'],ENT_QUOTES);
+$arResult['app']['equipment'] = html_entity_decode($arResult['app']['equipment'],ENT_QUOTES);
+$arResult['app']['effect'] = html_entity_decode($arResult['app']['effect'],ENT_QUOTES);
+$arResult['app']['specialist'] = html_entity_decode($arResult['app']['specialist'],ENT_QUOTES);
+$arResult['app']['patient'] = html_entity_decode($arResult['app']['patient'],ENT_QUOTES);
+$arResult['app']['area'] = html_entity_decode($arResult['app']['area'],ENT_QUOTES);
+$arResult['app']['mix'] = html_entity_decode($arResult['app']['mix'],ENT_QUOTES);
+$arResult['app']['rules'] = html_entity_decode($arResult['app']['rules'],ENT_QUOTES);
+$arResult['app']['acs'] = html_entity_decode($arResult['app']['acs'],ENT_QUOTES);
 
 //получение галереи
 $obQuery = $obApps->createQuery();
