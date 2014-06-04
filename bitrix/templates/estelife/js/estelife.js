@@ -641,7 +641,7 @@ Estelife.prototype.notice=function(){
 
 	var notice=this.noticeElement,
 		message=notice.find('.notice-message'),
-		title='';
+		title, src;
 
 	(function init(){
 		var notices=$('.notices .item');
@@ -666,13 +666,15 @@ Estelife.prototype.notice=function(){
 				message.append('<div class="notice-item">'+item+'</div>');
 			});
 		}else if (items instanceof Object){
-			if (items.attr('title') != undefined)
-				title = items.attr('title');
+			if (items.attr('alt') != undefined)
+				title = items.attr('alt');
 
-			if (items.html().length <= 0)
-				throw 'empty html items for notice';
+			if (items.attr('src').length <= 0)
+				throw 'empty image item for notice';
+			else
+				src = items.attr('src');
 
-			message.append('<div class="notice-title">'+title+'</div><div class="notice-item">'+items.html()+'</div>');
+			message.append('<div class="notice-title">'+title+'</div><div class="notice-item"><img src="'+src+'" alt="'+title+'" ></div>');
 		}else{
 			message.append('<div class="notice-item">'+items+'</div>');
 		}

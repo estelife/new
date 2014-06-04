@@ -140,11 +140,12 @@ $obQuery = $obPills->createQuery();
 $obQuery->builder()->from('estelife_implants_photos');
 $obQuery->builder()->filter()->_eq('implant_id', $arResult['pill']['id'])->_eq('type',2);
 $arRegistration = $obQuery->select()->all();
+$arResult['pill']['registration_photo'] = array();
 if (!empty($arRegistration)){
 	foreach ($arRegistration as $key=>$val){
 		$file =  CFile::GetFileArray($val['original']);
-		$arResult['pill']['registration'][$key]['file'] = $file['SRC'];
-		$arResult['pill']['registration'][$key]['desc'] = $val['description'];
+		$arResult['pill']['registration_photo'][$key]['file'] = $file['SRC'];
+		$arResult['pill']['registration_photo'][$key]['desc'] = $val['description'];
 	}
 }
 

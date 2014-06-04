@@ -70,22 +70,21 @@
 						</div>
 					</div>
 				<?php endif?>
-				<?php if (!empty($arResult['pill']['registration'])):?>
+				<?php if (!empty($arResult['pill']['registration']) || !empty($arResult['pill']['registration_photo'])):?>
 					<div class="el-tab">
 						<h3><a href="#">Регистрация</a></h3>
 						<div class="text">
-							<?php foreach ($arResult['pill']['registration'] as $val):?>
+							<div><?=$arResult['pill']['registration']?></div>
+							<?php foreach ($arResult['pill']['registration_photo'] as $val):?>
 								<div class="item">
 									<div class="item-rel">
 										<div class="img">
 											<div class="img-in">
-												<a>
-													<img src="<?=$val['file'];?>" alt="<?=$val['desc'];?>">																	</a>
+												<a href="#" class="reg_photo">
+													<img src="<?=$val['file'];?>" alt="<?=$val['desc'];?>">
+												</a>
 											</div>
 										</div>
-										<!--<div class="desc">
-											Аппарат для моделирования фигуры и лечения целлюлита, сочетающий клеточную электротерапию...
-										</div>-->
 									</div>
 									<div class="border"></div>
 								</div>

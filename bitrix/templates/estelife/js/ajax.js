@@ -73,6 +73,13 @@ require([
 			Backbone.history.start(historySettings);
 		}
 
+		body.on('click', '.reg_photo img', function(){
+			EL.notice().show($(this));
+
+			return false;
+		});
+
+
 		//подстановка в url авторизации backurl
 		body.on('click touchstart touchend', '.goto-auth', function(e){
 			if(e.type)
@@ -295,6 +302,10 @@ require([
 					el.addClass('active');
 					var th = $('.text div', prnt),
 						h = th.height();
+
+					if ($('.text .item', prnt).html().length>0)
+						h = h+230;
+
 					$('.text', prnt).animate({height: h+"px"}, 500, function(){
 						flag = 1;
 					});

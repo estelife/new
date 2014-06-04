@@ -135,11 +135,12 @@ $obQuery = $obApps->createQuery();
 $obQuery->builder()->from('estelife_apparatus_photos');
 $obQuery->builder()->filter()->_eq('apparatus_id', $arResult['app']['id'])->_eq('type',2);
 $arRegistration = $obQuery->select()->all();
+$arResult['app']['registration_photo'] = array();
 if (!empty($arRegistration)){
 	foreach ($arRegistration as $key=>$val){
 		$file =  CFile::GetFileArray($val['original']);
-		$arResult['app']['registration'][$key]['file'] = $file['SRC'];
-		$arResult['app']['registration'][$key]['desc'] = $val['description'];
+		$arResult['app']['registration_photo'][$key]['file'] = $file['SRC'];
+		$arResult['app']['registration_photo'][$key]['desc'] = $val['description'];
 	}
 }
 
