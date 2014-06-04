@@ -138,7 +138,7 @@ $arRegistration = $obQuery->select()->all();
 $arResult['app']['registration_photo'] = array();
 if (!empty($arRegistration)){
 	foreach ($arRegistration as $key=>$val){
-		$file =  CFile::ShowImage($val['original'],165, 220);
+		$file =  CFile::ShowImage($val['original'],165, 220, 'alt='.$val['description']);
 		$arResult['pill']['registration_photo'][$key]['file'] = $file;
 		$arResult['app']['registration_photo'][$key]['desc'] = $val['description'];
 	}
