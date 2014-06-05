@@ -18,3 +18,8 @@ bitrix\ERESULT::$DATA['crumb']=array(
 		'link'=>'#'
 	)
 );
+bitrix\ERESULT::$DATA['seo'] = array(
+	'title'=>$APPLICATION->GetPageProperty('title'),
+	'description'=>$APPLICATION->GetPageProperty('description'),
+	'keywords'=>$APPLICATION->GetPageProperty('keywords')
+);

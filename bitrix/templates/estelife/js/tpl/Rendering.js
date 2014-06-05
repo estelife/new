@@ -209,8 +209,8 @@ define(function(){
 				if(!left_val)
 					return (neg=='!');
 
-				left_val=_prepareValueForExpr(left_val,lo,ld);
-				right_val=_prepareValueForExpr(right_val,ro,rd);
+				left_val=_prepareValueForExpr(left_val, lo, ld);
+				right_val=_prepareValueForExpr(right_val, ro, rd);
 
 				if(expr  && expr!=''){
 					switch(expr){
@@ -261,16 +261,19 @@ define(function(){
 					(neg=='!');
 			}
 
-			function _prepareValueForExpr(value,oper,data){
-				if(oper && data){
+			function _prepareValueForExpr(value, oper, data){
+				if (jQuery.isArray(value) || jQuery.isPlainObject(value))
+					return value;
+
+				if(oper && oper != '' && data && data != ''){
 					value=parseInt(value);
 					data=parseInt(data);
 
 					if(isNaN(data))
-						data=0;
+						data = 0;
 
 					if(isNaN(value))
-						value=0;
+						value = 0;
 
 					switch(oper){
 						case '%':
@@ -291,7 +294,6 @@ define(function(){
 					}
 				}else if(jQuery.isNumeric(value)){
 					var v = parseInt(value);
-
 					if(!isNaN(v))
 						value=v;
 				}

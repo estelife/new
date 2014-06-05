@@ -96,8 +96,8 @@ abstract class VQueryBuilder {
 	 * @param mixed $mValue
 	 * @return VQueryBuilder
 	 */
-	public function value($sField,$mValue){
-		$this->arValues[$sField]=$mValue;
+	public function value($sField, $mValue){
+		$this->arValues[$sField] = $mValue;
 		return $this;
 	}
 

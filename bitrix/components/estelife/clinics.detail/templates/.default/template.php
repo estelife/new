@@ -44,9 +44,7 @@
 						<?php if (!empty($arResult['clinic']["articles"])):?>
 							<li class="t4<?=$arResult['CURRENT_TAB']=='articles' ? ' active' : ''?>"><a href="/cl<?=$arResult['clinic']['id']?>/articles/">Статьи<i></i></a></li>
 						<?php endif?>
-						<?php if (!empty($arResult['clinic']['professionals'])):?>
-							<li class="t6<?=$arResult['CURRENT_TAB']=='specialists' ? ' active' : ''?>"><a href="/cl<?=$arResult['clinic']['id']?>/specialists/">Специалисты<i></i></a></li>
-						<?php endif?>
+
 						<li class="t7<?=$arResult['CURRENT_TAB']=='reviews' ? ' active' : ''?>"><a href="/cl<?=$arResult['clinic']['id']?>/reviews/">Отзывы<i></i></a></li>
 						<li class="t5<?=$arResult['CURRENT_TAB']=='contacts' ? ' active' : ''?>"><a href="/cl<?=$arResult['clinic']['id']?>/contacts/">Контакты<i></i></a></li>
 					</ul>
@@ -171,29 +169,7 @@
 						</div>
 					</div>
 				<?php endif?>
-				<?php if (!empty($arResult['clinic']['professionals'])):?>
-					<div class="tabs tab6<?=$arResult['CURRENT_TAB']!='specialists' ? ' none' : ''?>">
-						<div class="items">
-							<?php foreach ($arResult['clinic']['professionals'] as $arProf):?>
-								<div class="item specialist">
-									<div class="img">
-										<div class="img-in">
-											<?php if(!empty($arProf["logo"])): ?>
-												<?=$arProf["logo"]?>
-											<?php else: ?>
-												<div class="default">Изображение отсутствует</div>
-											<?endif?>
-										</div>
-									</div>
-									<h2><a href="<?=$arProf["link"]?>"><?=$arProf["name"]?></a></h2>
-									<?php if (!empty($arProf["short_description"])):?>
-										<p><?=$arProf["short_description"]?></p>
-									<?php endif?>
-								</div>
-							<?php endforeach?>
-						</div>
-					</div>
-				<?php endif?>
+
 				<div class="tabs tab7<?=$arResult['CURRENT_TAB']!='reviews' ? ' none' : ''?>">
 					<div class="reviews">
 						<?$APPLICATION->IncludeComponent("estelife:reviews", '', array(

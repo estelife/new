@@ -61,15 +61,14 @@ if(!$obGet->blank('country')){
 		$arResult['cities'][] = $res;
 	}
 
-
 $arDirections=array();
 $arTypes=array();
 
-/*foreach($arFilterParams['direction'] as $nDirection)
-	$arDirections[]=intval($nDirection);
-
-foreach($arFilterParams['type'] as $nType)
-	$arTypes[]=intval($nType);*/
+//foreach($arFilterParams['direction'] as &$nDirection)
+//	settype($nDirection, 'int');
+//
+//foreach($arFilterParams['type'] as &$nType)
+//	settype($nType, 'int');
 
 /*$arResult['filter']=array(
 	'country'=>intval($obGet->one('country',0)),

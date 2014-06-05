@@ -100,6 +100,10 @@ if ($sComponent=='list'){
 		$obFilter->_like('ap.name',$arFilterParams['name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
 	}
 
+	if(!empty($arFilterParams['company_name'])){
+		$obFilter->_like('ec.name',$arFilterParams['company_name'],VFilter::LIKE_AFTER|VFilter::LIKE_BEFORE);
+	}
+
 	if(!empty($arFilterParams['type'])){
 		$obFilter->_eq('apt.type_id', intval($arFilterParams['type']));
 	}
@@ -117,7 +121,7 @@ if ($sComponent=='list'){
 	$arResult['apps'] = array();
 	while($arData=$obResult->Fetch()){
 		$arData['link'] = '/ap'.$arData['id'].'/';
-		$arData['preview_text'] = \core\types\VString::truncate(nl2br(htmlspecialchars_decode($arData['preview_text'],ENT_NOQUOTES)), 250, '...');
+		$arData['preview_text'] = \core\types\VString::truncate(htmlspecialchars_decode($arData['preview_text'],ENT_NOQUOTES), 250, '...');
 
 		if(!empty($arData['logo_id'])){
 			$file=CFile::ShowImage($arData["logo_id"], 180, 180,'alt="'.$arData['name'].'"');
@@ -197,7 +201,7 @@ if ($sComponent=='list'){
 	$arProductions = $obQuery->select()->all();
 
 	foreach ($arProductions as $val){
-		$val['img'] = CFile::ShowImage($val['logo_id'],150, 140, 'alt='.$val['name']);
+		$val['img'] = CFile::ShowImage($val['logo_id'],150, 150, 'alt='.$val['name']);
 		$val['link'] = '/ap'.$val['id'].'/';
 		$val['preview_text'] = \core\types\VString::truncate($val['preview_text'], 90, '...');
 		$arResult['similar_apps']['production'][] = $val;

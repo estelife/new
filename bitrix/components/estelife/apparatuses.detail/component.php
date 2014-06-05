@@ -22,10 +22,6 @@ $obJoin->_left()
 	->_from('ap', 'company_id')
 	->_to('estelife_companies', 'id', 'ec');
 $obJoin->_left()
-	->_from('ap','type_id')
-	->_to('iblock_element','ID','pt')
-	->_cond()->_eq('pt.IBLOCK_ID',31);
-$obJoin->_left()
 	->_from('ec', 'id')
 	->_to('estelife_company_geo', 'company_id', 'ecg');
 $obJoin->_left()
@@ -49,7 +45,6 @@ $obQuery->builder()
 	->field('cttype.ID','type_country_id')
 	->field('cttype.NAME','type_country_name')
 	->field('ap.*')
-	->field('pt.NAME','type_name')
 	->field('ec.name','company_name')
 	->field('ec.id','company_id')
 	->field('ec.translit','company_translit')
@@ -68,6 +63,8 @@ if(!is_null($nCompanyId)){
 }
 
 $arResult['app'] = $obQuery->select()->assoc();
+if (empty($arResult['app']))
+	throw new \core\exceptions\VHttpEx('Invalid request', 404);
 
 
 if (!empty($arResult['app']['type_company_name'])){
@@ -98,22 +95,26 @@ $arResult['app']['company_link'] = '/am'.$arResult['app']['company_id'].'/';
 
 $arResult['app']['img'] = CFile::ShowImage($arResult['app']['logo_id'],180, 180, 'alt='.$arResult['app']['name']);
 
-$arResult['app']['detail_text'] = nl2br(htmlspecialchars_decode($arResult['app']['detail_text'],ENT_NOQUOTES));
-$arResult['app']['registration'] = nl2br(htmlspecialchars_decode($arResult['app']['registration'],ENT_NOQUOTES));
-$arResult['app']['action'] = nl2br(htmlspecialchars_decode($arResult['app']['action'],ENT_NOQUOTES));
-$arResult['app']['undesired'] = nl2br(htmlspecialchars_decode($arResult['app']['undesired'],ENT_NOQUOTES));
-$arResult['app']['evidence'] = nl2br(htmlspecialchars_decode($arResult['app']['evidence'],ENT_NOQUOTES));
-$arResult['app']['contra'] = nl2br(htmlspecialchars_decode($arResult['app']['contra'],ENT_NOQUOTES));
-$arResult['app']['advantages'] = nl2br(htmlspecialchars_decode($arResult['app']['advantages'],ENT_NOQUOTES));
-$arResult['app']['func'] = nl2br(htmlspecialchars_decode($arResult['app']['func'],ENT_NOQUOTES));
-$arResult['app']['security'] = nl2br(htmlspecialchars_decode($arResult['app']['security'],ENT_NOQUOTES));
-$arResult['app']['procedure'] = nl2br(htmlspecialchars_decode($arResult['app']['procedure'],ENT_NOQUOTES));
-$arResult['app']['protocol'] = nl2br(htmlspecialchars_decode($arResult['app']['protocol'],ENT_NOQUOTES));
-$arResult['app']['specs'] = nl2br(htmlspecialchars_decode($arResult['app']['specs'],ENT_NOQUOTES));
-$arResult['app']['equipment'] = nl2br(htmlspecialchars_decode($arResult['app']['equipment'],ENT_NOQUOTES));
-$arResult['app']['effect'] = nl2br(htmlspecialchars_decode($arResult['app']['effect'],ENT_NOQUOTES));
-$arResult['app']['specialist'] = nl2br(htmlspecialchars_decode($arResult['app']['specialist'],ENT_NOQUOTES));
-$arResult['app']['patient'] = nl2br(htmlspecialchars_decode($arResult['app']['patient'],ENT_NOQUOTES));
+$arResult['app']['detail_text'] = html_entity_decode($arResult['app']['detail_text'],ENT_QUOTES);
+$arResult['app']['registration'] = html_entity_decode($arResult['app']['registration'],ENT_QUOTES);
+$arResult['app']['action'] = html_entity_decode($arResult['app']['action'],ENT_QUOTES);
+$arResult['app']['undesired'] = html_entity_decode($arResult['app']['undesired'],ENT_QUOTES);
+$arResult['app']['evidence'] = html_entity_decode($arResult['app']['evidence'],ENT_QUOTES);
+$arResult['app']['contra'] = html_entity_decode($arResult['app']['contra'],ENT_QUOTES);
+$arResult['app']['advantages'] = html_entity_decode($arResult['app']['advantages'],ENT_QUOTES);
+$arResult['app']['func'] = html_entity_decode($arResult['app']['func'],ENT_QUOTES);
+$arResult['app']['security'] = html_entity_decode($arResult['app']['security'],ENT_QUOTES);
+$arResult['app']['procedure'] = html_entity_decode($arResult['app']['procedure'],ENT_QUOTES);
+$arResult['app']['protocol'] = html_entity_decode($arResult['app']['protocol'],ENT_QUOTES);
+$arResult['app']['specs'] = html_entity_decode($arResult['app']['specs'],ENT_QUOTES);
+$arResult['app']['equipment'] = html_entity_decode($arResult['app']['equipment'],ENT_QUOTES);
+$arResult['app']['effect'] = html_entity_decode($arResult['app']['effect'],ENT_QUOTES);
+$arResult['app']['specialist'] = html_entity_decode($arResult['app']['specialist'],ENT_QUOTES);
+$arResult['app']['patient'] = html_entity_decode($arResult['app']['patient'],ENT_QUOTES);
+$arResult['app']['area'] = html_entity_decode($arResult['app']['area'],ENT_QUOTES);
+$arResult['app']['mix'] = html_entity_decode($arResult['app']['mix'],ENT_QUOTES);
+$arResult['app']['rules'] = html_entity_decode($arResult['app']['rules'],ENT_QUOTES);
+$arResult['app']['acs'] = html_entity_decode($arResult['app']['acs'],ENT_QUOTES);
 
 //получение галереи
 $obQuery = $obApps->createQuery();
@@ -124,8 +125,25 @@ if (!empty($arPhotos)){
 	foreach ($arPhotos as $val){
 		$file =  CFile::GetFileArray($val['original']);
 		$arResult['app']['gallery'][] = $file['SRC'];
+		$arResult['app']['gallery'][] = $val['type'];
 	}
 }
+
+
+//получение регистрации
+$obQuery = $obApps->createQuery();
+$obQuery->builder()->from('estelife_apparatus_photos');
+$obQuery->builder()->filter()->_eq('apparatus_id', $arResult['app']['id'])->_eq('type',2);
+$arRegistration = $obQuery->select()->all();
+$arResult['app']['registration_photo'] = array();
+if (!empty($arRegistration)){
+	foreach ($arRegistration as $key=>$val){
+		$file =  CFile::ShowImage($val['original'],165, 220, 'alt='.$val['description']);
+		$arResult['pill']['registration_photo'][$key]['file'] = $file;
+		$arResult['app']['registration_photo'][$key]['desc'] = $val['description'];
+	}
+}
+
 
 $arResult['app']['name']=trim(strip_tags(html_entity_decode($arResult['app']['name'], ENT_QUOTES, 'utf-8')));
 $arResult['app']['seo_name']=VString::pregStrSeo($arResult['app']['name']);

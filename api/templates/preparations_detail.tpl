@@ -24,112 +24,172 @@
 
 		<div class="properties">
 			<!--if($detail.action)!-->
-				<div class="el-tab">
-					<h3><a href="#">Действие</a></h3>
-					<p class="none"><!--$detail.action!--></p>
+			<div class="el-tab">
+				<h3><a href="#">Действие</a></h3>
+				<div class="text">
+				<div class="desc"><!--$detail.action!--></div>
 				</div>
+			</div>
 			<!--endif!-->
 			<!--if($detail.evidence)!-->
-				<div class="el-tab">
-					<h3><a href="#">Показания</a></h3>
-					<p class="none"><!--$detail.evidence!--></p>
+			<div class="el-tab">
+				<h3><a href="#">Показания</a></h3>
+				<div class="text">
+				<div class="desc"><!--$detail.evidence!--></div>
 				</div>
+			</div>
 			<!--endif!-->
 			<!--if($detail.contra)!-->
-				<div class="el-tab">
-					<h3><a href="#">Противопоказания</a></h3>
-					<p class="none"><!--$detail.contra!--></p>
+			<div class="el-tab">
+				<h3><a href="#">Противопоказания</a></h3>
+				<div class="text">
+				<div class="desc"><!--$detail.contra!--></div>
 				</div>
-			<!--endif!-->
-			<!--if($detail.structure)!-->
-				<div class="el-tab">
-					<h3><a href="#">Состав</a></h3>
-					<p class="none"><!--$detail.structure!--></p>
-				</div>
-			<!--endif!-->
-			<!--if($detail.registration)!-->
-				<div class="el-tab">
-					<h3><a href="#">Регистрация</a></h3>
-					<p class="none"><!--$detail.registration!--></p>
-				</div>
-			<!--endif!-->
-			<!--if($detail.advantages)!-->
-				<div class="el-tab">
-					<h3><a href="#">Преимущества</a></h3>
-					<p class="none"><!--$detail.advantages!--></p>
-				</div>
-			<!--endif!-->
-			<!--if($detail.usage)!-->
-				<div class="el-tab">
-					<h3><a href="#">Курс лечения</a></h3>
-					<p class="none"><!--$detail.usage!--></p>
-				</div>
+			</div>
 			<!--endif!-->
 			<!--if($detail.area)!-->
-				<div class="el-tab">
-					<h3><a href="#">Зоны применения</a></h3>
-					<p class="none"><!--$detail.area!--></p>
+			<div class="el-tab">
+				<h3><a href="#">Зоны применения</a></h3>
+				<div class="text">
+				<div class="desc"><!--$detail.area!--></div>
 				</div>
+			</div>
 			<!--endif!-->
-			<!--if($detail.effect)!-->
-				<div class="el-tab">
-					<h3><a href="#">Достигаемый эффект</a></h3>
-					<p class="none"><!--$detail.effect!--></p>
+			<!--if($detail.usage)!-->
+			<div class="el-tab">
+				<h3><a href="#">Курс процедур</a></h3>
+				<div class="text">
+				<div class="desc"><!--$detail.usage!--></div>
 				</div>
+			</div>
 			<!--endif!-->
-			<!--if($detail.undesired)!-->
-				<div class="el-tab">
-					<h3><a href="#">Побочные эффекты</a></h3>
-					<p class="none"><!--$detail.undesired!--></p>
+			<!--if ($detail.registration || $detail.registration_photo)!-->
+			<div class="el-tab">
+				<h3><a href="#">Регистрация</a></h3>
+				<div class="text">
+					<div class="desc"><!--$detail.registration!--></div>
+					<div class="reg_images">
+						<!--foreach($detail.registration_photo as $key=>$val)!-->
+						<div class="item">
+							<div class="item-rel">
+								<div class="img">
+									<div class="img-in">
+										<a href="#" class="reg_photo">
+											<!--$val.file!-->
+										</a>
+									</div>
+								</div>
+							</div>
+							<div class="border"></div>
+						</div>
+						<!--endforeach!-->
+					</div>
 				</div>
+			</div>
 			<!--endif!-->
 			<!--if($detail.security)!-->
-				<div class="el-tab">
-					<h3><a href="#">Безопасность</a></h3>
-					<p class="none"><!--$detail.security!--></p>
+			<div class="el-tab">
+				<h3><a href="#">Безопасность</a></h3>
+				<div class="text">
+				<div class="desc"><!--$detail.security!--></div>
 				</div>
+			</div>
+			<!--endif!-->
+			<!--if($detail.effect)!-->
+			<div class="el-tab">
+				<h3><a href="#">Достигаемые эффекты</a></h3>
+				<div class="text">
+				<div class="desc"><!--$detail.effect!--></div>
+				</div>
+			</div>
+			<!--endif!-->
+			<!--if($detail.undesired)!-->
+			<div class="el-tab">
+				<h3><a href="#">Побочные эффекты</a></h3>
+				<div class="text">
+				<div class="desc"><!--$detail.undesired!--></div>
+				</div>
+			</div>
+			<!--endif!-->
+			<!--if($detail.structure)!-->
+			<div class="el-tab">
+				<h3><a href="#">Состав</a></h3>
+				<div class="text">
+				<div class="desc"><!--$detail.structure!--></div>
+				</div>
+			</div>
+			<!--endif!-->
+			<!--if($detail.line)!-->
+			<div class="el-tab">
+				<h3><a href="#">Линия препаратов</a></h3>
+				<div class="text">
+				<div class="desc"><!--$detail.line!--></div>
+				</div>
+			</div>
+			<!--endif!-->
+			<!--if($detail.advantages)!-->
+			<div class="el-tab">
+				<h3><a href="#">Преимущества</a></h3>
+				<div class="text">
+				<div class="desc"><!--$detail.advantages!--></div>
+				</div>
+			</div>
 			<!--endif!-->
 			<!--if($detail.mix)!-->
-				<div class="el-tab">
-					<h3><a href="#">Сочетание</a></h3>
-					<p class="none"><!--$detail.mix!--></p>
+			<div class="el-tab">
+				<h3><a href="#">Сочетание</a></h3>
+				<div class="text">
+				<div class="desc"><!--$detail.mix!--></div>
 				</div>
-			<!--endif!-->
-			<!--if($detail.specs)!-->
-				<div class="el-tab">
-					<h3><a href="#">Технические характеристики</a></h3>
-					<p class="none"><!--$detail.specs!--></p>
-				</div>
-			<!--endif!-->
-			<!--if($detail.protocol)!-->
-				<div class="el-tab">
-					<h3><a href="#">Протокол процедуры</a></h3>
-					<p class="none"><!--$detail.protocol!--></p>
-				</div>
-			<!--endif!-->
-			<!--if($detail.form)!-->
-				<div class="el-tab">
-					<h3><a href="#">Форма выпуска</a></h3>
-					<p class="none"><!--$detail.form!--></p>
-				</div>
-			<!--endif!-->
-			<!--if($detail.storage)!-->
-				<div class="el-tab">
-					<h3><a href="#">Условия хранения</a></h3>
-					<p class="none"><!--$detail.storage!--></p>
-				</div>
-			<!--endif!-->
-			<!--if ($detail.specialist)!-->
-				<div class="el-tab">
-					<h3><a href="#">Рекомендации специалисту</a></h3>
-					<p class="none"><!--$detail.specialist!--></p>
-				</div>
+			</div>
 			<!--endif!-->
 			<!--if ($detail.patient)!-->
-				<div class="el-tab">
-					<h3><a href="#">Рекомендации пациенту</a></h3>
-					<p class="none"><!--$detail.patient!--></p>
+			<div class="el-tab">
+				<h3><a href="#">Рекомендации пациенту</a></h3>
+				<div class="text">
+				<div class="desc"><!--$detail.patient!--></div>
 				</div>
+			</div>
+			<!--endif!-->
+			<!--if ($detail.specialist)!-->
+			<div class="el-tab">
+				<h3><a href="#">Рекомендации специалисту</a></h3>
+				<div class="text">
+				<div class="desc"><!--$detail.specialist!--></div>
+				</div>
+			</div>
+			<!--endif!-->
+			<!--if($detail.protocol)!-->
+			<div class="el-tab">
+				<h3><a href="#">Протокол процедуры</a></h3>
+				<div class="text">
+				<div class="desc"><!--$detail.protocol!--></div>
+				</div>
+			</div>
+			<!--endif!-->
+			<!--if($detail.specs)!-->
+			<div class="el-tab">
+				<h3><a href="#">Технические характеристики</a></h3>
+				<div class="text">
+				<div class="desc"><!--$detail.specs!--></div>
+				</div>
+			</div>
+			<!--endif!-->
+			<!--if($detail.form)!-->
+			<div class="el-tab">
+				<h3><a href="#">Форма выпуска</a></h3>
+				<div class="text">
+				<div class="desc"><!--$detail.form!--></div>
+				</div>
+			</div>
+			<!--endif!-->
+			<!--if($detail.storage)!-->
+			<div class="el-tab">
+				<h3><a href="#">Условия хранения</a></h3>
+				<div class="text">
+				<div class="desc"><!--$detail.storage!--></div>
+				</div>
+			</div>
 			<!--endif!-->
 			<!--if($detail.gallery)!-->
 				<div class="el-tab">
@@ -157,7 +217,7 @@
 			<!--endif!-->
 		</div>
 	</div>
-	<!--if($detail.similar)!-->
+	<!--if($detail.similar.production)!-->
 		<div class="similars products">
 			<div class="title">
 				<h2>Другие препараты производителя</h2>

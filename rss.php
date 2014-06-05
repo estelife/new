@@ -13,10 +13,11 @@ function getAllRss($type){
 	echo ">\n";
 
 	$dbrPodcast =CIBlockElement::GetList(
-		array('DATE_CREATE'=>'DESC'),
+		array('TIMESTAMP_X'=>'DESC','DATE_CREATE'=>'DESC'),
 		array(
 			'IBLOCK_ID' => 36,
-			'ACTIVE' => 'Y'
+			'ACTIVE' => 'Y',
+			'ACTIVE_DATE'=>'Y',
 		),
 		false,
 		false,
@@ -29,14 +30,16 @@ function getAllRss($type){
 			'PROPERTY_TEXT_IN_HOME',
 			'PROPERTY_COUNT',
 			'PROPERTY_FRONTRIGHT',
-			'PROPERTY_FRONTBIG'
+			'PROPERTY_FRONTBIG',
+			'DATE_CHANGE',
 		)
 	);
 	$dbrNews =CIBlockElement::GetList(
-		array('DATE_CREATE'=>'DESC'),
+		array('TIMESTAMP_X'=>'DESC','DATE_CREATE'=>'DESC'),
 		array(
 			'IBLOCK_ID' => 3,
-			'ACTIVE' => 'Y'
+			'ACTIVE' => 'Y',
+			'ACTIVE_DATE'=>'Y',
 		),
 		false,
 		false,
@@ -52,10 +55,11 @@ function getAllRss($type){
 		)
 	);
 	$dbrExp = CIBlockElement::GetList(
-		array('DATE_CREATE'=>'DESC'),
+		array('TIMESTAMP_X'=>'DESC','DATE_CREATE'=>'DESC'),
 		array(
 			'IBLOCK_ID' => 35,
-			'ACTIVE' => 'Y'
+			'ACTIVE' => 'Y',
+			'ACTIVE_DATE'=>'Y',
 		),
 		false,
 		false,
@@ -74,6 +78,7 @@ function getAllRss($type){
 	$arIBlockPodcast = $dbrPodcast->Fetch();
 	$arIBlockNews = $dbrNews->Fetch();
 	$arIBlockExp = $dbrExp->Fetch();
+
 
 	$arPodcasts = array();
 	$arNews = array();

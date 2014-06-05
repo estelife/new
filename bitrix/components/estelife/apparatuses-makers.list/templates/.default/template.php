@@ -5,7 +5,7 @@
 		<li><b>Производители аппаратов</b></li>
 	</ul>
 	<div class="title">
-		<h2>Производители</h2>
+		<h2>Производители аппаратов</h2>
 		<ul class="menu">
 			<li><a href="/preparations-makers/">Препараты</a></li>
 			<li><a href="/apparatuses-makers/" class="active">Аппараты</a></li>

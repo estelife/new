@@ -33,10 +33,6 @@ if(!empty($ID)){
 	$obQuery->builder()->from('estelife_apparatus', 'ea');
 	$obJoin = $obQuery->builder()->join();
 	$obJoin->_left()
-		->_from('ea', 'type_id')
-		->_to('iblock_element','ID','mt')
-		->_cond()->_eq('mt.IBLOCK_ID',31);
-	$obJoin->_left()
 		->_from('ea', 'company_id')
 		->_to('estelife_companies', 'id', 'ec');
 	$obJoin->_left()
@@ -46,13 +42,33 @@ if(!empty($ID)){
 	$obQuery->builder()
 		->field('ea.*')
 		->field('ec.name', 'company_name')
-		->field('ect.name', 'company_type_name')
-		->field('mt.NAME', 'type_name')
-		->field('mt.ID', 'type_id');
+		->field('ect.name', 'company_type_name');
 	$obQuery->builder()->filter()
 		->_eq('ea.id', $ID);
 	$obResult = $obQuery->select();
 	$arResult['apps']=$obResult->assoc();
+
+	$arResult['apps']['preview_text'] = html_entity_decode($arResult['apps']['preview_text'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['detail_text'] = html_entity_decode($arResult['apps']['detail_text'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['action'] = html_entity_decode($arResult['apps']['action'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['evidence'] = html_entity_decode($arResult['apps']['evidence'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['contra'] = html_entity_decode($arResult['apps']['contra'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['specs'] = html_entity_decode($arResult['apps']['specs'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['func'] = html_entity_decode($arResult['apps']['func'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['registration'] = html_entity_decode($arResult['apps']['registration'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['advantages'] = html_entity_decode($arResult['apps']['advantages'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['procedure'] = html_entity_decode($arResult['apps']['procedure'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['security'] = html_entity_decode($arResult['apps']['security'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['protocol'] = html_entity_decode($arResult['apps']['protocol'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['undesired'] = html_entity_decode($arResult['apps']['undesired'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['equipment'] = html_entity_decode($arResult['apps']['equipment'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['effect'] = html_entity_decode($arResult['apps']['effect'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['specialist'] = html_entity_decode($arResult['apps']['specialist'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['patient'] = html_entity_decode($arResult['apps']['patient'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['area'] = html_entity_decode($arResult['apps']['area'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['rules'] = html_entity_decode($arResult['apps']['rules'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['mix'] = html_entity_decode($arResult['apps']['mix'],ENT_QUOTES,'utf-8');
+	$arResult['apps']['acs'] = html_entity_decode($arResult['apps']['acs'],ENT_QUOTES,'utf-8');
 
 	//Получение галереи
 	$obQuery = $obApp->createQuery();
@@ -81,9 +97,6 @@ if(!empty($ID)){
 	foreach ($arFormats as $val){
 		$arResult['apps']['format'][]=$val['type_id'];
 	}
-
-
-
 }else{
 
 }
@@ -103,12 +116,6 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		if($obPost->blank('company_name'))
 			$obError->setFieldError('COMPANY_NOT_FILL','company_id');
 
-		if($obPost->blank('format'))
-			$obError->setFieldError('FORMAT_NOT_FILL','format');
-
-//		if($obPost->blank('type_id'))
-//			$obError->setFieldError('COMPANY_NOT_FILL','type_id');
-
 		$obError->raise();
 
 		if($obPost->blank('translit')){
@@ -125,7 +132,6 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			->value('translit', trim($arTranslit))
 			->value('date_edit', $nTime)
 			->value('company_id', intval($obPost->one('company_id')))
-			->value('type_id', intval($obPost->one('type_id')))
 			->value('preview_text', htmlentities($obPost->one('preview_text'),ENT_QUOTES,'utf-8'))
 			->value('detail_text', htmlentities($obPost->one('detail_text'),ENT_QUOTES,'utf-8'))
 			->value('action', htmlentities($obPost->one('action'),ENT_QUOTES,'utf-8'))
@@ -142,7 +148,15 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 			->value('equipment', htmlentities($obPost->one('equipment'),ENT_QUOTES,'utf-8'))
 			->value('effect', htmlentities($obPost->one('effect'),ENT_QUOTES,'utf-8'))
 			->value('specialist', htmlentities($obPost->one('specialist'),ENT_QUOTES,'utf-8'))
-			->value('patient', htmlentities($obPost->one('patient'),ENT_QUOTES,'utf-8'));
+			->value('patient', htmlentities($obPost->one('patient'),ENT_QUOTES,'utf-8'))
+			->value('area', htmlentities($obPost->one('area'),ENT_QUOTES,'utf-8'))
+			->value('rules', htmlentities($obPost->one('rules'),ENT_QUOTES,'utf-8'))
+			->value('mix', htmlentities($obPost->one('mix'),ENT_QUOTES,'utf-8'))
+			->value('acs', htmlentities($obPost->one('acs'),ENT_QUOTES,'utf-8'));
+
+		if ($obPost->one('logo_id_del') == 'Y'){
+			$obQuery->builder()->value('logo_id', 0);
+		}
 
 		if(!empty($_FILES['logo_id'])){
 			$arImage=$_FILES['logo_id'];
@@ -171,6 +185,10 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		}else{
 			$obQuery->builder()->value('date_create', $nTime);
 			$idApp = $obQuery->insert()->insertId();
+		}
+
+		if ($obPost->one('logo_id_del') == 'Y' && $arResult['apps']['logo_id']>0){
+			CFile::Delete($arResult['apps']['logo_id']);
 		}
 
 		//Пишем описание к аксессуарам
@@ -370,9 +388,7 @@ if(!empty($arResult['error']['text'])){
 $obQuery = $obApp->createQuery();
 $obQuery
 	->builder()
-	->from('estelife_apparatus_typename')
-	->filter()
-	->_eq('type', 1);
+	->from('estelife_apparatus_typename');
 $arResult['types'] = $obQuery->select()->all();
 
 ?>
@@ -391,16 +407,16 @@ $arResult['types'] = $obQuery->select()->all();
 	?>
 
 	<tr class="adm-detail-required-field">
-		<td width="40%"><?=GetMessage("ESTELIFE_F_TITLE")?></td>
-		<td width="60%"><input type="text" name="name" size="60" maxlength="255" value="<?=$arResult['apps']['name']?>"></td>
+		<td width="10%"><?=GetMessage("ESTELIFE_F_TITLE")?></td>
+		<td width="90%"><input type="text" name="name" size="60" maxlength="255" value="<?=$arResult['apps']['name']?>"></td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_TRANSLIT")?></td>
-		<td width="60%"><input type="text" name="translit" size="60" maxlength="255" value="<?=$arResult['apps']['translit']?>"></td>
+		<td width="10%"><?=GetMessage("ESTELIFE_F_TRANSLIT")?></td>
+		<td width="90%"><input type="text" name="translit" size="60" maxlength="255" value="<?=$arResult['apps']['translit']?>"></td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_LOGO")?></td>
-		<td width="60%">
+		<td width="10%"><?=GetMessage("ESTELIFE_F_LOGO")?></td>
+		<td width="90%">
 			<?echo CFileInput::Show("logo_id", $arResult['apps']['logo_id'],
 				array(
 					"IMAGE" => "Y",
@@ -425,8 +441,8 @@ $arResult['types'] = $obQuery->select()->all();
 		</td>
 	</tr>
 	<tr class="adm-detail-required-field">
-		<td width="40%"><?=GetMessage("ESTELIFE_F_COMPANY")?></td>
-		<td width="60%">
+		<td width="10%"><?=GetMessage("ESTELIFE_F_COMPANY")?></td>
+		<td width="90%">
 			<input type="hidden" name="company_type_id" value="3" />
 			<input type="hidden" name="company_id" value="<?=$arResult['apps']['company_id']?>" />
 			<?php if (!empty($arResult['apps']['company_type_name'])):?>
@@ -438,8 +454,8 @@ $arResult['types'] = $obQuery->select()->all();
 	</tr>
 	<?php if (!empty($arResult['types'])):?>
 		<tr class="adm-detail-required-field">
-			<td width="40%"><?=GetMessage("ESTELIFE_F_FORMAT")?></td>
-			<td width="60%">
+			<td width="10%"><?=GetMessage("ESTELIFE_F_FORMAT")?></td>
+			<td width="90%">
 				<ul class="estelife-checklist">
 					<?php foreach ($arResult['types'] as $val):?>
 						<li>
@@ -450,119 +466,135 @@ $arResult['types'] = $obQuery->select()->all();
 			</td>
 		</tr>
 	<?php endif?>
-	<tr class="adm-detail-required-field">
-		<td width="40%"><?=GetMessage("ESTELIFE_F_TYPE")?></td>
-		<td width="60%">
-			<select name="type_id">
-				<option value=""><?=GetMessage("ESTELIFE_F_TYPE_SELECT")?></option>
-				<?php foreach ($arResult['types'] as $val):?>
-					<option value="<?=$val['ID']?>" <?if ($val['ID'] == $arResult['apps']['type_id']):?>selected<?endif?>><?=$val['NAME']?></option>
-				<?php endforeach?>
-			</select>
-		</td>
-	</tr>
 		<tr>
-			<td width="40%"><?=GetMessage("ESTELIFE_F_PREVIEW")?></td>
-			<td width="60%">
-				<textarea name="preview_text" rows="12" style="width:70%"><?=str_replace("<br />", "\r\n", $arResult['apps']['preview_text'])?></textarea>
+			<td width="10%">1. <?=GetMessage("ESTELIFE_F_PREVIEW")?></td>
+			<td width="90%">
+				<textarea name="preview_text" rows="17" style="width:90%"><?=str_replace("<br />", "\r\n", $arResult['apps']['preview_text'])?></textarea>
 			</td>
 		</tr>
 		<tr>
-			<td width="40%"><?=GetMessage("ESTELIFE_F_DETAIL")?></td>
-			<td width="60%">
-				<textarea name="detail_text" rows="12" style="width:70%"><?=str_replace("<br />", "\r\n", $arResult['apps']['detail_text'])?></textarea>
+			<td width="10%">2. <?=GetMessage("ESTELIFE_F_DETAIL")?></td>
+			<td width="90%">
+				<textarea name="detail_text" rows="17" style="width:90%"><?=str_replace("<br />", "\r\n", $arResult['apps']['detail_text'])?></textarea>
 			</td>
 		</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_ACTION")?></td>
-		<td width="60%">
-			<textarea name="action" rows="12" style="width:70%"><?=$arResult['apps']['action']?></textarea>
+		<td width="10%">3. <?=GetMessage("ESTELIFE_F_ACTION")?></td>
+		<td width="90%">
+			<textarea name="action" rows="17" style="width:90%"><?=$arResult['apps']['action']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_FUNC")?></td>
-		<td width="60%">
-			<textarea name="func" rows="12" style="width:70%"><?=$arResult['apps']['func']?></textarea>
+		<td width="10%">4. <?=GetMessage("ESTELIFE_F_EVIDENCE")?></td>
+		<td width="90%">
+			<textarea name="evidence" rows="17" style="width:90%"><?=$arResult['apps']['evidence']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_EVIDENCE")?></td>
-		<td width="60%">
-			<textarea name="evidence" rows="12" style="width:70%"><?=$arResult['apps']['evidence']?></textarea>
+		<td width="10%">5. <?=GetMessage("ESTELIFE_F_CONTRA")?></td>
+		<td width="90%">
+			<textarea name="contra" rows="17" style="width:90%"><?=$arResult['apps']['contra']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_CONTRA")?></td>
-		<td width="60%">
-			<textarea name="contra" rows="12" style="width:70%"><?=$arResult['apps']['contra']?></textarea>
+		<td width="10%">6. <?=GetMessage("ESTELIFE_F_AREA")?></td>
+		<td width="90%">
+			<textarea name="area" rows="17" style="width:90%"><?=$arResult['apps']['area']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_REGISTRATION")?></td>
-		<td width="60%">
-			<textarea name="registration" rows="12" style="width:70%"><?=$arResult['apps']['registration']?></textarea>
+		<td width="10%">7. <?=GetMessage("ESTELIFE_F_PROCEDURE")?></td>
+		<td width="90%">
+			<textarea name="procedure" rows="17" style="width:90%"><?=$arResult['apps']['procedure']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_ADVANTAGES")?></td>
-		<td width="60%">
-			<textarea name="advantages" rows="12" style="width:70%"><?=$arResult['apps']['advantages']?></textarea>
+		<td width="10%">8. <?=GetMessage("ESTELIFE_F_REGISTRATION")?></td>
+		<td width="90%">
+			<textarea name="registration" rows="17" style="width:90%"><?=$arResult['apps']['registration']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_PROCEDURE")?></td>
-		<td width="60%">
-			<textarea name="procedure" rows="12" style="width:70%"><?=$arResult['apps']['procedure']?></textarea>
+		<td width="10%">9. <?=GetMessage("ESTELIFE_F_SECURITY")?></td>
+		<td width="90%">
+			<textarea name="security" rows="17" style="width:90%"><?=$arResult['apps']['security']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_SECURITY")?></td>
-		<td width="60%">
-			<textarea name="security" rows="12" style="width:70%"><?=$arResult['apps']['security']?></textarea>
+		<td width="10%">10. <?=GetMessage("ESTELIFE_F_EFFECT")?></td>
+		<td width="90%">
+			<textarea name="effect" rows="17" style="width:90%"><?=$arResult['apps']['effect']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_UNDESIRED")?></td>
-		<td width="60%">
-			<textarea name="undesired" rows="12" style="width:70%"><?=$arResult['apps']['undesired']?></textarea>
+		<td width="10%">11. <?=GetMessage("ESTELIFE_F_UNDESIRED")?></td>
+		<td width="90%">
+			<textarea name="undesired" rows="17" style="width:90%"><?=$arResult['apps']['undesired']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_SPECS")?></td>
-		<td width="60%">
-			<textarea name="specs" rows="12" style="width:70%"><?=$arResult['apps']['specs']?></textarea>
+		<td width="10%">12. <?=GetMessage("ESTELIFE_F_FUNC")?></td>
+		<td width="90%">
+			<textarea name="func" rows="17" style="width:90%"><?=$arResult['apps']['func']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_PROTOCOL")?></td>
-		<td width="60%">
-			<textarea name="protocol" rows="12" style="width:70%"><?=$arResult['apps']['protocol']?></textarea>
+		<td width="10%">13. <?=GetMessage("ESTELIFE_F_ADVANTAGES")?></td>
+		<td width="90%">
+			<textarea name="advantages" rows="17" style="width:90%"><?=$arResult['apps']['advantages']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_EQUIPMENT")?></td>
-		<td width="60%">
-			<textarea name="equipment" rows="12" style="width:70%"><?=$arResult['apps']['equipment']?></textarea>
+		<td width="10%">14. <?=GetMessage("ESTELIFE_F_MIX")?></td>
+		<td width="90%">
+			<textarea name="mix" rows="17" style="width:90%"><?=$arResult['apps']['mix']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_EFFECT")?></td>
-		<td width="60%">
-			<textarea name="effect" rows="12" style="width:70%"><?=$arResult['apps']['effect']?></textarea>
+		<td width="10%">15. <?=GetMessage("ESTELIFE_F_PATIENT")?></td>
+		<td width="90%">
+			<textarea name="patient" rows="17" style="width:90%"><?=$arResult['apps']['patient']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_SPECIALIST")?></td>
-		<td width="60%">
-			<textarea name="specialist" rows="12" style="width:70%"><?=$arResult['apps']['specialist']?></textarea>
+		<td width="10%">16. <?=GetMessage("ESTELIFE_F_SPECIALIST")?></td>
+		<td width="90%">
+			<textarea name="specialist" rows="17" style="width:90%"><?=$arResult['apps']['specialist']?></textarea>
 		</td>
 	</tr>
 	<tr>
-		<td width="40%"><?=GetMessage("ESTELIFE_F_PATIENT")?></td>
-		<td width="60%">
-			<textarea name="patient" rows="12" style="width:70%"><?=$arResult['apps']['patient']?></textarea>
+		<td width="10%">17. <?=GetMessage("ESTELIFE_F_PROTOCOL")?></td>
+		<td width="90%">
+			<textarea name="protocol" rows="17" style="width:90%"><?=$arResult['apps']['protocol']?></textarea>
 		</td>
 	</tr>
+	<tr>
+		<td width="10%">18. <?=GetMessage("ESTELIFE_F_SPECS")?></td>
+		<td width="90%">
+			<textarea name="specs" rows="17" style="width:90%"><?=$arResult['apps']['specs']?></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td width="10%">19. <?=GetMessage("ESTELIFE_F_RULES")?></td>
+		<td width="90%">
+			<textarea name="rules" rows="17" style="width:90%"><?=$arResult['apps']['rules']?></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td width="10%">20. <?=GetMessage("ESTELIFE_F_EQUIPMENT")?></td>
+		<td width="90%">
+			<textarea name="equipment" rows="17" style="width:90%"><?=$arResult['apps']['equipment']?></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td width="10%">21. <?=GetMessage("ESTELIFE_F_ACS")?></td>
+		<td width="90%">
+			<textarea name="acs" rows="17" style="width:90%"><?=$arResult['apps']['asc']?></textarea>
+		</td>
+	</tr>
+
+
+
 		<?php $tabControl->BeginNextTab();?>
 		<tr>
 			<td colspan="2">

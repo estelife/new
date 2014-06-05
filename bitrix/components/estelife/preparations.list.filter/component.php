@@ -7,56 +7,23 @@ CModule::IncludeModule("iblock");
 CModule::IncludeModule("estelife");
 $obGet=new VArray($_GET);
 
-
-
-if (isset($arParams['TYPE']) && $arParams['TYPE']>0)
-	$nType=intval($arParams['TYPE']);
-
-if ($nType==1){
-	$arResult['link']='/preparations/';
-	$arResult['find_title']='Поиск препаратов';
-	$arResult['find']='Найти препарат';
-	$arResult['filter_access']=array(
-		'name'=>true,
-		'company_name'=>true,
-		'type'=>true,
-		'countries'=>true
-	);
-	$session = new \filters\decorators\VPreparations();
-	$arFilterParams = $session->getParams();
-
-
-}elseif ($nType==2){
-	$arResult['link']='/threads/';
-	$arResult['find_title']='Поиск нитей';
-	$arResult['find']='Найти нить';
-	$arResult['filter_access']=array(
-		'name'=>true,
-		'company_name'=>true,
-		'type'=>false,
-		'countries'=>true
-	);
-	$session = new \filters\decorators\VThreads();
-	$arFilterParams = $session->getParams();
-}else{
-	$arResult['link']='/implants/';
-	$arResult['find_title']='Поиск имплантатов';
-	$arResult['find']='Найти имплантат';
-	$arResult['filter_access']=array(
-		'name'=>true,
-		'company_name'=>true,
-		'type'=>false,
-		'countries'=>true
-	);
-	$session = new \filters\decorators\VImplants();
-	$arFilterParams = $session->getParams();
-}
+$arResult['link']='/preparations/';
+$arResult['find_title']='Поиск препаратов';
+$arResult['find']='Найти препарат';
+$arResult['filter_access']=array(
+	'name'=>true,
+	'company_name'=>true,
+	'type'=>true,
+	'countries'=>true
+);
+$session = new \filters\decorators\VPreparations();
+$arFilterParams = $session->getParams();
 
 
 //Получение списка стран, которые есть только в препаратах
 $obCountries = VDatabase::driver();
 $obQuery = $obCountries->createQuery();
-$obQuery->builder()->from('estelife_pills','ep');
+$obQuery->builder()->from('estelife_preparations','ep');
 $obJoin = $obQuery->builder()->join();
 $obJoin->_left()
 	->_from('ep', 'company_id')
@@ -82,7 +49,7 @@ $arResult['countries'] = $obQuery->select()->all();
 $obQuery = $obCountries->createQuery();
 $obQuery
 	->builder()
-	->from('estelife_pills_typename')
+	->from('estelife_preparations_typename')
 	->filter()
 	->_eq('type', 1);
 $arResult['types'] = $obQuery->select()->all();

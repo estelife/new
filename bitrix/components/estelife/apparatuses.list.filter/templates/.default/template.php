@@ -9,6 +9,11 @@
 		<input name="name" type="text" value="<?=$arResult['filter']['name']?>" class="text" />
 		<span class="block"></span>
 	</div>
+	<div class="field">
+		<label for="company_name">Производитель</label>
+		<input name="company_name" type="text" value="<?=$arResult['filter']['company_name']?>" class="text"/>
+		<span class="block"></span>
+	</div>
 	<?php if (!empty($arResult['types'])):?>
 		<div class="field">
 			<label for="type">Назначение</label>

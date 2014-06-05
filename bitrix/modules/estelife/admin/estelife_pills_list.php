@@ -4,7 +4,7 @@ use core\database\VDatabase;
 
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_before.php");
 
-$sTableID = "tbl_estelife_pills_list";
+$sTableID = "tbl_estelife_preparations_list";
 $oSort = new CAdminSorting($sTableID, "id", "asc");
 $lAdmin = new CAdminList($sTableID, $oSort);
 
@@ -54,7 +54,7 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 		if(($ID = IntVal($ID))>0 && $_REQUEST['action']=='delete'){
 			try{
 				$obQuery = $obPills->createQuery();
-				$obQuery->builder()->from('estelife_pills')->filter()
+				$obQuery->builder()->from('estelife_preparations')->filter()
 					->_eq('id', $ID);
 				$obQuery->delete();
 			}catch(\core\database\exceptions\VCollectionException $e){}
@@ -63,7 +63,7 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 }
 
 $obQuery=$obPills->createQuery();
-$obQuery->builder()->from('estelife_pills','ep');
+$obQuery->builder()->from('estelife_preparations','ep');
 $obJoin=$obQuery->builder()->join();
 $obJoin->_left()
 	->_from('ep', 'company_id')
@@ -80,7 +80,6 @@ $obQuery->builder()
 	->field('ep.id','id')
 	->field('ep.name','name');
 $obFilter=$obQuery->builder()->filter();
-$obFilter->_eq('type_id',1);
 
 if(!empty($arFilter['id']))
 	$obFilter->_like('ep.id',$arFilter['id'],VFilter::LIKE_BEFORE|VFilter::LIKE_AFTER);
@@ -199,7 +198,6 @@ require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_adm
 		<tr>
 			<td><b><?echo GetMessage("ESTELIFE_F_COMPANY")?></b></td>
 			<td>
-				<!--<input type="hidden" name="find_company_id" value="<?/*echo htmlspecialcharsbx($find_company_id)*/?>" />-->
 				<input type="text" name="find_company_name" data-input="find_company_id" size="47" value="<?echo htmlspecialcharsbx($find_company_name)?>"><?=InputType("checkbox", "find_company_exact_match", "Y", $find_company_exact_match, false, "", "title='".GetMessage("ESTELIFE_EXACT_MATCH")."'")?>&nbsp;<?=ShowFilterLogicHelp()?>
 			</td>
 		</tr>

@@ -50,6 +50,9 @@ $obQuery->builder()->filter()
 	->_eq('ec.id', $nClinicID);
 $arResult['clinic'] = $obQuery->select()->assoc();
 
+if (empty($arResult['clinic']))
+	throw new \core\exceptions\VHttpEx('Invalid request', 404);
+
 if ($arResult['clinic']['clinic_id']>0)
 	LocalRedirect('/cl'.$arResult['clinic']['clinic_id'].'/',false,'301 Moved Permanently');
 if (!empty($arResult['clinic']['preview_text'])){

@@ -6,7 +6,6 @@
 			<div class="content">
 				<ul class="menu cols">
 					<li><a href="/about/">О проекте</a></li>
-					<li><a href="/ev321/program/">ECAM 2014</a></li>
 				</ul>
 				<div class="cols col2 social">
 					<a href="http://vk.com/club58189724" class="vk" target="_blank">ВКонтакте</a>

@@ -13,6 +13,7 @@ $nProfessionalId=null;
 $nProfessionalId =  (isset($arParams['ID'])) ?
 	intval($arParams['ID']) : 0;
 
+throw new \core\exceptions\VHttpEx('Invalid request', 404);
 
 //Получаем данные по мероприятию
 $obQuery = $obProfessional->createQuery();
@@ -42,6 +43,9 @@ else
 	$obFilter->_eq('ep.id', 0);
 
 $arResult['professional'] = $obQuery->select()->assoc();
+if (empty($arResult['professional']))
+	throw new \core\exceptions\VHttpEx('Invalid request', 404);
+
 $arResult['professional']['img'] = CFile::ShowImage($arResult['professional']['image_id'],227, 158, 'alt='.$arResult['professional']['name']);
 
 $arResult['professional']['short_description'] = html_entity_decode($arResult['professional']['short_description'],ENT_QUOTES);

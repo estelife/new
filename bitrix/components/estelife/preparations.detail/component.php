@@ -14,31 +14,18 @@ $nCompanyId=null;
 $nCompanyId =  (isset($arParams['ID'])) ?
 	intval($arParams['ID']) : 0;
 
-if ($arParams['PREFIX']=='ps'){
-	$nType=1;
-	$arResult['type']="Препараты";
-	$arResult['type_link']="/preparations/";
-}elseif ($arParams['PREFIX']=='th'){
-	$nType=2;
-	$arResult['type']="Нити";
-	$arResult['type_link']="/threads/";
-}else{
-	$nType=3;
-	$arResult['type']="Имплантаты";
-	$arResult['type_link']="/implants/";
-}
+$nType=1;
+$arResult['type']="Препараты";
+$arResult['type_link']="/preparations/";
+
 
 //Получаем данные по препарату
 $obQuery = $obPills->createQuery();
-$obQuery->builder()->from('estelife_pills', 'ep');
+$obQuery->builder()->from('estelife_preparations', 'ep');
 $obJoin=$obQuery->builder()->join();
 $obJoin->_left()
 	->_from('ep', 'company_id')
 	->_to('estelife_companies', 'id', 'ec');
-$obJoin->_left()
-	->_from('ep','type_id')
-	->_to('iblock_element','ID','pt')
-	->_cond()->_eq('pt.IBLOCK_ID',28);
 $obJoin->_left()
 	->_from('ec', 'id')
 	->_to('estelife_company_geo', 'company_id', 'ecg');
@@ -63,7 +50,6 @@ $obQuery->builder()
 	->field('cttype.ID','type_country_id')
 	->field('cttype.NAME','type_country_name')
 	->field('ep.*')
-	->field('pt.NAME','type_name')
 	->field('ec.name','company_name')
 	->field('ec.id','company_id')
 	->field('ec.translit','company_translit')
@@ -82,6 +68,8 @@ if(!is_null($nCompanyId)){
 }
 
 $arResult['pill'] = $obQuery->select()->assoc();
+if (empty($arResult['pill']))
+	throw new \core\exceptions\VHttpEx('Invalid request', 404);
 
 
 if (!empty($arResult['pill']['type_company_name'])){
@@ -113,30 +101,31 @@ unset(
 $arResult['pill']['company_link'] = '/pm'.$arResult['pill']['company_id'].'/';
 $arResult['pill']['img'] = CFile::ShowImage($arResult['pill']['logo_id'],180, 180, 'alt='.$arResult['pill']['name']);
 
-$arResult['pill']['detail_text'] = nl2br(htmlspecialchars_decode($arResult['pill']['detail_text'],ENT_NOQUOTES));
-$arResult['pill']['registration'] = nl2br(htmlspecialchars_decode($arResult['pill']['registration'],ENT_NOQUOTES));
-$arResult['pill']['action'] = nl2br(htmlspecialchars_decode($arResult['pill']['action'],ENT_NOQUOTES));
-$arResult['pill']['undesired'] = nl2br(htmlspecialchars_decode($arResult['pill']['undesired'],ENT_NOQUOTES));
-$arResult['pill']['evidence'] = nl2br(htmlspecialchars_decode($arResult['pill']['evidence'],ENT_NOQUOTES));
-$arResult['pill']['structure'] = nl2br(htmlspecialchars_decode($arResult['pill']['structure'],ENT_NOQUOTES));
-$arResult['pill']['effect'] = nl2br(htmlspecialchars_decode($arResult['pill']['effect'],ENT_NOQUOTES));
-$arResult['pill']['form'] = nl2br(htmlspecialchars_decode($arResult['pill']['form'],ENT_NOQUOTES));
-$arResult['pill']['contra'] = nl2br(htmlspecialchars_decode($arResult['pill']['contra'],ENT_NOQUOTES));
-$arResult['pill']['usage'] = nl2br(htmlspecialchars_decode($arResult['pill']['usage'],ENT_NOQUOTES));
-$arResult['pill']['storage'] = nl2br(htmlspecialchars_decode($arResult['pill']['storage'],ENT_NOQUOTES));
-$arResult['pill']['advantages'] = nl2br(htmlspecialchars_decode($arResult['pill']['advantages'],ENT_NOQUOTES));
-$arResult['pill']['area'] = nl2br(htmlspecialchars_decode($arResult['pill']['area'],ENT_NOQUOTES));
-$arResult['pill']['security'] = nl2br(htmlspecialchars_decode($arResult['pill']['security'],ENT_NOQUOTES));
-$arResult['pill']['mix'] = nl2br(htmlspecialchars_decode($arResult['pill']['mix'],ENT_NOQUOTES));
-$arResult['pill']['protocol'] = nl2br(htmlspecialchars_decode($arResult['pill']['protocol'],ENT_NOQUOTES));
-$arResult['pill']['specs'] = nl2br(htmlspecialchars_decode($arResult['pill']['specs'],ENT_NOQUOTES));
-$arResult['pill']['specialist'] = nl2br(htmlspecialchars_decode($arResult['pill']['specialist'],ENT_NOQUOTES));
-$arResult['pill']['effect'] = nl2br(htmlspecialchars_decode($arResult['pill']['effect'],ENT_NOQUOTES));
+$arResult['pill']['detail_text'] = html_entity_decode($arResult['pill']['detail_text'],ENT_QUOTES);
+$arResult['pill']['registration'] = html_entity_decode($arResult['pill']['registration'],ENT_QUOTES);
+$arResult['pill']['action'] =  html_entity_decode($arResult['pill']['action'],ENT_QUOTES);
+$arResult['pill']['undesired'] = html_entity_decode($arResult['pill']['undesired'],ENT_QUOTES);
+$arResult['pill']['evidence'] = html_entity_decode($arResult['pill']['evidence'],ENT_QUOTES);
+$arResult['pill']['structure'] = html_entity_decode($arResult['pill']['structure'],ENT_QUOTES);
+$arResult['pill']['effect'] = html_entity_decode($arResult['pill']['effect'],ENT_QUOTES);
+$arResult['pill']['form'] = html_entity_decode($arResult['pill']['form'],ENT_QUOTES);
+$arResult['pill']['contra'] = html_entity_decode($arResult['pill']['contra'],ENT_QUOTES);
+$arResult['pill']['usage'] = html_entity_decode($arResult['pill']['usage'],ENT_QUOTES);
+$arResult['pill']['storage'] = html_entity_decode($arResult['pill']['storage'],ENT_QUOTES);
+$arResult['pill']['advantages'] = html_entity_decode($arResult['pill']['advantages'],ENT_QUOTES);
+$arResult['pill']['area'] = html_entity_decode($arResult['pill']['area'],ENT_QUOTES);
+$arResult['pill']['security'] = html_entity_decode($arResult['pill']['security'],ENT_QUOTES);
+$arResult['pill']['mix'] = html_entity_decode($arResult['pill']['mix'],ENT_QUOTES);
+$arResult['pill']['protocol'] = html_entity_decode($arResult['pill']['protocol'],ENT_QUOTES);
+$arResult['pill']['specs'] = html_entity_decode($arResult['pill']['specs'],ENT_QUOTES);
+$arResult['pill']['specialist'] = html_entity_decode($arResult['pill']['specialist'],ENT_QUOTES);
+$arResult['pill']['patient'] = html_entity_decode($arResult['pill']['patient'],ENT_QUOTES);
+$arResult['pill']['line'] = html_entity_decode($arResult['pill']['line'],ENT_QUOTES);
 
 //получение галереи
 $obQuery = $obPills->createQuery();
-$obQuery->builder()->from('estelife_pill_photos');
-$obQuery->builder()->filter()->_eq('pill_id', $arResult['pill']['id']);
+$obQuery->builder()->from('estelife_preparations_photos');
+$obQuery->builder()->filter()->_eq('preparation_id', $arResult['pill']['id']);
 $arPhotos = $obQuery->select()->all();
 if (!empty($arPhotos)){
 	foreach ($arPhotos as $val){
@@ -144,6 +133,22 @@ if (!empty($arPhotos)){
 		$arResult['pill']['gallery'][] = $file['SRC'];
 	}
 }
+
+
+//получение регистрации
+$obQuery = $obPills->createQuery();
+$obQuery->builder()->from('estelife_preparations_photos');
+$obQuery->builder()->filter()->_eq('preparation_id', $arResult['pill']['id'])->_eq('type',2);
+$arRegistration = $obQuery->select()->all();
+$arResult['pill']['registration_photo'] = array();
+if (!empty($arRegistration)){
+	foreach ($arRegistration as $key=>$val){
+		$file =  CFile::ShowImage($val['original'],165, 220, 'alt='.$val['description']);
+		$arResult['pill']['registration_photo'][$key]['file'] = $file;
+		$arResult['pill']['registration_photo'][$key]['desc'] = $val['description'];
+	}
+}
+
 
 $arResult['pill']['name'] = trim(strip_tags(html_entity_decode($arResult['pill']['name'], ENT_QUOTES, 'utf-8')));
 $arResult['pill']['seo_name'] = VString::pregStrSeo($arResult['pill']['name']);

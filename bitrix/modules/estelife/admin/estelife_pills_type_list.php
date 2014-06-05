@@ -6,7 +6,7 @@ use core\database\VDatabase;
 
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_before.php");
 
-$sTableID = "tbl_estelife_pills_typename_list";
+$sTableID = "tbl_estelife_preparations_typename_list";
 $oSort = new CAdminSorting($sTableID, "id", "asc");
 $lAdmin = new CAdminList($sTableID, $oSort);
 
@@ -39,7 +39,6 @@ $arFilter = Array(
 $headers = array(
 	array("id"=>"ID", "content"=>GetMessage("ESTELIFE_F_ID"), "sort"=>"id", "default"=>true),
 	array("id"=>"NAME", "content"=>GetMessage("ESTELIFE_F_TITLE"), "sort"=>"name", "default"=>true),
-	array("id"=>"TYPE", "content"=>GetMessage("ESTELIFE_F_TYPE"), "sort"=>"type", "default"=>true),
 );
 $lAdmin->AddHeaders($headers);
 
@@ -51,7 +50,7 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 		if(($ID = IntVal($ID))>0 && $_REQUEST['action']=='delete'){
 			try{
 				$obQuery = $obApp->createQuery();
-				$obQuery->builder()->from('estelife_pills_typename')->filter()
+				$obQuery->builder()->from('estelife_preparations_typename')->filter()
 					->_eq('id', $ID);
 				$obQuery->delete();
 			}catch(\core\database\exceptions\VCollectionException $e){}
@@ -60,7 +59,7 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 }
 
 $obQuery=$obApp->createQuery();
-$obQuery->builder()->from('estelife_pills_typename');
+$obQuery->builder()->from('estelife_preparations_typename');
 $obFilter=$obQuery->builder()->filter();
 
 if(!empty($arFilter['id']))
@@ -84,14 +83,6 @@ while($arRecord=$obResult->GetNext()){
 
 	$row->AddViewField("ID",$arRecord['id']);
 	$row->AddViewField("NAME",$arRecord['name']);
-
-	if ($arRecord['type']==1){
-		$row->AddViewField("TYPE",'Препараты');
-	}elseif($arRecord['type']==2){
-		$row->AddViewField("TYPE",'Нити');
-	}elseif($arRecord['type']==3){
-		$row->AddViewField("TYPE",'Имплантаты');
-	}
 
 	$arActions = Array();
 	$arActions[] = array(

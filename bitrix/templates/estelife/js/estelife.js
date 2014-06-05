@@ -488,7 +488,7 @@ Estelife.prototype.help=function(fromTop){
 			help.addClass('top-orient');
 
 		$(document).mousemove(function(e){
-			event=e||window.event
+	window.event
 		}).click(function(){
 			_hide();
 		});
@@ -640,7 +640,8 @@ Estelife.prototype.notice=function(){
 	}
 
 	var notice=this.noticeElement,
-		message=notice.find('.notice-message');
+		message=notice.find('.notice-message'),
+		title, src;
 
 	(function init(){
 		var notices=$('.notices .item');
@@ -664,6 +665,16 @@ Estelife.prototype.notice=function(){
 			$.map(items,function(item){
 				message.append('<div class="notice-item">'+item+'</div>');
 			});
+		}else if (items instanceof Object){
+			if (items.attr('alt') != undefined)
+				title = items.attr('alt');
+
+			if (items.attr('src').length <= 0)
+				throw 'empty image item for notice';
+			else
+				src = items.attr('src');
+
+			message.append('<div class="notice-title">'+title+'</div><div class="notice-item"><img src="'+src+'" alt="'+title+'" ></div>');
 		}else{
 			message.append('<div class="notice-item">'+items+'</div>');
 		}

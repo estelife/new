@@ -73,6 +73,13 @@ require([
 			Backbone.history.start(historySettings);
 		}
 
+		body.on('click', '.reg_photo img', function(){
+			EL.notice().show($(this));
+
+			return false;
+		});
+
+
 		//подстановка в url авторизации backurl
 		body.on('click touchstart touchend', '.goto-auth', function(e){
 			if(e.type)
@@ -279,16 +286,31 @@ require([
 		});
 
 		//табы для раскрытия информации
+		var flag = 1;
 		body.on('click', '.el-tab h3', function(){
 			var prnt = $(this).parent(),
 				el = $('a',$(this));
 
-			if (el.hasClass('active')){
-				el.removeClass('active');
-				prnt.find('h3').next().slideUp('700').addClass('none');
-			}else{
-				el.addClass('active');
-				prnt.find('h3').next().slideDown('700').removeClass('none');
+			if (flag == 1){
+				flag = 0;
+				if (el.hasClass('active')){
+					el.removeClass('active');
+					$('.text', prnt).animate({height: 0}, 500, function(){
+						flag = 1;
+					});
+				}else{
+					el.addClass('active');
+					var th = $('.text', prnt).children(),
+						height = 0;
+
+					th.each(function(){
+						height += $(this).outerHeight();
+					});
+
+					$('.text', prnt).animate({height: height +"px"}, 500, function(){
+						flag = 1;
+					});
+				}
 			}
 
 			return false
@@ -599,12 +621,13 @@ require([
 				}
 			});
 		});
-	};
-	lightMenu();
+	}
 
 	//Работа с Гео
 	$(function(){
 		var body=$('body');
+
+		lightMenu();
 
 		Geo.addEventListener({
 			onCityChange:function(city){
