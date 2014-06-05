@@ -17,7 +17,7 @@
 
 				<ul class="list1">
 					<!--if($val.country_name)!-->
-					<li>Место проведения: <b><!--$val.country_name!--><!--if($val.city_name)!-->, г. <!--$val.city_name!--><!--endif!--></b><img src="/bitrix/templates/estelife/images/countries/k<!--$val.country_id!-->"></li>
+					<li>Место проведения: <b><!--$val.country_name!--><!--if($val.city_name)!-->, г. <!--$val.city_name!--><!--endif!--></b><img src="/bitrix/templates/estelife/images/countries/k<!--$val.country_id!-->.png"></li>
 					<!--endif!-->
 					<li>Период проведения: <b><!--$val.first_period.from!-->
 							<!--if($val.first_period.to)!-->

@@ -27,7 +27,7 @@
 					
 						<ul class="list1">
 							<?php if(!empty($arEvent["country_name"])):?>
-								<li>Место проведения: <b><?=$arEvent["country_name"]?><?if (!empty($arEvent["city_name"])):?>, г. <?=$arEvent["city_name"]?><?endif?></b><img src="/bitrix/templates/estelife/images/countries/k<?=$arEvent["country_id"]?>"></li>
+								<li>Место проведения: <b><?=$arEvent["country_name"]?><?if (!empty($arEvent["city_name"])):?>, г. <?=$arEvent["city_name"]?><?endif?></b><img src="/bitrix/templates/estelife/images/countries/k<?=$arEvent["country_id"]?>.png"></li>
 							<?php endif?>
 							<li>Период проведения: <b><?=$arEvent['first_period']['from']?>
 									<?php if(!empty($arEvent['first_period']['to'])):?>
