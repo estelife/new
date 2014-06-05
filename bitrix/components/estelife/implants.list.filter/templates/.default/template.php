@@ -18,20 +18,6 @@
 			<span class="block"></span>
 		</div>
 	<?php endif?>
-	<?php if ($arResult['filter_access']['type']):?>
-		<?php if (!empty($arResult['types'])):?>
-			<div class="field">
-				<label for="type">Назначение</label>
-				<select name="type" >
-					<option value="">--</option>
-					<?php foreach ($arResult['types'] as $val):?>
-						<option value="<?=$val['id']?>" <?if($arResult['filter']['type'] === $val['id']) echo " selected";?>><?=$val['name']?></option>
-					<?php endforeach?>
-				</select>
-				<span class="block"></span>
-			</div>
-		<?php endif?>
-	<?php endif?>
 	<?php if ($arResult['filter_access']['countries']):?>
 		<div class="field country">
 			<label for="country">Страна</label>

@@ -19,20 +19,6 @@
 			<span class="block"></span>
 		</div>
 	<!--endif!-->
-	<!--if($filter_access.type)!-->
-		<!--if($types)!-->
-			<div class="field">
-				<label for="type">Назначение</label>
-				<select name="type" >
-					<option value="">--</option>
-					<!--foreach($types as $key=>$val)!-->
-						<option value="<!--$val.id!-->" <!--if($filter.type === $val.id)!--> selected="true"<!--endif!-->><!--$val.name!--></option>
-					<!--endforeach!-->
-				</select>
-				<span class="block"></span>
-			</div>
-		<!--endif!-->
-	<!--endif!-->
 	<!--if($filter_access.countries)!-->
 		<div class="field country">
 			<label for="country">Страна</label>
