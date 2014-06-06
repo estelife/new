@@ -2698,6 +2698,15 @@ li.country, span.country {
 	vertical-align: bottom;
 	height: 420px;
 }
+.item.detail .properties p,
+.item.detail .properties ul {
+	margin: 0 0 15px 0;
+}
+.item.detail .properties .pr_space {
+	width:100%;
+	height:1px;
+	margin-top: 15px;
+}
 .item.detail .user {
 	width:100%;
 	position: relative;

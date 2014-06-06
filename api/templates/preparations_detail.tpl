@@ -215,6 +215,7 @@
 					</div>
 				</div>
 			<!--endif!-->
+			<div class="pr_space"></div>
 		</div>
 	</div>
 	<!--if($detail.similar.production)!-->
