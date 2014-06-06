@@ -2706,6 +2706,7 @@ li.country, span.country {
 	width:100%;
 	height:1px;
 	margin-top: 15px;
+	float:left;
 }
 .item.detail .user {
 	width:100%;
