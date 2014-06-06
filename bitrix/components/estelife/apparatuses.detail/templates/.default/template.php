@@ -34,7 +34,8 @@
 					<div class="el-tab">
 						<h3><a href="#">Действие</a></h3>
 						<div class="text">
-						<div class="desc"><?=$arResult['app']['action']?></div>
+							<div class="desc"><?=$arResult['app']['action']?></div>
+							<div class="pr_space"></div>
 						</div>
 					</div>
 				<?php endif?>
@@ -42,7 +43,8 @@
 					<div class="el-tab">
 						<h3><a href="#">Показания</a></h3>
 						<div class="text">
-						<div class="desc"><?=$arResult['app']['evidence']?></div>
+							<div class="desc"><?=$arResult['app']['evidence']?></div>
+							<div class="pr_space"></div>
 						</div>
 					</div>
 				<?php endif?>
@@ -50,7 +52,8 @@
 					<div class="el-tab">
 						<h3><a href="#">Противопоказания</a></h3>
 						<div class="text">
-						<div class="desc"><?=$arResult['app']['contra']?></div>
+							<div class="desc"><?=$arResult['app']['contra']?></div>
+							<div class="pr_space"></div>
 						</div>
 					</div>
 				<?php endif?>
@@ -58,7 +61,8 @@
 					<div class="el-tab">
 						<h3><a href="#">Зоны применения</a></h3>
 						<div class="text">
-						<div class="desc"><?=$arResult['app']['area']?></div>
+							<div class="desc"><?=$arResult['app']['area']?></div>
+							<div class="pr_space"></div>
 						</div>
 					</div>
 				<?php endif?>
@@ -66,7 +70,8 @@
 					<div class="el-tab">
 						<h3><a href="#">Курс процедур</a></h3>
 						<div class="text">
-						<div class="desc"><?=$arResult['app']['procedure']?></div>
+							<div class="desc"><?=$arResult['app']['procedure']?></div>
+							<div class="pr_space"></div>
 						</div>
 					</div>
 				<?php endif?>
@@ -91,6 +96,7 @@
 									</div>
 								<?php endforeach?>
 							</div>
+							<div class="pr_space"></div>
 						</div>
 					</div>
 				<?php endif?>
@@ -98,7 +104,8 @@
 					<div class="el-tab">
 						<h3><a href="#">Безопасность</a></h3>
 						<div class="text">
-						<div class="desc"><?=$arResult['app']['security']?></div>
+							<div class="desc"><?=$arResult['app']['security']?></div>
+							<div class="pr_space"></div>
 						</div>
 					</div>
 				<?php endif?>
@@ -106,7 +113,8 @@
 					<div class="el-tab">
 						<h3><a href="#">Достигаемые эффекты</a></h3>
 						<div class="text">
-						<div class="desc"><?=$arResult['app']['effect']?></div>
+							<div class="desc"><?=$arResult['app']['effect']?></div>
+							<div class="pr_space"></div>
 						</div>
 					</div>
 				<?php endif?>
@@ -114,7 +122,8 @@
 					<div class="el-tab">
 						<h3><a href="#">Побочные эффекты</a></h3>
 						<div class="text">
-						<div class="desc"><?=$arResult['app']['undesired']?></div>
+							<div class="desc"><?=$arResult['app']['undesired']?></div>
+							<div class="pr_space"></div>
 						</div>
 					</div>
 				<?php endif?>
@@ -122,7 +131,8 @@
 					<div class="el-tab">
 						<h3><a href="#">Функции</a></h3>
 						<div class="text">
-						<div class="desc"><?=$arResult['app']['func']?></div>
+							<div class="desc"><?=$arResult['app']['func']?></div>
+							<div class="pr_space"></div>
 						</div>
 					</div>
 				<?php endif?>
@@ -130,7 +140,8 @@
 					<div class="el-tab">
 						<h3><a href="#">Преимущества</a></h3>
 						<div class="text">
-						<div class="desc"><?=$arResult['app']['advantages']?></div>
+							<div class="desc"><?=$arResult['app']['advantages']?></div>
+							<div class="pr_space"></div>
 						</div>
 					</div>
 				<?php endif?>
@@ -138,7 +149,8 @@
 					<div class="el-tab">
 						<h3><a href="#">Сочетание</a></h3>
 						<div class="text">
-						<div class="desc"><?=$arResult['app']['mix']?></div>
+							<div class="desc"><?=$arResult['app']['mix']?></div>
+							<div class="pr_space"></div>
 						</div>
 					</div>
 				<?php endif?>
@@ -146,7 +158,8 @@
 					<div class="el-tab">
 						<h3><a href="#">Рекомендации пациенту</a></h3>
 						<div class="text">
-						<div class="desc"><?=$arResult['app']['patient']?></div>
+							<div class="desc"><?=$arResult['app']['patient']?></div>
+							<div class="pr_space"></div>
 						</div>
 					</div>
 				<?php endif?>
@@ -154,7 +167,8 @@
 					<div class="el-tab">
 						<h3><a href="#">Рекомендации специалисту</a></h3>
 						<div class="text">
-						<div class="desc"><?=$arResult['app']['specialist']?></div>
+							<div class="desc"><?=$arResult['app']['specialist']?></div>
+							<div class="pr_space"></div>
 						</div>
 					</div>
 				<?php endif?>
@@ -162,7 +176,8 @@
 					<div class="el-tab">
 						<h3><a href="#">Протокол процедуры</a></h3>
 						<div class="text">
-						<div class="desc"><?=$arResult['app']['protocol']?></div>
+							<div class="desc"><?=$arResult['app']['protocol']?></div>
+							<div class="pr_space"></div>
 						</div>
 					</div>
 				<?php endif?>
@@ -170,7 +185,8 @@
 					<div class="el-tab">
 						<h3><a href="#">Технические характеристики</a></h3>
 						<div class="text">
-						<div class="desc"><?=$arResult['app']['specs']?></div>
+							<div class="desc"><?=$arResult['app']['specs']?></div>
+							<div class="pr_space"></div>
 						</div>
 					</div>
 				<?php endif?>
@@ -178,7 +194,8 @@
 					<div class="el-tab">
 						<h3><a href="#">Правила эксплуатации</a></h3>
 						<div class="text">
-						<div class="desc"><?=$arResult['app']['rules']?></div>
+							<div class="desc"><?=$arResult['app']['rules']?></div>
+							<div class="pr_space"></div>
 						</div>
 					</div>
 				<?php endif?>
@@ -186,7 +203,8 @@
 					<div class="el-tab">
 						<h3><a href="#">Комплектация</a></h3>
 						<div class="text">
-						<div class="desc"><?=$arResult['app']['equipment']?></div>
+							<div class="desc"><?=$arResult['app']['equipment']?></div>
+							<div class="pr_space"></div>
 						</div>
 					</div>
 				<?php endif?>
@@ -194,7 +212,8 @@
 					<div class="el-tab">
 						<h3><a href="#">Аксессуары</a></h3>
 						<div class="text">
-						<div class="desc"><?=$arResult['app']['acs']?></div>
+							<div class="desc"><?=$arResult['app']['acs']?></div>
+							<div class="pr_space"></div>
 						</div>
 					</div>
 				<?php endif?>
