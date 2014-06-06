@@ -213,6 +213,7 @@
 						</div>
 					</div>
 				<?php endif?>
+				<div class="pr_space"></div>
 			</div>
 		</div>
 		<?$APPLICATION->IncludeComponent(
