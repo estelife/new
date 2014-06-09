@@ -80,6 +80,18 @@ require([
 		});
 
 
+		//Подсказки в фильтре
+		body.on('mouseover', '.help-icon', function(e){
+			var th = $(this);
+			th.children('p').show();
+		});
+
+		body.on('mouseout', '.help-icon', function(e){
+			var th = $(this);
+			th.children('p').hide();
+		});
+
+
 		//подстановка в url авторизации backurl
 		body.on('click touchstart touchend', '.goto-auth', function(e){
 			if(e.type)

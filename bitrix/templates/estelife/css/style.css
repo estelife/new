@@ -1750,7 +1750,7 @@ td.prices i {
 }
 .filter .help-icon p {
 	position: absolute;
-	top: 37px;
+	top: 22px;
 	left: 7px;
 	text-indent: 0;
 	background:#868686;
@@ -1761,6 +1761,7 @@ td.prices i {
 	line-height: 14px;
 	margin: 0;
 	display: none;
+	z-index:1000;
 }
 .filter .count-result b{
 	font-weight: normal;
