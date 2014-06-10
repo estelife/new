@@ -52,7 +52,7 @@
 		<input type="checkbox" name="type[]" value="2" title="Выставка"<!--if(2 in $filter.type)!--> checked="true"<!--endif!--> />
 		<span class="help-icon">Помощь <p>Мероприятия дискуссионного характера: форумы, конгрессы, саммиты, симпозиумы, съезды, конференции, собрания, семинары, мастер-классы.</p></span>
 		<input type="checkbox" name="type[]" value="4" title="Тренинг"<!--if(4 in $filter.type)!--> checked="true"<!--endif!--> />
-		<span class="help-icon">Помощь <p>Мероприятия правктического характера: тренинги, семинары, мастер-классы, видеодемонстрации.</p></span>
+		<span class="help-icon">Помощь <p>Мероприятия практического характера: тренинги, семинары, мастер-классы, видеодемонстрации.</p></span>
 		<span class="block"></span>
 	</div>
 
