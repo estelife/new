@@ -748,6 +748,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		articlesDetail:function(id,type){
+			lightMenu();
 			type=(!type) ? 'ar' : type;
 			(new Models.Inner(null,{
 				pages:[
@@ -778,6 +779,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			})).fetch();
 		},
 		expertsDetail:function(id,type){
+			lightMenu();
 			type=(!type) ? 'ex' : type;
 			(new Models.Inner(null,{
 				pages:[
@@ -810,6 +812,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 
 
 		apparatusesDetail: function(id){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:[
 					'ap'+id+'/',
@@ -845,6 +848,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		apparatusesMakersDetail: function(id){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:[
 					'am'+id+'/',
@@ -880,6 +884,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		clinicsDetail: function(id, path){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:[
 					'cl'+id+'/'+(path && path!='undefined' ? path + '/' : ''),
@@ -916,6 +921,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		eventsDetail: function(id){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:[
 					'ev'+id+'/',
@@ -951,6 +957,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		eventsProgram: function(id){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:[
 					'ev'+id+'/program/'+EL.query().toString()
@@ -973,6 +980,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		eventsHall: function(id, param){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:[
 					'ev'+id+'/'+param+'/'
@@ -995,6 +1003,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		preparationsDetail: function(id){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:[
 					'ps'+id+'/',
@@ -1030,6 +1039,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		threadsDetail: function(id){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:[
 					'th'+id+'/',
@@ -1065,6 +1075,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		implantsDetail: function(id){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:[
 					'im'+id+'/',
@@ -1100,6 +1111,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		preparationsMakersDetail: function(id){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:[
 					'pm'+id+'/',
@@ -1135,6 +1147,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		sponsorsDetail: function(id){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:[
 					'sp'+id+'/',
@@ -1170,6 +1183,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		promotionsDetail: function(id){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:[
 					'pr'+id+'/',
@@ -1205,6 +1219,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		trainingCentersDetail: function(id){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:[
 					'tc'+id+'/',
@@ -1240,6 +1255,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		trainingsDetail: function(id){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:[
 					'tr'+id+'/',
@@ -1275,6 +1291,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 		},
 
 		professionalsDetail: function(id){
+			lightMenu();
 			var model=new Models.Inner(null,{
 				pages:[
 					'pf'+id+'/',
