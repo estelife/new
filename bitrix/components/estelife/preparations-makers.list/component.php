@@ -30,7 +30,7 @@ $obJoin->_left()
 	->_cond()->_eq('ct.IBLOCK_ID',15);
 $obJoin->_right()
 	->_from('ec', 'id')
-	->_to('estelife_pills', 'company_id', 'ep');
+	->_to('estelife_preparations', 'company_id', 'ep');
 $obJoin->_left()
 	->_from('ec', 'id')
 	->_to('estelife_company_contacts', 'company_id', 'ecc')
