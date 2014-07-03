@@ -110,8 +110,8 @@ while($arRecord=$obResult->GetNext()){
 	$f_ID=$arRecord['id'];
 	$row =& $lAdmin->AddRow($f_ID,$arRecord);
 
-	$row->AddViewField("ID",$arRecord['id']);
-	$row->AddViewField("NAME",$arRecord['name']);
+	$row->AddViewField("ID", $arRecord['id']);
+	$row->AddViewField("NAME", html_entity_decode($arRecord['name'],ENT_QUOTES,'utf-8'));
 
 	if (!empty($arRecord['company_type_name'])){
 		$row->AddViewField("COMPANY",$arRecord['company_type_name']);

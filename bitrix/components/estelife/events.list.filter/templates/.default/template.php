@@ -47,9 +47,9 @@
 	<div class="field">
 		<label for="type" class="checkbox-label">Формат</label>
 		<input type="checkbox" name="type[]" value="1" title="Форум"<?=(in_array(1,$arResult['filter']['type']) ? ' checked="true"' : '')?> />
-		<span class="help-icon">Помощь <p>Мероприятия демонстрационного характера: выставки, саммиты, фестивали, ярмарки.</p></span>
-		<input type="checkbox" name="type[]" value="2" title="Выставка"<?=(in_array(2,$arResult['filter']['type']) ? ' checked="true"' : '')?> />
 		<span class="help-icon">Помощь <p>Мероприятия дискуссионного характера: форумы, конгрессы, саммиты, симпозиумы, съезды, конференции, собрания, семинары, мастер-классы.</p></span>
+		<input type="checkbox" name="type[]" value="2" title="Выставка"<?=(in_array(2,$arResult['filter']['type']) ? ' checked="true"' : '')?> />
+		<span class="help-icon">Помощь <p>Мероприятия демонстрационного характера: выставки, салоны, фестивали, ярмарки.</p></span>
 		<input type="checkbox" name="type[]" value="4" title="Тренинг"<?=(in_array(4,$arResult['filter']['type']) ? ' checked="true"' : '')?> />
 		<span class="help-icon">Помощь <p>Мероприятия практического характера: тренинги, семинары, мастер-классы, видеодемонстрации.</p></span>
 		<span class="block"></span>
