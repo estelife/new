@@ -19,7 +19,6 @@
 		</ul>
 	</li>
 	<li><a href="/clinics/">Клиники</a></li>
-	<li><a href="/promotions/">Акции</a></li>
 	<li><a href="#" class="empty_link">События</a>
 		<ul class="submenu">
 			<li><a href="/organizers/">Организаторы</a></li>
