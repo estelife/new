@@ -208,6 +208,7 @@ if(!empty($ID)){
 }
 
 if($_SERVER['REQUEST_METHOD']=='POST'){
+
 	$obPost=new VArray($_POST);
 	$obError=new ex\VFormException();
 
@@ -287,10 +288,13 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		    $arImage['del']=$logo_del;
 
 		    if(strlen($arImage["name"])>0 || strlen($arImage["del"])>0){
-			$nImageId=CFile::SaveFile($arImage, "estelife");
-			$obQuery->builder()->value('logo_id', intval($nImageId));
+				$nImageId=CFile::SaveFile($arImage, "estelife");
+				$obQuery->builder()->value('logo_id', intval($nImageId));
 		    }
 		}
+
+		if ($obPost->one('company_logo_del') == 'Y')
+			$obQuery->builder()->value('logo_id', 0);
 
 		if (!empty($ID)){
 			$obQuery->builder()->filter()
