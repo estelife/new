@@ -488,7 +488,7 @@ Estelife.prototype.help=function(fromTop){
 			help.addClass('top-orient');
 
 		$(document).mousemove(function(e){
-	window.event
+	event = window.event;
 		}).click(function(){
 			_hide();
 		});
@@ -498,6 +498,8 @@ Estelife.prototype.help=function(fromTop){
 		if (event.pageX == null && event.clientX != null ) {
 			var html = document.documentElement,
 				body = document.body;
+
+
 
 			event.pageX = event.clientX + (html && html.scrollLeft || body && body.scrollLeft || 0) - (html.clientLeft || 0)
 			event.pageY = event.clientY + (html && html.scrollTop || body && body.scrollTop || 0) - (html.clientTop || 0)

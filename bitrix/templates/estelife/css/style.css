@@ -1881,6 +1881,11 @@ form .date {
 .item.specialist .work a {
 	color:#e50364;
 }
+
+.select a{
+	padding-right: 30px;
+}
+
 .content .item.specialist .default,
 .hall .user .default {
 	background:#F0F0F0 url('../images/unlogo2.png') center center no-repeat;
