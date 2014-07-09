@@ -232,7 +232,7 @@ define(function(){
 						'data-value':optionValue
 					});
 
-					if(optionValue!='' && optionValue!=0)
+					if(optionValue!='' && optionValue!=0 && optionValue!='all')
 						value.addClass('has-value v'+optionValue);
 
 					value.html(parseOptHtml(currentOption.html()));
@@ -272,7 +272,7 @@ define(function(){
 						})
 						.html(optionHtml);
 
-					if(optionValue!='' && optionValue!=0)
+					if(optionValue!='' && optionValue!=0 && optionValue!='all')
 						link.addClass('has-value v'+optionValue);
 
 					if(index==i)
