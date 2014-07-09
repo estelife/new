@@ -9,6 +9,7 @@
 		<ul class="menu">
 			<li><a href="/preparations-makers/">Препараты</a></li>
 			<li><a href="/apparatuses-makers/" class="active">Аппараты</a></li>
+			<li><a href="/threads-makers/">Нити</a></li>
 		</ul>
 	</div>
 	<div class="items">

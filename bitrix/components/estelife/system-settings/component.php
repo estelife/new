@@ -11,6 +11,7 @@ $arResult=array(
 		"cl" => "clinics",
 		"am" => "apparatuses-makers",
 		"pm" => "preparations-makers",
+		"tm" => "threads-makers",
 		"ap" => "apparatuses",
 		"ps" => "preparations",
 		"tc" => "training-centers",
@@ -50,7 +51,8 @@ $arResult=array(
 		19=>"cm",
 		20=>"th",
 		21=>"im",
-		22=>"pf"
+		22=>"pf",
+		23=>"tm"
 	),
 	'current_city' => \geo\VGeo::getInstance()->getGeo(),
 	'cities'=>array(

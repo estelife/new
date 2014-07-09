@@ -12,6 +12,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			'promotions/(.*)':'promotionList',
 			'preparations-makers/(.*)': 'preparationsMakersList',
 			'apparatuses-makers/(.*)': 'apparatusesMakersList',
+			'threads-makers/(.*)': 'threadsMakersList',
 			'preparations/(.*)': 'preparationsList',
 			'implants/(.*)': 'implantsList',
 			'threads/(.*)': 'threadsList',
@@ -29,6 +30,7 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 			'th:number/': 'threadsDetail',
 			'im:number/': 'implantsDetail',
 			'pm:number/': 'preparationsMakersDetail',
+			'tm:number/': 'threadsMakersDetail',
 			'sp:number/': 'sponsorsDetail',
 			'pr:number/': 'promotionsDetail',
 			'tc:number/': 'trainingCentersDetail',
@@ -357,6 +359,47 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'apparatuses_makers_filter'
+								}),
+								new Views.AdvertDelay({
+									className:'',
+									dataKey:'BANNER'
+								})
+							]
+						})
+					]
+				})
+			});
+			model.fetch();
+		},
+
+		threadsMakersList: function(){
+			lightMenu();
+			var model=new Models.Inner(null,{
+				pages:this.getShortPages(
+					[
+						'threads-makers/'+EL.query().toString(),
+						'threads_makers_filter/'+EL.query().toString(),
+						'banner/'
+					],
+					[0,1]
+				),
+				view:new Views.WrapContent({
+					views:[
+						new Views.SEO(),
+						new Views.Content({
+							views:[
+								new Views.Inner({
+									views:[
+										new Views.Crumb(),
+										new Views.Title(),
+										new Views.List({
+											template:'threads_makers_list'
+										}),
+										new Views.Nav()
+									]
+								}),
+								new Views.Filter({
+									template:'threads_makers_filter'
 								}),
 								new Views.AdvertDelay({
 									className:'',
@@ -1133,6 +1176,42 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 								}),
 								new Views.Filter({
 									template:'preparations_makers_filter'
+								}),
+								new Views.AdvertDelay({
+									className:'',
+									dataKey:'BANNER'
+								})
+							]
+						})
+					]
+				})
+			});
+			model.fetch();
+		},
+
+		threadsMakersDetail: function(id){
+			lightMenu();
+			var model=new Models.Inner(null,{
+				pages:[
+					'tm'+id+'/',
+					'threads_makers_filter/'+EL.query().toString(),
+					'banner/'
+				],
+				view:new Views.WrapContent({
+					views:[
+						new Views.SEO(),
+						new Views.Content({
+							views:[
+								new Views.Inner({
+									views:[
+										new Views.Crumb(),
+										new Views.Detail({
+											template:'threads_makers_detail'
+										})
+									]
+								}),
+								new Views.Filter({
+									template:'threads_makers_filter'
 								}),
 								new Views.AdvertDelay({
 									className:'',
