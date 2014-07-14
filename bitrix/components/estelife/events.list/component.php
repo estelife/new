@@ -19,18 +19,13 @@ if (isset($arParams['PAGE_COUNT']) && $arParams['PAGE_COUNT']>0)
 else
 	$arPageCount = 10;
 
-//if($obGet->blank('city') && $obGet->blank('country')){
-//	if(isset($_COOKIE['estelife_city']))
-//		$arResult['city'] = VGeo::getInstance()->getGeo();
-//
-//	$arResult['country']['COUNTRY_ID'] = $arResult['city']['COUNTRY_ID'];
-//}else{
+
 if(!$obGet->blank('city'))
 	$arResult['city']['ID'] = intval($obGet->one('city'));
 
 if(!$obGet->blank('country'))
 	$arResult['country']['COUNTRY_ID'] = intval($obGet->one('country'));
-//}
+
 
 $arResult['events'] = array();
 

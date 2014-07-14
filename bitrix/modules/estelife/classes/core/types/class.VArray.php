@@ -3,7 +3,7 @@ namespace core\types;
 
 /**
  * Класс обертка для работы с массивами. Повзволяет сократить кол-во проверок в коде шаблона.
- * @author Dmitriy Konev <dnkonev@yandex.ru>
+ * @author Vitaly Panait <vpanaitv@yandex.ru>
  * @since 18.02.13
  * @file class.VArray.php
  * @version 0.1
