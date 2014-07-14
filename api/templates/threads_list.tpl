@@ -24,5 +24,5 @@
 		</div>
 	<!--endforeach!-->
 <!--else!-->
-	<div class="not-found">Препараты не найдены ...</div>
+	<div class="not-found">Нити не найдены ...</div>
 <!--endif!-->
