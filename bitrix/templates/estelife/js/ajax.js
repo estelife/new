@@ -599,8 +599,8 @@ require([
 				path_name = '/'+path_name;
 				matches =path_name.match(reg);
 
-				if (matches || path_name == '/apparatuses-makers/') {
-					if (path_name == '/apparatuses-makers/'){
+				if (matches || path_name == '/apparatuses-makers/' || path_name == '/threads-makers/') {
+					if (path_name == '/apparatuses-makers/' || path_name == '/threads-makers/'){
 						$('.submenu li a[href="/preparations-makers/"]').parent().addClass("second_active").parent().parent().addClass("active").addClass('main');
 					}else{
 						$(this).closest(".submenu>li").addClass("second_active");

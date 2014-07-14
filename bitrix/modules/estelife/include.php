@@ -119,6 +119,7 @@ CModule::AddAutoloadClasses(
 		'filters\decorators\VThreads'=>'classes/filters/decorators/class.VThreads.php',
 		'filters\decorators\VImplants'=>'classes/filters/decorators/class.VImplants.php',
 		'filters\decorators\VProfessionals'=>'classes/filters/decorators/class.VProfessionals.php',
+		'filters\decorators\VThreadsMakers'=>'classes/filters/decorators/class.VThreadsMakers.php',
 
 		//subscribe
 		'subscribe\owners\VOwner'=>'classes/subscribe/owners/class.VOwner.php',

@@ -18,7 +18,12 @@ echo json_encode(array(
 				'name'=>'Аппараты',
 				'link'=>'/apparatuses-makers/',
 				'class'=>'active'
-			)
+			),
+			array(
+				'name'=>'Нити',
+				'link'=>'/threads-makers/',
+				'class'=>''
+			),
 		)
 	),
 	'count'=>$arResult['count'],

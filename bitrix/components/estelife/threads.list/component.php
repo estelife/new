@@ -168,7 +168,7 @@ if ($sComponent=='list'){
 		}
 		unset($arData['type_company_id']);
 
-		$arData['company_link'] = '/pm'.$arData['company_id'].'/';
+		$arData['company_link'] = '/tm'.$arData['company_id'].'/';
 
 		$arResult['pills'][]=$arData;
 		$arDescription[]=mb_strtolower($arData['name']);

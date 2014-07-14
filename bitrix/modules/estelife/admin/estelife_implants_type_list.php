@@ -59,7 +59,7 @@ if(($arID = $lAdmin->GroupAction()) && check_bitrix_sessid()){
 }
 
 $obQuery=$obApp->createQuery();
-$obQuery->builder()->from('estelife_pills_typename');
+$obQuery->builder()->from('estelife_implants_typename');
 $obFilter=$obQuery->builder()->filter();
 
 if(!empty($arFilter['id']))

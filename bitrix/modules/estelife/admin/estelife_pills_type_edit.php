@@ -39,7 +39,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		//Добавление типа
 		$obQuery = $obApp->createQuery();
-		$obQuery->builder()->from('estelife_pills_typename')
+		$obQuery->builder()->from('estelife_preparations_typename')
 			->value('name', trim(htmlentities($obPost->one('name'),ENT_QUOTES,'utf-8')));
 
 		if (!empty($ID)){

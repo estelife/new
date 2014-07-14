@@ -2,14 +2,14 @@
 <div class="inner">
 	<ul class="crumb">
 		<li><a href="/">Главная</a></li>
-		<li><b>Производители препаратов</b></li>
+		<li><b>Производители нитей</b></li>
 	</ul>
 	<div class="title">
-		<h2>Производители препаратов</h2>
+		<h2>Производители нитей</h2>
 		<ul class="menu">
-			<li><a href="/preparations-makers/" class="active">Препараты</a></li>
+			<li><a href="/preparations-makers/">Препараты</a></li>
 			<li><a href="/apparatuses-makers/">Аппараты</a></li>
-			<li><a href="/threads-makers/">Нити</a></li>
+			<li><a href="/threads-makers/" class="active">Нити</a></li>
 		</ul>
 	</div>
 	<div class="items">
