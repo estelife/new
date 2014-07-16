@@ -13,8 +13,7 @@ use core\types\VArray;
 
 final class VComment{
 
-	public function __construct(){
-	}
+	public function __construct(){}
 
 	/**
 	 * Добавление комментария в базу

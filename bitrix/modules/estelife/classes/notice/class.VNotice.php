@@ -12,7 +12,12 @@ use core\exceptions\VException;
 
 final class VNotice{
 
-	//Регистрация ошибки
+	/**
+	 * Регистрация ошибки
+	 * @param $sTitle
+	 * @param $sDescription
+	 * @return bool
+	 */
 	public static function registerError($sTitle, $sDescription){
 		if (empty($sTitle))
 			return false;
@@ -26,7 +31,12 @@ final class VNotice{
 		);
 	}
 
-	//Регистрация уведомления
+	/**
+	 * Регситрация уведомления
+	 * @param $sTitle
+	 * @param $sDescription
+	 * @return bool
+	 */
 	public static function registerSuccess($sTitle, $sDescription){
 		if (empty($sTitle))
 			return false;
@@ -40,22 +50,32 @@ final class VNotice{
 		);
 	}
 
-	//Получение ошибок
+	/**
+	 * Получение ошибок
+	 * @return mixed
+	 */
 	public static function getError(){
 		return $_SESSION['noticeError'];
 	}
 
-	//Получение уведомлений
+	/**
+	 * Получение уведомлений
+	 * @return mixed
+	 */
 	public static function getSuccess(){
 		return $_SESSION['noticeSuccess'];
 	}
 
-	//Удаление ошибок
+	/**
+	 * Удаление ошибок
+	 */
 	public static function cleanError(){
 		unset($_SESSION['noticeError']);
 	}
 
-	//Удаление уведомлений
+	/**
+	 * Удаление уведомлений
+	 */
 	public static function cleanSuccess(){
 		unset($_SESSION['noticeSuccess']);
 	}

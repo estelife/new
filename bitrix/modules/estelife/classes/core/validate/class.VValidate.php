@@ -3,8 +3,8 @@ namespace core\validate;
 use core\exceptions\VFormException;
 
 /**
- * Описание класса не задано. Обратитесь с вопросом к разработчику.
- * @author Dmitriy Konev <dnkonev@yandex.ru>
+ * Класс валидации данных
+ * @author Panait Vitaly <vpanait@yandex.ru>
  * @since 30.05.13
  */
 class VValidate {
