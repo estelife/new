@@ -72,6 +72,11 @@ echo json_encode(array(
 			'link'=>'#'
 		)
 	),
+	'seo' => array(
+		'title'=>$arResult["NAME"],
+		'description'=>$arResult["NAME"],
+		'keywords'=>$arResult["NAME"]
+	),
 	'detail'=>array(
 		'ID'=>$arResult['ID'],
 		'NAME'=>$arResult['NAME'],
