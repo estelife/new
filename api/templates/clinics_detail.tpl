@@ -29,8 +29,6 @@
 			<div class="tabs-menu menu_tab">
 				<ul>
 					<li class="t1<!--if($detail.CURRENT_TAB==base)!--> active<!--endif!-->"><a href="/cl<!--$detail.id!-->/">О клинике<i></i></a></li>
-					<li class="t3<!--if($detail.CURRENT_TAB==prices)!--> active<!--endif!-->"><a href="/cl<!--$detail.id!-->/prices/">Услуги и цены<i></i></a></li>
-					<li class="t2<!--if($detail.CURRENT_TAB==promotions)!--> active<!--endif!-->"><a href="/cl<!--$detail.id!-->/promotions/">Акции<i></i></a></li>
 					<!--if($detail.articles)!-->
 					<li class="t4<!--if($detail.CURRENT_TAB==articles)!--> active<!--endif!-->"><a href="/cl<!--$detail.id!-->/articles/">Статьи<i></i></a></li>
 					<!--endif!-->
