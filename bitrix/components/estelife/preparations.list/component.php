@@ -203,7 +203,7 @@ if ($sComponent=='list'){
 
 	foreach ($arProductions as $val){
 		$val['img'] = CFile::ShowImage($val['logo_id'],150, 140, 'alt='.$val['name']);
-		$val['preview_text'] = \core\types\VString::truncate($val['preview_text'], 100, '...');
+		$val['preview_text'] = \core\types\VString::truncate($val['preview_text'], 90, '...');
 		$sPrefix='ps';
 
 		$val['link'] = '/'.$sPrefix.$val['id'].'/';

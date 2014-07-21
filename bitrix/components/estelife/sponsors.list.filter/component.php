@@ -13,6 +13,7 @@ $obQuery = VDatabase::driver()->createQuery();
 $obQuery->builder()
 	->from('estelife_company_events', 'ece')
 	->group('ct.ID')
+	->sort('ct.NAME', 'asc')
 	->field('ct.ID','ID')
 	->field('ct.NAME','NAME');
 $obJoin=$obQuery->builder()->join();

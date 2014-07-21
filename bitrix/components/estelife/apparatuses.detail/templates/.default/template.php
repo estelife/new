@@ -79,7 +79,7 @@
 					<div class="el-tab">
 						<h3><a href="#">Регистрация</a></h3>
 						<div class="text">
-							<div class="desc"><?=$arResult['pill']['registration']?></div>
+							<div class="desc"><?=$arResult['app']['registration']?></div>
 							<div class="reg_images">
 								<?php foreach ($arResult['app']['registration_photo'] as $val):?>
 									<div class="item">
