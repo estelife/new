@@ -39,8 +39,8 @@
 				<div class="tabs-menu menu_tab">
 					<ul>
 						<li class="t1<?=$arResult['CURRENT_TAB']=='base' ? ' active' : ''?>"><a href="/cl<?=$arResult['clinic']['id']?>/">О клинике<i></i></a></li>
-						<li class="t3<?=$arResult['CURRENT_TAB']=='prices' ? ' active' : ''?>"><a href="/cl<?=$arResult['clinic']['id']?>/prices/">Услуги и цены<i></i></a></li>
-						<li class="t2<?=$arResult['CURRENT_TAB']=='promotions' ? ' active' : ''?>"><a href="/cl<?=$arResult['clinic']['id']?>/promotions/">Акции<i></i></a></li>
+<!--						<li class="t3--><?//=$arResult['CURRENT_TAB']=='prices' ? ' active' : ''?><!--"><a href="/cl--><?//=$arResult['clinic']['id']?><!--/prices/">Услуги и цены<i></i></a></li>-->
+<!--						<li class="t2--><?//=$arResult['CURRENT_TAB']=='promotions' ? ' active' : ''?><!--"><a href="/cl--><?//=$arResult['clinic']['id']?><!--/promotions/">Акции<i></i></a></li>-->
 						<?php if (!empty($arResult['clinic']["articles"])):?>
 							<li class="t4<?=$arResult['CURRENT_TAB']=='articles' ? ' active' : ''?>"><a href="/cl<?=$arResult['clinic']['id']?>/articles/">Статьи<i></i></a></li>
 						<?php endif?>

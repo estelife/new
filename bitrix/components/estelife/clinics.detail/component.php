@@ -8,7 +8,8 @@ CModule::IncludeModule("iblock");
 CModule::IncludeModule("estelife");
 
 
-$arTabs = array('base', 'reviews', 'prices', 'promotions', 'specialists', 'contacts', 'articles');
+//$arTabs = array('base', 'reviews', 'prices', 'promotions', 'specialists', 'contacts', 'articles');
+$arTabs = array('base', 'reviews', 'specialists', 'contacts', 'articles');
 $arResult['CURRENT_TAB'] = isset($arParams['CURRENT_TAB']) ? $arParams['CURRENT_TAB'] : 'base';
 
 if (!in_array($arResult['CURRENT_TAB'], $arTabs))
