@@ -1454,6 +1454,9 @@ td.prices i {
 .item.detail, .item.detail a, .item.product, .item.product a {
 	font-size:14px;
 }
+.item.product a {
+	height: 158px;
+}
 .item.detail:hover {
 	cursor: default;
 }
