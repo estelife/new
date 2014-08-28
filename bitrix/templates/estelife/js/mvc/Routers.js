@@ -162,48 +162,56 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 						new Views.SEO(),
 						new Views.Content({
 							views:[
-								new Views.Component({
-									template:'home_podcasts',
-									dataKey:'PODCASTS'
-								}),
-								new Views.Advert({
-									className:'adv adv-out right',
-									dataKey:'BANNER_RIGHT'
-								}),
-								new Views.Advert({
-									className:'adv top',
-									dataKey:'BANNER_TOP'
-								}),
-								new Views.Component({
-									template:'home_experts',
-									dataKey:'EXPERTS'
-								}),
+//								new Views.Component({
+//									template:'home_podcasts',
+//									dataKey:'PODCASTS'
+//								}),
+//								new Views.Advert({
+//									className:'adv adv-out right',
+//									dataKey:'BANNER_RIGHT'
+//								}),
+//								new Views.Advert({
+//									className:'adv top',
+//									dataKey:'BANNER_TOP'
+//								}),
+//								new Views.Component({
+//									template:'home_experts',
+//									dataKey:'EXPERTS'
+//								}),
 								new Views.Component({
 									template:'home_promotions',
 									dataKey:'PROMOTIONS'
 								}),
-								new Views.Component({
-									template:'home_articles',
-									dataKey:'NEWS'
+//								new Views.Component({
+//									template:'home_articles',
+//									dataKey:'NEWS'
+//								}),
+								new Views.Advert({
+									className:'adv bottom',
+									dataKey:'BANNER_BOTTOM'
+								}),
+								new Views.Advert({
+									className:'adv bottom',
+									dataKey:'BANNER_BOTTOM'
 								}),
 								new Views.Advert({
 									className:'adv bottom',
 									dataKey:'BANNER_BOTTOM'
 								})
 							]
-						}),
-						new Views.Component({
-							template:'home_media',
-							dataKey:'PHOTOGALLERY'
-						}),
-						new Views.Content({
-							views:[
-								new Views.Component({
-									template:'home_articles',
-									dataKey:'ARTICLES'
-								})
-							]
 						})
+//						new Views.Component({
+//							template:'home_media',
+//							dataKey:'PHOTOGALLERY'
+//						}),
+//						new Views.Content({
+//							views:[
+//								new Views.Component({
+//									template:'home_articles',
+//									dataKey:'ARTICLES'
+//								})
+//							]
+//						})
 					]
 				})
 			})).fetch();

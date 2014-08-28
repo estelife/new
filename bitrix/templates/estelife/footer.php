@@ -5,7 +5,7 @@
 		<div class="footer-in">
 			<div class="content">
 				<ul class="menu cols">
-					<li><a href="/about/">О проекте</a></li>
+					<li style="color:white">2011-2014 &copy; ООО &laquo;Эстелайф&raquo;. Estelife.ru. Портал эстетической медицины</li>
 				</ul>
 				<div class="cols col2 social">
 					<a href="http://vk.com/club58189724" class="vk" target="_blank">ВКонтакте</a>
@@ -15,10 +15,12 @@
 					<span>|</span>
 					<a href="http://feeds.feedburner.com/estelife/SgfF" target="_blank" class="rss">RSS</a>
 				</div>
+				<!--
 				<div class="copy">
-					2011-2013 &copy; ООО &laquo;Эстелайф&raquo;. Estelife.ru. Портал эстетической медицины
+					2011-2014 &copy; ООО &laquo;Эстелайф&raquo;. Estelife.ru. Портал эстетической медицины
 					<span><b>18</b>+</span>
 				</div>
+				-->
 			</div>
 		</div>
 	</div>

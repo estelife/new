@@ -1,5 +1,6 @@
 <?php if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
 <ul class="menu main_menu">
+<!--
 	<li><a href="#" class="empty_link">Тема недели</a>
 		<?php if (!empty($arResult['tz'])):?>
 			<ul class="submenu">
@@ -18,11 +19,12 @@
 			<li><a href="/articles/raznoe/">Разное</a></li>
 		</ul>
 	</li>
+-->
 	<li><a href="/clinics/">Клиники</a></li>
-	<li><a href="#" class="empty_link">События</a>
+	<li><a href="#" class="empty_link">Мероприятия</a>
 		<ul class="submenu">
 			<li><a href="/organizers/">Организаторы</a></li>
-			<li><a href="/events/">Календарь событий</a></li>
+			<li><a href="/events/">Календарь мероприятий</a></li>
 		</ul>
 	</li>
 	<li><a href="#" class="empty_link">Справочник</a>
