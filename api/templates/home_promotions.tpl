@@ -1,1 +1,1 @@
-<div style="text-align: center; color:#E50364; margin-top:40px;"><h1>Сайт находится на стадии разработки</h1></div>
+<div style="text-align: center; color:#E50364; margin-top:40px;"><h1>Сайт находится в стадии разработки</h1></div>
