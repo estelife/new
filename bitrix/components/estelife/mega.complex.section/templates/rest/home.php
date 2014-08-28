@@ -2,43 +2,17 @@
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true)
 	die();
 
-bitrix\ERESULT::$KEY='PODCASTS';
+bitrix\ERESULT::$KEY='PROMOTIONS';
 $APPLICATION->IncludeComponent(
-	"estelife:podcast.list",
+	"estelife:promotions.clinics.main.list",
 	"home_ajax",
 	array(
-		"IBLOCK_ID"=>36,
-		"NEWS_COUNT" => 7,
-		"MAIN_URL" => "podcast",
-		"PREFIX" => "pt",
-	)
+		"COUNT" => 3
+	),
+	false
 );
 
-bitrix\ERESULT::$KEY='BANNER_RIGHT';
-$APPLICATION->IncludeComponent(
-	"bitrix:advertising.banner",
-	"ajax",
-	array(
-		"TYPE" => "main_right_1",
-		"CACHE_TYPE" => "A",
-		"NOINDEX" => "N",
-		"CACHE_TIME" => "3600"
-	)
-);
-
-bitrix\ERESULT::$KEY='BANNER_TOP';
-$APPLICATION->IncludeComponent(
-	"bitrix:advertising.banner",
-	"ajax",
-	array(
-		"TYPE" => "main_center_1",
-		"CACHE_TYPE" => "A",
-		"NOINDEX" => "N",
-		"CACHE_TIME" => "3600"
-	)
-);
-
-bitrix\ERESULT::$KEY='BANNER_BOTTOM';
+bitrix\ERESULT::$KEY='BANNER_BOTTOM_2';
 $APPLICATION->IncludeComponent(
 	"bitrix:advertising.banner",
 	"ajax",
@@ -50,84 +24,30 @@ $APPLICATION->IncludeComponent(
 	)
 );
 
-bitrix\ERESULT::$KEY='EXPERTS';
+bitrix\ERESULT::$KEY='BANNER_BOTTOM_3';
 $APPLICATION->IncludeComponent(
-	"estelife:expert.list",
-	"home_ajax",
+	"bitrix:advertising.banner",
+	"ajax",
 	array(
-		"IBLOCK_ID"=>35,
-		"NEWS_COUNT" => 4,
-		"MAIN_URL" => "",
-		"TITLE"=>"Экспертное мнение",
-		"MORE_TITLE"=>"",
-		"IMG" => 174,
-		"AUTOR"=> 172,
-		"PROFESSION" => 173,
-		"PREVIEW"=>178,
-        "MAIN_ACTIVE" => 200,
-		"PREFIX" => ""
+		"TYPE" => "main_center_3",
+		"CACHE_TYPE" => "A",
+		"NOINDEX" => "N",
+		"CACHE_TIME" => "3600"
 	)
 );
 
-bitrix\ERESULT::$KEY='PROMOTIONS';
+bitrix\ERESULT::$KEY='BANNER_BOTTOM_4';
 $APPLICATION->IncludeComponent(
-	"estelife:promotions.clinics.main.list",
-	"home_ajax",
+	"bitrix:advertising.banner",
+	"ajax",
 	array(
-		"COUNT" => 3
-	),
-	false
-);
-
-bitrix\ERESULT::$KEY='NEWS';
-$APPLICATION->IncludeComponent(
-	"estelife:articles.list",
-	"home_ajax",
-	array(
-		"IBLOCK_ID"=>3,
-		"SECTIONS_ID"=> array(176),
-		"SECTIONS_NAME"=> array("События"),
-		"NEWS_COUNT" => 4,
-		"NEED_SECTION" => "N",
-		"MAIN_URL" => "novosti",
-		"TITLE"=>"Новости сферы",
-		"MORE_TITLE"=>"Архив новостей",
-		"IMG_FIELD" =>145,
-		"PREFIX" => "ns"
+		"TYPE" => "main_center_4",
+		"CACHE_TYPE" => "A",
+		"NOINDEX" => "N",
+		"CACHE_TIME" => "3600"
 	)
 );
 
-bitrix\ERESULT::$KEY='PHOTOGALLERY';
-$APPLICATION->IncludeComponent(
-	"estelife:photogallery",
-	"home_ajax",
-	array(
-		"COUNT" => 18,
-		"ONLY_VIDEO"=>"Y",
-		"ONLY_PHOTO"=>"Y",
-	),
-	false
-);
-
-
-bitrix\ERESULT::$KEY='ARTICLES';
-$APPLICATION->IncludeComponent(
-	"estelife:articles.list",
-	"home_ajax",
-	array(
-		"IBLOCK_ID"=>14,
-		"SECTIONS_ID"=> array(212,197,196,195,194),
-		"SECTIONS_NAME"=> array("Разное", "Прекрасные ножки", "Изящные ручки", "Идеальное тело","Красивое лицо"),
-		"NEWS_COUNT" => 4,
-		"NEED_SECTION" => "N",
-		"MAIN_URL" => "articles",
-		"TITLE"=>"О красоте",
-		"MORE_TITLE"=>"Больше советов о красоте",
-		"IMG_FIELD" => 151,
-		"ANONS_FIELD"=> 175,
-		"PREFIX" => "ar"
-	)
-);
 
 bitrix\ERESULT::$DATA['seo']=array(
 	'title'=>'EsteLife.RU - информационный портал о косметологии и пластической хирургии',

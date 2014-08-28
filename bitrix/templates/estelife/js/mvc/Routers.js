@@ -187,16 +187,16 @@ define(['mvc/Models','mvc/Views'],function(Models,Views){
 //									dataKey:'NEWS'
 //								}),
 								new Views.Advert({
-									className:'adv bottom',
-									dataKey:'BANNER_BOTTOM'
+									className:'adv bottom b2',
+									dataKey:'BANNER_BOTTOM_2'
 								}),
 								new Views.Advert({
-									className:'adv bottom',
-									dataKey:'BANNER_BOTTOM'
+									className:'adv bottom b3',
+									dataKey:'BANNER_BOTTOM_3'
 								}),
 								new Views.Advert({
-									className:'adv bottom',
-									dataKey:'BANNER_BOTTOM'
+									className:'adv bottom b4',
+									dataKey:'BANNER_BOTTOM_4'
 								})
 							]
 						})
